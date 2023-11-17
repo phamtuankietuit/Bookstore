@@ -1,0 +1,11 @@
+.wrapper {
+    height: 52px;
+    position: sticky;
+    top: 0;
+    overflow: auto;
+}
+
+.inner {
+    height: 100%;
+    background-color: blue;
+}

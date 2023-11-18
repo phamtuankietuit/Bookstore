@@ -22,7 +22,7 @@ function SideBar() {
         <div className={cx('wrapper')}>
             <div className={cx('SideBar inner')}>
 
-                <div className='d-flex align-items-center '>
+                <div className='d-flex align-items-center mb-3'>
                     <img src={logo} alt="" className={cx('my-icon')}></img>
                     <p className={cx('name')}> Triple K</p>
                 </div>
@@ -30,10 +30,10 @@ function SideBar() {
 
 
 
-                <p class="text-wrap ms-3" href='#'>
+                <p class="text-wrap ms-2" href='#'>
                     <NavLink to="/ListProduc" className={(navData) => navData.isActive ?
-                        `btn bg-primary text-white w-100 text-start` :
-                        `btn w-100 text-start`} >
+                        `btn bg-primary text-white w-100 text-start pb-2 ms-1 ` :
+                        `btn w-100 text-start pb-2 ms-1`} >
                         <Row>
                             <Col xs="2" md="2">
                                 <FaHouse />

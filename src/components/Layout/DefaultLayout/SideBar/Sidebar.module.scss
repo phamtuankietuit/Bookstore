@@ -3,6 +3,7 @@
     width: 230px;
     top: 0;
     left: 0;
+    // position: sticky;
 }
 
 .inner {
@@ -19,12 +20,12 @@
 
 
 .my-icon{
-    max-width: 70px;
-    max-height: 70px;
-    margin-bottom: 30px;
+    max-width: 50px;
+    max-height: 50px;
+    margin-bottom: 10px;
 }
 
-.MenuBar{
+.SideBar{
     background: white;
     height: 100%;
     width: 100%;
@@ -38,20 +39,21 @@
     text-decoration: none;
     height: fit-content;
     text-align: start;
-    padding: 0; 
+    padding: 3px; 
+    // color: #8A92A6;
 }
 
 .my-navlink{
     width: 95%;
-    margin: 5px;
+    margin: 3px;
     padding-right: 0;
+
 }
 
 
 
 .accor-header{
     text-align: start;
-    padding-left: 10px;
     font-size: 16px;
 }
 

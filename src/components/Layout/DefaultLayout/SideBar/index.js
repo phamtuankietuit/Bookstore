@@ -21,7 +21,7 @@ const cx = classNames.bind(styles);
 function SideBar() {
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('Menubar inner')}>
+            <div className={cx('SideBar inner')}>
 
                 <div className='d-flex align-items-center '>
                     <img src={logo} alt="" className={cx('my-icon')}></img>

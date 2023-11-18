@@ -14,7 +14,6 @@ import Accordion from 'react-bootstrap/Accordion';
 import logo from '../../../../assets/images/logo.png';
 import { NavLink } from 'react-router-dom';
 import React from 'react';
-import PropTypes from 'prop-types';
 import 'bootstrap/dist/css/bootstrap.min.css';
 const cx = classNames.bind(styles);
 
@@ -31,10 +30,10 @@ function SideBar() {
 
 
 
-                <p class="text-wrap ms-2" href='#'>
-                    <NavLink to="/overview" className={(navData) => navData.isActive ?
-                        'btn bg-primary text-white w-100 text-start' :
-                        'btn w-100 text-start'} >
+                <p class="text-wrap ms-3" href='#'>
+                    <NavLink to="/ListProduc" className={(navData) => navData.isActive ?
+                        `btn bg-primary text-white w-100 text-start` :
+                        `btn w-100 text-start`} >
                         <Row>
                             <Col xs="2" md="2">
                                 <FaHouse />
@@ -55,17 +54,18 @@ function SideBar() {
                     <Accordion alwaysOpen>
 
                         <Accordion.Item eventKey="0">
-                            <Accordion.Header ><Row className='w-100'>
-                                <Col xs="2" md="2">
-                                    < FaCartShopping />
-                                </Col>
+                            <Accordion.Header className={cx('accor-header')}>
+                                <Row className='w-100'>
+                                    <Col xs="2" md="2">
+                                        < FaCartShopping />
+                                    </Col>
 
-                                <Col xs="10" md="10" className={cx('accor-header')}>
-                                    Đơn hàng
-                                </Col>
+                                    <Col xs="10" md="10" >
+                                        Đơn hàng
+                                    </Col>
 
 
-                            </Row>
+                                </Row>
                             </Accordion.Header>
                             <Accordion.Body className='p-0 w-100'>
                                 <NavLink to="/2" className={(navData) => navData.isActive ?
@@ -84,12 +84,12 @@ function SideBar() {
 
 
                         <Accordion.Item eventKey="1" >
-                            <Accordion.Header><Row className='w-100'>
+                            <Accordion.Header className={cx('accor-header')}><Row className='w-100'>
                                 <Col xs="2" md="2">
                                     < FaBuffer />
                                 </Col>
 
-                                <Col xs="10" md="10" className={cx('accor-header')}>
+                                <Col xs="10" md="10" >
                                     Sản phẩm
                                 </Col>
 
@@ -133,12 +133,12 @@ function SideBar() {
                         </Accordion.Item>
 
                         <Accordion.Item eventKey="2">
-                            <Accordion.Header><Row className='w-100'>
+                            <Accordion.Header className={cx('accor-header')}><Row className='w-100'>
                                 <Col xs="2" md="2">
                                     < FaUser />
                                 </Col>
 
-                                <Col xs="10" md="10" className={cx('accor-header')}>
+                                <Col xs="10" md="10" >
                                     Khách hàng
                                 </Col>
 
@@ -160,12 +160,12 @@ function SideBar() {
                         </Accordion.Item>
 
                         <Accordion.Item eventKey="3">
-                            <Accordion.Header><Row className='w-100'>
+                            <Accordion.Header className={cx('accor-header')}><Row className='w-100'>
                                 <Col xs="2" md="2">
                                     < FaWallet />
                                 </Col>
 
-                                <Col xs="10" md="10" className={cx('accor-header')}>
+                                <Col xs="10" md="10">
                                     Sổ quỹ
                                 </Col>
 
@@ -187,12 +187,12 @@ function SideBar() {
                         </Accordion.Item>
 
                         <Accordion.Item eventKey="4">
-                            <Accordion.Header><Row className='w-100'>
+                            <Accordion.Header className={cx('accor-header')}><Row className='w-100'>
                                 <Col xs="2" md="2">
                                     < FaChartSimple />
                                 </Col>
 
-                                <Col xs="10" md="10" className={cx('accor-header')}>
+                                <Col xs="10" md="10" >
                                     Báo cáo
                                 </Col>
 
@@ -214,12 +214,12 @@ function SideBar() {
                         </Accordion.Item>
 
                         <Accordion.Item eventKey="5">
-                            <Accordion.Header><Row className='w-100'>
+                            <Accordion.Header className={cx('accor-header')}><Row className='w-100'>
                                 <Col xs="2" md="2">
                                     < FaBuffer />
                                 </Col>
 
-                                <Col xs="10" md="10" className={cx('accor-header')}>
+                                <Col xs="10" md="10" >
                                     Quản lý khuyến mãi
                                 </Col>
 
@@ -241,12 +241,12 @@ function SideBar() {
                         </Accordion.Item>
 
                         <Accordion.Item eventKey="6">
-                            <Accordion.Header><Row className='w-100'>
+                            <Accordion.Header className={cx('accor-header')}><Row className='w-100'>
                                 <Col xs="2" md="2">
                                     < FaUsers />
                                 </Col>
 
-                                <Col xs="10" md="10" className={cx('accor-header')}>
+                                <Col xs="10" md="10" >
                                     Quản lý nhân viên
                                 </Col>
 
@@ -268,12 +268,12 @@ function SideBar() {
                         </Accordion.Item>
 
                         <Accordion.Item eventKey="7">
-                            <Accordion.Header><Row className='w-100'>
+                            <Accordion.Header className={cx('accor-header')}><Row className='w-100'>
                                 <Col xs="2" md="2" className='pe-0'>
                                     < FaBusinessTime />
                                 </Col>
 
-                                <Col xs="10" md="10" className={cx('accor-header')}>
+                                <Col xs="10" md="10">
                                     Nhật ký hoạt động
                                 </Col>
 

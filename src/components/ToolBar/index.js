@@ -33,12 +33,12 @@ function ToolBar({ array, page }) {
                 Xuất file
             </Button>
             {
-                arraybtn.length === 1 ? (
+                arraybtn.length === 0 ? (
                     <div />
                 ) : (
                     arraybtn.map(btn => (
 
-                        <NavLink to={btn.link} className="btn bg-primary navlink-toolbar text-white" >
+                        <NavLink to={btn.link} className="btn bg-primary text-white m-2 mt-0" >
                             {
                                 btn.type === 1 ? (
                                     <FaListUl className='me-2' />

@@ -26,7 +26,7 @@ function Header(info) {
                     <Col xs md={8}>
                         {
                             info.info.title === 'Quay lại' ? (
-                                <a className={`${cx('title-return')} text-start d-flex align-items-center`} href='#' onClick={() => navigate(-1)}>
+                                <a className={`${cx('title-return')} text-start d-flex align-items-center h-100`} href='#' onClick={() => navigate(-1)}>
                                     <FaAngleLeft className='me-2' />
                                     Quay lại
                                 </a>

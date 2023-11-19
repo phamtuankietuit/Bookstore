@@ -30,11 +30,11 @@ function SideBar() {
 
 
 
-                <p class="text-wrap ms-2" href='#'>
+                <p className={`text-wrap ${cx('overview')}`} href='#'>
                     <NavLink to="/ListProduc" className={(navData) => navData.isActive ?
-                        `btn bg-primary text-white w-100 text-start pb-2 ms-1 ` :
-                        `btn w-100 text-start pb-2 ms-1`} >
-                        <Row>
+                        `btn bg-primary text-white ps-1 text-start ${cx('my-navlink')}` :
+                        `btn text-start ps-1 ${cx('my-navlink')}`} >
+                        <Row className='ms-1'>
                             <Col xs="2" md="2">
                                 <FaHouse />
                             </Col>
@@ -293,12 +293,12 @@ function SideBar() {
                                 </NavLink>
                             </Accordion.Body>
                         </Accordion.Item>
-                    </Accordion>
+                    </Accordion >
 
-                </div>
+                </div >
 
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }
 

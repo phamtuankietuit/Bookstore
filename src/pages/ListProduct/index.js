@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './ListProduct.module.scss';
-
+import ToolBar from '~/components/ToolBar';
 const cx = classNames.bind(styles);
 
 function ListProduct() {

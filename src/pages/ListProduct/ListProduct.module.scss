@@ -1,11 +1,9 @@
 .wrapper {
+    height: 100%;
+    background: var(--background) url('../../assets/images/bg_img.svg')
+        no-repeat top left;
 }
 
 .inner {
-}
-
-.sth {
-    height: 50px;
-    background-color: red;
-    margin-bottom: 20px;
+    padding: 20px;
 }

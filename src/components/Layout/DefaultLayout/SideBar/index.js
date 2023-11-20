@@ -53,8 +53,11 @@ function SideBar() {
                                 <FaHouse />
                             </Col>
 
-                            <Col xs="10" md="10" >
+                            <Col xs="9" md="9">
                                 Tổng quan
+                            </Col>
+                            <Col xs="1" md="1">
+
                             </Col>
                         </Row>
 

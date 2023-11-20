@@ -21,7 +21,7 @@ function Header(info) {
     let navigate = useNavigate();
     return (
         <div className={cx('wrapper')}>
-            <Container className={cx('header')}>
+            <Container className={` ${cx('header')}`}>
                 <Row className='w-100 h-100'>
                     <Col xs md={8}>
                         {

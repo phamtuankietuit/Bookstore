@@ -11,10 +11,12 @@ import { FaCartShopping } from 'react-icons/fa6'
 import { FaUser } from 'react-icons/fa6'
 import { FaUsers } from 'react-icons/fa6'
 import Accordion from 'react-bootstrap/Accordion';
+import AccordionHeader from 'react-bootstrap/AccordionHeader'
 import logo from '../../../../assets/images/logo.png';
 import { NavLink } from 'react-router-dom';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button } from 'react-bootstrap';
 const cx = classNames.bind(styles);
 
 function SideBar() {
@@ -51,7 +53,7 @@ function SideBar() {
                 </p>
 
                 <div>
-                    <Accordion >
+                    <Accordion alwaysOpen>
                         <Accordion.Item eventKey="0" className={cx('accor-item')} >
                             <Accordion.Header className={cx('accor-header')}>
                                 <Row className='w-100'>

@@ -30,7 +30,7 @@ function SideBar() {
 
 
 
-                <p className={`text-wrap ${cx('overview')}`} href='#'>
+                <p className={`text-wrap `} href='#'>
                     <NavLink to="/ListProduc" className={(navData) => navData.isActive ?
                         `btn bg-primary text-white ps-1 text-start ${cx('my-navlink')}` :
                         `btn text-start ps-1 ${cx('my-navlink')}`} >
@@ -51,9 +51,8 @@ function SideBar() {
                 </p>
 
                 <div>
-                    <Accordion alwaysOpen>
-
-                        <Accordion.Item eventKey="0">
+                    <Accordion >
+                        <Accordion.Item eventKey="0" className={cx('accor-item')} >
                             <Accordion.Header className={cx('accor-header')}>
                                 <Row className='w-100'>
                                     <Col xs="2" md="2">
@@ -83,7 +82,7 @@ function SideBar() {
                         </Accordion.Item>
 
 
-                        <Accordion.Item eventKey="1" >
+                        <Accordion.Item eventKey="1" className={cx('accor-item')} >
                             <Accordion.Header className={cx('accor-header')}><Row className='w-100'>
                                 <Col xs="2" md="2">
                                     < FaBuffer />
@@ -132,7 +131,7 @@ function SideBar() {
                             </Accordion.Body>
                         </Accordion.Item>
 
-                        <Accordion.Item eventKey="2">
+                        <Accordion.Item eventKey="2" className={cx('accor-item')}>
                             <Accordion.Header className={cx('accor-header')}><Row className='w-100'>
                                 <Col xs="2" md="2">
                                     < FaUser />
@@ -159,7 +158,7 @@ function SideBar() {
                             </Accordion.Body>
                         </Accordion.Item>
 
-                        <Accordion.Item eventKey="3">
+                        <Accordion.Item eventKey="3" className={cx('accor-item')}>
                             <Accordion.Header className={cx('accor-header')}><Row className='w-100'>
                                 <Col xs="2" md="2">
                                     < FaWallet />
@@ -186,7 +185,7 @@ function SideBar() {
                             </Accordion.Body>
                         </Accordion.Item>
 
-                        <Accordion.Item eventKey="4">
+                        <Accordion.Item eventKey="4" className={cx('accor-item')}>
                             <Accordion.Header className={cx('accor-header')}><Row className='w-100'>
                                 <Col xs="2" md="2">
                                     < FaChartSimple />
@@ -213,7 +212,7 @@ function SideBar() {
                             </Accordion.Body>
                         </Accordion.Item>
 
-                        <Accordion.Item eventKey="5">
+                        <Accordion.Item eventKey="5" className={cx('accor-item')}>
                             <Accordion.Header className={cx('accor-header')}><Row className='w-100'>
                                 <Col xs="2" md="2">
                                     < FaBuffer />
@@ -240,7 +239,7 @@ function SideBar() {
                             </Accordion.Body>
                         </Accordion.Item>
 
-                        <Accordion.Item eventKey="6">
+                        <Accordion.Item eventKey="6" className={cx('accor-item')}>
                             <Accordion.Header className={cx('accor-header')}><Row className='w-100'>
                                 <Col xs="2" md="2">
                                     < FaUsers />
@@ -267,7 +266,7 @@ function SideBar() {
                             </Accordion.Body>
                         </Accordion.Item>
 
-                        <Accordion.Item eventKey="7">
+                        <Accordion.Item eventKey="7" className={cx('accor-item')}>
                             <Accordion.Header className={cx('accor-header')}><Row className='w-100'>
                                 <Col xs="2" md="2" className='pe-0'>
                                     < FaBusinessTime />

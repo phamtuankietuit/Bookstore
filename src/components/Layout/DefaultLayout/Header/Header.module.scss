@@ -1,20 +1,14 @@
 .wrapper {
-    height: 52px;
+    height:60px;
     position: sticky;
     top: 0;
     overflow: auto;
     z-index: 2;
-    width: 100%;
-}
-
-.inner {
-    height: 100%;
-    background-color: blue;
 }
 
 .header{
     height: 100%;
-    width: 100%;
+    min-width: 100%;
     background: white;
     margin: 0;
     padding: 0;
@@ -32,9 +26,9 @@
     font-size: 15px;
 }
 
-.Avatar{
-    max-width: 30px;
-    max-height: 30px;
+.avatar{
+    max-width: 40px;
+    max-height: 40px;
 
 }
 

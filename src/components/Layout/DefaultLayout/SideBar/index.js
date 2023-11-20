@@ -11,12 +11,10 @@ import { FaCartShopping } from 'react-icons/fa6'
 import { FaUser } from 'react-icons/fa6'
 import { FaUsers } from 'react-icons/fa6'
 import Accordion from 'react-bootstrap/Accordion';
-import AccordionHeader from 'react-bootstrap/AccordionHeader'
 import logo from '../../../../assets/images/logo.png';
 import { NavLink } from 'react-router-dom';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button } from 'react-bootstrap';
 const cx = classNames.bind(styles);
 
 function SideBar() {
@@ -32,7 +30,7 @@ function SideBar() {
 
 
 
-                <p className={`text-wrap `} href='#'>
+                <p className={`text-wrap w-100`} href='#'>
                     <NavLink to="/ListProduc" className={(navData) => navData.isActive ?
                         `btn bg-primary text-white ps-1 text-start ${cx('my-navlink')}` :
                         `btn text-start ps-1 ${cx('my-navlink')}`} >

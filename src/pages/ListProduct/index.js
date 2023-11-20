@@ -1,6 +1,9 @@
 import classNames from 'classnames/bind';
 import styles from './ListProduct.module.scss';
 import ToolBar from '~/components/ToolBar';
+
+import List from '~/components/List';
+
 const cx = classNames.bind(styles);
 
 function ListProduct() {
@@ -21,21 +24,12 @@ function ListProduct() {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
+
                 {/* <ToolBar array={toolbar} /> */}
-                <div className={cx('sth')}></div>
-                <div className={cx('sth')}></div>
-                <div className={cx('sth')}></div>
-                <div className={cx('sth')}></div>
-                <div className={cx('sth')}></div>
-                <div className={cx('sth')}></div>
-                <div className={cx('sth')}></div>
-                <div className={cx('sth')}></div>
-                <div className={cx('sth')}></div>
-                <div className={cx('sth')}></div>
-                <div className={cx('sth')}></div>
-                <div className={cx('sth')}></div>
-                <div className={cx('sth')}></div>
-                <div className={cx('sth')}></div>
+               
+
+                <List />
+
             </div>
         </div>
     );

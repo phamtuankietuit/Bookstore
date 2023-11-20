@@ -8,8 +8,8 @@ import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image';
 import { FaBell } from 'react-icons/fa6'
 import { FaAngleLeft } from 'react-icons/fa6';
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 Header.propTypes = {
@@ -44,15 +44,19 @@ function Header(info) {
                                 <FaBell className={cx('header-icon')} />
                             </Col>
                             <Col xs md={8} >
-                                <Row className='text-end'>
-                                    <Col xs md={3}>
-                                        <Image src={info.info.img} roundedCircle fluid className={`${cx('avatar')} p-1`} />
-                                    </Col >
-                                    <Col xs md={9} className='text-start d-flex align-items-center'>
-                                        {info.info.name}
-                                    </Col>
+                                <NavLink to="/123" className='text-black text-decoration-none'>
+                                    <Row className='text-end'>
 
-                                </Row>
+                                        <Col xs md={3}>
+                                            <Image src={info.info.img} roundedCircle fluid className={`${cx('avatar')} p-1`} />
+                                        </Col >
+                                        <Col xs md={9} className='text-start d-flex align-items-center'>
+                                            {info.info.name}
+                                        </Col>
+
+                                    </Row>
+                                </NavLink>
+
                             </Col>
                         </Row>
                     </Col>

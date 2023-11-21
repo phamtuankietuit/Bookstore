@@ -10,6 +10,7 @@ export const ProductItem = [
     {
         name: 'Mã sản phẩm',
         sortable: true,
+        grow: 2,
         minWidth: '250px',
         cell: (row) => (
             <div key={row.id} className={cx('product-code-container')}>
@@ -30,7 +31,7 @@ export const ProductItem = [
         name: 'Trạng thái',
         sortable: true,
         center: true,
-        hide: 700,
+        minWidth: '180px',
         cell: (row) => (
             <div
                 className={cx({
@@ -52,6 +53,7 @@ export const ProductItem = [
         name: 'Loại sản phẩm',
         sortable: true,
         center: true,
+        minWidth: '180px',
         cell: (row) => (
             <div className={cx('product-type-container')}>
                 <div className={cx('product-type')}>{row.type_name}</div>
@@ -62,7 +64,6 @@ export const ProductItem = [
         name: 'Giá bán',
         sortable: true,
         center: true,
-        maxWidth: '150px',
         cell: (row) => (
             <div className={cx('product-value-container')}>
                 <div className={cx('product-value')}>
@@ -75,7 +76,6 @@ export const ProductItem = [
         name: 'Giá vốn',
         sortable: true,
         center: true,
-        maxWidth: '150px',
         cell: (row) => (
             <div className={cx('product-value-container')}>
                 <div className={cx('product-value')}>{addCommas(row.cost)}</div>
@@ -86,7 +86,6 @@ export const ProductItem = [
         name: 'Tồn kho',
         sortable: true,
         center: true,
-        maxWidth: '150px',
         cell: (row) => (
             <div className={cx('product-value-container')}>
                 <div className={cx('product-value')}>
@@ -99,8 +98,6 @@ export const ProductItem = [
         name: 'Ngày khởi tạo',
         sortable: true,
         center: true,
-        maxWidth: '150px',
-        hide: 1024,
         cell: (row) => (
             <div className={cx('product-value-container')}>
                 <div className={cx('product-value')}>{row.date_create}</div>

@@ -24,9 +24,15 @@ function App() {
                                 key={index}
                                 path={route.path}
                                 element={
-                                    <Layout title={route.title}>
-                                        <Page />
-                                    </Layout>
+                                    Layout === DefaultLayout ? (
+                                        <Layout title={route.title}>
+                                            <Page />
+                                        </Layout>
+                                    ) : (
+                                        <Layout>
+                                            <Page />
+                                        </Layout>
+                                    )
                                 }
                             />
                         );

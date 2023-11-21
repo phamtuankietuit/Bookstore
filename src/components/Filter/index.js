@@ -4,7 +4,6 @@ import styles from './Filter.module.scss';
 import Box from '@mui/material/Box';
 import Slide from '@mui/material/Slide';
 import Modal from '@mui/material/Modal';
-import Divider from '@mui/material/Divider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter, faXmark } from '@fortawesome/free-solid-svg-icons';
 
@@ -85,7 +84,7 @@ function Filter() {
                             </div>
                         </div>
 
-                        <Divider />
+                        <hr className={cx('divider')} />
 
                         <div className={cx('content')}>
                             <div className={cx('multi-select')}>
@@ -109,7 +108,7 @@ function Filter() {
                             </div>
                         </div>
 
-                        <Divider />
+                        <hr className={cx('divider')} />
 
                         <div className={cx('actions')}>
                             <div

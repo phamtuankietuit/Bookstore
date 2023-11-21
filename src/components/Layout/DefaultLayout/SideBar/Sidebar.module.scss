@@ -37,11 +37,13 @@
 }
 
 .overview{
-    width: 91%;
     padding: 7px;
     margin-left: 5px;
-    border-radius: 5px;
+    border-radius: 7px;
     color: #8A92A6;
+    min-height: 50px;
+    align-items: center;
+    width: 90%;
 }
 
 .my-li{
@@ -74,14 +76,16 @@ p{
     width: 93%;
     margin-left: 10px;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 7px;
     margin-bottom: 10px;
     color: #8A92A6;
+    align-items: center;
+    min-height: 60px;
 }
 
 
 .accor-item{
-    min-height: 60px;
+    
 }
 
 .accor-content{

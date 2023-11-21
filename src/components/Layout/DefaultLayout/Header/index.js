@@ -21,7 +21,7 @@ function Header(info) {
     let navigate = useNavigate();
     return (
         <div className={cx('wrapper')}>
-            <Container className={cx('header')}>
+            <Container className={` ${cx('header')}`}>
                 <Row className='w-100 h-100'>
                     <Col xs md={8}>
                         {
@@ -38,17 +38,17 @@ function Header(info) {
                         }
 
                     </Col>
-                    <Col xs md={4} className='align-items-center'>
-                        <Row >
-                            <Col xs md={4} className='text-end d-flex justify-content-end align-items-center'>
+                    <Col xs md={4} className='d-flex align-items-center'>
+                        <Row className='w-100'>
+                            <Col xs md={6} className='text-end d-flex justify-content-end align-items-center'>
                                 <FaBell className={cx('header-icon')} />
                             </Col>
-                            <Col xs md={8} >
+                            <Col xs md={6} >
                                 <NavLink to="/123" className='text-black text-decoration-none'>
                                     <Row className='text-end'>
 
                                         <Col xs md={3}>
-                                            <Image src={info.info.img} roundedCircle fluid className={`${cx('avatar')} p-1`} />
+                                            <Image src={info.info.img} roundedCircle fluid className={`${cx('avatar')}`} />
                                         </Col >
                                         <Col xs md={9} className='text-start d-flex align-items-center'>
                                             {info.info.name}

@@ -14,6 +14,7 @@ import {
 import styles from './Table.module.scss';
 import { ProductItem } from '~/components/Item';
 import { data } from './sample';
+import SubHeader from './components/SubHeader';
 
 const cx = classNames.bind(styles);
 const selectProps = { indeterminate: (isIndeterminate) => isIndeterminate };
@@ -138,7 +139,9 @@ function Table() {
                 subHeader={showHeader}
                 subHeaderAlign={'left'}
                 subHeaderComponent={
-                    <div>Đã chọn {selectedRow} sản phẩm trên trang này</div>
+                    <SubHeader
+                        props={{ count: selectedRow, item_name: 'sản phẩm' }}
+                    />
                 }
                 // sort
                 sortIcon={

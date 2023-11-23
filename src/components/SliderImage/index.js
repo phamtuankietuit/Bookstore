@@ -44,12 +44,15 @@ function SliderImage({ list }) {
     };
     useEffect(() => {
         setimgs(list);
+
+        if (main === '') setmain(list[0].source)
     });
 
     return (
 
         <div>
             <div className={`d-flex justify-content-center ${cx('main')}`}>
+
                 <img src={main} className={cx('img_main')} />
             </div>
 

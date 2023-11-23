@@ -2,53 +2,62 @@ import styles from './AddProduct.Module.scss';
 import classNames from 'classnames/bind';
 import React from 'react';
 import { useState, useRef } from 'react';
-import { AiOutlineInfoCircle, AiFillCaretDown } from 'react-icons/ai';
 import { BsFillPlusCircleFill } from 'react-icons/bs';
-import AddImg from './images/add-photo-icon-vector-line-260nw-1039350133.webp';
+import AddImg from 'src/assets/images/add-photo-icon.png';
+import { FaCaretDown } from 'react-icons/fa';
+import { IoSearch } from 'react-icons/io5';
 
 const cx = classNames.bind(styles);
 
 function AddProduct() {
-    const inputRef = useRef(null);
+    //Dropdown
+    const [isActive, setIsActive] = useState(false);
+    const [isActive2, setIsActive2] = useState(false);
+    //Xử lý thêm ảnh
+    const [images, setImages] = useState([]);
+    const [isDraggging, setIsDragging] = useState(false);
 
-    const [image, setImage] = useState('');
+    const fileInputRef = useRef(null);
 
+    const selectFiles = () => {
+        fileInputRef.current.click();
+    };
+    const onFileSelect = (event) => {
+        const files = event.target.files;
+        if (files.length === 0) return;
+        for (let i = 0; i < files.length; i++) {
+            if (files[i].type.split('/')[0] != 'image') continue;
+            if (!images.some((e) => e.name === files[i].name)) {
+                setImages((prevImages) => [
+                    ...prevImages,
+                    {
+                        name: files[i].name,
+                        url: URL.createObjectURL(files[i]),
+                    },
+                ]);
+            }
+        }
+    };
+    //Xoá ảnh
+    const deleteImage = (index) => {
+        setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+    };
+    //Render thuộc tính
     const [AttributeList, SetAttributeList] = useState([{ attribute: '' }]);
 
     const AddAttribute = () => {
         SetAttributeList([...AttributeList, { attribute: '' }]);
     };
-
-    const HandleImageClick = () => {
-        inputRef.current.click();
-    };
-
-    const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        console.log(file);
-        setImage(event.target.files[0]);
-    };
     return (
         <div className={cx('add-container')}>
             <div className={cx('add-container-image')}>
-                <div className={cx('tooltip-container')}>
-                    <span className={cx('tooltip')}>
-                        <AiOutlineInfoCircle id="infor-icon" />
-                    </span>
-                    <div className={cx('tooltip-content')}>
-                        <p>
-                            Thêm ảnh cho sản phẩm của bạn
-                            <br></br>
-                            Lưu ý: Có thể thêm tối đa 5 ảnh
-                        </p>
-                    </div>
-                </div>
                 <h2
                     style={{
                         fontSize: '16px',
                         fontWeight: 'bold',
                         marginLeft: '20px',
                         marginTop: '12px',
+                        width: 'fit-content',
                     }}
                 >
                     Ảnh sản phẩm
@@ -56,34 +65,42 @@ function AddProduct() {
                 <div className={cx('choose-img-container')}>
                     <div
                         className={cx('choose-image')}
-                        onClick={HandleImageClick}
-                        onChange={handleImageChange}
+                        style={{
+                            backgroundImage: `url(${AddImg})`,
+                        }}
                     >
-                        {image ? (
-                            <img
-                                src={URL.createObjectURL(image)}
-                                alt=""
-                                style={{
-                                    position: 'absolute',
-                                    height: '65px',
-                                    width: '65px',
-                                    left: '-1px',
-                                    top: '-1px',
-                                }}
-                            />
-                        ) : (
-                            <img
-                                src="./add-photo-icon-vector-line-260nw-1039350133.webp"
-                                alt=""
-                            />
-                        )}
                         <input
-                            className={cx('inputfile')}
+                            name="file"
                             type="file"
-                            ref={inputRef}
-                        />
+                            className={cx('file')}
+                            multiple
+                            ref={fileInputRef}
+                            onChange={onFileSelect}
+                        ></input>
+                        <p
+                            style={{
+                                fontSize: '10px',
+                                width: '100%',
+                                height: 'fit-content',
+                                position: 'absolute',
+                            }}
+                        >
+                            Kéo thả hoặc chọn ảnh
+                        </p>
                     </div>
-                    <div className={cx('choose-image')}></div>
+                    <div className={cx('img-container')}>
+                        {images.map((images, index) => (
+                            <div className={cx('image')} key={index}>
+                                <span
+                                    className={cx('img-delete')}
+                                    onClick={() => deleteImage(index)}
+                                >
+                                    &times;
+                                </span>
+                                <img src={images.url} alt={images.name} />
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
             <div className={cx('add-container-info')}>
@@ -103,28 +120,14 @@ function AddProduct() {
                         marginLeft: '26px',
                         marginTop: '10px',
                         color: '#555555',
+                        width: 'fit-content',
+                        height: 'fit-content',
                     }}
                 >
                     Tên sản phẩm
                 </p>
-                <div
-                    className={cx('tooltip-container')}
-                    style={{
-                        marginTop: '-90px',
-                        marginLeft: '90px',
-                    }}
-                >
-                    <span className={cx('tooltip')}>
-                        <AiOutlineInfoCircle id="infor-icon" />
-                    </span>
-                    <div className={cx('tooltip-content')}>
-                        <p>
-                            Tên sản phẩm không bao gồm các giá trị như kích
-                            thước, màu sắc,...
-                        </p>
-                    </div>
-                </div>
                 <input
+                    className={cx('input-text')}
                     type="text"
                     placeholder="Nhập tên sản phẩm"
                     style={{
@@ -142,29 +145,14 @@ function AddProduct() {
                         marginLeft: '26px',
                         marginTop: '5px',
                         color: '#555555',
+                        width: 'fit-content',
+                        height: 'fit-content',
                     }}
                 >
                     Vị trí sản phẩm
                 </p>
-                <div
-                    className={cx('tooltip-container')}
-                    style={{
-                        marginTop: '-90px',
-                        marginLeft: '95px',
-                    }}
-                >
-                    <span className={cx('tooltip')}>
-                        <AiOutlineInfoCircle id="infor-icon" />
-                    </span>
-                    <div className={cx('tooltip-content')}>
-                        <p>
-                            Nhập vị trí của sản phẩm.
-                            <br></br>
-                            VD: Tầng 1, kệ A,...
-                        </p>
-                    </div>
-                </div>
                 <input
+                    className={cx('input-text')}
                     type="text"
                     placeholder="Nhập vị trí sản phẩm"
                     style={{
@@ -182,6 +170,8 @@ function AddProduct() {
                         marginLeft: '26px',
                         marginTop: '5px',
                         color: '#555555',
+                        width: 'fit-content',
+                        height: 'fit-content',
                     }}
                 >
                     Mô tả sản phẩm
@@ -222,6 +212,7 @@ function AddProduct() {
                             Tên thuộc tính
                         </p>
                         <input
+                            className={cx('input-text')}
                             id="attributeName"
                             name="attributeName"
                             type="text"
@@ -245,6 +236,7 @@ function AddProduct() {
                             Giá trị thuộc tính
                         </p>
                         <input
+                            className={cx('input-text')}
                             id="attributeValue"
                             name="attributeValue"
                             type="text"
@@ -292,34 +284,6 @@ function AddProduct() {
                             )}
                     </div>
                 ))}
-                {/* <div className={cx('attribute-group')}>
-                <p style={{
-                fontSize: '14px',
-                top: '-10px',
-                position: 'absolute',
-                }}>Tên thuộc tính</p>
-                <input id='attributeName' name='attributeName' type='text' style={{
-                fontSize: '14px',
-                position: 'absolute',
-                top: '30px',
-                width: '153px',
-                height: '35px'
-                }}></input>
-                <p style={{
-                fontSize: '14px',
-                top: '-10px',
-                position: 'absolute',
-                left: '170px'
-                }}>Giá trị thuộc tính</p>
-                <input id='attributeValue' name='attributeValue' type='text' style={{
-                fontSize: '14px',
-                position: 'absolute',
-                left: '170px',
-                top: '30px',
-                width: '360px',
-                height: '35px'
-                }}></input>
-            </div> */}
             </div>
             {/* Thông tin bổ sung */}
             <div className={cx('add-container-bonusinfo')}>
@@ -338,38 +302,111 @@ function AddProduct() {
                         fontSize: '14px',
                         marginLeft: '20px',
                         marginTop: '0px',
+                        height: 'fit-content',
                     }}
                 >
                     Loại sản phẩm
                 </p>
-                {/* <div className={cx("dropdown-menu")}>
-          <div className={cx("dropdown")} onClick={ToggleDropdown}>
-            <span
-              style={{
-                marginLeft: "10px",
-              }}
-            >
-              Chọn loại sản phẩm
-            </span>
-          </div>
-          <div className={cx("options")}></div>
-          <div></div>
-        </div> */}
+                <div className={cx('dropdown')}>
+                    <div
+                        className={cx('dropdown-btn')}
+                        onClick={(e) => setIsActive(!isActive)}
+                    >
+                        Chọn loại sản phẩm
+                        <FaCaretDown className={cx('caret-down')}></FaCaretDown>
+                    </div>
+                    {/* {isActive && <div className={cx('dropdown-content')}></div>} */}
+                    {isActive && (
+                        <div className={cx('dropdown-content')}>
+                            <div className={cx('search-container')}>
+                                <IoSearch
+                                    className={cx('search-icon')}
+                                ></IoSearch>
+                                <input
+                                    type="text"
+                                    className={cx('searchbar')}
+                                    placeholder="Tìm kiếm"
+                                ></input>
+                            </div>
+                            <div className={cx('add-type-container')}>
+                                <BsFillPlusCircleFill
+                                    style={{
+                                        position: 'absolute',
+                                        marginLeft: '50px',
+                                    }}
+                                />
+                                <p
+                                    style={{
+                                        height: 'fit-content',
+                                        marginLeft: '70px',
+                                    }}
+                                >
+                                    Thêm mới loại sản phẩm
+                                </p>
+                            </div>
+                        </div>
+                    )}
+                </div>
                 <p
                     style={{
                         fontSize: '14px',
                         marginLeft: '20px',
                         marginTop: '0px',
+                        height: 'fit-content',
                     }}
                 >
                     Nhóm sản phẩm
                 </p>
-                <select className={cx('dropdown-menu')}>
-                    <option value="Bút">Bút</option>
-                    <option value="Vở">Vở</option>
-                    <option value="Sách">Sách</option>
-                    <option value="Thước">Thước</option>
-                </select>
+                <div className={cx('dropdown')}>
+                    <div
+                        className={cx('dropdown-btn')}
+                        onClick={(e) => setIsActive2(!isActive2)}
+                    >
+                        Chọn nhóm sản phẩm
+                        <FaCaretDown className={cx('caret-down')}></FaCaretDown>
+                    </div>
+                    {/* {isActive && <div className={cx('dropdown-content')}></div>} */}
+                    {isActive2 && (
+                        <div className={cx('dropdown-content2')}>
+                            <div className={cx('search-container')}>
+                                <IoSearch
+                                    className={cx('search-icon')}
+                                ></IoSearch>
+                                <input
+                                    type="text"
+                                    className={cx('searchbar')}
+                                    placeholder="Tìm kiếm"
+                                ></input>
+                            </div>
+                            <div className={cx('add-type-container')}>
+                                <BsFillPlusCircleFill
+                                    style={{
+                                        position: 'absolute',
+                                        marginLeft: '50px',
+                                    }}
+                                />
+                                <p
+                                    style={{
+                                        height: 'fit-content',
+                                        marginLeft: '70px',
+                                    }}
+                                >
+                                    Thêm mới nhóm sản phẩm
+                                </p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+                {/* <p
+                    style={{
+                        fontSize: '14px',
+                        marginLeft: '20px',
+                        marginTop: '0px',
+                        height: 'fit-content',
+                    }}
+                >
+                    Nhóm sản phẩm
+                </p> */}
             </div>
             <div className={cx('add-container-price')}>
                 <h2
@@ -393,6 +430,7 @@ function AddProduct() {
                         Giá bán tại cửa hàng
                     </p>
                     <input
+                        className={cx('input-text')}
                         type="text"
                         placeholder="0"
                         style={{
@@ -414,6 +452,7 @@ function AddProduct() {
                         Giá vốn
                     </p>
                     <input
+                        className={cx('input-text')}
                         type="text"
                         placeholder="0"
                         style={{
@@ -443,6 +482,8 @@ function AddProduct() {
                         fontSize: '14px',
                         marginLeft: '20px',
                         marginTop: '0px',
+                        width: 'fit-content',
+                        height: 'fit-content',
                     }}
                 >
                     Cho phép bán
@@ -475,6 +516,7 @@ function AddProduct() {
                     Tồn kho ban đầu
                 </p>
                 <input
+                    className={cx('input-text')}
                     type="text"
                     placeholder="0"
                     style={{

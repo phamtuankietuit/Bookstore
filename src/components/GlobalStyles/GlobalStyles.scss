@@ -23,6 +23,16 @@ body {
     text-rendering: optimizeSpeed;
 }
 
+button,
+input [tabindex] {
+    outline: none;
+    border: none;
+}
+
+a[href] {
+    text-decoration: none;
+}
+
 ::-webkit-scrollbar {
     width: 16px;
 }

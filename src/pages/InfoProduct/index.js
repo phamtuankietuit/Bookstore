@@ -102,16 +102,16 @@ function InfoProduct() {
             <div className={cx('inner')}>
                 <div className={cx('content')}>
                     <Row className='w-100 mb-3'>
-                        <Col md={8}>
+                        <Col lg={8}>
                             <div className={` ${cx('frame')} h-100`}>
                                 <p className={cx('title')}>Thông tin sản phẩm</p>
                                 <Row >
-                                    <Col md={5} >
+                                    <Col lg={5} >
                                         <SliderImage list={listimg} />
                                         <div className='d-flex justify-content-center'><img src='https://bizweb.dktcdn.net/100/319/535/files/screenshot-3-03c05975-1f8e-463e-aec6-9eb87890bd48.png?v=1569317007339' className={cx('barcode')} /></div>
 
                                     </Col>
-                                    <Col md={7}>
+                                    <Col lg={7}>
                                         <p className={`w-100 ${cx('name')}`}>Bút lông bi cao cấp Parker IM X-Black CT TB4-1975575</p>
                                         <p>Đã bán 9</p>
                                         <p className={`mb-4 ${cx('name')}`}>919.000 <sup>d</sup></p>
@@ -126,7 +126,7 @@ function InfoProduct() {
                                 </Row>
                             </div>
                         </Col>
-                        <Col md={4}>
+                        <Col lg={4}>
                             <div className={` ${cx('frame')} h-100`}>
                                 <p className={cx('title')}>Mô tả sản phẩm</p>
                                 <div>
@@ -146,7 +146,7 @@ function InfoProduct() {
                         </Col>
                     </Row>
                     <Row className='w-100'>
-                        <Col md={8}>
+                        <Col lg={8}>
 
                             <div className={cx('frame')}>
                                 <p className={cx('title')}>Giá bán</p>
@@ -154,7 +154,7 @@ function InfoProduct() {
                                     <Properties props={gia} stype={1} />
                                 </div>
                             </div>
-                            <div className={`${cx('frame')} mb-0`}>
+                            <div className={`${cx('frame')} mb-3`}>
                                 <p className={cx('title')}>Trạng thái</p>
                                 <div className='d-flex'>
                                     <p>Cho phép bán</p>
@@ -162,7 +162,7 @@ function InfoProduct() {
                                 </div>
                             </div>
                         </Col>
-                        <Col md={4} >
+                        <Col lg={4} >
                             <div className={`${cx('frame')} h-100`}>
                                 <p className={cx('title')}>Thông tin bổ sung</p>
                                 <Properties props={thongso} stype={0} />

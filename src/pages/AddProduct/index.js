@@ -1,4 +1,4 @@
-import styles from './AddProduct.Module.scss';
+import styles from './AddProduct.module.scss';
 import classNames from 'classnames/bind';
 import React from 'react';
 import { useState, useRef } from 'react';

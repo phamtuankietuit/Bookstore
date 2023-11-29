@@ -150,6 +150,7 @@ function ListProduct() {
                     </div>
                     <div className={cx('tool-bar-right')}>
                         <Button
+                            to="/addproduct"
                             leftIcon={<FontAwesomeIcon icon={faPlus} />}
                             solidBlue
                         >

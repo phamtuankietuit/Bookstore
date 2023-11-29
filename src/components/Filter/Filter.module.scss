@@ -81,33 +81,14 @@
 
     .clear {
         padding: 10px 20px 10px 20px;
-        border: 2px solid #ff6363;
-        border-radius: 5px;
-        color: #ff6363;
         font-weight: 600;
         margin-right: 20px;
-
-        &:hover {
-            cursor: pointer;
-            background-color: rgb(244, 244, 244);
-        }
     }
 
     .submit {
         padding: 10px 20px 10px 20px;
-        border: 2px solid transparent;
-        background-color: var(--primary);
-
-        border-radius: 5px;
-        color: white;
         font-weight: 600;
-
         margin-right: 20px;
-
-        &:hover {
-            cursor: pointer;
-            background-color: #314ede;
-        }
     }
 }
 

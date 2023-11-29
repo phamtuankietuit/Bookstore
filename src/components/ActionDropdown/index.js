@@ -7,7 +7,7 @@ import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
-function ActionDropdown({ arrs }) {
+function ActionDropdown({ items, onClickAction }) {
     // Popper visible
     const [visible, setVisible] = useState(false);
     const show = () => setVisible(true);
@@ -29,8 +29,12 @@ function ActionDropdown({ arrs }) {
                     >
                         <div className={cx('popper')}>
                             <ul className={cx('list-item')}>
-                                {arrs?.map((item, index) => (
-                                    <li key={index} className={cx('item')}>
+                                {items?.map((item, index) => (
+                                    <li
+                                        key={index}
+                                        className={cx('item')}
+                                        onClick={() => onClickAction(index)}
+                                    >
                                         {item}
                                     </li>
                                 ))}

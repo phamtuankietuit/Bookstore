@@ -1,4 +1,5 @@
 .wrapper {
+    min-height: 100vh;
     height: 100%;
     background-color: var(--background);
 }
@@ -14,4 +15,13 @@
 
 .table {
     margin-top: 20px;
+}
+
+.btn-cancel {
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+.btn-ok {
+    font-weight: 500;
 }

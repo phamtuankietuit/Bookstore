@@ -4,16 +4,14 @@ import ActionDropdown from '~/components/ActionDropdown';
 
 const cx = classNames.bind(styles);
 
-const arrs = ['Đang giao dịch', 'Ngừng giao dịch', 'Xóa sản phẩm'];
-
-function SubHeader({ props }) {
+function SubHeader({ items, count, itemName, onClickAction }) {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('description')}>
-                Đã chọn {props?.count} {props?.item_name} trên trang này
+                Đã chọn {count} {itemName} trên trang này
             </div>
             <div className={cx('action-dropdown')}>
-                <ActionDropdown arrs={arrs} />
+                <ActionDropdown items={items} onClickAction={onClickAction} />
             </div>
         </div>
     );

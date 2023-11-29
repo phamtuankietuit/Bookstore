@@ -1,0 +1,50 @@
+.wrapper {
+    width: 100%;
+}
+
+.title {
+    font-weight: 500;
+    margin-bottom: 3px;
+}
+
+.input {
+    width: 100%;
+    outline: none;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 8px 10px;
+
+    font-size: 14px;
+    font-family: inherit;
+
+    &:hover {
+        border-color: rgba(128, 128, 128, 0.7);
+    }
+
+    &:focus {
+        border-color: var(--primary);
+    }
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-left: 5px;
+    margin-top: 3px;
+}
+
+.error-border {
+    border-color: red;
+
+    &:hover {
+        border-color: red;
+    }
+
+    &:focus {
+        border-color: red;
+    }
+}
+
+.required {
+    color: red;
+}

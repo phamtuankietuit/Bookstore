@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import DataTable, { createTheme } from 'react-data-table-component';
 import { Checkbox, CircularProgress, Box } from '@mui/material';
@@ -9,13 +8,12 @@ import {
     faAngleUp,
     faAnglesLeft,
     faAnglesRight,
+    faMagnifyingGlass,
 } from '@fortawesome/free-solid-svg-icons';
-
 import styles from './Table.module.scss';
-import { ProductItem } from '~/components/Item';
-import { data } from './sample';
 
 const cx = classNames.bind(styles);
+
 const selectProps = { indeterminate: (isIndeterminate) => isIndeterminate };
 
 createTheme(
@@ -82,36 +80,19 @@ const customStyles = {
     },
 };
 
-function Table() {
-    const [pending, setPending] = useState(true);
-    const [rows, setRows] = useState([]);
-
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setRows(data);
-            setPending(false);
-        }, 2000);
-        return () => clearTimeout(timeout);
-    }, []);
-
-    const [showHeader, setShowHeader] = useState(true);
-
-    const [selectedRow, setSelectedRow] = useState(0);
-
-    const handleSelectedProducts = ({
-        allSelected,
-        selectedCount,
-        selectedRows,
-    }) => {
-        selectedCount > 0 ? setShowHeader(true) : setShowHeader(false);
-        setSelectedRow(selectedCount);
-    };
-
+function Table({
+    pending,
+    data,
+    showSubHeader,
+    handleSelectedItems,
+    itemComponent,
+    subHeaderComponent,
+}) {
     return (
         <div className={cx('data-table-container')}>
             <DataTable
-                data={rows}
-                columns={ProductItem}
+                data={data}
+                columns={itemComponent}
                 responsive={true}
                 compact={true}
                 // custom styles
@@ -135,11 +116,9 @@ function Table() {
                 // header
                 fixedHeader
                 // subHeader
-                subHeader={showHeader}
+                subHeader={showSubHeader}
                 subHeaderAlign={'left'}
-                subHeaderComponent={
-                    <div>Đã chọn {selectedRow} sản phẩm trên trang này</div>
-                }
+                subHeaderComponent={subHeaderComponent}
                 // sort
                 sortIcon={
                     <FontAwesomeIcon
@@ -153,7 +132,7 @@ function Table() {
                 selectableRowsHighlight={true}
                 selectableRowsComponent={Checkbox}
                 selectableRowsComponentProps={selectProps}
-                onSelectedRowsChange={handleSelectedProducts}
+                onSelectedRowsChange={handleSelectedItems}
                 // pagination
                 pagination
                 paginationPerPage={20}
@@ -172,6 +151,17 @@ function Table() {
                 }
                 paginationIconFirstPage={
                     <FontAwesomeIcon icon={faAnglesLeft} />
+                }
+                noDataComponent={
+                    <div className={cx('no-data-comp')}>
+                        <FontAwesomeIcon
+                            className={cx('no-data-icon')}
+                            icon={faMagnifyingGlass}
+                        />
+                        <div className={cx('no-data-title')}>
+                            Không có dữ liệu
+                        </div>
+                    </div>
                 }
             />
         </div>

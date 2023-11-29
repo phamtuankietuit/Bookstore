@@ -1,28 +1,49 @@
-import { useState } from 'react';
 import classNames from 'classnames/bind';
 
 import styles from './List.module.scss';
 import SearchBar from '~/components/SearchBar';
-import Filter from '~/components/Filter';
+
 import Table from '~/components/Table';
 
 const cx = classNames.bind(styles);
 
-function List() {
-    const placeholder = 'Tìm kiếm theo mã sản phẩm tên sản phẩm';
-
-    const [input, setInput] = useState('');
-
+function List({
+    data,
+    placeholderSearch,
+    search,
+    searchVisibility,
+    handleSearch,
+    pending,
+    showSubHeader,
+    handleSelectedItems,
+    itemComponent,
+    filterComponent,
+    subHeaderComponent,
+}) {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
                 <div className={cx('search-filter-container')}>
-                    <SearchBar className={cx('search-bar')} placeholder={placeholder} setInput={setInput} />
+                    {searchVisibility && (
+                        <SearchBar
+                            className={cx('search-bar')}
+                            placeholder={placeholderSearch}
+                            value={search}
+                            onChange={(e) => handleSearch(e)}
+                        />
+                    )}
 
-                    <Filter />
+                    {filterComponent}
                 </div>
                 <div className={cx('table-container')}>
-                    <Table />
+                    <Table
+                        itemComponent={itemComponent}
+                        data={data}
+                        pending={pending}
+                        showSubHeader={showSubHeader}
+                        handleSelectedItems={handleSelectedItems}
+                        subHeaderComponent={subHeaderComponent}
+                    />
                 </div>
             </div>
         </div>

@@ -1,0 +1,108 @@
+.container {
+    height: 100vh;
+    background-image: url('../../assets/images/minimal-morning-landscape-8k-gx-scaled.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login-form {
+    height: 62.5%;
+    position: absolute;
+    width: 35%;
+    background-color: #fff;
+    border-radius: 15px;
+    display: block;
+    padding-top: 80px;
+}
+.logo {
+    height: 30px;
+    width: 30px;
+}
+.form-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login-text {
+    width: 450px;
+    height: 70px;
+    position: relative;
+    // background-color: aqua;
+    left: 50%;
+    transform: translate(-50%);
+}
+.login-text input {
+    outline: none;
+    position: relative;
+    width: 100%;
+    height: 93%;
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+    color: #316396;
+    text-indent: 16px;
+    padding-top: 32px;
+}
+.input-border {
+    background-image: url('../../assets/images/linear-gradient-text.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    height: 7%;
+    width: 100%;
+}
+.forgot-pass {
+    width: 450px;
+    height: fit-content;
+    margin-top: 20px;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+    text-align: right;
+    font-weight: 500;
+    &:hover {
+        cursor: pointer;
+    }
+}
+.login-btn {
+    height: 70px;
+    width: 300px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    background: url('../../assets/images/linear-gradient-text.jpg') lightgray
+        50%;
+    border-radius: 20px;
+    border: none;
+    position: relative;
+    margin-top: 35px;
+    left: 50%;
+    transform: translate(-50%);
+    cursor: pointer;
+    &:hover {
+        background: url('../../assets/images/linear-gradient-text.jpg');
+        content: '';
+        position: absolute;
+        transition: all 0.5s ease-out;
+        border-radius: 45px;
+    }
+}
+.login-btn .login-btn:hover {
+    box-sizing: border-box;
+}
+@media only screen {
+    .container {
+        min-width: 700px;
+    }
+    .login-form {
+        min-width: 640px;
+    }
+}
+@media screen and (min-width: 700px) {
+    .login-form {
+        width: 640px;
+        height: 650px;
+    }
+}

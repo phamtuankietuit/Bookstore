@@ -1,20 +1,38 @@
+export const data2 = [
+    {
+        id: 'LSP0001',
+        name: 'Văn phòng phẩm',
+    },
+    {
+        id: 'LSP0002',
+        name: 'Văn phòng phẩm',
+    },
+];
+
 export const data = [
     {
         id: 'SP0001',
+        sku: 'SP0001',
         image: [
             'https://cdn0.fahasa.com/media/catalog/product/d/n/dntttttuntitled.png',
             'https://eccthai.com/wp-content/uploads/2021/01/tom-tat-dac-nhan-tam.jpg',
+            'https://eccthai.com/wp-content/uploads/2021/01/tom-tat-dac-nhan-tam.jpg',
+            'https://eccthai.com/wp-content/uploads/2021/01/tom-tat-dac-nhan-tam.jpg',
+            'https://eccthai.com/wp-content/uploads/2021/01/tom-tat-dac-nhan-tam.jpg',
         ],
         name: 'Tuổi trẻ đáng giá bao nhiêu nhiêu nhiêu nhiêu nhiêu nhiêu nhiêu nhiêu nhiêu',
+        description: 'Mô tả',
         status: 1,
         type_id: 'LSP0001',
         type_name: 'Sách',
-        group_id: 'NSP0001',
-        group_name: 'Sách triết lý',
+        author: 'Tom',
         price: 50000,
         cost: 25000,
         quantity: 59,
         date_create: '03/01/2015',
+        publisher: 'NXB Kim Đồng',
+        pusblishYear: 2002,
+        tag: [],
     },
     {
         id: 'SP0002',

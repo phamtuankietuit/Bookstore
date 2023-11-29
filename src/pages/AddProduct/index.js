@@ -488,9 +488,9 @@ function AddProduct() {
                 >
                     Cho phép bán
                 </p>
-                <div class="checkbox-wrapper-3">
+                <div className="checkbox-wrapper-3">
                     <input type="checkbox" id="cbx-3" />
-                    <label for="cbx-3" class="toggle">
+                    <label htmlFor="cbx-3" className="toggle">
                         <span></span>
                     </label>
                 </div>

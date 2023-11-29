@@ -18,9 +18,19 @@ html {
 
 body {
     font-family: 'Inter', sans-serif;
-    font-size: 1rem;
+    font-size: 14px;
     line-height: 1.5;
     text-rendering: optimizeSpeed;
+}
+
+button,
+input [tabindex] {
+    outline: none;
+    border: none;
+}
+
+a[href] {
+    text-decoration: none;
 }
 
 ::-webkit-scrollbar {

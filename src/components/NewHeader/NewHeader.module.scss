@@ -1,0 +1,97 @@
+.header {
+    width: 100%;
+    height: 100%;
+    border-bottom: 2px #c4ccde solid;
+}
+.header-content {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-right: 10px;
+}
+//logo
+.logo-container {
+    height: 100%;
+    width: 4%;
+    justify-content: center;
+    align-items: center;
+}
+.logo {
+    height: 100%;
+}
+//tab
+.tab-container {
+    height: 100%;
+    width: 21%;
+    display: flex;
+}
+.profile-tag {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: black;
+    &:hover {
+        background-color: #f3fbfb;
+        cursor: pointer;
+    }
+}
+.store-tag {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: black;
+    &:hover {
+        background-color: #f3fbfb;
+        cursor: pointer;
+    }
+}
+.profile-tag p {
+    font-size: 14px;
+    height: fit-content;
+    font-weight: 500;
+    width: fit-content;
+}
+.store-tag p {
+    font-size: 14px;
+    height: fit-content;
+    font-weight: 500;
+    width: fit-content;
+}
+//icon
+.profile-icon {
+    color: #cdcdcd;
+    height: 20px;
+    width: 20px;
+    margin-right: 5px;
+}
+//
+.noti-and-avt {
+    width: 75%;
+    height: 100%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.profile-img {
+    height: 35px;
+    width: 35px;
+    border-radius: 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    float: right;
+}
+.noti-button {
+    cursor: pointer;
+    margin-right: 15px;
+    color: #cdcdcd;
+    height: 20px;
+    width: 20px;
+    float: right;
+}

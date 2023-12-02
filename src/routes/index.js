@@ -5,6 +5,8 @@ import AddProduct from '~/pages/AddProduct';
 import InfoProduct from '~/pages/InfoProduct';
 import TypeProduct from '~/pages/TypeProduct';
 import ImportProduct from '~/pages/ImportProduct';
+import UpdateImportProduct from '~/pages/UpdateImportProduct';
+import InfoImportProduct from '~/pages/InfoImportProduct';
 
 
 const publicRoutes = [
@@ -18,6 +20,8 @@ const publicRoutes = [
     { path: '/infoproduct/:id', component: InfoProduct, title: 'Quay lại' },
     { path: '/typeproduct', component: TypeProduct, title: 'Loại sản phẩm' },
     { path: '/importproduct', component: ImportProduct, title: 'Quay lại' },
+    { path: '/updateimportproduct/:id', component: UpdateImportProduct, title: 'Quay lại' },
+    { path: '/infoimportproduct/:id', component: InfoImportProduct, title: 'Quay lại' },
 ];
 
 const privateRoutes = [];

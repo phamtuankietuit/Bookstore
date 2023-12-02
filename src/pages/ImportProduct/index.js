@@ -29,6 +29,8 @@ function ImportProduct() {
     const [paid, setPaid] = useState(0)
     const [open, setOpen] = useState(false)
     const [total, setTotal] = useState(0)
+    const [note, setNote] = useState('')
+    const [nums, setNums] = useState(0)
 
     const v = [
         {
@@ -48,13 +50,13 @@ function ImportProduct() {
         }
     ]
 
-    const one = (value) => {
+    const setproducer = (value) => {
         set(value)
 
 
     }
 
-    const two = (value) => {
+    const addarr = (value) => {
         // console.log(value)
         const isFound = arr.some(element => {
             if (element.sku === value.sku) {
@@ -82,7 +84,9 @@ function ImportProduct() {
 
     const deletearr = (id, index) => {
         let newcost = cost - arr[index - 1]['total'];
+        let newnums = nums - arr[index - 1]['nums']
         setCost(newcost)
+        setNums(newnums)
 
         if (typediscount === true) setTotal(newcost * (1 - discount / 100))
         else setTotal(newcost - discount)
@@ -95,7 +99,7 @@ function ImportProduct() {
     const handleMultiSelected = (obj) => {
         // console.log(obj)
         obj.map((item, index) => (
-            two(item)
+            addarr(item)
         ))
 
     }
@@ -103,13 +107,16 @@ function ImportProduct() {
 
     const update = () => {
         let newcost = 0;
+        let newnums = 0;
         if (arr.length !== 0) {
             arr.map(item => {
                 newcost += item.total
+                newnums += item.nums
             })
         }
 
         setCost(newcost)
+        setNums(newnums)
 
         if (typediscount === true) setTotal(newcost * (1 - discount / 100))
         else setTotal(newcost - discount)
@@ -119,12 +126,14 @@ function ImportProduct() {
     const submit = () => {
         const value = {
             producer: producer,
-            nums: arr.length,
+            nums: nums,
             discount: discount,
             paid: paid,
             total: total,
             unpaid: (total - paid) < 0 ? 0 : (total - paid),
             list_product: arr,
+            note: note,
+            status: total - paid === 0 ? true : false,
 
         }
         console.log(value)
@@ -139,7 +148,7 @@ function ImportProduct() {
                     {
                         producer === null ? (
                             <div>
-                                <SearchResult setValue={one} stypeid={0} />
+                                <SearchResult setValue={setproducer} stypeid={0} />
 
                                 <div className={cx('no-info')}>
                                     <p className='text-center w-100'>Chưa có thông tin nhà cung cấp</p>
@@ -179,7 +188,7 @@ function ImportProduct() {
                 <div className={cx('frame')}>
                     <p className={cx('title')}>Thông tin sản phẩm</p>
                     <div className='d-flex'>
-                        <div className='flex-grow-1'><SearchResult stypeid={1} setValue={two} /></div>
+                        <div className='flex-grow-1'><SearchResult stypeid={1} setValue={addarr} /></div>
 
                         <MultiSelectModal funtion={handleMultiSelected} />
 
@@ -233,6 +242,7 @@ function ImportProduct() {
                                     minWidth: '70%',
                                     height: '140px',
                                 }}
+                                onChange={(e) => setNote(e.target.value)}
                             ></textarea>
                         </Col>
                         <Col lg={5}>
@@ -241,7 +251,7 @@ function ImportProduct() {
                                     Số lượng
                                 </Col>
                                 <Col xs md lg={4} className='text-end pe-5'>
-                                    {arr.length}
+                                    {nums}
                                 </Col>
                             </Row>
                             {
@@ -264,7 +274,7 @@ function ImportProduct() {
                                             }
 
 
-                                            setDiscount(e.target.value);
+                                            setDiscount(parseInt(e.target.value));
 
                                         }} inputMode='numeric' />
                                     </div>
@@ -313,7 +323,7 @@ function ImportProduct() {
 
                                         if (e.target.value > total) e.target.value = total;
                                         else if (e.target.value < 0) e.target.value = 0;
-                                        setPaid(e.target.value)
+                                        setPaid(parseInt(e.target.value))
 
                                     }} />
                                 </Col>

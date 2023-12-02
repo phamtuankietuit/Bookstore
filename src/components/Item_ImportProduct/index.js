@@ -25,7 +25,7 @@ function Item_import({ product, index, funtion, update }) {
 
     const ChangreNums = (value) => {
         let newObj = obj;
-        newObj['nums'] = value;
+        newObj['nums'] = parseInt(value);
         setObj(newObj)
         totalValue()
     }
@@ -46,6 +46,7 @@ function Item_import({ product, index, funtion, update }) {
                 <input className={cx('textfield')} type="number" min={0} max={100} onChange={(e) => {
                     if (e.target.value > 100) e.target.value = 100;
                     else if (e.target.value < 0) e.target.value = 0;
+
                     ChangreNums(e.target.value)
                 }} inputMode='numeric' />
             </div>

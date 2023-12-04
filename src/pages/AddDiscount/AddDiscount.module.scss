@@ -197,3 +197,37 @@
     width: 85%;
     margin-top: 5%;
 }
+//nút lưu
+.button-container {
+    margin-top: 45%;
+    margin-left: 35%;
+}
+.save-but {
+    height: 40px;
+    width: 100px;
+    color: #fff;
+    background-color: #007bff;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    margin-right: 10px;
+    &:hover {
+        background-color: #33a0ff;
+    }
+}
+.save-add-but {
+    height: 40px;
+    width: 150px;
+    color: #fff;
+    background-color: #007bff;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    &:hover {
+        background-color: #33a0ff;
+    }
+}

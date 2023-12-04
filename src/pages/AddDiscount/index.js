@@ -110,6 +110,12 @@ function AddDiscount() {
                         <DateRange></DateRange>
                     </div>
                 </div>
+                <div className={cx('button-container')}>
+                    <button className={cx('save-but')}>Lưu</button>
+                    <button className={cx('save-add-but')}>
+                        Lưu và kích hoạt
+                    </button>
+                </div>
             </div>
         </div>
     );

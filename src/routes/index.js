@@ -6,6 +6,7 @@ import ListProduct from '~/pages/ListProduct';
 import AddProduct from '~/pages/AddProduct';
 import Profile from '~/pages/Profile';
 import StoreInfo from '~/pages/StoreInfo';
+import AddDiscount from '~/pages/AddDiscount';
 
 const publicRoutes = [
     { path: '/', component: Login, layout: null, title: 'Login' },
@@ -19,14 +20,13 @@ const publicRoutes = [
         path: '/profile',
         component: Profile,
         layout: null,
-        title: 'Trang cá nhân',
     },
     {
         path: '/storeinfo',
         component: StoreInfo,
         layout: null,
-        title: 'Thông tin cửa hàng',
     },
+    { path: '/adddiscount', component: AddDiscount, title: 'Quay lại' },
 ];
 
 const privateRoutes = [];

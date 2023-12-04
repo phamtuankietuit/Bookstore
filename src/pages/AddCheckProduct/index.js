@@ -44,8 +44,8 @@ function AddCheckProduct(props) {
             name: value.name,
             img: value.img,
             actualexistence: 0,
-            reason: 0,
-            note: "",
+            reason: 'Khác',
+            note: '',
         }
 
         if (isFound === false) {

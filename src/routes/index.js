@@ -8,7 +8,8 @@ import ImportProduct from '~/pages/ImportProduct';
 import UpdateImportProduct from '~/pages/UpdateImportProduct';
 import InfoImportProduct from '~/pages/InfoImportProduct';
 import AddCheckProduct from '~/pages/AddCheckProduct';
-
+import InfoCheckProduct from '~/pages/InfoCheckProduct';
+import UpdateCheckProduct from '~/pages/UpdateCheckProduct';
 const publicRoutes = [
     { path: '/', component: Login, layout: null, title: 'Login' },
     {
@@ -23,6 +24,8 @@ const publicRoutes = [
     { path: '/updateimportproduct/:id', component: UpdateImportProduct, title: 'Quay lại' },
     { path: '/infoimportproduct/:id', component: InfoImportProduct, title: 'Quay lại' },
     { path: '/addcheckproduct', component: AddCheckProduct, title: 'Quay lại' },
+    { path: '/infocheckproduct/:id', component: InfoCheckProduct, title: 'Quay lại' },
+    { path: '/updatecheckproduct/:id', component: UpdateCheckProduct, title: 'Quay lại' },
 ];
 
 const privateRoutes = [];

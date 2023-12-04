@@ -27,7 +27,7 @@ function Item_Check({ product, index, funtion }) {
 
     const ChangreReason = (value) => {
         let newObj = obj;
-        newObj['reason'] = parseInt(value);
+        newObj['reason'] = value;
         setObj(newObj)
     }
     return (
@@ -43,25 +43,25 @@ function Item_Check({ product, index, funtion }) {
                 <div>{product.sku}</div>
             </div>
             <div className={`${cx('properties-3')}`}>
-                <input className={cx('textfield')} type="number" min={0} onChange={(e) => {
+                <input className={cx('textfield')} type="number" min={0} defaultValue={product.actualexistence} onChange={(e) => {
                     if (e.target.value < 0) e.target.value = 0;
                     ChangreNums(e.target.value)
                 }} inputMode='numeric' />
             </div>
 
             <div className={` ${cx('properties-3')}`}>
-                <Form.Select aria-label="Default select example" className='w-75' onChange={(e) => ChangreReason(e.target.value)}>
-                    <option value="0">Khác</option>
-                    <option value="1">Hư hỏng</option>
-                    <option value="2">Hao mòn</option>
-                    <option value="3">Trả hàng</option>
-                    <option value="4">Chuyển hàng</option>
-                    <option value="5">Sản xuất sản phẩm</option>
+                <Form.Select aria-label="Default select example" className='w-75' onChange={(e) => ChangreReason(e.target.value)} defaultValue={product.reason}>
+                    <option value="Khác">Khác</option>
+                    <option value="Hư hỏng">Hư hỏng</option>
+                    <option value="Hao mòn">Hao mòn</option>
+                    <option value="Trả hàng">Trả hàng</option>
+                    <option value="Chuyển hàng">Chuyển hàng</option>
+                    <option value="Sản xuất sản phẩm">Sản xuất sản phẩm</option>
                 </Form.Select>
             </div>
 
             <div className={cx('properties-3')}>
-                <Form.Control type="text" className='w-75' placeholder='Nhập ghi chú' onChange={(e) => ChangreNote(e.target.value)} />
+                <Form.Control type="text" className='w-75' placeholder='Nhập ghi chú' onChange={(e) => ChangreNote(e.target.value)} defaultValue={product.note} />
             </div>
             <div className={cx('properties-1')}>
                 <FaX className={cx('icon')} onClick={(e) => funtion(product.id, index)} />

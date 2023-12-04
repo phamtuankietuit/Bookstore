@@ -61,7 +61,12 @@ function SearchResult({ setValue, stypeid }) {
                     className={cx('search-bar-input')}
                     placeholder={placeholder}
                     onChange={(e) => handleOnCharge(e.target.value)}
-                    onClick={() => setOpen(!open)}
+                    onClick={() => {
+                        setOpen(!open)
+                        setcurrentPage(1)
+                    }
+
+                    }
                 />
 
             </div>

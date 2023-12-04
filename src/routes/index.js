@@ -7,7 +7,7 @@ import TypeProduct from '~/pages/TypeProduct';
 import ImportProduct from '~/pages/ImportProduct';
 import UpdateImportProduct from '~/pages/UpdateImportProduct';
 import InfoImportProduct from '~/pages/InfoImportProduct';
-
+import AddCheckProduct from '~/pages/AddCheckProduct';
 
 const publicRoutes = [
     { path: '/', component: Login, layout: null, title: 'Login' },
@@ -22,6 +22,7 @@ const publicRoutes = [
     { path: '/importproduct', component: ImportProduct, title: 'Quay lại' },
     { path: '/updateimportproduct/:id', component: UpdateImportProduct, title: 'Quay lại' },
     { path: '/infoimportproduct/:id', component: InfoImportProduct, title: 'Quay lại' },
+    { path: '/addcheckproduct', component: AddCheckProduct, title: 'Quay lại' },
 ];
 
 const privateRoutes = [];

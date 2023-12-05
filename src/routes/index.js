@@ -5,7 +5,6 @@ import AddProduct from '~/pages/AddProduct';
 import InfoProduct from '~/pages/InfoProduct';
 import TypeProduct from '~/pages/TypeProduct';
 
-
 const publicRoutes = [
     { path: '/', component: Login, layout: null, title: 'Login' },
     {
@@ -13,9 +12,23 @@ const publicRoutes = [
         component: ListProduct,
         title: 'Danh sách sản phẩm',
     },
-    { path: '/addproduct', component: AddProduct, title: 'Quay lại' },
-    { path: '/infoproduct/:id', component: InfoProduct, title: 'Quay lại' },
-    { path: '/typeproduct', component: TypeProduct, title: 'Loại sản phẩm' },
+    {
+        path: '/addproduct',
+        component: AddProduct,
+        title: 'Thêm sản phẩm',
+        back: true,
+    },
+    {
+        path: '/infoproduct/:id',
+        component: InfoProduct,
+        title: 'Chi tiết sản phẩm',
+    },
+    {
+        path: '/typeproduct',
+        component: TypeProduct,
+        title: 'Loại sản phẩm',
+        back: true,
+    },
 ];
 
 const privateRoutes = [];

@@ -25,7 +25,10 @@ function App() {
                                 path={route.path}
                                 element={
                                     Layout === DefaultLayout ? (
-                                        <Layout title={route.title}>
+                                        <Layout
+                                            title={route.title}
+                                            back={route.back}
+                                        >
                                             <Page />
                                         </Layout>
                                     ) : (

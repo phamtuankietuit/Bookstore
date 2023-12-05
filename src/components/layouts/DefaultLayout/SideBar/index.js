@@ -20,15 +20,19 @@ import SidebarButton from '../SidebarButton';
 
 const cx = classNames.bind(styles);
 
-function SideBar() {
+function SideBar({ className }) {
     const [state, setState] = useState(false);
 
     const handleState = () => {
         setState(!state);
     };
 
+    const classes = cx('wrapper', {
+        [className]: className,
+    });
+
     return (
-        <div className={cx('wrapper')}>
+        <div className={classes}>
             <div className={cx('inner')}>
                 <div className={cx('header')}>
                     <img src={AppLogo} alt="" className={cx('logo')} />

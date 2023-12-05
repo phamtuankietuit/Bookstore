@@ -18,7 +18,19 @@
     }
 }
 
+@media only screen and (max-width: 1050px) {
+    .container {
+        margin-left: 0;
+    }
+}
+
 .content {
     flex: 1;
-    margin-top: 60px;
+    margin-top: 58px;
+}
+
+@media only screen and (max-width: 1050px) {
+    .dn {
+        display: none;
+    }
 }

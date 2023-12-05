@@ -11,6 +11,7 @@ function Button({
     solidRed = false,
     outlineBlue = false,
     outlineRed = false,
+    popperStyle = false,
     disabled = false,
     children,
     className,
@@ -44,6 +45,7 @@ function Button({
         solidRed,
         outlineBlue,
         outlineRed,
+        popperStyle,
         disabled,
     });
 

@@ -10,87 +10,45 @@
 }
 
 .inner {
-    height: 100%;
-    background-color: #ccc;
+    width: 100%;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    background-color: white;
     overflow: auto;
 }
 
-.sth {
-    height: 50px;
-    background-color: yellow;
-    margin-bottom: 20px;
-}
-
-.my-icon {
-    max-width: 50px;
-    max-height: 50px;
-    margin-bottom: 10px;
-    margin-left: 15px;
-}
-
-.SideBar {
-    background: white;
-    height: 100%;
-    width: 100%;
-    align-items: center;
-}
-
-.overview {
-    padding: 7px;
-    margin-left: 5px;
-    border-radius: 7px;
-    color: #8a92a6;
-    min-height: 50px;
-    align-items: center;
-    width: 90%;
-}
-
-.my-li {
-    text-decoration: none;
-    height: fit-content;
-    text-align: start;
-    padding: 3px;
-}
-
-.my-navlink {
-    width: 97%;
-    margin-bottom: 5px;
-    color: #8a92a6;
-    font-size: 14px;
-    font-family: inherit;
-}
-
-.btn {
-    font-size: 14px;
-    font-family: inherit;
-}
-
-.name {
-    font-size: 30px;
-    font-weight: 600;
-}
-
-p {
-    width: 80%;
-    height: 50px;
-    padding: 0;
+.divider {
+    color: rgba(0, 0, 0, 0.4);
     margin: 0;
 }
 
-.accor-header {
-    width: 93%;
-    margin-left: 10px;
-    padding: 10px;
-    border-radius: 7px;
-    margin-bottom: 10px;
-    color: #8a92a6;
+.header {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: flex-start;
     align-items: center;
-    min-height: 60px;
+    margin-bottom: 10px;
+    user-select: none;
+
+    position: sticky;
+    top: 0;
+
+    .logo {
+        width: 30px;
+        height: 30px;
+        margin-left: 20px;
+    }
+
+    .app-name {
+        font-size: 25px;
+        font-weight: 600;
+        margin-left: 10px;
+    }
 }
 
-.accor-item {
-}
-
-.accor-content {
-    margin-left: 10px;
+.content {
+    overflow: auto;
 }

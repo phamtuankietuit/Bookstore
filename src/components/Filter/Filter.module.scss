@@ -100,3 +100,13 @@
     color: rgba(0, 0, 0, 0.4);
     margin: 0;
 }
+
+.wrapper {
+    width: 420px;
+}
+
+@media only screen and (max-width: 420px) {
+    .wrapper {
+        width: 100vw;
+    }
+}

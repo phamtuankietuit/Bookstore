@@ -13,7 +13,8 @@ const style = {
     position: 'absolute',
     top: '0',
     right: '0',
-    width: 420,
+    maxWidth: 420,
+    minWidth: 250,
     height: '100vh',
     bgcolor: 'white',
     border: 'none',
@@ -42,40 +43,42 @@ function Filter({
             <Modal open={open} onClose={handleClose}>
                 <Slide direction="left" in={open}>
                     <Box sx={style}>
-                        <div className={cx('header')}>
-                            <div className={cx('title')}>Bộ lọc</div>
-                            <div
-                                onClick={handleClose}
-                                className={cx('btn-close')}
-                            >
-                                <FontAwesomeIcon
-                                    className={cx('btn-close-icon')}
-                                    icon={faXmark}
-                                />
+                        <div className={cx('wrapper')}>
+                            <div className={cx('header')}>
+                                <div className={cx('title')}>Bộ lọc</div>
+                                <div
+                                    onClick={handleClose}
+                                    className={cx('btn-close')}
+                                >
+                                    <FontAwesomeIcon
+                                        className={cx('btn-close-icon')}
+                                        icon={faXmark}
+                                    />
+                                </div>
                             </div>
-                        </div>
 
-                        <hr className={cx('divider')} />
+                            <hr className={cx('divider')} />
 
-                        <div className={cx('content')}>{children}</div>
+                            <div className={cx('content')}>{children}</div>
 
-                        <hr className={cx('divider')} />
+                            <hr className={cx('divider')} />
 
-                        <div className={cx('actions')}>
-                            <Button
-                                className={cx('clear')}
-                                outlineRed
-                                onClick={handleClearFilter}
-                            >
-                                Xóa bộ lọc
-                            </Button>
-                            <Button
-                                className={cx('submit')}
-                                solidBlue
-                                onClick={handleFilter}
-                            >
-                                Lọc
-                            </Button>
+                            <div className={cx('actions')}>
+                                <Button
+                                    className={cx('clear')}
+                                    outlineRed
+                                    onClick={handleClearFilter}
+                                >
+                                    Xóa bộ lọc
+                                </Button>
+                                <Button
+                                    className={cx('submit')}
+                                    solidBlue
+                                    onClick={handleFilter}
+                                >
+                                    Lọc
+                                </Button>
+                            </div>
                         </div>
                     </Box>
                 </Slide>

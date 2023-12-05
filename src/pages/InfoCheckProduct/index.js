@@ -22,7 +22,6 @@ function InfoCheckProduct() {
     useEffect(() => {
         setObj(data)
         setList(data.list)
-        console.log(checkproductid)
     });
 
     const [PerPage, setPerPage] = useState(20);
@@ -96,7 +95,7 @@ function InfoCheckProduct() {
                                         {
                                             visible.map((item, index) => (
                                                 <div className={`${cx('item')}`} key={item.id}>
-                                                    <div className={cx('columns-1')}>{item.id}</div>
+                                                    <div className={cx('columns-1')}>{index + (currentPage - 1) * PerPage + 1}</div>
                                                     <div className={cx('columns-1')}><img src={item.img} className={cx('img')} /></div>
                                                     <div className={cx('columns-2')}>
                                                         <div className='fs-6'>{item.name}</div>

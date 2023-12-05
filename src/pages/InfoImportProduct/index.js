@@ -16,7 +16,7 @@ import Modal from 'react-bootstrap/Modal';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 function InfoImportProduct() {
-    const { importid } = useParams()
+    const importid = useParams()
     let navigate = useNavigate();
     const [obj, setObj] = useState(null)
     const [showpaid, setShowpaid] = useState(false);
@@ -182,7 +182,7 @@ function InfoImportProduct() {
                                 <Col className='mt-4 text-end me-4'>
                                     <Button className={`m-1 ${cx('my-btn')}`} variant="outline-primary" onClick={() => navigate(-1)}>Thoát</Button>
                                     <Button className={`m-1 ${cx('my-btn')}`} variant="outline-primary">
-                                        <NavLink to={"/updateimportproduct/" + importid} className={`text-decoration-none ${cx('nav-link')}`} >
+                                        <NavLink to={"/updateimportproduct/" + importid.id} className={`text-decoration-none ${cx('nav-link')}`} >
                                             Sửa đơn
                                         </NavLink>
                                     </Button>

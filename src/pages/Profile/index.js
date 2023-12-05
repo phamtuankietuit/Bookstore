@@ -6,6 +6,7 @@ import { FaCloudUploadAlt } from 'react-icons/fa';
 import { IoIosMail } from 'react-icons/io';
 import { FaPhoneAlt } from 'react-icons/fa';
 import { useState, useRef } from 'react';
+import DatePicker from '~/components/DatePicker';
 
 const cx = classNames.bind(styles);
 
@@ -17,6 +18,12 @@ function Profile() {
         const file = event.target.files[0];
         setImage(event.target.files[0]);
     };
+    //đổi giới tính
+    const [gender, SetGender] = useState('');
+    //mở tắt dropdown
+
+    const [showDropdown, setShowDropDown] = useState(false);
+
     //mở, tắt đổi mật khẩu
     const [show, setShow] = useState(false);
     return (
@@ -88,8 +95,8 @@ function Profile() {
                                 <input
                                     className={cx('text-inp')}
                                     type="text"
+                                    disabled
                                     value={'0961826917'}
-                                    readOnly
                                 ></input>
                             </div>
                             <div className={cx('grid-content')}>
@@ -102,18 +109,44 @@ function Profile() {
                             </div>
                             <div className={cx('grid-content')}>
                                 <p>Ngày sinh</p>
-                                <input
+                                {/* <input
                                     className={cx('text-inp')}
                                     type="text"
-                                ></input>
+                                ></input> */}
+                                <DatePicker></DatePicker>
                             </div>
                             <div className={cx('grid-content')}>
                                 <p>Giới tính</p>
                                 <input
                                     className={cx('text-inp')}
                                     type="text"
-                                    value={'Nam'}
+                                    value={gender}
+                                    readOnly
+                                    onClick={() =>
+                                        setShowDropDown(!showDropdown)
+                                    }
                                 ></input>
+                                {showDropdown && (
+                                    <div className={cx('options')}>
+                                        <ul>
+                                            <li
+                                                onClick={() => SetGender('Nam')}
+                                            >
+                                                Nam
+                                            </li>
+                                            <li onClick={() => SetGender('Nữ')}>
+                                                Nữ
+                                            </li>
+                                            <li
+                                                onClick={() =>
+                                                    SetGender('Khác')
+                                                }
+                                            >
+                                                Khác
+                                            </li>
+                                        </ul>
+                                    </div>
+                                )}
                             </div>
                             <div className={cx('grid-content')}>
                                 <p>Địa chỉ</p>
@@ -147,8 +180,8 @@ function Profile() {
                             <input
                                 className={cx('text-inp')}
                                 type="text"
+                                disabled
                                 value={'0961826917'}
-                                readOnly
                             ></input>
                         </div>
                         <div className={cx('grid-content')}>

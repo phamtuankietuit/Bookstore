@@ -1,0 +1,35 @@
+.sidebar-container {
+    height: 100%;
+    width: 100%;
+}
+.sidebar {
+    height: 100%;
+    width: 100%;
+    float: right;
+}
+.sidebar-header {
+    display: flex;
+    height: 60px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+.sidebar-logo {
+    height: 30px;
+    width: 30px;
+    margin-top: -10px;
+}
+.menu-item:focus-visible {
+    background-color: transparent;
+}
+// .menu-item {
+//     &:hover {
+//         color: black;
+//     }
+// }
+// .sub-menu {
+//     &:hover {
+//         color: black;
+//         background-color: aqua;
+//     }
+// }

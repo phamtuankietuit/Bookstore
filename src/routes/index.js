@@ -10,6 +10,7 @@ import InfoImportProduct from '~/pages/InfoImportProduct';
 import AddCheckProduct from '~/pages/AddCheckProduct';
 import InfoCheckProduct from '~/pages/InfoCheckProduct';
 import UpdateCheckProduct from '~/pages/UpdateCheckProduct';
+
 const publicRoutes = [
     { path: '/', component: Login, layout: null, title: 'Login' },
     {
@@ -17,15 +18,29 @@ const publicRoutes = [
         component: ListProduct,
         title: 'Danh sách sản phẩm',
     },
-    { path: '/addproduct', component: AddProduct, title: 'Quay lại' },
-    { path: '/infoproduct/:id', component: InfoProduct, title: 'Quay lại' },
-    { path: '/typeproduct', component: TypeProduct, title: 'Loại sản phẩm' },
-    { path: '/importproduct', component: ImportProduct, title: 'Quay lại' },
-    { path: '/updateimportproduct/:id', component: UpdateImportProduct, title: 'Quay lại' },
-    { path: '/infoimportproduct/:id', component: InfoImportProduct, title: 'Quay lại' },
-    { path: '/addcheckproduct', component: AddCheckProduct, title: 'Quay lại' },
-    { path: '/infocheckproduct/:id', component: InfoCheckProduct, title: 'Quay lại' },
-    { path: '/updatecheckproduct/:id', component: UpdateCheckProduct, title: 'Quay lại' },
+    { path: '/addcheckproduct', component: AddCheckProduct, title: 'Tạo đơn kiểm hàng', back: true},
+    { path: '/infocheckproduct/:id', component: InfoCheckProduct, title: 'Chi tiết đơn kiểm hàng', back: true},
+    { path: '/updatecheckproduct/:id', component: UpdateCheckProduct, title: 'Chỉnh sửa đơn kiểm hàng', back: true},
+    { path: '/importproduct', component: ImportProduct, title: 'Tạo đơn nhập hàng', back: true},
+    { path: '/updateimportproduct/:id', component: UpdateImportProduct, title: 'Chỉnh sửa đơn nhập hàng', back: true},
+    { path: '/infoimportproduct/:id', component: InfoImportProduct, title: 'Chi tiết đơn nhập hàng', back: true },
+    {
+        path: '/addproduct',
+        component: AddProduct,
+        title: 'Thêm sản phẩm',
+        back: true,
+    },
+    {
+        path: '/infoproduct/:id',
+        component: InfoProduct,
+        title: 'Chi tiết sản phẩm',
+    },
+    {
+        path: '/typeproduct',
+        component: TypeProduct,
+        title: 'Loại sản phẩm',
+        back: true,
+    },
 ];
 
 const privateRoutes = [];

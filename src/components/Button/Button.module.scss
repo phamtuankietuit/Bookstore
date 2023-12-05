@@ -64,3 +64,30 @@
         background-color: rgb(244, 244, 244);
     }
 }
+
+.popperStyle {
+    color: rgb(90, 90, 90);
+    background-color: white;
+
+    .title {
+        color: rgba(0, 0, 0, 0.8);
+    }
+
+    .icon {
+        color: rgb(184, 184, 184);
+    }
+
+    &:hover {
+        background-color: rgb(59, 88, 232, 0.1);
+
+        .icon {
+            color: rgb(59, 88, 232, 0.9);
+        }
+    }
+
+    &:active {
+        .title {
+            color: var(--primary);
+        }
+    }
+}

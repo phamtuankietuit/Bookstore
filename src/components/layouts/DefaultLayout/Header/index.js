@@ -1,84 +1,110 @@
-import classNames from 'classnames/bind';
-import styles from './Header.module.scss';
-import React from 'react';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
-import Image from 'react-bootstrap/Image';
-import { FaBell } from 'react-icons/fa6';
-import { FaAngleLeft } from 'react-icons/fa6';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { NavLink } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import classNames from 'classnames/bind';
+import Tippy from '@tippyjs/react/headless';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faAngleLeft,
+    faArrowRightFromBracket,
+    faBars,
+    faGear,
+} from '@fortawesome/free-solid-svg-icons';
+import { Modal, Box, Slide } from '@mui/material';
+import styles from './Header.module.scss';
+import Button from '~/components/Button';
+import SideBar from '../SideBar';
 
 const cx = classNames.bind(styles);
 
-function Header({ info }) {
-    let navigate = useNavigate();
+const style = {
+    position: 'absolute',
+    top: '0',
+    left: '0',
+    width: 250,
+    height: '100vh',
+    bgcolor: 'white',
+    border: 'none',
+    outline: 'none',
+    display: 'flex',
+    flexDirection: 'column',
+};
+
+function Header({ title, back }) {
+    const navigate = useNavigate();
+    // POPPER
+    const [visible, setVisible] = useState(false);
+    const show = () => setVisible(true);
+    const hide = () => setVisible(false);
+
+    // SIDEBAR
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     return (
         <div className={cx('wrapper')}>
-            <Container className={` ${cx('header')}`}>
-                <Row className="w-100 h-100">
-                    <Col xs md={8}>
-                        {info.title === 'Quay lại' ? (
-                            <a
-                                className={`${cx(
-                                    'title-return',
-                                )} text-start d-flex align-items-center h-100`}
-                                href="#"
-                                onClick={() => navigate(-1)}
-                            >
-                                <FaAngleLeft className="me-2" />
-                                Quay lại
-                            </a>
-                        ) : (
-                            <p
-                                className={`${cx(
-                                    'title',
-                                )} text-start d-flex align-items-center`}
-                            >
-                                {info.title}
-                            </p>
-                        )}
-                    </Col>
-                    <Col xs md={4} className="d-flex align-items-center">
-                        <Row className="w-100">
-                            <Col
-                                xs
-                                md={6}
-                                className="text-end d-flex justify-content-end align-items-center"
-                            >
-                                <FaBell className={cx('header-icon')} />
-                            </Col>
-                            <Col xs md={6}>
-                                <NavLink
-                                    to="/123"
-                                    className="text-black text-decoration-none"
+            <div className={cx('inner')}>
+                <div className={cx('wrapper-action')}>
+                    <div className={cx('btn-sidebar')} onClick={handleOpen}>
+                        <FontAwesomeIcon icon={faBars} />
+                    </div>
+                    {back && (
+                        <div
+                            className={cx('btn-back')}
+                            onClick={() => navigate(-1)}
+                        >
+                            <FontAwesomeIcon icon={faAngleLeft} />
+                        </div>
+                    )}
+                    <div className={cx('title')}>{title}</div>
+                </div>
+                <Tippy
+                    visible={visible}
+                    interactive={true}
+                    onClickOutside={hide}
+                    placement="bottom"
+                    render={(attrs) => (
+                        <div className={cx('popper')} tabIndex="-1" {...attrs}>
+                            <div className={cx('content')}>
+                                <Button
+                                    leftIcon={<FontAwesomeIcon icon={faGear} />}
+                                    popperStyle
+                                    className={cx('margin', 'custom-btn')}
                                 >
-                                    <Row className="text-end">
-                                        <Col xs md={3}>
-                                            <Image
-                                                src={info.img}
-                                                roundedCircle
-                                                fluid
-                                                className={`${cx('avatar')}`}
-                                            />
-                                        </Col>
-                                        <Col
-                                            xs
-                                            md={9}
-                                            className="text-start d-flex align-items-center"
-                                        >
-                                            {info.name}
-                                        </Col>
-                                    </Row>
-                                </NavLink>
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
-            </Container>
+                                    Cài đặt
+                                </Button>
+                                <Button
+                                    leftIcon={
+                                        <FontAwesomeIcon
+                                            icon={faArrowRightFromBracket}
+                                        />
+                                    }
+                                    popperStyle
+                                    className={cx('custom-btn')}
+                                >
+                                    Đăng xuất
+                                </Button>
+                            </div>
+                        </div>
+                    )}
+                >
+                    <div
+                        className={cx('wrapper-info')}
+                        onClick={visible ? hide : show}
+                    >
+                        <div className={cx('avt')}></div>
+                        <div className={cx('name')}>Phạm Tuấn Kiệt</div>
+                    </div>
+                </Tippy>
+            </div>
+
+            <Modal open={open} onClose={handleClose}>
+                <Slide direction="right" in={open}>
+                    <Box sx={style}>
+                        <SideBar className={cx('custom')} />
+                    </Box>
+                </Slide>
+            </Modal>
         </div>
     );
 }

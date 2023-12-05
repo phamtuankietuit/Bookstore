@@ -13,7 +13,7 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     maxWidth: 650,
-    minWidth: 500,
+    minWidth: 300,
     maxHeight: '90vh',
     bgcolor: 'white',
     border: 'none',

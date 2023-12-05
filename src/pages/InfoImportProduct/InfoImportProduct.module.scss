@@ -1,0 +1,54 @@
+.frame{
+    margin: 25px auto ;
+    padding: 15px 30px;
+    text-wrap:wrap;
+    background-color: white;
+    width: 80%;
+    min-height: 250px;
+    border-radius: 10px;
+}
+
+.wrapper {
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    background: var(--background) url('../../assets/images/bg_img.svg')
+        no-repeat top left;
+
+    p{
+        width: fit-content;
+        height: fit-content;
+    }
+    user-select: none;
+}
+
+.inner {
+    padding: 20px;
+}
+
+.title{
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.tag-debt{
+    border: 1px dotted black;
+    padding: 10px;
+}
+
+.my-btn{
+    min-width: 150px;
+    min-height: 50px;
+
+    
+}
+
+.bg{
+    background-color: rgb(242, 249, 255);
+}
+
+.navlink{
+    &:hover{
+        color: white;
+    }
+}

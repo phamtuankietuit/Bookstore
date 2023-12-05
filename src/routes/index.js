@@ -4,6 +4,9 @@ import ListProduct from '~/pages/ListProduct';
 import AddProduct from '~/pages/AddProduct';
 import InfoProduct from '~/pages/InfoProduct';
 import TypeProduct from '~/pages/TypeProduct';
+import ImportProduct from '~/pages/ImportProduct';
+import UpdateImportProduct from '~/pages/UpdateImportProduct';
+import InfoImportProduct from '~/pages/InfoImportProduct';
 
 const publicRoutes = [
     { path: '/', component: Login, layout: null, title: 'Login' },
@@ -12,6 +15,9 @@ const publicRoutes = [
         component: ListProduct,
         title: 'Danh sách sản phẩm',
     },
+    { path: '/importproduct', component: ImportProduct, title: 'Tạo đơn nhập hàng', back: true},
+    { path: '/updateimportproduct/:id', component: UpdateImportProduct, title: 'Chỉnh sửa đơn nhập hàng', back: true},
+    { path: '/infoimportproduct/:id', component: InfoImportProduct, title: 'Chi tiết đơn nhập hàng', back: true },
     {
         path: '/addproduct',
         component: AddProduct,

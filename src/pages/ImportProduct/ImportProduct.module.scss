@@ -1,0 +1,164 @@
+.frame{
+    margin: 25px auto ;
+    padding: 15px 30px;
+    text-wrap:wrap;
+    background-color: white;
+    width: 80%;
+    min-height: 250px;
+    border-radius: 10px;
+}
+
+.wrapper {
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    background: var(--background) url('../../assets/images/bg_img.svg')
+        no-repeat top left;
+
+    p{
+        width: fit-content;
+    }
+    user-select: none;
+}
+
+.inner {
+    padding: 20px;
+}
+
+.title{
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.content{
+    background-color: white;
+    height: fit-content;
+    color: black;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 14px;
+}
+
+.my-btn{
+    min-width: 150px;
+    min-height: 50px;
+    font-size: 13px;
+}
+
+.divider {
+    color: rgba(0, 0, 0, 0.4);
+    margin: 0;
+    margin-top: 20px;
+}
+
+.tag-debt{
+    border: 1px dotted black;
+    padding: 10px;
+}
+
+.icon{
+    width: 30px;
+    height: 25px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.no-info{
+    width: 100%;
+    height: max-content;
+    margin-top: 30px;
+}
+.columns{
+    margin-top: 10px;
+    background-color: #c4c2c23e;
+    padding: 10px;
+    padding-right: 7%;
+    height: 40px;
+    font-weight: 600;
+    width: fit-content;
+    display: flex;
+
+}
+
+.list-import{
+    max-height: 300px;
+    width: 100%;
+    padding: 5px;
+    z-index: 1;
+}
+
+.import-content{
+    overflow-y: scroll;
+    margin-top: 30px;
+}
+
+.columns-item-1{
+    text-align: center;
+    min-width: 100px;
+}
+
+.columns-item-2{
+    min-width: 380px;
+
+}
+.columns-item-3{
+    min-width: 180px;
+    text-align: center;
+}
+
+.no-product{
+    height: 150px;
+    text-align: center;
+    color: rgb(163, 168, 175);
+    padding-top: 30px;
+}
+
+.textfield{
+    width: 70%;
+    padding-left: 10px;
+    font-size: 13px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.147);
+    text-align: end;
+
+    &:hover{
+        border-bottom: 1px solid black;
+    }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+} 
+
+.btn{
+    font-size: 10px;
+    background-color: white;
+    color: black;
+    width: 60px;
+    padding: 0;
+}
+
+.btn_active{
+    font-size: 10px;
+    background-color: #0088FF;
+    color: white;
+    width: 60px;
+    padding: 0;
+}
+
+.choose_type{
+    position:absolute;
+    background: white;
+    border: 0.5px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    z-index: 10;
+}
+
+.on_click{
+    cursor: pointer;
+    
+}

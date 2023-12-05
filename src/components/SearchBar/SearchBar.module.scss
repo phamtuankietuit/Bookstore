@@ -1,5 +1,6 @@
 // Container
 .search-bar {
+    min-width: 200px;
     border: 1px solid var(--border-color);
     border-radius: 5px;
     padding: 10px;
@@ -14,6 +15,12 @@
 
     &:hover {
         border-color: rgba(128, 128, 128, 0.7);
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .search-bar {
+        margin-bottom: 10px;
     }
 }
 

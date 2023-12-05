@@ -16,16 +16,41 @@
     background-color: white;
     padding: 5px 5px;
     border-radius: 5px;
+    flex-wrap: wrap;
+}
+
+@media only screen and (max-width: 400px) {
+    .tool-bar {
+        flex-direction: column;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .tool-bar {
+        width: fit-content;
+    }
+
+    .tool-bar-left {
+        flex-direction: column;
+    }
+
+    .margin {
+        margin-bottom: 5px;
+    }
 }
 
 .tool-bar-left {
     padding: 5px 5px;
     border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    width: fit-content;
 }
 
 .tool-bar-right {
     padding: 5px 5px;
     border-radius: 5px;
+    width: fit-content;
 }
 
 .margin {

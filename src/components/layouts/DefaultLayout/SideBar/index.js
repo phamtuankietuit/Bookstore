@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -20,13 +19,7 @@ import SidebarButton from '../SidebarButton';
 
 const cx = classNames.bind(styles);
 
-function SideBar({ className }) {
-    const [state, setState] = useState(false);
-
-    const handleState = () => {
-        setState(!state);
-    };
-
+function SideBar({ className, title }) {
     const classes = cx('wrapper', {
         [className]: className,
     });
@@ -39,14 +32,14 @@ function SideBar({ className }) {
                     <div className={cx('app-name')}>Triple K</div>
                 </div>
                 <hr className={cx('divider')} />
-                <div className={cx('content')} onClick={handleState}>
+                <div className={cx('content')}>
                     <SidebarButton
                         to={'/typeproduct'}
                         title={'Tổng quan'}
                         icon={<FontAwesomeIcon icon={faHouse} />}
                     />
                     <SidebarDropdown
-                        state={state}
+                        state={title}
                         icon={<FontAwesomeIcon icon={faReceipt} />}
                         title={'Đơn hàng'}
                         items={[
@@ -61,7 +54,7 @@ function SideBar({ className }) {
                         ]}
                     />
                     <SidebarDropdown
-                        state={state}
+                        state={title}
                         icon={<FontAwesomeIcon icon={faBox} />}
                         title={'Sản phẩm'}
                         items={[
@@ -84,7 +77,7 @@ function SideBar({ className }) {
                         ]}
                     />
                     <SidebarDropdown
-                        state={state}
+                        state={title}
                         icon={<FontAwesomeIcon icon={faUser} />}
                         title={'Khách hàng'}
                         items={[
@@ -99,7 +92,7 @@ function SideBar({ className }) {
                         ]}
                     />
                     <SidebarDropdown
-                        state={state}
+                        state={title}
                         icon={<FontAwesomeIcon icon={faChartSimple} />}
                         title={'Báo cáo'}
                         items={[

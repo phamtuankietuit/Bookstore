@@ -6,9 +6,20 @@ import { memo } from 'react';
 
 const cx = classNames.bind(styles);
 
-function MultiSelectComp({ options, placeholder, selected, setSelected }) {
+function MultiSelectComp({
+    options,
+    selected,
+    setSelected,
+    hasSelectAll,
+    className,
+    placeholder,
+}) {
+    const classes = cx('multi-select-container', {
+        [className]: className,
+    });
+
     return (
-        <div className={cx('multi-select-container')}>
+        <div className={classes}>
             <div className={cx('multi-select-title')}>{placeholder}</div>
 
             <MultiSelect
@@ -16,6 +27,7 @@ function MultiSelectComp({ options, placeholder, selected, setSelected }) {
                 value={selected}
                 onChange={setSelected}
                 labelledBy="Select"
+                hasSelectAll={hasSelectAll}
                 overrideStrings={{
                     selectAll: 'Tất cả',
                     search: 'Tìm kiếm...',

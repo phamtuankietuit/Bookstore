@@ -1,0 +1,108 @@
+.frame{
+    margin: 25px auto ;
+    padding: 15px 30px;
+    text-wrap:wrap;
+    background-color: white;
+    width: 80%;
+    min-height: 250px;
+    border-radius: 10px;
+}
+
+.wrapper {
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    background: var(--background) url('../../assets/images/bg_img.svg')
+        no-repeat top left;
+
+    p{
+        width: fit-content;
+    }
+    user-select: none;
+}
+
+.inner {
+    padding: 20px;
+}
+
+.title{
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.columns-item-1{
+    text-align: center;
+    min-width: 100px;
+}
+
+.columns-item-2{
+    min-width: 380px;
+
+}
+.columns-item-3{
+    min-width: 180px;
+}
+
+.columns{
+    margin-top: 10px;
+    background-color: #c4c2c23e;
+    padding: 10px;
+    padding-right: 7%;
+    height: 40px;
+    font-weight: 600;
+    width: fit-content;
+    display: flex;
+
+}
+
+.import-content{
+    overflow: scroll;
+    margin-top: 30px;
+}
+
+
+.no-product{
+    height: 200px;
+    text-align: center;
+    color: rgb(163, 168, 175);
+    padding-top: 30px;
+}
+
+.icon{
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+}
+
+.list-import{
+    max-height: 400px;
+    width: 100%;
+    padding: 5px 0px;
+    z-index: 1;
+}
+
+.my-btn{
+    min-width: 130px;
+    min-height: 45px;
+    font-size: 13px;
+}
+
+.enterfile{
+    &:hover{
+        cursor: pointer;
+        color: #0d6efd;
+    }
+}
+
+.my-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed black;
+    height: 150px;
+    width: 90%;
+    cursor: pointer;
+    border-radius: 5px;
+}

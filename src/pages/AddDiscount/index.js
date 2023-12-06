@@ -64,7 +64,7 @@ function AddDiscount() {
                             id="cb"
                             type="checkbox"
                         ></input>
-                        <label for="cb">Không giới hạn số lượng</label>
+                        <label htmlFor="cb">Không giới hạn số lượng</label>
                     </div>
                 </div>
                 <div className={cx('grid1-discount-info')}>

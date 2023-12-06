@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import { Link } from 'react-router-dom';
 import styles from './NewHeader.module.scss';
 import { FaBell } from 'react-icons/fa';
 import avt from '../../assets/images/minimal-morning-landscape-8k-gx-scaled.jpg';
@@ -16,14 +17,14 @@ function NewHeader() {
                     <img className={cx('logo')} src={logo}></img>
                 </div>
                 <div className={cx('tab-container')}>
-                    <a className={cx('profile-tag')} href="/profile">
+                    <Link className={cx('profile-tag')} to="/profile">
                         <CgProfile className={cx('profile-icon')}></CgProfile>
                         <p>Trang cá nhân</p>
-                    </a>
-                    <a className={cx('store-tag')} href="/storeinfo">
+                    </Link>
+                    <Link className={cx('store-tag')} to="/storeinfo">
                         <FaStore className={cx('profile-icon')}></FaStore>
                         <p>Thông tin CH</p>
-                    </a>
+                    </Link>
                 </div>
                 <div className={cx('noti-and-avt')}>
                     <FaBell className={cx('noti-button')}></FaBell>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -7,6 +7,7 @@ import {
     faPlus,
     faUpload,
 } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './ListProduct.module.scss';
 import List from '~/components/List';
@@ -62,6 +63,7 @@ const optionsBrand = [
 ];
 
 function ListProduct() {
+    const navigate = useNavigate();
     // SEARCH
     const [search, setSearch] = useState('');
     const handleSearch = (e) => {
@@ -99,7 +101,7 @@ function ListProduct() {
         const timeout = setTimeout(() => {
             setRows(data);
             setPending(false);
-        }, 2000);
+        }, 500);
         return () => clearTimeout(timeout);
     }, []);
 
@@ -116,9 +118,12 @@ function ListProduct() {
     };
 
     // SUB HEADER
-    const onClickAction = (index) => {
-        console.log(index);
-    };
+    const onClickAction = (index) => {};
+
+    // ON ROW CLICKED
+    const onRowClicked = useCallback((row) => {
+        navigate('/products/detail');
+    }, []);
 
     return (
         <div className={cx('wrapper')}>
@@ -140,7 +145,7 @@ function ListProduct() {
                             Xuất file
                         </Button>
                         <Button
-                            to="/typeproduct"
+                            to="/products/type"
                             leftIcon={<FontAwesomeIcon icon={faListUl} />}
                             solidBlue
                             className={cx('margin')}
@@ -150,7 +155,7 @@ function ListProduct() {
                     </div>
                     <div className={cx('tool-bar-right')}>
                         <Button
-                            to="/addproduct"
+                            to="/products/add"
                             leftIcon={<FontAwesomeIcon icon={faPlus} />}
                             solidBlue
                         >
@@ -217,6 +222,7 @@ function ListProduct() {
                         </Filter>
                     }
                     // TABLE
+                    onRowClicked={onRowClicked}
                     showSubHeader={showSubHeader}
                     itemComponent={ProductItem}
                     data={rows}

@@ -1,5 +1,5 @@
+import { memo } from 'react';
 import classNames from 'classnames/bind';
-
 import styles from './List.module.scss';
 import SearchBar from '~/components/SearchBar';
 
@@ -13,6 +13,7 @@ function List({
     search,
     searchVisibility,
     handleSearch,
+    onRowClicked,
     pending,
     showSubHeader,
     handleSelectedItems,
@@ -43,6 +44,7 @@ function List({
                         showSubHeader={showSubHeader}
                         handleSelectedItems={handleSelectedItems}
                         subHeaderComponent={subHeaderComponent}
+                        onRowClicked={onRowClicked}
                     />
                 </div>
             </div>
@@ -50,4 +52,4 @@ function List({
     );
 }
 
-export default List;
+export default memo(List);

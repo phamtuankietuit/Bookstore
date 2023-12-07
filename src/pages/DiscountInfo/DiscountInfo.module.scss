@@ -1,0 +1,315 @@
+.container {
+    // background-color: aqua;
+    width: 100%;
+    height: 100vh;
+    background-color: #f0f1f1;
+    display: flex;
+    justify-content: center;
+}
+.discount-container {
+    width: 85%;
+    height: 100%;
+    // background-color: antiquewhite;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+//thẻ coupon
+.discount-tag {
+    background-color: #007bff;
+    width: 300px;
+    height: 130px;
+    border-radius: 15px;
+    display: grid;
+    grid-template-columns: 30px 240px 30px;
+    grid-template-rows: 100%;
+}
+.left-tag {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.left-tag-circle1 {
+    background-color: #f0f1f1;
+    height: 15px;
+    width: 15px;
+    border-radius: 0 15px 0 0;
+}
+.left-tag-circle2 {
+    background-color: #f0f1f1;
+    height: 15px;
+    width: 15px;
+    border-radius: 0 0 15px 0;
+}
+.right-tag {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    direction: rtl;
+}
+.right-tag-circle1 {
+    background-color: #f0f1f1;
+    height: 15px;
+    width: 15px;
+    border-radius: 15px 0 0 0;
+}
+.right-tag-circle2 {
+    background-color: #f0f1f1;
+    height: 15px;
+    width: 15px;
+    border-radius: 0 0 0 15px;
+}
+//coupon content
+.discount-tag-content {
+    display: grid;
+    grid-template-columns: 180px 60px;
+    grid-template-rows: 100%;
+}
+//logo
+.logo {
+    background-image: url('../../assets/images/white-logo.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.discount-tag-content .content {
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    justify-content: center;
+    border-right: 2px dashed #fff;
+}
+.discount-tag-content .content h4 {
+    color: #fff;
+}
+.discount-tag-content .content p {
+    color: #fff;
+    font-size: 13px;
+}
+//title
+.discount-title {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    width: 100%;
+    height: 50px;
+}
+.title-icon {
+    height: 30px;
+    width: 40px;
+}
+.discount-title {
+    font-size: 22px;
+    font-weight: 500;
+}
+//thông tin chung
+.main-info {
+    width: 100%;
+    height: 150px;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 5px 5px 0;
+    border-radius: 5px;
+}
+//tiêu đề div
+.div-title {
+    height: 50px;
+    width: 100%;
+    border-bottom: 1px #cdcdcd solid;
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+}
+.div-title p {
+    height: fit-content;
+    width: fit-content;
+    font-size: 15px;
+    font-weight: 600;
+}
+//thông tin chung
+.main-info-content {
+    height: 100px;
+    display: grid;
+    grid-template-columns: 33% 33% 34%;
+    grid-template-rows: 100%;
+}
+.main-info-content-grid1 {
+    display: grid;
+    grid-template-columns: 49% 2% 49%;
+    grid-template-rows: 100%;
+}
+.main-info-content-grid1 .first-column {
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+}
+.main-info-content-grid1 .first-column p {
+    font-size: 12px;
+    height: 50px;
+    padding-top: 5px;
+    color: #666666;
+}
+.main-info-content-grid1 .split p {
+    font-size: 12px;
+    height: 50px;
+    padding-top: 5px;
+    color: #666666;
+}
+.main-info-content-grid1 .second-column {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+}
+.main-info-content-grid1 .second-column {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+}
+.main-info-content-grid1 .second-column p {
+    font-size: 12px;
+    height: 50px;
+    padding-top: 5px;
+}
+.tag-and-time {
+    display: grid;
+    height: 130px;
+    width: 100%;
+    grid-template-columns: 300px calc(100% - 300px);
+    grid-template-rows: 100%;
+}
+//thông tin áp dụng
+.available-date {
+    margin-left: 30px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 5px 5px 0;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+.date-content {
+    width: 100%;
+    height: 80px;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 100%;
+}
+.date-content-content-grid1 {
+    display: grid;
+    grid-template-columns: 49% 2% 49%;
+    grid-template-rows: 100%;
+}
+.date-content-content-grid1 .first-column {
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+    justify-content: center;
+}
+.date-content-content-grid1 .first-column p {
+    font-size: 12px;
+    height: 50px;
+    padding-top: 5px;
+    color: #666666;
+}
+.date-content-content-grid1 .split {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.date-content-content-grid1 .split p {
+    font-size: 12px;
+    height: 50px;
+    padding-top: 5px;
+    color: #666666;
+}
+.date-content-content-grid1 .second-column {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    justify-content: center;
+}
+.date-content-content-grid1 .second-column {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    justify-content: center;
+}
+.date-content-content-grid1 .second-column p {
+    font-size: 12px;
+    height: 50px;
+    padding-top: 5px;
+}
+//Điều kiện khuyến mãi
+.discount-condition {
+    width: 100%;
+    height: 150px;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 5px 5px 0;
+    border-radius: 5px;
+}
+.condition-content {
+    height: 100px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 33% 33% 34%;
+    grid-template-rows: 50% 50%;
+}
+.condition-content .first-row {
+    background-color: #f3f4f5;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px #cdcdcd solid;
+}
+.condition-content .first-row p {
+    font-weight: 600;
+    height: fit-content;
+    width: 100%;
+    text-align: left;
+    padding-left: 15px;
+}
+.condition-content .second-row {
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px #cdcdcd solid;
+}
+.condition-content .second-row p {
+    height: fit-content;
+    width: 100%;
+    text-align: left;
+    padding-left: 15px;
+}
+//button
+.button-container {
+    margin-top: 20px;
+    height: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: right;
+}
+.edit-btn {
+    height: 40px;
+    width: 100px;
+    background-color: #fff;
+    margin-right: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 5px;
+    color: #007bff;
+    border: 1px solid #007bff;
+    &:hover {
+        background-color: #f0f1f1;
+    }
+}
+.stop-btn {
+    height: 40px;
+    width: 100px;
+    background-color: #007bff;
+    margin-right: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 5px;
+    color: #fff;
+    &:hover {
+        background-color: #33a0ff;
+    }
+}

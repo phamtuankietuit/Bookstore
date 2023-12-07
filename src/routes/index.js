@@ -13,6 +13,7 @@ import InfoImportProduct from '~/pages/InfoImportProduct';
 import AddCheckProduct from '~/pages/AddCheckProduct';
 import InfoCheckProduct from '~/pages/InfoCheckProduct';
 import UpdateCheckProduct from '~/pages/UpdateCheckProduct';
+import DiscountInfo from '~/pages/DiscountInfo';
 
 const publicRoutes = [
     { path: '/', component: Login, layout: null, title: 'Login' },
@@ -88,6 +89,12 @@ const publicRoutes = [
         path: '/typeproduct',
         component: TypeProduct,
         title: 'Loại sản phẩm',
+        back: true,
+    },
+    {
+        path: '/discountinfo',
+        component: DiscountInfo,
+        title: 'Thông tin khuyến mãi',
         back: true,
     },
 ];

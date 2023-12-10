@@ -12,7 +12,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    maxWidth: 650,
+    maxWidth: 700,
     minWidth: 300,
     maxHeight: '90vh',
     bgcolor: 'white',
@@ -22,6 +22,7 @@ const style = {
     flexDirection: 'column',
     borderRadius: '5px',
     boxShadow: '0px 10px 13px 0px rgba(17, 38, 146, 0.05)',
+    overFlow: 'auto',
 };
 
 function ModalComp({ open, handleClose, children, actionComponent, title }) {

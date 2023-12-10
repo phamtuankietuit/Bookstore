@@ -1,545 +1,562 @@
-import styles from './AddProduct.module.scss';
+import { useState, useEffect, useContext } from 'react';
 import classNames from 'classnames/bind';
-import React from 'react';
-import { useState, useRef } from 'react';
-import { BsFillPlusCircleFill } from 'react-icons/bs';
-import AddImg from 'src/assets/images/add-photo-icon.png';
-import { FaCaretDown } from 'react-icons/fa';
-import { IoSearch } from 'react-icons/io5';
+import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Switch } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+
+import styles from './AddProduct.module.scss';
+import Wrapper from '~/components/Wrapper';
+import Button from '~/components/Button';
+import Input from '~/components/Input';
+import ModalComp from '~/components/ModalComp';
+import ModalLoading from '~/components/ModalLoading';
+import { ToastContext } from '~/components/ToastContext';
 
 const cx = classNames.bind(styles);
 
 function AddProduct() {
-    //Dropdown
-    const [isActive, setIsActive] = useState(false);
-    const [isActive2, setIsActive2] = useState(false);
-    //Xử lý thêm ảnh
-    const [images, setImages] = useState([]);
-    const [isDraggging, setIsDragging] = useState(false);
+    const navigate = useNavigate();
+    const toastContext = useContext(ToastContext);
 
-    const fileInputRef = useRef(null);
+    // IMAGES
+    const [files, setFiles] = useState([]);
+    const [fileRemove, setFileRemove] = useState();
+    const [filesError, setFilesError] = useState(false);
 
-    const selectFiles = () => {
-        fileInputRef.current.click();
+    const handleAddImages = (e) => {
+        if (e.target.files.length + files.length < 6) {
+            const arr = Array.from(e.target.files).map((file) => {
+                file.preview = URL.createObjectURL(file);
+                return file;
+            });
+
+            setFiles((prev) => [...arr, ...prev]);
+        } else {
+            setFilesError(true);
+        }
+
+        e.target.value = null;
     };
-    const onFileSelect = (event) => {
-        const files = event.target.files;
-        if (files.length === 0) return;
-        for (let i = 0; i < files.length; i++) {
-            if (files[i].type.split('/')[0] != 'image') continue;
-            if (!images.some((e) => e.name === files[i].name)) {
-                setImages((prevImages) => [
-                    ...prevImages,
-                    {
-                        name: files[i].name,
-                        url: URL.createObjectURL(files[i]),
-                    },
-                ]);
+
+    const handleRemoveImage = (index) => {
+        setFileRemove(files[index]);
+        const newFiles = files;
+        files.splice(index, 1);
+        setFiles(newFiles);
+    };
+
+    useEffect(() => {
+        return () => {
+            fileRemove && URL.revokeObjectURL(fileRemove.preview);
+        };
+    }, [fileRemove]);
+
+    // NAME
+    const [name, setName] = useState('');
+    const onChangeName = (value) => {
+        setName(value);
+    };
+    const [errorName, setErrorName] = useState('');
+
+    // DISCRIPTION
+    const [desc, setDesc] = useState('');
+    const onChangeDesc = (value) => {
+        setDesc(value);
+    };
+
+    // COST
+    const [cost, setCost] = useState(0);
+    const onChangeCost = (number) => {
+        setCost(number);
+    };
+
+    // PRICE
+    const [price, setPrice] = useState(0);
+    const onChangePrice = (number) => {
+        setPrice(number);
+    };
+
+    // STORE
+    const [store, setStore] = useState(0);
+    const onChangeStore = (number) => {
+        setStore(number);
+    };
+
+    // PUBLISH YEAR
+    const [year, setYear] = useState('');
+    const onChangeYear = (number) => {
+        setYear(number);
+    };
+
+    // MANUFACTURER
+    const [manufacturer, setManufacturer] = useState('');
+    const onChangeManufacturer = (value) => {
+        setManufacturer(value);
+    };
+
+    // AUTHOR
+    const [author, setAuthor] = useState('');
+    const onChangeAuthor = (value) => {
+        setAuthor(value);
+    };
+
+    // PUBLISHER
+    const [publisher, setPublisher] = useState('');
+    const onChangePublisher = (value) => {
+        setPublisher(value);
+    };
+
+    // SUPPLIER
+    const [supplier, setSupplier] = useState('');
+    const onChangeSupplier = (value) => {
+        setSupplier(value);
+    };
+
+    // PRODUCT TYPE
+    const [productType, setProductType] = useState('');
+    const onChangeProductType = (value) => {
+        setProductType(value);
+        if (
+            value === 'Sách Thiếu Nhi' ||
+            value === 'Sách Giáo Khoa - Tham Khảo' ||
+            value === 'Tiểu Thuyết' ||
+            value === 'Truyện Ngắn' ||
+            value === 'Light Novel' ||
+            value === 'Sách Tâm Lý - Kỹ Năng Sống' ||
+            value === 'Sách Học Ngoại Ngữ'
+        ) {
+            setRestProps(false);
+            setBookProps(true);
+        } else if (
+            value === 'Văn phòng phẩm' ||
+            value === 'Đồ chơi' ||
+            value === 'Quà lưu niệm'
+        ) {
+            setBookProps(false);
+            setRestProps(true);
+        } else {
+            setBookProps(true);
+            setRestProps(true);
+        }
+    };
+
+    // STATUS
+    const [status, setStatus] = useState(true);
+
+    // VISIBILITY PROPS
+    const [bookProps, setBookProps] = useState(true);
+    const [restProps, setRestProps] = useState(true);
+
+    // MODAL LOADING
+    const [loading, setLoading] = useState(false);
+
+    // MODAL
+    const [titleModal, setTitleModal] = useState('');
+    const [openModal, setOpenModal] = useState(false);
+
+    const handleOpenModal = () => setOpenModal(true);
+
+    const handleCloseModal = () => {
+        if (titleModal === 'Thêm loại sản phẩm') {
+            handleClearType();
+        } else {
+            handleClearSup();
+        }
+        setOpenModal(false);
+    };
+
+    // ADD TYPE
+    const handleOpenType = () => {
+        setTitleModal('Thêm loại sản phẩm');
+        handleOpenModal();
+    };
+
+    const handleClearType = () => {
+        setNameType('');
+        setErrorType('');
+    };
+
+    const [nameType, setNameType] = useState('');
+    const [errorType, setErrorType] = useState('');
+
+    // ADD SUPPLIER
+    const handleOpenSupplier = () => {
+        setTitleModal('Thêm nhà cung cấp');
+        handleOpenModal();
+    };
+
+    const handleClearSup = () => {
+        setNameSup('');
+        setErrorSup('');
+        setPhoneSup('');
+        setEmailSup('');
+        setAddressSup('');
+        setGroupSup('');
+    };
+
+    const [nameSup, setNameSup] = useState('');
+    const [errorSup, setErrorSup] = useState('');
+    const [phoneSup, setPhoneSup] = useState('');
+    const [emailSup, setEmailSup] = useState('');
+    const [addressSup, setAddressSup] = useState('');
+    const [groupSup, setGroupSup] = useState('');
+
+    // VALIDATION
+    const handleValidation = () => {
+        if (titleModal === 'Thêm loại sản phẩm') {
+            if (nameType === '') {
+                setErrorType('Không được bỏ trống');
+            } else {
+                setLoading(true);
+                setTimeout(() => {
+                    setLoading(false);
+                    handleCloseModal();
+                }, 2000);
+            }
+        } else {
+            if (nameSup === '') {
+                setErrorSup('Không được bỏ trống');
+            } else {
+                setLoading(true);
+                setTimeout(() => {
+                    setLoading(false);
+                    handleCloseModal();
+                }, 2000);
             }
         }
     };
-    //Xoá ảnh
-    const deleteImage = (index) => {
-        setImages((prevImages) => prevImages.filter((_, i) => i !== index));
-    };
-    //Render thuộc tính
-    const [AttributeList, SetAttributeList] = useState([{ attribute: '' }]);
 
-    const AddAttribute = () => {
-        SetAttributeList([...AttributeList, { attribute: '' }]);
+    // FROM
+    const handleSubmit = () => {
+        if (name === '') {
+            setErrorName('Không được bỏ trống');
+        } else {
+            // CALL API
+            setLoading(true);
+            setTimeout(() => {
+                setLoading(false);
+                toastContext.notify('success', 'Thêm sản phẩm thành công');
+            }, 2000);
+        }
     };
+
+    const handleExit = () => {
+        navigate(-1);
+    };
+
     return (
-        <div className={cx('add-container')}>
-            <div className={cx('add-container-image')}>
-                <h2
-                    style={{
-                        fontSize: '16px',
-                        fontWeight: 'bold',
-                        marginLeft: '20px',
-                        marginTop: '12px',
-                        width: 'fit-content',
-                    }}
-                >
-                    Ảnh sản phẩm
-                </h2>
-                <div className={cx('choose-img-container')}>
-                    <div
-                        className={cx('choose-image')}
-                        style={{
-                            backgroundImage: `url(${AddImg})`,
-                        }}
-                    >
-                        <input
-                            name="file"
-                            type="file"
-                            className={cx('file')}
-                            multiple
-                            ref={fileInputRef}
-                            onChange={onFileSelect}
-                        ></input>
-                        <p
-                            style={{
-                                fontSize: '10px',
-                                width: '100%',
-                                height: 'fit-content',
-                                position: 'absolute',
-                            }}
-                        >
-                            Kéo thả hoặc chọn ảnh
-                        </p>
-                    </div>
-                    <div className={cx('img-container')}>
-                        {images.map((images, index) => (
-                            <div className={cx('image')} key={index}>
-                                <span
-                                    className={cx('img-delete')}
-                                    onClick={() => deleteImage(index)}
+        <div className={cx('wrapper')}>
+            <div className={cx('inner')}>
+                <div className={cx('content')}>
+                    <div className={cx('col1')}>
+                        <Wrapper title={'Ảnh sản phẩm'} className={cx('m-b')}>
+                            <div className={cx('list-img')}>
+                                <input
+                                    id="addImg"
+                                    type="file"
+                                    className={cx('input')}
+                                    accept="image/png,image/gif,image/jpeg"
+                                    multiple
+                                    onChange={handleAddImages}
+                                />
+                                <label
+                                    htmlFor="addImg"
+                                    className={cx('add-img')}
                                 >
-                                    &times;
-                                </span>
-                                <img src={images.url} alt={images.name} />
+                                    <FontAwesomeIcon icon={faPlus} />
+                                </label>
+                                {files.map((file, index) => (
+                                    <div key={index} className={cx('img-box')}>
+                                        <div
+                                            className={cx('del-img')}
+                                            onClick={() =>
+                                                handleRemoveImage(index)
+                                            }
+                                        >
+                                            <FontAwesomeIcon
+                                                className={cx('del-icon')}
+                                                icon={faXmark}
+                                            />
+                                        </div>
+                                        <img
+                                            className={cx('img')}
+                                            src={file.preview}
+                                            alt=""
+                                        />
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-            <div className={cx('add-container-info')}>
-                <h2
-                    style={{
-                        fontSize: '16px',
-                        fontWeight: 'bold',
-                        marginLeft: '20px',
-                        marginTop: '12px',
-                    }}
-                >
-                    Thông tin sản phẩm
-                </h2>
-                <p
-                    style={{
-                        fontSize: '10px',
-                        marginLeft: '26px',
-                        marginTop: '10px',
-                        color: '#555555',
-                        width: 'fit-content',
-                        height: 'fit-content',
-                    }}
-                >
-                    Tên sản phẩm
-                </p>
-                <input
-                    className={cx('input-text')}
-                    type="text"
-                    placeholder="Nhập tên sản phẩm"
-                    style={{
-                        fontSize: '13px',
-                        marginLeft: '26px',
-                        marginTop: '0px',
-                        color: '#55555',
-                        width: '535px',
-                        height: '40px',
-                    }}
-                ></input>
-                <p
-                    style={{
-                        fontSize: '10px',
-                        marginLeft: '26px',
-                        marginTop: '5px',
-                        color: '#555555',
-                        width: 'fit-content',
-                        height: 'fit-content',
-                    }}
-                >
-                    Vị trí sản phẩm
-                </p>
-                <input
-                    className={cx('input-text')}
-                    type="text"
-                    placeholder="Nhập vị trí sản phẩm"
-                    style={{
-                        fontSize: '13px',
-                        marginLeft: '26px',
-                        marginTop: '0px',
-                        color: '#55555',
-                        width: '535px',
-                        height: '40px',
-                    }}
-                ></input>
-                <p
-                    style={{
-                        fontSize: '10px',
-                        marginLeft: '26px',
-                        marginTop: '5px',
-                        color: '#555555',
-                        width: 'fit-content',
-                        height: 'fit-content',
-                    }}
-                >
-                    Mô tả sản phẩm
-                </p>
-                <textarea
-                    style={{
-                        fontSize: '13px',
-                        marginLeft: '26px',
-                        marginTop: '0px',
-                        color: '#55555',
-                        width: '535px',
-                        height: '140px',
-                    }}
-                ></textarea>
-            </div>
-            {/* Thuộc tính */}
-            <div className={cx('add-container-attribute')}>
-                <h2
-                    style={{
-                        fontSize: '16px',
-                        fontWeight: 'bold',
-                        marginLeft: '20px',
-                        marginTop: '12px',
-                    }}
-                >
-                    Thuộc tính
-                </h2>
-                {AttributeList.map((singleAttribute, index) => (
-                    <div key={index} className={cx('attribute-group')}>
-                        <p
-                            style={{
-                                fontSize: '14px',
-                                top: '0px',
-                                position: 'absolute',
-                                left: '20px',
-                            }}
-                        >
-                            Tên thuộc tính
-                        </p>
-                        <input
-                            className={cx('input-text')}
-                            id="attributeName"
-                            name="attributeName"
-                            type="text"
-                            style={{
-                                fontSize: '14px',
-                                position: 'absolute',
-                                top: '30px',
-                                width: '153px',
-                                height: '35px',
-                                left: '20px',
-                            }}
-                        ></input>
-                        <p
-                            style={{
-                                fontSize: '14px',
-                                top: '0px',
-                                position: 'absolute',
-                                left: '190px',
-                            }}
-                        >
-                            Giá trị thuộc tính
-                        </p>
-                        <input
-                            className={cx('input-text')}
-                            id="attributeValue"
-                            name="attributeValue"
-                            type="text"
-                            style={{
-                                fontSize: '14px',
-                                position: 'absolute',
-                                left: '190px',
-                                top: '30px',
-                                width: '360px',
-                                height: '35px',
-                            }}
-                        ></input>
-                        {AttributeList.length - 1 === index &&
-                            AttributeList.length < 4 && (
-                                <div
-                                    style={{
-                                        position: 'relative',
-                                        top: '75px',
-                                        left: '20px',
-                                    }}
-                                >
-                                    <span className={cx('add-attribute-btn')}>
-                                        <BsFillPlusCircleFill
-                                            style={{
-                                                position: 'absolute',
-                                                marginTop: '5px',
-                                                color: '#6699FF',
-                                            }}
-                                        ></BsFillPlusCircleFill>
-                                    </span>
-                                    <p
-                                        onClick={AddAttribute}
-                                        style={{
-                                            fontSize: '14px',
-                                            marginTop: '5px',
-                                            position: 'absolute',
-                                            left: '25px',
-                                            color: '#6699FF',
-                                            cursor: 'pointer',
-                                        }}
-                                    >
-                                        Thêm thuộc tính khác
-                                    </p>
+                            {filesError && (
+                                <div className={cx('warning')}>
+                                    * Tối đa 5 ảnh
                                 </div>
                             )}
-                    </div>
-                ))}
-            </div>
-            {/* Thông tin bổ sung */}
-            <div className={cx('add-container-bonusinfo')}>
-                <h2
-                    style={{
-                        fontSize: '16px',
-                        fontWeight: 'bold',
-                        marginLeft: '20px',
-                        marginTop: '12px',
-                    }}
-                >
-                    Thông tin bổ sung
-                </h2>
-                <p
-                    style={{
-                        fontSize: '14px',
-                        marginLeft: '20px',
-                        marginTop: '0px',
-                        height: 'fit-content',
-                    }}
-                >
-                    Loại sản phẩm
-                </p>
-                <div className={cx('dropdown')}>
-                    <div
-                        className={cx('dropdown-btn')}
-                        onClick={(e) => setIsActive(!isActive)}
-                    >
-                        Chọn loại sản phẩm
-                        <FaCaretDown className={cx('caret-down')}></FaCaretDown>
-                    </div>
-                    {/* {isActive && <div className={cx('dropdown-content')}></div>} */}
-                    {isActive && (
-                        <div className={cx('dropdown-content')}>
-                            <div className={cx('search-container')}>
-                                <IoSearch
-                                    className={cx('search-icon')}
-                                ></IoSearch>
-                                <input
-                                    type="text"
-                                    className={cx('searchbar')}
-                                    placeholder="Tìm kiếm"
-                                ></input>
-                            </div>
-                            <div className={cx('add-type-container')}>
-                                <BsFillPlusCircleFill
-                                    style={{
-                                        position: 'absolute',
-                                        marginLeft: '50px',
-                                    }}
+                        </Wrapper>
+
+                        <Wrapper
+                            title={'Thông tin chung'}
+                            className={cx('m-b')}
+                        >
+                            <Input
+                                title={'Tên sản phẩm'}
+                                required
+                                value={name}
+                                onChange={onChangeName}
+                                className={cx('m-b')}
+                                error={errorName}
+                            />
+
+                            <Input
+                                title={'Mô tả sản phẩm'}
+                                value={desc}
+                                onChange={onChangeDesc}
+                                textarea
+                                rows={5}
+                            />
+                        </Wrapper>
+
+                        <Wrapper title={'Giá sản phẩm'} className={cx('m-b')}>
+                            <div className={cx('price-cost', 'm-b')}>
+                                <Input
+                                    title={'Giá nhập'}
+                                    className={cx('cost')}
+                                    required
+                                    money
+                                    value={cost}
+                                    onChangeMoney={onChangeCost}
                                 />
-                                <p
-                                    style={{
-                                        height: 'fit-content',
-                                        marginLeft: '70px',
-                                    }}
-                                >
-                                    Thêm mới loại sản phẩm
-                                </p>
-                            </div>
-                        </div>
-                    )}
-                </div>
-                <p
-                    style={{
-                        fontSize: '14px',
-                        marginLeft: '20px',
-                        marginTop: '0px',
-                        height: 'fit-content',
-                    }}
-                >
-                    Nhóm sản phẩm
-                </p>
-                <div className={cx('dropdown')}>
-                    <div
-                        className={cx('dropdown-btn')}
-                        onClick={(e) => setIsActive2(!isActive2)}
-                    >
-                        Chọn nhóm sản phẩm
-                        <FaCaretDown className={cx('caret-down')}></FaCaretDown>
-                    </div>
-                    {/* {isActive && <div className={cx('dropdown-content')}></div>} */}
-                    {isActive2 && (
-                        <div className={cx('dropdown-content2')}>
-                            <div className={cx('search-container')}>
-                                <IoSearch
-                                    className={cx('search-icon')}
-                                ></IoSearch>
-                                <input
-                                    type="text"
-                                    className={cx('searchbar')}
-                                    placeholder="Tìm kiếm"
-                                ></input>
-                            </div>
-                            <div className={cx('add-type-container')}>
-                                <BsFillPlusCircleFill
-                                    style={{
-                                        position: 'absolute',
-                                        marginLeft: '50px',
-                                    }}
+                                <Input
+                                    title={'Giá bán'}
+                                    className={cx('price')}
+                                    required
+                                    money
+                                    value={price}
+                                    onChangeMoney={onChangePrice}
                                 />
-                                <p
-                                    style={{
-                                        height: 'fit-content',
-                                        marginLeft: '70px',
-                                    }}
-                                >
-                                    Thêm mới nhóm sản phẩm
-                                </p>
                             </div>
-                        </div>
-                    )}
+                        </Wrapper>
+
+                        <Wrapper title={'Kho hàng'} className={cx('m-b')}>
+                            <Input
+                                title={'Tồn kho'}
+                                className={cx('m-b')}
+                                required
+                                money
+                                value={store}
+                                onChangeMoney={onChangeStore}
+                            />
+                        </Wrapper>
+
+                        <Wrapper title={'Thuộc tính'} className={cx('m-b')}>
+                            {restProps && (
+                                <Input
+                                    className={cx('m-b')}
+                                    title={'Thương hiệu'}
+                                    items={[
+                                        'Thiên Long',
+                                        'Deli',
+                                        'Hồng Hà',
+                                        'Campus',
+                                    ]}
+                                    value={manufacturer}
+                                    onChange={onChangeManufacturer}
+                                />
+                            )}
+                            {bookProps && (
+                                <div>
+                                    <Input
+                                        className={cx('m-b')}
+                                        title={'Năm xuất bản'}
+                                        number
+                                        value={year}
+                                        onChangeNumber={onChangeYear}
+                                    />
+                                    <Input
+                                        className={cx('m-b')}
+                                        title={'Tác giả'}
+                                        items={[
+                                            'Kim Lân',
+                                            'Xuân Diệu',
+                                            'Tố Hữu',
+                                            'Đoàn Thị Điểm',
+                                        ]}
+                                        value={author}
+                                        onChange={onChangeAuthor}
+                                    />
+                                    <Input
+                                        className={cx('m-b')}
+                                        title={'Nhà xuất bản'}
+                                        items={[
+                                            'Kim Đồng',
+                                            'Nguyễn Huy Phát',
+                                            'Đại học Quốc gia TPHCM',
+                                            'Bộ GD và ĐT',
+                                        ]}
+                                        value={publisher}
+                                        onChange={onChangePublisher}
+                                    />
+                                </div>
+                            )}
+                        </Wrapper>
+                    </div>
+                    <div className={cx('col2')}>
+                        <Wrapper
+                            title={'Thông tin bổ sung'}
+                            className={cx('m-b')}
+                        >
+                            <div className={cx('two-cols', 'm-b')}>
+                                <Input
+                                    title={'Loại sản phẩm'}
+                                    items={[
+                                        'Sách Thiếu Nhi',
+                                        'Sách Giáo Khoa - Tham Khảo',
+                                        'Tiểu Thuyết',
+                                        'Truyện Ngắn',
+                                        'Light Novel',
+                                        'Sách Tâm Lý - Kỹ Năng Sống',
+                                        'Sách Học Ngoại Ngữ',
+                                        'Văn phòng phẩm',
+                                        'Đồ chơi',
+                                        'Quà lưu niệm',
+                                    ]}
+                                    value={productType}
+                                    onChange={onChangeProductType}
+                                    readOnly
+                                />
+                                <Button
+                                    className={cx('btn-add')}
+                                    solidBlue
+                                    leftIcon={<FontAwesomeIcon icon={faPlus} />}
+                                    onClick={handleOpenType}
+                                ></Button>
+                            </div>
+
+                            <div className={cx('two-cols', 'm-b')}>
+                                <Input
+                                    title={'Nhà cung cấp'}
+                                    items={[
+                                        'Văn phòng phẩm Kim Sơn',
+                                        'Thiên Long',
+                                        'Nhà sách Nguyễn Văn Cừ',
+                                        'Sách Nguyễn An',
+                                    ]}
+                                    value={supplier}
+                                    onChange={onChangeSupplier}
+                                    readOnly
+                                />
+                                <Button
+                                    className={cx('btn-add')}
+                                    solidBlue
+                                    leftIcon={<FontAwesomeIcon icon={faPlus} />}
+                                    onClick={handleOpenSupplier}
+                                ></Button>
+                            </div>
+                        </Wrapper>
+
+                        <Wrapper title={'Trạng thái'}>
+                            <div className={cx('status-wrapper')}>
+                                <div>Cho phép bán</div>
+                                <Switch
+                                    checked={status}
+                                    onChange={() => setStatus(!status)}
+                                />
+                            </div>
+                        </Wrapper>
+                    </div>
                 </div>
-                {/* <p
-                    style={{
-                        fontSize: '14px',
-                        marginLeft: '20px',
-                        marginTop: '0px',
-                        height: 'fit-content',
-                    }}
-                >
-                    Nhóm sản phẩm
-                </p> */}
-            </div>
-            <div className={cx('add-container-price')}>
-                <h2
-                    style={{
-                        fontSize: '16px',
-                        fontWeight: 'bold',
-                        marginLeft: '20px',
-                        marginTop: '12px',
-                    }}
-                >
-                    Giá bán
-                </h2>
-                <div className={cx('price-group')}>
-                    <p
-                        style={{
-                            fontSize: '14px',
-                            top: '10px',
-                            position: 'absolute',
-                        }}
+                <div className={cx('action')}>
+                    <Button outlineBlue onClick={handleExit}>
+                        Thoát
+                    </Button>
+                    <Button
+                        solidBlue
+                        className={cx('margin')}
+                        onClick={handleSubmit}
                     >
-                        Giá bán tại cửa hàng
-                    </p>
-                    <input
-                        className={cx('input-text')}
-                        type="text"
-                        placeholder="0"
-                        style={{
-                            fontSize: '14px',
-                            position: 'absolute',
-                            top: '35px',
-                            width: '136px',
-                            height: '35px',
-                        }}
-                    ></input>
-                    <p
-                        style={{
-                            fontSize: '14px',
-                            top: '10px',
-                            position: 'absolute',
-                            left: '170px',
-                        }}
-                    >
-                        Giá vốn
-                    </p>
-                    <input
-                        className={cx('input-text')}
-                        type="text"
-                        placeholder="0"
-                        style={{
-                            fontSize: '14px',
-                            position: 'absolute',
-                            left: '170px',
-                            top: '35px',
-                            width: '136px',
-                            height: '35px',
-                        }}
-                    ></input>
+                        Lưu
+                    </Button>
                 </div>
             </div>
-            <div className={cx('add-container-status')}>
-                <h2
-                    style={{
-                        fontSize: '16px',
-                        fontWeight: 'bold',
-                        marginLeft: '20px',
-                        marginTop: '5px',
-                    }}
-                >
-                    Trạng thái
-                </h2>
-                <p
-                    style={{
-                        fontSize: '14px',
-                        marginLeft: '20px',
-                        marginTop: '0px',
-                        width: 'fit-content',
-                        height: 'fit-content',
-                    }}
-                >
-                    Cho phép bán
-                </p>
-                <div className="checkbox-wrapper-3">
-                    <input type="checkbox" id="cbx-3" />
-                    <label htmlFor="cbx-3" className="toggle">
-                        <span></span>
-                    </label>
-                </div>
-            </div>
-            <div className={cx('add-container-newproduct')}>
-                <h2
-                    style={{
-                        fontSize: '16px',
-                        fontWeight: 'bold',
-                        marginLeft: '20px',
-                        marginTop: '5px',
-                    }}
-                >
-                    Khởi tạo kho hàng
-                </h2>
-                <p
-                    style={{
-                        fontSize: '14px',
-                        marginLeft: '20px',
-                        marginTop: '5px',
-                    }}
-                >
-                    Tồn kho ban đầu
-                </p>
-                <input
-                    className={cx('input-text')}
-                    type="text"
-                    placeholder="0"
-                    style={{
-                        fontSize: '14px',
-                        position: 'absolute',
-                        left: '190px',
-                        top: '30px',
-                        width: '136px',
-                        height: '28px',
-                    }}
-                ></input>
-            </div>
-            <button
-                className={cx('white-btn')}
-                style={{
-                    marginLeft: '1127px',
-                    marginTop: '745px',
-                }}
+
+            <ModalComp
+                open={openModal}
+                handleClose={handleCloseModal}
+                title={titleModal}
+                actionComponent={
+                    <div>
+                        <Button
+                            className={cx('btn-cancel')}
+                            outlineRed
+                            onClick={handleCloseModal}
+                        >
+                            Hủy
+                        </Button>
+                        <Button
+                            className={cx('btn-ok', 'm-l-10')}
+                            solidBlue
+                            onClick={handleValidation}
+                        >
+                            Thêm
+                        </Button>
+                    </div>
+                }
             >
-                Thoát
-            </button>
-            <button className={cx('white-btn')}>Lưu và in mã vạch</button>
-            <button className={cx('blue-btn')}>Lưu</button>
+                {titleModal === 'Thêm loại sản phẩm' && (
+                    <Input
+                        title={'Tên loại sản phẩm'}
+                        value={nameType}
+                        onChange={(value) => setNameType(value)}
+                        error={errorType}
+                        required
+                    />
+                )}
+                {titleModal === 'Thêm nhà cung cấp' && (
+                    <div>
+                        <div className={cx('wrapper-sup', 'm-b')}>
+                            <div className={cx('col-1')}>
+                                <Input
+                                    className={cx('m-b')}
+                                    title={'Tên nhà cung cấp'}
+                                    required
+                                    error={errorSup}
+                                    value={nameSup}
+                                    onChange={(value) => setNameSup(value)}
+                                />
+                                <Input
+                                    title={'Email'}
+                                    value={emailSup}
+                                    onChange={(value) => setEmailSup(value)}
+                                />
+                            </div>
+                            <div className={cx('col-2')}>
+                                <Input
+                                    className={cx('m-b')}
+                                    title={'Số điện thoại'}
+                                    number
+                                    value={phoneSup}
+                                    onChangeNumber={(number) =>
+                                        setPhoneSup(number)
+                                    }
+                                />
+                                <Input
+                                    title={'Nhóm nhà cung cấp'}
+                                    items={['Khác']}
+                                    readOnly
+                                    value={groupSup}
+                                    onChange={(value) => setGroupSup(value)}
+                                />
+                            </div>
+                        </div>
+                        <Input
+                            title={'Địa chỉ'}
+                            value={addressSup}
+                            onChange={(value) => setAddressSup(value)}
+                        />
+                    </div>
+                )}
+            </ModalComp>
+            <ModalLoading open={loading} title={'Đang tải'} />
         </div>
     );
 }

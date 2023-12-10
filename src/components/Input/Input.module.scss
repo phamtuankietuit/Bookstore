@@ -1,5 +1,6 @@
 .wrapper {
     width: 100%;
+    position: relative;
 }
 
 .title {
@@ -47,4 +48,47 @@
 
 .required {
     color: red;
+}
+
+.m-h {
+    min-height: 100px;
+}
+
+.t-a {
+    text-align: right;
+}
+
+.item-wrapper {
+    width: inherit;
+}
+
+.popper {
+    background-color: white;
+    padding: 3px 0px 3px 0px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 400;
+    box-shadow: 0px 10px 13px 0px rgba(62, 66, 84, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    width: 100%;
+}
+
+.list-item {
+    max-height: 150px;
+    width: 100%;
+    margin: 0;
+    padding: 0px 5px 0px 5px;
+    overflow: auto;
+}
+
+.item {
+    list-style: none;
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 10px 15px 10px 15px;
+
+    &:hover {
+        background: rgb(221, 221, 221);
+    }
 }

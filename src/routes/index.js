@@ -16,7 +16,8 @@ import UpdateCheckProduct from '~/pages/UpdateCheckProduct';
 import ListDiscount from '~/pages/ListDiscount';
 import ListImport from '~/pages/ListImport';
 import ListCheck from '~/pages/ListCheck';
-
+import InfoReturn from '~/pages/InfoReturnProduct';
+import AddReturnProduct from '~/pages/AddReturnProduct';
 const publicRoutes = [
     // ACCOUNT
     { path: '/', component: Login, layout: null, title: 'Login' },
@@ -43,7 +44,7 @@ const publicRoutes = [
         back: true,
     },
     {
-        path: '/products/detail',
+        path: '/products/detail/:id',
         component: InfoProduct,
         title: 'Chi tiết sản phẩm',
         back: true,
@@ -67,13 +68,13 @@ const publicRoutes = [
         back: true,
     },
     {
-        path: '/imports/update',
+        path: '/imports/update/:id',
         component: UpdateImportProduct,
         title: 'Chỉnh sửa đơn nhập hàng',
         back: true,
     },
     {
-        path: '/imports/detail',
+        path: '/imports/detail/:id',
         component: InfoImportProduct,
         title: 'Chi tiết đơn nhập hàng',
         back: true,
@@ -91,13 +92,13 @@ const publicRoutes = [
         back: true,
     },
     {
-        path: '/checks/detail',
+        path: '/checks/detail/:id',
         component: InfoCheckProduct,
         title: 'Chi tiết đơn kiểm hàng',
         back: true,
     },
     {
-        path: '/checks/update',
+        path: '/checks/update/:id',
         component: UpdateCheckProduct,
         title: 'Chỉnh sửa đơn kiểm hàng',
         back: true,
@@ -112,6 +113,19 @@ const publicRoutes = [
         path: '/discounts/add',
         component: AddDiscount,
         title: 'Thêm khuyến mãi',
+        back: true,
+    },
+    // RETURN
+    {
+        path: '/return/add/:id',
+        component: AddReturnProduct,
+        title: 'Tạo đơn trả hàng',
+        back: true,
+    },
+    {
+        path: '/return/detail/:id',
+        component: InfoReturn,
+        title: 'Chi tiết đơn trả hàng',
         back: true,
     },
 ];

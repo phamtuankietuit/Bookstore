@@ -118,11 +118,11 @@ function ListProduct() {
     };
 
     // SUB HEADER
-    const onClickAction = (index) => {};
+    const onClickAction = (index) => { };
 
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
-        navigate('/products/detail');
+        navigate('/products/detail/' + row.id);
     }, []);
 
     return (

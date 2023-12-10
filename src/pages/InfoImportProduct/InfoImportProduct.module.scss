@@ -52,3 +52,21 @@
         color: white;
     }
 }
+
+.textfield{
+    padding-left: 10px;
+    font-size: 13px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.147);
+    text-align: end;
+
+    &:hover{
+        border-bottom: 1px solid black;
+    }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}

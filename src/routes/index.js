@@ -13,11 +13,13 @@ import InfoImportProduct from '~/pages/InfoImportProduct';
 import AddCheckProduct from '~/pages/AddCheckProduct';
 import InfoCheckProduct from '~/pages/InfoCheckProduct';
 import UpdateCheckProduct from '~/pages/UpdateCheckProduct';
+import DiscountInfo from '~/pages/DiscountInfo';
 import ListDiscount from '~/pages/ListDiscount';
 import ListImport from '~/pages/ListImport';
 import ListCheck from '~/pages/ListCheck';
 import InfoReturn from '~/pages/InfoReturnProduct';
 import AddReturnProduct from '~/pages/AddReturnProduct';
+
 const publicRoutes = [
     // ACCOUNT
     { path: '/', component: Login, layout: null, title: 'Login' },
@@ -126,6 +128,12 @@ const publicRoutes = [
         path: '/return/detail/:id',
         component: InfoReturn,
         title: 'Chi tiết đơn trả hàng',
+        back: true,
+    },
+    {
+        path: '/discountinfo',
+        component: DiscountInfo,
+        title: 'Thông tin khuyến mãi',
         back: true,
     },
 ];

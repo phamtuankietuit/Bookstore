@@ -69,7 +69,8 @@ function Header({ title, back }) {
                                 <Button
                                     leftIcon={<FontAwesomeIcon icon={faGear} />}
                                     popperStyle
-                                    className={cx('margin', 'custom-btn')}
+                                    className={cx('margin')}
+                                    to={'/profile'}
                                 >
                                     Cài đặt
                                 </Button>
@@ -80,7 +81,6 @@ function Header({ title, back }) {
                                         />
                                     }
                                     popperStyle
-                                    className={cx('custom-btn')}
                                 >
                                     Đăng xuất
                                 </Button>

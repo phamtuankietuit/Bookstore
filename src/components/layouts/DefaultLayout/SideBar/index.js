@@ -34,7 +34,7 @@ function SideBar({ className, title }) {
                 <hr className={cx('divider')} />
                 <div className={cx('content')}>
                     <SidebarButton
-                        to={'/typeproduct'}
+                        to={'/'}
                         title={'Tổng quan'}
                         icon={<FontAwesomeIcon icon={faHouse} />}
                     />
@@ -45,11 +45,11 @@ function SideBar({ className, title }) {
                         items={[
                             {
                                 title: 'Danh sách đơn hàng',
-                                to: '/listproduct',
+                                to: '/',
                             },
                             {
                                 title: 'Khách trả hàng',
-                                to: '/typeproduct',
+                                to: '/',
                             },
                         ]}
                     />
@@ -60,15 +60,15 @@ function SideBar({ className, title }) {
                         items={[
                             {
                                 title: 'Danh sách sản phẩm',
-                                to: '/listproduct',
+                                to: '/products',
                             },
                             {
                                 title: 'Nhập hàng',
-                                to: '/',
+                                to: '/imports',
                             },
                             {
                                 title: 'Kiểm hàng',
-                                to: '/',
+                                to: '/checks',
                             },
                             {
                                 title: 'Nhà cung cấp',
@@ -83,7 +83,7 @@ function SideBar({ className, title }) {
                         items={[
                             {
                                 title: 'Danh sách khách hàng',
-                                to: '/listproduct',
+                                to: '/',
                             },
                             {
                                 title: 'Nhóm khách hàng',
@@ -98,7 +98,7 @@ function SideBar({ className, title }) {
                         items={[
                             {
                                 title: 'Báo cáo doanh thu',
-                                to: '/listproduct',
+                                to: '/',
                             },
                             {
                                 title: 'Báo cáo lợi nhuận',
@@ -107,22 +107,22 @@ function SideBar({ className, title }) {
                         ]}
                     />
                     <SidebarButton
-                        to={'/typeproduct'}
+                        to={'/'}
                         title={'Bán tại quầy'}
                         icon={<FontAwesomeIcon icon={faCashRegister} />}
                     />
                     <SidebarButton
-                        to={'/typeproduct'}
+                        to={'/discounts'}
                         title={'Khuyến mãi'}
                         icon={<FontAwesomeIcon icon={faPercent} />}
                     />
                     <SidebarButton
-                        to={'/typeproduct'}
+                        to={'/'}
                         title={'Quản lý nhân viên'}
                         icon={<FontAwesomeIcon icon={faClipboardUser} />}
                     />
                     <SidebarButton
-                        to={'/typeproduct'}
+                        to={'/'}
                         title={'Nhật ký hoạt động'}
                         icon={<FontAwesomeIcon icon={faClockRotateLeft} />}
                     />

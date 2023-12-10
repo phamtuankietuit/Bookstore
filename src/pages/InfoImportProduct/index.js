@@ -20,13 +20,14 @@ function InfoImportProduct() {
     let navigate = useNavigate();
     const [obj, setObj] = useState(null)
     const [showpaid, setShowpaid] = useState(false);
+    const [paid, setPaid] = useState(0)
 
     const handleClosepaid = () => setShowpaid(false);
     const handleShowpaid = () => setShowpaid(true);
     const handleSubmitpaid = () => {
         let newobj = obj;
-        newobj.paid = newobj.total;
-        newobj.unpaid = 0;
+        newobj.paid = newobj.paid + paid;
+        newobj.unpaid = newobj.total - newobj.paid;
         setObj(newobj)
         console.log(obj)
         setShowpaid(false)
@@ -182,7 +183,7 @@ function InfoImportProduct() {
                                 <Col className='mt-4 text-end me-4'>
                                     <Button className={`m-1 ${cx('my-btn')}`} variant="outline-primary" onClick={() => navigate(-1)}>Thoát</Button>
                                     <Button className={`m-1 ${cx('my-btn')}`} variant="outline-primary">
-                                        <NavLink to={"/updateimportproduct/" + importid.id} className={`text-decoration-none ${cx('nav-link')}`} >
+                                        <NavLink to={"/imports/update/" + importid.id} className={`text-decoration-none ${cx('nav-link')}`} >
                                             Sửa đơn
                                         </NavLink>
                                     </Button>
@@ -205,7 +206,18 @@ function InfoImportProduct() {
                     <Modal.Title>Thanh toán</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Xác nhận thanh toán toàn bộ số tiền còn lại
+                    <Col xs md lg={8} className='fw-bold'>
+                        Thanh toán nhà cung cấp
+                    </Col>
+                    <Col xs md lg={4} className='text-end pe-5'>
+                        <input className={`${cx('textfield')} `} type="number" inputMode="numeric" onChange={(e) => {
+
+                            if (e.target.value > (obj.unpaid)) e.target.value = obj.unpaid;
+                            else if (e.target.value < 0 || e.target.value === '') e.target.value = 0;
+                            setPaid(parseInt(e.target.value))
+
+                        }} />
+                    </Col>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClosepaid}>

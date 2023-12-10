@@ -23,7 +23,8 @@ function Properties({ props, stype }) {
                     <Col key={item.id} className='mb-2'>
                         <Row>
                             <Col className={cx('title')}> {item.title} </Col>
-                            <Col>: {item.value}</Col>
+                            <Col>:</Col>
+                            <Col> {item.value}</Col>
                         </Row>
 
                     </Col>

@@ -151,7 +151,7 @@ function InfoCheckProduct() {
                                             <Col className='mt-4 text-end me-4'>
                                                 <Button className={`m-1 ${cx('my-btn')}`} variant="outline-danger" >Xóa</Button>
                                                 <Button className={`m-1 ${cx('my-btn')}`} variant="outline-primary">
-                                                    <NavLink to={"/updatecheckproduct/" + checkproductid.id} className={`text-decoration-none ${cx('nav-link')}`} >
+                                                    <NavLink to={"/checks/update/" + checkproductid.id} className={`text-decoration-none ${cx('nav-link')}`} >
                                                         Sửa
                                                     </NavLink>
                                                 </Button>

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import classNames from 'classnames/bind';
 import DataTable, { createTheme } from 'react-data-table-component';
 import { Checkbox, CircularProgress, Box } from '@mui/material';
@@ -87,6 +88,7 @@ function Table({
     handleSelectedItems,
     itemComponent,
     subHeaderComponent,
+    onRowClicked,
 }) {
     return (
         <div className={cx('data-table-container')}>
@@ -95,12 +97,12 @@ function Table({
                 columns={itemComponent}
                 responsive={true}
                 compact={true}
-                // custom styles
+                // CUSTOM STYLES
                 theme="customTheme"
                 customStyles={customStyles}
                 highlightOnHover
                 pointerOnHover
-                // progress
+                // PROGRESS
                 progressPending={pending}
                 progressComponent={
                     <Box
@@ -113,27 +115,29 @@ function Table({
                         <CircularProgress color="primary" />
                     </Box>
                 }
-                // header
+                // HEADER
                 fixedHeader
-                // subHeader
+                // SUBHEADER
                 subHeader={showSubHeader}
                 subHeaderAlign={'left'}
                 subHeaderComponent={subHeaderComponent}
-                // sort
+                // ONCLICK ROW
+                onRowClicked={onRowClicked}
+                // SORT
                 sortIcon={
                     <FontAwesomeIcon
                         className={cx('icon-margin')}
                         icon={faAngleUp}
                     />
                 }
-                // select
+                // SELECT
                 selectableRows
                 selectableRowsVisibleOnly
                 selectableRowsHighlight={true}
                 selectableRowsComponent={Checkbox}
                 selectableRowsComponentProps={selectProps}
                 onSelectedRowsChange={handleSelectedItems}
-                // pagination
+                // PAGINATION
                 pagination
                 paginationPerPage={20}
                 paginationComponentOptions={{
@@ -168,4 +172,4 @@ function Table({
     );
 }
 
-export default Table;
+export default memo(Table);

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -12,10 +12,13 @@ import SubHeader from '~/components/SubHeader';
 import ModalComp from '~/components/ModalComp';
 import Input from '~/components/Input';
 import ModalLoading from '~/components/ModalLoading';
+import { ToastContext } from '~/components/ToastContext';
 
 const cx = classNames.bind(styles);
 
 function TypeProduct() {
+    const toastContext = useContext(ToastContext);
+
     // MODAL ADD PRODUCT TYPE
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -34,6 +37,7 @@ function TypeProduct() {
                 setNameType('');
                 setErrorType('');
                 handleClose();
+                toastContext.notify('success', 'Thêm loại sản phẩm thành công');
             }, 2000);
         }
     };
@@ -143,7 +147,7 @@ function TypeProduct() {
                 <Input
                     title={'Tên loại sản phẩm'}
                     value={nameType}
-                    onChange={(e) => setNameType(e.target.value)}
+                    onChange={(value) => setNameType(value)}
                     error={errorType}
                     required
                 />

@@ -14,14 +14,15 @@ import AddCheckProduct from '~/pages/AddCheckProduct';
 import InfoCheckProduct from '~/pages/InfoCheckProduct';
 import UpdateCheckProduct from '~/pages/UpdateCheckProduct';
 import DiscountInfo from '~/pages/DiscountInfo';
+import ListDiscount from '~/pages/ListDiscount';
+import ListImport from '~/pages/ListImport';
+import ListCheck from '~/pages/ListCheck';
+import InfoReturn from '~/pages/InfoReturnProduct';
+import AddReturnProduct from '~/pages/AddReturnProduct';
 
 const publicRoutes = [
+    // ACCOUNT
     { path: '/', component: Login, layout: null, title: 'Login' },
-    {
-        path: '/listproduct',
-        component: ListProduct,
-        title: 'Danh sách sản phẩm',
-    },
     {
         path: '/profile',
         component: Profile,
@@ -32,63 +33,101 @@ const publicRoutes = [
         component: StoreInfo,
         layout: null,
     },
+    // PRODUCT
     {
-        path: '/adddiscount',
-        component: AddDiscount,
-        title: 'Thêm khuyến mãi',
-        back: true,
+        path: '/products',
+        component: ListProduct,
+        title: 'Danh sách sản phẩm',
     },
     {
-        path: '/addcheckproduct',
-        component: AddCheckProduct,
-        title: 'Tạo đơn kiểm hàng',
-        back: true,
-    },
-    {
-        path: '/infocheckproduct/:id',
-        component: InfoCheckProduct,
-        title: 'Chi tiết đơn kiểm hàng',
-        back: true,
-    },
-    {
-        path: '/updatecheckproduct/:id',
-        component: UpdateCheckProduct,
-        title: 'Chỉnh sửa đơn kiểm hàng',
-        back: true,
-    },
-    {
-        path: '/importproduct',
-        component: ImportProduct,
-        title: 'Tạo đơn nhập hàng',
-        back: true,
-    },
-    {
-        path: '/updateimportproduct/:id',
-        component: UpdateImportProduct,
-        title: 'Chỉnh sửa đơn nhập hàng',
-        back: true,
-    },
-    {
-        path: '/infoimportproduct/:id',
-        component: InfoImportProduct,
-        title: 'Chi tiết đơn nhập hàng',
-        back: true,
-    },
-    {
-        path: '/addproduct',
+        path: '/products/add',
         component: AddProduct,
         title: 'Thêm sản phẩm',
         back: true,
     },
     {
-        path: '/infoproduct/:id',
+        path: '/products/detail/:id',
         component: InfoProduct,
         title: 'Chi tiết sản phẩm',
+        back: true,
     },
     {
-        path: '/typeproduct',
+        path: '/products/type',
         component: TypeProduct,
         title: 'Loại sản phẩm',
+        back: true,
+    },
+    // IMPORT
+    {
+        path: '/imports',
+        component: ListImport,
+        title: 'Danh sách đơn nhập hàng',
+    },
+    {
+        path: '/imports/add',
+        component: ImportProduct,
+        title: 'Tạo đơn nhập hàng',
+        back: true,
+    },
+    {
+        path: '/imports/update/:id',
+        component: UpdateImportProduct,
+        title: 'Chỉnh sửa đơn nhập hàng',
+        back: true,
+    },
+    {
+        path: '/imports/detail/:id',
+        component: InfoImportProduct,
+        title: 'Chi tiết đơn nhập hàng',
+        back: true,
+    },
+    // CHECK PRODUCT
+    {
+        path: '/checks',
+        component: ListCheck,
+        title: 'Danh sách đơn kiểm hàng',
+    },
+    {
+        path: '/checks/add',
+        component: AddCheckProduct,
+        title: 'Tạo đơn kiểm hàng',
+        back: true,
+    },
+    {
+        path: '/checks/detail/:id',
+        component: InfoCheckProduct,
+        title: 'Chi tiết đơn kiểm hàng',
+        back: true,
+    },
+    {
+        path: '/checks/update/:id',
+        component: UpdateCheckProduct,
+        title: 'Chỉnh sửa đơn kiểm hàng',
+        back: true,
+    },
+    // DISCOUNT
+    {
+        path: '/discounts',
+        component: ListDiscount,
+        title: 'Danh sách khuyến mãi',
+    },
+    {
+        path: '/discounts/add',
+        component: AddDiscount,
+        title: 'Thêm khuyến mãi',
+        back: true,
+    },
+    // RETURN
+    {
+        path: '/return/add/:id',
+        component: AddReturnProduct,
+        title: 'Tạo đơn trả hàng',
+        back: true,
+    },
+    {
+        path: '/return/detail/:id',
+        component: InfoReturn,
+        title: 'Chi tiết đơn trả hàng',
         back: true,
     },
     {

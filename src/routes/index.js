@@ -14,6 +14,7 @@ import AddCheckProduct from '~/pages/AddCheckProduct';
 import InfoCheckProduct from '~/pages/InfoCheckProduct';
 import UpdateCheckProduct from '~/pages/UpdateCheckProduct';
 import DiscountInfo from '~/pages/DiscountInfo';
+import EditDiscount from '~/pages/EditDiscount';
 
 const publicRoutes = [
     { path: '/', component: Login, layout: null, title: 'Login' },
@@ -95,6 +96,12 @@ const publicRoutes = [
         path: '/discountinfo',
         component: DiscountInfo,
         title: 'Thông tin khuyến mãi',
+        back: true,
+    },
+    {
+        path: '/editdiscount',
+        component: EditDiscount,
+        title: 'Sửa khuyến mãi',
         back: true,
     },
 ];

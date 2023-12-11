@@ -19,6 +19,7 @@ import ListImport from '~/pages/ListImport';
 import ListCheck from '~/pages/ListCheck';
 import InfoReturn from '~/pages/InfoReturnProduct';
 import AddReturnProduct from '~/pages/AddReturnProduct';
+import UpdateProduct from '~/pages/UpdateProduct';
 
 const publicRoutes = [
     // ACCOUNT
@@ -52,6 +53,12 @@ const publicRoutes = [
         back: true,
     },
     {
+        path: '/products/update/:id',
+        component: UpdateProduct,
+        title: 'Cập nhật sản phẩm',
+        back: true,
+    },
+    {
         path: '/products/type',
         component: TypeProduct,
         title: 'Loại sản phẩm',
@@ -70,13 +77,13 @@ const publicRoutes = [
         back: true,
     },
     {
-        path: '/imports/update',
+        path: '/imports/update/:id',
         component: UpdateImportProduct,
         title: 'Chỉnh sửa đơn nhập hàng',
         back: true,
     },
     {
-        path: '/imports/detail',
+        path: '/imports/detail/:id',
         component: InfoImportProduct,
         title: 'Chi tiết đơn nhập hàng',
         back: true,

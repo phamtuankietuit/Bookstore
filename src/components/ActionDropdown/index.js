@@ -33,7 +33,7 @@ function ActionDropdown({ items, onClickAction }) {
                                     <li
                                         key={index}
                                         className={cx('item')}
-                                        onClick={() => onClickAction(index)}
+                                        onClick={() => onClickAction(item)}
                                     >
                                         {item}
                                     </li>

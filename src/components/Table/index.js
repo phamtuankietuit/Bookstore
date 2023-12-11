@@ -89,6 +89,7 @@ function Table({
     itemComponent,
     subHeaderComponent,
     onRowClicked,
+    selectableRows,
 }) {
     return (
         <div className={cx('data-table-container')}>
@@ -131,7 +132,7 @@ function Table({
                     />
                 }
                 // SELECT
-                selectableRows
+                selectableRows={selectableRows}
                 selectableRowsVisibleOnly
                 selectableRowsHighlight={true}
                 selectableRowsComponent={Checkbox}

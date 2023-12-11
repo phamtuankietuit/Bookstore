@@ -17,6 +17,8 @@ import MultiSelectComp from '~/components/MultiSelectComp';
 import { ProductItem } from '~/components/Item';
 import { data } from '~/components/Table/sample';
 import SubHeader from '~/components/SubHeader';
+import ModalComp from '~/components/ModalComp';
+import ModalLoading from '~/components/ModalLoading';
 
 const cx = classNames.bind(styles);
 
@@ -118,12 +120,40 @@ function ListProduct() {
     };
 
     // SUB HEADER
-    const onClickAction = (index) => { };
+    const onClickAction = (value) => {
+        if (value === 'Đang giao dịch') {
+            onOpenModal('Cập nhật trạng thái?');
+        } else if (value === 'Ngừng giao dịch') {
+            onOpenModal('Ngừng giao dịch?');
+        } else {
+            onOpenModal('Xóa sản phẩm?');
+        }
+    };
 
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
         navigate('/products/detail/' + row.id);
     }, []);
+
+    // MODAL LOADING
+    const [loading, setLoading] = useState(false);
+
+    // MODAL
+    const [titleModal, setTitleModal] = useState('');
+    const [openModal, setOpenModal] = useState(false);
+
+    const handleOpenModal = () => setOpenModal(true);
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
+
+    const handleValidation = () => {};
+
+    const onOpenModal = (value) => {
+        setTitleModal(value);
+        handleOpenModal();
+    };
 
     return (
         <div className={cx('wrapper')}>
@@ -222,6 +252,7 @@ function ListProduct() {
                         </Filter>
                     }
                     // TABLE
+                    selectableRows
                     onRowClicked={onRowClicked}
                     showSubHeader={showSubHeader}
                     itemComponent={ProductItem}
@@ -242,6 +273,59 @@ function ListProduct() {
                     }
                 />
             </div>
+            <ModalComp
+                open={openModal}
+                handleClose={handleCloseModal}
+                title={titleModal}
+                actionComponent={
+                    <div>
+                        <Button
+                            className={cx('btn-cancel')}
+                            outlineBlue={
+                                titleModal === 'Xóa sản phẩm?' ? false : true
+                            }
+                            outlineRed={
+                                titleModal === 'Xóa sản phẩm?' ? true : false
+                            }
+                            onClick={handleCloseModal}
+                        >
+                            Hủy
+                        </Button>
+                        <Button
+                            className={cx('btn-ok', 'm-l-10')}
+                            solidBlue={
+                                titleModal === 'Xóa sản phẩm?' ? false : true
+                            }
+                            solidRed={
+                                titleModal === 'Xóa sản phẩm?' ? true : false
+                            }
+                            onClick={handleValidation}
+                        >
+                            {titleModal === 'Xóa sản phẩm?' ? 'Xóa' : 'Lưu'}
+                        </Button>
+                    </div>
+                }
+            >
+                {titleModal === 'Cập nhật trạng thái?' && (
+                    <div className={cx('info')}>
+                        Thao tác này sẽ cập nhật trạng thái đang giao dịch cho
+                        <strong> {selectedRow}</strong> sản phẩm bạn đã chọn
+                    </div>
+                )}
+                {titleModal === 'Ngừng giao dịch?' && (
+                    <div className={cx('info')}>
+                        Thao tác này sẽ ngừng giao dịch cho
+                        <strong> {selectedRow}</strong> sản phẩm bạn đã chọn
+                    </div>
+                )}
+                {titleModal === 'Xóa sản phẩm?' && (
+                    <div className={cx('info')}>
+                        Thao tác này sẽ xóa
+                        <strong> {selectedRow}</strong> sản phẩm bạn đã chọn
+                    </div>
+                )}
+            </ModalComp>
+            <ModalLoading open={loading} title={'Đang tải'} />
         </div>
     );
 }

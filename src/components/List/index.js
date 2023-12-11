@@ -20,6 +20,7 @@ function List({
     itemComponent,
     filterComponent,
     subHeaderComponent,
+    selectableRows,
 }) {
     return (
         <div className={cx('wrapper')}>
@@ -45,6 +46,7 @@ function List({
                         handleSelectedItems={handleSelectedItems}
                         subHeaderComponent={subHeaderComponent}
                         onRowClicked={onRowClicked}
+                        selectableRows={selectableRows}
                     />
                 </div>
             </div>

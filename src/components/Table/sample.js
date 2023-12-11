@@ -1,3 +1,20 @@
+export const data3 = [
+    {
+        id: 'DNP0001',
+        date: '20/11/2023',
+        isPurchase: false,
+        supplierName: 'A',
+        staffName: 'Nguyễn Văn A',
+    },
+    {
+        id: 'DNH0002',
+        date: '01/02/2019',
+        isPurchase: true,
+        supplierName: 'B',
+        staffName: 'Nguyễn Văn B',
+    },
+];
+
 export const data2 = [
     {
         id: 'LSP0001',

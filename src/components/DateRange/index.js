@@ -12,7 +12,7 @@ import styles from './DateRange.module.scss';
 
 const cx = classNames.bind(styles);
 
-function DateRange() {
+function DateRange({ className, title }) {
     const [range, setRange] = useState({});
 
     const [dateString, setDateString] = useState('');
@@ -38,9 +38,13 @@ function DateRange() {
     const show = () => setVisible(true);
     const hide = () => setVisible(false);
 
+    const classes = cx('date-range-container', {
+        [className]: className,
+    });
+
     return (
-        <div className={cx('date-range-container')}>
-            <div className={cx('title')}>Ngày tạo</div>
+        <div className={classes}>
+            <div className={cx('title')}>{title}</div>
             <Tippy
                 visible={visible}
                 interactive={true}

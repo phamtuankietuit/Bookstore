@@ -20,6 +20,20 @@ const optionsTT = [
     { label: 'Chưa thanh toán', value: '1' },
 ];
 
+const optionsNCC = [
+    { label: 'Văn phòng phẩm Khê Lương', value: '0' },
+    { label: 'Nhà sách An Hòa Phát', value: '1' },
+    { label: 'Thiên Long', value: '2' },
+    { label: 'Thiết bị văn phòng Nguyễn An', value: '3' },
+];
+
+const optionsNV = [
+    { label: 'Lê Võ Duy Khiêm', value: '0' },
+    { label: 'Phạm Tuấn Kiệt', value: '1' },
+    { label: 'Ngô Trung Quân', value: '2' },
+    { label: 'Nguyễn Trung Kiên', value: '3' },
+];
+
 function ListImport() {
     const navigate = useNavigate();
 
@@ -36,6 +50,9 @@ function ListImport() {
 
     const handleClearFilter = () => {
         setSelectedTT([]);
+        setSelectedNCC([]);
+        setSelectedNV([]);
+        setDateString('');
     };
 
     const handleFilter = () => {
@@ -43,6 +60,11 @@ function ListImport() {
     };
 
     const [selectedTT, setSelectedTT] = useState([]);
+    const [selectedNCC, setSelectedNCC] = useState([]);
+    const [selectedNV, setSelectedNV] = useState([]);
+
+    // DATE RANGE PICKER
+    const [dateString, setDateString] = useState('');
 
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
@@ -95,6 +117,8 @@ function ListImport() {
                             <DateRange
                                 title={'Ngày nhập hàng'}
                                 className={cx('m-b')}
+                                dateString={dateString}
+                                setDateString={setDateString}
                             />
                             <MultiSelectComp
                                 className={cx('m-b')}
@@ -102,6 +126,22 @@ function ListImport() {
                                 placeholder={'Trạng thái'}
                                 selected={selectedTT}
                                 setSelected={setSelectedTT}
+                                hasSelectAll={true}
+                            />
+                            <MultiSelectComp
+                                className={cx('m-b')}
+                                options={optionsNCC}
+                                placeholder={'Nhà cung cấp'}
+                                selected={selectedNCC}
+                                setSelected={setSelectedNCC}
+                                hasSelectAll={true}
+                            />
+                            <MultiSelectComp
+                                className={cx('m-b')}
+                                options={optionsNV}
+                                placeholder={'Nhân viên tạo'}
+                                selected={selectedNV}
+                                setSelected={setSelectedNV}
                                 hasSelectAll={true}
                             />
                         </Filter>

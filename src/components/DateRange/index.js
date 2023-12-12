@@ -12,10 +12,8 @@ import styles from './DateRange.module.scss';
 
 const cx = classNames.bind(styles);
 
-function DateRange({ className, title }) {
+function DateRange({ className, title, dateString, setDateString }) {
     const [range, setRange] = useState({});
-
-    const [dateString, setDateString] = useState('');
 
     const handleDateString = (range) => {
         setRange(range);

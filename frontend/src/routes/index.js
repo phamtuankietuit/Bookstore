@@ -20,6 +20,7 @@ import ListCheck from '~/pages/ListCheck';
 import InfoReturn from '~/pages/InfoReturnProduct';
 import AddReturnProduct from '~/pages/AddReturnProduct';
 import UpdateProduct from '~/pages/UpdateProduct';
+import EditDiscount from '~/pages/EditDiscount';
 
 const publicRoutes = [
     // ACCOUNT
@@ -128,6 +129,12 @@ const publicRoutes = [
         path: '/discounts/detail',
         component: DiscountInfo,
         title: 'Thông tin khuyến mãi',
+        back: true,
+    },
+    {
+        path: '/discounts/update/:id',
+        component: EditDiscount,
+        title: 'Sửa khuyến mãi',
         back: true,
     },
     // RETURN

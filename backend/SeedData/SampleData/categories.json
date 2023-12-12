@@ -1,0 +1,72 @@
+[
+	{
+		"id": "cate00001",
+		"categoryId": "cate00001",
+		"name": "truyen-thieu-nhi",
+		"text": "Truyện Thiếu Nhi",
+		"attributes": ["supplier", "publishYear", "author", "publisher"]
+	},
+	{
+		"id": "cate00002",
+		"categoryId": "cate00002",
+		"name": "giao-khoa-tham-khao",
+		"text": "Giáo Khoa - Tham Khảo",
+		"attributes": ["supplier", "publishYear", "author", "publisher"]
+	},
+	{
+		"id": "cate00003",
+		"categoryId": "cate00003",
+		"name": "tieu-thuyet",
+		"text": "Tiểu Thuyết",
+		"attributes": ["supplier", "publishYear", "author", "publisher"]
+	},
+	{
+		"id": "cate00004",
+		"categoryId": "cate00004",
+		"name": "truyen-ngan",
+		"text": "Truyện Ngắn",
+		"attributes": ["supplier", "publishYear", "author", "publisher"]
+	},
+	{
+		"id": "cate00005",
+		"categoryId": "cate00005",
+		"name": "light-novel",
+		"text": "Light Novel",
+		"attributes": ["supplier", "publishYear", "author", "publisher"]
+	},
+	{
+		"id": "cate00006",
+		"categoryId": "cate00006",
+		"name": "tam-ly-ky-nang-song",
+		"text": "Tâm Lý - Kỹ Năng Sống",
+		"attributes": ["supplier", "publishYear", "author", "publisher"]
+	},
+	{
+		"id": "cate00007",
+		"categoryId": "cate00007",
+		"name": "sach-hoc-ngoai-ngu",
+		"text": "Sách Học Ngoại Ngữ",
+		"attributes": ["supplier", "publishYear", "author", "publisher"]
+	},
+	{
+		"id": "cate00008",
+		"categoryId": "cate00008",
+		"name": "van-phong-pham",
+		"text": "Văn Phòng Phẩm",
+		"attributes": ["supplier", "manufacturer"]
+	},
+	{
+		"id": "cate00009",
+		"categoryId": "cate00009",
+		"name": "do-choi",
+		"text": "Đồ Chơi",
+		"attributes": ["supplier", "manufacturer"]
+	},
+	{
+		"id": "cate00010",
+		"categoryId": "cate00010",
+		"name": "luu-niem",
+		"text": "Lưu Niệm",
+		"attributes": ["supplier", "manufacturer"]
+	}
+]

@@ -1,0 +1,473 @@
+[
+	{
+		"id": "ord00001",
+		"orderId": "ord00001",
+		"createdAt": "2023-12-10T00:00:00",
+		"monthYear": "2023-12",
+		"returnDate": "2023-12-15T00:00:00",
+		"customerType": "Retail",
+		"items": [
+			{
+				"productId": "prod00053",
+				"sku": "shnn00053",
+				"name": "Mindmap English Grammar - Ngữ Pháp Tiếng Anh Bằng Sơ Đồ Tư Duy",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935246917176.jpg",
+				"quantity": 3,
+				"salePrice": 190000,
+				"totalPrice": 570000
+			},
+			{
+				"productId": "prod00009",
+				"sku": "gktk00009",
+				"name": "Sách Giáo Khoa Bộ Lớp 1 - Chân Trời Sáng Tạo - Sách Bài Tập (Bộ 11 Cuốn) (2023)",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/3/3300000015903-1_1.jpg",
+				"quantity": 1,
+				"salePrice": 138000,
+				"totalPrice": 138000
+			}
+		],
+		"subtotal": 708000,
+		"discounts": {
+			"name": "",
+			"value": 0
+		},
+		"tax": 0,
+		"totalAmount": 708000,
+		"paymentMethod": "cash",
+		"status": "paid",
+		"note": "",
+		"isDeleted": false
+	},
+	{
+		"id": "ord00002",
+		"orderId": "ord00002",
+		"createdAt": "2023-12-10T00:00:00",
+		"monthYear": "2023-12",
+		"returnDate": "2023-11-15T00:00:00",
+		"customerType": "Retail",
+		"items": [
+			{
+				"productId": "prod00084",
+				"sku": "dcho00084",
+				"name": "Cờ Vua Nam Châm Bàn Trung",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936056057380.jpg",
+				"quantity": 5,
+				"salePrice": 239000,
+				"totalPrice": 1195000
+			},
+			{
+				"productId": "prod00023",
+				"sku": "tthu00023",
+				"name": "Thượng Dương",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_216250.jpg",
+				"quantity": 5,
+				"salePrice": 108000,
+				"totalPrice": 540000
+			},
+			{
+				"productId": "prod00016",
+				"sku": "gktk00016",
+				"name": "Tiếng Anh Lớp 10 - Sách Học Sinh (Global Success) (2022)",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/9/7/9786040324283_1_1.jpg",
+				"quantity": 5,
+				"salePrice": 73000,
+				"totalPrice": 365000
+			},
+			{
+				"productId": "prod00021",
+				"sku": "tthu00021",
+				"name": "Mùa Hè Không Tên - Tặng Kèm Bookmark 2 Mặt + Poster Tranh + Chữ Ký Tác Giả Ngẫu Nhiên",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/m/u/mua-he-khong-ten---bia-mem---qua-tang-kem-1.jpg",
+				"quantity": 4,
+				"salePrice": 130000,
+				"totalPrice": 520000
+			}
+		],
+		"subtotal": 2620000,
+		"discounts": {
+			"name": "",
+			"value": 0
+		},
+		"tax": 0,
+		"totalAmount": 2620000,
+		"paymentMethod": "cash",
+		"status": "paid",
+		"note": "",
+		"isDeleted": false
+	},
+	{
+		"id": "ord00003",
+		"orderId": "ord00003",
+		"createdAt": "2023-12-10T00:00:00",
+		"monthYear": "2023-12",
+		"returnDate": "2023-12-15T00:00:00",
+		"customerType": "Retail",
+		"items": [
+			{
+				"productId": "prod00068",
+				"sku": "vpph00068",
+				"name": "Bút Bi 0.7 mm Thiên Long TL-047 - Mực Xanh",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001802921_1.jpg",
+				"quantity": 1,
+				"salePrice": 10500,
+				"totalPrice": 10500
+			},
+			{
+				"productId": "prod00029",
+				"sku": "tnga00029",
+				"name": "Mẹ Làm Gì Có Ước Mơ",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/9/8/98bde27a91ea4bb412fb.jpg",
+				"quantity": 4,
+				"salePrice": 89000,
+				"totalPrice": 356000
+			},
+			{
+				"productId": "prod00093",
+				"sku": "lnie00093",
+				"name": "Hộp 16 Trái Châu Trang Trí Giáng Sinh - 6ADKLE16 - Màu Vàng Gold",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/1/8/1880000979228.jpg",
+				"quantity": 2,
+				"salePrice": 113000,
+				"totalPrice": 226000
+			},
+			{
+				"productId": "prod00078",
+				"sku": "dcho00078",
+				"name": "Đồ Chơi Robot Biến Hình Tia Chớp Hành Động - Cresta DK81138 - Siêu Xe Cảnh Sát",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936178582104.jpg",
+				"quantity": 5,
+				"salePrice": 115000,
+				"totalPrice": 575000
+			},
+			{
+				"productId": "prod00029",
+				"sku": "tnga00029",
+				"name": "Mẹ Làm Gì Có Ước Mơ",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/9/8/98bde27a91ea4bb412fb.jpg",
+				"quantity": 3,
+				"salePrice": 89000,
+				"totalPrice": 267000
+			}
+		],
+		"subtotal": 1434500,
+		"discounts": {
+			"name": "",
+			"value": 0
+		},
+		"tax": 0,
+		"totalAmount": 1434500,
+		"paymentMethod": "credit_card",
+		"status": "paid",
+		"note": "",
+		"isDeleted": false
+	},
+	{
+		"id": "ord00004",
+		"orderId": "ord00004",
+		"createdAt": "2023-12-10T00:00:00",
+		"monthYear": "2023-12",
+		"returnDate": "2023-12-15T00:00:00",
+		"customerType": "Retail",
+		"items": [
+			{
+				"productId": "prod00081",
+				"sku": "dcho00081",
+				"name": "Đồ Chơi Cờ Trí Tuệ UNO W2085",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/7/7/77e3eeaa6424151057b58254bcba52ca.jpg",
+				"quantity": 4,
+				"salePrice": 169000,
+				"totalPrice": 676000
+			}
+		],
+		"subtotal": 676000,
+		"discounts": {
+			"name": "",
+			"value": 0
+		},
+		"tax": 0,
+		"totalAmount": 676000,
+		"paymentMethod": "credit_card",
+		"status": "paid",
+		"note": "",
+		"isDeleted": false
+	},
+	{
+		"id": "ord00005",
+		"orderId": "ord00005",
+		"createdAt": "2023-12-10T00:00:00",
+		"monthYear": "2023-12",
+		"returnDate": "2023-12-15T00:00:00",
+		"customerType": "Retail",
+		"items": [
+			{
+				"productId": "prod00048",
+				"sku": "tlkn00048",
+				"name": "Định Luật Murphy - Mọi Bí Mật Tâm Lý Thao Túng Cuộc Đời Bạn",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/p/h/ph_t-h_nh-_nh-lu_t-murphybia-1.jpg",
+				"quantity": 3,
+				"salePrice": 119000,
+				"totalPrice": 357000
+			}
+		],
+		"subtotal": 357000,
+		"discounts": {
+			"name": "",
+			"value": 0
+		},
+		"tax": 0,
+		"totalAmount": 357000,
+		"paymentMethod": "credit_card",
+		"status": "paid",
+		"note": "",
+		"isDeleted": false
+	},
+	{
+		"id": "ord00006",
+		"orderId": "ord00006",
+		"createdAt": "2023-12-10T00:00:00",
+		"monthYear": "2023-12",
+		"returnDate": "2023-12-15T00:00:00",
+		"customerType": "Retail",
+		"items": [
+			{
+				"productId": "prod00046",
+				"sku": "tlkn00046",
+				"name": "Lý Thuyết Trò Chơi",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936066697088.jpg",
+				"quantity": 4,
+				"salePrice": 179000,
+				"totalPrice": 716000
+			},
+			{
+				"productId": "prod00027",
+				"sku": "tnga00027",
+				"name": "Trôi - Nguyễn Ngọc Tư",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8934974190554.jpg",
+				"quantity": 1,
+				"salePrice": 95000,
+				"totalPrice": 95000
+			},
+			{
+				"productId": "prod00016",
+				"sku": "gktk00016",
+				"name": "Tiếng Anh Lớp 10 - Sách Học Sinh (Global Success) (2022)",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/9/7/9786040324283_1_1.jpg",
+				"quantity": 1,
+				"salePrice": 73000,
+				"totalPrice": 73000
+			}
+		],
+		"subtotal": 884000,
+		"discounts": {
+			"name": "",
+			"value": 0
+		},
+		"tax": 0,
+		"totalAmount": 884000,
+		"paymentMethod": "credit_card",
+		"status": "paid",
+		"note": "",
+		"isDeleted": false
+	},
+	{
+		"id": "ord00007",
+		"orderId": "ord00007",
+		"createdAt": "2023-12-10T00:00:00",
+		"monthYear": "2023-12",
+		"returnDate": "2023-12-15T00:00:00",
+		"customerType": "Retail",
+		"items": [
+			{
+				"productId": "prod00087",
+				"sku": "dcho00087",
+				"name": "Đồ Chơi Mô Hình Siêu Xe - Hot Wheels C4982 - 171/250 - Rockin' Railer",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/2/0/2001011517622-mau2_4.jpg",
+				"quantity": 1,
+				"salePrice": 69000,
+				"totalPrice": 69000
+			},
+			{
+				"productId": "prod00072",
+				"sku": "vpph00072",
+				"name": "Bút Lông Bảng Thiên Long WB-02 - Mực Xanh",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_236630.jpg",
+				"quantity": 4,
+				"salePrice": 8000,
+				"totalPrice": 32000
+			}
+		],
+		"subtotal": 101000,
+		"discounts": {
+			"name": "",
+			"value": 0
+		},
+		"tax": 0,
+		"totalAmount": 101000,
+		"paymentMethod": "banking",
+		"status": "paid",
+		"note": "",
+		"isDeleted": false
+	},
+	{
+		"id": "ord00008",
+		"orderId": "ord00008",
+		"createdAt": "2023-12-10T00:00:00",
+		"monthYear": "2023-12",
+		"returnDate": "2023-12-15T00:00:00",
+		"customerType": "Retail",
+		"items": [
+			{
+				"productId": "prod00004",
+				"sku": "ttnh00004",
+				"name": "Trong Cái Không Có Gì Không?",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_37410.jpg",
+				"quantity": 5,
+				"salePrice": 160000,
+				"totalPrice": 800000
+			},
+			{
+				"productId": "prod00075",
+				"sku": "vpph00075",
+				"name": "Mực Bút Lông Bảng 25ml - Thiên Long WBI-01 - Mực Xanh",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001831419.jpg",
+				"quantity": 3,
+				"salePrice": 27000,
+				"totalPrice": 81000
+			},
+			{
+				"productId": "prod00054",
+				"sku": "shnn00054",
+				"name": "25 Chuyên Đề Ngữ Pháp Tiếng Anh Trọng Tâm - Tập 1",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_188186.jpg",
+				"quantity": 5,
+				"salePrice": 110000,
+				"totalPrice": 550000
+			}
+		],
+		"subtotal": 1431000,
+		"discounts": {
+			"name": "",
+			"value": 0
+		},
+		"tax": 0,
+		"totalAmount": 1431000,
+		"paymentMethod": "credit_card",
+		"status": "paid",
+		"note": "",
+		"isDeleted": false
+	},
+	{
+		"id": "ord00009",
+		"orderId": "ord00009",
+		"createdAt": "2023-12-10T00:00:00",
+		"monthYear": "2023-12",
+		"returnDate": "2023-12-15T00:00:00",
+		"customerType": "Retail",
+		"items": [
+			{
+				"productId": "prod00043",
+				"sku": "tlkn00043",
+				"name": "48 Nguyên Tắc Chủ Chốt Của Quyền Lực (Tái Bản 2020)",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_32101.jpg",
+				"quantity": 3,
+				"salePrice": 200000,
+				"totalPrice": 600000
+			},
+			{
+				"productId": "prod00023",
+				"sku": "tthu00023",
+				"name": "Thượng Dương",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_216250.jpg",
+				"quantity": 1,
+				"salePrice": 108000,
+				"totalPrice": 108000
+			},
+			{
+				"productId": "prod00006",
+				"sku": "ttnh00006",
+				"name": "Tớ Là Mèo Pusheen (Tái Bản 2019)",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_180905.jpg",
+				"quantity": 5,
+				"salePrice": 80000,
+				"totalPrice": 400000
+			}
+		],
+		"subtotal": 1108000,
+		"discounts": {
+			"name": "",
+			"value": 0
+		},
+		"tax": 0,
+		"totalAmount": 1108000,
+		"paymentMethod": "credit_card",
+		"status": "paid",
+		"note": "",
+		"isDeleted": false
+	},
+	{
+		"id": "ord00010",
+		"orderId": "ord00010",
+		"createdAt": "2023-12-10T00:00:00",
+		"monthYear": "2023-12",
+		"returnDate": "2023-12-15T00:00:00",
+		"customerType": "Retail",
+		"items": [
+			{
+				"productId": "prod00097",
+				"sku": "lnie00097",
+				"name": "Bộ 5 Xốp Eva Kim Tuyến Decal DYI Art & Craft - Star Kids K-901 (Sắc Độ Màu Giao Ngẫu Nhiên)",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935256603885.jpg",
+				"quantity": 5,
+				"salePrice": 69000,
+				"totalPrice": 345000
+			},
+			{
+				"productId": "prod00091",
+				"sku": "lnie00091",
+				"name": "Túi Giấy Đựng Quà Giáng Sinh Xmax Đứng Size M - Linh Lan 37423",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936078092796-mau2.jpg",
+				"quantity": 3,
+				"salePrice": 14000,
+				"totalPrice": 42000
+			},
+			{
+				"productId": "prod00041",
+				"sku": "lnov00041",
+				"name": "Ghi Chép Của Tôi Người Nhìn Thấy Em Sẽ Biến Mất Vào Ngày Mai",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/t/h/th_ng-tu_t-b_n-ghi-ch_p-c_a-t_ibia1.jpg",
+				"quantity": 1,
+				"salePrice": 133000,
+				"totalPrice": 133000
+			},
+			{
+				"productId": "prod00027",
+				"sku": "tnga00027",
+				"name": "Trôi - Nguyễn Ngọc Tư",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8934974190554.jpg",
+				"quantity": 1,
+				"salePrice": 95000,
+				"totalPrice": 95000
+			},
+			{
+				"productId": "prod00026",
+				"sku": "tnga00026",
+				"name": "999 Lá Thư Gửi Cho Chính Mình - Những Lá Thư Ấn Tượng Nhất (Phiên Bản Song Ngữ Trung - Việt)",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935325010736.jpg",
+				"quantity": 2,
+				"salePrice": 99000,
+				"totalPrice": 198000
+			}
+		],
+		"subtotal": 813000,
+		"discounts": {
+			"name": "",
+			"value": 0
+		},
+		"tax": 0,
+		"totalAmount": 813000,
+		"paymentMethod": "banking",
+		"status": "paid",
+		"note": "",
+		"isDeleted": false
+	}
+]

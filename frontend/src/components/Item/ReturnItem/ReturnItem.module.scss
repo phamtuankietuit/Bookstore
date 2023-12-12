@@ -4,6 +4,10 @@
     font-weight: 500;
 }
 
+.id {
+    color: var(--primary);
+}
+
 .product-state-container {
     display: flex;
     justify-content: center;
@@ -29,6 +33,12 @@
     background-color: #fef3f2;
 }
 
-.id {
-    color: var(--primary);
+.state-1 {
+    color: rgb(228, 156, 6);
+    background-color: rgb(255, 247, 231);
+}
+
+.state-2 {
+    color: #b32318;
+    background-color: #fef3f2;
 }

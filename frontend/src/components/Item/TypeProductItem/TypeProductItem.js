@@ -6,10 +6,12 @@ const cx = classNames.bind(styles);
 export const TypeProductItem = [
     {
         name: 'Tên loại sản phẩm',
+        minWidth: '180px',
         cell: (row) => <div className={cx('type')}>{row.name}</div>,
     },
     {
         name: 'Mã loại',
+        minWidth: '180px',
         cell: (row) => <div className={cx('type')}>{row.id}</div>,
     },
 ];

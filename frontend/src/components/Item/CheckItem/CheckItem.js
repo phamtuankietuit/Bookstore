@@ -1,27 +1,16 @@
 import classNames from 'classnames/bind';
-import styles from './ImportItem.module.scss';
+import styles from './CheckItem.module.scss';
 
 const cx = classNames.bind(styles);
 
-export const ImportItem = [
+export const CheckItem = [
     {
-        name: 'Mã đơn nhập hàng',
+        name: 'Mã đơn kiểm hàng',
         minWidth: '180px',
         center: true,
         cell: (row) => (
             <div className={cx('font', 'id')} data-tag="allowRowEvents">
                 {row.id}
-            </div>
-        ),
-    },
-    {
-        name: 'Ngày nhập hàng',
-        minWidth: '180px',
-        center: true,
-        sortable: true,
-        cell: (row) => (
-            <div className={cx('font')} data-tag="allowRowEvents">
-                {row.date}
             </div>
         ),
     },
@@ -33,23 +22,38 @@ export const ImportItem = [
             <div
                 className={cx({
                     'product-state-container': true,
-                    'state-0': !row.isPurchase,
+                    'state-1': row.status === 1 ? true : false,
+                    'state-2': row.status === 2 ? true : false,
                 })}
                 data-tag="allowRowEvents"
             >
                 <div className={cx('product-state')} data-tag="allowRowEvents">
-                    {row.isPurchase ? 'Đã thanh toán' : 'Chưa thanh toán'}
+                    {row.status === 0
+                        ? 'Đã cân bằng'
+                        : row.status === 1
+                        ? 'Đang kiểm kho'
+                        : 'Đã xóa'}
                 </div>
             </div>
         ),
     },
     {
-        name: 'Nhà cung cấp',
+        name: 'Ngày tạo',
         minWidth: '180px',
         center: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.supplierName}
+                {row.dateCreated}
+            </div>
+        ),
+    },
+    {
+        name: 'Ngày cân bằng',
+        minWidth: '180px',
+        center: true,
+        cell: (row) => (
+            <div className={cx('font')} data-tag="allowRowEvents">
+                {row.dateBalanced}
             </div>
         ),
     },
@@ -59,7 +63,17 @@ export const ImportItem = [
         center: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.staffName}
+                {row.staffCreated}
+            </div>
+        ),
+    },
+    {
+        name: 'Nhân viên cân bằng',
+        minWidth: '180px',
+        center: true,
+        cell: (row) => (
+            <div className={cx('font')} data-tag="allowRowEvents">
+                {row.staffBalanced}
             </div>
         ),
     },

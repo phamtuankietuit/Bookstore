@@ -1,14 +1,125 @@
+export const data7 = [
+    {
+        id: 'KM0001',
+        name: '12.12',
+        count: 100,
+        start: '12/12/2023 - 11:00',
+        end: '14/12/2023 - 24:00',
+        status: 0,
+    },
+    {
+        id: 'KM0002',
+        name: '12.12',
+        count: 1000,
+        start: '12/12/2023 - 11:00',
+        end: '14/12/2023 - 24:00',
+        status: 1,
+    },
+    {
+        id: 'KM0003',
+        name: '12.12',
+        count: 3000,
+        start: '12/12/2023 - 11:00',
+        end: '14/12/2023 - 24:00',
+        status: 2,
+    },
+];
+
+export const data6 = [
+    {
+        id: 'DTH0001',
+        idOrder: 'DH0001',
+        customerName: 'Trịnh Thăng Bình',
+        isReturnProduct: 0,
+        isReturnMoney: true,
+        money: 175000,
+        reason: 'Khác',
+        dateRecieved: '27/05/2023 - 19:00',
+    },
+    {
+        id: 'DTH0002',
+        idOrder: 'DH0001',
+        customerName: 'Trịnh Thăng Bình',
+        isReturnProduct: 1,
+        isReturnMoney: false,
+        money: 200000,
+        reason: 'Khác',
+        dateRecieved: '27/05/2023 - 19:00',
+    },
+    {
+        id: 'DTH0003',
+        idOrder: 'DH0001',
+        customerName: 'Trịnh Thăng Bình',
+        isReturnProduct: 2,
+        isReturnMoney: false,
+        money: 200000,
+        reason: 'Khác',
+        dateRecieved: '27/05/2023 - 19:00',
+    },
+];
+
+export const data5 = [
+    {
+        id: 'DH0001',
+        dateCreated: '28/04/2003 - 14:00',
+        customerName: 'Khách lẻ',
+        staffCreated: 'Nguyễn Văn A',
+        money: 200000,
+    },
+    {
+        id: 'DH0002',
+        dateCreated: '28/04/2003 - 14:00',
+        customerName: 'Nguyễn Thị Cẩm Nhung',
+        staffCreated: 'Nguyễn Văn A',
+        money: 175000,
+    },
+    {
+        id: 'DH0003',
+        dateCreated: '28/04/2003 - 14:00',
+        customerName: 'Đặng Văn Chuẩn',
+        staffCreated: 'Nguyễn Văn A',
+        money: 50000,
+    },
+];
+
+export const data4 = [
+    {
+        id: 'DKH0001',
+        status: 0,
+        dateCreated: '28/04/2003 - 14:00',
+        dateBalanced: '10/10/2023 - 07:55',
+        staffCreated: 'Nguyễn Văn A',
+        staffBalanced: 'Nguyễn Văn B',
+    },
+    {
+        id: 'DKH0002',
+        status: 1,
+        dateCreated: '28/04/2003 - 18:23',
+        dateBalanced: '10/10/2023 - 09:30',
+        staffCreated: 'Nguyễn Văn A',
+        staffBalanced: 'Nguyễn Văn B',
+    },
+    {
+        id: 'DKH0003',
+        status: 2,
+        dateCreated: '28/04/2003 - 20:00',
+        dateBalanced: '10/10/2023 - 12:52',
+        staffCreated: 'Nguyễn Văn A',
+        staffBalanced: 'Nguyễn Văn B',
+    },
+];
+
 export const data3 = [
     {
         id: 'DNP0001',
-        date: '20/11/2023',
+        date: '20/11/2023 - 12:00',
         isPurchase: false,
         supplierName: 'A',
         staffName: 'Nguyễn Văn A',
     },
     {
         id: 'DNH0002',
-        date: '01/02/2019',
+        date: '01/02/2019 - 12:00',
         isPurchase: true,
         supplierName: 'B',
         staffName: 'Nguyễn Văn B',

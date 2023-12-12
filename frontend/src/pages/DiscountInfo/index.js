@@ -2,10 +2,12 @@ import styles from './DiscountInfo.module.scss';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
 import { BiSolidDiscount } from 'react-icons/bi';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 function DiscountInfo() {
+    const navigate = useNavigate();
     return (
         <div className={cx('container')}>
             <div className={cx('discount-container')}>
@@ -137,7 +139,12 @@ function DiscountInfo() {
                     </div>
                 </div>
                 <div className={cx('button-container')}>
-                    <button className={cx('edit-btn')}>Sửa</button>
+                    <button
+                        className={cx('edit-btn')}
+                        onClick={() => navigate('/discounts/update/KH0001')}
+                    >
+                        Sửa
+                    </button>
                     <button className={cx('stop-btn')}>Tạm ngừng</button>
                 </div>
             </div>

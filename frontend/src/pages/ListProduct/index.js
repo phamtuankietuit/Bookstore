@@ -281,24 +281,16 @@ function ListProduct() {
                     <div>
                         <Button
                             className={cx('btn-cancel')}
-                            outlineBlue={
-                                titleModal === 'Xóa sản phẩm?' ? false : true
-                            }
-                            outlineRed={
-                                titleModal === 'Xóa sản phẩm?' ? true : false
-                            }
+                            outlineBlue={titleModal !== 'Xóa sản phẩm?'}
+                            outlineRed={titleModal === 'Xóa sản phẩm?'}
                             onClick={handleCloseModal}
                         >
                             Hủy
                         </Button>
                         <Button
                             className={cx('btn-ok', 'm-l-10')}
-                            solidBlue={
-                                titleModal === 'Xóa sản phẩm?' ? false : true
-                            }
-                            solidRed={
-                                titleModal === 'Xóa sản phẩm?' ? true : false
-                            }
+                            solidBlue={titleModal !== 'Xóa sản phẩm?'}
+                            solidRed={titleModal === 'Xóa sản phẩm?'}
                             onClick={handleValidation}
                         >
                             {titleModal === 'Xóa sản phẩm?' ? 'Xóa' : 'Lưu'}

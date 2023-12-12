@@ -21,6 +21,8 @@ import InfoReturn from '~/pages/InfoReturnProduct';
 import AddReturnProduct from '~/pages/AddReturnProduct';
 import UpdateProduct from '~/pages/UpdateProduct';
 import EditDiscount from '~/pages/EditDiscount';
+import ListOrder from '~/pages/ListOrder';
+import ListReturn from '~/pages/ListReturn';
 
 const publicRoutes = [
     // ACCOUNT
@@ -34,6 +36,12 @@ const publicRoutes = [
         path: '/storeinfo',
         component: StoreInfo,
         layout: null,
+    },
+    // ORDER
+    {
+        path: '/orders',
+        component: ListOrder,
+        title: 'Danh sách đơn hàng',
     },
     // PRODUCT
     {
@@ -102,13 +110,13 @@ const publicRoutes = [
         back: true,
     },
     {
-        path: '/checks/detail',
+        path: '/checks/detail/:id',
         component: InfoCheckProduct,
         title: 'Chi tiết đơn kiểm hàng',
         back: true,
     },
     {
-        path: '/checks/update',
+        path: '/checks/update/:id',
         component: UpdateCheckProduct,
         title: 'Chỉnh sửa đơn kiểm hàng',
         back: true,
@@ -126,7 +134,7 @@ const publicRoutes = [
         back: true,
     },
     {
-        path: '/discounts/detail',
+        path: '/discounts/detail/:id',
         component: DiscountInfo,
         title: 'Thông tin khuyến mãi',
         back: true,
@@ -139,13 +147,18 @@ const publicRoutes = [
     },
     // RETURN
     {
+        path: '/return',
+        component: ListReturn,
+        title: 'Danh sách đơn trả hàng',
+    },
+    {
         path: '/return/add',
         component: AddReturnProduct,
         title: 'Tạo đơn trả hàng',
         back: true,
     },
     {
-        path: '/return/detail',
+        path: '/return/detail/:id',
         component: InfoReturn,
         title: 'Chi tiết đơn trả hàng',
         back: true,

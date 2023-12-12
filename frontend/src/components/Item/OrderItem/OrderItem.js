@@ -1,11 +1,12 @@
 import classNames from 'classnames/bind';
-import styles from './ImportItem.module.scss';
+import styles from './OrderItem.module.scss';
 
 const cx = classNames.bind(styles);
+const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-export const ImportItem = [
+export const OrderItem = [
     {
-        name: 'Mã đơn nhập hàng',
+        name: 'Mã đơn hàng',
         minWidth: '180px',
         center: true,
         cell: (row) => (
@@ -15,41 +16,32 @@ export const ImportItem = [
         ),
     },
     {
-        name: 'Ngày nhập hàng',
+        name: 'Ngày tạo đơn',
         minWidth: '180px',
         center: true,
         sortable: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.date}
+                {row.dateCreated}
             </div>
         ),
     },
     {
-        name: 'Trạng thái',
+        name: 'Tên khách hàng',
         minWidth: '180px',
-        center: true,
         cell: (row) => (
-            <div
-                className={cx({
-                    'product-state-container': true,
-                    'state-0': !row.isPurchase,
-                })}
-                data-tag="allowRowEvents"
-            >
-                <div className={cx('product-state')} data-tag="allowRowEvents">
-                    {row.isPurchase ? 'Đã thanh toán' : 'Chưa thanh toán'}
-                </div>
+            <div className={cx('font')} data-tag="allowRowEvents">
+                {row.customerName}
             </div>
         ),
     },
     {
-        name: 'Nhà cung cấp',
+        name: 'Khách phải trả',
         minWidth: '180px',
         center: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.supplierName}
+                {addCommas(row.money)}
             </div>
         ),
     },
@@ -59,7 +51,7 @@ export const ImportItem = [
         center: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.staffName}
+                {row.staffCreated}
             </div>
         ),
     },

@@ -1,24 +1,29 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faPlus } from '@fortawesome/free-solid-svg-icons';
 
-import styles from './ListCheck.module.scss';
+import styles from './ListReturn.module.scss';
 import Button from '~/components/Button';
 import List from '~/components/List';
 import Filter from '~/components/Filter';
-import { CheckItem } from '~/components/Item';
-import { data4 } from '~/components/Table/sample';
+import { ReturnItem } from '~/components/Item';
+import { data6 } from '~/components/Table/sample';
 import MultiSelectComp from '~/components/MultiSelectComp';
 import DateRange from '~/components/DateRange';
 
 const cx = classNames.bind(styles);
 
 const optionsTT = [
-    { label: 'Đã cân bằng', value: '0' },
-    { label: 'Đang kiểm kho', value: '1' },
-    { label: 'Đã xóa', value: '2' },
+    { label: 'Đã nhận hàng', value: '0' },
+    { label: 'Chưa nhận hàng', value: '1' },
+    { label: 'Đã hủy', value: '2' },
+];
+
+const optionsHT = [
+    { label: 'Đã hoàn tiền', value: '0' },
+    { label: 'Chưa hoàn tiền', value: '1' },
 ];
 
 const optionsNVT = [
@@ -28,14 +33,14 @@ const optionsNVT = [
     { label: 'Nguyễn Trung Kiên', value: '3' },
 ];
 
-const optionsNVCB = [
-    { label: 'Lê Võ Duy Khiêm', value: '0' },
-    { label: 'Phạm Tuấn Kiệt', value: '1' },
-    { label: 'Ngô Trung Quân', value: '2' },
-    { label: 'Nguyễn Trung Kiên', value: '3' },
+const optionsKH = [
+    { label: 'Nguyễn Thị Cẩm Nhung', value: '0' },
+    { label: 'Phạm Văn Thái', value: '1' },
+    { label: 'Cẩm Lệ', value: '2' },
+    { label: 'Chu Văn Sa', value: '3' },
 ];
 
-function ListCheck() {
+function ListReturn() {
     const navigate = useNavigate();
 
     // SEARCH
@@ -51,29 +56,28 @@ function ListCheck() {
 
     const handleClearFilter = () => {
         setSelectedTT([]);
+        setSelectedKH([]);
         setSelectedNVT([]);
-        setSelectedNVCB([]);
-        setDateCreated('');
-        setDateBalanced('');
+        setDateNH('');
+        setDateHT('');
     };
 
     const handleFilter = () => {
         handleCloseFilter();
     };
 
+    const [selectedKH, setSelectedKH] = useState([]);
     const [selectedTT, setSelectedTT] = useState([]);
+    const [selectedHT, setSelectedHT] = useState([]);
     const [selectedNVT, setSelectedNVT] = useState([]);
-    const [selectedNVCB, setSelectedNVCB] = useState([]);
 
-    // DATE CREATED
-    const [dateCreated, setDateCreated] = useState('');
-
-    // DATE BALANCED
-    const [dateBalanced, setDateBalanced] = useState('');
+    // DATE RANGE PICKER
+    const [dateNH, setDateNH] = useState('');
+    const [dateHT, setDateHT] = useState('');
 
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
-        navigate('/checks/detail/' + row.id);
+        navigate('/return/detail/' + row.id);
     }, []);
 
     // TABLE
@@ -82,7 +86,7 @@ function ListCheck() {
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            setRows(data4);
+            setRows(data6);
             setPending(false);
         }, 500);
         return () => clearTimeout(timeout);
@@ -92,21 +96,31 @@ function ListCheck() {
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
                 <div className={cx('tool-bar')}>
-                    <div className={cx('tool-bar-left')}></div>
+                    <div className={cx('tool-bar-left')}>
+                        <Button
+                            leftIcon={<FontAwesomeIcon icon={faDownload} />}
+                            solidBlue
+                            className={cx('margin')}
+                        >
+                            Xuất file
+                        </Button>
+                    </div>
                     <div className={cx('tool-bar-right')}>
                         <Button
-                            to="/checks/add"
+                            to="/return/add"
                             leftIcon={<FontAwesomeIcon icon={faPlus} />}
                             solidBlue
                         >
-                            Tạo đơn kiểm hàng
+                            Tạo đơn trả hàng
                         </Button>
                     </div>
                 </div>
 
                 <List
                     searchVisibility={true}
-                    placeholderSearch={'Tìm kiếm theo mã đơn kiểm hàng'}
+                    placeholderSearch={
+                        'Tìm kiếm theo mã đơn nhập, mã nhà cung cấp'
+                    }
                     search={search}
                     handleSearch={handleSearch}
                     filterComponent={
@@ -119,23 +133,39 @@ function ListCheck() {
                         >
                             <MultiSelectComp
                                 className={cx('m-b')}
+                                options={optionsKH}
+                                placeholder={'Khách hàng'}
+                                selected={selectedKH}
+                                setSelected={setSelectedKH}
+                                hasSelectAll={true}
+                            />
+                            <MultiSelectComp
+                                className={cx('m-b')}
                                 options={optionsTT}
                                 placeholder={'Trạng thái'}
                                 selected={selectedTT}
                                 setSelected={setSelectedTT}
                                 hasSelectAll={true}
                             />
-                            <DateRange
-                                title={'Ngày tạo'}
+                            <MultiSelectComp
                                 className={cx('m-b')}
-                                dateString={dateCreated}
-                                setDateString={setDateCreated}
+                                options={optionsHT}
+                                placeholder={'Hoàn tiền'}
+                                selected={selectedHT}
+                                setSelected={setSelectedHT}
+                                hasSelectAll={true}
                             />
                             <DateRange
-                                title={'Ngày cân bằng'}
+                                title={'Ngày nhận hàng'}
                                 className={cx('m-b')}
-                                dateString={dateBalanced}
-                                setDateString={setDateBalanced}
+                                dateString={dateNH}
+                                setDateString={setDateNH}
+                            />
+                            <DateRange
+                                title={'Ngày hoàn tiền'}
+                                className={cx('m-b')}
+                                dateString={dateHT}
+                                setDateString={setDateHT}
                             />
                             <MultiSelectComp
                                 className={cx('m-b')}
@@ -145,19 +175,11 @@ function ListCheck() {
                                 setSelected={setSelectedNVT}
                                 hasSelectAll={true}
                             />
-                            <MultiSelectComp
-                                className={cx('m-b')}
-                                options={optionsNVCB}
-                                placeholder={'Nhân viên cân bằng'}
-                                selected={selectedNVCB}
-                                setSelected={setSelectedNVCB}
-                                hasSelectAll={true}
-                            />
                         </Filter>
                     }
                     // TABLE
                     onRowClicked={onRowClicked}
-                    itemComponent={CheckItem}
+                    itemComponent={ReturnItem}
                     data={rows}
                     pending={pending}
                 />
@@ -166,4 +188,4 @@ function ListCheck() {
     );
 }
 
-export default ListCheck;
+export default ListReturn;

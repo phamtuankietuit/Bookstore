@@ -45,11 +45,11 @@ function SideBar({ className, title }) {
                         items={[
                             {
                                 title: 'Danh sách đơn hàng',
-                                to: '/',
+                                to: '/orders',
                             },
                             {
                                 title: 'Khách trả hàng',
-                                to: '/',
+                                to: '/return',
                             },
                         ]}
                     />

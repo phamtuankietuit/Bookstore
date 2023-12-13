@@ -21,6 +21,7 @@ function List({
     filterComponent,
     subHeaderComponent,
     selectableRows,
+    pagination,
 }) {
     return (
         <div className={cx('wrapper')}>
@@ -47,6 +48,7 @@ function List({
                         subHeaderComponent={subHeaderComponent}
                         onRowClicked={onRowClicked}
                         selectableRows={selectableRows}
+                        pagination={pagination}
                     />
                 </div>
             </div>

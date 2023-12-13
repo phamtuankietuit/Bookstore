@@ -90,6 +90,7 @@ function Table({
     subHeaderComponent,
     onRowClicked,
     selectableRows,
+    pagination,
 }) {
     return (
         <div className={cx('data-table-container')}>
@@ -139,7 +140,7 @@ function Table({
                 selectableRowsComponentProps={selectProps}
                 onSelectedRowsChange={handleSelectedItems}
                 // PAGINATION
-                pagination
+                pagination={pagination}
                 paginationPerPage={20}
                 paginationComponentOptions={{
                     rowsPerPageText: 'Hiển thị: ',

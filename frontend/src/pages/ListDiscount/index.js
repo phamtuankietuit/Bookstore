@@ -163,6 +163,7 @@ function ListDiscount() {
                     }
                     // TABLE
                     selectableRows
+                    pagination
                     onRowClicked={onRowClicked}
                     showSubHeader={showSubHeader}
                     itemComponent={DiscountItem}

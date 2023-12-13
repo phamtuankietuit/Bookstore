@@ -179,6 +179,7 @@ function ListReturn() {
                     }
                     // TABLE
                     onRowClicked={onRowClicked}
+                    pagination
                     itemComponent={ReturnItem}
                     data={rows}
                     pending={pending}

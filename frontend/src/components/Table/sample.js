@@ -1,3 +1,33 @@
+export const data9 = [
+    {
+        id: 'NNCC0001',
+        name: 'Sách',
+    },
+    {
+        id: 'NNCC0002',
+        name: 'Khác',
+    },
+];
+
+export const data8 = [
+    {
+        id: 'NCC0001',
+        name: 'Nguyễn Văn A',
+        group: 'Khác',
+        email: 'kietphamkb@gmail.com',
+        phone: '0112333568',
+        isActive: true,
+    },
+    {
+        id: 'NCC0002',
+        name: 'Nguyễn Văn B',
+        group: 'Sách',
+        email: 'kietphamkb@gmail.com',
+        phone: '0112333568',
+        isActive: false,
+    },
+];
+
 export const data7 = [
     {
         id: 'KM0001',

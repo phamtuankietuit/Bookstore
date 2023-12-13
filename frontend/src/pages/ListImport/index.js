@@ -147,6 +147,7 @@ function ListImport() {
                         </Filter>
                     }
                     // TABLE
+                    pagination
                     onRowClicked={onRowClicked}
                     itemComponent={ImportItem}
                     data={rows}

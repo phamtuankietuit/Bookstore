@@ -23,6 +23,11 @@ import UpdateProduct from '~/pages/UpdateProduct';
 import EditDiscount from '~/pages/EditDiscount';
 import ListOrder from '~/pages/ListOrder';
 import ListReturn from '~/pages/ListReturn';
+import ListSupplier from '~/pages/ListSupplier';
+import ListSupplierGroup from '~/pages/ListSupplierGroup';
+import AddSupplier from '~/pages/AddSupplier';
+import InfoSupplier from '~/pages/InfoSupplier';
+import UpdateSupplier from '~/pages/UpdateSupplier';
 
 const publicRoutes = [
     // ACCOUNT
@@ -119,6 +124,36 @@ const publicRoutes = [
         path: '/checks/update/:id',
         component: UpdateCheckProduct,
         title: 'Chỉnh sửa đơn kiểm hàng',
+        back: true,
+    },
+    // SUPPLIER
+    {
+        path: '/suppliers',
+        component: ListSupplier,
+        title: 'Danh sách nhà cung cấp',
+    },
+    {
+        path: '/suppliers/add',
+        component: AddSupplier,
+        title: 'Thêm nhà cung cấp',
+        back: true,
+    },
+    {
+        path: '/suppliers/detail/:id',
+        component: InfoSupplier,
+        title: 'Chi tiết nhà cung cấp',
+        back: true,
+    },
+    {
+        path: '/suppliers/update/:id',
+        component: UpdateSupplier,
+        title: 'Cập nhật nhà cung cấp',
+        back: true,
+    },
+    {
+        path: '/suppliers/group',
+        component: ListSupplierGroup,
+        title: 'Danh sách nhóm nhà cung cấp',
         back: true,
     },
     // DISCOUNT

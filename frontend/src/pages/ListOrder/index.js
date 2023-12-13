@@ -139,6 +139,7 @@ function ListOrder() {
                         </Filter>
                     }
                     // TABLE
+                    pagination
                     onRowClicked={onRowClicked}
                     itemComponent={OrderItem}
                     data={rows}

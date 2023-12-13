@@ -9,62 +9,31 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
-import styles from './ListProduct.module.scss';
+import styles from './ListSupplier.module.scss';
 import List from '~/components/List';
 import Button from '~/components/Button';
 import Filter from '~/components/Filter';
 import MultiSelectComp from '~/components/MultiSelectComp';
-import { ProductItem } from '~/components/Item';
-import { data } from '~/components/Table/sample';
+import { SupplierItem } from '~/components/Item';
+import { data8 } from '~/components/Table/sample';
 import SubHeader from '~/components/SubHeader';
 import ModalComp from '~/components/ModalComp';
 import ModalLoading from '~/components/ModalLoading';
 
 const cx = classNames.bind(styles);
 
-const optionsLSP = [
-    { label: 'Sách Thiếu Nhi', value: '0' },
-    { label: 'Giáo Khoa - Tham Khảo', value: '1' },
-    { label: 'Tiểu Thuyết', value: '2' },
-    { label: 'Truyện Ngắn', value: '3' },
-    { label: 'Light Novel', value: '4' },
-    { label: 'Tâm Lý - Kỹ Năng Sống', value: '5' },
-    { label: 'Sách Học Ngoại Ngữ', value: '6' },
-    { label: 'Văn phòng phẩm', value: '7' },
-    { label: 'Đồ chơi', value: '8' },
-    { label: 'Quà lưu niệm', value: '9' },
-];
-
 const optionsTT = [
     { label: 'Đang giao dịch', value: '0' },
     { label: 'Ngừng giao dịch', value: '1' },
 ];
 
-const optionsPriceRange = [
-    { label: '0đ - 150,000đ', value: '0' },
-    { label: '150,000đ - 300,000đ', value: '1' },
-    { label: '300,000đ - 500,000đ', value: '2' },
-    { label: '500,000đ - 700,000đ', value: '3' },
-    { label: '700,000đ - Trở lên', value: '4' },
+const optionsNNCC = [
+    { label: 'Sách', value: '0' },
+    { label: 'Vở', value: '1' },
+    { label: 'Bút', value: '2' },
 ];
 
-const optionsSupplier = [
-    { label: 'Công ty Kim Lương', value: '0' },
-    { label: 'Trung tâm giấy An Nghĩa', value: '1' },
-    { label: 'Công ty sách Thịnh Gia', value: '2' },
-    { label: 'Văn phòng phẩm An Phát', value: '3' },
-    { label: 'Đồ chơi Vĩnh Hoàn', value: '4' },
-];
-
-const optionsBrand = [
-    { label: 'Thiên Long', value: '0' },
-    { label: 'Hồng Hà', value: '1' },
-    { label: 'Bến Nghé', value: '2' },
-    { label: 'Campus', value: '3' },
-    { label: 'Deli', value: '4' },
-];
-
-function ListProduct() {
+function ListSupplier() {
     const navigate = useNavigate();
     // SEARCH
     const [search, setSearch] = useState('');
@@ -73,22 +42,16 @@ function ListProduct() {
     };
 
     // FILTER
-    const [selectedLSP, setSelectedLSP] = useState([]);
     const [selectedTT, setSelectedTT] = useState([]);
-    const [selectedPriceRange, setSelectedPriceRange] = useState([]);
-    const [selectedSupplier, setSelectedSupplier] = useState([]);
-    const [selectedBrand, setSelectedBrand] = useState([]);
+    const [selectedNNCC, setSelectedNNCC] = useState([]);
 
     const [openFilter, setOpenFilter] = useState(false);
     const handleOpenFilter = () => setOpenFilter(true);
     const handleCloseFilter = () => setOpenFilter(false);
 
     const handleClearFilter = () => {
-        setSelectedLSP([]);
         setSelectedTT([]);
-        setSelectedPriceRange([]);
-        setSelectedSupplier([]);
-        setSelectedBrand([]);
+        setSelectedNNCC([]);
     };
 
     const handleFilter = () => {
@@ -101,7 +64,7 @@ function ListProduct() {
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            setRows(data);
+            setRows(data8);
             setPending(false);
         }, 500);
         return () => clearTimeout(timeout);
@@ -126,13 +89,13 @@ function ListProduct() {
         } else if (value === 'Ngừng giao dịch') {
             onOpenModal('Ngừng giao dịch?');
         } else {
-            onOpenModal('Xóa sản phẩm?');
+            onOpenModal('Xóa nhà cung cấp?');
         }
     };
 
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
-        navigate('/products/detail/' + row.id);
+        navigate('/suppliers/detail/' + row.id);
     }, []);
 
     // MODAL LOADING
@@ -175,21 +138,21 @@ function ListProduct() {
                             Xuất file
                         </Button>
                         <Button
-                            to="/products/type"
+                            to="/suppliers/group"
                             leftIcon={<FontAwesomeIcon icon={faListUl} />}
                             solidBlue
                             className={cx('margin')}
                         >
-                            Loại sản phẩm
+                            Nhóm nhà cung cấp
                         </Button>
                     </div>
                     <div className={cx('tool-bar-right')}>
                         <Button
-                            to="/products/add"
+                            to="/suppliers/add"
                             leftIcon={<FontAwesomeIcon icon={faPlus} />}
                             solidBlue
                         >
-                            Thêm sản phẩm
+                            Thêm nhà cung cấp
                         </Button>
                     </div>
                 </div>
@@ -197,7 +160,7 @@ function ListProduct() {
                 <List
                     searchVisibility={true}
                     placeholderSearch={
-                        'Tìm kiếm theo mã sản phẩm, tên sản phẩm'
+                        'Tìm kiếm theo mã nhà cung cấp, tên, số điện thoại nhà cung cấp'
                     }
                     search={search}
                     handleSearch={handleSearch}
@@ -211,18 +174,10 @@ function ListProduct() {
                         >
                             <MultiSelectComp
                                 className={cx('margin-bottom')}
-                                options={optionsPriceRange}
-                                placeholder={'Giá bán'}
-                                selected={selectedPriceRange}
-                                setSelected={setSelectedPriceRange}
-                                hasSelectAll={true}
-                            />
-                            <MultiSelectComp
-                                className={cx('margin-bottom')}
-                                options={optionsLSP}
-                                placeholder={'Loại sản phẩm'}
-                                selected={selectedLSP}
-                                setSelected={setSelectedLSP}
+                                options={optionsNNCC}
+                                placeholder={'Nhóm nhà cung cấp'}
+                                selected={selectedNNCC}
+                                setSelected={setSelectedNNCC}
                                 hasSelectAll={true}
                             />
                             <MultiSelectComp
@@ -233,22 +188,6 @@ function ListProduct() {
                                 setSelected={setSelectedTT}
                                 hasSelectAll={true}
                             />
-                            <MultiSelectComp
-                                className={cx('margin-bottom')}
-                                options={optionsSupplier}
-                                placeholder={'Nhà cung cấp'}
-                                selected={selectedSupplier}
-                                setSelected={setSelectedSupplier}
-                                hasSelectAll={true}
-                            />
-                            <MultiSelectComp
-                                className={cx('margin-bottom')}
-                                options={optionsBrand}
-                                placeholder={'Thương hiệu'}
-                                selected={selectedBrand}
-                                setSelected={setSelectedBrand}
-                                hasSelectAll={true}
-                            />
                         </Filter>
                     }
                     // TABLE
@@ -256,19 +195,19 @@ function ListProduct() {
                     pagination
                     onRowClicked={onRowClicked}
                     showSubHeader={showSubHeader}
-                    itemComponent={ProductItem}
+                    itemComponent={SupplierItem}
                     data={rows}
                     pending={pending}
                     handleSelectedItems={handleSelectedProducts}
                     subHeaderComponent={
                         <SubHeader
                             count={selectedRow}
-                            itemName={'sản phẩm'}
+                            itemName={'nhà cung cấp'}
                             onClickAction={onClickAction}
                             items={[
                                 'Đang giao dịch',
                                 'Ngừng giao dịch',
-                                'Xóa sản phẩm',
+                                'Xóa nhà cung cấp',
                             ]}
                         />
                     }
@@ -282,19 +221,19 @@ function ListProduct() {
                     <div>
                         <Button
                             className={cx('btn-cancel')}
-                            outlineBlue={titleModal !== 'Xóa sản phẩm?'}
-                            outlineRed={titleModal === 'Xóa sản phẩm?'}
+                            outlineBlue={titleModal !== 'Xóa nhà cung cấp?'}
+                            outlineRed={titleModal === 'Xóa nhà cung cấp?'}
                             onClick={handleCloseModal}
                         >
                             Hủy
                         </Button>
                         <Button
                             className={cx('btn-ok', 'm-l-10')}
-                            solidBlue={titleModal !== 'Xóa sản phẩm?'}
-                            solidRed={titleModal === 'Xóa sản phẩm?'}
+                            solidBlue={titleModal !== 'Xóa nhà cung cấp?'}
+                            solidRed={titleModal === 'Xóa nhà cung cấp?'}
                             onClick={handleValidation}
                         >
-                            {titleModal === 'Xóa sản phẩm?' ? 'Xóa' : 'Lưu'}
+                            {titleModal === 'Xóa nhà cung cấp?' ? 'Xóa' : 'Lưu'}
                         </Button>
                     </div>
                 }
@@ -302,19 +241,19 @@ function ListProduct() {
                 {titleModal === 'Cập nhật trạng thái?' && (
                     <div className={cx('info')}>
                         Thao tác này sẽ cập nhật trạng thái đang giao dịch cho
-                        <strong> {selectedRow}</strong> sản phẩm bạn đã chọn
+                        <strong> {selectedRow}</strong> nhà cung cấp bạn đã chọn
                     </div>
                 )}
                 {titleModal === 'Ngừng giao dịch?' && (
                     <div className={cx('info')}>
                         Thao tác này sẽ ngừng giao dịch cho
-                        <strong> {selectedRow}</strong> sản phẩm bạn đã chọn
+                        <strong> {selectedRow}</strong> nhà cung cấp bạn đã chọn
                     </div>
                 )}
-                {titleModal === 'Xóa sản phẩm?' && (
+                {titleModal === 'Xóa nhà cung cấp?' && (
                     <div className={cx('info')}>
                         Thao tác này sẽ xóa
-                        <strong> {selectedRow}</strong> sản phẩm bạn đã chọn
+                        <strong> {selectedRow}</strong> nhà cung cấp bạn đã chọn
                     </div>
                 )}
             </ModalComp>
@@ -322,4 +261,4 @@ function ListProduct() {
         </div>
     );
 }
-export default ListProduct;
+export default ListSupplier;

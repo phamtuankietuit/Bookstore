@@ -160,6 +160,7 @@ function ListCheck() {
                     itemComponent={CheckItem}
                     data={rows}
                     pending={pending}
+                    pagination
                 />
             </div>
         </div>

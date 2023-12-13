@@ -72,7 +72,7 @@ function SideBar({ className, title }) {
                             },
                             {
                                 title: 'Nhà cung cấp',
-                                to: '/',
+                                to: '/suppliers',
                             },
                         ]}
                     />

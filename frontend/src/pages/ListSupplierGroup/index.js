@@ -3,11 +3,11 @@ import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-import styles from './TypeProduct.module.scss';
+import styles from './ListSupplierGroup.module.scss';
 import List from '~/components/List';
 import Button from '~/components/Button';
-import { data2 } from '~/components/Table/sample';
-import { TypeProductItem } from '~/components/Item';
+import { data9 } from '~/components/Table/sample';
+import { SupplierGroupItem } from '~/components/Item';
 import SubHeader from '~/components/SubHeader';
 import ModalComp from '~/components/ModalComp';
 import Input from '~/components/Input';
@@ -16,7 +16,7 @@ import { ToastContext } from '~/components/ToastContext';
 
 const cx = classNames.bind(styles);
 
-function TypeProduct() {
+function ListSupplierGroup() {
     const toastContext = useContext(ToastContext);
 
     // MODAL ADD PRODUCT TYPE
@@ -37,7 +37,10 @@ function TypeProduct() {
                 setNameType('');
                 setErrorType('');
                 handleClose();
-                toastContext.notify('success', 'Thêm loại sản phẩm thành công');
+                toastContext.notify(
+                    'success',
+                    'Thêm nhóm nhà cung cấp thành công',
+                );
             }, 2000);
         }
     };
@@ -63,7 +66,7 @@ function TypeProduct() {
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            setRows(data2);
+            setRows(data9);
             setPending(false);
         }, 2000);
         return () => clearTimeout(timeout);
@@ -93,14 +96,14 @@ function TypeProduct() {
                         leftIcon={<FontAwesomeIcon icon={faPlus} />}
                         onClick={handleOpen}
                     >
-                        Thêm loại sản phẩm
+                        Thêm nhóm nhà cung cấp
                     </Button>
                 </div>
                 <div className={cx('table')}>
                     <List
                         searchVisibility={true}
                         placeholderSearch={
-                            'Tìm kiếm loại sản phẩm theo tên, mã loại'
+                            'Tìm kiếm nhóm nhà cung cấp theo tên, mã nhóm'
                         }
                         search={search}
                         handleSearch={handleSearch}
@@ -108,16 +111,16 @@ function TypeProduct() {
                         selectableRows
                         pagination
                         showSubHeader={showSubHeader}
-                        itemComponent={TypeProductItem}
+                        itemComponent={SupplierGroupItem}
                         data={rows}
                         pending={pending}
                         handleSelectedItems={handleSelectedProducts}
                         subHeaderComponent={
                             <SubHeader
                                 count={selectedRow}
-                                itemName={'loại sản phẩm'}
+                                itemName={'nhóm nhà cung cấp'}
                                 onClickAction={onClickAction}
-                                items={['Xóa loại sản phẩm']}
+                                items={['Xóa nhóm nhà cung cấp']}
                             />
                         }
                     />
@@ -126,7 +129,7 @@ function TypeProduct() {
             <ModalComp
                 open={open}
                 handleClose={handleCloseModal}
-                title={'Thêm loại sản phẩm'}
+                title={'Thêm nhóm nhà cung cấp'}
                 actionComponent={
                     <div>
                         <Button
@@ -147,7 +150,7 @@ function TypeProduct() {
                 }
             >
                 <Input
-                    title={'Tên loại sản phẩm'}
+                    title={'Tên nhóm nhà cung cấp'}
                     value={nameType}
                     onChange={(value) => setNameType(value)}
                     error={errorType}
@@ -159,4 +162,4 @@ function TypeProduct() {
     );
 }
 
-export default TypeProduct;
+export default ListSupplierGroup;

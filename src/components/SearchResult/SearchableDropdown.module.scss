@@ -1,23 +1,23 @@
 .search-bar {
     border: 1px solid var(--border-color);
     padding: 10px;
-
     color: var(--border-color);
     flex: 1;
-
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: white;
-
     &:hover {
         border-color: rgba(128, 128, 128, 0.7);
         
         
     }
     
+    
 }
-
+.search-with-result{
+    position: relative;
+}
 .search-bar-icon {
     font-size: 1rem;
 }
@@ -47,14 +47,14 @@
 
 .search-result{
     border: 0.5px solid rgba(0, 0, 0, 0.185);
-    position:absolute;
-    width:auto;
+    width:100%;
     border-radius: 10px;
     background: rgb(255, 254, 254);
     margin-top: 10px;
     min-width: 50%;
-    z-index: 10;
-
+    z-index: 5;
+    position: absolute;
+    color: black;
 }
 
 .result-item{
@@ -70,3 +70,6 @@
     }
 }
 
+.color-gray{
+    color: #637381;
+}

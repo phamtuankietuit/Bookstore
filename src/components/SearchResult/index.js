@@ -7,22 +7,33 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Pagination from 'react-bootstrap/Pagination';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { options, options2 } from './data';
+import { options, options2, options3 } from './data';
 import Item from '../Item_SearchBar';
 import { FaCirclePlus } from "react-icons/fa6";
-
+import Spinner from 'react-bootstrap/Spinner';
 
 const cx = classNames.bind(styles);
 function SearchResult({ setValue, stypeid }) {
 
-    const placeholder = 'Tìm kiếm theo mã sản phẩm tên sản phẩm';
+    const [placeholder, setPlaceholder] = useState('');
 
     const [input, setInput] = useState('');
     const [data, setdata] = useState([]);
     const [open, setOpen] = useState(false);
     useEffect(() => {
-        if (stypeid === 0) setdata(options)
-        else setdata(options2)
+        if (stypeid === 0) {
+            setdata(options)
+            setPlaceholder('Tìm kiếm theo tên nhà cung cấp')
+        }
+        else if (stypeid === 1) {
+            setdata(options2)
+            setPlaceholder('Tìm kiếm theo mã sản phẩm tên sản phẩm')
+        }
+        else {
+            setdata(options3)
+            setPlaceholder('Thêm khách hàng vào đơn')
+        }
+
     });
 
     const handleOnCharge = (value) => {
@@ -51,7 +62,7 @@ function SearchResult({ setValue, stypeid }) {
         setOpen(false)
     }
     return (
-        <div >
+        <div className={cx('search-with-result')}>
             <div
                 className={cx('search-bar')}
             >
@@ -79,24 +90,43 @@ function SearchResult({ setValue, stypeid }) {
                                 thêm mới
                             </div>
                             {
-                                visible.map(option => (
-                                    <div className={cx('result-item')} onClick={(e) => handleClick(option)} key={option.id}>
-                                        {(() => {
-                                            switch (stypeid) {
-                                                case 0:
-                                                    return <div >{option.name}</div>;
-                                                case 1:
-                                                    return <Item product={option} />
-                                                default:
-                                                    return null;
-                                            }
-                                        })()}
-
+                                data.length === 0 ? (
+                                    <div>
+                                        <Spinner animation="border" role="status">
+                                            <span className="visually-hidden">Loading...</span>
+                                        </Spinner>
                                     </div>
+                                ) : (
+                                    <div>
+                                        {
+                                            visible.map(option => (
+                                                <div className={cx('result-item')} onClick={(e) => handleClick(option)} key={option.id}>
+                                                    {(() => {
+                                                        switch (stypeid) {
+                                                            case 0:
+                                                                return <div >{option.name}</div>;
+                                                            case 1:
+                                                                return <Item product={option} />;
+                                                            case 2:
+                                                                return <div>
+                                                                    <p className='fs-6'>{option.name}</p>
+                                                                    <p className={cx('color-gray')}>{option.phone}</p>
+                                                                </div>;
+
+                                                            default:
+                                                                return null;
+                                                        }
+                                                    })()}
+
+                                                </div>
 
 
-                                ))
+                                            ))
+                                        }
+                                    </div>
+                                )
                             }
+
                         </div>
 
 

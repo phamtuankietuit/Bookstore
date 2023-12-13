@@ -14,10 +14,10 @@ function ListCheck() {
                 <Button solidBlue onClick={() => navigate('/checks/add')}>
                     Tạo đơn kiểm hàng
                 </Button>
-                <Button solidBlue onClick={() => navigate('/checks/detail')}>
+                <Button solidBlue onClick={() => navigate('/checks/detail/123')}>
                     Chi tiết đơn kiểm hàng
                 </Button>
-                <Button solidBlue onClick={() => navigate('/checks/update')}>
+                <Button solidBlue onClick={() => navigate('/checks/update/123')}>
                     Chỉnh sửa đơn kiểm hàng
                 </Button>
             </div>

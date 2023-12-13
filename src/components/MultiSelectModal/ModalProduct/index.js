@@ -54,8 +54,7 @@ function ModalProduct({ list, handleClose, handlesubmit }) {
 
         setdata(newArr)
         setSubmit(renderproductlist.filter(items => items.checked === true));
-        if (submitlist.length === renderproductlist.length) setFullchecked(!fullchecked);
-
+        if (submitlist.length === renderproductlist.length) setFullchecked(true);
     }
     const handleSearch = (value) => {
         setSearch(value)

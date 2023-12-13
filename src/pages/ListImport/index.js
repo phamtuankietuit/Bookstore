@@ -14,10 +14,10 @@ function ListImport() {
                 <Button solidBlue onClick={() => navigate('/imports/add')}>
                     Tạo đơn nhập hàng
                 </Button>
-                <Button solidBlue onClick={() => navigate('/imports/detail')}>
+                <Button solidBlue onClick={() => navigate('/imports/detail/123')}>
                     Chi tiết đơn nhập hàng
                 </Button>
-                <Button solidBlue onClick={() => navigate('/imports/update')}>
+                <Button solidBlue onClick={() => navigate('/imports/update/123')}>
                     Chỉnh sửa đơn nhập hàng
                 </Button>
             </div>

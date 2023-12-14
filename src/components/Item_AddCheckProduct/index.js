@@ -44,7 +44,7 @@ function Item_Check({ product, index, funtion }) {
             </div>
             <div className={`${cx('properties-3')}`}>
                 <input className={cx('textfield')} type="number" min={0} defaultValue={product.actualexistence} onChange={(e) => {
-                    if (e.target.value < 0) e.target.value = 0;
+                    if (e.target.value < 0 || e.target.value === '') e.target.value = 0;
                     ChangreNums(e.target.value)
                 }} inputMode='numeric' />
             </div>

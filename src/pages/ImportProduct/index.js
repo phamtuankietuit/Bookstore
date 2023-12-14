@@ -23,6 +23,8 @@ function ImportProduct() {
     const [producer, set] = useState(
         null
     );
+
+    const [list, setList] = useState([])
     const [cost, setCost] = useState(0)
     const [arr, setarr] = useState([]);
     const [discount, setDiscount] = useState(0)
@@ -53,7 +55,7 @@ function ImportProduct() {
 
     const setproducer = (value) => {
         set(value)
-
+        setList(options2)
 
     }
 
@@ -169,7 +171,12 @@ function ImportProduct() {
 
                                                 </NavLink>
                                             </p>
-                                            <FaDeleteLeft onClick={(e) => set(null)} className={cx('icon')} />
+                                            <FaDeleteLeft onClick={(e) => {
+                                                set(null)
+                                                setList([])
+                                                setarr([])
+
+                                            }} className={cx('icon')} />
                                         </div>
                                         <div>
                                             Địa chỉ: {producer.address}
@@ -189,9 +196,9 @@ function ImportProduct() {
                 <div className={cx('frame')}>
                     <p className={cx('title')}>Thông tin sản phẩm</p>
                     <div className='d-flex'>
-                        <div className='flex-grow-1'><SearchResult stypeid={1} setValue={addarr} list={options2} /></div>
+                        <div className='flex-grow-1'><SearchResult stypeid={1} setValue={addarr} list={list} /></div>
 
-                        <MultiSelectModal funtion={handleMultiSelected} list={options2} />
+                        <MultiSelectModal funtion={handleMultiSelected} list={list} />
 
 
                     </div>
@@ -333,7 +340,7 @@ function ImportProduct() {
                                     <input className={`${cx('textfield')} `} type="number" inputMode="numeric" onChange={(e) => {
 
                                         if (e.target.value > total) e.target.value = total;
-                                        else if (e.target.value < 0) e.target.value = 0;
+                                        else if (e.target.value < 0 || e.target.value === '') e.target.value = 0;
                                         setPaid(parseInt(e.target.value))
 
                                     }} />

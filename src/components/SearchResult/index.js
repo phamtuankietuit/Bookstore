@@ -90,7 +90,7 @@ function SearchResult({ setValue, stypeid, list }) {
                             </div>
                             {
                                 data.length === 0 ? (
-                                    <div>
+                                    <div className='text-center mt-3'>
                                         <Spinner animation="border" role="status">
                                             <span className="visually-hidden">Loading...</span>
                                         </Spinner>

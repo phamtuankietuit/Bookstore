@@ -255,34 +255,7 @@ function ImportProduct() {
                                     {nums}
                                 </Col>
                             </Row>
-                            {
-                                open ? (
-                                    <div className={`d-flex ${cx('choose_type')}`}>
-                                        <Button className={typediscount ? `${cx('btn_active')}` : `${cx('btn')}`} onClick={() => setType(true)}>%</Button>
-                                        <Button className={typediscount ? `${cx('btn')}` : `${cx('btn_active')}`} onClick={() => setType(false)}>Giá trị</Button>
-                                        <input className={`ms-3 me-5 w-25 ${cx('textfield')}`} type="number" min={0} max={100} onChange={(e) => {
 
-                                            if (typediscount === true) {
-                                                if (e.target.value > 100) e.target.value = 100;
-                                                else if (e.target.value < 0) e.target.value = 0;
-                                                setTotal(cost * (1 - e.target.value / 100))
-                                            }
-
-                                            else {
-                                                if (e.target.value > cost) e.target.value = cost;
-                                                else if (e.target.value < 0) e.target.value = 0;
-                                                setTotal(cost - e.target.value)
-                                            }
-
-
-                                            setDiscount(parseInt(e.target.value));
-
-                                        }} inputMode='numeric' />
-                                    </div>
-                                ) : (
-                                    <div></div>
-                                )
-                            }
                             <Row className='mt-3'>
                                 <Col xs md lg={8}>
 
@@ -295,10 +268,47 @@ function ImportProduct() {
                             </Row>
                             <Row className='mt-3'>
 
-                                <Col xs md lg={8} onClick={() => setOpen(!open)} className={cx('on_click')}>
+                                <Col xs md lg={8} className={cx('on_click')}>
+                                    <span onClick={() => setOpen(!open)}>
+                                        Chiết khấu
+                                    </span>
 
-                                    Chiết khấu
+                                    {
+                                        open ? (
+                                            <div className={`d-flex ${cx('choose_type')}`}>
+                                                <Button className={typediscount ? `${cx('btn_active')}` : `${cx('btn')}`} onClick={() => {
+                                                    setType(true)
+                                                    setDiscount(0)
+                                                    setTotal(cost)
+                                                }}>%</Button>
+                                                <Button className={typediscount ? `${cx('btn')}` : `${cx('btn_active')}`} onClick={() => {
+                                                    setType(false)
+                                                    setDiscount(0)
+                                                    setTotal(cost)
+                                                }}>Giá trị</Button>
+                                                <input className={`ms-3 me-5 w-25 ${cx('textfield')}`} value={discount} type="number" min={0} max={100} onChange={(e) => {
 
+                                                    if (typediscount === true) {
+                                                        if (e.target.value > 100) e.target.value = 100;
+                                                        else if (e.target.value < 0) e.target.value = 0;
+                                                        setTotal(cost * (1 - e.target.value / 100))
+                                                    }
+
+                                                    else {
+                                                        if (e.target.value > cost) e.target.value = cost;
+                                                        else if (e.target.value < 0) e.target.value = 0;
+                                                        setTotal(cost - e.target.value)
+                                                    }
+
+
+                                                    setDiscount(parseInt(e.target.value));
+
+                                                }} inputMode='numeric' />
+                                            </div>
+                                        ) : (
+                                            <div></div>
+                                        )
+                                    }
                                 </Col>
                                 <Col xs md lg={4} className='text-end pe-5'>
                                     {typediscount === true ? discount : addCommas(discount)}

@@ -15,6 +15,7 @@ import { NavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Item_import from '~/components/Item_ImportProduct';
 import { FaBoxOpen } from "react-icons/fa";
+import { options, options2, options3 } from './data';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 function ImportProduct() {
@@ -148,7 +149,7 @@ function ImportProduct() {
                     {
                         producer === null ? (
                             <div>
-                                <SearchResult setValue={setproducer} stypeid={0} />
+                                <SearchResult setValue={setproducer} stypeid={0} list={options} />
 
                                 <div className={cx('no-info')}>
                                     <p className='text-center w-100'>Chưa có thông tin nhà cung cấp</p>
@@ -188,9 +189,9 @@ function ImportProduct() {
                 <div className={cx('frame')}>
                     <p className={cx('title')}>Thông tin sản phẩm</p>
                     <div className='d-flex'>
-                        <div className='flex-grow-1'><SearchResult stypeid={1} setValue={addarr} /></div>
+                        <div className='flex-grow-1'><SearchResult stypeid={1} setValue={addarr} list={options2} /></div>
 
-                        <MultiSelectModal funtion={handleMultiSelected} />
+                        <MultiSelectModal funtion={handleMultiSelected} list={options2} />
 
 
                     </div>

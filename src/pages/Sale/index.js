@@ -13,6 +13,7 @@ import Item_Sale from '~/components/Item_Sale';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { FaRegCircleXmark } from "react-icons/fa6";
+import { options2, options3 } from '../ImportProduct/data';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
@@ -104,7 +105,7 @@ function Sale() {
             <div className={`${cx('header')} d-flex align-items-center`}>
                 <p className={` ${cx('title')} d-flex `}>Tạo đơn mới</p>
                 <div className={` ${cx('search-bar')} me-auto`}>
-                    <SearchResult stypeid={1} setValue={addarr} />
+                    <SearchResult stypeid={1} setValue={addarr} list={options2} />
                 </div>
                 <div className={`text-end me-4`}>
                     <FaHouseChimney className={` ${cx('icon')}`} />
@@ -152,7 +153,7 @@ function Sale() {
                         <div><div className={` `}>
                             {
                                 customer === null ? (
-                                    <SearchResult stypeid={2} setValue={addCustomer} />
+                                    <SearchResult stypeid={2} setValue={addCustomer} list={options3} />
                                 ) : (
                                     <Row>
                                         <Col lg={1}>

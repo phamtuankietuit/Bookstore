@@ -7,13 +7,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Pagination from 'react-bootstrap/Pagination';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { options, options2, options3 } from './data';
 import Item from '../Item_SearchBar';
 import { FaCirclePlus } from "react-icons/fa6";
 import Spinner from 'react-bootstrap/Spinner';
 
 const cx = classNames.bind(styles);
-function SearchResult({ setValue, stypeid }) {
+function SearchResult({ setValue, stypeid, list }) {
 
     const [placeholder, setPlaceholder] = useState('');
 
@@ -22,15 +21,15 @@ function SearchResult({ setValue, stypeid }) {
     const [open, setOpen] = useState(false);
     useEffect(() => {
         if (stypeid === 0) {
-            setdata(options)
+            setdata(list)
             setPlaceholder('Tìm kiếm theo tên nhà cung cấp')
         }
         else if (stypeid === 1) {
-            setdata(options2)
+            setdata(list)
             setPlaceholder('Tìm kiếm theo mã sản phẩm tên sản phẩm')
         }
         else {
-            setdata(options3)
+            setdata(list)
             setPlaceholder('Thêm khách hàng vào đơn')
         }
 

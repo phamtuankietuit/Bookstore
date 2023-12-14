@@ -58,6 +58,7 @@ function ModalProduct({ list, handleClose, handlesubmit }) {
     }
     const handleSearch = (value) => {
         setSearch(value)
+        console.log(search)
         setcurrentPage(1)
     }
     const handleFullChecked = (value) => {
@@ -116,7 +117,7 @@ function ModalProduct({ list, handleClose, handlesubmit }) {
 
             <hr />
             <div >
-                <SearchBar placeholder={'Tìm kiếm theo tên, mã sản phẩm'} setInput={handleSearch} />
+                <SearchBar placeholder={'Tìm kiếm theo tên, mã sản phẩm'} onChange={handleSearch} />
                 <div className='mt-3 d-flex'>
                     <Form.Check aria-label="option 1" checked={fullchecked} onChange={() => handleFullChecked(fullchecked)} />
                     <p className='ms-2'>Đã chọn {submitlist.length} sản phẩm </p>

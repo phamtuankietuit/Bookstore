@@ -7,3 +7,5 @@ export { ReturnItem } from './ReturnItem/ReturnItem';
 export { DiscountItem } from './DiscountItem/DiscountItem';
 export { SupplierItem } from './SupplierItem/SupplierItem';
 export { SupplierGroupItem } from './SupplierGroupItem/SupplierGroupItem';
+export { CustomerItem } from './CustomerItem/CustomerItem';
+export { StaffItem } from './StaffItem/StaffItem';

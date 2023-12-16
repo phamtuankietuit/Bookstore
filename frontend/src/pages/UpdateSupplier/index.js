@@ -114,7 +114,13 @@ function UpdateSupplier() {
                         <div className={cx('twocols')}>
                             <div className={cx('col1')}>
                                 <Input
-                                    title={'Tên sản phẩm'}
+                                    title={'Mã nhà cung cấp'}
+                                    value={supplier.id}
+                                    className={cx('m-b')}
+                                    readOnly
+                                />
+                                <Input
+                                    title={'Tên nhà cung cấp'}
                                     required
                                     value={name}
                                     onChange={(value) => setName(value)}
@@ -122,17 +128,20 @@ function UpdateSupplier() {
                                     error={errorName}
                                 />
                                 <Input
-                                    title={'Email'}
-                                    value={email}
-                                    onChange={(value) => setEmail(value)}
-                                    className={cx('m-b')}
-                                />
-                                <Input
                                     title={'Địa chỉ'}
                                     value={address}
                                     onChange={(value) => setAddress(value)}
                                     className={cx('m-b')}
                                 />
+                                 <div className={cx('m-b')}>
+                                    <div className={cx('status')}>
+                                        Trạng thái giao dịch
+                                    </div>
+                                    <Switch
+                                        checked={isActive}
+                                        onChange={() => setIsActive(!isActive)}
+                                    />
+                                </div>
                             </div>
                             <div className={cx('col2')}>
                                 <Input
@@ -161,15 +170,12 @@ function UpdateSupplier() {
                                         onClick={handleOpen}
                                     ></Button>
                                 </div>
-                                <div className={cx('m-b')}>
-                                    <div className={cx('status')}>
-                                        Trạng thái giao dịch
-                                    </div>
-                                    <Switch
-                                        checked={isActive}
-                                        onChange={() => setIsActive(!isActive)}
-                                    />
-                                </div>
+                                <Input
+                                    title={'Email'}
+                                    value={email}
+                                    onChange={(value) => setEmail(value)}
+                                    className={cx('m-b')}
+                                />
                             </div>
                         </div>
                     </Wrapper>

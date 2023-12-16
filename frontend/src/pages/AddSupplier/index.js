@@ -90,7 +90,7 @@ function AddSupplier() {
                         <div className={cx('twocols')}>
                             <div className={cx('col1')}>
                                 <Input
-                                    title={'Tên sản phẩm'}
+                                    title={'Tên nhà cung cấp'}
                                     required
                                     value={name}
                                     onChange={(value) => setName(value)}

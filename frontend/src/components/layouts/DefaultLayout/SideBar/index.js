@@ -76,20 +76,10 @@ function SideBar({ className, title }) {
                             },
                         ]}
                     />
-                    <SidebarDropdown
-                        state={title}
-                        icon={<FontAwesomeIcon icon={faUser} />}
+                    <SidebarButton
+                        to={'/customers'}
                         title={'Khách hàng'}
-                        items={[
-                            {
-                                title: 'Danh sách khách hàng',
-                                to: '/',
-                            },
-                            {
-                                title: 'Nhóm khách hàng',
-                                to: '/',
-                            },
-                        ]}
+                        icon={<FontAwesomeIcon icon={faUser} />}
                     />
                     <SidebarDropdown
                         state={title}
@@ -117,7 +107,7 @@ function SideBar({ className, title }) {
                         icon={<FontAwesomeIcon icon={faPercent} />}
                     />
                     <SidebarButton
-                        to={'/'}
+                        to={'/staffs'}
                         title={'Quản lý nhân viên'}
                         icon={<FontAwesomeIcon icon={faClipboardUser} />}
                     />

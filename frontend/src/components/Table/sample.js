@@ -1,3 +1,59 @@
+export const data11 = [
+    {
+        id: 'NV0001',
+        name: 'Nguyễn Văn A',
+        phone: '0235556963',
+        email: 'hello@example.com',
+        dateOfBirth: '28/04/2023',
+        address: '252 Hai Bà Trưng, Bình Thạnh, TPHCM',
+        role: 'Nhân viên bán hàng',
+        isActive: true,
+    },
+    {
+        id: 'NV0002',
+        name: 'Nguyễn Văn A',
+        phone: '0235556963',
+        email: 'hello@example.com',
+        dateOfBirth: '28/04/2023',
+        address: '252 Hai Bà Trưng, Bình Thạnh, TPHCM',
+        role: 'Nhân viên kho',
+        isActive: false,
+    },
+    {
+        id: 'NV0003',
+        name: 'Nguyễn Văn A',
+        phone: '0235556963',
+        email: 'hello@example.com',
+        dateOfBirth: '28/04/2023',
+        address: '252 Hai Bà Trưng, Bình Thạnh, TPHCM',
+        role: 'Quản lý',
+        isActive: true,
+    },
+];
+
+export const data10 = [
+    {
+        id: 'KH0001',
+        name: 'Nguyễn Văn A',
+        phone: '0235556963',
+        email: 'hello@example.com',
+        address: '252 Hai Bà Trưng, Bình Thạnh, TPHCM',
+        totalSpending: 2500000,
+        totalOrder: 25,
+        isActive: true,
+    },
+    {
+        id: 'KH0002',
+        name: 'Nguyễn Văn B',
+        phone: '0235556963',
+        email: 'hello@example.com',
+        address: '252 Hai Bà Trưng, Bình Thạnh, TPHCM',
+        totalSpending: 2500000,
+        totalOrder: 25,
+        isActive: false,
+    },
+];
+
 export const data9 = [
     {
         id: 'NNCC0001',

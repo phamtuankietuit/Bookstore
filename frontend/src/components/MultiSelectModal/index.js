@@ -6,16 +6,13 @@ import Slide from '@mui/material/Slide';
 import classNames from 'classnames/bind';
 import styles from './MultiSelectModal.module.scss';
 import { Box } from '@mui/material';
-import { options2 } from '../SearchResult/data';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ModalProduct from './ModalProduct';
 
-MultiSelectModal.propTypes = {
 
-};
 const cx = classNames.bind(styles);
 
-function MultiSelectModal({ funtion }) {
+function MultiSelectModal({ funtion, list }) {
     const [open, setOpen] = useState(false);
 
 
@@ -47,7 +44,7 @@ function MultiSelectModal({ funtion }) {
                 <Slide in={open}>
                     <Box className={cx('box')}>
                         {
-                            open === true ? (<ModalProduct list={options2} handleClose={handleClose} handlesubmit={handlesubmit} />
+                            open === true ? (<ModalProduct list={list} handleClose={handleClose} handlesubmit={handlesubmit} />
                             ) : (
                                 <div>
 

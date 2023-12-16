@@ -15,6 +15,7 @@ import { NavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Item_import from '~/components/Item_ImportProduct';
 import { FaBoxOpen } from "react-icons/fa";
+import { options, options2, options3 } from './data';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 function ImportProduct() {
@@ -22,6 +23,8 @@ function ImportProduct() {
     const [producer, set] = useState(
         null
     );
+
+    const [list, setList] = useState([])
     const [cost, setCost] = useState(0)
     const [arr, setarr] = useState([]);
     const [discount, setDiscount] = useState(0)
@@ -52,7 +55,7 @@ function ImportProduct() {
 
     const setproducer = (value) => {
         set(value)
-
+        setList(options2)
 
     }
 
@@ -148,7 +151,7 @@ function ImportProduct() {
                     {
                         producer === null ? (
                             <div>
-                                <SearchResult setValue={setproducer} stypeid={0} />
+                                <SearchResult setValue={setproducer} stypeid={0} list={options} />
 
                                 <div className={cx('no-info')}>
                                     <p className='text-center w-100'>Chưa có thông tin nhà cung cấp</p>
@@ -168,7 +171,12 @@ function ImportProduct() {
 
                                                 </NavLink>
                                             </p>
-                                            <FaDeleteLeft onClick={(e) => set(null)} className={cx('icon')} />
+                                            <FaDeleteLeft onClick={(e) => {
+                                                set(null)
+                                                setList([])
+                                                setarr([])
+
+                                            }} className={cx('icon')} />
                                         </div>
                                         <div>
                                             Địa chỉ: {producer.address}
@@ -188,9 +196,9 @@ function ImportProduct() {
                 <div className={cx('frame')}>
                     <p className={cx('title')}>Thông tin sản phẩm</p>
                     <div className='d-flex'>
-                        <div className='flex-grow-1'><SearchResult stypeid={1} setValue={addarr} /></div>
+                        <div className='flex-grow-1'><SearchResult stypeid={1} setValue={addarr} list={list} /></div>
 
-                        <MultiSelectModal funtion={handleMultiSelected} />
+                        <MultiSelectModal funtion={handleMultiSelected} list={list} />
 
 
                     </div>
@@ -254,34 +262,7 @@ function ImportProduct() {
                                     {nums}
                                 </Col>
                             </Row>
-                            {
-                                open ? (
-                                    <div className={`d-flex ${cx('choose_type')}`}>
-                                        <Button className={typediscount ? `${cx('btn_active')}` : `${cx('btn')}`} onClick={() => setType(true)}>%</Button>
-                                        <Button className={typediscount ? `${cx('btn')}` : `${cx('btn_active')}`} onClick={() => setType(false)}>Giá trị</Button>
-                                        <input className={`ms-3 me-5 w-25 ${cx('textfield')}`} type="number" min={0} max={100} onChange={(e) => {
 
-                                            if (typediscount === true) {
-                                                if (e.target.value > 100) e.target.value = 100;
-                                                else if (e.target.value < 0) e.target.value = 0;
-                                                setTotal(cost * (1 - e.target.value / 100))
-                                            }
-
-                                            else {
-                                                if (e.target.value > cost) e.target.value = cost;
-                                                else if (e.target.value < 0) e.target.value = 0;
-                                                setTotal(cost - e.target.value)
-                                            }
-
-
-                                            setDiscount(parseInt(e.target.value));
-
-                                        }} inputMode='numeric' />
-                                    </div>
-                                ) : (
-                                    <div></div>
-                                )
-                            }
                             <Row className='mt-3'>
                                 <Col xs md lg={8}>
 
@@ -294,10 +275,47 @@ function ImportProduct() {
                             </Row>
                             <Row className='mt-3'>
 
-                                <Col xs md lg={8} onClick={() => setOpen(!open)} className={cx('on_click')}>
+                                <Col xs md lg={8} className={cx('on_click')}>
+                                    <span onClick={() => setOpen(!open)}>
+                                        Chiết khấu
+                                    </span>
 
-                                    Chiết khấu
+                                    {
+                                        open ? (
+                                            <div className={`d-flex ${cx('choose_type')}`}>
+                                                <Button className={typediscount ? `${cx('btn_active')}` : `${cx('btn')}`} onClick={() => {
+                                                    setType(true)
+                                                    setDiscount(0)
+                                                    setTotal(cost)
+                                                }}>%</Button>
+                                                <Button className={typediscount ? `${cx('btn')}` : `${cx('btn_active')}`} onClick={() => {
+                                                    setType(false)
+                                                    setDiscount(0)
+                                                    setTotal(cost)
+                                                }}>Giá trị</Button>
+                                                <input className={`ms-3 me-5 w-25 ${cx('textfield')}`} value={discount} type="number" min={0} max={100} onChange={(e) => {
 
+                                                    if (typediscount === true) {
+                                                        if (e.target.value > 100) e.target.value = 100;
+                                                        else if (e.target.value < 0) e.target.value = 0;
+                                                        setTotal(cost * (1 - e.target.value / 100))
+                                                    }
+
+                                                    else {
+                                                        if (e.target.value > cost) e.target.value = cost;
+                                                        else if (e.target.value < 0) e.target.value = 0;
+                                                        setTotal(cost - e.target.value)
+                                                    }
+
+
+                                                    setDiscount(parseInt(e.target.value));
+
+                                                }} inputMode='numeric' />
+                                            </div>
+                                        ) : (
+                                            <div></div>
+                                        )
+                                    }
                                 </Col>
                                 <Col xs md lg={4} className='text-end pe-5'>
                                     {typediscount === true ? discount : addCommas(discount)}
@@ -322,7 +340,7 @@ function ImportProduct() {
                                     <input className={`${cx('textfield')} `} type="number" inputMode="numeric" onChange={(e) => {
 
                                         if (e.target.value > total) e.target.value = total;
-                                        else if (e.target.value < 0) e.target.value = 0;
+                                        else if (e.target.value < 0 || e.target.value === '') e.target.value = 0;
                                         setPaid(parseInt(e.target.value))
 
                                     }} />

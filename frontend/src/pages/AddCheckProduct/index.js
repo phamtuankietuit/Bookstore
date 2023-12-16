@@ -14,6 +14,7 @@ import Item_Check from '~/components/Item_AddCheckProduct';
 import { FaArrowUpFromBracket } from "react-icons/fa6";
 import Modal from 'react-bootstrap/Modal';
 import { FaCloudArrowDown } from "react-icons/fa6";
+import { options2 } from '../ImportProduct/data';
 const cx = classNames.bind(styles);
 function AddCheckProduct(props) {
     let navigate = useNavigate();
@@ -79,9 +80,9 @@ function AddCheckProduct(props) {
                         </div>
                     </div>
                     <div className='d-flex'>
-                        <div className='flex-grow-1'><SearchResult stypeid={1} setValue={addarr} /></div>
+                        <div className='flex-grow-1'><SearchResult stypeid={1} setValue={addarr} list={options2} /></div>
 
-                        <MultiSelectModal funtion={handleMultiSelected} />
+                        <MultiSelectModal funtion={handleMultiSelected} list={options2} />
 
 
                     </div>

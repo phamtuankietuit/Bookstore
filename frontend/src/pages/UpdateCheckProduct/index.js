@@ -18,6 +18,7 @@ import SearchResult from '~/components/SearchResult';
 import MultiSelectModal from '~/components/MultiSelectModal';
 import { FaArrowUpFromBracket } from "react-icons/fa6";
 import { FaCloudArrowDown } from "react-icons/fa6";
+import { options2 } from '../ImportProduct/data';
 const cx = classNames.bind(styles);
 
 
@@ -129,9 +130,9 @@ function UpdateCheckProduct() {
                                     </div>
                                     <hr />
                                     <div className='d-flex mx-3'>
-                                        <div className='flex-grow-1'><SearchResult stypeid={1} setValue={addarr} /></div>
+                                        <div className='flex-grow-1'><SearchResult stypeid={1} setValue={addarr} list={options2} /></div>
 
-                                        <MultiSelectModal funtion={handleMultiSelected} />
+                                        <MultiSelectModal funtion={handleMultiSelected} list={options2} />
 
 
                                     </div>

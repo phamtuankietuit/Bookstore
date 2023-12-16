@@ -199,6 +199,7 @@ const publicRoutes = [
         title: 'Chi tiết đơn trả hàng',
         back: true,
     },
+    // SALE
     {
         path: '/sales',
         component: Sale,

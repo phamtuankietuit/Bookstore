@@ -1,0 +1,21 @@
+.today-percent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: white;
+    color: #37be37;
+    font-size: 12px;
+
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: 600;
+
+    .percent-icon {
+        margin-right: 5px;
+    }
+}
+
+.down {
+    color: #cb2f2f;
+}

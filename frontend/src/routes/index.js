@@ -36,6 +36,7 @@ import UpdateCustomer from '~/pages/UpdateCustomer';
 import ListStaff from '~/pages/ListStaff';
 import AddStaff from '~/pages/AddStaff';
 import InfoStaff from '~/pages/InfoStaff';
+import SellReport from '~/pages/SellReport';
 
 const publicRoutes = [
     // ACCOUNT
@@ -253,6 +254,12 @@ const publicRoutes = [
         component: InfoStaff,
         title: 'Thông tin nhân viên',
         back: true,
+    },
+    // REPORT
+    {
+        path: '/reports/revenue',
+        component: SellReport,
+        title: 'Báo cáo bán hàng',
     },
 ];
 

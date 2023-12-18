@@ -3,10 +3,14 @@ import styles from './Wrapper.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Wrapper({ children, title, className }) {
+function Wrapper({ children, title, className, classNameContent }) {
     const classes = cx('wrapper', {
         [className]: className,
     });
+
+    const classesContent = cx('content', {
+        [classNameContent]: classNameContent,
+    })
 
     return (
         <div className={classes}>
@@ -14,7 +18,7 @@ function Wrapper({ children, title, className }) {
                 <div className={cx('header')}>
                     <div className={cx('title')}>{title}</div>
                 </div>
-                <div className={cx('content')}>{children}</div>
+                <div className={classesContent}>{children}</div>
             </div>
         </div>
     );

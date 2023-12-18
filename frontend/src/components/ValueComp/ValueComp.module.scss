@@ -1,0 +1,25 @@
+.today {
+    height: fit-content;
+    background: #7858f3;
+    background: linear-gradient(to right, #7858f3 0%, #542eee 100%);
+    border-radius: 5px;
+    padding: 15px;
+    color: white;
+
+    .today-title {
+        font-weight: 600;
+        font-size: 16px;
+    }
+
+    .today-content {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        .today-num {
+            font-size: 35px;
+            font-weight: 600;
+            margin-right: 20px;
+        }
+    }
+}

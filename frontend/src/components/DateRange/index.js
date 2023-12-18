@@ -12,7 +12,7 @@ import styles from './DateRange.module.scss';
 
 const cx = classNames.bind(styles);
 
-function DateRange({ className, title, dateString, setDateString }) {
+function DateRange({ className, title, dateString, setDateString, bottom }) {
     const [range, setRange] = useState({});
 
     const handleDateString = (range) => {
@@ -47,7 +47,7 @@ function DateRange({ className, title, dateString, setDateString }) {
                 visible={visible}
                 interactive={true}
                 onClickOutside={hide}
-                placement="left"
+                placement={bottom ? 'bottom' : 'left'}
                 render={(attrs) => (
                     <div className={cx('date-picker-wrapper')}>
                         <div

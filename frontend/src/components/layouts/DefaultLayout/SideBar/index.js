@@ -87,11 +87,11 @@ function SideBar({ className, title }) {
                         title={'Báo cáo'}
                         items={[
                             {
-                                title: 'Báo cáo doanh thu',
-                                to: '/',
+                                title: 'Báo cáo bán hàng',
+                                to: '/reports/revenue',
                             },
                             {
-                                title: 'Báo cáo lợi nhuận',
+                                title: 'Báo cáo nhập hàng',
                                 to: '/',
                             },
                         ]}

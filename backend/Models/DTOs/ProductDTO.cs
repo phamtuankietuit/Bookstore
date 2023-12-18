@@ -41,11 +41,11 @@ namespace SE100_BookstoreWebAPI.Models.DTOs
         [JsonProperty("purchasePrice")]
         public int PurchasePrice { get; set; }
 
+        [JsonProperty("attributes")]
+        public List<string> Attributes { get; set; }
+
         [JsonProperty("details")]
         public Dictionary<string, string> Details { get; set; }
-
-        [JsonProperty("ratings")]
-        public Ratings Ratings { get; set; }
 
         [JsonProperty("isActive")]
         public bool IsActive { get; set; }

@@ -19,5 +19,10 @@ namespace SE100_BookstoreWebAPI.Models.Documents
         [JsonProperty("attributes")]
         public List<string> Attributes { get; set; }
 
+        [JsonProperty("isDeleted")]
+        public bool IsDeleted { get; set; }
+
+        [JsonProperty("ttl")]
+        public int TTL { get; set; }
     }
 }

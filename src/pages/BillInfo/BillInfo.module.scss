@@ -1,0 +1,324 @@
+.container {
+    height: 100vh;
+    width: 100%;
+    background-color: #f0f1f1;
+}
+//tên hoá đơn và trạng thái
+.MainInfo-and-Status {
+    height: 100px;
+    width: 100%;
+    display: flex;
+}
+//MainInfo
+.MainInfo {
+    display: grid;
+    grid-template-rows: 50% 50%;
+}
+.MainInfo .BillCode {
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+}
+.MainInfo .BillCode p {
+    font-size: 18px;
+    font-weight: 550;
+    height: fit-content;
+    width: fit-content;
+    margin-right: 10px;
+}
+.MainInfo .BillStatus {
+    width: 130px;
+    height: 30px;
+    border: 1px solid #0db473;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+}
+.MainInfo .BillStatus p {
+    font-size: 14px;
+    font-weight: normal;
+    height: fit-content;
+    width: fit-content;
+    color: #0db473;
+}
+// in và sao chép
+.Print-and-Copy {
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+}
+.Print-btn {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    width: 150px;
+    background-color: #fff;
+    border: 1px #cdcdcd solid;
+    border-radius: 4px;
+    justify-content: center;
+    &:hover {
+        background-color: #f2f9ff;
+        cursor: pointer;
+    }
+    margin-right: 20px;
+}
+.Print-btn .Print-icon {
+    color: #888888;
+    margin-right: 5px;
+    height: 20px;
+    width: 18px;
+}
+.Print-btn p {
+    font-weight: 600;
+    font-size: 14px;
+}
+.Copy-btn {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    width: 120px;
+    background-color: #fff;
+    border: 1px #cdcdcd solid;
+    border-radius: 4px;
+    justify-content: center;
+    &:hover {
+        background-color: #f2f9ff;
+        cursor: pointer;
+    }
+    margin-right: 20px;
+}
+.Copy-btn .Copy-icon {
+    color: #888888;
+    margin-right: 5px;
+    height: 20px;
+    width: 18px;
+}
+.Copy-btn p {
+    font-weight: 600;
+    font-size: 14px;
+}
+//Trạng thái
+.Status {
+    display: grid;
+    grid-template-rows: 50% 50%;
+    grid-template-columns: 100%;
+}
+.Staff-Date {
+    display: flex;
+    align-items: center;
+}
+//nhân viên phụ trách
+.Staff-info {
+    width: 200px;
+    height: 40px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+.staff-icon {
+    color: #777777;
+    height: 18px;
+    width: 18px;
+}
+.Staff-info p {
+    height: fit-content;
+    width: fit-content;
+    margin-left: 5px;
+}
+.Date-info {
+    width: 250px;
+    height: 40px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    margin-left: 15px;
+}
+.Date-icon {
+    color: #777777;
+    height: 18px;
+    width: 18px;
+}
+.Date-info p {
+    height: fit-content;
+    width: fit-content;
+    margin-left: 5px;
+}
+//Thông tin hoá đơn
+.Bill-Content {
+    height: 180px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 65% 35%;
+}
+//Cột 1
+.Content-grid1 {
+    display: flex;
+    flex-direction: column;
+    padding-left: 15px;
+    padding-top: 10px;
+}
+//Thông tin khách hàng
+.Customer-Info {
+    height: 150px;
+    width: 98%;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    display: flex;
+    flex-direction: column;
+}
+.title {
+    width: 100%;
+    height: 30px;
+    padding-left: 15px;
+    display: flex;
+    align-items: center;
+}
+.title p {
+    font-weight: 500;
+    font-size: 15.5px;
+    height: fit-content;
+    width: fit-content;
+}
+.Customer-Info .Info {
+    height: calc(100% - 30px);
+    width: 100%;
+    display: grid;
+    grid-template-rows: 35px calc(100% - 35px);
+    padding-left: 20px;
+}
+.Info-name-phone {
+    display: flex;
+}
+.name {
+    font-size: 15.5px;
+    color: #007bff;
+    font-weight: 500;
+    margin-right: 4px;
+}
+.phone {
+    font-size: 15.5px;
+    font-weight: 500;
+    margin-left: 4px;
+}
+.Info-contact {
+    display: flex;
+    flex-direction: column;
+}
+.Info-contact p {
+    font-size: 14px;
+    font-weight: 500;
+    height: fit-content;
+    width: fit-content;
+}
+//input text
+.input-text {
+    margin-top: 5px;
+    width: 47%;
+    height: 40px;
+    outline: none;
+    padding-left: 10px;
+    font-size: 14px;
+    font-weight: normal;
+    background-color: #f2f9ff;
+    border-radius: 5px;
+    border: 1px #cdcdcd solid;
+    opacity: 75%;
+    margin-right: 10px;
+}
+.input-container {
+    display: flex;
+}
+.Content-grid2 {
+    padding-top: 10px;
+    display: flex;
+    justify-content: right;
+    padding-right: 30px;
+}
+.Bill-Note {
+    width: 95%;
+    height: 150px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+.Note-content {
+    padding-left: 20px;
+}
+//Danh sách sản phẩm
+.List-Product {
+    width: 100%;
+    height: 400px;
+    padding-left: 20px;
+    padding-right: 30px;
+}
+.List-content {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+.product-list {
+    width: 100%;
+}
+.list-sum {
+    height: 120px;
+    width: 100%;
+    display: flex;
+    justify-content: right;
+}
+.list-sum-content {
+    width: 300px;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 180px 120px;
+}
+.list-sum-content1 {
+    display: flex;
+    flex-direction: column;
+}
+.list-sum-content1 p {
+    height: 30px;
+}
+.list-sum-content2 {
+    display: flex;
+    flex-direction: column;
+    padding-right: 15px;
+    align-items: end;
+}
+.list-sum-content2 p {
+    height: 30px;
+    width: fit-content;
+}
+.button-container {
+    width: 100%;
+    margin-top: 5px;
+    display: flex;
+    padding-right: 30px;
+    justify-content: right;
+}
+.button-container .edit-btn {
+    width: 100px;
+    height: 45px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: #007bff 1px solid;
+    font-weight: 500;
+    color: #007bff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+        background-color: #f2f9ff;
+        cursor: pointer;
+    }
+}

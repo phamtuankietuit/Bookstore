@@ -15,6 +15,8 @@ import InfoCheckProduct from '~/pages/InfoCheckProduct';
 import UpdateCheckProduct from '~/pages/UpdateCheckProduct';
 import DiscountInfo from '~/pages/DiscountInfo';
 import EditDiscount from '~/pages/EditDiscount';
+import BillInfo from '~/pages/BillInfo';
+import EditBillInfo from '~/pages/EditBillInfo';
 
 const publicRoutes = [
     { path: '/', component: Login, layout: null, title: 'Login' },
@@ -102,6 +104,18 @@ const publicRoutes = [
         path: '/editdiscount',
         component: EditDiscount,
         title: 'Sửa khuyến mãi',
+        back: true,
+    },
+    {
+        path: '/billinfo',
+        component: BillInfo,
+        title: 'Thông tin hoá đơn',
+        back: true,
+    },
+    {
+        path: '/editbillinfo',
+        component: EditBillInfo,
+        title: 'Thông tin hoá đơn',
         back: true,
     },
 ];

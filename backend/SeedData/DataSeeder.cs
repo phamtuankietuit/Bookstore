@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SE100_BookstoreWebAPI.Models.Documents;
-using SE100_BookstoreWebAPI.Repository;
+using SE100_BookstoreWebAPI.Repository.Interfaces;
 
 namespace SE100_BookstoreWebAPI.SeedData
 {
@@ -55,7 +55,7 @@ namespace SE100_BookstoreWebAPI.SeedData
             {
                 foreach (var item in categoryItems)
                 {
-                    await _categoryRepository.AddCategoryAsync(item);
+                    await _categoryRepository.AddCategoryDocumentAsync(item);
                 }
 
                 _logger.LogInformation("Populated cart data");
@@ -68,7 +68,7 @@ namespace SE100_BookstoreWebAPI.SeedData
             {
                 foreach (var item in inventoryItems)
                 {
-                    await _productRepository.AddInventoryAsync(item);
+                    await _productRepository.AddInventoryDocumentAsync(item);
                 }
 
                 _logger.LogInformation("Populated customer data");
@@ -81,7 +81,7 @@ namespace SE100_BookstoreWebAPI.SeedData
             {
                 foreach (var item in productsItems)
                 {
-                    await _productRepository.AddProductAsync(item);
+                    await _productRepository.AddProductDocumentAsync(item);
                 }
 
                 _logger.LogInformation("Populated product data");
@@ -94,7 +94,7 @@ namespace SE100_BookstoreWebAPI.SeedData
             {
                 foreach (var item in salesOrdersItems)
                 {
-                    await _salesOrderRepository.AddSalesOrderAsync(item);
+                    await _salesOrderRepository.AddSalesOrderDocumentAsync(item);
                 }
 
                 _logger.LogInformation("Populated order data");
@@ -107,7 +107,7 @@ namespace SE100_BookstoreWebAPI.SeedData
             {
                 foreach (var item in purchaseOrderItems)
                 {
-                    await _purchaseOrderRepository.AddPurchaseOrderAsync(item);
+                    await _purchaseOrderRepository.AddPurchaseOrderDocumentAsync(item);
                 }
 
                 _logger.LogInformation("Populated category data");
@@ -120,7 +120,7 @@ namespace SE100_BookstoreWebAPI.SeedData
             {
                 foreach (var item in suppliersItems)
                 {
-                    await _supplierRepository.AddSupplierAsync(item);
+                    await _supplierRepository.AddSupplierDocumentAsync(item);
                 }
 
                 _logger.LogInformation("Populated staff data");

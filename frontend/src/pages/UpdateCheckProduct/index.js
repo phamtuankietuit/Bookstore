@@ -165,6 +165,7 @@ function UpdateCheckProduct() {
                                             <Form.Select aria-label="Default select example" placeholder='Loai san pham' className={cx('form-select')}
                                                 onChange={(e) => {
                                                     setPerPage(parseInt(e.target.value))
+                                                    setcurrentPage(1)
                                                 }}>
 
                                                 <option value="20">20</option>

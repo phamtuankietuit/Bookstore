@@ -1,12 +1,10 @@
 import styles from './EditBillInfo.module.scss';
 import classNames from 'classnames/bind';
-import { GrPrint } from 'react-icons/gr';
-import { FaRegCopy } from 'react-icons/fa6';
 import { IoPerson } from 'react-icons/io5';
 import { FaCalendarAlt } from 'react-icons/fa';
 import ListBillProduct from '~/components/ListBillProduct';
-import React, { useEffect, useState } from 'react';
 import { data } from './/data';
+
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 

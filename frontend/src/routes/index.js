@@ -37,6 +37,8 @@ import ListStaff from '~/pages/ListStaff';
 import AddStaff from '~/pages/AddStaff';
 import InfoStaff from '~/pages/InfoStaff';
 import SellReport from '~/pages/SellReport';
+import BillInfo from '~/pages/BillInfo';
+import EditBillInfo from '~/pages/EditBillInfo';
 
 const publicRoutes = [
     // ACCOUNT
@@ -56,6 +58,18 @@ const publicRoutes = [
         path: '/orders',
         component: ListOrder,
         title: 'Danh sách đơn hàng',
+    },
+    {
+        path: '/orders/detail/:id',
+        component: BillInfo,
+        title: 'Thông tin hoá đơn',
+        back: true,
+    },
+    {
+        path: '/orders/update/:id',
+        component: EditBillInfo,
+        title: 'Cập nhật hoá đơn',
+        back: true,
     },
     // PRODUCT
     {

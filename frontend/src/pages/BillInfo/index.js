@@ -1,11 +1,12 @@
-import styles from './BillInfo.module.scss';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { GrPrint } from 'react-icons/gr';
 import { FaRegCopy } from 'react-icons/fa6';
 import { IoPerson } from 'react-icons/io5';
 import { FaCalendarAlt } from 'react-icons/fa';
+import styles from './BillInfo.module.scss';
 import ListBillProduct from '~/components/ListBillProduct';
-import React, { useEffect, useState } from 'react';
 import { data } from './/data';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -115,9 +116,9 @@ function BillInfo() {
                 </div>
             </div>
             <div className={cx('button-container')}>
-                <a href="/editbillinfo" className={cx('edit-btn')}>
+                <Link to="/orders/update/HD0001" className={cx('edit-btn')}>
                     Sửa
-                </a>
+                </Link>
             </div>
         </div>
     );

@@ -15,26 +15,28 @@ function ListImportProduct({ list }) {
                 <div className={cx('columns-item-3')}>Số lượng nhập</div>
                 <div className={cx('columns-item-3')}>Đơn giá</div>
                 <div className={cx('columns-item-3')}>Thành tiền</div>
-
             </div>
             <div className={cx('list-import')}>
-                {
-                    list.map((item, index) => (
-                        <div className={`${cx('item')}`} key={item.id}>
-                            <div className={cx('columns-item-1')}>{index + 1}</div>
-                            <div className={cx('columns-item-1')}><img src={item.img} className={cx('img')} /></div>
-                            <div className={cx('columns-item-2')}>
-                                <div>{item.name}</div>
-                                <div>{item.sku}</div>
-                            </div>
-                            <div className={cx('columns-item-3')}>{item.nums}</div>
-                            <div className={cx('columns-item-3')}><div>{addCommas(item.cost)}</div></div>
-                            <div className={cx('columns-item-3')}>{addCommas(item.total)}</div>
+                {list.map((item, index) => (
+                    <div className={`${cx('item')}`} key={item.id}>
+                        <div className={cx('columns-item-1')}>{index + 1}</div>
+                        <div className={cx('columns-item-1')}>
+                            <img src={item.img} className={cx('img')} />
                         </div>
-                    ))
-                }
+                        <div className={cx('columns-item-2')}>
+                            <div>{item.name}</div>
+                            <div>{item.sku}</div>
+                        </div>
+                        <div className={cx('columns-item-3')}>{item.nums}</div>
+                        <div className={cx('columns-item-3')}>
+                            <div>{addCommas(item.cost)}</div>
+                        </div>
+                        <div className={cx('columns-item-3')}>
+                            {addCommas(item.total)}
+                        </div>
+                    </div>
+                ))}
             </div>
-
         </div>
     );
 }

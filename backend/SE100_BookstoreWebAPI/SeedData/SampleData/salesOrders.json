@@ -6,6 +6,8 @@
 		"monthYear": "2023-12",
 		"returnDate": "2023-12-15T00:00:00",
 		"customerType": "Retail",
+		"customerId": "cust00001",
+		"customerName": "Cẩm Nhung",
 		"items": [
 			{
 				"productId": "prod00053",
@@ -27,10 +29,18 @@
 			}
 		],
 		"subtotal": 708000,
-		"discounts": {
-			"name": "",
-			"value": 0
-		},
+		"discountItems": [
+			{
+				"reason": null,
+				"rate": 0,
+				"value": 0,
+				"amount": 0,
+				"source": "manual"
+			}
+		],
+		"discountRate": 0,
+		"discountValue": 0,
+		"discountAmount": 0,
 		"tax": 0,
 		"totalAmount": 708000,
 		"paymentMethod": "cash",
@@ -45,6 +55,8 @@
 		"monthYear": "2023-12",
 		"returnDate": "2023-11-15T00:00:00",
 		"customerType": "Retail",
+		"customerId": "cust00001",
+		"customerName": "Chị Cẩm Nhung",
 		"items": [
 			{
 				"productId": "prod00084",
@@ -84,10 +96,18 @@
 			}
 		],
 		"subtotal": 2620000,
-		"discounts": {
-			"name": "",
-			"value": 0
-		},
+		"discountItems": [
+			{
+				"reason": null,
+				"rate": 0,
+				"value": 0,
+				"amount": 0,
+				"source": "manual"
+			}
+		],
+		"discountRate": 0,
+		"discountValue": 0,
+		"discountAmount": 0,
 		"tax": 0,
 		"totalAmount": 2620000,
 		"paymentMethod": "cash",
@@ -102,6 +122,8 @@
 		"monthYear": "2023-12",
 		"returnDate": "2023-12-15T00:00:00",
 		"customerType": "Retail",
+		"customerId": "cust00001",
+		"customerName": "Chị Cẩm Nhung",
 		"items": [
 			{
 				"productId": "prod00068",
@@ -150,10 +172,18 @@
 			}
 		],
 		"subtotal": 1434500,
-		"discounts": {
-			"name": "",
-			"value": 0
-		},
+		"discountItems": [
+			{
+				"reason": null,
+				"rate": 0,
+				"value": 0,
+				"amount": 0,
+				"source": "manual"
+			}
+		],
+		"discountRate": 0,
+		"discountValue": 0,
+		"discountAmount": 0,
 		"tax": 0,
 		"totalAmount": 1434500,
 		"paymentMethod": "credit_card",
@@ -168,6 +198,8 @@
 		"monthYear": "2023-12",
 		"returnDate": "2023-12-15T00:00:00",
 		"customerType": "Retail",
+		"customerId": "cust00001",
+		"customerName": "Chị Cẩm Nhung",
 		"items": [
 			{
 				"productId": "prod00081",
@@ -180,10 +212,18 @@
 			}
 		],
 		"subtotal": 676000,
-		"discounts": {
-			"name": "",
-			"value": 0
-		},
+		"discountItems": [
+			{
+				"reason": null,
+				"rate": 0,
+				"value": 0,
+				"amount": 0,
+				"source": "manual"
+			}
+		],
+		"discountRate": 0,
+		"discountValue": 0,
+		"discountAmount": 0,
 		"tax": 0,
 		"totalAmount": 676000,
 		"paymentMethod": "credit_card",
@@ -198,6 +238,8 @@
 		"monthYear": "2023-12",
 		"returnDate": "2023-12-15T00:00:00",
 		"customerType": "Retail",
+		"customerId": "cust00001",
+		"customerName": "Chị Cẩm Nhung",
 		"items": [
 			{
 				"productId": "prod00048",
@@ -210,10 +252,18 @@
 			}
 		],
 		"subtotal": 357000,
-		"discounts": {
-			"name": "",
-			"value": 0
-		},
+		"discountItems": [
+			{
+				"reason": null,
+				"rate": 0,
+				"value": 0,
+				"amount": 0,
+				"source": "manual"
+			}
+		],
+		"discountRate": 0,
+		"discountValue": 0,
+		"discountAmount": 0,
 		"tax": 0,
 		"totalAmount": 357000,
 		"paymentMethod": "credit_card",
@@ -228,6 +278,8 @@
 		"monthYear": "2023-12",
 		"returnDate": "2023-12-15T00:00:00",
 		"customerType": "Retail",
+		"customerId": "cust00001",
+		"customerName": "Chị Cẩm Nhung",
 		"items": [
 			{
 				"productId": "prod00046",
@@ -258,10 +310,18 @@
 			}
 		],
 		"subtotal": 884000,
-		"discounts": {
-			"name": "",
-			"value": 0
-		},
+		"discountItems": [
+			{
+				"reason": null,
+				"rate": 0,
+				"value": 0,
+				"amount": 0,
+				"source": "manual"
+			}
+		],
+		"discountRate": 0,
+		"discountValue": 0,
+		"discountAmount": 0,
 		"tax": 0,
 		"totalAmount": 884000,
 		"paymentMethod": "credit_card",
@@ -276,6 +336,8 @@
 		"monthYear": "2023-12",
 		"returnDate": "2023-12-15T00:00:00",
 		"customerType": "Retail",
+		"customerId": "cust00001",
+		"customerName": "Chị Cẩm Nhung",
 		"items": [
 			{
 				"productId": "prod00087",
@@ -297,10 +359,18 @@
 			}
 		],
 		"subtotal": 101000,
-		"discounts": {
-			"name": "",
-			"value": 0
-		},
+		"discountItems": [
+			{
+				"reason": null,
+				"rate": 0,
+				"value": 0,
+				"amount": 0,
+				"source": "manual"
+			}
+		],
+		"discountRate": 0,
+		"discountValue": 0,
+		"discountAmount": 0,
 		"tax": 0,
 		"totalAmount": 101000,
 		"paymentMethod": "banking",
@@ -315,6 +385,8 @@
 		"monthYear": "2023-12",
 		"returnDate": "2023-12-15T00:00:00",
 		"customerType": "Retail",
+		"customerId": "cust00001",
+		"customerName": "Chị Cẩm Nhung",
 		"items": [
 			{
 				"productId": "prod00004",
@@ -345,10 +417,18 @@
 			}
 		],
 		"subtotal": 1431000,
-		"discounts": {
-			"name": "",
-			"value": 0
-		},
+		"discountItems": [
+			{
+				"reason": null,
+				"rate": 0,
+				"value": 0,
+				"amount": 0,
+				"source": "manual"
+			}
+		],
+		"discountRate": 0,
+		"discountValue": 0,
+		"discountAmount": 0,
 		"tax": 0,
 		"totalAmount": 1431000,
 		"paymentMethod": "credit_card",
@@ -363,6 +443,8 @@
 		"monthYear": "2023-12",
 		"returnDate": "2023-12-15T00:00:00",
 		"customerType": "Retail",
+		"customerId": "cust00001",
+		"customerName": "Chị Cẩm Nhung",
 		"items": [
 			{
 				"productId": "prod00043",
@@ -393,10 +475,18 @@
 			}
 		],
 		"subtotal": 1108000,
-		"discounts": {
-			"name": "",
-			"value": 0
-		},
+		"discountItems": [
+			{
+				"reason": null,
+				"rate": 0,
+				"value": 0,
+				"amount": 0,
+				"source": "manual"
+			}
+		],
+		"discountRate": 0,
+		"discountValue": 0,
+		"discountAmount": 0,
 		"tax": 0,
 		"totalAmount": 1108000,
 		"paymentMethod": "credit_card",
@@ -407,10 +497,12 @@
 	{
 		"id": "ord00010",
 		"orderId": "ord00010",
-		"createdAt": "2023-12-10T00:00:00",
+		"createdAt": "2023-12-12T00:00:00",
 		"monthYear": "2023-12",
-		"returnDate": "2023-12-15T00:00:00",
+		"returnDate": "2023-12-17T00:00:00",
 		"customerType": "Retail",
+		"customerId": "cust00001",
+		"customerName": "Chị Cẩm Nhung",
 		"items": [
 			{
 				"productId": "prod00097",
@@ -459,10 +551,18 @@
 			}
 		],
 		"subtotal": 813000,
-		"discounts": {
-			"name": "",
-			"value": 0
-		},
+		"discountItems": [
+			{
+				"reason": null,
+				"rate": 0,
+				"value": 0,
+				"amount": 0,
+				"source": "manual"
+			}
+		],
+		"discountRate": 0,
+		"discountValue": 0,
+		"discountAmount": 0,
 		"tax": 0,
 		"totalAmount": 813000,
 		"paymentMethod": "banking",

@@ -1,0 +1,36 @@
+[
+	{
+		"id": "prom00001",
+		"promotionId": "prom00001",
+		"name": "Khuyến mãi Tết",
+		"type": "on_order_total_amount",
+		"typeName": "Chiết khấu theo tổng giá trị đơn hàng",
+		"applyToQuantity": 15,
+		"usedQuantity": 3,
+		"remainQuantity": 12,
+		"applyFromAmount": 0,
+		"applyToAmount": 300000,
+		"discountRate": 15,
+		"discountValue": 0,
+		"startAt": "2023-12-20T16:52:47Z",
+		"closeAt": "2023-12-22T16:52:47Z",
+		"status": "running"
+	},
+	{
+		"id": "prom00002",
+		"promotionId": "prom00002",
+		"name": "Khuyến mãi Hè",
+		"type": "on_order_total_amount",
+		"typeName": "Chiết khấu theo tổng giá trị đơn hàng",
+		"applyToQuantity": 30,
+		"usedQuantity": 0,
+		"remainQuantity": 30,
+		"applyFromAmount": 100000,
+		"applyToAmount": 1000000,
+		"discountRate": 20,
+		"discountValue": 0,
+		"startAt": "2024-3-20T16:00:00Z",
+		"closeAt": "2024-5-20T16:00:00Z",
+		"status": "paused"
+	}
+]

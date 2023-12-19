@@ -8,10 +8,6 @@ using Microsoft.Extensions.Hosting;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults()
-    .ConfigureAppConfiguration((context, config) =>
-    {
-        config.AddJsonFile("local.settings.json", optional: true, reloadOnChange: true);
-    })
     .ConfigureServices((context, services) =>
     {
         services.AddApplicationInsightsTelemetryWorkerService();

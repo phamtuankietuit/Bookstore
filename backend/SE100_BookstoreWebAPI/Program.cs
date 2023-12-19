@@ -41,6 +41,8 @@ builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 builder.Services.AddTransient<ISupplierRepository, SupplierRepository>();
 builder.Services.AddTransient<ISalesOrderRepository, SalesOrderRepository>();
 builder.Services.AddTransient<IPurchaseOrderRepository, PurchaseOrderRepository>();
+builder.Services.AddTransient<IPromotionRepository, PromotionRepository>();
+builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
 builder.Services.AddTransient<DataSeeder>();
 builder.Services.AddControllers();
 
@@ -114,7 +116,9 @@ async Task<bool> EnsureContainersAreCreatedAsync(Database database)
         ("inventory", "/sku"),
         ("suppliers", "/supplierId"),
         ("salesOrders", "/monthYear"),
-        ("purchaseOrders", "/monthYear")
+        ("purchaseOrders", "/monthYear"),
+        ("promotions", "/promotionId"),
+        ("customers","/customerId")
     };
 
     foreach (var (containerName, partitionKeyPath) in containersToCreate)

@@ -12,6 +12,8 @@ namespace SE100_BookstoreWebAPI.SeedData
         private readonly string _salesOrdersFilePath = "./SeedData/SampleData/salesOrders.json";
         private readonly string _purchaseOrdersFilePath = "./SeedData/SampleData/purchaseOrders.json";
         private readonly string _suppliersFilePath = "./SeedData/SampleData/suppliers.json";
+        private readonly string _promotionsFilePath = "./SeedData/SampleData/promotions.json";
+        private readonly string _customersFilePath = "./SeedData/SampleData/customers.json";
 
 
         private readonly IProductRepository _productRepository;
@@ -19,6 +21,8 @@ namespace SE100_BookstoreWebAPI.SeedData
         private readonly ISalesOrderRepository _salesOrderRepository;
         private readonly IPurchaseOrderRepository _purchaseOrderRepository;
         private readonly ISupplierRepository _supplierRepository;
+        private readonly IPromotionRepository _promotionRepository;
+        private readonly ICustomerRepository _customerRepository;
         private readonly ILogger _logger;
 
         public DataSeeder(
@@ -27,7 +31,8 @@ namespace SE100_BookstoreWebAPI.SeedData
             ISalesOrderRepository salesOrderRepository,
             IPurchaseOrderRepository purchaseOrderRepository,
             ISupplierRepository supplierRepository,
-
+            IPromotionRepository promotionRepository,
+            ICustomerRepository customerRepository,
             ILogger<DataSeeder> logger)
         {
             this._productRepository = productRepository;
@@ -35,6 +40,8 @@ namespace SE100_BookstoreWebAPI.SeedData
             this._salesOrderRepository = salesOrderRepository;
             this._purchaseOrderRepository = purchaseOrderRepository;
             this._supplierRepository = supplierRepository;
+            this._promotionRepository = promotionRepository;
+            this._customerRepository = customerRepository;
             this._logger = logger;
         }
 
@@ -47,6 +54,10 @@ namespace SE100_BookstoreWebAPI.SeedData
             var salesOrdersJsonData = File.ReadAllText(_salesOrdersFilePath);
             var purchaseOrdersJsonData = File.ReadAllText(_purchaseOrdersFilePath);
             var suppliersJsonData = File.ReadAllText(_suppliersFilePath);
+            var promotionsJsonData = File.ReadAllText(_promotionsFilePath);
+            var customersJsonData = File.ReadAllText(_customersFilePath);
+
+
 
             // Seed Carts
             var categoryItems = JsonConvert.DeserializeObject<List<CategoryDocument>>(categoriesJsonData);
@@ -124,6 +135,34 @@ namespace SE100_BookstoreWebAPI.SeedData
                 }
 
                 _logger.LogInformation("Populated staff data");
+            }
+
+
+            // Seed promotions
+            var PromotionItems = JsonConvert.DeserializeObject<List<PromotionDocument>>(promotionsJsonData);
+
+            if (PromotionItems != null)
+            {
+                foreach (var item in PromotionItems)
+                {
+                    await _promotionRepository.AddPromotionDocumentAsync(item);
+                }
+
+                _logger.LogInformation("Populated promotion data");
+            }
+
+
+            // Seed customers
+            var customerItems = JsonConvert.DeserializeObject<List<CustomerDocument>>(customersJsonData);
+
+            if (customerItems != null)
+            {
+                foreach (var item in customerItems)
+                {
+                    await _customerRepository.AddCustomerDocumentAsync(item);
+                }
+
+                _logger.LogInformation("Populated customer data");
             }
         }
     }

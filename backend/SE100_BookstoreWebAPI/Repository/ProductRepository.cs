@@ -36,7 +36,7 @@ namespace SE100_BookstoreWebAPI.Repository
             );
 
 
-            _logger.LogInformation($"Inventory with id {item.Id} added");
+            //_logger.LogInformation($"Inventory with id {item.Id} added");
         }
 
         public async Task AddProductDocumentAsync(ProductDocument item)
@@ -46,7 +46,7 @@ namespace SE100_BookstoreWebAPI.Repository
                 partitionKey: new PartitionKey(item.Sku)
             );
 
-            _logger.LogInformation($"Product with id {item.Id} added");
+            //_logger.LogInformation($"Product with id {item.Id} added");
         }
 
         public async Task AddProductDTOAsync(ProductDTO productDTO)

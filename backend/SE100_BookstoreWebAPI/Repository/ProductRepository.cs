@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Cosmos.Serialization.HybridRow;
 using Microsoft.Extensions.Caching.Memory;
 using SE100_BookstoreWebAPI.Models.Documents;
 using SE100_BookstoreWebAPI.Models.DTOs;
@@ -54,8 +55,7 @@ namespace SE100_BookstoreWebAPI.Repository
             var inventoryDoc = _mapper.Map<InventoryDocument>(productDTO);
 
             inventoryDoc.Id = await GetNewInventoryIdAsync();
-            productDoc.IsDeleted = false;
-            inventoryDoc.IsDeleted = false;
+            inventoryDoc.LastRestocked = DateTime.UtcNow;
 
             _memoryCache.Set("LatestInventoryId", IdUtils.IncreaseId(inventoryDoc.Id));
             _memoryCache.Set("LatestProductId", IdUtils.IncreaseId(productDoc.Id));
@@ -70,9 +70,15 @@ namespace SE100_BookstoreWebAPI.Repository
         public async Task UpdateProductDTOAsync(ProductDTO productDTO)
         {
             var productDoc = _mapper.Map<ProductDocument>(productDTO);
+            CheckForNull(productDoc);
+
             var inventoryDoc = _mapper.Map<InventoryDocument>(productDTO);
+            CheckForNull(inventoryDoc);
+
+
+
             var inventoryDocInDb = await GetInventoryDocumentByProductIdAsync(inventoryDoc.Id);
-            inventoryDoc.Id = inventoryDocInDb.Id;
+            inventoryDoc.Id = inventoryDocInDb!.Id;
             inventoryDoc.LastRestocked = inventoryDocInDb.LastRestocked;
 
             await AddInventoryDocumentAsync(inventoryDoc);
@@ -98,14 +104,6 @@ namespace SE100_BookstoreWebAPI.Repository
                 "ORDER BY p.id DESC"
             );
 
-            //using var feed = _productContainer.GetItemQueryIterator<ResponseToGetId>(
-            //    queryDefinition: queryDef
-            //);
-            //var response = await feed.ReadNextAsync();
-            //LogRequestCharged(response.RequestCharge);
-
-            //lastestId = response.First().Id;
-
             string currLastestId = (await CosmosDbUtils.GetDocumentByQueryDefinition<ResponseToGetId>(_productContainer, queryDef))!.Id;
             string newId = IdUtils.IncreaseId(currLastestId);
 
@@ -130,13 +128,6 @@ namespace SE100_BookstoreWebAPI.Repository
                 "ORDER BY i.id DESC"
             );
 
-            //using var feed = _inventoryContainer.GetItemQueryIterator<ResponseToGetId>(
-            //    queryDefinition: queryDef
-            //);
-            //var response = await feed.ReadNextAsync();
-            //LogRequestCharged(response.RequestCharge);
-
-            //lastestId = response.First().Id;
             string currLastestId = (await CosmosDbUtils.GetDocumentByQueryDefinition<ResponseToGetId>(_inventoryContainer, queryDef))!.Id;
             string newId = IdUtils.IncreaseId(currLastestId);
 
@@ -200,10 +191,14 @@ namespace SE100_BookstoreWebAPI.Repository
         }
 
 
-        public async Task<ProductDTO?> GetProductDTOBySkuAsync(string sku)
+        public async Task<ProductDTO> GetProductDTOBySkuAsync(string sku)
         {
             var productDoc = await GetProductDocumentBySkuAsync(sku);
+            CheckForNull(productDoc);
+
             var inventoryDoc = await GetInventoryDocumentBySkuASync(sku);
+            CheckForNull(inventoryDoc);
+
 
             var result = _mapper.Map<ProductDTO>((productDoc, inventoryDoc));
 
@@ -211,7 +206,7 @@ namespace SE100_BookstoreWebAPI.Repository
         }
 
 
-        private async Task<ProductDocument?> GetProductDocumentBySkuAsync(string sku)
+        private async Task<ProductDocument> GetProductDocumentBySkuAsync(string sku)
         {
             var queryDef = new QueryDefinition(
                 query: "SELECT * " +
@@ -221,7 +216,9 @@ namespace SE100_BookstoreWebAPI.Repository
 
             var result = await CosmosDbUtils.GetDocumentByQueryDefinition<ProductDocument>(_productContainer, queryDef);
 
-            return result;
+            CheckForNull(result);
+
+            return result!;
         }
 
         private async Task<InventoryDocument> GetInventoryDocumentBySkuASync(string sku)
@@ -234,13 +231,19 @@ namespace SE100_BookstoreWebAPI.Repository
 
             var result = await CosmosDbUtils.GetDocumentByQueryDefinition<InventoryDocument>(_inventoryContainer, queryDef);
 
-            return result;
+
+            CheckForNull(result);
+
+            return result!;
         }
 
-        public async Task<ProductDTO?> GetProductDTOByIdAsync(string id)
+        public async Task<ProductDTO> GetProductDTOByIdAsync(string id)
         {
             var productDoc = await GetProductDocumentByIdAsync(id);
+            CheckForNull(productDoc);
+
             var inventoryDoc = await GetInventoryDocumentByProductIdAsync(id);
+            CheckForNull(inventoryDoc);
 
             var result = _mapper.Map<ProductDTO>((productDoc, inventoryDoc));
 
@@ -257,7 +260,10 @@ namespace SE100_BookstoreWebAPI.Repository
 
             var result = await CosmosDbUtils.GetDocumentByQueryDefinition<ProductDocument>(_productContainer, queryDef);
 
-            return result;
+
+            CheckForNull(result);
+
+            return result!;
         }
 
         private async Task<InventoryDocument?> GetInventoryDocumentByProductIdAsync(string productId)
@@ -275,26 +281,33 @@ namespace SE100_BookstoreWebAPI.Repository
         }
 
 
-        private void LogRequestCharged(double requestCharge)
-        {
-            _logger.LogInformation($"Request charged: {requestCharge}");
-        }
-
         public async Task DeleteProductDTOAsync(string id)
         {
             var productDoc = await GetProductDocumentByIdAsync(id);
-            var inventoryDoc = await GetInventoryDocumentByProductIdAsync(id);
+            CheckForNull(productDoc);
 
-            productDoc.IsDeleted = true;
-            inventoryDoc.IsDeleted = true;
+            var inventoryDoc = await GetInventoryDocumentByProductIdAsync(id);
+            CheckForNull(inventoryDoc);
 
             List<PatchOperation> operations = new List<PatchOperation>()
             {
-                PatchOperation.Replace("/isDeleted", false)
+                PatchOperation.Replace("/isDeleted", true)
             };
 
             await _productContainer.PatchItemAsync<dynamic>(productDoc.Id, new PartitionKey(productDoc.Sku), operations);
             await _inventoryContainer.PatchItemAsync<dynamic>(inventoryDoc.Id, new PartitionKey(inventoryDoc.Sku), operations);
+        }
+
+
+        private void CheckForNull<TDocument>(TDocument? document)
+        {
+            if (document == null) throw new ArgumentNullException(nameof(document));
+        }
+
+
+        private void LogRequestCharged(double requestCharge)
+        {
+            _logger.LogInformation($"Request charged: {requestCharge}");
         }
     }
 }

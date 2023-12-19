@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SE100_BookstoreWebAPI", "SE100_BookstoreWebAPI.csproj", "{1622DD5E-628F-46FB-8D3D-D83E8FE5DC7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SE100_BookstoreWebAPI", "SE100_BookstoreWebAPI\SE100_BookstoreWebAPI.csproj", "{1622DD5E-628F-46FB-8D3D-D83E8FE5DC7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChangeFeedCatchFunction", "ChangeFeedCatchFunction\ChangeFeedCatchFunction.csproj", "{FB1C0973-AC13-4344-8AF7-11966285F002}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChangeFeedCatchFunction", "ChangeFeedCatchFunction\ChangeFeedCatchFunction.csproj", "{FB1C0973-AC13-4344-8AF7-11966285F002}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

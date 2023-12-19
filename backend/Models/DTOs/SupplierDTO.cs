@@ -5,8 +5,6 @@ namespace SE100_BookstoreWebAPI.Models.DTOs
 {
     public class SupplierDTO
     {
-        [JsonProperty("id")]
-        public string Id { get; set; }
 
         [JsonProperty("supplierId")]
         public string SupplierId { get; set; }

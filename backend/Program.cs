@@ -1,18 +1,19 @@
 using Microsoft.Azure.Cosmos;
 using SE100_BookstoreWebAPI.Repository;
+using SE100_BookstoreWebAPI.Repository.Interfaces;
 using SE100_BookstoreWebAPI.SeedData;
+using SE100_BookstoreWebAPI.Utils;
 using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
-
-
-var configuration = builder.Configuration;
+builder.Services.AddMemoryCache();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // Add services to the container.
-
+var configuration = builder.Configuration;
 builder.Services.AddSingleton((provider) =>
 {
     var endpointUri = configuration["CosmosDbSettings:EndpointUri"];

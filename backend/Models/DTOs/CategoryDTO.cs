@@ -4,9 +4,6 @@ namespace SE100_BookstoreWebAPI.Models.DTOs
 {
     public class CategoryDTO
     {
-        [JsonProperty("id")]
-        public string Id { get; set; }
-
         [JsonProperty("categoryId")]
         public string CategoryId { get; set; }
 

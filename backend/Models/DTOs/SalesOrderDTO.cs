@@ -5,8 +5,6 @@ namespace SE100_BookstoreWebAPI.Models.DTOs
 {
     public class SalesOrderDTO
     {
-        [JsonProperty("id")]
-        public string Id { get; set; }
 
         [JsonProperty("orderId")]
         public string OrderId { get; set; }

@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace SE100_BookstoreWebAPI.Models.Documents
+namespace ChangeFeedCatchFunction.Models
 {
-    public class CategoryDocument
+    public class Category
     {
         [JsonProperty("id")]
         public string Id { get; set; }

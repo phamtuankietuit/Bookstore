@@ -132,7 +132,17 @@ async Task<bool> EnsureContainersAreCreatedAsync(Database database)
 
 async Task<HttpStatusCode> GetContainerCreationStatusCode(Database database, string containerName, string partitionKeyPath)
 {
-    var response = await database.CreateContainerIfNotExistsAsync(containerName, partitionKeyPath);
+    ContainerProperties properties = new()
+    {
+        Id = containerName,
+        PartitionKeyPath = partitionKeyPath,
+        // Expire all documents after 90 days
+        DefaultTimeToLive = -1
+    };
+
+    var response = await database.CreateContainerIfNotExistsAsync(properties);
+
+
 
     if (response.StatusCode == HttpStatusCode.Created)
         app.Logger.LogInformation($"Container {containerName} created");

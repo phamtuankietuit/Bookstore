@@ -10,37 +10,16 @@ namespace SE100_BookstoreWebAPI.Utils
         {
             CreateMap<ProductDTO, ProductDocument>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductId))
-                .ForMember(dest => dest.ProductId , opt => opt.MapFrom(src => src.ProductId))
-                .ForMember(dest => dest.CategoryId , opt => opt.MapFrom(src => src.CategoryId))
-                .ForMember(dest => dest.CategoryName , opt => opt.MapFrom(src => src.CategoryName))
-                .ForMember(dest => dest.Sku , opt => opt.MapFrom(src => src.Sku))
-                .ForMember(dest => dest.Name , opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.Description , opt => opt.MapFrom(src => src.Description))
-                .ForMember(dest => dest.SalePrice , opt => opt.MapFrom(src => src.SalePrice))
-                .ForMember(dest => dest.PurchasePrice , opt => opt.MapFrom(src => src.PurchasePrice))
-                .ForMember(dest => dest.Attributes, opt => opt.MapFrom(src => src.Attributes))
-                .ForMember(dest => dest.Details, opt => opt.MapFrom(src => src.Details))
                 .ForMember(dest => dest.Ratings, opt => opt.Ignore())
-                .ForMember(dest => dest.IsActive , opt => opt.MapFrom(src => src.IsActive))
-                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt))
-                .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images))
-                .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.Tags))
-                .ForMember(dest => dest.IsDeleted, opt => opt.Ignore()) // Assuming this is handled elsewhere
+                .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(src => false)) // Assuming this is handled elsewhere
                 ;
+
             CreateMap<ProductDTO, InventoryDocument>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore()) // Assuming Id is generated elsewhere
                 .ForMember(dest => dest.LastRestocked, opt => opt.Ignore()) // Handle this based on your logic
-                .ForMember(dest => dest.IsDeleted, opt => opt.Ignore()) // Assuming this is handled elsewhere
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
-                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt))
-                .ForMember(dest => dest.Barcode, opt => opt.MapFrom(src => src.Barcode))
-                .ForMember(dest => dest.Sku, opt => opt.MapFrom(src => src.Sku))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.MinStock, opt => opt.MapFrom(src => src.MinStock))
-                .ForMember(dest => dest.MaxStock, opt => opt.MapFrom(src => src.MaxStock))
-                .ForMember(dest => dest.CurrentStock, opt => opt.MapFrom(src => src.CurrentStock))
-                .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
+                .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(src => false)) // Assuming this is handled elsewhere
                 ;
+
             CreateMap<(ProductDocument, InventoryDocument), ProductDTO>()
                 .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.Item1.ProductId))
                 .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Item1.CategoryId))

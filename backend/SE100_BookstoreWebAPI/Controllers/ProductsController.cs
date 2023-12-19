@@ -118,8 +118,8 @@ namespace SE100_BookstoreWebAPI.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateProductAsync(string id, [FromBody] ProductDTO productDTO)
+        [HttpPut]
+        public async Task<ActionResult> UpdateProductAsync([FromBody] ProductDTO productDTO)
         {
             if (productDTO == null)
             {

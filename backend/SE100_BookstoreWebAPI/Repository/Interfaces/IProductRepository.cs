@@ -17,8 +17,8 @@ namespace SE100_BookstoreWebAPI.Repository.Interfaces
         Task<IEnumerable<ProductDTO>> GetProductDTOsAsync();
         Task<IEnumerable<ProductDocument>> GetProductDocumentsInCategoryAsync(string categoryId);
         //Task<IEnumerable<ProductDTO>> GetProductDTOsInCategoryAsync(string categoryName);
-        Task<ProductDTO?> GetProductDTOBySkuAsync(string sku);
-        Task<ProductDTO?> GetProductDTOByIdAsync(string id);
+        Task<ProductDTO> GetProductDTOBySkuAsync(string sku);
+        Task<ProductDTO> GetProductDTOByIdAsync(string id);
         Task DeleteProductDTOAsync(string id);
     }
 }

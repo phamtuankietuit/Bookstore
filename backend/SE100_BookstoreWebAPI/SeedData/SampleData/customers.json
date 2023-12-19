@@ -1,0 +1,26 @@
+[
+	{
+		"id": "cust00001",
+		"customerId": "cust00001",
+		"name": "Cẩm Nhung",
+		"sex": "female",
+		"email": "nhungcam00001@gmail.com",
+		"phoneNumber": "0988776655",
+		"salesOrder": {
+			"lastOrderAt": "2023-12-12T00:00:00",
+			"purchasedOrder": 10,
+			"orderedQuantity": 90,
+			"returnQuantity": 0,
+			"totalPay": 9400800
+		},
+		"createdAt": "2023-12-05T14:14:29Z",
+		"address": {
+			"address": "Quảng Bình, Hà Nội, VN",
+			"phoneNumber": "0988776655",
+			"name": "Nhà",
+			"email": "nhungcam00001@gmail.com"
+		},
+		"note": "",
+		"tags": []
+	}
+]

@@ -67,7 +67,9 @@ namespace SE100_BookstoreWebAPI.Utils
 
             CreateMap<SupplierDocument, SupplierDTO>();
 
+            CreateMap<PromotionDocument, PromotionDTO>();
 
+            CreateMap<PromotionDTO, PromotionDocument>();
         }
     }
 }

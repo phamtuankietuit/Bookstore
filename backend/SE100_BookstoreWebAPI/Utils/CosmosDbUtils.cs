@@ -43,5 +43,11 @@ namespace SE100_BookstoreWebAPI.Utils
 
             return default;
         }
+
+        public static void CheckForNullToThrowException<TDocument>(TDocument document)
+        {
+            if (document == null)
+                throw new ArgumentNullException(nameof(document));
+        }
     }
 }

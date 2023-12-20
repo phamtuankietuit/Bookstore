@@ -13,6 +13,7 @@
 .logo-container {
     height: 100%;
     width: 4%;
+    min-width: 45px;
     justify-content: center;
     align-items: center;
 }
@@ -23,6 +24,7 @@
 .tab-container {
     height: 100%;
     width: 21%;
+    min-width: 250px;
     display: flex;
 }
 .profile-tag {

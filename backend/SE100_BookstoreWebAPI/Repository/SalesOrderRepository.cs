@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Caching.Memory;
-using SE100_BookstoreWebAPI.Models.Documents;
-using SE100_BookstoreWebAPI.Models.DTOs;
-using SE100_BookstoreWebAPI.Repository.Interfaces;
-using SE100_BookstoreWebAPI.Utils;
+using BookstoreWebAPI.Models.Documents;
+using BookstoreWebAPI.Models.DTOs;
+using BookstoreWebAPI.Repository.Interfaces;
+using BookstoreWebAPI.Utils;
 
-namespace SE100_BookstoreWebAPI.Repository
+namespace BookstoreWebAPI.Repository
 {
     public class SalesOrderRepository : ISalesOrderRepository
     {

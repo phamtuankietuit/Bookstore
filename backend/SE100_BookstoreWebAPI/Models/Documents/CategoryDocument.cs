@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace SE100_BookstoreWebAPI.Models.Documents
+namespace BookstoreWebAPI.Models.Documents
 {
     public class CategoryDocument
     {

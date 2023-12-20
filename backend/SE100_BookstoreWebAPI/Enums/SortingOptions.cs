@@ -1,4 +1,4 @@
-﻿namespace SE100_BookstoreWebAPI.Enums
+﻿namespace BookstoreWebAPI.Enums
 {
     public enum SortingOptions
     {

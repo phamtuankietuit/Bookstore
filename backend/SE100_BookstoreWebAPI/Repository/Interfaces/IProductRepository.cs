@@ -1,8 +1,8 @@
-﻿using SE100_BookstoreWebAPI.Models.BindingModels;
-using SE100_BookstoreWebAPI.Models.Documents;
-using SE100_BookstoreWebAPI.Models.DTOs;
+﻿using BookstoreWebAPI.Models.BindingModels;
+using BookstoreWebAPI.Models.Documents;
+using BookstoreWebAPI.Models.DTOs;
 
-namespace SE100_BookstoreWebAPI.Repository.Interfaces
+namespace BookstoreWebAPI.Repository.Interfaces
 {
     public interface IProductRepository
     {

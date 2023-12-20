@@ -1,8 +1,8 @@
 using Microsoft.Azure.Cosmos;
-using SE100_BookstoreWebAPI.Repository;
-using SE100_BookstoreWebAPI.Repository.Interfaces;
-using SE100_BookstoreWebAPI.SeedData;
-using SE100_BookstoreWebAPI.Utils;
+using BookstoreWebAPI.Repository;
+using BookstoreWebAPI.Repository.Interfaces;
+using BookstoreWebAPI.SeedData;
+using BookstoreWebAPI.Utils;
 using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);

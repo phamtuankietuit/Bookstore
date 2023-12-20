@@ -1,4 +1,4 @@
-﻿namespace SE100_BookstoreWebAPI.Utils
+﻿namespace BookstoreWebAPI.Utils
 {
     public class IdUtils
     {

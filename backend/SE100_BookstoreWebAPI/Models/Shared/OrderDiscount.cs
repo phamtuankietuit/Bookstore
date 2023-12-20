@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace SE100_BookstoreWebAPI.Models.Shared
+namespace BookstoreWebAPI.Models.Shared
 {
     public class OrderDiscount
     {

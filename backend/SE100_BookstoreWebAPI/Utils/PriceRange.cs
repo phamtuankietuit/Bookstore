@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace SE100_BookstoreWebAPI.Utils
+namespace BookstoreWebAPI.Utils
 {
     public class PriceRange : IParsable<PriceRange>
     {

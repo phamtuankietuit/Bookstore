@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace SE100_BookstoreWebAPI.Models.DTOs
+namespace BookstoreWebAPI.Models.DTOs
 {
     public class ResponseToGetId
     {

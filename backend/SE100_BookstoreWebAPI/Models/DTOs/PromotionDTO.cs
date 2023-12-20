@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace BookstoreWebAPI.Models.DTOs
+namespace SE100_BookstoreWebAPI.Models.DTOs
 {
     public class PromotionDTO
     {

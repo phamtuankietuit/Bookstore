@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using BookstoreWebAPI.Models.Shared;
+using SE100_BookstoreWebAPI.Models.Shared;
 
-namespace BookstoreWebAPI.Models.DTOs
+namespace SE100_BookstoreWebAPI.Models.DTOs
 {
     public class SupplierDTO
     {

@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
-using BookstoreWebAPI.Models.Documents;
-using BookstoreWebAPI.Models.DTOs;
-using BookstoreWebAPI.Repository.Interfaces;
-using BookstoreWebAPI.Utils;
+using SE100_BookstoreWebAPI.Models.Documents;
+using SE100_BookstoreWebAPI.Models.DTOs;
+using SE100_BookstoreWebAPI.Repository.Interfaces;
+using SE100_BookstoreWebAPI.Utils;
 using System.Formats.Asn1;
 
-namespace BookstoreWebAPI.Controllers
+namespace SE100_BookstoreWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

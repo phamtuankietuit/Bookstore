@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace BookstoreWebAPI.Models.Shared
+namespace SE100_BookstoreWebAPI.Models.Shared
 {
     public class CustomerSalesOrder
     {

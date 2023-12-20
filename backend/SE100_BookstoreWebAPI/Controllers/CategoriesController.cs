@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using BookstoreWebAPI.Models.DTOs;
-using BookstoreWebAPI.Repository;
-using BookstoreWebAPI.Repository.Interfaces;
+using SE100_BookstoreWebAPI.Models.DTOs;
+using SE100_BookstoreWebAPI.Repository;
+using SE100_BookstoreWebAPI.Repository.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace BookstoreWebAPI.Controllers
+namespace SE100_BookstoreWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

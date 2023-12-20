@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace BookstoreWebAPI.Models.Documents
+namespace SE100_BookstoreWebAPI.Models.Documents
 {
     public class InventoryDocument
     {

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using BookstoreWebAPI.Models.Documents;
-using BookstoreWebAPI.Models.DTOs;
+using SE100_BookstoreWebAPI.Models.Documents;
+using SE100_BookstoreWebAPI.Models.DTOs;
 
-namespace BookstoreWebAPI.Utils
+namespace SE100_BookstoreWebAPI.Utils
 {
     public class MappingProfile : Profile
     {

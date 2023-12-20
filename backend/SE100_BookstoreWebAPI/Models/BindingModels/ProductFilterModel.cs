@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace BookstoreWebAPI.Models.BindingModels
+namespace SE100_BookstoreWebAPI.Models.BindingModels
 {
     public class ProductFilterModel
     {

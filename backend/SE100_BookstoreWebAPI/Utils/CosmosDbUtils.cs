@@ -1,6 +1,6 @@
 ﻿using Microsoft.Azure.Cosmos;
 
-namespace BookstoreWebAPI.Utils
+namespace SE100_BookstoreWebAPI.Utils
 {
     public class CosmosDbUtils
     {

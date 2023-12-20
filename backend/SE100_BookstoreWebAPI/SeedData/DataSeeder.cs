@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
-using SE100_BookstoreWebAPI.Models.Documents;
-using SE100_BookstoreWebAPI.Repository.Interfaces;
+using BookstoreWebAPI.Models.Documents;
+using BookstoreWebAPI.Repository.Interfaces;
 
-namespace SE100_BookstoreWebAPI.SeedData
+namespace BookstoreWebAPI.SeedData
 {
     public class DataSeeder
     {

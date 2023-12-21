@@ -17,7 +17,7 @@
 .MainInfo .BillCode {
     display: flex;
     align-items: center;
-    padding-left: 15px;
+    padding-left: 20px;
 }
 .MainInfo .BillCode p {
     font-size: 18px;
@@ -46,7 +46,7 @@
 .Print-and-Copy {
     display: flex;
     align-items: center;
-    padding-left: 15px;
+    padding-left: 20px;
 }
 .Print-btn {
     display: flex;
@@ -163,6 +163,7 @@
     flex-direction: column;
     padding-left: 15px;
     padding-top: 10px;
+    min-width: 450px;
 }
 //Thông tin khách hàng
 .Customer-Info {
@@ -173,6 +174,8 @@
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     display: flex;
     flex-direction: column;
+    margin-left: 5px;
+    min-width: 430px;
 }
 .title {
     width: 100%;
@@ -241,6 +244,7 @@
     display: flex;
     justify-content: right;
     padding-right: 30px;
+    min-width: 245px;
 }
 .Bill-Note {
     width: 95%;
@@ -320,5 +324,32 @@
     &:hover {
         background-color: #f2f9ff;
         cursor: pointer;
+    }
+}
+@media screen and (max-width: 820px) {
+    .Staff-info {
+        width: 160px;
+    }
+    .Date-info {
+        width: 200px;
+        margin-left: 5px;
+    }
+    .Print-btn {
+        margin-right: 5px;
+    }
+    .Copy-btn {
+        margin-right: 5px;
+    }
+    .Bill-Note {
+        max-width: 200px;
+    }
+    .Print-and-Copy {
+        padding-right: 30px;
+    }
+    .Bill-Content {
+        min-width: 695px;
+    }
+    .List-content {
+        min-width: 645px;
     }
 }

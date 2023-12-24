@@ -243,7 +243,7 @@ function InfoReturn() {
                 </Modal.Header>
                 <Modal.Body>
                     <Col xs md lg={8} className='fw-bold'>
-                        Thanh toán nhà cung cấp
+                        Hoàn trả khách
                     </Col>
                     <Col xs md lg={4} className='text-end pe-5'>
                         <input className={`${cx('textfield')} `} type="number" inputMode="numeric" onChange={(e) => {

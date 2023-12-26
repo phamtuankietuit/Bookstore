@@ -7,18 +7,22 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { FaBoxOpen } from "react-icons/fa6";
 import Item_Sale from '~/components/Item_Sale';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { FaRegCircleXmark } from "react-icons/fa6";
 import { options2, options3 } from '../ImportProduct/data';
+import { ToastContext } from '~/components/ToastContext';
+import ModalLoading from '~/components/ModalLoading';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
 
 function Sale() {
+    const toastContext = useContext(ToastContext);
+    const [loading, setLoading] = useState(false);
     const [arr, setArr] = useState([])
     const [nums, setNums] = useState(0)
     const [total, setTotal] = useState(0)
@@ -97,8 +101,29 @@ function Sale() {
     }
 
     const submit = () => {
-        console.log(coupon)
-        console.log(arr)
+        if (customer === null) {
+            setLoading(true);
+            setTimeout(() => {
+                setLoading(false);
+                toastContext.notify('error', 'Chưa chọn khách hàng');
+            }, 2000);
+        }
+        else if (arr.length === 0) {
+            setLoading(true);
+            setTimeout(() => {
+                setLoading(false);
+                toastContext.notify('error', 'Chưa chọn sản phẩm');
+            }, 2000);
+        }
+        else {
+            setLoading(true);
+            setTimeout(() => {
+                setLoading(false);
+                toastContext.notify('success', 'Đã tạo hóa đơn');
+            }, 2000);
+            console.log(arr)
+        }
+
     }
     return (
         <div className={` ${cx('wrapper')}`}>
@@ -315,6 +340,7 @@ function Sale() {
                     <Button variant="primary" onClick={handleClose}>Xác nhận</Button>
                 </Modal.Footer>
             </Modal>
+            <ModalLoading open={loading} title={'Đang tải'} />
         </div>
     );
 }

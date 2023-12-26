@@ -59,6 +59,9 @@
         background-color: #f3f4f5;
     }
     display: flex;
+    &:hover {
+        cursor: pointer;
+    }
 }
 .img {
     height: 40px;

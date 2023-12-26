@@ -1,9 +1,20 @@
 import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
 import logo from '../../assets/images/logo.png';
+import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 function Login() {
+    const [email, SetEmail] = useState();
+
+    const OnChangeEmail = (e) => {
+        SetEmail(e.target.value);
+    };
+
+    const handleCheckingEmail = () => {
+        console.log(email);
+    };
+
     return (
         <div className={cx('container')}>
             <div className={cx('login-form')}>
@@ -29,6 +40,8 @@ function Login() {
                         type="text"
                         placeholder="Số điện thoại hoặc email"
                         id="account"
+                        value={email}
+                        onChange={OnChangeEmail}
                     ></input>
                     <div className={cx('input-border')}></div>
                 </div>
@@ -43,7 +56,12 @@ function Login() {
                 <div className={cx('forgot-pass')}>
                     <p>Quên mật khẩu</p>
                 </div>
-                <button className={cx('login-btn')}>ĐĂNG NHẬP</button>
+                <button
+                    className={cx('login-btn')}
+                    onClick={handleCheckingEmail}
+                >
+                    ĐĂNG NHẬP
+                </button>
             </div>
         </div>
     );

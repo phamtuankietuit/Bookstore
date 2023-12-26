@@ -18,7 +18,7 @@
 .MainInfo .BillCode {
     display: flex;
     align-items: center;
-    padding-left: 15px;
+    padding-left: 20px;
 }
 .MainInfo .BillCode p {
     font-size: 18px;
@@ -46,7 +46,7 @@
 .Print-and-Copy {
     display: flex;
     align-items: center;
-    padding-left: 15px;
+    padding-left: 20px;
 }
 .Print-btn {
     display: flex;
@@ -110,7 +110,7 @@
 }
 //nhân viên phụ trách
 .Staff-info {
-    width: 200px;
+    width: 180px;
     height: 40px;
     background-color: #fff;
     display: flex;
@@ -130,7 +130,7 @@
     margin-left: 5px;
 }
 .Date-info {
-    width: 250px;
+    width: 220px;
     height: 40px;
     background-color: #fff;
     display: flex;
@@ -161,7 +161,7 @@
 .Content-grid1 {
     display: flex;
     flex-direction: column;
-    padding-left: 15px;
+    padding-left: 20px;
     padding-top: 10px;
 }
 //Thông tin khách hàng

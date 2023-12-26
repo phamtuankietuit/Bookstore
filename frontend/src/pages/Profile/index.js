@@ -26,6 +26,30 @@ function Profile() {
 
     //mở, tắt đổi mật khẩu
     const [show, setShow] = useState(false);
+
+    const [currentPass, setCurrtentPass] = useState();
+
+    const [newPass, setNewPass] = useState();
+
+    const [reNewPass, setReNewPass] = useState();
+
+    const handleChangePass = () => {};
+
+    const handleCurrentPassChange = (event) => {
+        setCurrtentPass(event.target.value);
+    };
+
+    const handleNewPassChange = (event) => {
+        setNewPass(event.target.value);
+    };
+
+    const handleReNewPassChange = (event) => {
+        setReNewPass(event.target.value);
+    };
+
+    const handleShowCPForm = () => {
+        setShow(true);
+    };
     return (
         <div className={cx('container')}>
             <div className={cx('header-and-content')}>
@@ -157,7 +181,7 @@ function Profile() {
                             </div>
                         </div>
                         <div className={cx('changepass-container')}>
-                            <p onClick={() => setShow(true)}>
+                            <p onClick={handleShowCPForm}>
                                 <b>Đổi mật khẩu</b>
                             </p>
                         </div>
@@ -173,6 +197,8 @@ function Profile() {
                             <input
                                 className={cx('text-inp')}
                                 type="password"
+                                value={currentPass}
+                                onChange={handleCurrentPassChange}
                             ></input>
                         </div>
                         <div className={cx('grid-content')}>
@@ -189,6 +215,8 @@ function Profile() {
                             <input
                                 className={cx('text-inp')}
                                 type="password"
+                                value={newPass}
+                                onChange={handleNewPassChange}
                             ></input>
                         </div>
                         <div className={cx('grid-content')}>
@@ -196,6 +224,8 @@ function Profile() {
                             <input
                                 className={cx('text-inp')}
                                 type="password"
+                                value={reNewPass}
+                                onChange={handleReNewPassChange}
                             ></input>
                         </div>
                     </div>
@@ -215,7 +245,12 @@ function Profile() {
                         >
                             Huỷ
                         </button>
-                        <button className={cx('accept-but')}>Lưu</button>
+                        <button
+                            className={cx('accept-but')}
+                            onClick={handleChangePass}
+                        >
+                            Lưu
+                        </button>
                     </div>
                 </div>
             )}

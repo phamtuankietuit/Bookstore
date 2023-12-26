@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/Button';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState, useEffect } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Properties from '~/components/Properties';
 import { data } from './data';
 import { FaCircleCheck } from "react-icons/fa6";
@@ -16,9 +16,13 @@ import { FaCircleXmark } from "react-icons/fa6";
 import { FaPrint } from "react-icons/fa6";
 import Modal from 'react-bootstrap/Modal';
 import Spinner from 'react-bootstrap/Spinner';
+import { ToastContext } from '~/components/ToastContext';
+import ModalLoading from '~/components/ModalLoading';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 function InfoReturn() {
+    const toastContext = useContext(ToastContext);
+    const [loading, setLoading] = useState(false);
     let navigate = useNavigate();
     const returnid = useParams()
 
@@ -62,6 +66,13 @@ function InfoReturn() {
         setShowreceived(false)
     }
 
+    const deleteform = () => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+            toastContext.notify('success', 'Đã xóa phiếu');
+        }, 2000);
+    }
 
     return (
         <div className={cx('wrapper')}>
@@ -217,7 +228,7 @@ function InfoReturn() {
 
 
                                     {
-                                        obj.received ? (<Button className={`m-1 ${cx('my-btn')}`} variant="secondary" disabled>Hủy đơn trả hàng</Button>) : (<Button className={`m-1 ${cx('my-btn')}`} variant="outline-danger"  >Hủy đơn trả hàng</Button>)
+                                        obj.received ? (<Button className={`m-1 ${cx('my-btn')}`} variant="secondary" disabled>Hủy đơn trả hàng</Button>) : (<Button className={`m-1 ${cx('my-btn')}`} variant="outline-danger" onClick={() => deleteform()}>Hủy đơn trả hàng</Button>)
                                     }
                                     {
                                         obj.total - obj.paid === 0 ? (<div></div>) : (<Button className={`m-1 ${cx('my-btn')}`} variant="primary" onClick={() => setShowpaid(true)}>Hoàn tiền</Button>)
@@ -299,6 +310,7 @@ function InfoReturn() {
                     <Button variant="primary" onClick={handleReceived}>Xác nhận</Button>
                 </Modal.Footer>
             </Modal>
+            <ModalLoading open={loading} title={'Đang tải'} />
         </div >
     );
 }

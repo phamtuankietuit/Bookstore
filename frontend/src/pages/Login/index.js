@@ -134,6 +134,7 @@ function Login() {
             }
         }
     };
+  
     return (
         <div className={cx('container')}>
             <div className={cx('login-form')}>
@@ -162,9 +163,6 @@ function Login() {
                         id="account"
                         value={email}
                         onChange={OnChangeEmail}
-                        // style={{
-                        //     color: checklogin === 'error' ? 'red' : '#316396',
-                        // }}
                     ></input>
                     <div
                         className={cx('input-border', {
@@ -183,9 +181,6 @@ function Login() {
                         id="password"
                         value={password}
                         onChange={OnChangePass}
-                        // style={{
-                        //     color: checklogin === 'error' ? 'red' : '#316396',
-                        // }}
                     ></input>
                     <div
                         className={cx('input-border', {

@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { NavLink } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { data } from './data';
 import Spinner from 'react-bootstrap/Spinner';
 import Pagination from 'react-bootstrap/Pagination';
@@ -14,8 +14,12 @@ import Form from 'react-bootstrap/Form';
 import { FaDownload } from "react-icons/fa6";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Modal from 'react-bootstrap/Modal';
+import { ToastContext } from '~/components/ToastContext';
+import ModalLoading from '~/components/ModalLoading';
 const cx = classNames.bind(styles);
 function InfoCheckProduct() {
+    const toastContext = useContext(ToastContext);
+    const [loading, setLoading] = useState(false);
     const checkproductid = useParams()
     const [obj, setObj] = useState(null)
     const [list, setList] = useState([])
@@ -51,6 +55,26 @@ function InfoCheckProduct() {
 
     const submit = () => {
         handleClose()
+    }
+
+    const submitform = () => {
+
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+            toastContext.notify('success', 'Đã cân bằng kho');
+        }, 2000);
+
+
+
+    }
+
+    const deleteform = () => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+            toastContext.notify('success', 'Đã xóa phiếu');
+        }, 2000);
     }
     return (
         <div className={cx('wrapper')}>
@@ -150,13 +174,13 @@ function InfoCheckProduct() {
                                     </div>) : (
                                         <Row>
                                             <Col className='mt-4 text-end me-4'>
-                                                <Button className={`m-1 ${cx('my-btn')}`} variant="outline-danger" >Xóa</Button>
+                                                <Button className={`m-1 ${cx('my-btn')}`} variant="outline-danger" onClick={() => deleteform()}>Xóa</Button>
                                                 <Button className={`m-1 ${cx('my-btn')}`} variant="outline-primary">
                                                     <NavLink to={"/checks/update/" + checkproductid.id} className={`text-decoration-none ${cx('nav-link')}`} >
                                                         Sửa
                                                     </NavLink>
                                                 </Button>
-                                                <Button className={`m-1 ${cx('my-btn')}`} variant="primary" >Cân bằng kho</Button>
+                                                <Button className={`m-1 ${cx('my-btn')}`} variant="primary" onClick={() => submitform()}>Cân bằng kho</Button>
 
                                             </Col>
                                         </Row>
@@ -187,6 +211,7 @@ function InfoCheckProduct() {
                         </Button>
                     </Modal.Footer>
                 </Modal>
+                <ModalLoading open={loading} title={'Đang tải'} />
             </div>
         </div >
     );

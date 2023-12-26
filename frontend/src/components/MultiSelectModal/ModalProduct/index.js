@@ -107,10 +107,10 @@ function ModalProduct({ list, handleClose, handlesubmit }) {
     return (
         <div className='mt-3 mx-3'>
             <Row>
-                <Col xs md lg={11}>
+                <Col xs={11} md={11} lg={11}>
                     <p className='fw-bold fs-4 '>Chọn nhanh sản phẩm</p>
                 </Col>
-                <Col xs md lg={1}>
+                <Col xs={1} md={1} lg={1}>
                     <FaX className={cx('icon')} onClick={ModalhandleClose} />
                 </Col>
             </Row>

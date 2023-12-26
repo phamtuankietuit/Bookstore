@@ -3,13 +3,12 @@
 }
 
 .list-item{
-    height: 60px;
+    min-height: 60px;
     cursor: pointer;
     padding: 5px;
     width: 100%;
     border-bottom: 0.5px solid rgba(0, 0, 0, 0.171);
     border-width: 70%;
-
     &:hover{
         background-color:rgba(0, 128, 255, 0.222)
     }

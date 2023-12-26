@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SearchResult from '~/components/SearchResult';
 import MultiSelectModal from '~/components/MultiSelectModal';
@@ -15,8 +15,12 @@ import { FaArrowUpFromBracket } from "react-icons/fa6";
 import Modal from 'react-bootstrap/Modal';
 import { FaCloudArrowDown } from "react-icons/fa6";
 import { options2 } from '../ImportProduct/data';
+import { ToastContext } from '~/components/ToastContext';
+import ModalLoading from '~/components/ModalLoading';
 const cx = classNames.bind(styles);
 function AddCheckProduct(props) {
+    const toastContext = useContext(ToastContext);
+    const [loading, setLoading] = useState(false);
     let navigate = useNavigate();
     const [arr, setArr] = useState([])
 
@@ -64,7 +68,40 @@ function AddCheckProduct(props) {
     }
 
     const submit = () => {
-        console.log(arr)
+        if (arr.length === 0) {
+            setLoading(true);
+            setTimeout(() => {
+                setLoading(false);
+                toastContext.notify('error', 'Chưa chọn sản phẩm');
+            }, 2000);
+        }
+        else {
+            setLoading(true);
+            setTimeout(() => {
+                setLoading(false);
+                toastContext.notify('success', 'Đã cân bằng kho');
+            }, 2000);
+            console.log(arr)
+        }
+
+    }
+
+    const create = () => {
+        if (arr.length === 0) {
+            setLoading(true);
+            setTimeout(() => {
+                setLoading(false);
+                toastContext.notify('error', 'Chưa chọn sản phẩm');
+            }, 2000);
+        }
+        else {
+            setLoading(true);
+            setTimeout(() => {
+                setLoading(false);
+                toastContext.notify('success', 'Đã tạo phiếu kiểm');
+            }, 2000);
+            console.log(arr)
+        }
     }
     return (
         <div className={cx('wrapper')}>
@@ -79,13 +116,24 @@ function AddCheckProduct(props) {
                             </span>
                         </div>
                     </div>
-                    <div className='d-flex'>
-                        <div className='flex-grow-1'><SearchResult stypeid={1} setValue={addarr} list={options2} /></div>
 
-                        <MultiSelectModal funtion={handleMultiSelected} list={options2} />
+                    <Row>
+                        <Col md={10} lg={10} className='p-0'>
+                            <SearchResult stypeid={1} setValue={addarr} list={options2} />
+                        </Col>
+
+                        <Col md={2} lg={2} className='p-0'>
+                            <MultiSelectModal funtion={handleMultiSelected} list={options2} />
+                        </Col>
+
+                    </Row>
 
 
-                    </div>
+
+
+
+
+
                     <div className={`${cx('import-content')}`} >
                         <div className={cx('columns')}>
                             <div className={cx('columns-item-1')}>STT</div>
@@ -126,7 +174,7 @@ function AddCheckProduct(props) {
                     <Row>
                         <Col className='mt-4 text-end me-4'>
                             <Button className={`m-1 ${cx('my-btn')}`} variant="outline-primary" onClick={() => navigate(-1)}>Thoát</Button>
-                            <Button className={`m-1 ${cx('my-btn')}`} variant="outline-primary">Tạo phiếu kiểm</Button>
+                            <Button className={`m-1 ${cx('my-btn')}`} variant="outline-primary" onClick={() => create()}>Tạo phiếu kiểm</Button>
                             <Button className={`m-1 ${cx('my-btn')}`} variant="primary" onClick={() => submit()}>Cân bằng kho</Button>
 
                         </Col>
@@ -178,6 +226,8 @@ function AddCheckProduct(props) {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+            <ModalLoading open={loading} title={'Đang tải'} />
         </div>
     );
 }

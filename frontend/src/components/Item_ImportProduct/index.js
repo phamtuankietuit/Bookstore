@@ -43,7 +43,7 @@ function Item_import({ product, index, funtion, update }) {
                 <div>{product.sku}</div>
             </div>
             <div className={`${cx('properties-3')}`}>
-                <input className={cx('textfield')} type="number" min={0} max={1000} onChange={(e) => {
+                <input className={cx('textfield')} type="number" defaultValue={0} min={0} max={1000} onChange={(e) => {
                     if (e.target.value > 1000) e.target.value = 1000;
                     else if (e.target.value < 0 || e.target.value === '') e.target.value = 0;
 

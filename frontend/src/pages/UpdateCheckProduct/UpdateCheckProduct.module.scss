@@ -40,15 +40,15 @@
 
 .columns-1{
     text-align: center;
-    min-width: 100px;
+    min-width: 120px;
 }
 
 .columns-2{
-    min-width: 380px;
+    min-width: 400px;
 
 }
 .columns-3{
-    min-width: 180px;
+    min-width: 220px;
     text-align: center;
 }
 
@@ -61,7 +61,7 @@
     font-weight: 600;
     width: fit-content;
     display: flex;
-
+    width: 1440px;
 }
 
 .img{
@@ -78,6 +78,12 @@
     font-size: 11px;
     font-size: 13px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.066);
+    &:hover {
+        background-color: #f3f4f5;
+    }
+    &:hover {
+        background-color: #f3f4f5;
+    }
 }
 .list-import{
     height: 500px;

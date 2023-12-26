@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { NavLink } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { data } from '../InfoCheckProduct/data';
 import Spinner from 'react-bootstrap/Spinner';
 import Pagination from 'react-bootstrap/Pagination';
@@ -19,11 +19,15 @@ import MultiSelectModal from '~/components/MultiSelectModal';
 import { FaArrowUpFromBracket } from "react-icons/fa6";
 import { FaCloudArrowDown } from "react-icons/fa6";
 import { options2 } from '../ImportProduct/data';
+import { ToastContext } from '~/components/ToastContext';
+import ModalLoading from '~/components/ModalLoading';
 const cx = classNames.bind(styles);
 
 
 
 function UpdateCheckProduct() {
+    const toastContext = useContext(ToastContext);
+    const [loading, setLoading] = useState(false);
     const checkproductid = useParams()
     const [obj, setObj] = useState(data)
     const [list, setList] = useState(obj.list)
@@ -55,10 +59,33 @@ function UpdateCheckProduct() {
     const handleShow = () => setShow(true);
 
     const submit = () => {
-        let newobj = obj;
-        newobj.list = list;
-        setObj(newobj)
-        console.log(obj)
+        if (list.length === 0) {
+            setLoading(true);
+            setTimeout(() => {
+                setLoading(false);
+                toastContext.notify('error', 'Chưa chọn sản phẩm');
+            }, 2000);
+        }
+        else {
+            setLoading(true);
+            setTimeout(() => {
+                setLoading(false);
+                toastContext.notify('success', 'Đã cân bằng kho');
+            }, 2000);
+            let newobj = obj;
+            newobj.list = list;
+            setObj(newobj)
+            console.log(obj)
+        }
+
+    }
+
+    const deleteform = () => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+            toastContext.notify('success', 'Đã xóa phiếu');
+        }, 2000);
     }
     const addarr = (value) => {
 
@@ -193,12 +220,7 @@ function UpdateCheckProduct() {
                                     </Row>
                                     <Row>
                                         <Col className='mt-4 text-end me-4'>
-                                            <Button className={`m-1 ${cx('my-btn')}`} variant="outline-danger" >Xóa</Button>
-                                            <Button className={`m-1 ${cx('my-btn')}`} variant="outline-primary">
-                                                <NavLink to={"/updatecheckproduct/" + checkproductid.id} className={`text-decoration-none ${cx('nav-link')}`} >
-                                                    Sửa
-                                                </NavLink>
-                                            </Button>
+                                            <Button className={`m-1 ${cx('my-btn')}`} variant="outline-danger" onClick={() => deleteform()}>Xóa</Button>
                                             <Button className={`m-1 ${cx('my-btn')}`} variant="primary" onClick={() => submit()}>Cân bằng kho</Button>
 
                                         </Col>
@@ -254,6 +276,7 @@ function UpdateCheckProduct() {
                             </Button>
                         </Modal.Footer>
                     </Modal>
+                    <ModalLoading open={loading} title={'Đang tải'} />
                 </div>
             </div >
         </div>

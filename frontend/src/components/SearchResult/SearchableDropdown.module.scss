@@ -4,8 +4,8 @@
     color: var(--border-color);
     flex: 1;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    // justify-content: center;
+    // align-items: center;
     background-color: white;
     &:hover {
         border-color: rgba(128, 128, 128, 0.7);
@@ -72,4 +72,10 @@
 
 .color-gray{
     color: #637381;
+}
+
+.item_provider{
+    min-height: 30px;
+    display: flex;
+    align-items: center;
 }

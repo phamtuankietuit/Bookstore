@@ -79,13 +79,24 @@ function AddCheckProduct(props) {
                             </span>
                         </div>
                     </div>
-                    <div className='d-flex'>
-                        <div className='flex-grow-1'><SearchResult stypeid={1} setValue={addarr} list={options2} /></div>
 
-                        <MultiSelectModal funtion={handleMultiSelected} list={options2} />
+                    <Row>
+                        <Col md={10} lg={10} className='p-0'>
+                            <SearchResult stypeid={1} setValue={addarr} list={options2} />
+                        </Col>
+
+                        <Col md={2} lg={2} className='p-0'>
+                            <MultiSelectModal funtion={handleMultiSelected} list={options2} />
+                        </Col>
+
+                    </Row>
 
 
-                    </div>
+
+
+
+
+
                     <div className={`${cx('import-content')}`} >
                         <div className={cx('columns')}>
                             <div className={cx('columns-item-1')}>STT</div>

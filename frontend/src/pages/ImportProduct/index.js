@@ -195,13 +195,20 @@ function ImportProduct() {
 
                 <div className={cx('frame')}>
                     <p className={cx('title')}>Thông tin sản phẩm</p>
-                    <div className='d-flex'>
-                        <div className='flex-grow-1'><SearchResult stypeid={1} setValue={addarr} list={list} /></div>
+                    <Row>
+                        <Col md={10} lg={10} className='p-0'>
+                            <SearchResult stypeid={1} setValue={addarr} list={list} />
+                        </Col>
 
-                        <MultiSelectModal funtion={handleMultiSelected} list={list} />
+                        <Col md={2} lg={2} className='p-0'>
+                            <MultiSelectModal funtion={handleMultiSelected} list={list} />
+                        </Col>
+
+                    </Row>
 
 
-                    </div>
+
+
 
                     <div className={`${cx('import-content')}`} >
                         <div className={cx('columns')}>

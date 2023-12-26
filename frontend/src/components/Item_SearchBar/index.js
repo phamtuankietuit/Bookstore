@@ -10,8 +10,8 @@ function item({ product }) {
     return (
         <div className={cx('item')}>
             <Row>
-                <Col xs={4} md={1} lg={1} >
-                    <img src={product.img} className={`${cx('pr-img')}  mx-auto d-block`} />
+                <Col xs={4} md={1} lg={1} className='d-flex align-items-center'>
+                    <img src={product.img} className={`${cx('pr-img')}  mx-auto my-auto d-block`} />
                 </Col>
                 <Col xs={6} md={6} lg={6}>
                     <p>{product.name}</p>

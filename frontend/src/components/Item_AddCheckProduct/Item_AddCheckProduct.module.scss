@@ -5,7 +5,18 @@
     display: flex;
     font-size: 13px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.066);
+    border-top: 1px solid rgba(0, 0, 0, 0.066);
     padding: 10px;
+    &:hover{
+        background-color:rgba(0, 128, 255, 0.222);
+        .textfield{
+            background-color:rgba(0, 128, 255, 0);
+        }
+        .form{
+            background-color:rgba(0, 128, 255, 0);
+            border: 1px solid black;
+        }
+    }
 }
 
 .properties-1{
@@ -49,4 +60,8 @@
         border-radius: 10px;
         background-color: rgba(#000,.1);
     }
+}
+
+.form{
+
 }

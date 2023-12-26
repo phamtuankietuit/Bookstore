@@ -103,7 +103,7 @@ function SearchResult({ setValue, stypeid, list }) {
                                                     {(() => {
                                                         switch (stypeid) {
                                                             case 0:
-                                                                return <div >{option.name}</div>;
+                                                                return <div className={cx('item_provider')}>{option.name}</div>;
                                                             case 1:
                                                                 return <Item product={option} />;
                                                             case 2:

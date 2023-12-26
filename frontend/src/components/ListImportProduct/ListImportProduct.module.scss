@@ -39,13 +39,16 @@
 
 .item{
     height: 80px;
-    width: 100%;
-    width: fit-content;
+    width: 1195px;
     display: flex;
     align-items: center;
     font-size: 11px;
     font-size: 13px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.066);
+    border-top: 1px solid rgba(0, 0, 0, 0.066);
+    &:hover {
+        background-color: #f3f4f5;
+    }
 }
 
 .wrapper{

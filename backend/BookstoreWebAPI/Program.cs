@@ -92,11 +92,11 @@ using (var scope = scopeFactory.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwaggerUI();
-}
+    app.UseSwagger();
+//}
 
 app.UseHttpsRedirection();
 

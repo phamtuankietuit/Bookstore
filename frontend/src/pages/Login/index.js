@@ -53,6 +53,7 @@ function Login() {
         setErrorOTP('');
         setErrorrNewPass('');
         setErrorrReNewPass('');
+        setEqual(false);
     };
 
     const handleValidation = () => {
@@ -134,7 +135,7 @@ function Login() {
             }
         }
     };
-  
+
     return (
         <div className={cx('container')}>
             <div className={cx('login-form')}>
@@ -193,7 +194,7 @@ function Login() {
                     ></div>
                 </div>
                 <div className={cx('forgot-pass')}>
-                    <p onClick={() => handleOpen()}>Quên mật khẩu</p>
+                    <p onClick={() => handleOpen()}>Quên mật khẩu?</p>
                 </div>
                 <button className={cx('login-btn')} onClick={OnClickLogin}>
                     ĐĂNG NHẬP
@@ -255,8 +256,8 @@ function Login() {
                             onChange={(value) => setNewPass(value)}
                             error={errorNewPass}
                             required
-                            type="password"
                             className={cx('m-b')}
+                            password
                         />
                         <Input
                             title={'Nhập lại mật khẩu mới'}
@@ -264,7 +265,7 @@ function Login() {
                             onChange={(value) => setReNewPass(value)}
                             error={errorReNewPass}
                             required
-                            type="password"
+                            password
                         />
                     </div>
                 )}

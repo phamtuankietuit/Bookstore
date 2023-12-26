@@ -92,3 +92,19 @@
         background: rgb(221, 221, 221);
     }
 }
+
+.input-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .icon-hide-show {
+        font-size: 20px;
+        margin-left: 10px;
+        color: rgb(106, 106, 106);
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}

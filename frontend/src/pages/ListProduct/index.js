@@ -19,7 +19,7 @@ import { data } from '~/components/Table/sample';
 import SubHeader from '~/components/SubHeader';
 import ModalComp from '~/components/ModalComp';
 import ModalLoading from '~/components/ModalLoading';
-
+import * as ProductServices from '~/apiServices/productServices';
 const cx = classNames.bind(styles);
 
 const optionsLSP = [
@@ -65,6 +65,7 @@ const optionsBrand = [
 ];
 
 function ListProduct() {
+
     const navigate = useNavigate();
     // SEARCH
     const [search, setSearch] = useState('');
@@ -99,12 +100,30 @@ function ListProduct() {
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
 
+    // useEffect(() => {
+    //     const timeout = setTimeout(() => {
+    //         setRows(data);
+    //         setPending(false);
+    //     }, 500);
+    //     return () => clearTimeout(timeout);
+    // }, []);
+
+
     useEffect(() => {
-        const timeout = setTimeout(() => {
-            setRows(data);
+
+        const fetchApi = async () => {
+            const result = await ProductServices.getAllProducts()
+                .catch((err) => {
+                    console.log(err);
+                });
+
             setPending(false);
-        }, 500);
-        return () => clearTimeout(timeout);
+            setRows(result);
+            // console.log(result)
+        }
+
+        fetchApi();
+
     }, []);
 
     const [showSubHeader, setShowSubHeader] = useState(true);
@@ -132,7 +151,7 @@ function ListProduct() {
 
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
-        navigate('/products/detail/' + row.id);
+        navigate('/products/detail/' + row.productId);
     }, []);
 
     // MODAL LOADING
@@ -148,7 +167,7 @@ function ListProduct() {
         setOpenModal(false);
     };
 
-    const handleValidation = () => {};
+    const handleValidation = () => { };
 
     const onOpenModal = (value) => {
         setTitleModal(value);

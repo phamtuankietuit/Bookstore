@@ -84,10 +84,6 @@ function SearchResult({ setValue, stypeid, list }) {
                 open && (
                     <div className={cx('search-result')}>
                         <div className='mt-2 '>
-                            <div className={`text-center text-primary ${cx('result-item')}`}>
-                                <FaCirclePlus className='me-2' />
-                                thêm mới
-                            </div>
                             {
                                 data.length === 0 ? (
                                     <div className='text-center mt-3'>
@@ -103,7 +99,7 @@ function SearchResult({ setValue, stypeid, list }) {
                                                     {(() => {
                                                         switch (stypeid) {
                                                             case 0:
-                                                                return <div >{option.name}</div>;
+                                                                return <div className={cx('item_provider')}>{option.name}</div>;
                                                             case 1:
                                                                 return <Item product={option} />;
                                                             case 2:

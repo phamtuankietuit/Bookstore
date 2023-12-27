@@ -3,7 +3,7 @@
     padding: 15px 30px;
     text-wrap:wrap;
     background-color: white;
-    width: 80%;
+    width: 90%;
     min-height: 250px;
     border-radius: 10px;
 }
@@ -33,15 +33,15 @@
 
 .columns-item-1{
     text-align: center;
-    min-width: 100px;
+    min-width: 120px;
 }
 
 .columns-item-2{
-    min-width: 380px;
+    min-width: 400px;
 
 }
 .columns-item-3{
-    min-width: 180px;
+    min-width: 220px;
 }
 
 .columns{
@@ -53,6 +53,7 @@
     font-weight: 600;
     width: fit-content;
     display: flex;
+    min-width: 1440px;
 
 }
 
@@ -80,6 +81,7 @@
     width: 100%;
     padding: 5px 0px;
     z-index: 1;
+    padding: 5px 0px;
 }
 
 .my-btn{

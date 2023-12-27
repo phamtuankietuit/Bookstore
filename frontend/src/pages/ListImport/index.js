@@ -12,7 +12,7 @@ import { ImportItem } from '~/components/Item';
 import { data3 } from '~/components/Table/sample';
 import MultiSelectComp from '~/components/MultiSelectComp';
 import DateRange from '~/components/DateRange';
-
+import * as PurchaseorderServices from '~/apiServices/purchaseorderServies';
 const cx = classNames.bind(styles);
 
 const optionsTT = [
@@ -75,14 +75,30 @@ function ListImport() {
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
 
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setRows(data3);
-            setPending(false);
-        }, 500);
-        return () => clearTimeout(timeout);
-    }, []);
+    // useEffect(() => {
+    //     const timeout = setTimeout(() => {
+    //         setRows(data3);
+    //         setPending(false);
+    //     }, 500);
+    //     return () => clearTimeout(timeout);
+    // }, []);
 
+    useEffect(() => {
+
+        const fetchApi = async () => {
+            const result = await PurchaseorderServices.getAllPurchaseOrders()
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            setPending(false);
+            setRows(result);
+            // console.log(result)
+        }
+
+        fetchApi();
+
+    }, []);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>

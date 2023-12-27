@@ -11,7 +11,7 @@ export const OrderItem = [
         center: true,
         cell: (row) => (
             <div className={cx('font', 'id')} data-tag="allowRowEvents">
-                {row.id}
+                {row.orderId}
             </div>
         ),
     },
@@ -22,7 +22,7 @@ export const OrderItem = [
         sortable: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.dateCreated}
+                {row.createdAt}
             </div>
         ),
     },
@@ -41,7 +41,7 @@ export const OrderItem = [
         center: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {addCommas(row.money)}
+                {addCommas(row.totalAmount)}
             </div>
         ),
     },

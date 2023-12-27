@@ -10,11 +10,15 @@ import Properties from '~/components/Properties';
 import { data } from '../InfoImportProduct/data';
 import ListImportProduct from '~/components/ListImportProduct';
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
+import { ToastContext } from '~/components/ToastContext';
+import ModalLoading from '~/components/ModalLoading';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 function UpdateImportProduct() {
+    const toastContext = useContext(ToastContext);
+    const [loading, setLoading] = useState(false);
     const { importid } = useParams()
     let navigate = useNavigate();
     const [obj, setObj] = useState(null)
@@ -46,6 +50,11 @@ function UpdateImportProduct() {
     }
 
     const submit = () => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+            toastContext.notify('success', 'Đã lưu đơn');
+        }, 2000);
         console.log(obj)
     }
     return (
@@ -176,7 +185,7 @@ function UpdateImportProduct() {
             }
 
 
-
+            <ModalLoading open={loading} title={'Đang tải'} />
         </div>
     );
 }

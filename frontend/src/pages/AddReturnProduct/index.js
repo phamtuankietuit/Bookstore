@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './AddReturnProduct.module.scss';
@@ -10,9 +10,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Item_Return from '~/components/Item_Return';
 import { data } from './data';
 import Spinner from 'react-bootstrap/Spinner';
+import { ToastContext } from '~/components/ToastContext';
+import ModalLoading from '~/components/ModalLoading';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 function AddReturnProduct() {
+    const toastContext = useContext(ToastContext);
+    const [loading, setLoading] = useState(false);
     let navigate = useNavigate()
     const [obj, setObj] = useState(null)
     const [isset, setIsset] = useState(false)
@@ -65,7 +69,20 @@ function AddReturnProduct() {
 
 
     const submit = () => {
-
+        if (nums === 0) {
+            setLoading(true);
+            setTimeout(() => {
+                setLoading(false);
+                toastContext.notify('error', 'Chưa trả sản phẩm nào');
+            }, 2000);
+        }
+        else {
+            setLoading(true);
+            setTimeout(() => {
+                setLoading(false);
+                toastContext.notify('success', 'Đã tạo đơn trả');
+            }, 2000);
+        }
     }
     const returnid = useParams()
     return (
@@ -221,7 +238,7 @@ function AddReturnProduct() {
                         </div>
                     )
                 }
-
+                <ModalLoading open={loading} title={'Đang tải'} />
             </div>
         </div>
     );

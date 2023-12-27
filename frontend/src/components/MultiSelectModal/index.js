@@ -36,7 +36,7 @@ function MultiSelectModal({ funtion, list }) {
 
     return (
         <div>
-            <div onClick={handleOpen} className={`d-flex align-items-center ${cx('multi-open')}`}>
+            <div onClick={handleOpen} className={`justify-content-center align-items-center d-flex ${cx('multi-open')}`}>
                 Chọn nhiều
             </div>
 

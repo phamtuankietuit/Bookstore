@@ -45,7 +45,7 @@ function SliderImage({ list }) {
     useEffect(() => {
         setimgs(list);
 
-        if (main === '') setmain(list[0].source)
+        if (main === '') setmain(list[0])
     });
 
     return (
@@ -59,9 +59,9 @@ function SliderImage({ list }) {
             <div className='d-flex justify-content-center'>
                 <Slider {...settings} className={cx('my-slider')}>
                     {
-                        imgs.map(img => (
-                            <div key={img.id} className={`m-2 d-flex justify-content-center `}>
-                                <img src={img.source} onClick={() => setmain(img.source)} className={img.source === main ? `${cx('img-acitve')}` : `${cx('img_small')}`} />
+                        imgs.map((img, index) => (
+                            <div key={index} className={`m-2 d-flex justify-content-center `}>
+                                <img src={img} onClick={() => setmain(img)} className={img.source === main ? `${cx('img-acitve')}` : `${cx('img_small')}`} />
                             </div>
                         ))
                     }

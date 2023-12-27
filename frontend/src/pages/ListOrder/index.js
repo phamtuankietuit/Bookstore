@@ -12,7 +12,7 @@ import { OrderItem } from '~/components/Item';
 import { data5 } from '~/components/Table/sample';
 import MultiSelectComp from '~/components/MultiSelectComp';
 import DateRange from '~/components/DateRange';
-
+import * as SaleServices from '~/apiServices/saleServices';
 const cx = classNames.bind(styles);
 
 const optionsNVT = [
@@ -68,14 +68,29 @@ function ListOrder() {
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
 
+    // useEffect(() => {
+    //     const timeout = setTimeout(() => {
+    //         setRows(data5);
+    //         setPending(false);
+    //     }, 500);
+    //     return () => clearTimeout(timeout);
+    // }, []);
     useEffect(() => {
-        const timeout = setTimeout(() => {
-            setRows(data5);
-            setPending(false);
-        }, 500);
-        return () => clearTimeout(timeout);
-    }, []);
 
+        const fetchApi = async () => {
+            const result = await SaleServices.getAllSalesOrders()
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            setPending(false);
+            setRows(result);
+            // console.log(result)
+        }
+
+        fetchApi();
+
+    }, []);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>

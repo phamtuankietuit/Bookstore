@@ -36,7 +36,7 @@ function Item_Check({ product, index, funtion }) {
                 {index}
             </div>
             <div className={cx('properties-1')}>
-                <img src={product.img} className={cx('img')} />
+                <img src={product.featureImageUrl} className={cx('img')} />
             </div>
             <div className={cx('properties-2')}>
                 <div className='fs-6'>{product.name}</div>
@@ -50,7 +50,7 @@ function Item_Check({ product, index, funtion }) {
             </div>
 
             <div className={` ${cx('properties-3')}`}>
-                <Form.Select aria-label="Default select example" className='w-75' onChange={(e) => ChangreReason(e.target.value)} defaultValue={product.reason}>
+                <Form.Select aria-label="Default select example" className={`w-75 ${cx('form')}`} onChange={(e) => ChangreReason(e.target.value)} defaultValue={product.reason}>
                     <option value="Khác">Khác</option>
                     <option value="Hư hỏng">Hư hỏng</option>
                     <option value="Hao mòn">Hao mòn</option>
@@ -61,10 +61,10 @@ function Item_Check({ product, index, funtion }) {
             </div>
 
             <div className={cx('properties-3')}>
-                <Form.Control type="text" className='w-75' placeholder='Nhập ghi chú' onChange={(e) => ChangreNote(e.target.value)} defaultValue={product.note} />
+                <Form.Control type="text" className={`w-75 ${cx('form')}`} placeholder='Nhập ghi chú' onChange={(e) => ChangreNote(e.target.value)} defaultValue={product.note} />
             </div>
             <div className={cx('properties-1')}>
-                <FaX className={cx('icon')} onClick={(e) => funtion(product.id, index)} />
+                <FaX className={cx('icon')} onClick={(e) => funtion(product.productId, index)} />
             </div>
 
         </div>

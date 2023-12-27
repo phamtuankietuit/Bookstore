@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SearchResult from '~/components/SearchResult';
 import MultiSelectModal from '~/components/MultiSelectModal';
@@ -16,14 +16,23 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Item_import from '~/components/Item_ImportProduct';
 import { FaBoxOpen } from "react-icons/fa";
 import { options, options2, options3 } from './data';
+import { ToastContext } from '~/components/ToastContext';
+import ModalLoading from '~/components/ModalLoading';
+
+import * as SuppliersServices from '~/apiServices/supplierServices';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 function ImportProduct() {
+    const toastContext = useContext(ToastContext);
+    const [loading, setLoading] = useState(false);
+
+
     let navigate = useNavigate();
     const [producer, set] = useState(
         null
     );
 
+    const [listsupplier, setListsupplier] = useState([]);
     const [list, setList] = useState([])
     const [cost, setCost] = useState(0)
     const [arr, setarr] = useState([]);
@@ -55,7 +64,7 @@ function ImportProduct() {
 
     const setproducer = (value) => {
         set(value)
-        setList(options2)
+        setList(value.productsSupplied)
 
     }
 
@@ -69,13 +78,13 @@ function ImportProduct() {
             return false;
         });
         const obj = {
-            id: value.id,
+            productId: value.productId,
             sku: value.sku,
             name: value.name,
-            img: value.img,
-            cost: value.cost,
-            nums: 0,
-            total: 0,
+            featureImageUrl: value.featureImageUrl,
+            purchasePrice: value.purchasePrice,
+            orderQuantity: 0,
+            totalCost: 0,
         }
 
         if (isFound === false) {
@@ -85,16 +94,16 @@ function ImportProduct() {
     }
 
 
-    const deletearr = (id, index) => {
-        let newcost = cost - arr[index - 1]['total'];
-        let newnums = nums - arr[index - 1]['nums']
+    const deletearr = (productId, index) => {
+        let newcost = cost - arr[index - 1]['totalCost'];
+        let newnums = nums - arr[index - 1]['orderQuantity']
         setCost(newcost)
         setNums(newnums)
 
         if (typediscount === true) setTotal(newcost * (1 - discount / 100))
         else setTotal(newcost - discount)
 
-        setarr(arr.filter(items => items.id !== id));
+        setarr(arr.filter(items => items.productId !== productId));
 
 
     }
@@ -113,8 +122,8 @@ function ImportProduct() {
         let newnums = 0;
         if (arr.length !== 0) {
             arr.map(item => {
-                newcost += item.total
-                newnums += item.nums
+                newcost += item.totalCost
+                newnums += item.orderQuantity
             })
         }
 
@@ -127,21 +136,59 @@ function ImportProduct() {
     }
 
     const submit = () => {
-        const value = {
-            producer: producer,
-            nums: nums,
-            discount: discount,
-            paid: paid,
-            total: total,
-            unpaid: (total - paid) < 0 ? 0 : (total - paid),
-            list_product: arr,
-            note: note,
-            status: total - paid === 0 ? true : false,
-
+        if (producer === null) {
+            setLoading(true);
+            setTimeout(() => {
+                setLoading(false);
+                toastContext.notify('error', 'Chưa chọn nhà sản xuất');
+            }, 2000);
         }
-        console.log(value)
+        else if (arr.length === 0) {
+            setLoading(true);
+            setTimeout(() => {
+                setLoading(false);
+                toastContext.notify('error', 'Chưa chọn sản phẩm');
+            }, 2000);
+        }
+        else {
+            const value = {
+                producer: producer,
+                nums: nums,
+                discount: discount,
+                paid: paid,
+                total: total,
+                unpaid: (total - paid) < 0 ? 0 : (total - paid),
+                list_product: arr,
+                note: note,
+                status: total - paid === 0 ? true : false,
+
+            }
+            console.log(value)
+            setLoading(true);
+            setTimeout(() => {
+                setLoading(false);
+                toastContext.notify('success', 'Đã nhập hàng');
+            }, 2000);
+        }
+
     }
 
+
+    useEffect(() => {
+
+        const fetchApi = async () => {
+            const result = await SuppliersServices.getAllSuppliers()
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            setListsupplier(result)
+            // console.log(result)
+        }
+
+        fetchApi();
+
+    }, []);
 
     return (
         <div className={cx('wrapper')}>
@@ -151,7 +198,7 @@ function ImportProduct() {
                     {
                         producer === null ? (
                             <div>
-                                <SearchResult setValue={setproducer} stypeid={0} list={options} />
+                                <SearchResult setValue={setproducer} stypeid={0} list={listsupplier} />
 
                                 <div className={cx('no-info')}>
                                     <p className='text-center w-100'>Chưa có thông tin nhà cung cấp</p>
@@ -172,9 +219,17 @@ function ImportProduct() {
                                                 </NavLink>
                                             </p>
                                             <FaDeleteLeft onClick={(e) => {
-                                                set(null)
-                                                setList([])
-                                                setarr([])
+                                                setLoading(true);
+                                                setTimeout(() => {
+                                                    setLoading(false);
+                                                    set(null)
+                                                    setList([])
+                                                    setarr([])
+                                                    setNums(0)
+                                                    setCost(0)
+                                                    setTotal(0)
+                                                }, 1000);
+
 
                                             }} className={cx('icon')} />
                                         </div>
@@ -195,13 +250,20 @@ function ImportProduct() {
 
                 <div className={cx('frame')}>
                     <p className={cx('title')}>Thông tin sản phẩm</p>
-                    <div className='d-flex'>
-                        <div className='flex-grow-1'><SearchResult stypeid={1} setValue={addarr} list={list} /></div>
+                    <Row>
+                        <Col md={10} lg={10} className='p-0'>
+                            <SearchResult stypeid={1} setValue={addarr} list={list} />
+                        </Col>
 
-                        <MultiSelectModal funtion={handleMultiSelected} list={list} />
+                        <Col md={2} lg={2} className='p-0'>
+                            <MultiSelectModal funtion={handleMultiSelected} list={list} />
+                        </Col>
+
+                    </Row>
 
 
-                    </div>
+
+
 
                     <div className={`${cx('import-content')}`} >
                         <div className={cx('columns')}>
@@ -374,7 +436,7 @@ function ImportProduct() {
             </div>
 
 
-
+            <ModalLoading open={loading} title={'Đang tải'} />
         </div >
     );
 }

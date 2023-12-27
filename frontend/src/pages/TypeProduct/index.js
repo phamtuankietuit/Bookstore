@@ -14,9 +14,28 @@ import Input from '~/components/Input';
 import ModalLoading from '~/components/ModalLoading';
 import { ToastContext } from '~/components/ToastContext';
 
+import * as typeProductServices from '~/apiServices/typeProductServices';
+
 const cx = classNames.bind(styles);
 
 function TypeProduct() {
+    // CALL API
+    useEffect(() => {
+
+        const fetchApi = async () => {
+            const result = await typeProductServices.getAllProductTypes()
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            setPending(false);
+            setRows(result);
+        }
+
+        fetchApi();
+
+    }, []);
+
     const toastContext = useContext(ToastContext);
 
     // MODAL ADD PRODUCT TYPE
@@ -61,13 +80,13 @@ function TypeProduct() {
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
 
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setRows(data2);
-            setPending(false);
-        }, 2000);
-        return () => clearTimeout(timeout);
-    }, []);
+    // useEffect(() => {
+    //     const timeout = setTimeout(() => {
+    //         setRows(data2);
+    //         setPending(false);
+    //     }, 2000);
+    //     return () => clearTimeout(timeout);
+    // }, []);
 
     const [showSubHeader, setShowSubHeader] = useState(true);
     const [selectedRow, setSelectedRow] = useState(0);
@@ -82,7 +101,7 @@ function TypeProduct() {
     };
 
     // SUB HEADER
-    const onClickAction = (index) => {};
+    const onClickAction = (index) => { };
 
     return (
         <div className={cx('wrapper')}>

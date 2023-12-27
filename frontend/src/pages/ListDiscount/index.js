@@ -14,7 +14,7 @@ import MultiSelectComp from '~/components/MultiSelectComp';
 import SubHeader from '~/components/SubHeader';
 import ModalComp from '~/components/ModalComp';
 import ModalLoading from '~/components/ModalLoading';
-
+import * as PromotionServices from '~/apiServices/promotionServices';
 const cx = classNames.bind(styles);
 
 const optionsHL = [
@@ -63,14 +63,29 @@ function ListDiscount() {
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
 
+    // useEffect(() => {
+    //     const timeout = setTimeout(() => {
+    //         setRows(data7);
+    //         setPending(false);
+    //     }, 500);
+    //     return () => clearTimeout(timeout);
+    // }, []);
     useEffect(() => {
-        const timeout = setTimeout(() => {
-            setRows(data7);
-            setPending(false);
-        }, 500);
-        return () => clearTimeout(timeout);
-    }, []);
 
+        const fetchApi = async () => {
+            const result = await PromotionServices.getAllPromotions()
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            setPending(false);
+            setRows(result);
+            // console.log(result)
+        }
+
+        fetchApi();
+
+    }, []);
     const [showSubHeader, setShowSubHeader] = useState(true);
     const [selectedRow, setSelectedRow] = useState(0);
 
@@ -107,7 +122,7 @@ function ListDiscount() {
         setOpenModal(false);
     };
 
-    const handleValidation = () => {};
+    const handleValidation = () => { };
 
     const onOpenModal = (value) => {
         setTitleModal(value);

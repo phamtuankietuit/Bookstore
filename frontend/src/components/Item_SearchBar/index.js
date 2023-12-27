@@ -11,15 +11,15 @@ function item({ product }) {
         <div className={cx('item')}>
             <Row>
                 <Col xs={4} md={1} lg={1} className='d-flex align-items-center'>
-                    <img src={product.img} className={`${cx('pr-img')}  mx-auto my-auto d-block`} />
+                    <img src={product.featureImageUrl ? product.featureImageUrl : product.images[0]} className={`${cx('pr-img')}  mx-auto my-auto d-block`} />
                 </Col>
                 <Col xs={6} md={6} lg={6}>
                     <p>{product.name}</p>
                     <p>{product.sku}</p>
                 </Col>
                 <Col xs md={5} lg={5}>
-                    <p>Giá nhập : {addCommas(product.cost)}</p>
-                    <p>Tồn kho : {product.quantity}</p>
+                    <p>Giá nhập : {addCommas(product.purchasePrice)}</p>
+                    <p>Tồn kho : {product.currentStock}</p>
                 </Col>
 
             </Row>

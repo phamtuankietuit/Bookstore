@@ -13,14 +13,14 @@ export const ProductItem = [
         minWidth: '250px',
         cell: (row) => (
             <div
-                key={row.id}
+                key={row.productId}
                 className={cx('product-code-container')}
                 data-tag="allowRowEvents"
             >
                 <div
                     className={cx('product-img')}
                     style={{
-                        backgroundImage: `url('${row.image[0]}')`,
+                        backgroundImage: `url('${row.images[0]}')`,
                     }}
                     data-tag="allowRowEvents"
                 ></div>
@@ -29,7 +29,7 @@ export const ProductItem = [
                     data-tag="allowRowEvents"
                 >
                     <div className={cx('product-id')} data-tag="allowRowEvents">
-                        {row.id}
+                        {row.productId}
                     </div>
                     <div
                         className={cx('product-name')}
@@ -55,11 +55,11 @@ export const ProductItem = [
             >
                 <FontAwesomeIcon
                     className={cx('product-state-icon')}
-                    icon={row.status === 1 ? faCheck : faXmark}
+                    icon={row.isActive === 1 ? faCheck : faXmark}
                     data-tag="allowRowEvents"
                 />
                 <div className={cx('product-state')} data-tag="allowRowEvents">
-                    {row.status === 1 ? 'Đang giao dịch' : 'Ngừng giao dịch'}
+                    {row.isActive === 1 ? 'Đang giao dịch' : 'Ngừng giao dịch'}
                 </div>
             </div>
         ),
@@ -74,7 +74,7 @@ export const ProductItem = [
                 data-tag="allowRowEvents"
             >
                 <div className={cx('product-type')} data-tag="allowRowEvents">
-                    {row.type_name}
+                    {row.categoryName}
                 </div>
             </div>
         ),
@@ -89,7 +89,7 @@ export const ProductItem = [
                 data-tag="allowRowEvents"
             >
                 <div className={cx('product-value')} data-tag="allowRowEvents">
-                    {addCommas(row.price)}
+                    {addCommas(row.salePrice)}
                 </div>
             </div>
         ),
@@ -104,7 +104,7 @@ export const ProductItem = [
                 data-tag="allowRowEvents"
             >
                 <div className={cx('product-value')} data-tag="allowRowEvents">
-                    {addCommas(row.cost)}
+                    {addCommas(row.purchasePrice)}
                 </div>
             </div>
         ),
@@ -119,7 +119,7 @@ export const ProductItem = [
                 data-tag="allowRowEvents"
             >
                 <div className={cx('product-value')} data-tag="allowRowEvents">
-                    {addCommas(row.quantity)}
+                    {addCommas(row.currentStock)}
                 </div>
             </div>
         ),

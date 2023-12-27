@@ -18,14 +18,14 @@ function Item_import({ product, index, funtion, update }) {
 
     const totalValue = () => {
         let newObj = obj;
-        newObj['total'] = newObj['nums'] * newObj['cost'];
+        newObj['totalCost'] = newObj['orderQuantity'] * newObj['purchasePrice'];
         setObj(newObj)
         update()
     }
 
     const ChangreNums = (value) => {
         let newObj = obj;
-        newObj['nums'] = parseInt(value);
+        newObj['orderQuantity'] = parseInt(value);
         setObj(newObj)
         totalValue()
     }
@@ -36,7 +36,7 @@ function Item_import({ product, index, funtion, update }) {
                 {index}
             </div>
             <div className={cx('properties-1')}>
-                <img src={product.img} className={cx('img')} />
+                <img src={product.featureImageUrl} className={cx('img')} />
             </div>
             <div className={cx('properties-2')}>
                 <div className='fs-6'>{product.name}</div>
@@ -52,14 +52,14 @@ function Item_import({ product, index, funtion, update }) {
             </div>
 
             <div className={cx('properties-3')}>
-                <div>{addCommas(product.cost)}</div>
+                <div>{addCommas(product.purchasePrice)}</div>
             </div>
 
             <div className={cx('properties-3')}>
-                {addCommas(product.total)}
+                {addCommas(product.orderQuantity)}
             </div>
             <div className={cx('properties-1')}>
-                <FaX className={cx('icon')} onClick={(e) => funtion(product.id, index)} />
+                <FaX className={cx('icon')} onClick={(e) => funtion(product.productId, index)} />
             </div>
 
         </div>

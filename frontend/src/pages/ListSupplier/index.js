@@ -20,6 +20,7 @@ import SubHeader from '~/components/SubHeader';
 import ModalComp from '~/components/ModalComp';
 import ModalLoading from '~/components/ModalLoading';
 
+import * as SuppliersServices from '~/apiServices/supplierServices';
 const cx = classNames.bind(styles);
 
 const optionsTT = [
@@ -62,14 +63,31 @@ function ListSupplier() {
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
 
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setRows(data8);
-            setPending(false);
-        }, 500);
-        return () => clearTimeout(timeout);
-    }, []);
+    // useEffect(() => {
+    //     const timeout = setTimeout(() => {
+    //         setRows(data8);
+    //         setPending(false);
+    //     }, 500);
+    //     return () => clearTimeout(timeout);
+    // }, []);
 
+
+    useEffect(() => {
+
+        const fetchApi = async () => {
+            const result = await SuppliersServices.getAllSuppliers()
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            setPending(false);
+            setRows(result);
+            // console.log(result)
+        }
+
+        fetchApi();
+
+    }, []);
     const [showSubHeader, setShowSubHeader] = useState(true);
     const [selectedRow, setSelectedRow] = useState(0);
 
@@ -111,7 +129,7 @@ function ListSupplier() {
         setOpenModal(false);
     };
 
-    const handleValidation = () => {};
+    const handleValidation = () => { };
 
     const onOpenModal = (value) => {
         setTitleModal(value);

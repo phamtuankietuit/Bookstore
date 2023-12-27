@@ -1,6 +1,6 @@
 import * as request from '~/utils/request';
 
-export const search = async (id) => {
+export const getAllProducts = async (id) => {
     try {
         const res = await request.get('posts/', {
             params: {
@@ -12,3 +12,4 @@ export const search = async (id) => {
         return Promise.reject(error);
     }
 }
+

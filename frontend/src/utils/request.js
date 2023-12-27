@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios'
 
 const request = axios.create({
     baseURL: 'https://api-bookstore-y1s1.azurewebsites.net/api/',

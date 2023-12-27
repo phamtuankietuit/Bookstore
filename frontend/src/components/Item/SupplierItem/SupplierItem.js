@@ -11,7 +11,7 @@ export const SupplierItem = [
         minWidth: '180px',
         cell: (row) => (
             <div className={cx('font', 'id')} data-tag="allowRowEvents">
-                {row.id}
+                {row.supplierId}
             </div>
         ),
     },
@@ -19,7 +19,7 @@ export const SupplierItem = [
         name: 'Tên nhà cung cấp',
         minWidth: '180px',
         cell: (row) => (
-            <div className={cx('font')} data-tag="allowRowEvents">
+            <div className={cx('font', 'overflow')} data-tag="allowRowEvents">
                 {row.name}
             </div>
         ),
@@ -38,7 +38,7 @@ export const SupplierItem = [
         minWidth: '180px',
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.email}
+                {row.contact.email}
             </div>
         ),
     },
@@ -47,7 +47,7 @@ export const SupplierItem = [
         minWidth: '180px',
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.phone}
+                {row.contact.phone}
             </div>
         ),
     },

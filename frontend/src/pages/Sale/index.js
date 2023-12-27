@@ -16,12 +16,14 @@ import { FaRegCircleXmark } from "react-icons/fa6";
 import { options2, options3 } from '../ImportProduct/data';
 import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
+import * as ProductServices from '~/apiServices/productServices';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
 
 function Sale() {
     const toastContext = useContext(ToastContext);
+    const [list, setList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [arr, setArr] = useState([])
     const [nums, setNums] = useState(0)
@@ -44,14 +46,14 @@ function Sale() {
             return false;
         });
         const obj = {
-            id: value.id,
+            productId: value.productId,
             sku: value.sku,
             name: value.name,
-            img: value.img,
-            cost: value.cost,
-            stock: value.stock,
-            nums: 0,
-            total: 0,
+            img: value.images[0],
+            salePrice: value.salePrice,
+            stock: value.currentStock,
+            quantity: 0,
+            totalPrice: 0,
         }
 
         if (isFound === false) {
@@ -64,8 +66,8 @@ function Sale() {
         let newnums = 0;
         if (arr.length !== 0) {
             arr.map(item => {
-                newcost += item.total
-                newnums += item.nums
+                newcost += item.totalPrice
+                newnums += item.quantity
             })
         }
 
@@ -80,14 +82,14 @@ function Sale() {
     const addCustomer = (value) => {
         setCustomer(value)
     }
-    const deletearr = (id, index) => {
-        let newcost = total - arr[index - 1]['total'];
-        let newnums = nums - arr[index - 1]['nums']
+    const deletearr = (productId, index) => {
+        let newcost = total - arr[index - 1]['totalPrice'];
+        let newnums = nums - arr[index - 1]['quantity']
         setTotal(newcost)
         setNums(newnums)
 
 
-        setArr(arr.filter(items => items.id !== id));
+        setArr(arr.filter(items => items.productId !== productId));
 
 
     }
@@ -125,18 +127,35 @@ function Sale() {
         }
 
     }
+
+
+    useEffect(() => {
+
+        const fetchApi = async () => {
+            const result = await ProductServices.getAllProducts()
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            setList(result)
+            // console.log(result)
+        }
+
+        fetchApi();
+
+    }, []);
     return (
         <div className={` ${cx('wrapper')}`}>
             <div className={`${cx('header')} d-flex align-items-center`}>
                 <p className={` ${cx('title')} d-flex `}>Tạo đơn mới</p>
                 <div className={` ${cx('search-bar')} me-auto`}>
-                    <SearchResult stypeid={1} setValue={addarr} list={options2} />
+                    <SearchResult stypeid={1} setValue={addarr} list={list} />
                 </div>
                 <div className={`text-end me-4`}>
                     <FaHouseChimney className={` ${cx('icon')}`} />
                 </div>
             </div>
-            <Row >
+            <Row>
                 <Col lg={9} className='p-0'>
                     <div className={` ${cx('frame')}`}>
                         {
@@ -162,7 +181,7 @@ function Sale() {
                                     </div>
                                     {
                                         arr.map((item, index) => (
-                                            <div key={item.id}>
+                                            <div key={item.productId}>
                                                 <Item_Sale product={item} index={index + 1} funtion={deletearr} update={update} />
 
                                             </div>

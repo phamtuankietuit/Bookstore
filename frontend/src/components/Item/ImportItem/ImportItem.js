@@ -10,7 +10,7 @@ export const ImportItem = [
         center: true,
         cell: (row) => (
             <div className={cx('font', 'id')} data-tag="allowRowEvents">
-                {row.id}
+                {row.purchaseOrderId}
             </div>
         ),
     },
@@ -21,7 +21,7 @@ export const ImportItem = [
         sortable: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.date}
+                {row.createAt}
             </div>
         ),
     },
@@ -48,7 +48,7 @@ export const ImportItem = [
         minWidth: '180px',
         center: true,
         cell: (row) => (
-            <div className={cx('font')} data-tag="allowRowEvents">
+            <div className={cx('font', 'overflow')} data-tag="allowRowEvents">
                 {row.supplierName}
             </div>
         ),

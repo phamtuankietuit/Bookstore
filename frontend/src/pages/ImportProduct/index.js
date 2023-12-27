@@ -18,16 +18,21 @@ import { FaBoxOpen } from "react-icons/fa";
 import { options, options2, options3 } from './data';
 import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
+
+import * as SuppliersServices from '~/apiServices/supplierServices';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 function ImportProduct() {
     const toastContext = useContext(ToastContext);
     const [loading, setLoading] = useState(false);
+
+
     let navigate = useNavigate();
     const [producer, set] = useState(
         null
     );
 
+    const [listsupplier, setListsupplier] = useState([]);
     const [list, setList] = useState([])
     const [cost, setCost] = useState(0)
     const [arr, setarr] = useState([]);
@@ -59,7 +64,7 @@ function ImportProduct() {
 
     const setproducer = (value) => {
         set(value)
-        setList(options2)
+        setList(value.productsSupplied)
 
     }
 
@@ -73,13 +78,13 @@ function ImportProduct() {
             return false;
         });
         const obj = {
-            id: value.id,
+            productId: value.productId,
             sku: value.sku,
             name: value.name,
-            img: value.img,
-            cost: value.cost,
-            nums: 0,
-            total: 0,
+            featureImageUrl: value.featureImageUrl,
+            purchasePrice: value.purchasePrice,
+            orderQuantity: 0,
+            totalCost: 0,
         }
 
         if (isFound === false) {
@@ -89,16 +94,16 @@ function ImportProduct() {
     }
 
 
-    const deletearr = (id, index) => {
-        let newcost = cost - arr[index - 1]['total'];
-        let newnums = nums - arr[index - 1]['nums']
+    const deletearr = (productId, index) => {
+        let newcost = cost - arr[index - 1]['totalCost'];
+        let newnums = nums - arr[index - 1]['orderQuantity']
         setCost(newcost)
         setNums(newnums)
 
         if (typediscount === true) setTotal(newcost * (1 - discount / 100))
         else setTotal(newcost - discount)
 
-        setarr(arr.filter(items => items.id !== id));
+        setarr(arr.filter(items => items.productId !== productId));
 
 
     }
@@ -117,8 +122,8 @@ function ImportProduct() {
         let newnums = 0;
         if (arr.length !== 0) {
             arr.map(item => {
-                newcost += item.total
-                newnums += item.nums
+                newcost += item.totalCost
+                newnums += item.orderQuantity
             })
         }
 
@@ -169,6 +174,22 @@ function ImportProduct() {
     }
 
 
+    useEffect(() => {
+
+        const fetchApi = async () => {
+            const result = await SuppliersServices.getAllSuppliers()
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            setListsupplier(result)
+            // console.log(result)
+        }
+
+        fetchApi();
+
+    }, []);
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -177,7 +198,7 @@ function ImportProduct() {
                     {
                         producer === null ? (
                             <div>
-                                <SearchResult setValue={setproducer} stypeid={0} list={options} />
+                                <SearchResult setValue={setproducer} stypeid={0} list={listsupplier} />
 
                                 <div className={cx('no-info')}>
                                     <p className='text-center w-100'>Chưa có thông tin nhà cung cấp</p>

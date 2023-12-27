@@ -31,7 +31,7 @@ export const DiscountItem = [
         center: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {addCommas(row.count)}
+                {addCommas(row.remainQuantity)}
             </div>
         ),
     },
@@ -41,7 +41,7 @@ export const DiscountItem = [
         center: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.start}
+                {row.startAt}
             </div>
         ),
     },
@@ -51,7 +51,7 @@ export const DiscountItem = [
         center: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.end}
+                {row.closeAt}
             </div>
         ),
     },
@@ -63,17 +63,17 @@ export const DiscountItem = [
             <div
                 className={cx({
                     'product-state-container': true,
-                    'state-1': row.status === 1 ? true : false,
-                    'state-2': row.status === 2 ? true : false,
+                    'state-1': row.status === 'paused' ? true : false,
+                    'state-2': row.status === 'canceled' ? true : false,
                 })}
                 data-tag="allowRowEvents"
             >
                 <div className={cx('product-state')} data-tag="allowRowEvents">
-                    {row.status === 0
+                    {row.status === 'running'
                         ? 'Đang chạy'
-                        : row.status === 1
-                        ? 'Tạm ngừng'
-                        : 'Đã hủy'}
+                        : row.status === 'paused'
+                            ? 'Tạm ngừng'
+                            : 'Đã hủy'}
                 </div>
             </div>
         ),

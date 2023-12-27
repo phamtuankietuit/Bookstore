@@ -17,11 +17,14 @@ import { FaCloudArrowDown } from "react-icons/fa6";
 import { options2 } from '../ImportProduct/data';
 import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
+import * as ProductServices from '~/apiServices/productServices';
 const cx = classNames.bind(styles);
 function AddCheckProduct(props) {
     const toastContext = useContext(ToastContext);
     const [loading, setLoading] = useState(false);
     let navigate = useNavigate();
+
+    const [list, setList] = useState([])
     const [arr, setArr] = useState([])
 
     const [show, setShow] = useState(false);
@@ -44,10 +47,10 @@ function AddCheckProduct(props) {
             return false;
         });
         const obj = {
-            id: value.id,
+            productId: value.productId,
             sku: value.sku,
             name: value.name,
-            img: value.img,
+            featureImageUrl: value.images[0],
             actualexistence: 0,
             reason: 'Khác',
             note: '',
@@ -63,8 +66,8 @@ function AddCheckProduct(props) {
             addarr(item)
         ))
     }
-    const deletearr = (id, index) => {
-        setArr(arr.filter(items => items.id !== id));
+    const deletearr = (productId, index) => {
+        setArr(arr.filter(items => items.productId !== productId));
     }
 
     const submit = () => {
@@ -103,6 +106,22 @@ function AddCheckProduct(props) {
             console.log(arr)
         }
     }
+
+    useEffect(() => {
+
+        const fetchApi = async () => {
+            const result = await ProductServices.getAllProducts()
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            setList(result)
+            // console.log(result)
+        }
+
+        fetchApi();
+
+    }, []);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -119,11 +138,11 @@ function AddCheckProduct(props) {
 
                     <Row>
                         <Col md={10} lg={10} className='p-0'>
-                            <SearchResult stypeid={1} setValue={addarr} list={options2} />
+                            <SearchResult stypeid={1} setValue={addarr} list={list} />
                         </Col>
 
                         <Col md={2} lg={2} className='p-0'>
-                            <MultiSelectModal funtion={handleMultiSelected} list={options2} />
+                            <MultiSelectModal funtion={handleMultiSelected} list={list} />
                         </Col>
 
                     </Row>

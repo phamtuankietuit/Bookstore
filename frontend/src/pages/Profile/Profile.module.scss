@@ -383,3 +383,17 @@
         min-height: 400px;
     }
 }
+.red {
+    border: red 1px solid;
+}
+.m-cp-c {
+    width: 90%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+}
+.m-cp-c p {
+    height: fit-content;
+    width: fit-content;
+    color: red;
+}

@@ -6,6 +6,7 @@
     border-top: solid #cdcdcd 1px;
     margin-top: 10px;
     display: flex;
+    padding-right: 16px;
     // grid-template-columns: 8% 8% 35% 11% 12% 12% 14%;
 }
 .table-column-1 {
@@ -15,6 +16,7 @@
     font-size: 14px;
     font-weight: 500;
     width: 8%;
+    min-width: 42px;
 }
 .table-column-2 {
     display: flex;
@@ -24,6 +26,7 @@
     font-weight: 500;
     padding-left: 10px;
     width: 35%;
+    min-width: 120px;
 }
 .table-column-3 {
     display: flex;
@@ -32,15 +35,16 @@
     font-size: 14px;
     font-weight: 500;
     width: 11%;
-    min-width: 100px;
+    min-width: 80px;
 }
 .table-column-4 {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: right;
     font-size: 14px;
     font-weight: 500;
     width: 16%;
+    min-width: 88px;
 }
 .list-product {
     max-height: 500px;
@@ -63,4 +67,9 @@
 .img {
     height: 40px;
     width: 40px;
+}
+@media screen and (max-width: 620px) {
+    .wrapper {
+        overflow: scroll;
+    }
 }

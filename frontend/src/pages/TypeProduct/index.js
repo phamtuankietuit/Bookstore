@@ -6,14 +6,12 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import styles from './TypeProduct.module.scss';
 import List from '~/components/List';
 import Button from '~/components/Button';
-import { data2 } from '~/components/Table/sample';
 import { TypeProductItem } from '~/components/Item';
 import SubHeader from '~/components/SubHeader';
 import ModalComp from '~/components/ModalComp';
 import Input from '~/components/Input';
 import ModalLoading from '~/components/ModalLoading';
 import { ToastContext } from '~/components/ToastContext';
-
 import * as typeProductServices from '~/apiServices/typeProductServices';
 
 const cx = classNames.bind(styles);
@@ -21,7 +19,6 @@ const cx = classNames.bind(styles);
 function TypeProduct() {
     // CALL API
     useEffect(() => {
-
         const fetchApi = async () => {
             const result = await typeProductServices.getAllProductTypes()
                 .catch((err) => {
@@ -31,41 +28,72 @@ function TypeProduct() {
             setPending(false);
             setRows(result);
         }
-
         fetchApi();
-
     }, []);
 
     const toastContext = useContext(ToastContext);
 
-    // MODAL ADD PRODUCT TYPE
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    // MODAL
+    const [titleModal, setTitleModal] = useState('');
+    const [openModal, setOpenModal] = useState(false);
 
-    const [nameType, setNameType] = useState('');
-    const [errorType, setErrorType] = useState('');
+    const handleOpenModal = () => setOpenModal(true);
+
+    const handleCloseModal = () => {
+        setErrorType('');
+        setNameType('');
+        setOpenModal(false);
+    };
 
     const handleValidation = () => {
-        if (nameType === '') {
-            setErrorType('Không được bỏ trống');
+        if (titleModal === 'Thêm loại sản phẩm') {
+            if (nameType === '') {
+                setErrorType('Không được bỏ trống');
+            } else {
+                // POST
+
+                const fetchApi = async () => {
+                    // setLoading(true);
+
+                    const result = await typeProductServices.createProductType({ text: nameType })
+                        .catch((error) => {
+                            if (error.response) {
+                                // The request was made and the server responded with a status code
+                                // that falls out of the range of 2xx
+                                console.log(error.response.data);
+                                console.log(error.response.status);
+                                console.log(error.response.headers);
+                            } else if (error.request) {
+                                // The request was made but no response was received
+                                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                                // http.ClientRequest in node.js
+                                console.log(error.request);
+                            } else {
+                                // Something happened in setting up the request that triggered an Error
+                                console.log('Error', error.message);
+                            }
+                            console.log(error.config);
+                        });
+
+                    if (result) {
+                        setLoading(false);
+                        toastContext.notify('success', 'Thêm loại sản phẩm thành công');
+                    }
+                }
+                fetchApi();
+            }
         } else {
-            setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-                setNameType('');
-                setErrorType('');
-                handleClose();
-                toastContext.notify('success', 'Thêm loại sản phẩm thành công');
-            }, 2000);
+            // DELETE
         }
     };
 
-    const handleCloseModal = () => {
-        setNameType('');
-        setErrorType('');
-        handleClose();
+    const onOpenModal = (value) => {
+        setTitleModal(value);
+        handleOpenModal();
     };
+
+    const [nameType, setNameType] = useState('');
+    const [errorType, setErrorType] = useState('');
 
     // MODAL LOADING
     const [loading, setLoading] = useState(false);
@@ -80,13 +108,6 @@ function TypeProduct() {
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
 
-    // useEffect(() => {
-    //     const timeout = setTimeout(() => {
-    //         setRows(data2);
-    //         setPending(false);
-    //     }, 2000);
-    //     return () => clearTimeout(timeout);
-    // }, []);
 
     const [showSubHeader, setShowSubHeader] = useState(true);
     const [selectedRow, setSelectedRow] = useState(0);
@@ -101,7 +122,9 @@ function TypeProduct() {
     };
 
     // SUB HEADER
-    const onClickAction = (index) => { };
+    const onClickAction = (index) => {
+        onOpenModal('Xóa loại sản phẩm?');
+    };
 
     return (
         <div className={cx('wrapper')}>
@@ -110,7 +133,7 @@ function TypeProduct() {
                     <Button
                         solidBlue
                         leftIcon={<FontAwesomeIcon icon={faPlus} />}
-                        onClick={handleOpen}
+                        onClick={() => onOpenModal('Thêm loại sản phẩm')}
                     >
                         Thêm loại sản phẩm
                     </Button>
@@ -143,35 +166,47 @@ function TypeProduct() {
                 </div>
             </div>
             <ModalComp
-                open={open}
+                open={openModal}
                 handleClose={handleCloseModal}
-                title={'Thêm loại sản phẩm'}
+                title={titleModal}
                 actionComponent={
                     <div>
                         <Button
                             className={cx('btn-cancel')}
-                            outlineRed
+                            outlineBlue={titleModal !== 'Xóa loại sản phẩm?'}
+                            outlineRed={titleModal === 'Xóa loại sản phẩm?'}
                             onClick={handleCloseModal}
                         >
                             Hủy
                         </Button>
                         <Button
-                            className={cx('btn-ok')}
-                            solidBlue
+                            className={cx('btn-ok', 'm-l-10')}
+                            solidBlue={titleModal !== 'Xóa loại sản phẩm?'}
+                            solidRed={titleModal === 'Xóa loại sản phẩm?'}
                             onClick={handleValidation}
                         >
-                            Thêm
+                            {titleModal === 'Xóa loại sản phẩm?' ? 'Xóa' : 'Lưu'}
                         </Button>
                     </div>
                 }
             >
-                <Input
-                    title={'Tên loại sản phẩm'}
-                    value={nameType}
-                    onChange={(value) => setNameType(value)}
-                    error={errorType}
-                    required
-                />
+                {titleModal === 'Thêm loại sản phẩm' && (
+                    <Input
+                        title={'Tên loại sản phẩm'}
+                        value={nameType}
+                        onChange={(value) => setNameType(value)}
+                        error={errorType}
+                        required
+                    />
+                )}
+                {titleModal === 'Xóa loại sản phẩm?' && (
+                    <div className={cx('info')}>
+                        Thao tác này sẽ xóa
+                        <strong> {selectedRow}</strong> loại sản phẩm bạn đã chọn
+                    </div>
+
+                )}
+
             </ModalComp>
             <ModalLoading open={loading} title={'Đang tải'} />
         </div>

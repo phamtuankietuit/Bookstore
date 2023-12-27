@@ -1,0 +1,41 @@
+.wrapper {
+    min-height: 100vh;
+    height: 100%;
+    background: var(--background) url('../../assets/images/bg_img.svg')
+        no-repeat top left;
+}
+
+.inner {
+    padding: 20px;
+}
+
+.m-b {
+    margin-bottom: 20px;
+}
+
+.height {
+    height: 850px;
+}
+
+.m-h {
+    height: 1000px;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.m-l {
+    margin-left: 20px;
+}
+
+.m-w-group {
+    max-width: 140px;
+}
+
+.m-w-type {
+    max-width: 200px;
+}

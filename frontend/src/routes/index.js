@@ -39,6 +39,7 @@ import InfoStaff from '~/pages/InfoStaff';
 import SellReport from '~/pages/SellReport';
 import BillInfo from '~/pages/BillInfo';
 import EditBillInfo from '~/pages/EditBillInfo';
+import ImportReport from '~/pages/ImportReport';
 
 const publicRoutes = [
     // ACCOUNT
@@ -271,9 +272,14 @@ const publicRoutes = [
     },
     // REPORT
     {
-        path: '/reports/revenue',
+        path: '/reports/sell',
         component: SellReport,
         title: 'Báo cáo bán hàng',
+    },
+    {
+        path: '/reports/import',
+        component: ImportReport,
+        title: 'Báo cáo nhập hàng',
     },
 ];
 

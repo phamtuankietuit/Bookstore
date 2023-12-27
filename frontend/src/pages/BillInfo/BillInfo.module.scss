@@ -358,3 +358,35 @@
         min-width: 645px;
     }
 }
+@media screen and (max-width: 688px) {
+    .Print-and-Copy {
+        display: grid;
+        grid-template-columns: 155px 210px;
+        grid-template-rows: 50px 50px;
+    }
+    .MainInfo-and-Status {
+        height: 145px;
+        display: flex;
+        flex-direction: column;
+    }
+    .MainInfo {
+        display: flex;
+        flex-direction: column;
+        padding-top: 10px;
+    }
+    .Copy-btn {
+        margin-left: 5px;
+    }
+    .Staff-info {
+        width: 150px;
+    }
+    .Bill-Content {
+        display: flex;
+        flex-direction: column;
+        height: 330px;
+    }
+    .Content-grid2 {
+        justify-content: left;
+        padding-left: 20px;
+    }
+}

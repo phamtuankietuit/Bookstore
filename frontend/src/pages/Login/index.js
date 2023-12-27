@@ -131,6 +131,9 @@ function Login() {
                 setMessage('Vui lòng nhập đúng định dạng email');
             } else {
                 setCheckLogin(false);
+                if (password.length >= 8) {
+                    toastContext.notify('success', 'Đăng nhập thành công!');
+                }
             }
         }
     };

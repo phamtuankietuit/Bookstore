@@ -9,3 +9,13 @@ export const getAllSalesOrders = async () => {
         return Promise.reject(error);
     }
 }
+
+export const getSalesOrder = async (id) => {
+    try {
+        const res = await request.getMethod('SalesOrders/' + id);
+        console.log(res);
+        return res;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}

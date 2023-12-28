@@ -113,7 +113,7 @@ function ListSupplier() {
 
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
-        navigate('/suppliers/detail/' + row.id);
+        navigate('/suppliers/detail/' + row.supplierId);
     }, []);
 
     // MODAL LOADING

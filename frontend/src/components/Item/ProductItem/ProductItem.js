@@ -49,17 +49,17 @@ export const ProductItem = [
             <div
                 className={cx({
                     'product-state-container': true,
-                    'state-0': row.status === 1 ? false : true,
+                    'state-0': row.isActive === true ? false : true,
                 })}
                 data-tag="allowRowEvents"
             >
                 <FontAwesomeIcon
                     className={cx('product-state-icon')}
-                    icon={row.isActive === 1 ? faCheck : faXmark}
+                    icon={row.isActive === true ? faCheck : faXmark}
                     data-tag="allowRowEvents"
                 />
                 <div className={cx('product-state')} data-tag="allowRowEvents">
-                    {row.isActive === 1 ? 'Đang giao dịch' : 'Ngừng giao dịch'}
+                    {row.isActive === true ? 'Đang giao dịch' : 'Ngừng giao dịch'}
                 </div>
             </div>
         ),

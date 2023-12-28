@@ -206,7 +206,7 @@ function InfoProduct() {
                                         variant="primary"
                                     >
                                         <NavLink
-                                            to={'/products/update/' + productid}
+                                            to={'/products/update/' + productid.id}
                                             className="text-decoration-none text-white"
                                         >
                                             Sửa sản phẩm

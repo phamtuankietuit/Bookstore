@@ -1,14 +1,14 @@
 .columns-item-1{
     text-align: center;
-    min-width: 100px;
+    width: 100px;
 }
 
 .columns-item-2{
-    min-width: 380px;
+    width: 380px;
 
 }
 .columns-item-3{
-    min-width: 180px;
+    width: 180px;
     text-align: center;
 }
 
@@ -54,4 +54,12 @@
 .wrapper{
     overflow: scroll;
     margin-top: 30px;
+}
+
+.item_name{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }

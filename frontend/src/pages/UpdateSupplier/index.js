@@ -12,7 +12,9 @@ import Input from '~/components/Input';
 import ModalComp from '~/components/ModalComp';
 import ModalLoading from '~/components/ModalLoading';
 import { ToastContext } from '~/components/ToastContext';
-
+import * as SuppliersServices from '~/apiServices/supplierServices';
+import Spinner from 'react-bootstrap/Spinner';
+import { useParams } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 const supplier = {
@@ -47,6 +49,27 @@ function UpdateSupplier() {
     const [address, setAddress] = useState('');
     const [isActive, setIsActive] = useState(true);
 
+
+    const [obj, setObj] = useState(null);
+    const suppliertid = useParams();
+    useEffect(() => {
+        const fetchApi = async () => {
+            // console.log(productid.id)
+            const result = await SuppliersServices.getSupplier(suppliertid.id)
+                .catch((err) => {
+                    console.log(err);
+                });
+            setObj(result);
+
+
+            setName(result.name)
+            setPhone(result.contact.phone)
+            setEmail(result.contact.email)
+            setAddress(result.address)
+        }
+
+        fetchApi();
+    }, []);
     // MODAL LOADING
     const [loading, setLoading] = useState(false);
 
@@ -63,6 +86,9 @@ function UpdateSupplier() {
                     'success',
                     'Cập nhật nhà cung cấp thành công',
                 );
+
+
+                console.log(obj)
             }, 2000);
         }
     };
@@ -105,127 +131,152 @@ function UpdateSupplier() {
 
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('inner')}>
-                <div className={cx('content')}>
-                    <Wrapper
-                        title={'Thông tin nhà cung cấp'}
-                        className={cx('m-b')}
-                    >
-                        <div className={cx('twocols')}>
-                            <div className={cx('col1')}>
-                                <Input
-                                    title={'Mã nhà cung cấp'}
-                                    value={supplier.id}
-                                    className={cx('m-b')}
-                                    readOnly
-                                />
-                                <Input
-                                    title={'Tên nhà cung cấp'}
-                                    required
-                                    value={name}
-                                    onChange={(value) => setName(value)}
-                                    className={cx('m-b')}
-                                    error={errorName}
-                                />
-                                <Input
-                                    title={'Địa chỉ'}
-                                    value={address}
-                                    onChange={(value) => setAddress(value)}
-                                    className={cx('m-b')}
-                                />
-                                 <div className={cx('m-b')}>
-                                    <div className={cx('status')}>
-                                        Trạng thái giao dịch
-                                    </div>
-                                    <Switch
-                                        checked={isActive}
-                                        onChange={() => setIsActive(!isActive)}
-                                    />
-                                </div>
-                            </div>
-                            <div className={cx('col2')}>
-                                <Input
-                                    title={'Số điện thoại'}
-                                    value={phone}
-                                    number
-                                    onChangeNumber={(number) =>
-                                        setPhone(number)
-                                    }
-                                    className={cx('m-b')}
-                                />
-                                <div className={cx('two-cols', 'm-b')}>
-                                    <Input
-                                        title={'Nhóm nhà cung cấp'}
-                                        items={['Sách', 'Khác']}
-                                        value={group}
-                                        onChange={(value) => setGroup(value)}
-                                        readOnly
-                                    />
-                                    <Button
-                                        className={cx('btn-add')}
-                                        solidBlue
-                                        leftIcon={
-                                            <FontAwesomeIcon icon={faPlus} />
-                                        }
-                                        onClick={handleOpen}
-                                    ></Button>
-                                </div>
-                                <Input
-                                    title={'Email'}
-                                    value={email}
-                                    onChange={(value) => setEmail(value)}
-                                    className={cx('m-b')}
-                                />
-                            </div>
-                        </div>
-                    </Wrapper>
-                </div>
+            {obj === null ? (
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
+            ) : (
+                <div>
+                    <div className={cx('inner')}>
+                        <div className={cx('content')}>
+                            <Wrapper
+                                title={'Thông tin nhà cung cấp'}
+                                className={cx('m-b')}
+                            >
+                                <div className={cx('twocols')}>
+                                    <div className={cx('col1')}>
+                                        <Input
+                                            title={'Mã nhà cung cấp'}
+                                            value={obj.supplierId}
+                                            className={cx('m-b')}
+                                            readOnly
+                                        />
+                                        <Input
+                                            title={'Tên nhà cung cấp'}
+                                            required
+                                            value={name}
+                                            onChange={(value) => {
+                                                setName(value)
 
-                <div className={cx('action')}>
-                    <Button outlineBlue onClick={handleExit}>
-                        Thoát
-                    </Button>
-                    <Button
-                        solidBlue
-                        className={cx('margin')}
-                        onClick={handleSubmit}
-                    >
-                        Lưu
-                    </Button>
-                </div>
-            </div>
-            <ModalComp
-                open={open}
-                handleClose={handleCloseModal}
-                title={'Thêm nhóm nhà cung cấp'}
-                actionComponent={
-                    <div>
-                        <Button
-                            className={cx('btn-cancel')}
-                            outlineRed
-                            onClick={handleCloseModal}
-                        >
-                            Hủy
-                        </Button>
-                        <Button
-                            className={cx('btn-ok')}
-                            solidBlue
-                            onClick={handleValidation}
-                        >
-                            Thêm
-                        </Button>
+                                            }}
+                                            className={cx('m-b')}
+                                            error={errorName}
+                                        />
+                                        <Input
+                                            title={'Địa chỉ'}
+                                            value={address}
+                                            onChange={(value) => {
+                                                setAddress(value)
+
+
+                                            }}
+                                            className={cx('m-b')}
+                                        />
+                                        <div className={cx('m-b')}>
+                                            <div className={cx('status')}>
+                                                Trạng thái giao dịch
+                                            </div>
+                                            <Switch
+                                                checked={isActive}
+                                                onChange={() => setIsActive(!isActive)}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className={cx('col2')}>
+                                        <Input
+                                            title={'Số điện thoại'}
+                                            value={phone}
+                                            number
+                                            onChangeNumber={(number) => {
+                                                setPhone(number)
+
+
+                                            }
+
+
+                                            }
+                                            className={cx('m-b')}
+                                        />
+                                        <div className={cx('two-cols', 'm-b')}>
+                                            <Input
+                                                title={'Nhóm nhà cung cấp'}
+                                                items={['Sách', 'Khác']}
+                                                value={group}
+                                                onChange={(value) => setGroup(value)}
+                                                readOnly
+                                            />
+                                            <Button
+                                                className={cx('btn-add')}
+                                                solidBlue
+                                                leftIcon={
+                                                    <FontAwesomeIcon icon={faPlus} />
+                                                }
+                                                onClick={handleOpen}
+                                            ></Button>
+                                        </div>
+                                        <Input
+                                            title={'Email'}
+                                            value={email}
+                                            onChange={(value) => {
+                                                setEmail(value)
+
+
+                                            }}
+                                            className={cx('m-b')}
+                                        />
+                                    </div>
+                                </div>
+                            </Wrapper>
+                        </div>
+
+                        <div className={cx('action')}>
+                            <Button outlineBlue onClick={handleExit}>
+                                Thoát
+                            </Button>
+                            <Button
+                                solidBlue
+                                className={cx('margin')}
+                                onClick={handleSubmit}
+                            >
+                                Lưu
+                            </Button>
+                        </div>
                     </div>
-                }
-            >
-                <Input
-                    title={'Tên nhóm nhà cung cấp'}
-                    value={nameGroup}
-                    onChange={(value) => setNameGroup(value)}
-                    error={errorGroup}
-                    required
-                />
-            </ModalComp>
-            <ModalLoading open={loading} title={'Đang tải'} />
+                    <ModalComp
+                        open={open}
+                        handleClose={handleCloseModal}
+                        title={'Thêm nhóm nhà cung cấp'}
+                        actionComponent={
+                            <div>
+                                <Button
+                                    className={cx('btn-cancel')}
+                                    outlineRed
+                                    onClick={handleCloseModal}
+                                >
+                                    Hủy
+                                </Button>
+                                <Button
+                                    className={cx('btn-ok')}
+                                    solidBlue
+                                    onClick={handleValidation}
+                                >
+                                    Thêm
+                                </Button>
+                            </div>
+                        }
+                    >
+                        <Input
+                            title={'Tên nhóm nhà cung cấp'}
+                            value={nameGroup}
+                            onChange={(value) => setNameGroup(value)}
+                            error={errorGroup}
+                            required
+                        />
+                    </ModalComp>
+                    <ModalLoading open={loading} title={'Đang tải'} />
+                </div>
+            )}
+
         </div>
     );
 }

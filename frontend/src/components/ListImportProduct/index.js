@@ -18,21 +18,21 @@ function ListImportProduct({ list }) {
             </div>
             <div className={cx('list-import')}>
                 {list.map((item, index) => (
-                    <div className={`${cx('item')}`} key={item.id}>
+                    <div className={`${cx('item')}`} key={item.productId}>
                         <div className={cx('columns-item-1')}>{index + 1}</div>
                         <div className={cx('columns-item-1')}>
-                            <img src={item.img} className={cx('img')} />
+                            <img src={item.featureImageUrl} className={cx('img')} />
                         </div>
                         <div className={cx('columns-item-2')}>
                             <div>{item.name}</div>
                             <div>{item.sku}</div>
                         </div>
-                        <div className={cx('columns-item-3')}>{item.nums}</div>
+                        <div className={cx('columns-item-3')}>{item.orderQuantity}</div>
                         <div className={cx('columns-item-3')}>
-                            <div>{addCommas(item.cost)}</div>
+                            <div>{addCommas(item.purchasePrice)}</div>
                         </div>
                         <div className={cx('columns-item-3')}>
-                            {addCommas(item.total)}
+                            {addCommas(item.totalCost)}
                         </div>
                     </div>
                 ))}

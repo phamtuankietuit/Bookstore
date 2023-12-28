@@ -19,24 +19,24 @@ function ListBillProduct({ list }) {
             </div>
             <div className={cx('list-product')}>
                 {list.map((item, index) => (
-                    <div className={`${cx('item')}`} key={item.id}>
+                    <div className={`${cx('item')}`} key={item.productId}>
                         <div className={cx('table-column-1')}>{index + 1}</div>
                         <div className={cx('table-column-1')}>
-                            <img src={item.img} className={cx('img')} alt="" />
+                            <img src={item.featureImageUrl} className={cx('img')} alt="" />
                         </div>
                         <div className={cx('table-column-2')}>
                             <div>{item.name}</div>
                             <div>{item.sku}</div>
                         </div>
-                        <div className={cx('table-column-3')}>{item.nums}</div>
+                        <div className={cx('table-column-3')}>{item.quantity}</div>
                         <div className={cx('table-column-3')}>
-                            <div>{addCommas(item.cost)}</div>
+                            <div>{addCommas(item.salePrice)}</div>
                         </div>
                         <div className={cx('table-column-3')}>
-                            <div>{addCommas(item.discount)}</div>
+                            <div>{addCommas(0)}</div>
                         </div>
                         <div className={cx('table-column-4')}>
-                            {addCommas(item.total)}
+                            {addCommas(item.totalPrice)}
                         </div>
                     </div>
                 ))}

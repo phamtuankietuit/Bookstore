@@ -68,7 +68,7 @@ function ListImport() {
 
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
-        navigate('/imports/detail/' + row.id);
+        navigate('/imports/detail/' + row.purchaseOrderId);
     }, []);
 
     // TABLE

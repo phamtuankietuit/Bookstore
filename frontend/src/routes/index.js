@@ -40,6 +40,8 @@ import SellReport from '~/pages/SellReport';
 import BillInfo from '~/pages/BillInfo';
 import EditBillInfo from '~/pages/EditBillInfo';
 import ImportReport from '~/pages/ImportReport';
+import ActivityHistory from '~/pages/ActivityHistory';
+import Overview from '~/pages/Overview';
 
 const publicRoutes = [
     // ACCOUNT
@@ -280,6 +282,18 @@ const publicRoutes = [
         path: '/reports/import',
         component: ImportReport,
         title: 'Báo cáo nhập hàng',
+    },
+    // ACTIVITY HISTORY
+    {
+        path: '/activity',
+        component: ActivityHistory,
+        title: 'Nhật ký hoạt động',
+    },
+    // OVERVIEW
+    {
+        path: '/overview',
+        component: Overview,
+        title: 'Tổng quan',
     },
 ];
 

@@ -1,0 +1,26 @@
+.wrapper {
+    min-height: 100vh;
+    height: 100%;
+    background: var(--background) url('../../assets/images/bg_img.svg')
+        no-repeat top left;
+}
+
+.inner {
+    padding: 20px;
+}
+
+.margin {
+    margin-right: 5px;
+}
+
+.margin:last-child {
+    margin-right: 0px;
+}
+
+.margin-bottom {
+    margin-bottom: 20px;
+}
+
+.m-b {
+    margin-bottom: 20px;
+}

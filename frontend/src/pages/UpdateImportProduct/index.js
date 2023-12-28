@@ -14,17 +14,16 @@ import { useEffect, useState, useContext } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
+import * as PurchaseOrdersServices from '~/apiServices/purchaseorderServies';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 function UpdateImportProduct() {
     const toastContext = useContext(ToastContext);
     const [loading, setLoading] = useState(false);
-    const { importid } = useParams()
+    const importid = useParams()
     let navigate = useNavigate();
     const [obj, setObj] = useState(null)
-    useEffect(() => {
-        setObj(data)
-    }, [obj]);
+
     const v = [
         {
             id: 1,
@@ -57,6 +56,22 @@ function UpdateImportProduct() {
         }, 2000);
         console.log(obj)
     }
+
+    useEffect(() => {
+
+        const fetchApi = async () => {
+            // console.log(productid.id)
+            const result = await PurchaseOrdersServices.getPurchaseOrder(importid.id)
+                .catch((err) => {
+                    console.log(err);
+                });
+            setObj(result);
+
+        }
+
+        fetchApi();
+
+    }, []);
     return (
         <div className={cx('wrapper')}>
             {
@@ -75,7 +90,7 @@ function UpdateImportProduct() {
                                         <div className='d-flex'>
                                             <p className='me-4'>
                                                 <NavLink to='/' className='fs-5 text-decoration-none' >
-                                                    A
+                                                    {obj.supplierName}
 
                                                 </NavLink>
                                             </p>
@@ -95,7 +110,7 @@ function UpdateImportProduct() {
                         </div>
                         <div className={cx('frame')}>
                             <p className={cx('title')}>Thông tin sản phẩm</p>
-                            <ListImportProduct list={obj.list} />
+                            <ListImportProduct list={obj.items} />
                             <hr />
                             <Row>
                                 <Col lg={7} className={cx('title')}>
@@ -120,7 +135,7 @@ function UpdateImportProduct() {
                                             Số lượng
                                         </Col>
                                         <Col xs md lg={4} className='text-end pe-5'>
-                                            {obj.list.length}
+                                            {obj.items.length}
                                         </Col>
                                     </Row>
 
@@ -129,7 +144,7 @@ function UpdateImportProduct() {
                                             Tổng tiền
                                         </Col>
                                         <Col xs md lg={4} className='text-end pe-5'>
-                                            {addCommas(obj.total)}
+                                            {addCommas(obj.totalAmount)}
                                         </Col>
                                     </Row>
                                     <Row className='mt-3'>
@@ -141,13 +156,7 @@ function UpdateImportProduct() {
                                         </Col>
                                         <Col xs md lg={4} className='text-end pe-5'>
                                             {
-                                                obj.typediscount ? (
-                                                    <div>
-                                                        {obj.discount} %
-                                                    </div>
-                                                ) : (
-                                                    <div>{addCommas(obj.discount)}</div>
-                                                )
+                                                addCommas(obj.discount = null ? 0 : obj.discount)
                                             }
                                         </Col>
                                     </Row>
@@ -156,7 +165,7 @@ function UpdateImportProduct() {
                                             Đã thanh toán
                                         </Col>
                                         <Col xs md lg={4} className='text-end pe-5'>
-                                            {addCommas(obj.paid)}
+                                            {addCommas(obj.paymentDetails.paidAmount)}
                                         </Col>
                                     </Row>
                                     <hr className={cx('divider')} />
@@ -165,7 +174,7 @@ function UpdateImportProduct() {
                                             Còn phải trả
                                         </Col>
                                         <Col xs md lg={4} className='text-end pe-5'>
-                                            {addCommas(obj.unpaid)}
+                                            {addCommas(obj.paymentDetails.remainAmount)}
                                         </Col>
                                     </Row>
                                 </Col>

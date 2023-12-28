@@ -165,7 +165,7 @@ function DiscountInfo() {
                     <div className={cx('button-container')}>
                         <button
                             className={cx('edit-btn')}
-                            onClick={() => navigate('/discounts/update/KH0001')}
+                            onClick={() => navigate('/discounts/update/' + promotiontid.id)}
                         >
                             Sửa
                         </button>

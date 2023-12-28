@@ -24,7 +24,7 @@ function ListImportProduct({ list }) {
                             <img src={item.featureImageUrl} className={cx('img')} />
                         </div>
                         <div className={cx('columns-item-2')}>
-                            <div>{item.name}</div>
+                            <div className={cx('item_name')}>{item.name}</div>
                             <div>{item.sku}</div>
                         </div>
                         <div className={cx('columns-item-3')}>{item.orderQuantity}</div>

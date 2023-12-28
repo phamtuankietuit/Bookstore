@@ -7,7 +7,6 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { NavLink } from 'react-router-dom';
 import Properties from '~/components/Properties';
-import { data } from './data';
 import ListImportProduct from '~/components/ListImportProduct';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';

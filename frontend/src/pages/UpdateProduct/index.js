@@ -12,7 +12,9 @@ import Input from '~/components/Input';
 import ModalComp from '~/components/ModalComp';
 import ModalLoading from '~/components/ModalLoading';
 import { ToastContext } from '~/components/ToastContext';
-
+import * as ProductServices from '~/apiServices/productServices';
+import Spinner from 'react-bootstrap/Spinner';
+import { useParams } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 const product = {
@@ -25,10 +27,25 @@ const product = {
 };
 
 function UpdateProduct() {
+    const productid = useParams();
+    const [obj, setObj] = useState(null)
     useEffect(() => {
         // CALL API
-        setFiles([...product.images]);
-        setName(product.name);
+
+        const fetchApi = async () => {
+            // console.log(productid.id)
+            const result = await ProductServices.getProduct(productid.id)
+                .catch((err) => {
+                    console.log(err);
+
+                });
+            setObj(result)
+
+
+        }
+
+        fetchApi();
+
     }, []);
 
     const navigate = useNavigate();
@@ -262,322 +279,329 @@ function UpdateProduct() {
 
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('inner')}>
-                <div className={cx('content')}>
-                    <div className={cx('col1')}>
-                        <Wrapper title={'Ảnh sản phẩm'} className={cx('m-b')}>
-                            <div className={cx('list-img')}>
-                                <input
-                                    id="addImg"
-                                    type="file"
-                                    className={cx('input')}
-                                    accept="image/png,image/gif,image/jpeg"
-                                    multiple
-                                    onChange={handleAddImages}
-                                />
-                                <label
-                                    htmlFor="addImg"
-                                    className={cx('add-img')}
-                                >
-                                    <FontAwesomeIcon icon={faPlus} />
-                                </label>
-                                {files.map((file, index) => (
-                                    <div key={index} className={cx('img-box')}>
-                                        <div
-                                            className={cx('del-img')}
-                                            onClick={() =>
-                                                handleRemoveImage(index)
-                                            }
-                                        >
-                                            <FontAwesomeIcon
-                                                className={cx('del-icon')}
-                                                icon={faXmark}
+            {obj === null ? (
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
+            ) : (<div>
+                <div className={cx('inner')}>
+                    <div className={cx('content')}>
+                        <div className={cx('col1')}>
+                            <Wrapper title={'Ảnh sản phẩm'} className={cx('m-b')}>
+                                <div className={cx('list-img')}>
+                                    <input
+                                        id="addImg"
+                                        type="file"
+                                        className={cx('input')}
+                                        accept="image/png,image/gif,image/jpeg"
+                                        multiple
+                                        onChange={handleAddImages}
+                                    />
+                                    <label
+                                        htmlFor="addImg"
+                                        className={cx('add-img')}
+                                    >
+                                        <FontAwesomeIcon icon={faPlus} />
+                                    </label>
+                                    {files.map((file, index) => (
+                                        <div key={index} className={cx('img-box')}>
+                                            <div
+                                                className={cx('del-img')}
+                                                onClick={() =>
+                                                    handleRemoveImage(index)
+                                                }
+                                            >
+                                                <FontAwesomeIcon
+                                                    className={cx('del-icon')}
+                                                    icon={faXmark}
+                                                />
+                                            </div>
+                                            <img
+                                                className={cx('img')}
+                                                src={file.preview || file}
+                                                alt=""
                                             />
                                         </div>
-                                        <img
-                                            className={cx('img')}
-                                            src={file.preview || file}
-                                            alt=""
+                                    ))}
+                                </div>
+                                {filesError && (
+                                    <div className={cx('warning')}>
+                                        * Tối đa 5 ảnh
+                                    </div>
+                                )}
+                            </Wrapper>
+
+                            <Wrapper
+                                title={'Thông tin chung'}
+                                className={cx('m-b')}
+                            >
+                                <Input
+                                    title={'Mã sản phẩm'}
+                                    value={product.id}
+                                    className={cx('m-b')}
+                                    readOnly
+                                />
+                                <Input
+                                    title={'Tên sản phẩm'}
+                                    required
+                                    value={name}
+                                    onChange={onChangeName}
+                                    className={cx('m-b')}
+                                    error={errorName}
+                                />
+
+                                <Input
+                                    title={'Mô tả sản phẩm'}
+                                    value={desc}
+                                    onChange={onChangeDesc}
+                                    textarea
+                                    rows={5}
+                                />
+                            </Wrapper>
+
+                            <Wrapper title={'Giá sản phẩm'} className={cx('m-b')}>
+                                <div className={cx('price-cost', 'm-b')}>
+                                    <Input
+                                        title={'Giá nhập'}
+                                        className={cx('cost')}
+                                        required
+                                        money
+                                        value={cost}
+                                        onChangeMoney={onChangeCost}
+                                    />
+                                    <Input
+                                        title={'Giá bán'}
+                                        className={cx('price')}
+                                        required
+                                        money
+                                        value={price}
+                                        onChangeMoney={onChangePrice}
+                                    />
+                                </div>
+                            </Wrapper>
+
+                            <Wrapper title={'Kho hàng'} className={cx('m-b')}>
+                                <Input
+                                    title={'Tồn kho'}
+                                    className={cx('m-b')}
+                                    required
+                                    money
+                                    value={store}
+                                    onChangeMoney={onChangeStore}
+                                />
+                            </Wrapper>
+
+                            <Wrapper title={'Thuộc tính'} className={cx('m-b')}>
+                                {restProps && (
+                                    <Input
+                                        className={cx('m-b')}
+                                        title={'Thương hiệu'}
+                                        items={[
+                                            'Thiên Long',
+                                            'Deli',
+                                            'Hồng Hà',
+                                            'Campus',
+                                        ]}
+                                        value={manufacturer}
+                                        onChange={onChangeManufacturer}
+                                    />
+                                )}
+                                {bookProps && (
+                                    <div>
+                                        <Input
+                                            className={cx('m-b')}
+                                            title={'Năm xuất bản'}
+                                            number
+                                            value={year}
+                                            onChangeNumber={onChangeYear}
+                                        />
+                                        <Input
+                                            className={cx('m-b')}
+                                            title={'Tác giả'}
+                                            items={[
+                                                'Kim Lân',
+                                                'Xuân Diệu',
+                                                'Tố Hữu',
+                                                'Đoàn Thị Điểm',
+                                            ]}
+                                            value={author}
+                                            onChange={onChangeAuthor}
+                                        />
+                                        <Input
+                                            className={cx('m-b')}
+                                            title={'Nhà xuất bản'}
+                                            items={[
+                                                'Kim Đồng',
+                                                'Nguyễn Huy Phát',
+                                                'Đại học Quốc gia TPHCM',
+                                                'Bộ GD và ĐT',
+                                            ]}
+                                            value={publisher}
+                                            onChange={onChangePublisher}
                                         />
                                     </div>
-                                ))}
-                            </div>
-                            {filesError && (
-                                <div className={cx('warning')}>
-                                    * Tối đa 5 ảnh
-                                </div>
-                            )}
-                        </Wrapper>
-
-                        <Wrapper
-                            title={'Thông tin chung'}
-                            className={cx('m-b')}
-                        >
-                            <Input
-                                title={'Mã sản phẩm'}
-                                value={product.id}
-                                className={cx('m-b')}
-                                readOnly
-                            />
-                            <Input
-                                title={'Tên sản phẩm'}
-                                required
-                                value={name}
-                                onChange={onChangeName}
-                                className={cx('m-b')}
-                                error={errorName}
-                            />
-
-                            <Input
-                                title={'Mô tả sản phẩm'}
-                                value={desc}
-                                onChange={onChangeDesc}
-                                textarea
-                                rows={5}
-                            />
-                        </Wrapper>
-
-                        <Wrapper title={'Giá sản phẩm'} className={cx('m-b')}>
-                            <div className={cx('price-cost', 'm-b')}>
-                                <Input
-                                    title={'Giá nhập'}
-                                    className={cx('cost')}
-                                    required
-                                    money
-                                    value={cost}
-                                    onChangeMoney={onChangeCost}
-                                />
-                                <Input
-                                    title={'Giá bán'}
-                                    className={cx('price')}
-                                    required
-                                    money
-                                    value={price}
-                                    onChangeMoney={onChangePrice}
-                                />
-                            </div>
-                        </Wrapper>
-
-                        <Wrapper title={'Kho hàng'} className={cx('m-b')}>
-                            <Input
-                                title={'Tồn kho'}
-                                className={cx('m-b')}
-                                required
-                                money
-                                value={store}
-                                onChangeMoney={onChangeStore}
-                            />
-                        </Wrapper>
-
-                        <Wrapper title={'Thuộc tính'} className={cx('m-b')}>
-                            {restProps && (
-                                <Input
-                                    className={cx('m-b')}
-                                    title={'Thương hiệu'}
-                                    items={[
-                                        'Thiên Long',
-                                        'Deli',
-                                        'Hồng Hà',
-                                        'Campus',
-                                    ]}
-                                    value={manufacturer}
-                                    onChange={onChangeManufacturer}
-                                />
-                            )}
-                            {bookProps && (
-                                <div>
-                                    <Input
-                                        className={cx('m-b')}
-                                        title={'Năm xuất bản'}
-                                        number
-                                        value={year}
-                                        onChangeNumber={onChangeYear}
-                                    />
-                                    <Input
-                                        className={cx('m-b')}
-                                        title={'Tác giả'}
-                                        items={[
-                                            'Kim Lân',
-                                            'Xuân Diệu',
-                                            'Tố Hữu',
-                                            'Đoàn Thị Điểm',
-                                        ]}
-                                        value={author}
-                                        onChange={onChangeAuthor}
-                                    />
-                                    <Input
-                                        className={cx('m-b')}
-                                        title={'Nhà xuất bản'}
-                                        items={[
-                                            'Kim Đồng',
-                                            'Nguyễn Huy Phát',
-                                            'Đại học Quốc gia TPHCM',
-                                            'Bộ GD và ĐT',
-                                        ]}
-                                        value={publisher}
-                                        onChange={onChangePublisher}
-                                    />
-                                </div>
-                            )}
-                        </Wrapper>
-                    </div>
-                    <div className={cx('col2')}>
-                        <Wrapper
-                            title={'Thông tin bổ sung'}
-                            className={cx('m-b')}
-                        >
-                            <div className={cx('two-cols', 'm-b')}>
-                                <Input
-                                    title={'Loại sản phẩm'}
-                                    items={[
-                                        'Sách Thiếu Nhi',
-                                        'Sách Giáo Khoa - Tham Khảo',
-                                        'Tiểu Thuyết',
-                                        'Truyện Ngắn',
-                                        'Light Novel',
-                                        'Sách Tâm Lý - Kỹ Năng Sống',
-                                        'Sách Học Ngoại Ngữ',
-                                        'Văn phòng phẩm',
-                                        'Đồ chơi',
-                                        'Quà lưu niệm',
-                                    ]}
-                                    value={productType}
-                                    onChange={onChangeProductType}
-                                    readOnly
-                                />
-                                <Button
-                                    className={cx('btn-add')}
-                                    solidBlue
-                                    leftIcon={<FontAwesomeIcon icon={faPlus} />}
-                                    onClick={handleOpenType}
-                                ></Button>
-                            </div>
-
-                            <div className={cx('two-cols', 'm-b')}>
-                                <Input
-                                    title={'Nhà cung cấp'}
-                                    items={[
-                                        'Văn phòng phẩm Kim Sơn',
-                                        'Thiên Long',
-                                        'Nhà sách Nguyễn Văn Cừ',
-                                        'Sách Nguyễn An',
-                                    ]}
-                                    value={supplier}
-                                    onChange={onChangeSupplier}
-                                    readOnly
-                                />
-                                <Button
-                                    className={cx('btn-add')}
-                                    solidBlue
-                                    leftIcon={<FontAwesomeIcon icon={faPlus} />}
-                                    onClick={handleOpenSupplier}
-                                ></Button>
-                            </div>
-                        </Wrapper>
-
-                        <Wrapper title={'Trạng thái'}>
-                            <div className={cx('status-wrapper')}>
-                                <div>Cho phép bán</div>
-                                <Switch
-                                    checked={status}
-                                    onChange={() => setStatus(!status)}
-                                />
-                            </div>
-                        </Wrapper>
-                    </div>
-                </div>
-                <div className={cx('action')}>
-                    <Button outlineBlue onClick={handleExit}>
-                        Thoát
-                    </Button>
-                    <Button
-                        solidBlue
-                        className={cx('margin')}
-                        onClick={handleSubmit}
-                    >
-                        Lưu
-                    </Button>
-                </div>
-            </div>
-
-            <ModalComp
-                open={openModal}
-                handleClose={handleCloseModal}
-                title={titleModal}
-                actionComponent={
-                    <div>
-                        <Button
-                            className={cx('btn-cancel')}
-                            outlineRed
-                            onClick={handleCloseModal}
-                        >
-                            Hủy
-                        </Button>
-                        <Button
-                            className={cx('btn-ok', 'm-l-10')}
-                            solidBlue
-                            onClick={handleValidation}
-                        >
-                            Thêm
-                        </Button>
-                    </div>
-                }
-            >
-                {titleModal === 'Thêm loại sản phẩm' && (
-                    <Input
-                        title={'Tên loại sản phẩm'}
-                        value={nameType}
-                        onChange={(value) => setNameType(value)}
-                        error={errorType}
-                        required
-                    />
-                )}
-                {titleModal === 'Thêm nhà cung cấp' && (
-                    <div>
-                        <div className={cx('wrapper-sup', 'm-b')}>
-                            <div className={cx('col-1')}>
-                                <Input
-                                    className={cx('m-b')}
-                                    title={'Tên nhà cung cấp'}
-                                    required
-                                    error={errorSup}
-                                    value={nameSup}
-                                    onChange={(value) => setNameSup(value)}
-                                />
-                                <Input
-                                    title={'Email'}
-                                    value={emailSup}
-                                    onChange={(value) => setEmailSup(value)}
-                                />
-                            </div>
-                            <div className={cx('col-2')}>
-                                <Input
-                                    className={cx('m-b')}
-                                    title={'Số điện thoại'}
-                                    number
-                                    value={phoneSup}
-                                    onChangeNumber={(number) =>
-                                        setPhoneSup(number)
-                                    }
-                                />
-                                <Input
-                                    title={'Nhóm nhà cung cấp'}
-                                    items={['Khác']}
-                                    readOnly
-                                    value={groupSup}
-                                    onChange={(value) => setGroupSup(value)}
-                                />
-                            </div>
+                                )}
+                            </Wrapper>
                         </div>
-                        <Input
-                            title={'Địa chỉ'}
-                            value={addressSup}
-                            onChange={(value) => setAddressSup(value)}
-                        />
+                        <div className={cx('col2')}>
+                            <Wrapper
+                                title={'Thông tin bổ sung'}
+                                className={cx('m-b')}
+                            >
+                                <div className={cx('two-cols', 'm-b')}>
+                                    <Input
+                                        title={'Loại sản phẩm'}
+                                        items={[
+                                            'Sách Thiếu Nhi',
+                                            'Sách Giáo Khoa - Tham Khảo',
+                                            'Tiểu Thuyết',
+                                            'Truyện Ngắn',
+                                            'Light Novel',
+                                            'Sách Tâm Lý - Kỹ Năng Sống',
+                                            'Sách Học Ngoại Ngữ',
+                                            'Văn phòng phẩm',
+                                            'Đồ chơi',
+                                            'Quà lưu niệm',
+                                        ]}
+                                        value={productType}
+                                        onChange={onChangeProductType}
+                                        readOnly
+                                    />
+                                    <Button
+                                        className={cx('btn-add')}
+                                        solidBlue
+                                        leftIcon={<FontAwesomeIcon icon={faPlus} />}
+                                        onClick={handleOpenType}
+                                    ></Button>
+                                </div>
+
+                                <div className={cx('two-cols', 'm-b')}>
+                                    <Input
+                                        title={'Nhà cung cấp'}
+                                        items={[
+                                            'Văn phòng phẩm Kim Sơn',
+                                            'Thiên Long',
+                                            'Nhà sách Nguyễn Văn Cừ',
+                                            'Sách Nguyễn An',
+                                        ]}
+                                        value={supplier}
+                                        onChange={onChangeSupplier}
+                                        readOnly
+                                    />
+                                    <Button
+                                        className={cx('btn-add')}
+                                        solidBlue
+                                        leftIcon={<FontAwesomeIcon icon={faPlus} />}
+                                        onClick={handleOpenSupplier}
+                                    ></Button>
+                                </div>
+                            </Wrapper>
+
+                            <Wrapper title={'Trạng thái'}>
+                                <div className={cx('status-wrapper')}>
+                                    <div>Cho phép bán</div>
+                                    <Switch
+                                        checked={status}
+                                        onChange={() => setStatus(!status)}
+                                    />
+                                </div>
+                            </Wrapper>
+                        </div>
                     </div>
-                )}
-            </ModalComp>
-            <ModalLoading open={loading} title={'Đang tải'} />
+                    <div className={cx('action')}>
+                        <Button outlineBlue onClick={handleExit}>
+                            Thoát
+                        </Button>
+                        <Button
+                            solidBlue
+                            className={cx('margin')}
+                            onClick={handleSubmit}
+                        >
+                            Lưu
+                        </Button>
+                    </div>
+                </div>
+
+                <ModalComp
+                    open={openModal}
+                    handleClose={handleCloseModal}
+                    title={titleModal}
+                    actionComponent={
+                        <div>
+                            <Button
+                                className={cx('btn-cancel')}
+                                outlineRed
+                                onClick={handleCloseModal}
+                            >
+                                Hủy
+                            </Button>
+                            <Button
+                                className={cx('btn-ok', 'm-l-10')}
+                                solidBlue
+                                onClick={handleValidation}
+                            >
+                                Thêm
+                            </Button>
+                        </div>
+                    }
+                >
+                    {titleModal === 'Thêm loại sản phẩm' && (
+                        <Input
+                            title={'Tên loại sản phẩm'}
+                            value={nameType}
+                            onChange={(value) => setNameType(value)}
+                            error={errorType}
+                            required
+                        />
+                    )}
+                    {titleModal === 'Thêm nhà cung cấp' && (
+                        <div>
+                            <div className={cx('wrapper-sup', 'm-b')}>
+                                <div className={cx('col-1')}>
+                                    <Input
+                                        className={cx('m-b')}
+                                        title={'Tên nhà cung cấp'}
+                                        required
+                                        error={errorSup}
+                                        value={nameSup}
+                                        onChange={(value) => setNameSup(value)}
+                                    />
+                                    <Input
+                                        title={'Email'}
+                                        value={emailSup}
+                                        onChange={(value) => setEmailSup(value)}
+                                    />
+                                </div>
+                                <div className={cx('col-2')}>
+                                    <Input
+                                        className={cx('m-b')}
+                                        title={'Số điện thoại'}
+                                        number
+                                        value={phoneSup}
+                                        onChangeNumber={(number) =>
+                                            setPhoneSup(number)
+                                        }
+                                    />
+                                    <Input
+                                        title={'Nhóm nhà cung cấp'}
+                                        items={['Khác']}
+                                        readOnly
+                                        value={groupSup}
+                                        onChange={(value) => setGroupSup(value)}
+                                    />
+                                </div>
+                            </div>
+                            <Input
+                                title={'Địa chỉ'}
+                                value={addressSup}
+                                onChange={(value) => setAddressSup(value)}
+                            />
+                        </div>
+                    )}
+                </ModalComp>
+                <ModalLoading open={loading} title={'Đang tải'} />
+            </div>)}
+
         </div>
     );
 }

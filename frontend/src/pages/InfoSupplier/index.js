@@ -220,7 +220,7 @@ function InfoSupplier() {
                             solidBlue
                             className={cx('margin')}
                             onClick={() =>
-                                navigate('/suppliers/update/' + 'NCC0001')
+                                navigate('/suppliers/update/' + suppliertid.id)
                             }
                         >
                             Sửa

@@ -28,14 +28,14 @@ const supplier = {
 };
 
 function UpdateSupplier() {
-    useEffect(() => {
-        setName(supplier.name);
-        setPhone(supplier.phone);
-        setEmail(supplier.email);
-        setGroup(supplier.group);
-        setAddress(supplier.address);
-        setIsActive(supplier.isActive);
-    }, []);
+    // useEffect(() => {
+    //     setName(supplier.name);
+    //     setPhone(supplier.phone);
+    //     setEmail(supplier.email);
+    //     setGroup(supplier.group);
+    //     setAddress(supplier.address);
+    //     setIsActive(supplier.isActive);
+    // }, []);
 
     const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
@@ -62,10 +62,7 @@ function UpdateSupplier() {
             setObj(result);
 
 
-            setName(result.name)
-            setPhone(result.contact.phone)
-            setEmail(result.contact.email)
-            setAddress(result.address)
+
         }
 
         fetchApi();
@@ -154,9 +151,11 @@ function UpdateSupplier() {
                                         <Input
                                             title={'Tên nhà cung cấp'}
                                             required
-                                            value={name}
+                                            value={obj.name}
                                             onChange={(value) => {
-                                                setName(value)
+                                                const newobj = obj
+                                                newobj.name = value
+                                                setObj(newobj)
 
                                             }}
                                             className={cx('m-b')}
@@ -164,7 +163,7 @@ function UpdateSupplier() {
                                         />
                                         <Input
                                             title={'Địa chỉ'}
-                                            value={address}
+                                            value={obj.address}
                                             onChange={(value) => {
                                                 setAddress(value)
 
@@ -177,7 +176,7 @@ function UpdateSupplier() {
                                                 Trạng thái giao dịch
                                             </div>
                                             <Switch
-                                                checked={isActive}
+                                                checked={obj.isActive}
                                                 onChange={() => setIsActive(!isActive)}
                                             />
                                         </div>
@@ -185,7 +184,7 @@ function UpdateSupplier() {
                                     <div className={cx('col2')}>
                                         <Input
                                             title={'Số điện thoại'}
-                                            value={phone}
+                                            value={obj.contact.phone}
                                             number
                                             onChangeNumber={(number) => {
                                                 setPhone(number)
@@ -201,7 +200,7 @@ function UpdateSupplier() {
                                             <Input
                                                 title={'Nhóm nhà cung cấp'}
                                                 items={['Sách', 'Khác']}
-                                                value={group}
+                                                value={obj.supplierGroupName}
                                                 onChange={(value) => setGroup(value)}
                                                 readOnly
                                             />
@@ -216,7 +215,7 @@ function UpdateSupplier() {
                                         </div>
                                         <Input
                                             title={'Email'}
-                                            value={email}
+                                            value={obj.contact.email}
                                             onChange={(value) => {
                                                 setEmail(value)
 

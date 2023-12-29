@@ -17,23 +17,8 @@ function SearchResult({ setValue, stypeid, list }) {
     const [placeholder, setPlaceholder] = useState('');
 
     const [input, setInput] = useState('');
-    const [data, setdata] = useState([]);
     const [open, setOpen] = useState(false);
-    useEffect(() => {
-        if (stypeid === 0) {
-            setdata(list)
-            setPlaceholder('Tìm kiếm theo tên nhà cung cấp')
-        }
-        else if (stypeid === 1) {
-            setdata(list)
-            setPlaceholder('Tìm kiếm theo mã sản phẩm tên sản phẩm')
-        }
-        else {
-            setdata(list)
-            setPlaceholder('Thêm khách hàng vào đơn')
-        }
 
-    });
 
     const handleOnCharge = (value) => {
         setInput(value);
@@ -45,11 +30,12 @@ function SearchResult({ setValue, stypeid, list }) {
     const nextPage = () => {
         if (currentPage !== numofTotalPage) setcurrentPage(currentPage + 1);
     }
-    const renderproductlist = data.filter(product => input === '' || product.name.includes(input) || product.sku.includes(input));
+    const renderproductlist = list.filter(product => input === "" || product.name.includes(input) || product.sku.includes(input));
+    // 
     const [PerPage, setPerPage] = useState(5);
     const [currentPage, setcurrentPage] = useState(1);
 
-    const numofTotalPage = Math.ceil(data.length / PerPage);
+    const numofTotalPage = Math.ceil(list.length / PerPage);
 
     const indexOflastPd = currentPage * PerPage;
     const indexOffirstPd = indexOflastPd - PerPage;
@@ -59,7 +45,24 @@ function SearchResult({ setValue, stypeid, list }) {
     const handleClick = (obj) => {
         setValue(obj);
         setOpen(false)
+        console.log(obj);
     }
+
+    useEffect(() => {
+        if (stypeid === 0) {
+
+            setPlaceholder('Tìm kiếm theo tên nhà cung cấp')
+        }
+        else if (stypeid === 1) {
+
+            setPlaceholder('Tìm kiếm theo mã sản phẩm tên sản phẩm')
+        }
+        else {
+
+            setPlaceholder('Thêm khách hàng vào đơn')
+        }
+
+    });
     return (
         <div className={cx('search-with-result')}>
             <div
@@ -85,7 +88,7 @@ function SearchResult({ setValue, stypeid, list }) {
                     <div className={cx('search-result')}>
                         <div className='mt-2 '>
                             {
-                                data.length === 0 ? (
+                                list.length === 0 ? (
                                     <div className='text-center mt-3'>
                                         <Spinner animation="border" role="status">
                                             <span className="visually-hidden">Loading...</span>
@@ -94,8 +97,8 @@ function SearchResult({ setValue, stypeid, list }) {
                                 ) : (
                                     <div>
                                         {
-                                            visible.map(option => (
-                                                <div className={cx('result-item')} onClick={(e) => handleClick(option)} key={option.id}>
+                                            visible.map((option, index) => (
+                                                <div className={cx('result-item')} onClick={() => handleClick(option)} key={index}>
                                                     {(() => {
                                                         switch (stypeid) {
                                                             case 0:

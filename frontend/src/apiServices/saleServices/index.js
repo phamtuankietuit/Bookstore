@@ -19,3 +19,13 @@ export const getSalesOrder = async (id) => {
         return Promise.reject(error);
     }
 }
+
+export const UpdateSalesOrder = async (id, obj) => {
+    try {
+        const res = await request.putMethod('SalesOrders/' + id, obj);
+        console.log(res);
+        return res;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}

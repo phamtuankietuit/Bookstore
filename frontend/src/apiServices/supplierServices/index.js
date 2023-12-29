@@ -18,3 +18,12 @@ export const getSupplier = async (id) => {
         return Promise.reject(error);
     }
 }
+
+export const UpdateSupplier = async (id, obj) => {
+    try {
+        const res = await request.putMethod('Suppliers/' + id, obj);
+        return res;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}

@@ -186,17 +186,32 @@ function Profile() {
                                     <div className={cx('options')}>
                                         <ul>
                                             <li
-                                                onClick={() => SetGender('Nam')}
+                                                onClick={() => {
+                                                    SetGender('Nam');
+                                                    setShowDropDown(
+                                                        !showDropdown,
+                                                    );
+                                                }}
                                             >
                                                 Nam
                                             </li>
-                                            <li onClick={() => SetGender('Nữ')}>
+                                            <li
+                                                onClick={() => {
+                                                    SetGender('Nữ');
+                                                    setShowDropDown(
+                                                        !showDropdown,
+                                                    );
+                                                }}
+                                            >
                                                 Nữ
                                             </li>
                                             <li
-                                                onClick={() =>
-                                                    SetGender('Khác')
-                                                }
+                                                onClick={() => {
+                                                    SetGender('Khác');
+                                                    setShowDropDown(
+                                                        !showDropdown,
+                                                    );
+                                                }}
                                             >
                                                 Khác
                                             </li>

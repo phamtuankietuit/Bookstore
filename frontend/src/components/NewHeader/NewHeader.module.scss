@@ -38,8 +38,11 @@
     text-decoration: none;
     color: black;
     &:hover {
-        background-color: #f3fbfb;
+        background-color: #bfe4ec;
         cursor: pointer;
+        .profile-icon {
+            color: #000000;
+        }
     }
 }
 .t-c {
@@ -58,8 +61,11 @@
     text-decoration: none;
     color: black;
     &:hover {
-        background-color: #f3fbfb;
+        background-color: #bfe4ec;
         cursor: pointer;
+        .profile-icon {
+            color: #000000;
+        }
     }
 }
 .profile-tag p {

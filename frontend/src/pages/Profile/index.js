@@ -79,12 +79,16 @@ function Profile() {
         setShowMessage(false);
         setShow(true);
     };
+    //Lưu chỉnh sửa
+    const handleSave = () => {
+        toastContext.notify('success', 'Cập nhật thông tin thành công!');
+    };
     return (
         <div className={cx('container')}>
+            <div className={cx('header')}>
+                <NewHeader tab1={true} tab2={false}></NewHeader>
+            </div>
             <div className={cx('header-and-content')}>
-                <div className={cx('header')}>
-                    <NewHeader></NewHeader>
-                </div>
                 <div className={cx('content')}>
                     <div className={cx('content1')}>
                         <div className={cx('profile-card')}>
@@ -101,23 +105,8 @@ function Profile() {
                                     alt=""
                                 />
                             )}
-
-                            <div className={cx('infor-card')}>
-                                <h1>Duy Khiêm</h1>
-                                <p>Cập nhật Avatar</p>
-                                <div className={cx('input-file')}>
-                                    <FaCloudUploadAlt
-                                        className={cx('icon-cloud')}
-                                    ></FaCloudUploadAlt>
-                                    <p>Tải ảnh lên</p>
-                                    <input
-                                        type="file"
-                                        onChange={handleImageChange}
-                                    ></input>
-                                </div>
-                            </div>
                         </div>
-                        <div className={cx('profile-tag')}>
+                        {/* <div className={cx('profile-tag')}>
                             <IoIosMail className={cx('icon-mail')}></IoIosMail>
                             <p>khiem6112003@gmail.com</p>
                         </div>
@@ -126,6 +115,20 @@ function Profile() {
                                 className={cx('icon-phone')}
                             ></FaPhoneAlt>
                             <p>0961826917</p>
+                        </div> */}
+                        <div className={cx('infor-card')}>
+                            {/* <h1>Duy Khiêm</h1> */}
+                            {/* <p>Cập nhật Avatar</p> */}
+                            <div className={cx('input-file')}>
+                                <FaCloudUploadAlt
+                                    className={cx('icon-cloud')}
+                                ></FaCloudUploadAlt>
+                                <p>Tải ảnh lên</p>
+                                <input
+                                    type="file"
+                                    onChange={handleImageChange}
+                                ></input>
+                            </div>
                         </div>
                     </div>
                     <div className={cx('content2')}>
@@ -171,7 +174,7 @@ function Profile() {
                             <div className={cx('grid-content')}>
                                 <p>Giới tính</p>
                                 <input
-                                    className={cx('text-inp')}
+                                    className={cx('text-inp', { gd: true })}
                                     type="text"
                                     value={gender}
                                     readOnly
@@ -213,6 +216,9 @@ function Profile() {
                             <p onClick={handleOpenChangePass}>
                                 <b>Đổi mật khẩu</b>
                             </p>
+                        </div>
+                        <div className={cx('btn-c')}>
+                            <button onClick={handleSave}>Lưu</button>
                         </div>
                     </div>
                 </div>

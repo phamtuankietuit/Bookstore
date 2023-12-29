@@ -4,30 +4,37 @@ import NewHeader from '~/components/NewHeader';
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import { IoIosMail } from 'react-icons/io';
 import { FaPhoneAlt } from 'react-icons/fa';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import avt from '../../assets/images/minimal-morning-landscape-8k-gx-scaled.jpg';
+import { ToastContext } from '~/components/ToastContext';
 
 const cx = classNames.bind(styles);
 
 function StoreInfo() {
+    const toastContext = useContext(ToastContext);
+
     const [image, setImage] = useState('');
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         setImage(event.target.files[0]);
     };
+
+    const handleSave = () => {
+        toastContext.notify('success', 'Cập nhật thông tin thành công!');
+    };
     return (
         <div className={cx('container')}>
+            <div className={cx('header')}>
+                <NewHeader tab1={false} tab2={true}></NewHeader>
+            </div>
             <div className={cx('header-and-content')}>
-                <div className={cx('header')}>
-                    <NewHeader></NewHeader>
-                </div>
                 <div className={cx('content')}>
                     <div className={cx('content1')}>
-                        <h3>Thông tin liên hệ</h3>
+                        {/* <h3>Thông tin liên hệ</h3>
                         <p className={cx('details')}>
                             Thông tin được sử dụng để liên lạc với cửa hàng
-                        </p>
+                        </p> */}
                         <div className={cx('profile-card')}>
                             {image ? (
                                 <img
@@ -42,30 +49,18 @@ function StoreInfo() {
                                     alt=""
                                 />
                             )}
-                            <div className={cx('infor-card')}>
-                                <h1>TripleK</h1>
-                                <p>Cập nhật ảnh cửa hàng</p>
-                                <div className={cx('input-file')}>
-                                    <FaCloudUploadAlt
-                                        className={cx('icon-cloud')}
-                                    ></FaCloudUploadAlt>
-                                    <p>Tải ảnh lên</p>
-                                    <input
-                                        type="file"
-                                        onChange={handleImageChange}
-                                    ></input>
-                                </div>
+                        </div>
+                        <div className={cx('infor-card')}>
+                            <div className={cx('input-file')}>
+                                <FaCloudUploadAlt
+                                    className={cx('icon-cloud')}
+                                ></FaCloudUploadAlt>
+                                <p>Tải ảnh lên</p>
+                                <input
+                                    type="file"
+                                    onChange={handleImageChange}
+                                ></input>
                             </div>
-                        </div>
-                        <div className={cx('profile-tag')}>
-                            <IoIosMail className={cx('icon-mail')}></IoIosMail>
-                            <p>khiem6112003@gmail.com</p>
-                        </div>
-                        <div className={cx('profile-tag')}>
-                            <FaPhoneAlt
-                                className={cx('icon-phone')}
-                            ></FaPhoneAlt>
-                            <p>0961826917</p>
                         </div>
                     </div>
                     <div className={cx('content2')}>
@@ -121,6 +116,9 @@ function StoreInfo() {
                                     type="text"
                                 ></input>
                             </div>
+                        </div>
+                        <div className={cx('btn-c')}>
+                            <button onClick={handleSave}>Lưu</button>
                         </div>
                     </div>
                 </div>

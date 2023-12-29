@@ -60,8 +60,12 @@ function UpdateSupplier() {
                     console.log(err);
                 });
             setObj(result);
-
-
+            setName(result.name)
+            setPhone(result.contact.phone)
+            setEmail(result.contact.email)
+            setAddress(result.address)
+            setIsActive(result.isActive)
+            setNameGroup(result.supplierGroupName)
 
         }
 
@@ -76,17 +80,52 @@ function UpdateSupplier() {
             setErrorName('Không được bỏ trống');
         } else {
             // CALL API
+            const newobj = {
+                supplierId: obj.supplierId,
+                name: name,
+                supplierGroupId: obj.supplierGroupId,
+                supplierGroupName: obj.supplierGroupName,
+                contact: {
+                    phone: phone,
+                    email: email
+                },
+                address: address,
+                description: obj.description,
+                createdAt: obj.createdAt,
+                isActive: isActive
+
+            }
+
+            // setObj(obj => ({ 
+            //     ...obj, 
+            //     updateobj 
+            // }))
+            // setObj(newobj)
+            // console.log(newobj)
             setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-                toastContext.notify(
-                    'success',
-                    'Cập nhật nhà cung cấp thành công',
-                );
+            const fetchApi = async () => {
+                // console.log(productid.id)
+                const result = await SuppliersServices.UpdateSupplier(suppliertid.id, newobj)
+                    .catch((err) => {
+                        console.log(err);
+                    });
+                if (result) {
+                    setTimeout(() => {
+                        setLoading(false);
+                        toastContext.notify(
+                            'success',
+                            'Cập nhật nhà cung cấp thành công',
+                        );
 
 
-                console.log(obj)
-            }, 2000);
+                        // console.log(obj)
+                    }, 2000);
+                }
+
+            }
+
+            fetchApi();
+
         }
     };
 
@@ -151,11 +190,9 @@ function UpdateSupplier() {
                                         <Input
                                             title={'Tên nhà cung cấp'}
                                             required
-                                            value={obj.name}
+                                            value={name}
                                             onChange={(value) => {
-                                                const newobj = obj
-                                                newobj.name = value
-                                                setObj(newobj)
+                                                setName(value)
 
                                             }}
                                             className={cx('m-b')}
@@ -163,7 +200,7 @@ function UpdateSupplier() {
                                         />
                                         <Input
                                             title={'Địa chỉ'}
-                                            value={obj.address}
+                                            value={address}
                                             onChange={(value) => {
                                                 setAddress(value)
 
@@ -176,7 +213,7 @@ function UpdateSupplier() {
                                                 Trạng thái giao dịch
                                             </div>
                                             <Switch
-                                                checked={obj.isActive}
+                                                checked={isActive}
                                                 onChange={() => setIsActive(!isActive)}
                                             />
                                         </div>
@@ -184,7 +221,7 @@ function UpdateSupplier() {
                                     <div className={cx('col2')}>
                                         <Input
                                             title={'Số điện thoại'}
-                                            value={obj.contact.phone}
+                                            value={phone}
                                             number
                                             onChangeNumber={(number) => {
                                                 setPhone(number)
@@ -215,7 +252,7 @@ function UpdateSupplier() {
                                         </div>
                                         <Input
                                             title={'Email'}
-                                            value={obj.contact.email}
+                                            value={email}
                                             onChange={(value) => {
                                                 setEmail(value)
 

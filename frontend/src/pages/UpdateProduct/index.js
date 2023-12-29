@@ -40,7 +40,18 @@ function UpdateProduct() {
 
                 });
             setObj(result)
-
+            setName(result.name)
+            setDesc(result.description)
+            setCost(result.salePrice)
+            setPrice(result.purchasePrice)
+            setStore(result.currentStock)
+            setYear(result.details.publishYear)
+            setManufacturer(result.details.supplierName)
+            setAuthor(result.details.author)
+            setPublisher(result.details.publisher)
+            setStatus(result.isActive)
+            setProductType(result.categoryName)
+            setFiles(result.images)
 
         }
 
@@ -261,15 +272,62 @@ function UpdateProduct() {
 
     // FROM
     const handleSubmit = () => {
+        const newobj = {
+            productId: obj.productId,
+            categoryId: obj.categoryId,
+            categoryName: obj.categoryName,
+            barcode: obj.barcode,
+            sku: obj.sku,
+            name: name,
+            currentStock: store,
+            minStock: obj.minStock,
+            maxStock: obj.maxStock,
+            description: desc,
+            salePrice: price,
+            purchasePrice: cost,
+            attributes: obj.attributes,
+            details: {
+                supplierName: supplier,
+                publishYear: year,
+                author: author,
+                publisher: publisher
+            },
+            isActive: status,
+            createdAt: obj.createdAt,
+            status: obj.status,
+            images: files,
+            tags: obj.tags
+        }
         if (name === '') {
             setErrorName('Không được bỏ trống');
         } else {
             // CALL API
             setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-                toastContext.notify('success', 'Cập nhật sản phẩm thành công');
-            }, 2000);
+
+            const fetchApi = async () => {
+                // console.log(productid.id)
+                const result = await ProductServices.UpdateProduct(newobj)
+                    .catch((err) => {
+                        console.log(err);
+                    });
+                if (result) {
+                    setTimeout(() => {
+                        setLoading(false);
+                        toastContext.notify(
+                            'success',
+                            'Cập nhật sản phẩm thành công',
+                        );
+
+
+                        // console.log(obj)
+                    }, 2000);
+                }
+
+            }
+
+            fetchApi();
+
+
         }
     };
 
@@ -337,7 +395,7 @@ function UpdateProduct() {
                             >
                                 <Input
                                     title={'Mã sản phẩm'}
-                                    value={product.id}
+                                    value={obj.productId}
                                     className={cx('m-b')}
                                     readOnly
                                 />

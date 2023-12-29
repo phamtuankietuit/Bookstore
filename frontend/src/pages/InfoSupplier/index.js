@@ -130,7 +130,7 @@ function InfoSupplier() {
                                             Nhóm nhà cung cấp
                                         </div>
                                         <div className={cx('label-content')}>
-                                            Văn phòng phẩm
+                                            {obj.supplierGroupName}
                                         </div>
                                     </div>
                                     <div className={cx('label', 'm-b')}>

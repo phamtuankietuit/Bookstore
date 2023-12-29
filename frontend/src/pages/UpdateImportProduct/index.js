@@ -50,11 +50,23 @@ function UpdateImportProduct() {
 
     const submit = () => {
         setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-            toastContext.notify('success', 'Đã lưu đơn');
-        }, 2000);
         console.log(obj)
+        const fetchApi = async () => {
+            // console.log(productid.id)
+            const result = await PurchaseOrdersServices.UpdatePurchaseOrder(importid.id, obj)
+                .catch((err) => {
+                    console.log(err);
+                });
+            if (result) {
+                setTimeout(() => {
+                    setLoading(false);
+                    toastContext.notify('success', 'Đã lưu đơn');
+                }, 2000);
+            }
+
+        }
+
+        fetchApi();
     }
 
     useEffect(() => {

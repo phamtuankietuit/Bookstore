@@ -5,12 +5,26 @@ import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
+const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const removeNonNumeric = (num) => num.toString().replace(/[^0-9]/g, '');
+
+const percent = (num) => {
+    if (num < 0) return '0';
+    if (num > 100) return '100';
+    return num.toString();
+};
+
 function AddDiscount() {
     const [disable, SetDisable] = useState(false);
 
     const DisableInputText = () => {
         SetDisable(!disable);
     };
+
+    const [dateString, setDateString] = useState('');
+    const [start, setStart] = useState('');
+    const [end, setEnd] = useState('');
+    const [discount, setDiscount] = useState('');
 
     return (
         <div className={cx('container')}>
@@ -88,13 +102,50 @@ function AddDiscount() {
                                     <p>Chiết khấu</p>
                                 </div>
                                 <div className={cx('table-ThirdRow')}>
-                                    <input type="text"></input>
+                                    <input
+                                        type="text"
+                                        value={start}
+                                        onChange={(e) =>
+                                            setStart(
+                                                addCommas(
+                                                    removeNonNumeric(
+                                                        e.target.value,
+                                                    ),
+                                                ),
+                                            )
+                                        }
+                                    ></input>
                                 </div>
                                 <div className={cx('table-ThirdRow')}>
-                                    <input type="text"></input>
+                                    <input
+                                        type="text"
+                                        value={end}
+                                        onChange={(e) =>
+                                            setEnd(
+                                                addCommas(
+                                                    removeNonNumeric(
+                                                        e.target.value,
+                                                    ),
+                                                ),
+                                            )
+                                        }
+                                    ></input>
                                 </div>
                                 <div className={cx('table-ThirdRow')}>
-                                    <input type="text"></input>
+                                    <input
+                                        type="text"
+                                        value={discount}
+                                        onChange={(e) =>
+                                            setDiscount(
+                                                percent(
+                                                    removeNonNumeric(
+                                                        e.target.value,
+                                                    ),
+                                                ),
+                                            )
+                                        }
+                                    ></input>
+                                    <span>%</span>
                                 </div>
                             </div>
                         </div>
@@ -107,7 +158,10 @@ function AddDiscount() {
                         <p>Thời gian áp dụng</p>
                     </div>
                     <div className={cx('daterange-container')}>
-                        <DateRange></DateRange>
+                        <DateRange
+                            dateString={dateString}
+                            setDateString={setDateString}
+                        />
                     </div>
                 </div>
                 <div className={cx('button-container')}>

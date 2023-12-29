@@ -1,6 +1,6 @@
 .container {
     height: 100vh;
-    background-image: url('../../assets/images/minimal-morning-landscape-8k-gx-scaled.jpg');
+    background-image: url('../../assets/images/login-background.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     display: flex;
@@ -45,11 +45,19 @@
     border: none;
     font-size: 14px;
     font-weight: 500;
-    color: #316396;
+    color: #263c51;
     text-indent: 16px;
 }
 .input-border {
-    background-image: url('../../assets/images/linear-gradient-text.jpg');
+    // background-image: url('../../assets/images/linear-gradient-text.jpg');
+    // background-color: #263c51;
+    background: rgb(2, 0, 36);
+    background: linear-gradient(
+        90deg,
+        rgba(2, 0, 36, 1) 0%,
+        rgba(42, 79, 91, 1) 43%,
+        rgba(0, 212, 255, 1) 100%
+    );
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
@@ -72,16 +80,25 @@
 }
 .login-btn {
     height: 10%;
-    width: 47%;
+    width: 150px;
     font-size: 15px;
     font-weight: 700;
     color: #fff;
-    background: url('../../assets/images/linear-gradient-text.jpg') lightgray
-        50%;
+    background: rgb(2, 0, 36);
+    background: linear-gradient(
+        90deg,
+        rgba(2, 0, 36, 1) 0%,
+        rgba(42, 79, 91, 1) 43%,
+        rgba(0, 212, 255, 1) 100%
+    );
     border-radius: 20px;
     border: none;
     margin-top: 20px;
     cursor: pointer;
+    &:hover {
+        border-radius: 8px;
+        transition: ease-out 0.2s;
+    }
 }
 .login-btn .login-btn:hover {
     box-sizing: border-box;

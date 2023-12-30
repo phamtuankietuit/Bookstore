@@ -29,3 +29,13 @@ export const UpdatePromotion = async (id, obj) => {
         return Promise.reject(error);
     }
 }
+
+export const CreatePromotion = async (obj) => {
+    try {
+        const res = await request.postMethod('Promotions', obj);
+
+        return res;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}

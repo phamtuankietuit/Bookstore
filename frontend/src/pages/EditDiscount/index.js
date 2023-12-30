@@ -28,7 +28,7 @@ function EditDiscount() {
                     console.log(err);
                 });
             setObj(result);
-            setDateString(obj.startAt + "-" + obj.closeAt)
+            setDateString(result.startAt + "-" + result.closeAt)
         }
 
         fetchApi();
@@ -41,6 +41,8 @@ function EditDiscount() {
         setLoading(true);
         const fetchApi = async () => {
             // console.log(productid.id)
+
+            console.log(obj)
             const result = await PromotionsServices.UpdatePromotion(promotiontid.id, obj)
                 .catch((err) => {
                     console.log(err);
@@ -51,12 +53,26 @@ function EditDiscount() {
                     toastContext.notify('success', 'Đã lưu khuyến mãi');
                 }, 2000);
             }
+            else {
+                setTimeout(() => {
+                    setLoading(false);
+                    toastContext.notify('error', 'Đã có lỗi');
+                }, 2000);
+            }
 
         }
 
         fetchApi();
     }
 
+    const setDate = (value) => {
+        setDateString(value)
+        const date = value.split('–')
+        const newobj = obj
+        newobj.startAt = date[0]
+        newobj.closeAt = date[1]
+        setObj(newobj)
+    }
     return (
         <div>
             {obj === null ? (
@@ -104,11 +120,11 @@ function EditDiscount() {
                                         <input
                                             type="text"
                                             placeholder="Nhập số lượng áp dụng"
-                                            defaultValue={obj.applyToQuantity}
+                                            defaultValue={obj.remainQuantity}
                                             disabled={disable}
                                             onChange={(e) => {
                                                 const newobj = obj;
-                                                newobj.applyToQuantity = e.target.value
+                                                newobj.remainQuantity = e.target.value
                                                 setObj(newobj)
                                             }}
                                         ></input>
@@ -207,7 +223,7 @@ function EditDiscount() {
                             <div className={cx('daterange-container')}>
                                 <DateRange
                                     dateString={dateString}
-                                    setDateString={setDateString}
+                                    setDateString={setDate}
                                 ></DateRange>
                             </div>
                         </div>

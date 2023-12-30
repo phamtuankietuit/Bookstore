@@ -37,6 +37,14 @@ export const UpdateSupplier = async (id, obj) => {
     }
 }
 
+export const DeleteSupplier = async (id) => {
+    try {
+        const res = await request.deleteMethod('Suppliers/' + id);
+        return res;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
 export const CreateSuppliers = async (obj) => {
     try {
         const res = await request.postMethod('Suppliers', obj);

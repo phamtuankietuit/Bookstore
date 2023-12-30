@@ -47,12 +47,6 @@ function InfoSupplier() {
         fetchApi();
     }, []);
 
-    // PROPS
-    const [name, setName] = useState('');
-    const [phone, setPhone] = useState('');
-    const [email, setEmail] = useState('');
-    const [group, setGroup] = useState('');
-    const [address, setAddress] = useState('');
 
     const navigate = useNavigate();
     const handleExit = () => {
@@ -86,11 +80,25 @@ function InfoSupplier() {
 
     const handleValidation = () => {
         setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-            handleCloseModal();
-            toastContext.notify('success', 'Xóa nhà cung cấp thành công');
-        }, 2000);
+        const fetchApi = async () => {
+            // console.log(productid.id)
+            const result = await SuppliersServices.DeleteSupplier(suppliertid.id)
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            if (result) {
+                setTimeout(() => {
+                    setLoading(false);
+                    handleCloseModal();
+                    toastContext.notify('success', 'Xóa nhà cung cấp thành công');
+                }, 2000);
+            }
+
+        }
+
+        fetchApi();
+
     };
 
     return (
@@ -226,36 +234,40 @@ function InfoSupplier() {
                             Sửa
                         </Button>
                     </div>
-                </div>)}
-
-            <ModalComp
-                open={openModal}
-                handleClose={handleCloseModal}
-                title={'Xóa nhà cung cấp'}
-                actionComponent={
-                    <div>
-                        <Button
-                            className={cx('btn-cancel')}
-                            outlineRed
-                            onClick={handleCloseModal}
-                        >
-                            Hủy
-                        </Button>
-                        <Button
-                            className={cx('btn-ok', 'm-l-10')}
-                            solidRed
-                            onClick={handleValidation}
-                        >
-                            Xóa
-                        </Button>
-                    </div>
-                }
-            >
-                <div className={cx('info')}>
-                    Bạn có chắc chắn muốn xóa nhà cung cấp
-                    <strong> {supplier.name}</strong>?
+                    <ModalComp
+                        open={openModal}
+                        handleClose={handleCloseModal}
+                        title={'Xóa nhà cung cấp'}
+                        actionComponent={
+                            <div>
+                                <Button
+                                    className={cx('btn-cancel')}
+                                    outlineRed
+                                    onClick={handleCloseModal}
+                                >
+                                    Hủy
+                                </Button>
+                                <Button
+                                    className={cx('btn-ok', 'm-l-10')}
+                                    solidRed
+                                    onClick={handleValidation}
+                                >
+                                    Xóa
+                                </Button>
+                            </div>
+                        }
+                    >
+                        <div className={cx('info')}>
+                            Bạn có chắc chắn muốn xóa nhà cung cấp
+                            <strong> {obj.name}</strong>?
+                        </div>
+                    </ModalComp>
                 </div>
-            </ModalComp>
+
+
+            )}
+
+
             <ModalLoading open={loading} title={'Đang tải'} />
         </div>
     );

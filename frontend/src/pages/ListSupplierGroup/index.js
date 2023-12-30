@@ -13,7 +13,7 @@ import ModalComp from '~/components/ModalComp';
 import Input from '~/components/Input';
 import ModalLoading from '~/components/ModalLoading';
 import { ToastContext } from '~/components/ToastContext';
-
+import * as SuppliersServices from '~/apiServices/supplierServices';
 const cx = classNames.bind(styles);
 
 function ListSupplierGroup() {
@@ -32,16 +32,43 @@ function ListSupplierGroup() {
             setErrorType('Không được bỏ trống');
         } else {
             setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-                setNameType('');
-                setErrorType('');
-                handleClose();
-                toastContext.notify(
-                    'success',
-                    'Thêm nhóm nhà cung cấp thành công',
-                );
-            }, 2000);
+
+            const obj = {
+                name: nameType,
+                numberOfSupplier: 0,
+                note: '',
+
+            }
+            const fetchApi = async () => {
+                const result = await SuppliersServices.CreateSupplierGroup(obj)
+                    .catch((error) => {
+                        if (error.response.status === 409) {
+                            setLoading(false);
+                            toastContext.notify('error', 'Loại sản phẩm đã tồn tại');
+                        } else {
+                            toastContext.notify('error', 'Có lỗi xảy ra');
+                        }
+                        console.log(error)
+                    });
+
+                if (result) {
+                    setTimeout(() => {
+                        setLoading(false);
+                        setNameType('');
+                        setErrorType('');
+                        handleClose();
+                        toastContext.notify(
+                            'success',
+                            'Thêm nhóm nhà cung cấp thành công',
+                        );
+                    }, 2000);
+                }
+
+            }
+
+            fetchApi();
+
+
         }
     };
 
@@ -85,7 +112,7 @@ function ListSupplierGroup() {
     };
 
     // SUB HEADER
-    const onClickAction = (index) => {};
+    const onClickAction = (index) => { };
 
     return (
         <div className={cx('wrapper')}>

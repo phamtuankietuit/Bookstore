@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,7 +11,7 @@ import Input from '~/components/Input';
 import ModalComp from '~/components/ModalComp';
 import ModalLoading from '~/components/ModalLoading';
 import { ToastContext } from '~/components/ToastContext';
-
+import * as SuppliersServices from '~/apiServices/supplierServices';
 const cx = classNames.bind(styles);
 
 function AddSupplier() {
@@ -35,11 +35,39 @@ function AddSupplier() {
             setErrorName('Không được bỏ trống');
         } else {
             // CALL API
+            const obj = {
+                name: name,
+                supplierGroupName: group,
+                contact: {
+                    phone: phone,
+                    email: email
+                },
+                address: address,
+                description: '',
+                isActive: true
+            }
             setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-                toastContext.notify('success', 'Thêm nhà cung cấp thành công');
-            }, 2000);
+
+
+
+            const fetchApi = async () => {
+                const result = await SuppliersServices.CreateSuppliers(obj)
+                    .catch((err) => {
+                        console.log(err);
+                    });
+
+                if (result) {
+                    setTimeout(() => {
+                        setLoading(false);
+                        toastContext.notify('success', 'Thêm nhà cung cấp thành công');
+                    }, 2000);
+                }
+                console.log(obj)
+            }
+
+            fetchApi();
+
+
         }
     };
 

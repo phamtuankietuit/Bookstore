@@ -1,14 +1,19 @@
 import styles from './DiscountInfo.module.scss';
 import classNames from 'classnames/bind';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { BiSolidDiscount } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import * as PromotionsServices from '~/apiServices/promotionServices';
 import Spinner from 'react-bootstrap/Spinner';
+import { ToastContext } from '~/components/ToastContext';
+import ModalLoading from '~/components/ModalLoading';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 function DiscountInfo() {
+    const toastContext = useContext(ToastContext);
+    const [loading, setLoading] = useState(false);
+
     const navigate = useNavigate();
     const [obj, setObj] = useState(null);
     const promotiontid = useParams();
@@ -27,6 +32,28 @@ function DiscountInfo() {
         fetchApi();
 
     }, []);
+
+    const submit = () => {
+        setLoading(true);
+        const fetchApi = async () => {
+            // console.log(productid.id)
+            const newobj = obj
+            newobj.status = 'paused'
+            const result = await PromotionsServices.UpdatePromotion(promotiontid.id, newobj)
+                .catch((err) => {
+                    console.log(err);
+                });
+            if (result) {
+                setTimeout(() => {
+                    setLoading(false);
+                    toastContext.notify('success', 'Đã lưu khuyến mãi');
+                }, 2000);
+            }
+
+        }
+
+        fetchApi();
+    }
     return (
         <div className={cx('container')}>
             {obj === null ? (
@@ -169,11 +196,14 @@ function DiscountInfo() {
                         >
                             Sửa
                         </button>
-                        <button className={cx('stop-btn')}>Tạm ngừng</button>
+                        <button className={cx('stop-btn')} onClick={() => submit()}>Tạm ngừng</button>
                     </div>
+                    <ModalLoading open={loading} title={'Đang tải'} />
                 </div>
+
             )
             }
+
         </div>
     );
 }

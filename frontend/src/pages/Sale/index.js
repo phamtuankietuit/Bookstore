@@ -17,11 +17,13 @@ import { options2, options3 } from '../ImportProduct/data';
 import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
 import * as ProductServices from '~/apiServices/productServices';
+import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
 
 function Sale() {
+    const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
     const [list, setList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -152,7 +154,7 @@ function Sale() {
                     <SearchResult stypeid={1} setValue={addarr} list={list} />
                 </div>
                 <div className={`text-end me-4`}>
-                    <FaHouseChimney className={` ${cx('icon')}`} />
+                    <FaHouseChimney className={` ${cx('icon')}`} onClick={() => navigate('/overview')} />
                 </div>
             </div>
             <Row>

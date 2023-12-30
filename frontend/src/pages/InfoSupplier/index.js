@@ -141,7 +141,7 @@ function InfoSupplier() {
                                             <div
                                                 className={cx({
                                                     'product-state-container': true,
-                                                    'state-0': !supplier.isActive,
+                                                    'state-0': !obj.isActive,
                                                 })}
                                             >
                                                 <FontAwesomeIcon
@@ -149,7 +149,7 @@ function InfoSupplier() {
                                                         'product-state-icon',
                                                     )}
                                                     icon={
-                                                        supplier.isActive
+                                                        obj.isActive
                                                             ? faCheck
                                                             : faXmark
                                                     }
@@ -157,7 +157,7 @@ function InfoSupplier() {
                                                 <div
                                                     className={cx('product-state')}
                                                 >
-                                                    {supplier.isActive
+                                                    {obj.isActive
                                                         ? 'Đang giao dịch'
                                                         : 'Ngừng giao dịch'}
                                                 </div>

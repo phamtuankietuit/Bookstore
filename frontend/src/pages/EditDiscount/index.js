@@ -28,13 +28,14 @@ function EditDiscount() {
                     console.log(err);
                 });
             setObj(result);
-
+            setDateString(obj.startAt + "-" + obj.closeAt)
         }
 
         fetchApi();
 
     }, []);
 
+    const [dateString, setDateString] = useState('');
 
     const submit = () => {
         setLoading(true);
@@ -205,8 +206,8 @@ function EditDiscount() {
                             </div>
                             <div className={cx('daterange-container')}>
                                 <DateRange
-                                    dateString={obj.startAt + "   " + obj.closeAt}
-
+                                    dateString={dateString}
+                                    setDateString={setDateString}
                                 ></DateRange>
                             </div>
                         </div>

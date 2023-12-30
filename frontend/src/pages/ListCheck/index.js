@@ -130,12 +130,14 @@ function ListCheck() {
                                 className={cx('m-b')}
                                 dateString={dateCreated}
                                 setDateString={setDateCreated}
+                                bottom
                             />
                             <DateRange
                                 title={'Ngày cân bằng'}
                                 className={cx('m-b')}
                                 dateString={dateBalanced}
                                 setDateString={setDateBalanced}
+                                bottom
                             />
                             <MultiSelectComp
                                 className={cx('m-b')}

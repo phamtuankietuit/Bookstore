@@ -2,7 +2,7 @@ import * as request from '~/utils/request';
 
 export const getAllProductTypes = async (pageNumber, pageSize) => {
     try {
-        const res = await request.getMethod('Categories');
+        const res = await request.getMethod(`Categories?pageSize=${pageSize}&pageNumber=${pageNumber}&sortBy=categoryId&orderBy=asc`);
 
         return res;
     } catch (error) {

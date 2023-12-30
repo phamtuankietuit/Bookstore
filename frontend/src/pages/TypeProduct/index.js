@@ -170,35 +170,67 @@ function TypeProduct() {
         onOpenModal('Cập nhật loại sản phẩm');
     }, []);
 
-    // CALL API
-    useEffect(() => {
-        const fetchApi = async () => {
-            const result = await typeProductServices.getAllProductTypes()
-                .catch((error) => {
-                    if (error.response) {
-                        // The request was made and the server responded with a status code
-                        // that falls out of the range of 2xx
-                        console.log(error.response.data);
-                        console.log(error.response.status);
-                        console.log(error.response.headers);
-                    } else if (error.request) {
-                        // The request was made but no response was received
-                        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                        // http.ClientRequest in node.js
-                        console.log(error.request);
-                    } else {
-                        // Something happened in setting up the request that triggered an Error
-                        console.log('Error', error.message);
-                    }
-                    console.log(error.config);
-                    toastContext.notify('error', 'Có lỗi xảy ra');
-                });
 
+    // FETCH 
+    const getList = async (pageNumber, pageSize) => {
+        const response = await typeProductServices.getAllProductTypes(pageNumber, pageSize)
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+                toastContext.notify('error', 'Có lỗi xảy ra');
+            });
+
+        if (response) {
             setPending(false);
-            setRows(result);
+            setRows(response.result);
+            setTotalRows(response.count);
+            setClear(false);
+            console.log(response);
+        }
+    }
+
+    // PAGINATION REMOTE 
+    const [totalRows, setTotalRows] = useState(0);
+
+    const handlePerRowsChange = async (newPerPage, pageNumber) => {
+        const response = await typeProductServices.getAllProductTypes(pageNumber, newPerPage)
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+                toastContext.notify('error', 'Có lỗi xảy ra');
+            });
+
+        if (response) {
+            setPending(false);
+            setRows(response.result);
+            setTotalRows(response.count);
             setClear(false);
         }
-        fetchApi();
+    }
+
+    const handlePageChange = (pageNumber) => {
+        getList(pageNumber);
+    }
+
+    // CALL API
+    useEffect(() => {
+        getList(1, 12);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [updateList]);
 
@@ -240,6 +272,10 @@ function TypeProduct() {
                                 items={['Xóa loại sản phẩm']}
                             />
                         }
+                        // PAGINATION REMOTE 
+                        paginationTotalRows={totalRows}
+                        onChangeRowsPerPage={handlePerRowsChange}
+                        onChangePage={handlePageChange}
                     />
                 </div>
             </div>

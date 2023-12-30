@@ -134,6 +134,7 @@ function ListOrder() {
                                 className={cx('m-b')}
                                 dateString={dateCreated}
                                 setDateString={setDateCreated}
+                                bottom
                             />
                             <MultiSelectComp
                                 className={cx('m-b')}

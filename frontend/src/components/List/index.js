@@ -23,6 +23,10 @@ function List({
     selectableRows,
     pagination,
     clearSelectedRows,
+    // PAGINATION REMOTE
+    totalRows,
+    handlePerRowsChange,
+    handlePageChange,
 }) {
     return (
         <div className={cx('wrapper')}>
@@ -51,6 +55,10 @@ function List({
                         selectableRows={selectableRows}
                         pagination={pagination}
                         clearSelectedRows={clearSelectedRows}
+                        // PAGINATION REMOTE 
+                        paginationTotalRows={totalRows}
+                        onChangeRowsPerPage={handlePerRowsChange}
+                        onChangePage={handlePageChange}
                     />
                 </div>
             </div>

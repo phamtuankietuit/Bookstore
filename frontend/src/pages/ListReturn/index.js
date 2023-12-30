@@ -160,12 +160,14 @@ function ListReturn() {
                                 className={cx('m-b')}
                                 dateString={dateNH}
                                 setDateString={setDateNH}
+                                bottom
                             />
                             <DateRange
                                 title={'Ngày hoàn tiền'}
                                 className={cx('m-b')}
                                 dateString={dateHT}
                                 setDateString={setDateHT}
+                                bottom
                             />
                             <MultiSelectComp
                                 className={cx('m-b')}

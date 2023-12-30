@@ -91,6 +91,7 @@ function Table({
     onRowClicked,
     selectableRows,
     pagination,
+    clearSelectedRows,
 }) {
     return (
         <div className={cx('data-table-container')}>
@@ -133,6 +134,7 @@ function Table({
                     />
                 }
                 // SELECT
+                clearSelectedRows={clearSelectedRows}
                 selectableRows={selectableRows}
                 selectableRowsVisibleOnly
                 selectableRowsHighlight={true}
@@ -149,7 +151,7 @@ function Table({
                     selectAllRowsItem: false,
                     selectAllRowsItemText: 'Tất cả',
                 }}
-                paginationRowsPerPageOptions={[20, 50, 100]}
+                paginationRowsPerPageOptions={[12, 24, 48]}
                 paginationIconNext={<FontAwesomeIcon icon={faAngleRight} />}
                 paginationIconPrevious={<FontAwesomeIcon icon={faAngleLeft} />}
                 paginationIconLastPage={

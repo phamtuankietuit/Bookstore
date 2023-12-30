@@ -9,3 +9,4 @@ export { SupplierItem } from './SupplierItem/SupplierItem';
 export { SupplierGroupItem } from './SupplierGroupItem/SupplierGroupItem';
 export { CustomerItem } from './CustomerItem/CustomerItem';
 export { StaffItem } from './StaffItem/StaffItem';
+export { ActivityItem } from './ActivityItem/ActivityItem';

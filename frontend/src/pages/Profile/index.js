@@ -5,12 +5,59 @@ import avt from '../../assets/images/minimal-morning-landscape-8k-gx-scaled.jpg'
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import { IoIosMail } from 'react-icons/io';
 import { FaPhoneAlt } from 'react-icons/fa';
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import DatePicker from '~/components/DatePicker';
+import { ToastContext } from '~/components/ToastContext';
 
 const cx = classNames.bind(styles);
 
 function Profile() {
+    const toastContext = useContext(ToastContext);
+    //xử lý đổi mật khẩu
+    const [currentPass, setcurrentPass] = useState('');
+    const [newPass, setnewPass] = useState('');
+    const [renewPass, setrenewPass] = useState('');
+
+    const onChangeCurrentPass = (e) => {
+        setcurrentPass(e.target.value);
+    };
+    const onChangeNewPass = (e) => {
+        setnewPass(e.target.value);
+    };
+    const onChangeReNewPass = (e) => {
+        setrenewPass(e.target.value);
+    };
+    //kiểm tra điều kiện
+    const [message, setMessage] = useState();
+
+    const [showMessage, setShowMessage] = useState(false);
+
+    const [checklogin, setchecklogin] = useState();
+
+    const onclickChangePass = () => {
+        if (currentPass === '' || newPass === '' || renewPass === '') {
+            setShowMessage(true);
+            setMessage('Vui lòng nhập đủ thông tin!');
+            setchecklogin(false);
+        } else {
+            if (
+                currentPass.length >= 8 &&
+                newPass.length >= 8 &&
+                newPass === renewPass
+            ) {
+                toastContext.notify('success', 'Đổi mật khẩu thành công!');
+                setShow(false);
+            } else {
+                if (newPass.length < 8) {
+                    setShowMessage(true);
+                    setMessage('Mật khẩu mới phải có độ dài ít nhất 8 kí tự');
+                } else if (newPass !== renewPass) {
+                    setShowMessage(true);
+                    setMessage('Xác nhận mật khẩu mới không trùng khớp');
+                }
+            }
+        }
+    };
     //đổi ảnh đại diện
     const [image, setImage] = useState('');
 
@@ -27,35 +74,21 @@ function Profile() {
     //mở, tắt đổi mật khẩu
     const [show, setShow] = useState(false);
 
-    const [currentPass, setCurrtentPass] = useState();
-
-    const [newPass, setNewPass] = useState();
-
-    const [reNewPass, setReNewPass] = useState();
-
-    const handleChangePass = () => {};
-
-    const handleCurrentPassChange = (event) => {
-        setCurrtentPass(event.target.value);
-    };
-
-    const handleNewPassChange = (event) => {
-        setNewPass(event.target.value);
-    };
-
-    const handleReNewPassChange = (event) => {
-        setReNewPass(event.target.value);
-    };
-
-    const handleShowCPForm = () => {
+    const handleOpenChangePass = () => {
+        setchecklogin(true);
+        setShowMessage(false);
         setShow(true);
+    };
+    //Lưu chỉnh sửa
+    const handleSave = () => {
+        toastContext.notify('success', 'Cập nhật thông tin thành công!');
     };
     return (
         <div className={cx('container')}>
+            <div className={cx('header')}>
+                <NewHeader tab1={true} tab2={false}></NewHeader>
+            </div>
             <div className={cx('header-and-content')}>
-                <div className={cx('header')}>
-                    <NewHeader></NewHeader>
-                </div>
                 <div className={cx('content')}>
                     <div className={cx('content1')}>
                         <div className={cx('profile-card')}>
@@ -72,23 +105,8 @@ function Profile() {
                                     alt=""
                                 />
                             )}
-
-                            <div className={cx('infor-card')}>
-                                <h1>Duy Khiêm</h1>
-                                <p>Cập nhật Avatar</p>
-                                <div className={cx('input-file')}>
-                                    <FaCloudUploadAlt
-                                        className={cx('icon-cloud')}
-                                    ></FaCloudUploadAlt>
-                                    <p>Tải ảnh lên</p>
-                                    <input
-                                        type="file"
-                                        onChange={handleImageChange}
-                                    ></input>
-                                </div>
-                            </div>
                         </div>
-                        <div className={cx('profile-tag')}>
+                        {/* <div className={cx('profile-tag')}>
                             <IoIosMail className={cx('icon-mail')}></IoIosMail>
                             <p>khiem6112003@gmail.com</p>
                         </div>
@@ -97,6 +115,20 @@ function Profile() {
                                 className={cx('icon-phone')}
                             ></FaPhoneAlt>
                             <p>0961826917</p>
+                        </div> */}
+                        <div className={cx('infor-card')}>
+                            {/* <h1>Duy Khiêm</h1> */}
+                            {/* <p>Cập nhật Avatar</p> */}
+                            <div className={cx('input-file')}>
+                                <FaCloudUploadAlt
+                                    className={cx('icon-cloud')}
+                                ></FaCloudUploadAlt>
+                                <p>Tải ảnh lên</p>
+                                <input
+                                    type="file"
+                                    onChange={handleImageChange}
+                                ></input>
+                            </div>
                         </div>
                     </div>
                     <div className={cx('content2')}>
@@ -142,7 +174,7 @@ function Profile() {
                             <div className={cx('grid-content')}>
                                 <p>Giới tính</p>
                                 <input
-                                    className={cx('text-inp')}
+                                    className={cx('text-inp', { gd: true })}
                                     type="text"
                                     value={gender}
                                     readOnly
@@ -154,17 +186,32 @@ function Profile() {
                                     <div className={cx('options')}>
                                         <ul>
                                             <li
-                                                onClick={() => SetGender('Nam')}
+                                                onClick={() => {
+                                                    SetGender('Nam');
+                                                    setShowDropDown(
+                                                        !showDropdown,
+                                                    );
+                                                }}
                                             >
                                                 Nam
                                             </li>
-                                            <li onClick={() => SetGender('Nữ')}>
+                                            <li
+                                                onClick={() => {
+                                                    SetGender('Nữ');
+                                                    setShowDropDown(
+                                                        !showDropdown,
+                                                    );
+                                                }}
+                                            >
                                                 Nữ
                                             </li>
                                             <li
-                                                onClick={() =>
-                                                    SetGender('Khác')
-                                                }
+                                                onClick={() => {
+                                                    SetGender('Khác');
+                                                    setShowDropDown(
+                                                        !showDropdown,
+                                                    );
+                                                }}
                                             >
                                                 Khác
                                             </li>
@@ -181,9 +228,12 @@ function Profile() {
                             </div>
                         </div>
                         <div className={cx('changepass-container')}>
-                            <p onClick={handleShowCPForm}>
+                            <p onClick={handleOpenChangePass}>
                                 <b>Đổi mật khẩu</b>
                             </p>
+                        </div>
+                        <div className={cx('btn-c')}>
+                            <button onClick={handleSave}>Lưu</button>
                         </div>
                     </div>
                 </div>
@@ -191,20 +241,38 @@ function Profile() {
             {show && (
                 <div className={cx('changepass-form')}>
                     <h3>Đổi mật khẩu</h3>
+
+                    {showMessage && (
+                        <div className={cx('m-cp-c')}>
+                            <p className={cx('m-cp')}>{message}</p>
+                        </div>
+                    )}
                     <div className={cx('changepass-content')}>
                         <div className={cx('grid-content')}>
                             <p>Mật khẩu hiện tại</p>
                             <input
-                                className={cx('text-inp')}
+                                className={cx('text-inp', {
+                                    red: !checklogin
+                                        ? currentPass === ''
+                                            ? true
+                                            : false
+                                        : false,
+                                })}
                                 type="password"
                                 value={currentPass}
-                                onChange={handleCurrentPassChange}
+                                onChange={onChangeCurrentPass}
                             ></input>
                         </div>
                         <div className={cx('grid-content')}>
                             <p>SĐT</p>
                             <input
-                                className={cx('text-inp')}
+                                className={cx('text-inp', {
+                                    red: !checklogin
+                                        ? newPass === ''
+                                            ? true
+                                            : false
+                                        : false,
+                                })}
                                 type="text"
                                 disabled
                                 value={'0961826917'}
@@ -213,10 +281,16 @@ function Profile() {
                         <div className={cx('grid-content')}>
                             <p>Nhập mật khẩu mới</p>
                             <input
-                                className={cx('text-inp')}
+                                className={cx('text-inp', {
+                                    red: !checklogin
+                                        ? renewPass === ''
+                                            ? true
+                                            : false
+                                        : false,
+                                })}
                                 type="password"
                                 value={newPass}
-                                onChange={handleNewPassChange}
+                                onChange={onChangeNewPass}
                             ></input>
                         </div>
                         <div className={cx('grid-content')}>
@@ -224,8 +298,8 @@ function Profile() {
                             <input
                                 className={cx('text-inp')}
                                 type="password"
-                                value={reNewPass}
-                                onChange={handleReNewPassChange}
+                                value={renewPass}
+                                onChange={onChangeReNewPass}
                             ></input>
                         </div>
                     </div>
@@ -235,8 +309,7 @@ function Profile() {
                     </p>
                     <p>- Độ dài ít nhất 8 kí tự.</p>
                     <p>
-                        - Chứa ít nhất 1 kí tự số, 1 kí tự chữ và 1 kí tự đặc
-                        biệt
+                        - Xác nhận lại mật khẩu phải trùng khớp với mật khẩu mới
                     </p>
                     <div className={cx('but-container')}>
                         <button
@@ -247,7 +320,7 @@ function Profile() {
                         </button>
                         <button
                             className={cx('accept-but')}
-                            onClick={handleChangePass}
+                            onClick={onclickChangePass}
                         >
                             Lưu
                         </button>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import classNames from 'classnames/bind';
 
-import styles from './SellReportReport.module.scss';
+import styles from './SellReport.module.scss';
 import Wrapper from '~/components/Wrapper';
 import ModalLoading from '~/components/ModalLoading';
 import DateRange from '~/components/DateRange';

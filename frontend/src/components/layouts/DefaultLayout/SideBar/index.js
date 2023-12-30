@@ -34,7 +34,7 @@ function SideBar({ className, title }) {
                 <hr className={cx('divider')} />
                 <div className={cx('content')}>
                     <SidebarButton
-                        to={'/'}
+                        to={'/overview'}
                         title={'Tổng quan'}
                         icon={<FontAwesomeIcon icon={faHouse} />}
                     />
@@ -88,11 +88,11 @@ function SideBar({ className, title }) {
                         items={[
                             {
                                 title: 'Báo cáo bán hàng',
-                                to: '/reports/revenue',
+                                to: '/reports/sell',
                             },
                             {
                                 title: 'Báo cáo nhập hàng',
-                                to: '/',
+                                to: '/reports/import',
                             },
                         ]}
                     />
@@ -112,7 +112,7 @@ function SideBar({ className, title }) {
                         icon={<FontAwesomeIcon icon={faClipboardUser} />}
                     />
                     <SidebarButton
-                        to={'/'}
+                        to={'/activity'}
                         title={'Nhật ký hoạt động'}
                         icon={<FontAwesomeIcon icon={faClockRotateLeft} />}
                     />

@@ -1,3 +1,55 @@
+export const data12 = [
+    {
+        id: 'AC00001',
+        name: 'Nguyễn Văn A',
+        createAt: '23/12/2023 - 10:50',
+        operate: 'login',
+        content: 'Đăng nhập hệ thống',
+    },
+    {
+        id: 'AC00002',
+        name: 'Nguyễn Văn B',
+        createAt: '23/12/2023 - 10:50',
+        operate: 'create',
+        content: 'Tạo đơn hàng DH0003',
+    },
+    {
+        id: 'AC00003',
+        name: 'Nguyễn Văn C',
+        createAt: '23/12/2023 - 10:50',
+        operate: 'update',
+        content: 'Cập nhật khách hàng Phạm Công Minh',
+    },
+    {
+        id: 'AC00004',
+        name: 'Nguyễn Văn D',
+        createAt: '23/12/2023 - 10:50',
+        operate: 'remove',
+        content: 'Xóa đơn kiểm hàng DKH0003',
+    },
+    {
+        id: 'AC00005',
+        name: 'Nguyễn Văn D',
+        createAt: '23/12/2023 - 10:50',
+        operate: 'remove',
+        content: 'Xóa đơn kiểm hàng DKH0003',
+    },
+    {
+        id: 'AC00006',
+        name: 'Nguyễn Văn D',
+        createAt: '23/12/2023 - 10:50',
+        operate: 'remove',
+        content: 'Xóa đơn kiểm hàng DKH0003',
+    },
+    {
+        id: 'AC00007',
+        name: 'Nguyễn Văn D',
+        createAt: '23/12/2023 - 10:50',
+        operate: 'remove',
+        content: 'Xóa đơn kiểm hàng DKH0003',
+    },
+];
+
 export const data11 = [
     {
         id: 'NV0001',

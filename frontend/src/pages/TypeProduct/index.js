@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useCallback } from 'react';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -6,66 +6,122 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import styles from './TypeProduct.module.scss';
 import List from '~/components/List';
 import Button from '~/components/Button';
-import { data2 } from '~/components/Table/sample';
 import { TypeProductItem } from '~/components/Item';
 import SubHeader from '~/components/SubHeader';
 import ModalComp from '~/components/ModalComp';
 import Input from '~/components/Input';
 import ModalLoading from '~/components/ModalLoading';
 import { ToastContext } from '~/components/ToastContext';
-
 import * as typeProductServices from '~/apiServices/typeProductServices';
 
 const cx = classNames.bind(styles);
 
 function TypeProduct() {
-    // CALL API
-    useEffect(() => {
-
-        const fetchApi = async () => {
-            const result = await typeProductServices.getAllProductTypes()
-                .catch((err) => {
-                    console.log(err);
-                });
-
-            setPending(false);
-            setRows(result);
-        }
-
-        fetchApi();
-
-    }, []);
+    const [updateList, setUpdateList] = useState(new Date());
 
     const toastContext = useContext(ToastContext);
 
-    // MODAL ADD PRODUCT TYPE
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const [clear, setClear] = useState(false);
 
-    const [nameType, setNameType] = useState('');
-    const [errorType, setErrorType] = useState('');
+    // MODAL
+    const [titleModal, setTitleModal] = useState('');
+    const [openModal, setOpenModal] = useState(false);
+
+    const handleOpenModal = () => setOpenModal(true);
+
+    const handleCloseModal = () => {
+        setErrorType('');
+        setNameType('');
+        setOpenModal(false);
+    };
 
     const handleValidation = () => {
-        if (nameType === '') {
-            setErrorType('Không được bỏ trống');
+        if (titleModal === 'Thêm loại sản phẩm') {
+            if (nameType === '') {
+                setErrorType('Không được bỏ trống');
+            } else {
+                // POST
+
+                const fetchApi = async () => {
+                    setLoading(true);
+
+                    const result = await typeProductServices.createProductType({ text: nameType })
+                        .catch((error) => {
+                            if (error.response.status === 409) {
+                                setLoading(false);
+                                toastContext.notify('error', 'Loại sản phẩm đã tồn tại');
+                            } else {
+                                toastContext.notify('error', 'Có lỗi xảy ra');
+                            }
+                        });
+
+                    if (result) {
+                        setLoading(false);
+                        toastContext.notify('success', 'Thêm loại sản phẩm thành công');
+                        handleCloseModal();
+                        clearSubHeader();
+                        setUpdateList(new Date());
+                    }
+                }
+                fetchApi();
+            }
+        } else if (titleModal === 'Xóa loại sản phẩm?') {
+            // DELETE
+            const fetchApi = async () => {
+                setLoading(true);
+
+                const result = await typeProductServices.deteleProductType(selectedDelRows)
+                    .catch((error) => {
+                        setLoading(false);
+                        if (error.response) {
+                            // The request was made and the server responded with a status code
+                            // that falls out of the range of 2xx
+                            console.log(error.response.data);
+                            console.log(error.response.status);
+                            console.log(error.response.headers);
+                        } else if (error.request) {
+                            // The request was made but no response was received
+                            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                            // http.ClientRequest in node.js
+                            console.log(error.request);
+                        } else {
+                            // Something happened in setting up the request that triggered an Error
+                            console.log('Error', error.message);
+                        }
+                        console.log(error.config);
+                    });
+
+                if (result) {
+                    setLoading(false);
+                    Object.keys(result).forEach(function (key, index) {
+
+                        const name = rows.find(obj => obj.categoryId === key).text;
+
+                        if (result[key].includes('aborted')) {
+                            toastContext.notify('error', 'Không thể xóa loại sản phẩm mặc định ' + name);
+                        } else {
+                            toastContext.notify('success', 'Xóa thành công loại sản phẩm ' + name);
+                        }
+                    });
+                    handleCloseModal();
+                    clearSubHeader();
+                    setUpdateList(new Date());
+                }
+            }
+            fetchApi();
         } else {
-            setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-                setNameType('');
-                setErrorType('');
-                handleClose();
-                toastContext.notify('success', 'Thêm loại sản phẩm thành công');
-            }, 2000);
+            // UPDATE
+            console.log('update');
         }
     };
 
-    const handleCloseModal = () => {
-        setNameType('');
-        setErrorType('');
-        handleClose();
+    const onOpenModal = (value) => {
+        setTitleModal(value);
+        handleOpenModal();
     };
+
+    const [nameType, setNameType] = useState('');
+    const [errorType, setErrorType] = useState('');
 
     // MODAL LOADING
     const [loading, setLoading] = useState(false);
@@ -80,16 +136,10 @@ function TypeProduct() {
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
 
-    // useEffect(() => {
-    //     const timeout = setTimeout(() => {
-    //         setRows(data2);
-    //         setPending(false);
-    //     }, 2000);
-    //     return () => clearTimeout(timeout);
-    // }, []);
 
     const [showSubHeader, setShowSubHeader] = useState(true);
     const [selectedRow, setSelectedRow] = useState(0);
+    const [selectedDelRows, setSelectedDelRows] = useState();
 
     const handleSelectedProducts = ({
         allSelected,
@@ -98,10 +148,59 @@ function TypeProduct() {
     }) => {
         selectedCount > 0 ? setShowSubHeader(true) : setShowSubHeader(false);
         setSelectedRow(selectedCount);
+        setSelectedDelRows(selectedRows);
     };
 
+    // CLEAR SUB HEADER
+    const clearSubHeader = () => {
+        setShowSubHeader(false);
+        setSelectedRow(0);
+        setClear(true);
+    }
+
+
     // SUB HEADER
-    const onClickAction = (index) => { };
+    const onClickAction = (index) => {
+        onOpenModal('Xóa loại sản phẩm?');
+    };
+
+    // ON ROW CLICKED
+    const onRowClicked = useCallback((row) => {
+        setNameType(row.text);
+        onOpenModal('Cập nhật loại sản phẩm');
+    }, []);
+
+    // CALL API
+    useEffect(() => {
+        const fetchApi = async () => {
+            const result = await typeProductServices.getAllProductTypes()
+                .catch((error) => {
+                    if (error.response) {
+                        // The request was made and the server responded with a status code
+                        // that falls out of the range of 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    } else if (error.request) {
+                        // The request was made but no response was received
+                        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                        // http.ClientRequest in node.js
+                        console.log(error.request);
+                    } else {
+                        // Something happened in setting up the request that triggered an Error
+                        console.log('Error', error.message);
+                    }
+                    console.log(error.config);
+                    toastContext.notify('error', 'Có lỗi xảy ra');
+                });
+
+            setPending(false);
+            setRows(result);
+            setClear(false);
+        }
+        fetchApi();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [updateList]);
 
     return (
         <div className={cx('wrapper')}>
@@ -110,7 +209,7 @@ function TypeProduct() {
                     <Button
                         solidBlue
                         leftIcon={<FontAwesomeIcon icon={faPlus} />}
-                        onClick={handleOpen}
+                        onClick={() => onOpenModal('Thêm loại sản phẩm')}
                     >
                         Thêm loại sản phẩm
                     </Button>
@@ -124,6 +223,8 @@ function TypeProduct() {
                         search={search}
                         handleSearch={handleSearch}
                         // TABLE
+                        clearSelectedRows={clear}
+                        onRowClicked={onRowClicked}
                         selectableRows
                         pagination
                         showSubHeader={showSubHeader}
@@ -143,35 +244,56 @@ function TypeProduct() {
                 </div>
             </div>
             <ModalComp
-                open={open}
+                open={openModal}
                 handleClose={handleCloseModal}
-                title={'Thêm loại sản phẩm'}
+                title={titleModal}
                 actionComponent={
                     <div>
                         <Button
                             className={cx('btn-cancel')}
-                            outlineRed
+                            outlineBlue={titleModal !== 'Xóa loại sản phẩm?'}
+                            outlineRed={titleModal === 'Xóa loại sản phẩm?'}
                             onClick={handleCloseModal}
                         >
                             Hủy
                         </Button>
                         <Button
-                            className={cx('btn-ok')}
-                            solidBlue
+                            className={cx('btn-ok', 'm-l-10')}
+                            solidBlue={titleModal !== 'Xóa loại sản phẩm?'}
+                            solidRed={titleModal === 'Xóa loại sản phẩm?'}
                             onClick={handleValidation}
                         >
-                            Thêm
+                            {titleModal === 'Thêm loại sản phẩm' && 'Thêm'}
+                            {titleModal === 'Xóa loại sản phẩm?' && 'Xóa'}
+                            {titleModal === 'Cập nhật loại sản phẩm' && 'Cập nhật'}
                         </Button>
                     </div>
                 }
             >
-                <Input
-                    title={'Tên loại sản phẩm'}
-                    value={nameType}
-                    onChange={(value) => setNameType(value)}
-                    error={errorType}
-                    required
-                />
+                {titleModal === 'Thêm loại sản phẩm' && (
+                    <Input
+                        title={'Tên loại sản phẩm'}
+                        value={nameType}
+                        onChange={(value) => setNameType(value)}
+                        error={errorType}
+                        required
+                    />
+                )}
+                {titleModal === 'Xóa loại sản phẩm?' && (
+                    <div className={cx('info')}>
+                        Thao tác này sẽ xóa
+                        <strong> {selectedRow}</strong> loại sản phẩm bạn đã chọn
+                    </div>
+                )}
+                {titleModal === 'Cập nhật loại sản phẩm' && (
+                    <Input
+                        title={'Tên loại sản phẩm'}
+                        value={nameType}
+                        onChange={(value) => setNameType(value)}
+                        error={errorType}
+                        required
+                    />
+                )}
             </ModalComp>
             <ModalLoading open={loading} title={'Đang tải'} />
         </div>

@@ -2,60 +2,69 @@
     height: 100vh;
     width: 100vw;
     display: flex;
+    flex-direction: column;
+    background-image: url('../../assets/images/profile-bg.jpg');
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: cover;
 }
 .header-and-content {
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 //header
 .header {
     width: 100%;
     height: 7%;
-    max-height: 50px;
+    max-height: 45px;
+    min-height: 40px;
 }
 //content
 .content {
-    width: 100%;
-    height: 91%;
+    // margin-top: 3%;
+    width: 70%;
+    height: 80%;
     display: flex;
     align-items: center;
-    padding-left: 4%;
-    padding-right: 4%;
+    // background-color: #fff;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 //khối 1
 .content1 {
-    height: 70%;
+    height: 100%;
     width: 30%;
-    border-radius: 10px;
-    border: 1px solid #c4ccde;
-    background: #fff;
-    margin-right: 15px;
+    border-radius: 10px 0 0 10px;
+    background: #366577;
     display: flex;
     align-items: center;
     flex-direction: column;
-    min-width: 325px;
-    min-height: 385px;
-    max-height: 470px;
+    border: none;
+    min-width: 220px;
 }
 
 .profile-card {
     width: 90%;
-    height: 35%;
-    margin-top: 20px;
+    height: 40%;
+    margin-top: 50px;
     align-items: center;
     display: flex;
     justify-content: center;
 }
 .profile-avt {
-    height: 130px;
-    width: 130px;
+    height: 165px;
+    width: 165px;
     border-radius: 150px;
+    border: 1px solid #cdcdcd;
 }
 .infor-card {
-    height: 150px;
     width: 50%;
-    min-width: 160px;
-    margin-left: 20px;
+    min-width: 180px;
+    margin-top: 10px;
     align-items: center;
     justify-content: center;
     display: flex;
@@ -66,12 +75,16 @@
     height: 45px;
     width: 90%;
     background-color: #fff;
-    border: #c4ccde 2px solid;
+    // border: #c4ccde 2px solid;
     border-radius: 4px;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.input-file p {
+    color: #366577;
+    font-weight: 550;
 }
 .input-file input {
     cursor: pointer;
@@ -88,26 +101,41 @@
 }
 //khối 2
 .content2 {
-    height: 70%;
+    height: 100%;
     width: 70%;
-    border-radius: 10px;
-    border: 1px solid #c4ccde;
+    border-radius: 0 10px 10px 0;
+    // border: 1px solid #c4ccde;
     background: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 325px;
-    min-height: 385px;
-    max-height: 470px;
 }
 .input-text-container {
-    height: 70%;
+    height: 50%;
     width: 90%;
-    margin-top: 20px;
+    margin-top: 70px;
     display: grid;
     grid-template-columns: 50% 50%;
     grid-template-rows: 33% 33% 33%;
     gap: 5px;
+}
+.btn-c {
+    height: 60px;
+    width: 90%;
+    display: flex;
+    justify-content: right;
+}
+.btn-c button {
+    width: 100px;
+    height: 45px;
+    border-radius: 4px;
+    background-color: #366577;
+    color: #fff;
+    font-weight: 500;
+    margin-top: 15px;
+    &:hover {
+        background-color: #508597;
+    }
 }
 .grid-content {
     position: relative;
@@ -122,26 +150,28 @@
 .text-inp {
     width: 100%;
     height: 45px;
+    min-height: 45px;
     border-radius: 4px;
-    border: 1px solid #c4ccde;
+    border: 1px solid #cdcdcd;
     background: #fff;
     text-indent: 10px;
     font-size: 14px;
     &:hover {
         border-radius: 4px;
-        border: 1px solid #555555;
+        border: 1px solid #508597;
         background: #fff;
+        color: #508597;
     }
     &:focus {
         border-radius: 4px;
-        border: 1px solid #007bff;
+        border: 1px solid #366577;
         background: #fff;
     }
     outline: none;
 }
 .changepass-container {
     width: 90%;
-    height: 30px;
+    height: 20px;
     // background-color: #007bff;
 }
 .changepass-container p {
@@ -155,15 +185,16 @@
     width: 50%;
     position: absolute;
     left: 50%;
-    border: 1px solid #cdcdcd;
+    // border: 1px solid #cdcdcd;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     background: #fff;
     transform: translate(-50%);
-    top: 20%;
+    top: 18%;
     border-radius: 8px;
     display: flex;
     align-items: center;
     flex-direction: column;
-    min-width: 470px;
+    min-width: 355px;
     min-height: 350px;
     max-height: 470px;
 }
@@ -191,14 +222,14 @@
     width: 100px;
     margin-right: 10px;
     border-radius: 4px;
-    border: #007bff solid 1px;
+    border: #366577 solid 1px;
     font-weight: 500;
-    color: #007bff;
+    color: #366577;
     background: #fff;
     &:hover {
         background: #f5faff;
     }
-    min-height: 45px;
+    min-height: 40px;
     max-height: 50px;
 }
 .accept-but {
@@ -209,11 +240,11 @@
     border: none;
     font-weight: 500;
     color: white;
-    background: #007bff;
+    background: #366577;
     &:hover {
-        background: #006db3;
+        background: #508597;
     }
-    min-height: 45px;
+    min-height: 40px;
     max-height: 50px;
 }
 .infor-card h1 {
@@ -230,7 +261,7 @@
 .icon-cloud {
     height: 28px;
     width: 40px;
-    color: #c4ccde;
+    color: #366577;
     cursor: pointer;
 }
 .input-file p {
@@ -264,31 +295,33 @@
 .content2 h3 {
     height: fit-content;
     font-size: 20px;
-    margin-top: 5px;
-    text-indent: 10px;
+    margin-top: 15px;
+    text-indent: 15px;
     width: 100%;
 }
 .details {
     height: fit-content;
     font-size: 13px;
     margin-top: 5px;
-    text-indent: 10px;
+    text-indent: 15px;
     width: 100%;
     color: #637381;
 }
 
 .changepass-container p {
     width: fit-content;
-    color: #007bff;
+    color: #366577;
     font-size: 15px;
 }
 .changepass-form h3 {
     height: 10%;
     font-size: 20px;
-    margin-top: 5px;
     text-indent: 20px;
     width: 100%;
-    border-bottom: 1px solid #cdcdcd;
+    // border-bottom: 1px solid #cdcdcd;
+    background-color: #366577;
+    border-radius: 8px 8px 0 0;
+    color: white;
     padding-top: 5px;
 }
 .changepass-form p {
@@ -299,8 +332,7 @@
 .options {
     width: 100%;
     height: 70px;
-    position: absolute;
-    margin-top: 70px;
+    position: relative;
 }
 .options ul {
     height: 100%;
@@ -320,66 +352,80 @@
         cursor: pointer;
     }
 }
-@media screen and (max-width: 820px) {
-    .profile-avt {
-        width: 100px;
-        height: 100px;
-    }
-    .infor-card h1 {
-        font-size: 25px;
-    }
-    .content {
-        display: flex;
-        flex-direction: column;
-        overflow: scroll;
-        justify-content: center;
-        align-items: center;
-    }
-    .content1 {
-        width: 420px;
-        margin-left: 0;
-        margin-right: 0;
-        min-height: 360px;
-        max-height: 400px;
-    }
-    .content2 {
-        margin-top: 20px;
-        width: 420px;
-        margin-left: 0;
-    }
-    .header-and-content {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 100%;
-    }
-    .content {
-        width: 100%;
-        height: calc(100% - 45px);
-        display: flex;
-        align-items: center;
-        padding-top: 30px;
-        padding-right: 0;
-    }
-    .header {
-        width: 100%;
-        height: 45px;
-    }
-    .changepass-form {
-        max-height: 350px;
+.m-cp-c {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.m-cp-c p {
+    color: red;
+    width: fit-content;
+}
+.gd {
+    &:hover {
+        cursor: pointer;
     }
 }
-@media screen and (max-height: 860px) and (max-width: 1550px) and (min-width: 821px) {
-    .content1 {
-        max-height: 430px;
-        min-width: 370px;
+
+@media screen and (min-width: 840px) {
+    .content {
+        height: 488px;
     }
-    .content2 {
-        max-height: 430px;
-        min-width: 370px;
-        min-width: 645px;
+    .container {
+        min-height: 500px;
+        overflow: auto;
+    }
+}
+@media screen and (max-width: 839px) {
+    .container {
+        min-height: 770px;
+        overflow: auto;
     }
     .content {
-        min-height: 400px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: none;
+    }
+    .content1 {
+        width: 355px;
+        min-height: 190px;
+        border-radius: 10px;
+    }
+
+    .profile-card {
+        margin-top: 0;
+        height: 130px;
+    }
+    .profile-avt {
+        width: 110px;
+        height: 110px;
+    }
+    .content2 {
+        border-radius: 10px;
+        margin-top: 10px;
+        min-height: 460px;
+        width: 355px;
+    }
+    .changepass-form {
+        margin-left: -8px;
+    }
+    .changepass-form p {
+        font-size: 12px;
+    }
+    .accept-but {
+        font-size: 12px;
+        width: 80px;
+    }
+    .cancel-but {
+        font-size: 12px;
+        width: 80px;
+    }
+    .input-text-container {
+        margin-top: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+        height: 280px;
     }
 }

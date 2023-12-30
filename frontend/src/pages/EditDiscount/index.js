@@ -28,7 +28,7 @@ function EditDiscount() {
                     console.log(err);
                 });
             setObj(result);
-            setDateString(obj.startAt + "-" + obj.closeAt)
+            setDateString(result.startAt + "-" + result.closeAt)
         }
 
         fetchApi();
@@ -208,6 +208,8 @@ function EditDiscount() {
                                 <DateRange
                                     dateString={dateString}
                                     setDateString={setDateString}
+                                    bottom
+                                    future
                                 ></DateRange>
                             </div>
                         </div>

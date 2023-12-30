@@ -92,6 +92,10 @@ function Table({
     selectableRows,
     pagination,
     clearSelectedRows,
+    // PAGINATION REMOTE
+    totalRows,
+    handlePerRowsChange,
+    handlePageChange,
 }) {
     return (
         <div className={cx('data-table-container')}>
@@ -142,6 +146,14 @@ function Table({
                 selectableRowsComponentProps={selectProps}
                 onSelectedRowsChange={handleSelectedItems}
                 // PAGINATION
+
+                // REMOTE 
+                paginationServer
+                paginationTotalRows={totalRows}
+                onChangeRowsPerPage={handlePerRowsChange}
+                onChangePage={handlePageChange}
+
+
                 pagination={pagination}
                 paginationPerPage={20}
                 paginationComponentOptions={{

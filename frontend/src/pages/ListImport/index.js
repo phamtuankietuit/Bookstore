@@ -9,7 +9,6 @@ import Button from '~/components/Button';
 import List from '~/components/List';
 import Filter from '~/components/Filter';
 import { ImportItem } from '~/components/Item';
-import { data3 } from '~/components/Table/sample';
 import MultiSelectComp from '~/components/MultiSelectComp';
 import DateRange from '~/components/DateRange';
 import * as PurchaseorderServices from '~/apiServices/purchaseorderServies';
@@ -135,6 +134,7 @@ function ListImport() {
                                 className={cx('m-b')}
                                 dateString={dateString}
                                 setDateString={setDateString}
+                                bottom
                             />
                             <MultiSelectComp
                                 className={cx('m-b')}

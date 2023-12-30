@@ -15,7 +15,6 @@ import Button from '~/components/Button';
 import Filter from '~/components/Filter';
 import MultiSelectComp from '~/components/MultiSelectComp';
 import { ProductItem } from '~/components/Item';
-import { data } from '~/components/Table/sample';
 import SubHeader from '~/components/SubHeader';
 import ModalComp from '~/components/ModalComp';
 import ModalLoading from '~/components/ModalLoading';
@@ -41,7 +40,7 @@ const optionsTT = [
 ];
 
 const optionsPriceRange = [
-    { label: '0đ - 150,000đ', value: '0' },
+    { label: '0đ - 150,000đ', value: '0-150000' },
     { label: '150,000đ - 300,000đ', value: '1' },
     { label: '300,000đ - 500,000đ', value: '2' },
     { label: '500,000đ - 700,000đ', value: '3' },
@@ -99,14 +98,6 @@ function ListProduct() {
     // TABLE
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
-
-    // useEffect(() => {
-    //     const timeout = setTimeout(() => {
-    //         setRows(data);
-    //         setPending(false);
-    //     }, 500);
-    //     return () => clearTimeout(timeout);
-    // }, []);
 
 
     useEffect(() => {
@@ -173,6 +164,14 @@ function ListProduct() {
         setTitleModal(value);
         handleOpenModal();
     };
+
+
+
+
+    // CALL API
+    useEffect(() => {
+        console.log(encodeURIComponent('Đắc Nhân Tâm Phạm Tuấn Kiệt Đắc Nhân Tâm Phạm Tuấn Kiệt Đắc Nhân Tâm Phạm Tuấn Kiệt '));
+    }, []);
 
     return (
         <div className={cx('wrapper')}>
@@ -264,6 +263,22 @@ function ListProduct() {
                                 className={cx('margin-bottom')}
                                 options={optionsBrand}
                                 placeholder={'Thương hiệu'}
+                                selected={selectedBrand}
+                                setSelected={setSelectedBrand}
+                                hasSelectAll={true}
+                            />
+                            <MultiSelectComp
+                                className={cx('margin-bottom')}
+                                options={optionsBrand}
+                                placeholder={'Nhà xuất bản'}
+                                selected={selectedBrand}
+                                setSelected={setSelectedBrand}
+                                hasSelectAll={true}
+                            />
+                            <MultiSelectComp
+                                className={cx('margin-bottom')}
+                                options={optionsBrand}
+                                placeholder={'Tác giả'}
                                 selected={selectedBrand}
                                 setSelected={setSelectedBrand}
                                 hasSelectAll={true}

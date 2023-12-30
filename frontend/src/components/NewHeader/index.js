@@ -9,7 +9,7 @@ import { FaStore } from 'react-icons/fa';
 
 const cx = classNames.bind(styles);
 
-function NewHeader() {
+function NewHeader({ tab1, tab2 }) {
     return (
         <div className={cx('header')}>
             <div className={cx('header-content')}>
@@ -18,12 +18,20 @@ function NewHeader() {
                 </div>
                 <div className={cx('tab-container')}>
                     <Link className={cx('profile-tag')} to="/profile">
-                        <CgProfile className={cx('profile-icon')}></CgProfile>
-                        <p>Trang cá nhân</p>
+                        <div className={cx('t-c')}>
+                            <CgProfile
+                                className={cx('profile-icon')}
+                            ></CgProfile>
+                            <p>Trang cá nhân</p>
+                        </div>
+                        {tab1 && <div className={cx('active')}></div>}
                     </Link>
                     <Link className={cx('store-tag')} to="/storeinfo">
-                        <FaStore className={cx('profile-icon')}></FaStore>
-                        <p>Thông tin CH</p>
+                        <div className={cx('t-c')}>
+                            <FaStore className={cx('profile-icon')}></FaStore>
+                            <p>Thông tin CH</p>
+                        </div>
+                        {tab2 && <div className={cx('active')}></div>}
                     </Link>
                 </div>
                 <div className={cx('noti-and-avt')}>

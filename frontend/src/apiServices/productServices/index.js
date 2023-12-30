@@ -19,3 +19,12 @@ export const getProduct = async (id) => {
         return Promise.reject(error);
     }
 }
+
+export const UpdateProduct = async (obj) => {
+    try {
+        const res = await request.putMethod('Products', obj);
+        return res;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}

@@ -28,14 +28,14 @@ const supplier = {
 };
 
 function UpdateSupplier() {
-    useEffect(() => {
-        setName(supplier.name);
-        setPhone(supplier.phone);
-        setEmail(supplier.email);
-        setGroup(supplier.group);
-        setAddress(supplier.address);
-        setIsActive(supplier.isActive);
-    }, []);
+    // useEffect(() => {
+    //     setName(supplier.name);
+    //     setPhone(supplier.phone);
+    //     setEmail(supplier.email);
+    //     setGroup(supplier.group);
+    //     setAddress(supplier.address);
+    //     setIsActive(supplier.isActive);
+    // }, []);
 
     const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
@@ -60,12 +60,13 @@ function UpdateSupplier() {
                     console.log(err);
                 });
             setObj(result);
-
-
             setName(result.name)
             setPhone(result.contact.phone)
             setEmail(result.contact.email)
             setAddress(result.address)
+            setIsActive(result.isActive)
+            setNameGroup(result.supplierGroupName)
+
         }
 
         fetchApi();
@@ -79,17 +80,52 @@ function UpdateSupplier() {
             setErrorName('Không được bỏ trống');
         } else {
             // CALL API
+            const newobj = {
+                supplierId: obj.supplierId,
+                name: name,
+                supplierGroupId: obj.supplierGroupId,
+                supplierGroupName: obj.supplierGroupName,
+                contact: {
+                    phone: phone,
+                    email: email
+                },
+                address: address,
+                description: obj.description,
+                createdAt: obj.createdAt,
+                isActive: isActive
+
+            }
+
+            // setObj(obj => ({ 
+            //     ...obj, 
+            //     updateobj 
+            // }))
+            // setObj(newobj)
+            // console.log(newobj)
             setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-                toastContext.notify(
-                    'success',
-                    'Cập nhật nhà cung cấp thành công',
-                );
+            const fetchApi = async () => {
+                // console.log(productid.id)
+                const result = await SuppliersServices.UpdateSupplier(suppliertid.id, newobj)
+                    .catch((err) => {
+                        console.log(err);
+                    });
+                if (result) {
+                    setTimeout(() => {
+                        setLoading(false);
+                        toastContext.notify(
+                            'success',
+                            'Cập nhật nhà cung cấp thành công',
+                        );
 
 
-                console.log(obj)
-            }, 2000);
+                        // console.log(obj)
+                    }, 2000);
+                }
+
+            }
+
+            fetchApi();
+
         }
     };
 
@@ -201,7 +237,7 @@ function UpdateSupplier() {
                                             <Input
                                                 title={'Nhóm nhà cung cấp'}
                                                 items={['Sách', 'Khác']}
-                                                value={group}
+                                                value={obj.supplierGroupName}
                                                 onChange={(value) => setGroup(value)}
                                                 readOnly
                                             />

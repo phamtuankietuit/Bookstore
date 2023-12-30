@@ -20,6 +20,7 @@ import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
 
 import * as SuppliersServices from '~/apiServices/supplierServices';
+import * as PurchaseOrdersServices from '~/apiServices/purchaseorderServies';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 function ImportProduct() {
@@ -64,7 +65,7 @@ function ImportProduct() {
 
     const setproducer = (value) => {
         set(value)
-        setList(value.productsSupplied)
+        // setList(value.productsSupplied)
 
     }
 
@@ -151,24 +152,41 @@ function ImportProduct() {
             }, 2000);
         }
         else {
-            const value = {
-                producer: producer,
-                nums: nums,
-                discount: discount,
-                paid: paid,
-                total: total,
-                unpaid: (total - paid) < 0 ? 0 : (total - paid),
-                list_product: arr,
-                note: note,
-                status: total - paid === 0 ? true : false,
 
-            }
-            console.log(value)
             setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-                toastContext.notify('success', 'Đã nhập hàng');
-            }, 2000);
+            const obj = {
+                supplierId: producer.supplierId,
+                supplierName: producer.name,
+                items: arr,
+                subTotal: cost,
+                discount: discount,
+                totalAmount: total,
+                paymentDetails: {
+                    remainAmount: (total - paid) < 0 ? 0 : (total - paid),
+                    paidAmount: paid,
+                    status: total - paid === 0 ? true : false,
+                },
+                note: note
+            }
+            console.log(obj)
+
+            const fetchApi = async () => {
+                const result = await PurchaseOrdersServices.CreatePurchaseOrder(obj)
+                    .catch((err) => {
+                        console.log(err);
+                    });
+
+                if (result) {
+
+                    setTimeout(() => {
+                        setLoading(false);
+                        toastContext.notify('success', 'Đã nhập hàng');
+                    }, 2000);
+                }
+            }
+
+            fetchApi();
+
         }
 
     }
@@ -182,7 +200,7 @@ function ImportProduct() {
                     console.log(err);
                 });
 
-            setListsupplier(result)
+            setListsupplier(result);
             // console.log(result)
         }
 

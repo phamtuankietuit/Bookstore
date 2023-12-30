@@ -6,8 +6,10 @@ import ListBillProduct from '~/components/ListBillProduct';
 import { data } from './/data';
 import * as saleServices from '~/apiServices/saleServices';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
+import { ToastContext } from '~/components/ToastContext';
+import ModalLoading from '~/components/ModalLoading';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
@@ -16,6 +18,8 @@ function EditBillInfo() {
     const saleorderid = useParams();
     const [obj, setObj] = useState(null);
 
+    const toastContext = useContext(ToastContext);
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
 
         const fetchApi = async () => {
@@ -31,6 +35,37 @@ function EditBillInfo() {
         fetchApi();
 
     }, []);
+
+    const updateNote = (value) => {
+        let newobj = obj;
+        newobj.note = value;
+        if (newobj.discounts === null) newobj.discounts = {
+            name: "string",
+            value: 0
+        }
+        setObj(newobj)
+    }
+
+    const submit = () => {
+        console.log(obj)
+        setLoading(true);
+        const fetchApi = async () => {
+            // console.log(productid.id)
+            const result = await saleServices.UpdateSalesOrder(saleorderid.id, obj)
+                .catch((err) => {
+                    console.log(err);
+                });
+            if (result) {
+                setTimeout(() => {
+                    setLoading(false);
+                    toastContext.notify('success', 'Đã lưu đơn');
+                }, 2000);
+            }
+
+        }
+
+        fetchApi();
+    }
     return (
         <div>
             {obj === null ? (
@@ -109,6 +144,7 @@ function EditBillInfo() {
                                     className={cx('Note-textarea')}
                                     placeholder="VD: Hàng đặt gói riêng"
                                     defaultValue={obj.note}
+                                    onChange={(e) => updateNote(e.target.value)}
                                 ></textarea>
                             </div>
                         </div>
@@ -141,8 +177,10 @@ function EditBillInfo() {
                     </div>
                 </div>
                 <div className={cx('button-container')}>
-                    <button className={cx('save-btn')}>Lưu</button>
+                    <button className={cx('save-btn')} onClick={() => submit()}>Lưu</button>
                 </div>
+
+                <ModalLoading open={loading} title={'Đang tải'} />
             </div> </div>)}
         </div>
 

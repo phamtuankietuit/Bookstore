@@ -1,13 +1,17 @@
 import styles from './EditDiscount.module.scss';
 import classNames from 'classnames/bind';
 import DateRange from '~/components/DateRange';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import * as PromotionsServices from '~/apiServices/promotionServices';
 import Spinner from 'react-bootstrap/Spinner';
+import { ToastContext } from '~/components/ToastContext';
+import ModalLoading from '~/components/ModalLoading';
 const cx = classNames.bind(styles);
 
 function EditDiscount() {
+    const toastContext = useContext(ToastContext);
+    const [loading, setLoading] = useState(false);
     const [disable, SetDisable] = useState(false);
 
     const DisableInputText = () => {
@@ -24,12 +28,35 @@ function EditDiscount() {
                     console.log(err);
                 });
             setObj(result);
-
+            setDateString(obj.startAt + "-" + obj.closeAt)
         }
 
         fetchApi();
 
     }, []);
+
+    const [dateString, setDateString] = useState('');
+
+    const submit = () => {
+        setLoading(true);
+        const fetchApi = async () => {
+            // console.log(productid.id)
+            const result = await PromotionsServices.UpdatePromotion(promotiontid.id, obj)
+                .catch((err) => {
+                    console.log(err);
+                });
+            if (result) {
+                setTimeout(() => {
+                    setLoading(false);
+                    toastContext.notify('success', 'Đã lưu khuyến mãi');
+                }, 2000);
+            }
+
+        }
+
+        fetchApi();
+    }
+
     return (
         <div>
             {obj === null ? (
@@ -52,6 +79,11 @@ function EditDiscount() {
                                             type="text"
                                             defaultValue={obj.name}
                                             placeholder="Nhập tên của khuyến mãi"
+                                            onChange={(e) => {
+                                                const newobj = obj;
+                                                newobj.name = e.target.value
+                                                setObj(newobj)
+                                            }}
                                         ></input>
                                     </div>
                                 </div>
@@ -74,6 +106,11 @@ function EditDiscount() {
                                             placeholder="Nhập số lượng áp dụng"
                                             defaultValue={obj.applyToQuantity}
                                             disabled={disable}
+                                            onChange={(e) => {
+                                                const newobj = obj;
+                                                newobj.applyToQuantity = e.target.value
+                                                setObj(newobj)
+                                            }}
                                         ></input>
                                     </div>
                                 </div>
@@ -118,13 +155,44 @@ function EditDiscount() {
                                             <p>Chiết khấu</p>
                                         </div>
                                         <div className={cx('table-ThirdRow')}>
-                                            <input type="text" defaultValue={obj.applyFromAmount}></input>
+                                            <input
+                                                type="number"
+                                                defaultValue={obj.applyFromAmount}
+                                                onChange={(e) => {
+                                                    if (e.target.value < 0 || e.target.value === '') e.target.value = 0
+                                                    const newobj = obj;
+                                                    newobj.applyFromAmount = e.target.value
+                                                    setObj(newobj)
+                                                }}
+                                                inputMode='numeric'
+                                            ></input>
                                         </div>
                                         <div className={cx('table-ThirdRow')}>
-                                            <input type="text" defaultValue={obj.applyToAmount}></input>
+                                            <input
+                                                type="number"
+                                                defaultValue={obj.applyToAmount}
+                                                onChange={(e) => {
+                                                    if (e.target.value < obj.applyFromAmount || e.target.value === '') e.target.value = obj.applyFromAmount
+                                                    const newobj = obj;
+                                                    newobj.applyToAmount = e.target.value
+                                                    setObj(newobj)
+                                                }}
+                                                inputMode='numeric'
+                                            ></input>
                                         </div>
                                         <div className={cx('table-ThirdRow')}>
-                                            <input type="text" defaultValue={obj.discountRate}></input>
+                                            <input
+                                                type="number"
+                                                defaultValue={obj.discountRate}
+                                                onChange={(e) => {
+                                                    if (e.target.value > 100) e.target.value = 100
+                                                    else if (e.target.value <= 0 || e.target.value === '') e.target.value = 0
+                                                    const newobj = obj;
+                                                    newobj.discountRate = e.target.value
+                                                    setObj(newobj)
+                                                }}
+                                                inputMode='numeric'
+                                            ></input>
                                         </div>
                                     </div>
                                 </div>
@@ -137,16 +205,20 @@ function EditDiscount() {
                                 <p>Thời gian áp dụng</p>
                             </div>
                             <div className={cx('daterange-container')}>
-                                <DateRange dateString={obj.startAt + "   " + obj.closeAt}></DateRange>
+                                <DateRange
+                                    dateString={dateString}
+                                    setDateString={setDateString}
+                                ></DateRange>
                             </div>
                         </div>
                         <div className={cx('button-container')}>
                             <button className={cx('cancel-but')}>Huỷ</button>
-                            <button className={cx('save-but')}>Lưu</button>
+                            <button className={cx('save-but')} onClick={() => submit()}>Lưu</button>
                         </div>
                     </div>
                 </div>
             )}
+            <ModalLoading open={loading} title={'Đang tải'} />
         </div>
 
 

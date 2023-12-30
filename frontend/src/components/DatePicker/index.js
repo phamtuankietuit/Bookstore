@@ -20,6 +20,7 @@ function DatePicker() {
     const handleDateString = (date) => {
         setDate(date);
         setDateString(format(date, 'dd/MM/yyyy'));
+        setShow(false);
     };
 
     return (
@@ -36,6 +37,9 @@ function DatePicker() {
                     selected={date}
                     onSelect={handleDateString}
                     className={cx('daypicker')}
+                    modifiersClassNames={{
+                        selected: styles.select,
+                    }}
                 ></DayPicker>
             )}
         </div>

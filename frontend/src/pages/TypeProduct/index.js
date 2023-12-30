@@ -193,7 +193,6 @@ function TypeProduct() {
             setRows(response.result);
             setTotalRows(response.count);
             setClear(false);
-            console.log(response);
         }
     }
 
@@ -201,6 +200,9 @@ function TypeProduct() {
     const [totalRows, setTotalRows] = useState(0);
 
     const handlePerRowsChange = async (newPerPage, pageNumber) => {
+
+        console.log(newPerPage, pageNumber);
+
         const response = await typeProductServices.getAllProductTypes(pageNumber, newPerPage)
             .catch((error) => {
                 if (error.response) {

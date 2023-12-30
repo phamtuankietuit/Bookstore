@@ -218,6 +218,8 @@ function AddDiscount() {
                         <DateRange
                             dateString={dateString}
                             setDateString={setDateString}
+                            bottom
+                            future
                         />
                     </div>
                 </div>

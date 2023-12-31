@@ -2,11 +2,8 @@
 
 namespace BookstoreWebAPI.Models.Documents
 {
-    public class CategoryDocument
+    public class CategoryDocument : BaseCosmosDocument
     {
-        [JsonProperty("id")]
-        public string Id { get; set; }
-
         [JsonProperty("categoryId")]
         public string CategoryId { get; set; }
 
@@ -16,8 +13,8 @@ namespace BookstoreWebAPI.Models.Documents
         [JsonProperty("text")]
         public string Text { get; set; }
 
-        [JsonProperty("attributes")]
-        public List<string> Attributes { get; set; }
+        [JsonProperty("isRemovable")]
+        public bool IsRemovable { get; set; }
 
         [JsonProperty("isDeleted")]
         public bool IsDeleted { get; set; }

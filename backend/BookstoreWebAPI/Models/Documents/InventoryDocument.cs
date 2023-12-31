@@ -2,11 +2,8 @@
 
 namespace BookstoreWebAPI.Models.Documents
 {
-    public class InventoryDocument
+    public class InventoryDocument : BaseCosmosDocument
     {
-        [JsonProperty("id")]
-        public string Id { get; set; }
-
         [JsonProperty("productId")]
         public string ProductId { get; set; }
 

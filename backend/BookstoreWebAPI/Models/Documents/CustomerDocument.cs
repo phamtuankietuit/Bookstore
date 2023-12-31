@@ -3,11 +3,8 @@ using BookstoreWebAPI.Models.Shared;
 
 namespace BookstoreWebAPI.Models.Documents
 {
-    public class CustomerDocument
+    public class CustomerDocument : BaseCosmosDocument
     {
-        [JsonProperty("id")]
-        public string Id { get; set; }
-
         [JsonProperty("customerId")]
         public string CustomerId { get; set; }
 

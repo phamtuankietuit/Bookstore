@@ -2,11 +2,8 @@
 
 namespace BookstoreWebAPI.Models.Documents
 {
-    public class PromotionDocument
+    public class PromotionDocument : BaseCosmosDocument
     {
-        [JsonProperty("id")]
-        public string Id { get; set; }
-
         [JsonProperty("promotionId")]
         public string PromotionId { get; set; }
 

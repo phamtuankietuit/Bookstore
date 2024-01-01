@@ -19,7 +19,6 @@ import { options, options2, options3 } from './data';
 import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
 
-import * as SuppliersServices from '~/apiServices/supplierServices';
 import * as PurchaseOrdersServices from '~/apiServices/purchaseorderServies';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -33,7 +32,6 @@ function ImportProduct() {
         null
     );
 
-    const [listsupplier, setListsupplier] = useState([]);
     const [list, setList] = useState([])
     const [cost, setCost] = useState(0)
     const [arr, setarr] = useState([]);
@@ -82,7 +80,7 @@ function ImportProduct() {
             productId: value.productId,
             sku: value.sku,
             name: value.name,
-            featureImageUrl: value.featureImageUrl,
+            featureImageUrl: value.images[0],
             purchasePrice: value.purchasePrice,
             orderQuantity: 0,
             totalCost: 0,
@@ -194,17 +192,7 @@ function ImportProduct() {
 
     useEffect(() => {
 
-        const fetchApi = async () => {
-            const result = await SuppliersServices.getAllSuppliers()
-                .catch((err) => {
-                    console.log(err);
-                });
 
-            setListsupplier(result);
-            // console.log(result)
-        }
-
-        fetchApi();
 
     }, []);
 
@@ -216,7 +204,7 @@ function ImportProduct() {
                     {
                         producer === null ? (
                             <div>
-                                <SearchResult setValue={setproducer} stypeid={0} list={listsupplier} />
+                                <SearchResult setValue={setproducer} stypeid={0} />
 
                                 <div className={cx('no-info')}>
                                     <p className='text-center w-100'>Chưa có thông tin nhà cung cấp</p>
@@ -270,11 +258,11 @@ function ImportProduct() {
                     <p className={cx('title')}>Thông tin sản phẩm</p>
                     <Row>
                         <Col md={10} lg={10} className='p-0'>
-                            <SearchResult stypeid={1} setValue={addarr} list={list} />
+                            <SearchResult stypeid={1} setValue={addarr} suppliername={producer === null ? '' : producer.name} />
                         </Col>
 
                         <Col md={2} lg={2} className='p-0'>
-                            <MultiSelectModal funtion={handleMultiSelected} list={list} />
+                            <MultiSelectModal funtion={handleMultiSelected} suppliername={producer === null ? '' : producer.name} />
                         </Col>
 
                     </Row>
@@ -302,7 +290,7 @@ function ImportProduct() {
                                     </div>
                                 ) : (
                                     arr.map((item, index) => (
-                                        <div key={item.id}>
+                                        <div key={index}>
                                             <Item_import product={item} index={index + 1} funtion={deletearr} update={update} />
 
                                         </div>

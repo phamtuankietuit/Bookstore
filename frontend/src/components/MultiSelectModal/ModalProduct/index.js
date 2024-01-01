@@ -1,107 +1,88 @@
 import React from 'react';
-import Pagination from 'react-bootstrap/Pagination';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Item from '~/components/Item_SearchBar';
+import Item from './Item'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import SearchBar from '~/components/SearchBar';
-import Form from 'react-bootstrap/Form';
 import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './ModalProduct.module.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaX } from "react-icons/fa6";
+import * as ProductServices from '~/apiServices/productServices';
+import DataTable from 'react-data-table-component';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faAngleLeft,
+    faAngleRight,
+    faAngleUp,
+    faAnglesLeft,
+    faAnglesRight,
+    faMagnifyingGlass,
+} from '@fortawesome/free-solid-svg-icons';
 const cx = classNames.bind(styles);
-function ModalProduct({ list, handleClose, handlesubmit }) {
+function ModalProduct({ handleClose, handlesubmit, suppliername }) {
 
     const [data, setdata] = useState([])
-    const [submitlist, setSubmit] = useState(data.filter(items => items.checked === true))
-    const [search, setSearch] = useState('');
-    const [fullchecked, setFullchecked] = useState(false)
-
+    const [submitlist, setSubmit] = useState([])
+    const [iscall, setIscall] = useState(0)
     useEffect(() => {
-        setdata(list)
-        // console.log(list)
-    }, [data]);
-    const prevPage = () => {
-        if (currentPage !== 1) setcurrentPage(currentPage - 1);
-    }
+        if (iscall === 0) {
+            if (suppliername === null) {
+                const fetchApi = async () => {
+                    const result = await ProductServices.getAllProducts(currentPage, 5)
+                        .catch((err) => {
+                            console.log(err);
+                        });
 
-    const nextPage = () => {
-        if (currentPage !== numofTotalPage) setcurrentPage(currentPage + 1);
-    }
+                    if (result) {
+                        setdata(result.data);
+                        console.log(result.data)
+                        if (numofTotalPage === '') setNumofTotal(result.metadata.count)
+                    }
+                    // console.log(result)
+                }
+                fetchApi();
+                setIscall(1)
+            }
+            else if (suppliername !== '') {
+
+                const fetchApi = async () => {
+                    const result = await ProductServices.getProductsOfSupplier(currentPage, 100, suppliername)
+                        .catch((err) => {
+                            console.log(err);
+                        });
+
+                    if (result) {
+                        setdata(result.data);
+                        console.log(result.data)
+                        if (numofTotalPage === '') setNumofTotal(result.metadata.count)
+                    }
+                    // console.log(result)
+                }
+                fetchApi();
+                setIscall(1)
+            }
+        }
 
 
 
+    });
 
-    const renderproductlist = data.filter(product => (
-        search === '' || product.name.includes(search) || product.sku.includes(search)
-    ));
 
-    const PerPage = 5;
+
     const [currentPage, setcurrentPage] = useState(1);
 
-    const numofTotalPage = Math.ceil(renderproductlist.length / PerPage);
+    const [numofTotalPage, setNumofTotal] = useState(0)
 
-    const indexOflastPd = currentPage * PerPage;
-    const indexOffirstPd = indexOflastPd - PerPage;
-    const visible = renderproductlist.slice(indexOffirstPd, indexOflastPd);
-
-    const handlechecked = (index) => {
-        let newArr = [...renderproductlist];
-        newArr[index]['checked'] = !newArr[index]['checked'];
-
-        setdata(newArr)
-        setSubmit(renderproductlist.filter(items => items.checked === true));
-        if (submitlist.length === renderproductlist.length) setFullchecked(true);
-    }
-    const handleSearch = (value) => {
-        setSearch(value)
-        console.log(search)
-        setcurrentPage(1)
-    }
-    const handleFullChecked = (value) => {
-        if (value === false) {
-            let newArr = [...renderproductlist];
-            newArr.map(item => (
-                item.checked = true
-            ))
-            setdata(newArr)
-            setSubmit(renderproductlist.filter(items => items.checked === true));
-            setFullchecked(true)
-        }
-        else {
-
-            let newArr = [...renderproductlist];
-            newArr.map(item => (
-                item.checked = false
-            ))
-            setdata(newArr)
-            setSubmit(renderproductlist.filter(items => items.checked === true));
-            setFullchecked(false)
-
-        }
-
-
-    }
     const ModalhandleClose = () => {
         handleClose()
-        ResetArr()
     }
 
 
-    const ResetArr = () => {
-        let newArr = [...data];
-        newArr.map(item => (
-            item.checked = false
-        ))
-        setdata(newArr)
-    }
+
     const ModalhandleSubmit = () => {
-        setSubmit(renderproductlist.filter(items => items.checked === true));
-        ResetArr()
-
+        console.log(submitlist)
         handlesubmit(submitlist)
     }
     return (
@@ -117,42 +98,44 @@ function ModalProduct({ list, handleClose, handlesubmit }) {
 
             <hr />
             <div >
-                <SearchBar placeholder={'Tìm kiếm theo tên, mã sản phẩm'} onChange={handleSearch} />
-                <div className='mt-3 d-flex'>
-                    <Form.Check aria-label="option 1" checked={fullchecked} onChange={() => handleFullChecked(fullchecked)} />
-                    <p className='ms-2'>Đã chọn {submitlist.length} sản phẩm </p>
-                </div>
                 <div className={cx('list')}>
-                    {
-                        visible.map((option, index) => (
-                            <div className={cx('list-item')} key={option.id} >
-                                <Row>
-                                    <Col xs={1} md={1} lg={1} className='m-0'>
-                                        <Form.Check aria-label="option 1" checked={option.checked} onChange={() => handlechecked(index + (currentPage - 1) * 5)} />
-                                    </Col>
-                                    <Col xs={11} md={11} lg={11} className='m-0' onClick={() => handlechecked(index + (currentPage - 1) * 5)}>
-                                        <Item product={option} />
-                                    </Col>
-
-                                </Row>
-
-
-
-
-
+                    <DataTable
+                        columns={Item}
+                        data={data}
+                        selectableRows
+                        onSelectedRowsChange={(e) => setSubmit(e.selectedRows)}
+                        pagination
+                        fixedHeader
+                        paginationPerPage={7}
+                        paginationComponentOptions={{
+                            rowsPerPageText: 'Hiển thị: ',
+                            rangeSeparatorText: 'trên',
+                            noRowsPerPage: false,
+                            selectAllRowsItem: false,
+                            selectAllRowsItemText: 'Tất cả',
+                        }}
+                        paginationRowsPerPageOptions={[7]}
+                        noDataComponent={
+                            <div className={cx('no-data-comp')}>
+                                <FontAwesomeIcon
+                                    className={cx('no-data-icon')}
+                                    icon={faMagnifyingGlass}
+                                />
+                                <div className={cx('no-data-title')}>
+                                    Không có dữ liệu
+                                </div>
                             </div>
+                        }
+                    >
 
-                        ))
-                    }
+                    </DataTable>
+
+
 
 
 
 
                 </div>
-                <Pagination className={`justify-content-end `}>
-                    <Pagination.Prev onClick={prevPage} />
-                    <Pagination.Next onClick={nextPage} />
-                </Pagination>
             </div>
             <hr />
             <Row>

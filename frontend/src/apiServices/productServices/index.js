@@ -10,6 +10,16 @@ export const getAllProducts = async (pageNumber, pageSize) => {
     }
 }
 
+export const getProductsOfSupplier = async (pageNumber, pageSize, suppliername) => {
+    try {
+        const res = await request.getMethod(`Products?pageSize=${pageSize}&pageNumber=${pageNumber}&sortBy=categoryId&orderBy=asc&SupplierNames=${suppliername}`);
+
+        return res;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
 export const getProduct = async (id) => {
     try {
         const res = await request.getMethod('Products/' + id);

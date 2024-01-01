@@ -69,6 +69,7 @@ function AddReturnProduct() {
 
 
     const submit = () => {
+        const newarr = arr.filter(arr => arr.nums > 0)
         if (nums === 0) {
             setLoading(true);
             setTimeout(() => {
@@ -79,6 +80,7 @@ function AddReturnProduct() {
         else {
             setLoading(true);
             setTimeout(() => {
+                console.log(newarr)
                 setLoading(false);
                 toastContext.notify('success', 'Đã tạo đơn trả');
             }, 2000);

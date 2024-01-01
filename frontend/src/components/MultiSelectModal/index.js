@@ -12,9 +12,10 @@ import ModalProduct from './ModalProduct';
 
 const cx = classNames.bind(styles);
 
-function MultiSelectModal({ funtion, list }) {
+function MultiSelectModal({ funtion, suppliername }) {
     const [open, setOpen] = useState(false);
 
+    const [list, setList] = useState([])
 
     useEffect(() => {
 
@@ -44,7 +45,9 @@ function MultiSelectModal({ funtion, list }) {
                 <Slide in={open}>
                     <Box className={cx('box')}>
                         {
-                            open === true ? (<ModalProduct list={list} handleClose={handleClose} handlesubmit={handlesubmit} />
+                            open === true ? (
+                                <ModalProduct suppliername={suppliername} handleClose={handleClose} handlesubmit={handlesubmit} />
+
                             ) : (
                                 <div>
 

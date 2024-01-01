@@ -37,14 +37,14 @@ function AddSupplier() {
             // CALL API
             const obj = {
                 name: name,
-                supplierGroupName: group,
+                supplierGroupId: 'supg00000',
+                supplierGroupName: 'khác',
                 contact: {
                     phone: phone,
                     email: email
                 },
                 address: address,
-                description: '',
-                isActive: true
+                description: null,
             }
             setLoading(true);
 
@@ -60,6 +60,13 @@ function AddSupplier() {
                     setTimeout(() => {
                         setLoading(false);
                         toastContext.notify('success', 'Thêm nhà cung cấp thành công');
+                    }, 2000);
+                }
+
+                else {
+                    setTimeout(() => {
+                        setLoading(false);
+                        toastContext.notify('error', 'Đã có lỗi');
                     }, 2000);
                 }
                 console.log(obj)

@@ -1,8 +1,8 @@
 import * as request from '~/utils/request';
 
-export const getAllSuppliers = async () => {
+export const getAllSuppliers = async (pageNumber, pageSize) => {
     try {
-        const res = await request.getMethod('Suppliers');
+        const res = await request.getMethod(`Suppliers?pageSize=${pageSize}&pageNumber=${pageNumber}&sortBy=categoryId&orderBy=asc`);
 
         return res;
     } catch (error) {
@@ -10,7 +10,7 @@ export const getAllSuppliers = async () => {
     }
 }
 
-export const getAllSupplierGroups = async () => {
+export const getAllSupplierGroups = async (pageNumber, pageSize) => {
     try {
         const res = await request.getMethod('SupplierGroups');
 

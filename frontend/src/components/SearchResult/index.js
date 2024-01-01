@@ -10,59 +10,123 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Item from '../Item_SearchBar';
 import { FaCirclePlus } from "react-icons/fa6";
 import Spinner from 'react-bootstrap/Spinner';
+import * as ProductServices from '~/apiServices/productServices';
+import * as SuppliersServices from '~/apiServices/supplierServices';
 
 const cx = classNames.bind(styles);
-function SearchResult({ setValue, stypeid, list }) {
+function SearchResult({ setValue, stypeid, suppliername }) {
 
     const [placeholder, setPlaceholder] = useState('');
 
     const [input, setInput] = useState('');
     const [open, setOpen] = useState(false);
+    const [iscall, setIscall] = useState(0)
 
-
+    const [list, setList] = useState([])
     const handleOnCharge = (value) => {
         setInput(value);
     }
     const prevPage = () => {
-        if (currentPage !== 1) setcurrentPage(currentPage - 1);
+        if (currentPage !== 1) {
+            setcurrentPage(currentPage - 1);
+            setIscall(0)
+        }
+
     }
 
     const nextPage = () => {
-        if (currentPage !== numofTotalPage) setcurrentPage(currentPage + 1);
+        if (currentPage !== numofTotalPage) {
+            setcurrentPage(currentPage + 1);
+            setIscall(0)
+        }
+
     }
     const renderproductlist = list.filter(product => input === "" || product.name.includes(input) || product.sku.includes(input));
     // 
-    const [PerPage, setPerPage] = useState(5);
     const [currentPage, setcurrentPage] = useState(1);
 
-    const numofTotalPage = Math.ceil(list.length / PerPage);
+    const [numofTotalPage, setNumofTotal] = useState(0)
 
-    const indexOflastPd = currentPage * PerPage;
-    const indexOffirstPd = indexOflastPd - PerPage;
-
-    const visible = renderproductlist.slice(indexOffirstPd, indexOflastPd);
 
     const handleClick = (obj) => {
         setValue(obj);
         setOpen(false)
+        setcurrentPage(1)
+        setIscall(0)
         console.log(obj);
     }
 
+
     useEffect(() => {
-        if (stypeid === 0) {
+        if (iscall === 0) {
+            if (stypeid === 0) {
+                const fetchApi = async () => {
+                    const result = await SuppliersServices.getAllSuppliers(currentPage, 5)
+                        .catch((err) => {
+                            console.log(err);
+                        });
 
-            setPlaceholder('Tìm kiếm theo tên nhà cung cấp')
-        }
-        else if (stypeid === 1) {
+                    if (result) {
+                        setList(result.data);
+                        console.log(result.data)
+                        if (numofTotalPage === '') setNumofTotal(result.metadata.count)
+                    }
+                    // console.log(result)
+                }
+                setIscall(1)
+                fetchApi();
+                setPlaceholder('Tìm kiếm theo tên nhà cung cấp')
+            }
+            else if (stypeid === 1) {
 
-            setPlaceholder('Tìm kiếm theo mã sản phẩm tên sản phẩm')
-        }
-        else {
+                if (suppliername === null) {
+                    const fetchApi = async () => {
+                        const result = await ProductServices.getAllProducts(currentPage, 5)
+                            .catch((err) => {
+                                console.log(err);
+                            });
 
-            setPlaceholder('Thêm khách hàng vào đơn')
+                        if (result) {
+                            setList(result.data);
+                            console.log(result.data)
+                            if (numofTotalPage === '') setNumofTotal(result.metadata.count)
+                        }
+                        // console.log(result)
+                    }
+                    fetchApi();
+                }
+                else if (suppliername !== '') {
+
+                    const fetchApi = async () => {
+                        const result = await ProductServices.getProductsOfSupplier(currentPage, 5, suppliername)
+                            .catch((err) => {
+                                console.log(err);
+                            });
+
+                        if (result) {
+                            setList(result.data);
+                            console.log(result.data)
+                            if (numofTotalPage === '') setNumofTotal(result.metadata.count)
+                        }
+                        // console.log(result)
+                    }
+                    fetchApi();
+                }
+
+
+                setPlaceholder('Tìm kiếm theo mã sản phẩm tên sản phẩm')
+                setIscall(1)
+            }
+            else {
+
+                setPlaceholder('Thêm khách hàng vào đơn')
+            }
         }
+
 
     });
+
+
     return (
         <div className={cx('search-with-result')}>
             <div
@@ -77,6 +141,7 @@ function SearchResult({ setValue, stypeid, list }) {
                     onClick={() => {
                         setOpen(!open)
                         setcurrentPage(1)
+                        setIscall(0)
                     }
 
                     }
@@ -97,7 +162,7 @@ function SearchResult({ setValue, stypeid, list }) {
                                 ) : (
                                     <div>
                                         {
-                                            visible.map((option, index) => (
+                                            renderproductlist.map((option, index) => (
                                                 <div className={cx('result-item')} onClick={() => handleClick(option)} key={index}>
                                                     {(() => {
                                                         switch (stypeid) {
@@ -131,8 +196,8 @@ function SearchResult({ setValue, stypeid, list }) {
 
 
                         <Pagination className={`justify-content-end mt-3`}>
-                            <Pagination.Prev onClick={prevPage} />
-                            <Pagination.Next onClick={nextPage} />
+                            <Pagination.Prev onClick={prevPage} disabled={currentPage === 1 ? true : false} />
+                            <Pagination.Next onClick={nextPage} disabled={currentPage === numofTotalPage ? true : false} />
                         </Pagination>
 
                     </div>

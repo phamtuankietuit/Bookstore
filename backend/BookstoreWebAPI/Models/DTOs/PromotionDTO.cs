@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using BookstoreWebAPI.Models.Abstracts;
+using Newtonsoft.Json;
 
 namespace BookstoreWebAPI.Models.DTOs
 {
-    public class PromotionDTO
+    public class PromotionDTO : IBaseCosmosDTO
     {
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -41,12 +42,15 @@ namespace BookstoreWebAPI.Models.DTOs
         public int DiscountValue { get; set; }
 
         [JsonProperty("startAt")]
-        public string StartAt { get; set; }
+        public DateTime StartAt { get; set; }
 
         [JsonProperty("closeAt")]
-        public string CloseAt { get; set; }
+        public DateTime CloseAt { get; set; }
 
         [JsonProperty("status")]
         public string Status { get; set; }
+
+        [JsonProperty("createdAt")]
+        public DateTime CreatedAt { get; set; }
     }
 }

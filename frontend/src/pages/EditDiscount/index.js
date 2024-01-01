@@ -223,7 +223,9 @@ function EditDiscount() {
                             <div className={cx('daterange-container')}>
                                 <DateRange
                                     dateString={dateString}
-                                    setDateString={setDate}
+                                    setDateString={setDateString}
+                                    bottom
+                                    future
                                 ></DateRange>
                             </div>
                         </div>

@@ -1,9 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using BookstoreWebAPI.Models.Abstracts;
+using Newtonsoft.Json;
 
 namespace BookstoreWebAPI.Models.Documents
 {
-    public class PromotionDocument : BaseCosmosDocument
+    public class PromotionDocument : IBaseCosmosDocument, IActivatableDocument, ISoftDeleteCosmosDocument
     {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+        
         [JsonProperty("promotionId")]
         public string PromotionId { get; set; }
 
@@ -38,13 +42,28 @@ namespace BookstoreWebAPI.Models.Documents
         public int DiscountValue { get; set; }
 
         [JsonProperty("startAt")]
-        public string StartAt { get; set; }
+        public DateTime StartAt { get; set; }
 
         [JsonProperty("closeAt")]
-        public string CloseAt { get; set; }
+        public DateTime CloseAt { get; set; }
 
         [JsonProperty("status")]
         public string Status { get; set; }
+        
+        [JsonProperty("isActive")]
+        public bool IsActive { get; set; }
+        
+        [JsonProperty("isDeleted")]
+        public bool IsDeleted { get; set; }
+        
+        [JsonProperty("isRemovable")]
+        public bool IsRemovable { get; set; }
+        
+        [JsonProperty("createdAt")]
+        public DateTime CreatedAt { get; set; }
+        
+        [JsonProperty("ttl")]
+        public int TTL { get; set; }
     }
 }
 

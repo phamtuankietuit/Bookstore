@@ -1,16 +1,14 @@
 ﻿using Newtonsoft.Json;
 using BookstoreWebAPI.Models.Shared;
+using BookstoreWebAPI.Models.Abstracts;
 
 namespace BookstoreWebAPI.Models.DTOs
 {
 
-    public class PurchaseOrderDTO
+    public class PurchaseOrderDTO : IBaseCosmosDTO
     {
         [JsonProperty("purchaseOrderId")]
         public string PurchaseOrderId { get; set; }
-
-        [JsonProperty("createAt")]
-        public DateTime CreateAt { get; set; }
 
         [JsonProperty("monthYear")]
         public string MonthYear { get; set; }
@@ -47,5 +45,8 @@ namespace BookstoreWebAPI.Models.DTOs
 
         [JsonProperty("tags")]
         public List<string> Tags { get; set; }
+
+        [JsonProperty("createdAt")]
+        public DateTime CreatedAt { get; set; }
     }
 }

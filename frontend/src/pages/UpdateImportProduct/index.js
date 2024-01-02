@@ -60,10 +60,15 @@ function UpdateImportProduct() {
             if (result) {
                 setTimeout(() => {
                     setLoading(false);
+                    toastContext.notify('error', 'Lưu không thành công');
+                }, 2000);
+            }
+            else {
+                setTimeout(() => {
+                    setLoading(false);
                     toastContext.notify('success', 'Đã lưu đơn');
                 }, 2000);
             }
-
         }
 
         fetchApi();
@@ -168,7 +173,7 @@ function UpdateImportProduct() {
                                         </Col>
                                         <Col xs md lg={4} className='text-end pe-5'>
                                             {
-                                                addCommas(obj.discount = null ? 0 : obj.discount)
+                                                addCommas(obj.discountAmount = null ? 0 : obj.discountAmount)
                                             }
                                         </Col>
                                     </Row>

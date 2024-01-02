@@ -15,11 +15,8 @@ import { NavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Item_import from '~/components/Item_ImportProduct';
 import { FaBoxOpen } from "react-icons/fa";
-import { options, options2, options3 } from './data';
 import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
-
-import * as SuppliersServices from '~/apiServices/supplierServices';
 import * as PurchaseOrdersServices from '~/apiServices/purchaseorderServies';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -33,8 +30,6 @@ function ImportProduct() {
         null
     );
 
-    const [listsupplier, setListsupplier] = useState([]);
-    const [list, setList] = useState([])
     const [cost, setCost] = useState(0)
     const [arr, setarr] = useState([]);
     const [discount, setDiscount] = useState(0)
@@ -44,7 +39,7 @@ function ImportProduct() {
     const [total, setTotal] = useState(0)
     const [note, setNote] = useState('')
     const [nums, setNums] = useState(0)
-
+    const [supplierID, setSupplierID] = useState([])
     const v = [
         {
             id: 1,
@@ -65,7 +60,8 @@ function ImportProduct() {
 
     const setproducer = (value) => {
         set(value)
-        // setList(value.productsSupplied)
+        setSupplierID([])
+        setSupplierID((item) => [...item, value.supplierId])
 
     }
 
@@ -82,10 +78,10 @@ function ImportProduct() {
             productId: value.productId,
             sku: value.sku,
             name: value.name,
-            featureImageUrl: value.featureImageUrl,
+            featureImageUrl: value.images[0],
             purchasePrice: value.purchasePrice,
             orderQuantity: 0,
-            totalCost: 0,
+            totalPrice: 0,
         }
 
         if (isFound === false) {
@@ -96,7 +92,7 @@ function ImportProduct() {
 
 
     const deletearr = (productId, index) => {
-        let newcost = cost - arr[index - 1]['totalCost'];
+        let newcost = cost - arr[index - 1]['totalPrice'];
         let newnums = nums - arr[index - 1]['orderQuantity']
         setCost(newcost)
         setNums(newnums)
@@ -123,7 +119,7 @@ function ImportProduct() {
         let newnums = 0;
         if (arr.length !== 0) {
             arr.map(item => {
-                newcost += item.totalCost
+                newcost += item.totalPrice
                 newnums += item.orderQuantity
             })
         }
@@ -159,14 +155,24 @@ function ImportProduct() {
                 supplierName: producer.name,
                 items: arr,
                 subTotal: cost,
-                discount: discount,
+                // discount: typediscount === true ? cost * discount / 100 : discount,
                 totalAmount: total,
+                discountItems: [
+                    {
+                        rate: typediscount === true ? discount : 0,
+                        value: typediscount === false ? discount : 0,
+                    }
+                ],
+                discountRate: typediscount === true ? discount : 0,
+                discountValue: typediscount === false ? discount : 0,
+                discountAmount: typediscount === true ? cost * discount / 100 : discount,
                 paymentDetails: {
                     remainAmount: (total - paid) < 0 ? 0 : (total - paid),
                     paidAmount: paid,
-                    status: total - paid === 0 ? true : false,
+                    paymentMethod: ''
                 },
-                note: note
+                note: note,
+                status: ''
             }
             console.log(obj)
 
@@ -181,6 +187,14 @@ function ImportProduct() {
                     setTimeout(() => {
                         setLoading(false);
                         toastContext.notify('success', 'Đã nhập hàng');
+                        console.log(result)
+                        navigate('/imports/detail/' + result.purchaseOrderId);
+                    }, 2000);
+                }
+                else {
+                    setTimeout(() => {
+                        setLoading(false);
+                        toastContext.notify('error', 'Không thành công');
                     }, 2000);
                 }
             }
@@ -194,17 +208,7 @@ function ImportProduct() {
 
     useEffect(() => {
 
-        const fetchApi = async () => {
-            const result = await SuppliersServices.getAllSuppliers()
-                .catch((err) => {
-                    console.log(err);
-                });
 
-            setListsupplier(result);
-            // console.log(result)
-        }
-
-        fetchApi();
 
     }, []);
 
@@ -216,7 +220,7 @@ function ImportProduct() {
                     {
                         producer === null ? (
                             <div>
-                                <SearchResult setValue={setproducer} stypeid={0} list={listsupplier} />
+                                <SearchResult setValue={setproducer} stypeid={0} />
 
                                 <div className={cx('no-info')}>
                                     <p className='text-center w-100'>Chưa có thông tin nhà cung cấp</p>
@@ -241,7 +245,7 @@ function ImportProduct() {
                                                 setTimeout(() => {
                                                     setLoading(false);
                                                     set(null)
-                                                    setList([])
+                                                    setSupplierID([])
                                                     setarr([])
                                                     setNums(0)
                                                     setCost(0)
@@ -270,11 +274,11 @@ function ImportProduct() {
                     <p className={cx('title')}>Thông tin sản phẩm</p>
                     <Row>
                         <Col md={10} lg={10} className='p-0'>
-                            <SearchResult stypeid={1} setValue={addarr} list={list} />
+                            <SearchResult stypeid={1} setValue={addarr} supplierID={producer === null ? '' : supplierID} />
                         </Col>
 
                         <Col md={2} lg={2} className='p-0'>
-                            <MultiSelectModal funtion={handleMultiSelected} list={list} />
+                            <MultiSelectModal funtion={handleMultiSelected} supplierID={producer === null ? '' : supplierID} />
                         </Col>
 
                     </Row>
@@ -302,7 +306,7 @@ function ImportProduct() {
                                     </div>
                                 ) : (
                                     arr.map((item, index) => (
-                                        <div key={item.id}>
+                                        <div key={index}>
                                             <Item_import product={item} index={index + 1} funtion={deletearr} update={update} />
 
                                         </div>
@@ -356,7 +360,7 @@ function ImportProduct() {
                             <Row className='mt-3'>
 
                                 <Col xs md lg={8} className={cx('on_click')}>
-                                    <span onClick={() => setOpen(!open)}>
+                                    <span onClick={() => setOpen(!open)} className='fw-bold text-primary'>
                                         Chiết khấu
                                     </span>
 
@@ -379,6 +383,7 @@ function ImportProduct() {
                                                         if (e.target.value > 100) e.target.value = 100;
                                                         else if (e.target.value < 0) e.target.value = 0;
                                                         setTotal(cost * (1 - e.target.value / 100))
+
                                                     }
 
                                                     else {
@@ -398,7 +403,7 @@ function ImportProduct() {
                                     }
                                 </Col>
                                 <Col xs md lg={4} className='text-end pe-5'>
-                                    {typediscount === true ? discount : addCommas(discount)}
+                                    {typediscount === true ? discount + '%' : addCommas(discount) + 'đ'}
                                 </Col>
                             </Row>
                             <Row className='mt-3'>

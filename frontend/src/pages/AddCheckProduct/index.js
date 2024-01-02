@@ -110,12 +110,18 @@ function AddCheckProduct(props) {
     useEffect(() => {
 
         const fetchApi = async () => {
-            const result = await ProductServices.getAllProducts()
+            const result = await ProductServices.getAllProducts(1, 5)
                 .catch((err) => {
                     console.log(err);
                 });
 
-            setList(result)
+            if (result) setList(result.data);
+            else {
+                setTimeout(() => {
+                    setLoading(false);
+                    toastContext.notify('error', 'Đã có lỗi');
+                }, 2000);
+            }
             // console.log(result)
         }
 
@@ -138,11 +144,11 @@ function AddCheckProduct(props) {
 
                     <Row>
                         <Col md={10} lg={10} className='p-0'>
-                            <SearchResult stypeid={1} setValue={addarr} list={list} />
+                            <SearchResult stypeid={2} setValue={addarr} />
                         </Col>
 
                         <Col md={2} lg={2} className='p-0'>
-                            <MultiSelectModal funtion={handleMultiSelected} list={list} />
+                            <MultiSelectModal funtion={handleMultiSelected} supplierID='none' />
                         </Col>
 
                     </Row>
@@ -174,7 +180,7 @@ function AddCheckProduct(props) {
                                 ) : (
 
                                     arr.map((item, index) => (
-                                        <div key={item.id}>
+                                        <div key={item.productId}>
                                             <Item_Check product={item} index={index + 1} funtion={deletearr} />
 
                                         </div>

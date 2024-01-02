@@ -103,14 +103,14 @@ function ListProduct() {
     useEffect(() => {
 
         const fetchApi = async () => {
-            const result = await ProductServices.getAllProducts()
+            const result = await ProductServices.getAllProducts(1, 20)
                 .catch((err) => {
                     console.log(err);
                 });
 
             setPending(false);
-            setRows(result);
-            // console.log(result)
+            setRows(result.data);
+            console.log(result)
         }
 
         fetchApi();

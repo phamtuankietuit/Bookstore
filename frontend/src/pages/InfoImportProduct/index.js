@@ -9,18 +9,22 @@ import { NavLink } from 'react-router-dom';
 import Properties from '~/components/Properties';
 import ListImportProduct from '~/components/ListImportProduct';
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import Modal from 'react-bootstrap/Modal';
 import * as PurchaseOrdersServices from '~/apiServices/purchaseorderServies';
+import ModalLoading from '~/components/ModalLoading';
+import { ToastContext } from '~/components/ToastContext';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 function InfoImportProduct() {
+    const toastContext = useContext(ToastContext);
     const importid = useParams();
     let navigate = useNavigate();
     const [obj, setObj] = useState(null);
     const [showpaid, setShowpaid] = useState(false);
     const [paid, setPaid] = useState(0);
+    const [loading, setLoading] = useState(false);
 
     const handleClosepaid = () => setShowpaid(false);
     const handleShowpaid = () => setShowpaid(true);
@@ -31,6 +35,29 @@ function InfoImportProduct() {
         setObj(newobj);
         console.log(obj);
         setShowpaid(false);
+        setLoading(true);
+        console.log(obj)
+        const fetchApi = async () => {
+            // console.log(productid.id)
+            const result = await PurchaseOrdersServices.UpdatePurchaseOrder(importid.id, obj)
+                .catch((err) => {
+                    console.log(err);
+                });
+            if (result) {
+                setTimeout(() => {
+                    setLoading(false);
+                    toastContext.notify('error', 'Lưu không thành công');
+                }, 2000);
+            }
+            else {
+                setTimeout(() => {
+                    setLoading(false);
+                    toastContext.notify('success', 'Đã lưu đơn');
+                }, 2000);
+            }
+        }
+
+        fetchApi();
     };
     useEffect(() => {
 
@@ -41,6 +68,7 @@ function InfoImportProduct() {
                     console.log(err);
                 });
             setObj(result);
+            console.log(result)
 
         }
 
@@ -121,20 +149,20 @@ function InfoImportProduct() {
                                 Tiền cần trả nhà cung cấp :{' '}
                                 <span className="fw-bold ms-1">
                                     {' '}
-                                    {addCommas(obj.totalAmount)}
+                                    {addCommas(obj.totalAmount ? obj.totalAmount : 0)}
                                 </span>
                             </Col>
                             <Col lg={4} className="mb-1">
                                 Đã trả :{' '}
                                 <span className="fw-bold ms-1">
                                     {' '}
-                                    {addCommas(obj.paymentDetails.paidAmount)}
+                                    {addCommas(obj.paymentDetails.paidAmount ? obj.paymentDetails.paidAmount : 0)}
                                 </span>
                             </Col>
                             <Col lg={4} className="mb-1">
                                 Còn phải trả :{' '}
                                 <span className="text-danger">
-                                    {addCommas(obj.paymentDetails.remainAmount)}
+                                    {addCommas(obj.paymentDetails.remainAmount ? obj.paymentDetails.remainAmount : 0)}
                                 </span>
                             </Col>
                         </Row>
@@ -173,11 +201,7 @@ function InfoImportProduct() {
                                         Chiết khấu
                                     </Col>
                                     <Col xs md lg={4} className="text-end pe-5">
-                                        {obj.typediscount ? (
-                                            <div>{obj.discount} %</div>
-                                        ) : (
-                                            <div>{addCommas(obj.discount)}</div>
-                                        )}
+                                        {addCommas(obj?.discountAmount)}
                                     </Col>
                                 </Row>
                                 <Row className="mt-3">
@@ -269,6 +293,7 @@ function InfoImportProduct() {
                     </Button>
                 </Modal.Footer>
             </Modal>
+            <ModalLoading open={loading} title={'Đang tải'} />
         </div>
     );
 }

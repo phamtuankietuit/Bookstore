@@ -1,6 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BookstoreWebAPI.Models.DTOs;
 using BookstoreWebAPI.Repository.Interfaces;
+using BookstoreWebAPI.Models.BindingModels;
+using FluentValidation.Results;
+using FluentValidation;
+using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using BookstoreWebAPI.Repository;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,33 +17,43 @@ namespace BookstoreWebAPI.Controllers
     {
         private readonly ILogger<SuppliersController> _logger;
         private readonly ISupplierRepository _supplierRepository;
+        private readonly IValidator<QueryParameters> _validator;
 
-        public SuppliersController(ILogger<SuppliersController> logger, ISupplierRepository supplierRepository)
+        public SuppliersController(ILogger<SuppliersController> logger, ISupplierRepository supplierRepository, IValidator<QueryParameters> validator)
         {
-            this._logger = logger;
-            this._supplierRepository = supplierRepository;
+            _logger = logger;
+            _supplierRepository = supplierRepository;
+            _validator = validator;
         }
 
         // GET: api/<SuppliersController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SupplierDTO>>> GetSupplierDTOsAsync()
+        public async Task<ActionResult<IEnumerable<SupplierDTO>>> GetSupplierDTOsAsync([FromQuery] QueryParameters queryParams, [FromQuery]SupplierFilterModel filter)
         {
-            var suppliers = await _supplierRepository.GetSupplierDTOsAsync();
+            // validate filter model
+            ValidationResult result = await _validator.ValidateAsync(queryParams);
+
+            if (!result.IsValid)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            var totalCount = await _supplierRepository.GetTotalCount();
+            var suppliers = await _supplierRepository.GetSupplierDTOsAsync(queryParams, filter);
 
             if (suppliers == null || !suppliers.Any())
             {
                 return NotFound();
             }
 
-            return Ok(suppliers);
-        }
-
-        [HttpGet("newId")]
-        public async Task<ActionResult<string>> GetNewSupplierIdAsync()
-        {
-            string newId = await _supplierRepository.GetNewSupplierIdAsync();
-
-            return Ok(newId);
+            return Ok(new
+            {
+                data = suppliers,
+                metadata = new
+                {
+                    count = totalCount
+                }
+            });
         }
 
         // GET api/<SuppliersController>/5
@@ -57,18 +72,26 @@ namespace BookstoreWebAPI.Controllers
 
         // POST api/<SuppliersController>
         [HttpPost]
-        public async Task<ActionResult> CreateSupplierAsync([FromBody] SupplierDTO supplierDTO)
+        public async Task<ActionResult> CreateSupplierAsync([FromBody]SupplierDTO supplierDTO)
         {
             try
             {
-                await _supplierRepository.AddSupplierDTOAsync(supplierDTO);
+                var createdSupplierDTO = await _supplierRepository.AddSupplierDTOAsync(supplierDTO);
 
-                return Ok("Supplier created successfully.");
+                return CreatedAtAction(
+                    nameof(GetSupplierDTOByIdAsync),
+                    new { id = createdSupplierDTO.SupplierId},
+                    createdSupplierDTO
+                );
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the supplier. SupplierId: {supplierDTO.SupplierId}");
+                _logger.LogInformation(
+                    $"Supplier name: {supplierDTO.Name}" +
+                    $"\nError message: {ex.Message}"
+                );
+
+                return Conflict(ex.Message);
             }
         }
 
@@ -76,34 +99,58 @@ namespace BookstoreWebAPI.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateSupplierAsync(string id, [FromBody] SupplierDTO supplierDTO)
         {
+            if (id != supplierDTO.SupplierId)
+            {
+                return BadRequest("Specified id don't match with the DTO.");
+            }
+
             try
             {
-                await _supplierRepository.UpdateSupplierAsync(supplierDTO);
+                await _supplierRepository.UpdateSupplierDTOAsync(supplierDTO);
 
-                return Ok("Supplier updated successfully.");
+                return NoContent();
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the supplier. SupplierId: {supplierDTO.SupplierId}");
+                _logger.LogError(
+                    $"Updating failed. " +
+                    $"\nSupplier Id: {id}. " +
+                    $"\nError message: {ex.Message}");
+
+                return StatusCode(500, 
+                    $"An error occurred while updating the supplier. \n" +
+                    $"SupplierId: {id}\n" +
+                    $"Error message: {ex.Message}");
             }
         }
 
         // DELETE api/<SuppliersController>/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteSupplierAsync(string id)
+        public async Task<ActionResult> DeleteSupplierAsync([FromQuery]string[] ids)
         {
-            try
+            if (ids == null || !ids.Any())
             {
-                await _supplierRepository.DeleteSupplierAsync(id);
+                return BadRequest("ids is required.");
+            }
 
-                return Ok("Supplier updated successfully.");
-            }
-            catch (Exception ex)
+            var result = await _supplierRepository.DeleteSuppliersAsync(ids);
+
+            if (result.IsSuccessful)
             {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the supplier. SupplierId: {id}");
+                return NoContent();
             }
+
+            if (result.IsNotFound)
+            {
+                return NotFound();
+            }
+
+            if (result.IsForbidden)
+            {
+                return StatusCode(403);
+            }
+
+            return StatusCode(207, result.Responses);
         }
     }
 }

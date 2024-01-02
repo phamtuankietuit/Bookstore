@@ -68,7 +68,7 @@ namespace BookstoreWebAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the customer. CustomerId: {customerDTO.Id}");
+                return StatusCode(500, $"An error occurred while creating the customer. CustomerId: {customerDTO.CustomerId}");
             }
         }
 
@@ -85,7 +85,7 @@ namespace BookstoreWebAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the customer. CustomerId: {customerDTO.Id}");
+                return StatusCode(500, $"An error occurred while creating the customer. CustomerId: {customerDTO.CustomerId}");
             }
         }
 

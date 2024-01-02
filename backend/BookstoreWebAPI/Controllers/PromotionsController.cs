@@ -97,7 +97,7 @@ namespace BookstoreWebAPI.Controllers
             {
                 await _promotionRepository.DeletePromotionAsync(id);
 
-                return Ok("Promotion updated successfully.");
+                return NoContent();
             }
             catch (Exception ex)
             {

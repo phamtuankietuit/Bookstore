@@ -68,7 +68,7 @@ namespace BookstoreWebAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the salesOrder. OrderId: {salesOrderDTO.OrderId}");
+                return StatusCode(500, $"An error occurred while creating the salesOrder. OrderId: {salesOrderDTO.SalesOrderId}");
             }
         }
 
@@ -85,25 +85,26 @@ namespace BookstoreWebAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the salesOrder. OrderId: {salesOrderDTO.OrderId}");
+                return StatusCode(500, $"An error occurred while creating the salesOrder. OrderId: {salesOrderDTO.SalesOrderId}");
             }
         }
 
+        // - no support
         // DELETE api/<SalesOrdersController>/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteSalesOrderAsync(string id)
-        {
-            try
-            {
-                await _salesOrderRepository.DeleteSalesOrderAsync(id);
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult> DeleteSalesOrderAsync(string id)
+        //{
+        //    try
+        //    {
+        //        await _salesOrderRepository.DeleteSalesOrderAsync(id);
 
-                return Ok("SalesOrder updated successfully.");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the salesOrder. OrderId: {id}");
-            }
-        }
+        //        return Ok("SalesOrder updated successfully.");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogInformation($"Error message: {ex.Message}");
+        //        return StatusCode(500, $"An error occurred while creating the salesOrder. OrderId: {id}");
+        //    }
+        //}
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BookstoreWebAPI.Models.DTOs;
-using BookstoreWebAPI.Repository;
 using BookstoreWebAPI.Repository.Interfaces;
+using BookstoreWebAPI.Models.BindingModels;
+using FluentValidation.Results;
+using FluentValidation;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,33 +15,44 @@ namespace BookstoreWebAPI.Controllers
     {
         private readonly ILogger _logger;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IValidator<QueryParameters> _validator;
 
-        public CategoriesController(ILogger<CategoriesController> logger, ICategoryRepository categoryRepository)
+        public CategoriesController(ILogger<CategoriesController> logger, ICategoryRepository categoryRepository, IValidator<QueryParameters> validator)
         {
-            this._logger = logger;
-            this._categoryRepository = categoryRepository;
+            _logger = logger;
+            _categoryRepository = categoryRepository;
+            _validator = validator;
         }
 
         // GET: api/<CategoriesController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesAsync()
+        public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesAsync([FromQuery]QueryParameters queryParams)
         {
-            var categories = await _categoryRepository.GetCategoryDTOsAsync();
+            // validate filter model
+            ValidationResult result = await _validator.ValidateAsync(queryParams);
+
+            if (!result.IsValid)
+            {
+                return BadRequest(result.Errors);
+            }
+
+
+            int totalCount = await _categoryRepository.GetTotalCount(queryParams);
+            var categories = await _categoryRepository.GetCategoryDTOsAsync(queryParams);
 
             if (categories == null || !categories.Any()) 
             {
                 return NotFound();
             }
 
-            return Ok(categories);
-        }
-
-        [HttpGet("newId")]
-        public async Task<ActionResult<string>> GetNewCategoryIdAsync()
-        {
-            string newId = await _categoryRepository.GetNewCategoryIdAsync();
-
-            return Ok(newId);
+            return Ok(new 
+            { 
+                data = categories, 
+                metadata = new 
+                { 
+                    count = totalCount
+                } 
+            });
         }
 
         // GET api/<CategoriesController>/5
@@ -62,14 +75,22 @@ namespace BookstoreWebAPI.Controllers
         {
             try
             {
-                await _categoryRepository.AddCategoryDTOAsync(categoryDTO);
+                var createdCategoryDTO = await _categoryRepository.AddCategoryDTOAsync(categoryDTO);
 
-                return Ok("Category created successfully.");
+                return CreatedAtAction(
+                    nameof(GetCategoryDTOByIdAsync), // method
+                    new { id = createdCategoryDTO.CategoryId }, // param in method
+                    createdCategoryDTO // values returning after the route
+                );
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the category. CategoryId: {categoryDTO.CategoryId}");
+                _logger.LogInformation(
+                    $"Category Name: {categoryDTO.Text}" +
+                    $"\nError message: {ex.Message}"
+                );
+
+                return Conflict(ex.Message);
             }
         }
 
@@ -77,34 +98,58 @@ namespace BookstoreWebAPI.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateCategoryAsync(string id, [FromBody] CategoryDTO categoryDTO)
         {
+            if (id != categoryDTO.CategoryId)
+            {
+                return BadRequest("Specified id don't match with the DTO.");
+            }
+
             try
             {
-                await _categoryRepository.UpdateCategoryAsync(categoryDTO);
 
-                return Ok("Category updated successfully.");
+                await _categoryRepository.UpdateCategoryDTOAsync(categoryDTO);
+
+                return NoContent();
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the category. CategoryId: {categoryDTO.CategoryId}");
+                _logger.LogError(
+                    $"Updating failed. " +
+                    $"\nCategory Id: {id}. " +
+                    $"\nError message: {ex.Message}");
+
+                return StatusCode(500,
+                    $"An error occurred while updating the category. \n" +
+                    $"Category Id: {id}\n" +
+                    $"Error message: {ex.Message}");
             }
         }
 
-        // DELETE api/<CategoriesController>/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteCategoryAsync(string id)
+        [HttpDelete]
+        public async Task<ActionResult> DeleteCategoriesAsync([FromQuery] string[] ids)
         {
-            try
+            if (ids == null || !ids.Any())
             {
-                await _categoryRepository.DeleteCategoryAsync(id);
+                return BadRequest("ids is required.");
+            }
 
-                return Ok("Category updated successfully.");
-            }
-            catch (Exception ex)
+            var result = await _categoryRepository.DeleteCategoriesAsync(ids);
+
+            if (result.IsSuccessful)
             {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the category. CategoryId: {id}");
+                return NoContent();
             }
+
+            if (result.IsNotFound)
+            {
+                return NotFound();
+            }
+
+            if (result.IsForbidden)
+            {
+                return StatusCode(403);
+            }
+
+            return StatusCode(207, result.Responses);
         }
     }
 }

@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BookstoreWebAPI.Models.DTOs;
 using BookstoreWebAPI.Repository.Interfaces;
+using FluentValidation;
+using BookstoreWebAPI.Models.BindingModels;
+using FluentValidation.Results;
+using BookstoreWebAPI.Models.BindingModels.FilterModels;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,33 +16,42 @@ namespace BookstoreWebAPI.Controllers
     {
         private readonly ILogger<PurchaseOrdersController> _logger;
         private readonly IPurchaseOrderRepository _purchaseOrderRepository;
-
-        public PurchaseOrdersController(ILogger<PurchaseOrdersController> logger, IPurchaseOrderRepository purchaseOrderRepository)
+        private readonly IValidator<QueryParameters> _validator;
+        public PurchaseOrdersController(ILogger<PurchaseOrdersController> logger, IPurchaseOrderRepository purchaseOrderRepository, IValidator<QueryParameters> validator)
         {
-            this._logger = logger;
-            this._purchaseOrderRepository = purchaseOrderRepository;
+            _logger = logger;
+            _purchaseOrderRepository = purchaseOrderRepository;
+            _validator = validator;
         }
 
         // GET: api/<PurchaseOrdersController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PurchaseOrderDTO>>> GetPurchaseOrderDTOsAsync()
+        public async Task<ActionResult<IEnumerable<PurchaseOrderDTO>>> GetPurchaseOrderDTOsAsync([FromQuery] QueryParameters queryParams, [FromQuery] PurchaseOrderFilterModel filter)
         {
-            var purchaseOrders = await _purchaseOrderRepository.GetPurchaseOrderDTOsAsync();
+            // validate filter model
+            ValidationResult result = await _validator.ValidateAsync(queryParams);
+
+            if (!result.IsValid)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            int totalCount = await _purchaseOrderRepository.GetTotalCount(queryParams, filter);
+            var purchaseOrders = await _purchaseOrderRepository.GetPurchaseOrderDTOsAsync(queryParams, filter);
 
             if (purchaseOrders == null || !purchaseOrders.Any())
             {
                 return NotFound();
             }
 
-            return Ok(purchaseOrders);
-        }
-
-        [HttpGet("newId")]
-        public async Task<ActionResult<string>> GetNewPurchaseOrderIdAsync()
-        {
-            string newId = await _purchaseOrderRepository.GetNewPurchaseOrderIdAsync();
-
-            return Ok(newId);
+            return Ok(new
+            {
+                data = purchaseOrders,
+                metadata = new
+                {
+                    count = totalCount
+                }
+            });
         }
 
         // GET api/<PurchaseOrdersController>/5
@@ -61,14 +74,22 @@ namespace BookstoreWebAPI.Controllers
         {
             try
             {
-                await _purchaseOrderRepository.AddPurchaseOrderDTOAsync(purchaseOrderDTO);
+                var createdPurchaseOrder = await _purchaseOrderRepository.AddPurchaseOrderDTOAsync(purchaseOrderDTO);
 
-                return Ok("PurchaseOrder created successfully.");
+                return CreatedAtAction(
+                    nameof(GetPurchaseOrderDTOByIdAsync),
+                    new { id = createdPurchaseOrder.PurchaseOrderId},
+                    createdPurchaseOrder
+                );
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the purchaseOrder. PurchaseOrderId: {purchaseOrderDTO.PurchaseOrderId}");
+                _logger.LogInformation(
+                    $"Supplier id at purchase order: {purchaseOrderDTO.SupplierName}" +
+                    $"\nError message: {ex.Message}"
+                );
+
+                return Conflict(ex.Message);
             }
         }
 
@@ -76,34 +97,48 @@ namespace BookstoreWebAPI.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdatePurchaseOrderAsync(string id, [FromBody] PurchaseOrderDTO purchaseOrderDTO)
         {
+
+            if (id != purchaseOrderDTO.PurchaseOrderId)
+            {
+                return BadRequest("Specified id don't match with the DTO.");
+            }
+
             try
             {
                 await _purchaseOrderRepository.UpdatePurchaseOrderAsync(purchaseOrderDTO);
 
-                return Ok("PurchaseOrder updated successfully.");
+                return NoContent();
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the purchaseOrder. PurchaseOrderId: {purchaseOrderDTO.PurchaseOrderId}");
+                _logger.LogError(
+                    $"Updating failed. " +
+                    $"\nPurchaseOrder Id: {id}. " +
+                    $"\nError message: {ex.Message}");
+
+                return StatusCode(500,
+                    $"An error occurred while updating the purchase order. \n" +
+                    $"PurchaseOrder Id: {id}\n" +
+                    $"Error message: {ex.Message}");
             }
         }
 
+        // no -support
         // DELETE api/<PurchaseOrdersController>/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeletePurchaseOrderAsync(string id)
-        {
-            try
-            {
-                await _purchaseOrderRepository.DeletePurchaseOrderAsync(id);
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult> DeletePurchaseOrderAsync(string id)
+        //{
+        //    try
+        //    {
+        //        await _purchaseOrderRepository.DeletePurchaseOrderAsync(id);
 
-                return Ok("PurchaseOrder updated successfully.");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the purchaseOrder. PurchaseOrderId: {id}");
-            }
-        }
+        //        return Ok("PurchaseOrder updated successfully.");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogInformation($"Error message: {ex.Message}");
+        //        return StatusCode(500, $"An error occurred while creating the purchaseOrder. PurchaseOrderId: {id}");
+        //    }
+        //}
     }
 }

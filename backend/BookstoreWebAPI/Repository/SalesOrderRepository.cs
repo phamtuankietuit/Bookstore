@@ -5,6 +5,7 @@ using BookstoreWebAPI.Models.Documents;
 using BookstoreWebAPI.Models.DTOs;
 using BookstoreWebAPI.Repository.Interfaces;
 using BookstoreWebAPI.Utils;
+using BookstoreWebAPI.Models.Responses;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -24,20 +25,13 @@ namespace BookstoreWebAPI.Repository
             this._memoryCache = memoryCache;
         }
 
-        public async Task AddSalesOrderDocumentAsync(SalesOrderDocument item)
-        {
-            await _salesOrderContainer.UpsertItemAsync(
-                item:item,
-                partitionKey: new PartitionKey(item.MonthYear)
-            );
-        }
-
         public async Task AddSalesOrderDTOAsync(SalesOrderDTO salesOrderDTO)
         {
             var salesOrderDoc = _mapper.Map<SalesOrderDocument>(salesOrderDTO);
 
             await AddSalesOrderDocumentAsync(salesOrderDoc);
         }
+
         public async Task UpdateSalesOrderAsync(SalesOrderDTO salesOrderDTO)
         {
             var salesOrderToUpdate = _mapper.Map<SalesOrderDocument>(salesOrderDTO);
@@ -126,6 +120,16 @@ namespace BookstoreWebAPI.Repository
             var salesOrder = await CosmosDbUtils.GetDocumentByQueryDefinition<SalesOrderDocument>(_salesOrderContainer, queryDef);
 
             return salesOrder;
+        }
+
+        public async Task AddSalesOrderDocumentAsync(SalesOrderDocument item)
+        {
+            item.CreatedAt = DateTime.UtcNow;
+
+            await _salesOrderContainer.UpsertItemAsync(
+                item: item,
+                partitionKey: new PartitionKey(item.MonthYear)
+            );
         }
     }
 }

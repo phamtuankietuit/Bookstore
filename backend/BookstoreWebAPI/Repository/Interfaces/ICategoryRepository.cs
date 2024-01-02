@@ -1,17 +1,22 @@
-﻿using BookstoreWebAPI.Models.Documents;
+﻿using BookstoreWebAPI.Models.BindingModels;
+using BookstoreWebAPI.Models.Documents;
 using BookstoreWebAPI.Models.DTOs;
+using BookstoreWebAPI.Models.Responses;
+using Microsoft.Azure.Cosmos;
 
 namespace BookstoreWebAPI.Repository.Interfaces
 {
     public interface ICategoryRepository
     {
-        Task AddCategoryDocumentAsync(CategoryDocument item);
-        Task UpdateCategoryAsync(CategoryDTO item);
-        Task AddCategoryDTOAsync(CategoryDTO item);
-
-        Task<IEnumerable<CategoryDTO>> GetCategoryDTOsAsync();
+        Task<int> GetTotalCount(QueryParameters queryParams);
+        Task<IEnumerable<CategoryDTO>> GetCategoryDTOsAsync(QueryParameters queryParams);
         Task<CategoryDTO?> GetCategoryDTOByIdAsync(string id);
-        Task DeleteCategoryAsync(string id);
-        Task<string> GetNewCategoryIdAsync();
+        Task<CategoryDTO> AddCategoryDTOAsync(CategoryDTO item);
+        Task UpdateCategoryDTOAsync(CategoryDTO item);
+        Task<BatchDeletionResult<CategoryDTO>> DeleteCategoriesAsync(string[] ids);
+
+
+        // for data seeder, remove after production
+        Task<ItemResponse<CategoryDocument>> AddCategoryDocumentAsync(CategoryDocument item);
     }
 }

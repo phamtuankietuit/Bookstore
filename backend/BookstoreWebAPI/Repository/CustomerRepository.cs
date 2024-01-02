@@ -5,6 +5,7 @@ using BookstoreWebAPI.Models.Documents;
 using BookstoreWebAPI.Models.DTOs;
 using BookstoreWebAPI.Repository.Interfaces;
 using BookstoreWebAPI.Utils;
+using BookstoreWebAPI.Models.Responses;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -26,6 +27,8 @@ namespace BookstoreWebAPI.Repository
 
         public async Task AddCustomerDocumentAsync(CustomerDocument item)
         {
+            item.CreatedAt = DateTime.UtcNow;
+
             await _customerContainer.UpsertItemAsync(
                 item: item,
                 partitionKey: new PartitionKey(item.CustomerId)

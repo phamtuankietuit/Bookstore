@@ -1,16 +1,23 @@
-﻿using BookstoreWebAPI.Models.Documents;
+﻿using BookstoreWebAPI.Models.BindingModels;
+using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using BookstoreWebAPI.Models.Documents;
 using BookstoreWebAPI.Models.DTOs;
+using BookstoreWebAPI.Models.Responses;
+using Microsoft.Azure.Cosmos;
 
 namespace BookstoreWebAPI.Repository.Interfaces
 {
     public interface ISupplierRepository
     {
-        Task AddSupplierDocumentAsync(SupplierDocument item);
-        Task AddSupplierDTOAsync(SupplierDTO supplierDTO);
-        Task DeleteSupplierAsync(string id);
-        Task<string> GetNewSupplierIdAsync();
+        Task<int> GetTotalCount();
+        Task<IEnumerable<SupplierDTO>> GetSupplierDTOsAsync(QueryParameters queryParams, SupplierFilterModel filter);
         Task<SupplierDTO> GetSupplierDTOByIdAsync(string id);
-        Task<IEnumerable<SupplierDTO>> GetSupplierDTOsAsync();
-        Task UpdateSupplierAsync(SupplierDTO supplierDTO);
+        Task<SupplierDTO> AddSupplierDTOAsync(SupplierDTO supplierDTO);
+        Task UpdateSupplierDTOAsync(SupplierDTO supplierDTO);
+        Task<BatchDeletionResult<SupplierDTO>> DeleteSuppliersAsync(string[] ids);
+
+
+        // for data seeder, remove after production
+        Task<ItemResponse<SupplierDocument>> AddSupplierDocumentAsync(SupplierDocument item);
     }
 }

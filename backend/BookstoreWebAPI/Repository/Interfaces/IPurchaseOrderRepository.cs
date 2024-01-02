@@ -1,16 +1,23 @@
-﻿using BookstoreWebAPI.Models.Documents;
+﻿using BookstoreWebAPI.Models.BindingModels;
+using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using BookstoreWebAPI.Models.Documents;
 using BookstoreWebAPI.Models.DTOs;
+using BookstoreWebAPI.Models.Responses;
+using Microsoft.Azure.Cosmos;
 
 namespace BookstoreWebAPI.Repository.Interfaces
 {
     public interface IPurchaseOrderRepository
     {
-        Task AddPurchaseOrderDocumentAsync(PurchaseOrderDocument item);
-        Task AddPurchaseOrderDTOAsync(PurchaseOrderDTO purchaseOrderDTO);
-        Task DeletePurchaseOrderAsync(string id);
-        Task<IEnumerable<PurchaseOrderDTO>> GetPurchaseOrderDTOsAsync();
-        Task<string> GetNewPurchaseOrderIdAsync();
+        Task<int> GetTotalCount(QueryParameters queryParams, PurchaseOrderFilterModel filter);
+        Task<IEnumerable<PurchaseOrderDTO>> GetPurchaseOrderDTOsAsync(QueryParameters queryParams, PurchaseOrderFilterModel filter);
         Task<PurchaseOrderDTO> GetPurchaseOrderDTOByIdAsync(string id);
-        Task UpdatePurchaseOrderAsync(PurchaseOrderDTO purchaseOrderDTO);
+        Task<PurchaseOrderDTO> AddPurchaseOrderDTOAsync(PurchaseOrderDTO item);
+        Task UpdatePurchaseOrderAsync(PurchaseOrderDTO item);
+        //Task<BatchDeletionResult<PurchaseOrderDTO>> DeletePurchaseOrdersAsync(string[] ids);
+
+
+        // for data seeder, remove after production
+        Task<ItemResponse<PurchaseOrderDocument>> AddPurchaseOrderDocumentAsync(PurchaseOrderDocument item);
     }
 }

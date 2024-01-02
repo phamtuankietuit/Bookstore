@@ -14,7 +14,8 @@
 		"discountValue": 0,
 		"startAt": "2023-12-20T16:52:47Z",
 		"closeAt": "2023-12-22T16:52:47Z",
-		"status": "running"
+		"status": "running",
+		"ttl": -1
 	},
 	{
 		"id": "prom00002",
@@ -31,6 +32,7 @@
 		"discountValue": 0,
 		"startAt": "2024-3-20T16:00:00Z",
 		"closeAt": "2024-5-20T16:00:00Z",
-		"status": "paused"
+		"status": "paused",
+		"ttl": -1
 	}
 ]

@@ -12,9 +12,9 @@ namespace BookstoreWebAPI.SeedData
         private readonly string _salesOrdersFilePath = "./SeedData/SampleData/salesOrders.json";
         private readonly string _purchaseOrdersFilePath = "./SeedData/SampleData/purchaseOrders.json";
         private readonly string _suppliersFilePath = "./SeedData/SampleData/suppliers.json";
+        private readonly string _supplierGroupsFilePath = "./SeedData/SampleData/supplierGroups.json";
         private readonly string _promotionsFilePath = "./SeedData/SampleData/promotions.json";
         private readonly string _customersFilePath = "./SeedData/SampleData/customers.json";
-
 
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
@@ -23,6 +23,7 @@ namespace BookstoreWebAPI.SeedData
         private readonly ISupplierRepository _supplierRepository;
         private readonly IPromotionRepository _promotionRepository;
         private readonly ICustomerRepository _customerRepository;
+        private readonly ISupplierGroupRepository _supplierGroupRepository;
         private readonly ILogger _logger;
 
         public DataSeeder(
@@ -33,6 +34,7 @@ namespace BookstoreWebAPI.SeedData
             ISupplierRepository supplierRepository,
             IPromotionRepository promotionRepository,
             ICustomerRepository customerRepository,
+            ISupplierGroupRepository supplierGroupRepository,
             ILogger<DataSeeder> logger)
         {
             this._productRepository = productRepository;
@@ -42,6 +44,7 @@ namespace BookstoreWebAPI.SeedData
             this._supplierRepository = supplierRepository;
             this._promotionRepository = promotionRepository;
             this._customerRepository = customerRepository;
+            this._supplierGroupRepository = supplierGroupRepository;
             this._logger = logger;
         }
 
@@ -54,6 +57,7 @@ namespace BookstoreWebAPI.SeedData
             var salesOrdersJsonData = File.ReadAllText(_salesOrdersFilePath);
             var purchaseOrdersJsonData = File.ReadAllText(_purchaseOrdersFilePath);
             var suppliersJsonData = File.ReadAllText(_suppliersFilePath);
+            var supplierGroupsJsonData = File.ReadAllText(_supplierGroupsFilePath);
             var promotionsJsonData = File.ReadAllText(_promotionsFilePath);
             var customersJsonData = File.ReadAllText(_customersFilePath);
 
@@ -107,8 +111,7 @@ namespace BookstoreWebAPI.SeedData
                 {
                     await _salesOrderRepository.AddSalesOrderDocumentAsync(item);
                 }
-
-                _logger.LogInformation("Populated order data");
+                _logger.LogInformation("Populated sales order data");
             }
 
             // Seed categories
@@ -132,6 +135,18 @@ namespace BookstoreWebAPI.SeedData
                 foreach (var item in suppliersItems)
                 {
                     await _supplierRepository.AddSupplierDocumentAsync(item);
+                }
+
+                _logger.LogInformation("Populated staff data");
+            }
+
+            var supplierGroupsItems = JsonConvert.DeserializeObject<List<SupplierGroupDocument>>(supplierGroupsJsonData);
+
+            if (supplierGroupsItems != null)
+            {
+                foreach (var item in supplierGroupsItems)
+                {
+                    await _supplierGroupRepository.AddSupplierGroupDocumentAsync(item);
                 }
 
                 _logger.LogInformation("Populated staff data");

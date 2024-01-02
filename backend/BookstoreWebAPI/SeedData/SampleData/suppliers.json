@@ -3,1304 +3,680 @@
 		"id": "sup00001",
 		"supplierId": "sup00001",
 		"name": "Nhà Xuất Bản Kim Đồng",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "02839250170",
 			"email": "info@nxbkimdong.com.vn"
 		},
 		"address": "55 Quang Trung, Hà Nội, Việt Nam",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00001",
-				"sku": "ttnh00001",
-				"name": "Dế Mèn Phiêu Lưu Ký - Tái Bản 2020",
-				"purchasePrice": 50000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/d/e/de-men-50k_1.jpg"
-			},
-			{
-				"productId": "prod00002",
-				"sku": "ttnh00002",
-				"name": "Những Truyện Hay Viết Cho Thiếu Nhi - Tô Hoài (Tái Bản 2019)",
-				"purchasePrice": 80000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_180888.jpg"
-			},
-			{
-				"productId": "prod00004",
-				"sku": "ttnh00004",
-				"name": "Trong Cái Không Có Gì Không?",
-				"purchasePrice": 160000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_37410.jpg"
-			},
-			{
-				"productId": "prod00005",
-				"sku": "ttnh00005",
-				"name": "Dế Mèn Phiêu Lưu Ký - Đậu Đũa Minh Họa",
-				"purchasePrice": 225000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935244848502.jpg"
-			},
-			{
-				"productId": "prod00006",
-				"sku": "ttnh00006",
-				"name": "Tớ Là Mèo Pusheen (Tái Bản 2019)",
-				"purchasePrice": 80000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_180905.jpg"
-			},
-			{
-				"productId": "prod00036",
-				"sku": "lnov00036",
-				"name": "Arya Bàn Bên Thỉnh Thoảng Lại Trêu Ghẹo Tôi Bằng Tiếng Nga - Tập 1 - Bản Phổ Thông - Tặng Kèm Bookmark Bế Hình + Bìa Áo Limited",
-				"purchasePrice": 95000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/a/r/arya-ban-ben-thinh-thoang-lai-treu-gheo-toi-bang-tieng-nga---tap-1---ban-pho-thong-_-qua-tang.jpg"
-			},
-			{
-				"productId": "prod00037",
-				"sku": "lnov00037",
-				"name": "Arya Bàn Bên Thỉnh Thoảng Lại Trêu Ghẹo Tôi Bằng Tiếng Nga - Tập 2 - Bản Phổ Thông - Tặng Kèm Bookmark Bế Hình + Bìa Áo Bonus",
-				"purchasePrice": 95000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/6/0/600arya-ban-ben-thinh-thoang-lai-treu-gheo-toi-bang-tieng-nga---tap-2---ban-pho-thong.jpg"
-			},
-			{
-				"productId": "prod00038",
-				"sku": "lnov00038",
-				"name": "Arya Bàn Bên Thỉnh Thoảng Lại Trêu Ghẹo Tôi Bằng Tiếng Nga - Tập 4 - Bản Phổ Thông - Tặng Kèm Bookmark Bế Hình + Bìa Áo Bonus",
-				"purchasePrice": 95000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/z/4/z4749269235520_9e8aea22702a59ef1f204c51060a5c10.jpg"
-			},
-			{
-				"productId": "prod00039",
-				"sku": "lnov00039",
-				"name": "Spy X Family Tiểu Thuyết: Bức Chân Dung Gia Đình - Tặng Kèm Standee PVC",
-				"purchasePrice": 45000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935244876727.jpg"
-			},
-			{
-				"productId": "prod00059",
-				"sku": "vpph00059",
-				"name": "Lịch Treo Tường Học Viện Siêu Anh Hùng 2024 - Tặng Kèm Poster Gắn Bên Trong",
-				"purchasePrice": 60000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935352601549_1_1.jpg"
-			},
-			{
-				"productId": "prod00060",
-				"sku": "vpph00060",
-				"name": "Lịch Treo Tường One Piece 2024 - Tặng Kèm Poster Gắn Bên Trong",
-				"purchasePrice": 60000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935352601556.jpg"
-			},
-			{
-				"productId": "prod00062",
-				"sku": "vpph00062",
-				"name": "Lịch Bàn Thị Trấn Mèo 2024",
-				"purchasePrice": 60000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935352601228.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00002",
 		"supplierId": "sup00002",
 		"name": "Đinh Tị",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "02473093388",
 			"email": "lan.ngo@dinhtibooks.vn"
 		},
 		"address": "Số 78 - Đường số 1 - P. 4 - Q. Gò Vấp, TP. Hồ Chí Minh",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00003",
-				"sku": "ttnh00003",
-				"name": "365 Truyện Kể Trước Giờ Đi Ngủ - Những Câu Chuyện Phát Triển Chỉ Số Tình Cảm EQ",
-				"purchasePrice": 78000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935212341134_1.jpg"
-			},
-			{
-				"productId": "prod00023",
-				"sku": "tthu00023",
-				"name": "Thượng Dương",
-				"purchasePrice": 108000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_216250.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00003",
 		"supplierId": "sup00003",
 		"name": "NXB Trẻ",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "02543600139",
 			"email": "chinhanhdongnambo@nxbtre.com.vn"
 		},
 		"address": "(Tầng 2) 260 Lê Lợi, Phường 4, TP. Vũng Tàu",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00007",
-				"sku": "ttnh00007",
-				"name": "Bé Học Lễ Giáo - Bubu 12: Đi Lạc (Tái Bản 2022)",
-				"purchasePrice": 15000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8934974179832.jpg"
-			},
-			{
-				"productId": "prod00021",
-				"sku": "tthu00021",
-				"name": "Mùa Hè Không Tên - Tặng Kèm Bookmark 2 Mặt + Poster Tranh + Chữ Ký Tác Giả Ngẫu Nhiên",
-				"purchasePrice": 130000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/m/u/mua-he-khong-ten---bia-mem---qua-tang-kem-1.jpg"
-			},
-			{
-				"productId": "prod00024",
-				"sku": "tthu00024",
-				"name": "Cảm Ơn Người Lớn (Bìa Mềm)",
-				"purchasePrice": 110000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/c/a/cam_on_nguoi_lon_bia_mem_1_2018_11_15_13_40_08.JPG"
-			},
-			{
-				"productId": "prod00027",
-				"sku": "tnga00027",
-				"name": "Trôi - Nguyễn Ngọc Tư",
-				"purchasePrice": 95000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8934974190554.jpg"
-			},
-			{
-				"productId": "prod00043",
-				"sku": "tlkn00043",
-				"name": "48 Nguyên Tắc Chủ Chốt Của Quyền Lực (Tái Bản 2020)",
-				"purchasePrice": 200000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_32101.jpg"
-			},
-			{
-				"productId": "prod00050",
-				"sku": "tlkn00050",
-				"name": "Cánh Cửa Mở Rộng - Phải Trái Đúng Sai",
-				"purchasePrice": 155000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/2/0/2023_05_25_15_07_28_1-390x510.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00004",
 		"supplierId": "sup00004",
 		"name": "Nhà xuất bản Giáo Dục",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "02438220801",
 			"email": "nxbgd@moet.edu.vn"
 		},
 		"address": "Số 81 Trần Hưng Đạo, Hoàn Kiếm, Hà Nội",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00008",
-				"sku": "gktk00008",
-				"name": "Sách Giáo Khoa Bộ Lớp 1 - Chân Trời Sáng Tạo - Sách Bài Học (Bộ 9 Cuốn) (2023)",
-				"purchasePrice": 186000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/3/3300000026817.jpg"
-			},
-			{
-				"productId": "prod00009",
-				"sku": "gktk00009",
-				"name": "Sách Giáo Khoa Bộ Lớp 1 - Chân Trời Sáng Tạo - Sách Bài Tập (Bộ 11 Cuốn) (2023)",
-				"purchasePrice": 138000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/3/3300000015903-1_1.jpg"
-			},
-			{
-				"productId": "prod00010",
-				"sku": "gktk00010",
-				"name": "Sách Giáo Khoa Bộ Lớp 1 - Kết Nối - Sách Bài Học (Bộ 10 Cuốn) (2023) + Bao Sách TP",
-				"purchasePrice": 197000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/c/o/combo-3300000026794-1901011620920.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00005",
 		"supplierId": "sup00005",
 		"name": "CÔNG TY CỔ PHẦN ĐẦU TƯ XUẤT BẢN - THIẾT BỊ GIÁO DỤC VIỆT NAM - CHI NHÁNH TẠI THÀNH PHỐ HỒ CHÍ MINH",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "02432242397",
 			"email": "phongkinhdoanh.vepic@gmail.com"
 		},
 		"address": "Tầng 5 Tòa nhà hỗn hợp AZ Lâm Viên, 107 đường Nguyễn Phong Sắc, Phường Dịch Vọng Hậu, Quận Cầu Giấy, Thành phố Hà Nội, Việt Nam",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00011",
-				"sku": "gktk00011",
-				"name": "Sách Giáo Khoa Bộ Lớp 1 - Cánh Diều - Sách Bài Học (Bộ 9 Cuốn) (2023)",
-				"purchasePrice": 199000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/3/3300000015873-1_1.jpg"
-			},
-			{
-				"productId": "prod00012",
-				"sku": "gktk00012",
-				"name": "Sách Giáo Khoa Bộ Lớp 1 - Cánh Diều - Sách Bài Tập (Bộ 11 Cuốn) (2023)",
-				"purchasePrice": 134000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/3/3300000015880-1_1_1.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00006",
 		"supplierId": "sup00006",
 		"name": "Cty TNHH TM&DV VH GD Phía Nam",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "0964375476",
 			"email": null
 		},
 		"address": "57 Vũ Trọng Phụng, P. Phú Thuận, Tân Phú, Thành phố Hồ Chí Minh",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00013",
-				"sku": "gktk00013",
-				"name": "Bảng Hệ Thống Tuần Hoàn Các Nguyên Tố Hóa Học",
-				"purchasePrice": 10000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_199427.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00007",
 		"supplierId": "sup00007",
 		"name": "Cty Giáo Dục Đức Trí",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "02838220624",
 			"email": "info@ductri.vn"
 		},
 		"address": "16B Đinh Tiên Hoàng, P. Đa Kao, Q. 1, Tp. Hồ Chí Minh",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00014",
-				"sku": "gktk00014",
-				"name": "Bảng Cửu Chương - Bảng Chia",
-				"purchasePrice": 10000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936036316483.jpg"
-			},
-			{
-				"productId": "prod00015",
-				"sku": "gktk00015",
-				"name": "Bảng Tuần Hoàn Các Nguyên Tố Hóa Học Theo Chương Trình Giáo Dục Phổ Thông Mới",
-				"purchasePrice": 10000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936036316346.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00008",
 		"supplierId": "sup00008",
 		"name": "Cty Phương Nam",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "02873035556",
 			"email": "sale@phuongnam.edu.vn"
 		},
 		"address": "231 Nguyễn Văn Cừ - Phường 4 - Quận 5 - TP. HCM",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00016",
-				"sku": "gktk00016",
-				"name": "Tiếng Anh Lớp 10 - Sách Học Sinh (Global Success) (2022)",
-				"purchasePrice": 73000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/9/7/9786040324283_1_1.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00009",
 		"supplierId": "sup00009",
 		"name": "Megabook",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "0981039959",
 			"email": "lienhe.megabook@gmail.com"
 		},
 		"address": "Tầng 5 Số 19 Lô N7B, Ngõ 125 Lê Văn Lương - KĐT Trung Hòa - Nhân Chính, Thanh Xuân, Hà Nội",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00017",
-				"sku": "gktk00017",
-				"name": "Chinh Phục Luyện Thi Vào Lớp 10 Môn Ngữ Văn Theo Chủ Đề",
-				"purchasePrice": 159000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_39486.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00010",
 		"supplierId": "sup00010",
 		"name": "MCBooks",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "02866609398",
 			"email": "contact@mcbooks.vn"
 		},
 		"address": "Số 45 đường 8, KP5, Hiệp Bình Chánh, Thủ Đức, TP Hồ Chí Minh",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00018",
-				"sku": "gktk00018",
-				"name": "Chiến Thuật Ôn Tập Ngữ Văn Lớp 9 - Luyện Thi Vào 10 Bằng Sơ Đồ Tư Duy",
-				"purchasePrice": 219000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935246917411_1.jpg"
-			},
-			{
-				"productId": "prod00053",
-				"sku": "shnn00053",
-				"name": "Mindmap English Grammar - Ngữ Pháp Tiếng Anh Bằng Sơ Đồ Tư Duy",
-				"purchasePrice": 190000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935246917176.jpg"
-			},
-			{
-				"productId": "prod00055",
-				"sku": "shnn00055",
-				"name": "Tự Học 2000 Từ Vựng Tiếng Anh Theo Chủ Đề (Tái Bản)",
-				"purchasePrice": 65000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/c/8/c8516f45954672182b57.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00011",
 		"supplierId": "sup00011",
 		"name": "Nhã Nam",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "0903244248",
 			"email": "bookstore@nhanam.vn"
 		},
 		"address": "59 - Đỗ Quang - Trung Hòa - Cầu Giấy - Hà Nội",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00019",
-				"sku": "tthu00019",
-				"name": "Cây Cam Ngọt Của Tôi",
-				"purchasePrice": 108000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_217480.jpg"
-			},
-			{
-				"productId": "prod00020",
-				"sku": "tthu00020",
-				"name": "Nhà Giả Kim (Tái Bản 2020)",
-				"purchasePrice": 79000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_36793.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00012",
 		"supplierId": "sup00012",
 		"name": "Huy Hoang Bookstore",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "02839913636",
 			"email": "sale@huyhoangbook.vn"
 		},
 		"address": "357A Lê Văn Sỹ - Phường 1 - Quận Tân Bình - TP. Hồ Chí Minh.",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00022",
-				"sku": "tthu00022",
-				"name": "Người Bà Tài Giỏi Vùng Saga",
-				"purchasePrice": 128000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_231202.jpg"
-			},
-			{
-				"productId": "prod00054",
-				"sku": "shnn00054",
-				"name": "25 Chuyên Đề Ngữ Pháp Tiếng Anh Trọng Tâm - Tập 1",
-				"purchasePrice": 110000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_188186.jpg"
-			},
-			{
-				"productId": "prod00057",
-				"sku": "shnn00057",
-				"name": "Cẩm Nang Cấu Trúc Tiếng Anh",
-				"purchasePrice": 98000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_187866.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00013",
 		"supplierId": "sup00013",
 		"name": "AZ Việt Nam",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "0862934696",
 			"email": "info@azgroup.vn"
 		},
 		"address": "585/2A Sư Vạn Hạnh, phường 13, quận 10, Thành phố Hồ Chí Minh",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00025",
-				"sku": "tnga00025",
-				"name": "Đám Trẻ Ở Đại Dương Đen",
-				"purchasePrice": 99000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935325011559.jpg"
-			},
-			{
-				"productId": "prod00026",
-				"sku": "tnga00026",
-				"name": "999 Lá Thư Gửi Cho Chính Mình - Những Lá Thư Ấn Tượng Nhất (Phiên Bản Song Ngữ Trung - Việt)",
-				"purchasePrice": 99000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935325010736.jpg"
-			},
-			{
-				"productId": "prod00028",
-				"sku": "tnga00028",
-				"name": "Có Một Ngày, Bố Mẹ Sẽ Già Đi",
-				"purchasePrice": 96000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/c/o/co-mot-ngay-bo-me-se-gia-di.jpg"
-			},
-			{
-				"productId": "prod00029",
-				"sku": "tnga00029",
-				"name": "Mẹ Làm Gì Có Ước Mơ",
-				"purchasePrice": 89000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/9/8/98bde27a91ea4bb412fb.jpg"
-			},
-			{
-				"productId": "prod00032",
-				"sku": "lnov00032",
-				"name": "Hiệp Sĩ Xương Trên Đường Du Hành Đến Thế Giới Khác - Tập 1",
-				"purchasePrice": 126000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936186544002.jpg"
-			},
-			{
-				"productId": "prod00033",
-				"sku": "lnov00033",
-				"name": "Hiệp Sĩ Xương Trên Đường Du Hành Đến Thế Giới Khác - Tập 3",
-				"purchasePrice": 139000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/t/h/th_ng-tin-ph_t-h_nh-s_ch-hi_p-s_-x_ng-3600.jpg"
-			},
-			{
-				"productId": "prod00034",
-				"sku": "lnov00034",
-				"name": "Hiệp Sĩ Xương Trên Đường Du Hành Đến Thế Giới Khác - Tập 4",
-				"purchasePrice": 149000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/t/h/th_ng-tin-ph_t-h_nh-s_ch-hi_p-s_-x_ng...-600_1.jpg"
-			},
-			{
-				"productId": "prod00035",
-				"sku": "lnov00035",
-				"name": "Hiệp Sĩ Xương Trên Đường Du Hành Đến Thế Giới Khác - Tập 5 - Tặng Kèm Bookmark",
-				"purchasePrice": 159000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/0/7/071123-9.jpg"
-			},
-			{
-				"productId": "prod00040",
-				"sku": "lnov00040",
-				"name": "Chỉ Cần Ta Còn Sống",
-				"purchasePrice": 122000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/x/u/xu_t-b_n-ch_-c_n-ta-c_n-s_ngbia1.jpg"
-			},
-			{
-				"productId": "prod00041",
-				"sku": "lnov00041",
-				"name": "Ghi Chép Của Tôi Người Nhìn Thấy Em Sẽ Biến Mất Vào Ngày Mai",
-				"purchasePrice": 133000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/t/h/th_ng-tu_t-b_n-ghi-ch_p-c_a-t_ibia1.jpg"
-			},
-			{
-				"productId": "prod00044",
-				"sku": "tlkn00044",
-				"name": "Hành Tinh Của Một Kẻ Nghĩ Nhiều",
-				"purchasePrice": 86000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/h/_/h_nh-tinh-c_a-m_t-k_-ngh_-nhi_u-tr_c-1-1.jpg"
-			},
-			{
-				"productId": "prod00047",
-				"sku": "tlkn00047",
-				"name": "Thuật Thao Túng - Góc Tối Ẩn Sau Mỗi Câu Nói",
-				"purchasePrice": 139000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/u/n/untitledthaotungtamly.jpg"
-			},
-			{
-				"productId": "prod00048",
-				"sku": "tlkn00048",
-				"name": "Định Luật Murphy - Mọi Bí Mật Tâm Lý Thao Túng Cuộc Đời Bạn",
-				"purchasePrice": 119000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/p/h/ph_t-h_nh-_nh-lu_t-murphybia-1.jpg"
-			},
-			{
-				"productId": "prod00051",
-				"sku": "tlkn00051",
-				"name": "Phân Tích Tâm Lý Tội Phạm - Thế Giới Bên Trong Cái Ác",
-				"purchasePrice": 135000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935325014222.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00014",
 		"supplierId": "sup00014",
 		"name": "Công Ty Cổ Phần Time Books",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "0968411661",
 			"email": "info@timescorporation.vn"
 		},
 		"address": "Số 18, ngách 37/8 đường Lê Thanh Nghị, phường Bách Khoa, quận Hai Bà Trưng, Hà Nội",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00030",
-				"sku": "tnga00030",
-				"name": "Anh Không Bận, Chỉ Là Không Nhớ Em (Tái Bản 2023)",
-				"purchasePrice": 89000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/9/7/9786043925593.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00015",
 		"supplierId": "sup00015",
 		"name": "CÔNG TY TNHH VĂN HÓA VÀ TRUYỀN THÔNG THẢO NGUYÊN",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "0337822744",
 			"email": "kinhdoanh.thaonguyen217@gmail.com"
 		},
 		"address": "Tầng 5, số 12 Phố Trung Liệt, Quận Đống Đa, Thành phố Hà Nội",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00031",
-				"sku": "tnga00031",
-				"name": "Mình Ngồi Xuống Kể Tổn Thương Trong Lòng (Tái Bản)",
-				"purchasePrice": 99000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/g/t/gt_-m_nh-ng_i-xu_ng-k_-t_n-th_ng-trong-l_ngbia-1_2.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00016",
 		"supplierId": "sup00016",
 		"name": "FIRST NEWS",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "02838224560",
 			"email": "triviet@firstnews.com.vn"
 		},
 		"address": "11H Nguyễn Thị Minh Khai, Phường Bến Nghé, Quận 1, Tp. Hồ Chí Minh",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00042",
-				"sku": "tlkn00042",
-				"name": "Thay Đổi Cuộc Sống Với Nhân Số Học",
-				"purchasePrice": 248000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/t/d/tdcsvnsh.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00017",
 		"supplierId": "sup00017",
 		"name": "Cty Bán Lẻ Phương Nam",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "0838663448",
 			"email": "vanhoaphuongnam@gmail.com"
 		},
 		"address": "Số 940, 3/2, P. 15, Quận 11, Thành phố Hồ Chí Minh",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00045",
-				"sku": "tlkn00045",
-				"name": "Giận (Tái Bản 2023)",
-				"purchasePrice": 135000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8932000133735_1.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00018",
 		"supplierId": "sup00018",
 		"name": "1980 Books",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "02839333216",
 			"email": "info.1980books@gmail.com"
 		},
 		"address": "42/35 Nguyễn Minh Hoàng-Phường 12, Quận Tân Bình, Thành Phố Hồ Chí Minh",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00046",
-				"sku": "tlkn00046",
-				"name": "Lý Thuyết Trò Chơi",
-				"purchasePrice": 179000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936066697088.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00019",
 		"supplierId": "sup00019",
 		"name": "Thái Hà",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "02838223340",
 			"email": "duongls@thaihabooks.com"
 		},
 		"address": "23 Tân Thới Nhất 6, P. Tân Thới Nhất, Q. 12, TP. HCM",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00049",
-				"sku": "tlkn00049",
-				"name": "Kiếp Nào Ta Cũng Tìm Thấy Nhau (Tái Bản 2022)",
-				"purchasePrice": 99000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/6/7/67db9bf2590d75f978e68f9dcfe0db9a.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00020",
 		"supplierId": "sup00020",
 		"name": "ZenBooks",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "02838682889",
 			"email": "admin@zenbooks.vn"
 		},
 		"address": "Tầng 7 - Tòa nhà CirCO, 222 Điện Biên Phủ, Phường Võ Thị Sáu Quận 3, TP.HCM",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00052",
-				"sku": "shnn00052",
-				"name": "Giải Thích Ngữ Pháp Tiếng Anh (Tái Bản 2022)",
-				"purchasePrice": 220000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/z/3/z3097453775918_7ea22457f168a4de92d0ba8178a2257b.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00021",
 		"supplierId": "sup00021",
 		"name": "Cty Nhân Trí Việt",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "0838379344",
 			"email": "info@nhantriviet.com"
 		},
 		"address": "83B Trần Đình Xu, Phường Nguyễn Cư Trinh, Quận 1, Thành phố Hồ Chí Minh",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00056",
-				"sku": "shnn00056",
-				"name": "Giáo Trình Chuẩn HSK 1 (Tái Bản 2023)",
-				"purchasePrice": 198000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/9/7/9786043775662.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00022",
 		"supplierId": "sup00022",
 		"name": "Bình Tây",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "0839699999",
 			"email": "bitex@bitex.com.vn"
 		},
 		"address": "Đường Tỉnh 835 - ấp 3A - Xã Phước Lợi - Huyện Bến Lức - Tỉnh Long An",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00058",
-				"sku": "vpph00058",
-				"name": "Máy Tính Casio FX 580 VN X",
-				"purchasePrice": 757000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_8906.jpg"
-			},
-			{
-				"productId": "prod00061",
-				"sku": "vpph00061",
-				"name": "Máy Tính Casio FX580VN X-BU (Màu Xanh)",
-				"purchasePrice": 757000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/c/a/casio-fx-580vn-x-xanh-body-1-dd.jpg"
-			},
-			{
-				"productId": "prod00064",
-				"sku": "vpph00064",
-				"name": "Máy Tính CASIO FX-880BTG - Màu Đen",
-				"purchasePrice": 820000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/4/5/4549526613692.jpg"
-			},
-			{
-				"productId": "prod00070",
-				"sku": "vpph00070",
-				"name": "Bút Dạ Quang Pastel - Bitex HL05 - Mild Blue",
-				"purchasePrice": 9500,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935276457444.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00023",
 		"supplierId": "sup00023",
 		"name": "Cty Đỉnh Điểm",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "02862966348",
 			"email": "toppoint.sales@gmail.com"
 		},
 		"address": "41 Lê Văn Huân, phường 13, quận Tân Bình, Thành phố Hồ Chí Minh",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00063",
-				"sku": "vpph00063",
-				"name": "Bút Bi Claro Sigma Plus Gold 0.7 mm - Mực Xanh",
-				"purchasePrice": 9000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8907016014514.jpg"
-			},
-			{
-				"productId": "prod00066",
-				"sku": "vpph00066",
-				"name": "Phấn Vặn Mungyo Đa Năng MBG-12 - Màu Trắng",
-				"purchasePrice": 17000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_55405_1.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00024",
 		"supplierId": "sup00024",
 		"name": "Fahasa Print",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "1900636467",
 			"email": "cskh@fahasa.com.vn"
 		},
 		"address": "60 - 62 Lê Lợi, Quận 1, TP. HCM, Việt Nam",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00065",
-				"sku": "vpph00065",
-				"name": "Tập Học Sinh Wolfoo Và Những Người Bạn - 4 Ô Ly 96 Trang 70gsm - Fahasa 03 (Mẫu Bìa Giao Ngẫu Nhiên)",
-				"purchasePrice": 9500,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8934986009172_5.jpg"
-			},
-			{
-				"productId": "prod00094",
-				"sku": "lnie00094",
-				"name": "Túi Đựng Quà 16 x 22 x 8 cm - Nature On Sunset - The Sun 01",
-				"purchasePrice": 13000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8934986009813_1.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00025",
 		"supplierId": "sup00025",
 		"name": "Thiên Long Hoàn Cầu",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "(+84) 28 3754 3728",
 			"email": "info@thienlonggroup.com"
 		},
 		"address": "Tầng 10, Sofic Tower, Số 10 Đường Mai Chí Thọ, Phường Thủ Thiêm, Thành Phố Thủ Đức, Thành Phố Hồ Chí Minh, Việt Nam",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00067",
-				"sku": "vpph00067",
-				"name": "Vỉ 3 Bút Chì Gỗ 2B Thiên Long GP-01 (Mẫu Màu Giao Ngẫu Nhiên)",
-				"purchasePrice": 14000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001821090_1.jpg"
-			},
-			{
-				"productId": "prod00068",
-				"sku": "vpph00068",
-				"name": "Bút Bi 0.7 mm Thiên Long TL-047 - Mực Xanh",
-				"purchasePrice": 10500,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001802921_1.jpg"
-			},
-			{
-				"productId": "prod00072",
-				"sku": "vpph00072",
-				"name": "Bút Lông Bảng Thiên Long WB-02 - Mực Xanh",
-				"purchasePrice": 8000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_236630.jpg"
-			},
-			{
-				"productId": "prod00075",
-				"sku": "vpph00075",
-				"name": "Mực Bút Lông Bảng 25ml - Thiên Long WBI-01 - Mực Xanh",
-				"purchasePrice": 27000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001831419.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00026",
 		"supplierId": "sup00026",
 		"name": "Cty Việt Thương",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "0933516879",
 			"email": "info@hojafittings.com"
 		},
 		"address": "Số 61/40/12 Đường số 59, Phường 14, Quận Gò Vấp, TP. HCM, Việt Nam",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00069",
-				"sku": "vpph00069",
-				"name": "Tẩy Chì Học Sinh Staedtler 526 S40",
-				"purchasePrice": 5500,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_29212.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00027",
 		"supplierId": "sup00027",
 		"name": "Cty Fabico",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "02743822062",
 			"email": "hotro@fabico.com.vn"
 		},
 		"address": "604 Đ. Cách Mạng Tháng 8, Phú Cường, Thủ Dầu Một, Bình Dương",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00071",
-				"sku": "vpph00071",
-				"name": "Chuốt Bút Chì Masterart Cỡ 5 (Mẫu Màu Giao Ngẫu Nhiên)",
-				"purchasePrice": 3500,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_242253.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00028",
 		"supplierId": "sup00028",
 		"name": "Cty TM Hạnh Thuận",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "0310576040",
 			"email": null
 		},
 		"address": "Số 43 Đường D4, Khu Him Lam Kênh Tẻ, Phường Tân Hưng, Quận 7, TP Hồ Chí Minh",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00073",
-				"sku": "vpph00073",
-				"name": "Băng Keo Trong 5F - Màu Trắng",
-				"purchasePrice": 16500,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/1/5/1507020104040-_1_-1.jpg"
-			},
-			{
-				"productId": "prod00074",
-				"sku": "vpph00074",
-				"name": "Băng Keo 2 Mặt 5 Ly Hiệp Phát - Màu Trắng",
-				"purchasePrice": 3000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_224778.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00029",
 		"supplierId": "sup00029",
 		"name": "Vĩnh Thịnh",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "0964119900",
 			"email": "sales@vinhthinhpaper.vn"
 		},
 		"address": "348 Bến Vân Đồn, Phường 1, Quận 4, TP. Hồ Chí Minh",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00076",
-				"sku": "vpph00076",
-				"name": "Bút Bi Silk Ball Doublea DBP-207-B - Mực Xanh",
-				"purchasePrice": 8000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_8250.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00030",
 		"supplierId": "sup00030",
 		"name": "HỘ KINH DOANH CÔ TIÊN XANH",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "0907518501",
 			"email": null
 		},
 		"address": "27 An Xuân, Phường An Khê, Quận Thanh Khê, Đà Nẵng",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00077",
-				"sku": "dcho00077",
-				"name": "Bộ Tranh Tương Tác Cô Tiên Xanh - Đi Đu Idol",
-				"purchasePrice": 36000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/9/3900000146005_2.jpg"
-			},
-			{
-				"productId": "prod00082",
-				"sku": "dcho00082",
-				"name": "Bộ Tranh Tương Tác Cô Tiên Xanh - Tiệm Cà Phê Tèo",
-				"purchasePrice": 36000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/9/3900000125468-dd.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00031",
 		"supplierId": "sup00031",
 		"name": "Việt Tinh Anh",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "02862638600",
 			"email": "info@viettinhanh.com.vn"
 		},
 		"address": "33-35 đường D4, khu Đô thị mới Him Lam, Phường Tân Hưng, Quận 7, TP. Hồ Chí Minh",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00079",
-				"sku": "dcho00079",
-				"name": "Đồ Chơi Mô Hình MINIFORCE - Robot Hộ Thần Tam Long Hợp Thể Trioh V - 503020",
-				"purchasePrice": 349000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/8/8809758733435.jpg"
-			},
-			{
-				"productId": "prod00081",
-				"sku": "dcho00081",
-				"name": "Đồ Chơi Cờ Trí Tuệ UNO W2085",
-				"purchasePrice": 169000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/7/7/77e3eeaa6424151057b58254bcba52ca.jpg"
-			},
-			{
-				"productId": "prod00085",
-				"sku": "dcho00085",
-				"name": "Đồ Chơi Mô Hình MINIFORCE - Robot Hộ Thần Mãnh Sư Kim Ngưu Leo Bull V - 503019",
-				"purchasePrice": 349000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/8/8809758733428.jpg"
-			},
-			{
-				"productId": "prod00087",
-				"sku": "dcho00087",
-				"name": "Đồ Chơi Mô Hình Siêu Xe - Hot Wheels C4982 - 171/250 - Rockin' Railer",
-				"purchasePrice": 69000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/2/0/2001011517622-mau2_4.jpg"
-			},
-			{
-				"productId": "prod00088",
-				"sku": "dcho00088",
-				"name": "Đồ Chơi Siêu Xe Bão Tố Điều Khiển Từ Xa - Vecto VT632/GR - Màu Xanh Lá",
-				"purchasePrice": 549000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935337500614.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00032",
 		"supplierId": "sup00032",
 		"name": "Cty VPP Hán Minh",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "02837628047",
 			"email": "hanminhvpp007@yahoo.com.vn"
 		},
 		"address": "378 Hồng Bàng, P.16, Q.11, TP HCM",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00080",
-				"sku": "dcho00080",
-				"name": "Bộ Xoay Nam Châm",
-				"purchasePrice": 38500,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8938500905674-_8_.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00033",
 		"supplierId": "sup00033",
 		"name": "Cty CP SX & XNK DUKA",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "0862297896",
 			"email": "contact@duka.vn"
 		},
 		"address": "LK 02 - 03, Dãy B, KĐT Green Pearl, 378 Minh Khai, Hai Bà Trưng, Hà Nội",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00078",
-				"sku": "dcho00078",
-				"name": "Đồ Chơi Robot Biến Hình Tia Chớp Hành Động - Cresta DK81138 - Siêu Xe Cảnh Sát",
-				"purchasePrice": 115000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/8/8809758733435.jpg"
-			},
-			{
-				"productId": "prod00083",
-				"sku": "dcho00083",
-				"name": "Đồ Chơi Trống Bi Bô Nốt Nhạc Xanh DK81045",
-				"purchasePrice": 120000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_236964.jpg"
-			},
-			{
-				"productId": "prod00089",
-				"sku": "dcho00089",
-				"name": "Đồ Chơi Siêu Xe Điều Khiển Từ Xa McLaren WINKA DK81002 - Màu Đỏ",
-				"purchasePrice": 250000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_28563.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00034",
 		"supplierId": "sup00034",
 		"name": "Cty XNK Liên Hiệp Thành",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "0943833322",
 			"email": "lienhiepthanh1@gmail.com"
 		},
 		"address": "105D Lò Siêu, Phường 16, Quận 11, TP. HCM",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00084",
-				"sku": "dcho00084",
-				"name": "Cờ Vua Nam Châm Bàn Trung",
-				"purchasePrice": 239000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936056057380.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00035",
 		"supplierId": "sup00035",
 		"name": "CÔNG TY CỔ PHẦN THẾ GIỚI ĐỒ CHƠI MEGATOYS",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "0981039959",
 			"email": "lienhe24h.mega@gmail.com"
 		},
 		"address": "Số 143/2 Phan Huy Ích - Phường 15 - Quận Tân Bình, Tp Hồ Chí Minh",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00086",
-				"sku": "dcho00086",
-				"name": "Đồ Chơi Giáo Dục STEM Lắp Ráp Robot Chạy Bằng Năng Lượng Mặt Trời - Green Enegy 9501",
-				"purchasePrice": 229000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936190511526.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00036",
 		"supplierId": "sup00036",
 		"name": "CÔNG TY TNHH TEENBOX",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "0938696549",
 			"email": null
 		},
 		"address": "146 Đường Xuân Thới Sơn 24, Ấp Dân Thắng 1 , Xã Tân Thới Nhì, Huyện Hóc Môn, Thành phố Hồ Chí Minh, Việt Nam",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00090",
-				"sku": "dcho00090",
-				"name": "Thú Bông Doraemon - Phiên Bản Sinh Nhật Doraemon 03/09 - Size M",
-				"purchasePrice": 279000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936134262897.jpg"
-			},
-			{
-				"productId": "prod00095",
-				"sku": "lnie00095",
-				"name": "Móc Khóa Thú Bông Amuro - Tagger CNGNPL040",
-				"purchasePrice": 115000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936134262040.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00037",
 		"supplierId": "sup00037",
 		"name": "Cty Linh Lan",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "02839897293",
 			"email": "ketoanlinhlan239@gmail.com"
 		},
 		"address": "493/13/9 Lê Đức Thọ, P. 16, Q. Gò Vấp, Tp. Hồ Chí Minh",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00091",
-				"sku": "lnie00091",
-				"name": "Túi Giấy Đựng Quà Giáng Sinh Xmax Đứng Size M - Linh Lan 37423",
-				"purchasePrice": 14000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936078092796-mau2.jpg"
-			},
-			{
-				"productId": "prod00096",
-				"sku": "lnie00096",
-				"name": "Hộp Quà Chữ Nhật Giấy Đính Nơ - Linh Lan 38 x 28 cm",
-				"purchasePrice": 98000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936078092178.jpg"
-			},
-			{
-				"productId": "prod00098",
-				"sku": "lnie00098",
-				"name": "Hộp Quà Cao Cấp Có Nơ - Nắp Rời - Size 15 x 12 x 8 cm - Linh Lan  N151208ORI-N1 - Mẫu 8",
-				"purchasePrice": 39000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936078091522-mau5.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00038",
 		"supplierId": "sup00038",
 		"name": "Hộ KD Bu Bu",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "default",
 			"email": "default"
 		},
 		"address": "default",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00092",
-				"sku": "lnie00092",
-				"name": "Bộ Phụ Kiện Trang Trí Noel - Bu Bu BB055 - Mẫu 2",
-				"purchasePrice": 112000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/9/3900000173889-mau2.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00039",
 		"supplierId": "sup00039",
 		"name": "Cty Văn Hoá Việt Văn",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "0838665765",
 			"email": null
 		},
 		"address": "490 Hương lộ 2, Phường Bình Trị Đông, Quận Bình Tân, Thành phố Hồ Chí Minh",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00093",
-				"sku": "lnie00093",
-				"name": "Hộp 16 Trái Châu Trang Trí Giáng Sinh - 6ADKLE16 - Màu Vàng Gold",
-				"purchasePrice": 113000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/1/8/1880000979228.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
 		"id": "sup00040",
 		"supplierId": "sup00040",
 		"name": "Cty R Star",
+		"supplierGroupId": "supg00000",
+		"supplierGroupName": "Khác",
 		"contact": {
 			"phone": "02837559009",
 			"email": "info@rstar.vn"
 		},
 		"address": "919 Hậu Giang, Phường 11, Quận 06, Tp.HCM",
 		"description": "",
-		"productsSupplied": [
-			{
-				"productId": "prod00097",
-				"sku": "lnie00097",
-				"name": "Bộ 5 Xốp Eva Kim Tuyến Decal DYI Art & Craft - Star Kids K-901 (Sắc Độ Màu Giao Ngẫu Nhiên)",
-				"purchasePrice": 69000,
-				"currentStock": 50,
-				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935256603885.jpg"
-			}
-		]
+		"createdAt": "2023-11-21T16:31:07",
+		"isActive": true,
+		"isDeleted": false,
+		"ttl": -1
 	}
 ]

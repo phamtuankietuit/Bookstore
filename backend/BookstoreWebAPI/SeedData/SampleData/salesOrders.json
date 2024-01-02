@@ -1,7 +1,7 @@
 [
 	{
 		"id": "ord00001",
-		"orderId": "ord00001",
+		"salesOrderId": "ord00001",
 		"createdAt": "2023-12-10T00:00:00",
 		"monthYear": "2023-12",
 		"returnDate": "2023-12-15T00:00:00",
@@ -46,11 +46,11 @@
 		"paymentMethod": "cash",
 		"status": "paid",
 		"note": "",
-		"isDeleted": false
+		"ttl": -1
 	},
 	{
 		"id": "ord00002",
-		"orderId": "ord00002",
+		"salesOrderId": "ord00002",
 		"createdAt": "2023-12-10T00:00:00",
 		"monthYear": "2023-12",
 		"returnDate": "2023-11-15T00:00:00",
@@ -113,11 +113,11 @@
 		"paymentMethod": "cash",
 		"status": "paid",
 		"note": "",
-		"isDeleted": false
+		"ttl": -1
 	},
 	{
 		"id": "ord00003",
-		"orderId": "ord00003",
+		"salesOrderId": "ord00003",
 		"createdAt": "2023-12-10T00:00:00",
 		"monthYear": "2023-12",
 		"returnDate": "2023-12-15T00:00:00",
@@ -189,11 +189,11 @@
 		"paymentMethod": "credit_card",
 		"status": "paid",
 		"note": "",
-		"isDeleted": false
+		"ttl": -1
 	},
 	{
 		"id": "ord00004",
-		"orderId": "ord00004",
+		"salesOrderId": "ord00004",
 		"createdAt": "2023-12-10T00:00:00",
 		"monthYear": "2023-12",
 		"returnDate": "2023-12-15T00:00:00",
@@ -229,11 +229,11 @@
 		"paymentMethod": "credit_card",
 		"status": "paid",
 		"note": "",
-		"isDeleted": false
+		"ttl": -1
 	},
 	{
 		"id": "ord00005",
-		"orderId": "ord00005",
+		"salesOrderId": "ord00005",
 		"createdAt": "2023-12-10T00:00:00",
 		"monthYear": "2023-12",
 		"returnDate": "2023-12-15T00:00:00",
@@ -269,11 +269,11 @@
 		"paymentMethod": "credit_card",
 		"status": "paid",
 		"note": "",
-		"isDeleted": false
+		"ttl": -1
 	},
 	{
 		"id": "ord00006",
-		"orderId": "ord00006",
+		"salesOrderId": "ord00006",
 		"createdAt": "2023-12-10T00:00:00",
 		"monthYear": "2023-12",
 		"returnDate": "2023-12-15T00:00:00",
@@ -327,11 +327,11 @@
 		"paymentMethod": "credit_card",
 		"status": "paid",
 		"note": "",
-		"isDeleted": false
+		"ttl": -1
 	},
 	{
 		"id": "ord00007",
-		"orderId": "ord00007",
+		"salesOrderId": "ord00007",
 		"createdAt": "2023-12-10T00:00:00",
 		"monthYear": "2023-12",
 		"returnDate": "2023-12-15T00:00:00",
@@ -376,11 +376,11 @@
 		"paymentMethod": "banking",
 		"status": "paid",
 		"note": "",
-		"isDeleted": false
+		"ttl": -1
 	},
 	{
 		"id": "ord00008",
-		"orderId": "ord00008",
+		"salesOrderId": "ord00008",
 		"createdAt": "2023-12-10T00:00:00",
 		"monthYear": "2023-12",
 		"returnDate": "2023-12-15T00:00:00",
@@ -434,11 +434,11 @@
 		"paymentMethod": "credit_card",
 		"status": "paid",
 		"note": "",
-		"isDeleted": false
+		"ttl": -1
 	},
 	{
 		"id": "ord00009",
-		"orderId": "ord00009",
+		"salesOrderId": "ord00009",
 		"createdAt": "2023-12-10T00:00:00",
 		"monthYear": "2023-12",
 		"returnDate": "2023-12-15T00:00:00",
@@ -492,11 +492,11 @@
 		"paymentMethod": "credit_card",
 		"status": "paid",
 		"note": "",
-		"isDeleted": false
+		"ttl": -1
 	},
 	{
 		"id": "ord00010",
-		"orderId": "ord00010",
+		"salesOrderId": "ord00010",
 		"createdAt": "2023-12-12T00:00:00",
 		"monthYear": "2023-12",
 		"returnDate": "2023-12-17T00:00:00",
@@ -568,6 +568,6 @@
 		"paymentMethod": "banking",
 		"status": "paid",
 		"note": "",
-		"isDeleted": false
+		"ttl": -1
 	}
 ]

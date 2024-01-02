@@ -2,9 +2,9 @@
 	{
 		"id": "cate00000",
 		"categoryId": "cate00000",
-		"name": "uncategorized",
-		"text": "Uncategorized",
-		"attributes": ["supplierName"],
+		"name": "khac",
+		"text": "Khác",
+		"isRemovable": false,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -13,7 +13,7 @@
 		"categoryId": "cate00001",
 		"name": "truyen-thieu-nhi",
 		"text": "Truyện Thiếu Nhi",
-		"attributes": ["supplierName", "publishYear", "author", "publisher"],
+		"isRemovable": false,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -22,7 +22,7 @@
 		"categoryId": "cate00002",
 		"name": "giao-khoa-tham-khao",
 		"text": "Giáo Khoa - Tham Khảo",
-		"attributes": ["supplierName", "publishYear", "author", "publisher"],
+		"isRemovable": false,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -31,7 +31,7 @@
 		"categoryId": "cate00003",
 		"name": "tieu-thuyet",
 		"text": "Tiểu Thuyết",
-		"attributes": ["supplierName", "publishYear", "author", "publisher"],
+		"isRemovable": false,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -40,7 +40,7 @@
 		"categoryId": "cate00004",
 		"name": "truyen-ngan",
 		"text": "Truyện Ngắn",
-		"attributes": ["supplierName", "publishYear", "author", "publisher"],
+		"isRemovable": false,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -49,7 +49,7 @@
 		"categoryId": "cate00005",
 		"name": "light-novel",
 		"text": "Light Novel",
-		"attributes": ["supplierName", "publishYear", "author", "publisher"],
+		"isRemovable": false,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -58,7 +58,7 @@
 		"categoryId": "cate00006",
 		"name": "tam-ly-ky-nang-song",
 		"text": "Tâm Lý - Kỹ Năng Sống",
-		"attributes": ["supplierName", "publishYear", "author", "publisher"],
+		"isRemovable": false,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -67,7 +67,7 @@
 		"categoryId": "cate00007",
 		"name": "sach-hoc-ngoai-ngu",
 		"text": "Sách Học Ngoại Ngữ",
-		"attributes": ["supplierName", "publishYear", "author", "publisher"],
+		"isRemovable": false,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -76,7 +76,7 @@
 		"categoryId": "cate00008",
 		"name": "van-phong-pham",
 		"text": "Văn Phòng Phẩm",
-		"attributes": ["supplierName", "manufacturer"],
+		"isRemovable": false,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -85,7 +85,7 @@
 		"categoryId": "cate00009",
 		"name": "do-choi",
 		"text": "Đồ Chơi",
-		"attributes": ["supplierName", "manufacturer"],
+		"isRemovable": false,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -94,7 +94,7 @@
 		"categoryId": "cate00010",
 		"name": "luu-niem",
 		"text": "Lưu Niệm",
-		"attributes": ["supplierName", "manufacturer"],
+		"isRemovable": false,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -103,7 +103,7 @@
 		"categoryId": "cate00011",
 		"name": "luu-niem112",
 		"text": "Lưu Niệm112",
-		"attributes": ["supplierName", "manufacturer"],
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	}

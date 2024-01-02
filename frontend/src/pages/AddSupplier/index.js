@@ -25,7 +25,10 @@ function AddSupplier() {
     const [email, setEmail] = useState('');
     const [group, setGroup] = useState('');
     const [address, setAddress] = useState('');
-
+    const [option, setOption] = useState([])
+    const [groupIDlist, setGroupIDlist] = useState([])
+    const [groupID, setGroupID] = useState('')
+    const [call, setCall] = useState(false)
     // MODAL LOADING
     const [loading, setLoading] = useState(false);
 
@@ -37,17 +40,16 @@ function AddSupplier() {
             // CALL API
             const obj = {
                 name: name,
+                supplierGroupId: groupID,
                 supplierGroupName: group,
                 contact: {
                     phone: phone,
                     email: email
                 },
                 address: address,
-                description: '',
-                isActive: true
+                description: null,
             }
-            setLoading(true);
-
+            // setLoading(true);
 
 
             const fetchApi = async () => {
@@ -62,6 +64,13 @@ function AddSupplier() {
                         toastContext.notify('success', 'Thêm nhà cung cấp thành công');
                     }, 2000);
                 }
+
+                else {
+                    setTimeout(() => {
+                        setLoading(false);
+                        toastContext.notify('error', 'Đã có lỗi');
+                    }, 2000);
+                }
                 console.log(obj)
             }
 
@@ -74,6 +83,44 @@ function AddSupplier() {
     const handleExit = () => {
         navigate(-1);
     };
+
+    useEffect(() => {
+        const fetchApi = async () => {
+            const result = await SuppliersServices.getAllSupplierGroups(1, 100)
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            result.data.map((e) => {
+                if (call === false) {
+                    setOption(op => [...op, e.name])
+                    setGroupIDlist(op => [...op, e.supplierGroupId])
+                }
+                setCall(true)
+
+
+            })
+
+        }
+        setTimeout(() => {
+            fetchApi();
+            console.log(call)
+        }, 2500)
+
+
+
+
+
+
+    });
+
+    const onChoosegroup = (value) => {
+        option.map((e, index) => {
+            if (e === value) setGroupID(groupIDlist[index])
+        })
+
+        setGroup(value)
+    }
 
     // MODAL ADD GROUP
     const [open, setOpen] = useState(false);
@@ -151,9 +198,9 @@ function AddSupplier() {
                                 <div className={cx('two-cols', 'm-b')}>
                                     <Input
                                         title={'Nhóm nhà cung cấp'}
-                                        items={['Sách', 'Khác']}
+                                        items={option}
                                         value={group}
-                                        onChange={(value) => setGroup(value)}
+                                        onChange={(value) => onChoosegroup(value)}
                                         readOnly
                                     />
                                     <Button

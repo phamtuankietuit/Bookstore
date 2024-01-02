@@ -1,18 +1,16 @@
 ﻿using Newtonsoft.Json;
 using BookstoreWebAPI.Models.Shared;
+using BookstoreWebAPI.Models.Abstracts;
 
 namespace BookstoreWebAPI.Models.Documents
 {
-    public class SalesOrderDocument
+    public class SalesOrderDocument : IBaseCosmosDocument, ISoftDeleteCosmosDocument
     {
         [JsonProperty("id")]
         public string Id { get; set; }
-
+        
         [JsonProperty("orderId")]
         public string OrderId { get; set; }
-
-        [JsonProperty("createdAt")]
-        public DateTime CreatedAt { get; set; }
 
         [JsonProperty("monthYear")]
         public string MonthYear { get; set; }
@@ -46,8 +44,17 @@ namespace BookstoreWebAPI.Models.Documents
 
         [JsonProperty("note")]
         public string Note { get; set; }
-
+        
         [JsonProperty("isDeleted")]
         public bool IsDeleted { get; set; }
+        
+        [JsonProperty("isRemovable")]
+        public bool IsRemovable { get; set; }
+        
+        [JsonProperty("createdAt")]
+        public DateTime CreatedAt { get; set; }
+        
+        [JsonProperty("ttl")]
+        public int TTL { get; set; }
     }
 }

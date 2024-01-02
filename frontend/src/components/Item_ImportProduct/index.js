@@ -18,7 +18,7 @@ function Item_import({ product, index, funtion, update }) {
 
     const totalValue = () => {
         let newObj = obj;
-        newObj['totalCost'] = newObj['orderQuantity'] * newObj['purchasePrice'];
+        newObj['totalPrice'] = newObj['orderQuantity'] * newObj['purchasePrice'];
         setObj(newObj)
         update()
     }
@@ -56,7 +56,7 @@ function Item_import({ product, index, funtion, update }) {
             </div>
 
             <div className={cx('properties-3')}>
-                {addCommas(product.orderQuantity)}
+                {addCommas(product.totalPrice)}
             </div>
             <div className={cx('properties-1')}>
                 <FaX className={cx('icon')} onClick={(e) => funtion(product.productId, index)} />

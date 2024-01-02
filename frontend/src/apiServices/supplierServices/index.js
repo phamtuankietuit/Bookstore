@@ -10,9 +10,9 @@ export const getAllSuppliers = async (pageNumber, pageSize) => {
     }
 }
 
-export const getAllSupplierGroups = async () => {
+export const getAllSupplierGroups = async (pageNumber, pageSize) => {
     try {
-        const res = await request.getMethod('SupplierGroups');
+        const res = await request.getMethod(`SupplierGroups?pageSize=${pageSize}&pageNumber=${pageNumber}`);
 
         return res;
     } catch (error) {
@@ -37,6 +37,14 @@ export const UpdateSupplier = async (id, obj) => {
     }
 }
 
+export const DeleteSupplier = async (id) => {
+    try {
+        const res = await request.deleteMethod('Suppliers/' + id);
+        return res;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
 export const CreateSuppliers = async (obj) => {
     try {
         const res = await request.postMethod('Suppliers', obj);

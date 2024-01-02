@@ -14,7 +14,7 @@ function item({ product }) {
                     <img src={product.featureImageUrl ? product.featureImageUrl : product.images[0]} className={`${cx('pr-img')}  mx-auto my-auto d-block`} />
                 </Col>
                 <Col xs={6} md={6} lg={6}>
-                    <p>{product.name}</p>
+                    <p className={cx('item_name')}>{product.name}</p>
                     <p>{product.sku}</p>
                 </Col>
                 <Col xs md={5} lg={5}>

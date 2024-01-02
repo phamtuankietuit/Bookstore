@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
 using BookstoreWebAPI.Models.Shared;
+using BookstoreWebAPI.Models.Abstracts;
 
 namespace BookstoreWebAPI.Models.Documents
 {
-
-    public class SupplierDocument
+    public class SupplierDocument : IBaseCosmosDocument, IActivatableDocument, ISoftDeleteCosmosDocument
     {
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -15,6 +15,12 @@ namespace BookstoreWebAPI.Models.Documents
         [JsonProperty("name")]
         public string Name { get; set; }
 
+        [JsonProperty("supplierGroupId")]
+        public string SupplierGroupId { get; set; }
+
+        [JsonProperty("supplierGroupName")]
+        public string SupplierGroupName { get; set; }
+
         [JsonProperty("contact")]
         public Contact Contact { get; set; }
 
@@ -24,7 +30,19 @@ namespace BookstoreWebAPI.Models.Documents
         [JsonProperty("description")]
         public string Description { get; set; }
 
-        [JsonProperty("productsSupplied")]
-        public List<ProductsSupplied> ProductsSupplied { get; set; }
+        [JsonProperty("isActive")]
+        public bool IsActive { get; set; }
+
+        [JsonProperty("isDeleted")]
+        public bool IsDeleted { get; set; }
+
+        [JsonProperty("isRemovable")]
+        public bool IsRemovable { get; set; }
+
+        [JsonProperty("createdAt")]
+        public DateTime CreatedAt { get; set; }
+        
+        [JsonProperty("ttl")]
+        public int TTL { get; set; }
     }
 }

@@ -34,20 +34,7 @@ function UpdateCheckProduct() {
     const [PerPage, setPerPage] = useState(20);
     const [currentPage, setcurrentPage] = useState(1);
 
-    const numofTotalPage = Math.ceil(list.length / PerPage);
-    const pages = [...Array(numofTotalPage + 1).keys()].slice(1);
 
-    const indexOflastPd = currentPage * PerPage;
-    const indexOffirstPd = indexOflastPd - PerPage;
-
-    const visible = list.slice(indexOffirstPd, indexOflastPd);
-    const prevPage = () => {
-        if (currentPage !== 1) setcurrentPage(currentPage - 1);
-    }
-
-    const nextPage = () => {
-        if (currentPage !== numofTotalPage) setcurrentPage(currentPage + 1);
-    }
 
     const [show, setShow] = useState(false);
     const handleClose = () => {
@@ -175,9 +162,9 @@ function UpdateCheckProduct() {
                                         </div>
                                         <div className={cx('list-import')}>
                                             {
-                                                visible.map((item, index) => (
+                                                list.map((item, index) => (
                                                     <div className={`${cx('item')}`} key={item.id}>
-                                                        <Item_Check product={item} index={index + (currentPage - 1) * PerPage + 1} funtion={deletearr} />
+                                                        <Item_Check product={item} index={index + 1} funtion={deletearr} />
                                                     </div>
                                                 ))
                                             }
@@ -185,39 +172,7 @@ function UpdateCheckProduct() {
 
 
                                     </div>
-                                    <Row className='mt-3 me-3'>
-                                        <Col xs md={8} className='d-flex  justify-content-end'>
 
-                                            <p className='mt-2 me-2'>Hiển thị</p>
-                                            <Form.Select aria-label="Default select example" placeholder='Loai san pham' className={cx('form-select')}
-                                                onChange={(e) => {
-                                                    setPerPage(parseInt(e.target.value))
-                                                    setcurrentPage(1)
-                                                }}>
-
-                                                <option value="20">20</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                            </Form.Select>
-
-
-                                        </Col>
-                                        <Col xs md={4}>
-                                            <Pagination className=' justify-content-end'>
-                                                <Pagination.Prev onClick={prevPage} />
-                                                {
-                                                    pages.map(page => (
-                                                        <Pagination.Item
-                                                            key={page}
-                                                            onClick={() => setcurrentPage(page)}
-                                                            className={(currentPage === page) ? "active" : ""}>
-                                                            {page}</Pagination.Item>
-                                                    ))
-                                                }
-                                                <Pagination.Next onClick={nextPage} />
-                                            </Pagination>
-                                        </Col>
-                                    </Row>
                                     <Row>
                                         <Col className='mt-4 text-end me-4'>
                                             <Button className={`m-1 ${cx('my-btn')}`} variant="outline-danger" onClick={() => deleteform()}>Xóa</Button>

@@ -16,8 +16,9 @@ import { FaRegCircleXmark } from "react-icons/fa6";
 import { options2, options3 } from '../ImportProduct/data';
 import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
-import * as ProductServices from '~/apiServices/productServices';
+import { MultiSelect } from 'react-multi-select-component';
 import { useNavigate } from 'react-router-dom';
+import * as PromotionServices from '~/apiServices/promotionServices';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
@@ -37,7 +38,7 @@ function Sale() {
     const [customer, setCustomer] = useState(null)
     const [note, setNote] = useState('')
     const [coupon, setCoupon] = useState('')
-    const [couponvalue, setCoupnvalue] = useState(0)
+    const [optionsPromo, setOptionsPromo] = useState([])
     const addarr = (value) => {
         // console.log(value)
         const isFound = arr.some(element => {
@@ -131,15 +132,34 @@ function Sale() {
     }
 
 
+    const [option, setOption] = useState([])
+    const addOption = (value) => {
+        value.map(item => (
+            add(item)
+        ))
+    }
+
+    const add = (value) => {
+        const obj = {
+            label: value.name,
+            value: value
+        }
+
+        setOption(op => [...op, obj])
+    }
     useEffect(() => {
 
         const fetchApi = async () => {
-            const result = await ProductServices.getAllProducts()
+            const result = await PromotionServices.getAllPromotions()
                 .catch((err) => {
                     console.log(err);
                 });
+            if (result) {
+                addOption(result)
 
-            setList(result)
+            }
+            console.log(result)
+
             // console.log(result)
         }
 
@@ -151,7 +171,7 @@ function Sale() {
             <div className={`${cx('header')} d-flex align-items-center`}>
                 <p className={` ${cx('title')} d-flex `}>Tạo đơn mới</p>
                 <div className={` ${cx('search-bar')} me-auto`}>
-                    <SearchResult stypeid={1} setValue={addarr} list={list} />
+                    <SearchResult stypeid={2} setValue={addarr} />
                 </div>
                 <div className={`text-end me-4`}>
                     <FaHouseChimney className={` ${cx('icon')}`} onClick={() => navigate('/overview')} />
@@ -250,8 +270,20 @@ function Sale() {
                                 <Col xs md lg={6}>
                                     <p className='ms-3'>Mã giảm giá</p>
                                 </Col>
-                                <Col xs md lg={6} className='text-end'>
-
+                                <Col xs md lg={6} >
+                                    <MultiSelect
+                                        options={option}
+                                        onChange={setCoupon}
+                                        value={coupon}
+                                        labelledBy="Select"
+                                        hasSelectAll={false}
+                                        overrideStrings={{
+                                            search: 'Tìm kiếm...',
+                                            selectAllFiltered: 'Tất cả (theo tìm kiếm)',
+                                            noOptions: 'Không có kết quả',
+                                            allItemsAreSelected: 'Tất cả',
+                                        }}
+                                    />
                                 </Col>
 
                             </Row>
@@ -343,16 +375,6 @@ function Sale() {
 
                     <hr />
 
-                    <Form.Floating className="mt-3">
-                        <Form.Control
-                            id="floatingInputCustom"
-                            type="email"
-                            placeholder="Nhập mã giảm giá"
-                            className={cx('form-control')}
-                            onChange={(e) => setCoupon(e.target.value)}
-                        />
-                        <label htmlFor="floatingInputCustom">Mã giảm giá</label>
-                    </Form.Floating>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>

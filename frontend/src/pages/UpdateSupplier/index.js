@@ -113,9 +113,22 @@ function UpdateSupplier() {
                     setTimeout(() => {
                         setLoading(false);
                         toastContext.notify(
+                            'error',
+                            'Cập nhật nhà cung cấp không thành công',
+                        );
+
+
+                        // console.log(obj)
+                    }, 2000);
+                }
+                else {
+                    setTimeout(() => {
+                        setLoading(false);
+                        toastContext.notify(
                             'success',
                             'Cập nhật nhà cung cấp thành công',
                         );
+
 
 
                         // console.log(obj)

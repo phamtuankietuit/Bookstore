@@ -323,6 +323,19 @@ function UpdateProduct() {
                     }, 2000);
                 }
 
+                else {
+                    setTimeout(() => {
+                        setLoading(false);
+                        toastContext.notify(
+                            'error',
+                            'Cập nhật sản phẩm thành công',
+                        );
+
+
+                        // console.log(obj)
+                    }, 2000);
+                }
+
             }
 
             fetchApi();

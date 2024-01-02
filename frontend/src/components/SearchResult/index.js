@@ -10,33 +10,41 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Item from '../Item_SearchBar';
 import { FaCirclePlus } from "react-icons/fa6";
 import Spinner from 'react-bootstrap/Spinner';
+import * as ProductServices from '~/apiServices/productServices';
+import * as SuppliersServices from '~/apiServices/supplierServices';
 
 const cx = classNames.bind(styles);
-function SearchResult({ setValue, stypeid, list }) {
+function SearchResult({ setValue, stypeid, supplierID }) {
 
     const [placeholder, setPlaceholder] = useState('');
 
     const [input, setInput] = useState('');
     const [open, setOpen] = useState(false);
 
-
+    const [list, setList] = useState([])
     const handleOnCharge = (value) => {
         setInput(value);
     }
     const prevPage = () => {
-        if (currentPage !== 1) setcurrentPage(currentPage - 1);
+        if (currentPage !== 1) {
+            setcurrentPage(currentPage - 1);
+
+        }
+
     }
 
     const nextPage = () => {
-        if (currentPage !== numofTotalPage) setcurrentPage(currentPage + 1);
+        if (currentPage !== numofTotalPage) {
+            setcurrentPage(currentPage + 1);
+        }
+
     }
     const renderproductlist = list.filter(product => input === "" || product.name.includes(input) || product.sku.includes(input));
     // 
-    const [PerPage, setPerPage] = useState(5);
     const [currentPage, setcurrentPage] = useState(1);
 
-    const numofTotalPage = Math.ceil(list.length / PerPage);
-
+    const [numofTotalPage, setNumofTotal] = useState(0)
+    const PerPage = 5
     const indexOflastPd = currentPage * PerPage;
     const indexOffirstPd = indexOflastPd - PerPage;
 
@@ -45,24 +53,75 @@ function SearchResult({ setValue, stypeid, list }) {
     const handleClick = (obj) => {
         setValue(obj);
         setOpen(false)
+        setcurrentPage(1)
         console.log(obj);
     }
 
+
     useEffect(() => {
         if (stypeid === 0) {
+            const fetchApi = async () => {
+                const result = await SuppliersServices.getAllSuppliers(currentPage, -1)
+                    .catch((err) => {
+                        console.log(err);
+                    });
 
+                if (result) {
+                    setList(result.data);
+                    if (numofTotalPage === '') setNumofTotal(result.metadata.count / 5)
+                }
+                // console.log(result)
+            }
+            fetchApi();
             setPlaceholder('Tìm kiếm theo tên nhà cung cấp')
         }
         else if (stypeid === 1) {
+            if (supplierID !== '') {
+                const fetchApi = async () => {
+                    const result = await ProductServices.getProductsOfSupplier(currentPage, -1, supplierID)
+                        .catch((err) => {
+                            console.log(err);
+                        });
 
+                    if (result) {
+                        setList(result.data);
+                        if (numofTotalPage === '') setNumofTotal(result.metadata.count / 5)
+                    }
+                    // console.log(result)
+                }
+                fetchApi();
+            }
+            else {
+                setList([]);
+                setNumofTotal(0)
+            }
             setPlaceholder('Tìm kiếm theo mã sản phẩm tên sản phẩm')
+        }
+        else if (stypeid === 2) {
+            const fetchApi = async () => {
+                const result = await ProductServices.getAllProducts(currentPage, -1)
+                    .catch((err) => {
+                        console.log(err);
+                    });
+
+                if (result) {
+                    setList(result.data);
+                    if (numofTotalPage === '') setNumofTotal(result.metadata.count / 5)
+                }
+                // console.log(result)
+            }
+            fetchApi();
         }
         else {
 
             setPlaceholder('Thêm khách hàng vào đơn')
         }
 
-    });
+        if (supplierID === '') setOpen(false)
+
+    }, [open, supplierID]);
+
+
     return (
         <div className={cx('search-with-result')}>
             <div
@@ -98,7 +157,7 @@ function SearchResult({ setValue, stypeid, list }) {
                                     <div>
                                         {
                                             visible.map((option, index) => (
-                                                <div className={cx('result-item')} onClick={() => handleClick(option)} key={index}>
+                                                <div className={cx('result-item')} onClick={() => handleClick(option, index)} key={index}>
                                                     {(() => {
                                                         switch (stypeid) {
                                                             case 0:
@@ -106,6 +165,8 @@ function SearchResult({ setValue, stypeid, list }) {
                                                             case 1:
                                                                 return <Item product={option} />;
                                                             case 2:
+                                                                return <Item product={option} />;
+                                                            case 3:
                                                                 return <div>
                                                                     <p className='fs-6'>{option.name}</p>
                                                                     <p className={cx('color-gray')}>{option.phone}</p>
@@ -131,8 +192,8 @@ function SearchResult({ setValue, stypeid, list }) {
 
 
                         <Pagination className={`justify-content-end mt-3`}>
-                            <Pagination.Prev onClick={prevPage} />
-                            <Pagination.Next onClick={nextPage} />
+                            <Pagination.Prev onClick={prevPage} disabled={currentPage === 1 ? true : false} />
+                            <Pagination.Next onClick={nextPage} disabled={currentPage === numofTotalPage ? true : false} />
                         </Pagination>
 
                     </div>

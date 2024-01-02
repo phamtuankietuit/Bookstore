@@ -178,7 +178,8 @@ async Task<bool> EnsureContainersAreCreatedAsync(Database database)
         ("salesOrders", "/monthYear"),
         ("purchaseOrders", "/monthYear"),
         ("promotions", "/promotionId"),
-        ("customers","/customerId")
+        ("customers","/customerId"),
+        ("staffs", "/staffId")
     };
 
     foreach (var (containerName, partitionKeyPath) in containersToCreate)

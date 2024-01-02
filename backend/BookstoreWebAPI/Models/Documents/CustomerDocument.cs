@@ -24,11 +24,14 @@ namespace BookstoreWebAPI.Models.Documents
         [JsonProperty("phoneNumber")]
         public string PhoneNumber { get; set; }
 
-        [JsonProperty("salesOrder")]
-        public CustomerSalesOrder SalesOrder { get; set; }
+        [JsonProperty("salesOrderInformation")]
+        public SalesOrderInformation SalesOrderInformation { get; set; }
 
         [JsonProperty("address")]
         public CustomerAddress Address { get; set; }
+
+        [JsonProperty("type")]
+        public string Type { get; set; }
 
         [JsonProperty("note")]
         public string Note { get; set; }

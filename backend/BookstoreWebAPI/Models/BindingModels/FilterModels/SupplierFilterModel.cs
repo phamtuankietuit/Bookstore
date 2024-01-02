@@ -5,9 +5,11 @@ namespace BookstoreWebAPI.Models.BindingModels.FilterModels
     public class SupplierFilterModel
     {
         [FromQuery(Name = "supplierGroupId")]
-        public string? SupplierGroupId { get; set; }
+        [ModelBinder(BinderType = typeof(CommaDelimitedArrayModelBinder<string>))]
+        public IEnumerable<string>? SupplierGroupIds { get; set; }
 
         [FromQuery(Name = "isActive")]
-        public string? IsActive { get; set; }
+        [ModelBinder(BinderType = typeof(CommaDelimitedArrayModelBinder<string>))]
+        public IEnumerable<string>? IsActives { get; set; }
     }
 }

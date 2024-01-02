@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using BookstoreWebAPI.Models.Documents;
 using BookstoreWebAPI.Models.DTOs;
+using BookstoreWebAPI.Models.Shared;
+using Microsoft.Azure.Cosmos.Linq;
 
 namespace BookstoreWebAPI.Utils
 {
@@ -9,67 +11,94 @@ namespace BookstoreWebAPI.Utils
         public MappingProfile() 
         {
             CreateMap<ProductDTO, ProductDocument>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductId))
-                .ForMember(dest => dest.Ratings, opt => opt.Ignore())
-                .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(src => false)) // Assuming this is handled elsewhere
-                ;
+                .ForMember(dest => dest.Id, act => act.MapFrom(src => src.ProductId))
+                .ForMember(dest => dest.Sku, act => act.MapFrom(src => src.ProductId))
+                .ForMember(dest => dest.Ratings, act => act.Ignore())
+                .ForMember(dest => dest.IsRemovable, act => act.MapFrom(src => true))
+                .ForMember(dest => dest.IsDeleted, act => act.MapFrom(src => false))
+                .ForMember(dest => dest.TTL, act => act.MapFrom(src => -1));
 
             CreateMap<ProductDTO, InventoryDocument>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore()) // Assuming Id is generated elsewhere
-                .ForMember(dest => dest.LastRestocked, opt => opt.Ignore()) // Handle this based on your logic
-                .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(src => false)) // Assuming this is handled elsewhere
-                ;
+                .ForMember(dest => dest.Id, act => act.Ignore())
+                .ForMember(dest => dest.LastRestocked, act => act.Ignore())
+                .ForMember(dest => dest.IsRemovable, act => act.MapFrom(src => true)) 
+                .ForMember(dest => dest.IsDeleted, act => act.MapFrom(src => false)) 
+                .ForMember(dest => dest.TTL, act => act.MapFrom(src => -1));
 
             CreateMap<(ProductDocument, InventoryDocument), ProductDTO>()
-                .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.Item1.ProductId))
-                .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Item1.CategoryId))
-                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Item1.CategoryName))
-                .ForMember(dest => dest.Sku, opt => opt.MapFrom(src => src.Item1.Sku))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Item1.Name))
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Item1.Description))
-                .ForMember(dest => dest.SalePrice, opt => opt.MapFrom(src => src.Item1.SalePrice))
-                .ForMember(dest => dest.PurchasePrice, opt => opt.MapFrom(src => src.Item1.PurchasePrice))
-                .ForMember(dest => dest.Attributes, opt => opt.MapFrom(src => src.Item1.Attributes))
-                .ForMember(dest => dest.Details, opt => opt.MapFrom(src => src.Item1.Details))
-                .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.Item1.IsActive))
-                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.Item1.CreatedAt))
-                .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Item1.Images))
-                .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.Item1.Tags))
+                .ForMember(dest => dest.ProductId, act => act.MapFrom(src => src.Item1.ProductId))
+                .ForMember(dest => dest.CategoryId, act => act.MapFrom(src => src.Item1.CategoryId))
+                .ForMember(dest => dest.CategoryName, act => act.MapFrom(src => src.Item1.CategoryName))
+                .ForMember(dest => dest.SupplierId, act => act.MapFrom(src => src.Item1.SupplierId))
+                .ForMember(dest => dest.SupplierName, act => act.MapFrom(src => src.Item1.SupplierName))
+                .ForMember(dest => dest.Sku, act => act.MapFrom(src => src.Item1.Sku))
+                .ForMember(dest => dest.Name, act => act.MapFrom(src => src.Item1.Name))
+                .ForMember(dest => dest.Description, act => act.MapFrom(src => src.Item1.Description))
+                .ForMember(dest => dest.SalePrice, act => act.MapFrom(src => src.Item1.SalePrice))
+                .ForMember(dest => dest.PurchasePrice, act => act.MapFrom(src => src.Item1.PurchasePrice))
+                .ForMember(dest => dest.Attributes, act => act.MapFrom(src => src.Item1.Attributes))
+                .ForMember(dest => dest.Details, act => act.MapFrom(src => src.Item1.Details))
+                .ForMember(dest => dest.IsActive, act => act.MapFrom(src => src.Item1.IsActive))
+                .ForMember(dest => dest.CreatedAt, act => act.MapFrom(src => src.Item1.CreatedAt))
+                .ForMember(dest => dest.Images, act => act.MapFrom(src => src.Item1.Images))
+                .ForMember(dest => dest.Tags, act => act.MapFrom(src => src.Item1.Tags))
 
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Item2.Status))
-                .ForMember(dest => dest.Barcode, opt => opt.MapFrom(src => src.Item2.Barcode))
-                .ForMember(dest => dest.MinStock, opt => opt.MapFrom(src => src.Item2.MinStock))
-                .ForMember(dest => dest.MaxStock, opt => opt.MapFrom(src => src.Item2.MaxStock))
-                .ForMember(dest => dest.CurrentStock, opt => opt.MapFrom(src => src.Item2.CurrentStock))
-            ;
+                .ForMember(dest => dest.Status, act => act.MapFrom(src => src.Item2.Status))
+                .ForMember(dest => dest.Barcode, act => act.MapFrom(src => src.Item2.Barcode))
+                .ForMember(dest => dest.MinStock, act => act.MapFrom(src => src.Item2.MinStock))
+                .ForMember(dest => dest.MaxStock, act => act.MapFrom(src => src.Item2.MaxStock))
+                .ForMember(dest => dest.CurrentStock, act => act.MapFrom(src => src.Item2.CurrentStock))
+           ;
+
 
             CreateMap<CategoryDocument, CategoryDTO>();
-
             CreateMap<CategoryDTO, CategoryDocument>()
-                .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(src => false))
-                .ForMember(dest => dest.TTL, opt => opt.MapFrom(src => -1))
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CategoryId));
+                .ForMember(dest => dest.Id, act => act.MapFrom(src => src.CategoryId))
+                .ForMember(dest => dest.IsRemovable, act => act.MapFrom(src => true))
+                .ForMember(dest => dest.IsDeleted, act => act.MapFrom(src => false))
+                .ForMember(dest => dest.TTL, act => act.MapFrom(src => -1));
+
+            
+            CreateMap<SupplierDocument, SupplierDTO>();
+            CreateMap<SupplierDTO, SupplierDocument>()
+                .ForMember(dest => dest.Id, act => act.MapFrom(src => src.SupplierId))
+                .ForMember(dest => dest.IsActive, act => act.MapFrom(src => true))
+                .ForMember(dest => dest.IsRemovable, act => act.MapFrom(src => true))
+                .ForMember(dest => dest.IsDeleted, act => act.MapFrom(src => false))
+                .ForMember(dest => dest.TTL, act => act.MapFrom(src => -1));
+
+
+            CreateMap<SupplierGroupDocument, SupplierGroupDTO>();
+            CreateMap<SupplierGroupDTO, SupplierGroupDocument>()
+                .ForMember(dest => dest.Id, act => act.MapFrom(src => src.SupplierGroupId))
+                .ForMember(dest => dest.IsRemovable, act => act.MapFrom(src => true))
+                .ForMember(dest => dest.IsDeleted, act => act.MapFrom(src => false))
+                .ForMember(dest => dest.TTL, act => act.MapFrom(src => -1));
+
+
+            CreateMap<PurchaseOrderDocument, PurchaseOrderDTO>()
+                .ForMember(dest => dest.Note, act => act.MapFrom(src => src.Note));
 
             CreateMap<PurchaseOrderDTO, PurchaseOrderDocument>()
-                .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(src => false))
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PurchaseOrderId));
+                .ForMember(dest => dest.Id, act => act.MapFrom(src => src.PurchaseOrderId))
+                .ForMember(dest => dest.TTL, act => act.MapFrom(src => -1));
 
-            CreateMap<PurchaseOrderDocument, PurchaseOrderDTO>();
-
-            CreateMap<SalesOrderDTO, SalesOrderDocument>()
-                .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(src => false))
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.OrderId));
 
             CreateMap<SalesOrderDocument, SalesOrderDTO>();
+            CreateMap<SalesOrderDTO, SalesOrderDocument>()
+                .ForMember(dest => dest.Id, act => act.MapFrom(src => src.SalesOrderId))
+                .ForMember(dest => dest.MonthYear, act => act.MapFrom(src => src.CreatedAt != null ? src.CreatedAt.Value.ToString("MM-yyyy") : null))
+                .ForMember(dest => dest.TTL, act => act.MapFrom(src => -1));
 
-            CreateMap<SupplierDTO, SupplierDocument>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.SupplierId));
-
-            CreateMap<SupplierDocument, SupplierDTO>();
 
             CreateMap<PromotionDocument, PromotionDTO>();
+            CreateMap<PromotionDTO, PromotionDocument>()
+                .ForMember(dest => dest.Id, act => act.MapFrom(src => src.PromotionId))
+                .ForMember(dest => dest.IsActive, act => act.MapFrom(src => true))
+                .ForMember(dest => dest.IsRemovable, act => act.MapFrom(src => true))
+                .ForMember(dest => dest.IsDeleted, act => act.MapFrom(src => false))
+                .ForMember(dest => dest.TTL, act => act.MapFrom(src => -1));
 
-            CreateMap<PromotionDTO, PromotionDocument>();
         }
     }
 }

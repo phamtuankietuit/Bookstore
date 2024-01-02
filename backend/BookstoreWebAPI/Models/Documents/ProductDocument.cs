@@ -18,6 +18,9 @@ namespace BookstoreWebAPI.Models.Documents
         [JsonProperty("categoryName")]
         public string CategoryName { get; set; }
 
+        [JsonProperty("categoryText")]
+        public string CategoryText { get; set; }
+
         [JsonProperty("supplierId")]
         public string SupplierId { get; set; }
 

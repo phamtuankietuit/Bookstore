@@ -29,6 +29,7 @@ namespace BookstoreWebAPI.Utils
                 .ForMember(dest => dest.ProductId, act => act.MapFrom(src => src.Item1.ProductId))
                 .ForMember(dest => dest.CategoryId, act => act.MapFrom(src => src.Item1.CategoryId))
                 .ForMember(dest => dest.CategoryName, act => act.MapFrom(src => src.Item1.CategoryName))
+                .ForMember(dest => dest.CategoryText, act => act.MapFrom(src => src.Item1.CategoryText))
                 .ForMember(dest => dest.SupplierId, act => act.MapFrom(src => src.Item1.SupplierId))
                 .ForMember(dest => dest.SupplierName, act => act.MapFrom(src => src.Item1.SupplierName))
                 .ForMember(dest => dest.Sku, act => act.MapFrom(src => src.Item1.Sku))
@@ -62,6 +63,15 @@ namespace BookstoreWebAPI.Utils
             CreateMap<SupplierDocument, SupplierDTO>();
             CreateMap<SupplierDTO, SupplierDocument>()
                 .ForMember(dest => dest.Id, act => act.MapFrom(src => src.SupplierId))
+                .ForMember(dest => dest.IsActive, act => act.MapFrom(src => true))
+                .ForMember(dest => dest.IsRemovable, act => act.MapFrom(src => true))
+                .ForMember(dest => dest.IsDeleted, act => act.MapFrom(src => false))
+                .ForMember(dest => dest.TTL, act => act.MapFrom(src => -1));
+            
+
+            CreateMap<CustomerDocument, CustomerDTO>();
+            CreateMap<CustomerDTO, CustomerDocument>()
+                .ForMember(dest => dest.Id, act => act.MapFrom(src => src.CustomerId))
                 .ForMember(dest => dest.IsActive, act => act.MapFrom(src => true))
                 .ForMember(dest => dest.IsRemovable, act => act.MapFrom(src => true))
                 .ForMember(dest => dest.IsDeleted, act => act.MapFrom(src => false))

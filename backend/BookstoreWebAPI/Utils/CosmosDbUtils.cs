@@ -78,15 +78,26 @@ namespace BookstoreWebAPI.Utils
 
 
             var queryDef = new QueryDefinition(query.ToString());
-            //if (!string.IsNullOrEmpty(queryParams.Search))
-            //{
-            //    // Add a generic way to include a search condition
-            //    queryDef = queryDef.AddQueryOption("query", queryParams.Search);
-            //}
 
             return queryDef;
 
         }
+
+        public static QueryDefinition BuildQuery<T>(QueryParameters queryParams, CustomerFilterModel filter, string defaultSelect = "SELECT *" , bool isRemovableDocument = true) where T : class
+        {
+            var query = new StringBuilder($"{defaultSelect} FROM c WHERE c.isDeleted = false");
+
+            AppendDeleteFilter(query, defaultSelect, isRemovableDocument);
+            AppendCustomerFilter(query, filter);
+            AppendQueryParameters(query, queryParams);
+
+
+            var queryDef = new QueryDefinition(query.ToString());
+
+            return queryDef;
+        }
+
+        
 
         public static async Task<IEnumerable<TDocument>> GetDocumentsByQueryDefinition<TDocument>(Container container, QueryDefinition queryDefinition)
         {
@@ -209,24 +220,21 @@ namespace BookstoreWebAPI.Utils
                 query.Append($" AND c.details.publisher IN ({publishers})");
             }
 
-            if (!VariableHelpers.IsNull(filter.IsActives))
-            {
-                var isActives = string.Join(", ", filter.IsActives!.Select(a => $"'{a}'"));
-                query.Append($" AND c.isActive IN ({isActives})");
-            }
+            AppendIsActiveFilter(query, filter.IsActives);
         }
+
         
+
         private static void AppendSupplierFilter(StringBuilder query, SupplierFilterModel filter)
         {
-            if (!string.IsNullOrEmpty(filter.SupplierGroupId))
+            if (!VariableHelpers.IsNull(filter.SupplierGroupIds))
             {
-                query.Append($" AND c.supplierGroupId = {filter.SupplierGroupId}");
+                var supplierIds = string.Join(", ", filter.SupplierGroupIds!.Select(id => $"\"{id}\""));
+                query.Append($" AND c.supplierId IN ({supplierIds})");
             }
 
-            if (!string.IsNullOrEmpty(filter.IsActive))
-            {
-                query.Append($" AND c.isActive = {filter.IsActive}");
-            }
+
+            AppendIsActiveFilter(query, filter.IsActives);
         }
 
         private static void AppendPurchaseOrderFilter(StringBuilder query, PurchaseOrderFilterModel filter)
@@ -248,6 +256,32 @@ namespace BookstoreWebAPI.Utils
             if (queryParameters.PageSize != -1)
             {
                 query.Append($" OFFSET {(queryParameters.PageNumber - 1) * queryParameters.PageSize} LIMIT {queryParameters.PageSize}");
+            }
+        }
+
+        private static void AppendCustomerFilter(StringBuilder query, CustomerFilterModel filter)
+        {
+            AppendIsActiveFilter(query, filter.IsActives);
+        }
+
+        private static void AppendIsActiveFilter(StringBuilder query, IEnumerable<string>? isActives)
+        {
+            if (!VariableHelpers.IsNull(isActives))
+            {
+                if (isActives!.Count() == 2)
+                {
+                    return;
+                }
+
+                query.Append("$\" AND c.isActive =");
+                if (isActives!.First() == "true")
+                {
+                    query.Append("true");
+                }
+                else if (isActives!.First() == "false")
+                {
+                    query.Append("false");
+                }
             }
         }
     }

@@ -15,6 +15,12 @@ namespace BookstoreWebAPI.Models.DTOs
         [JsonProperty("customerType")]
         public string? CustomerType { get; set; }
 
+        [JsonProperty("customerId")]
+        public string CustomerId { get; set; }
+
+        [JsonProperty("customerName")]
+        public string CustomerName { get; set; }
+
         [JsonProperty("items")]
         public List<SalesOrderItem>? Items { get; set; }
 
@@ -39,8 +45,8 @@ namespace BookstoreWebAPI.Models.DTOs
         [JsonProperty("totalAmount")]
         public int TotalAmount { get; set; } = 0;
 
-        [JsonProperty("paymentMethod")]
-        public string? PaymentMethod { get; set; }
+        [JsonProperty("paymentDetails")]
+        public PaymentDetails PaymentDetails { get; set; }
 
         [JsonProperty("status")]
         public string? Status { get; set; }
@@ -50,7 +56,5 @@ namespace BookstoreWebAPI.Models.DTOs
 
         [JsonProperty("createdAt")]
         public DateTime? CreatedAt { get; set; }
-        
-        
     }
 }

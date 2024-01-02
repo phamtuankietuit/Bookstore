@@ -306,7 +306,7 @@ function UpdateProduct() {
 
             const fetchApi = async () => {
                 // console.log(productid.id)
-                const result = await ProductServices.UpdateProduct(newobj)
+                const result = await ProductServices.updateProduct(newobj)
                     .catch((err) => {
                         console.log(err);
                     });

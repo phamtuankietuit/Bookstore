@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useContext } from 'react';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -18,54 +18,42 @@ import { ProductItem } from '~/components/Item';
 import SubHeader from '~/components/SubHeader';
 import ModalComp from '~/components/ModalComp';
 import ModalLoading from '~/components/ModalLoading';
-import * as ProductServices from '~/apiServices/productServices';
+
+import { ToastContext } from '~/components/ToastContext';
+
+import * as productServices from '~/apiServices/productServices';
+import * as typeProductServices from '~/apiServices/typeProductServices';
+import * as supplierServices from '~/apiServices/supplierServices';
+
+
 const cx = classNames.bind(styles);
 
-const optionsLSP = [
-    { label: 'Sách Thiếu Nhi', value: '0' },
-    { label: 'Giáo Khoa - Tham Khảo', value: '1' },
-    { label: 'Tiểu Thuyết', value: '2' },
-    { label: 'Truyện Ngắn', value: '3' },
-    { label: 'Light Novel', value: '4' },
-    { label: 'Tâm Lý - Kỹ Năng Sống', value: '5' },
-    { label: 'Sách Học Ngoại Ngữ', value: '6' },
-    { label: 'Văn phòng phẩm', value: '7' },
-    { label: 'Đồ chơi', value: '8' },
-    { label: 'Quà lưu niệm', value: '9' },
-];
-
 const optionsTT = [
-    { label: 'Đang giao dịch', value: '0' },
-    { label: 'Ngừng giao dịch', value: '1' },
+    { label: 'Đang giao dịch', value: true },
+    { label: 'Ngừng giao dịch', value: false },
 ];
 
 const optionsPriceRange = [
     { label: '0đ - 150,000đ', value: '0-150000' },
-    { label: '150,000đ - 300,000đ', value: '1' },
-    { label: '300,000đ - 500,000đ', value: '2' },
-    { label: '500,000đ - 700,000đ', value: '3' },
-    { label: '700,000đ - Trở lên', value: '4' },
-];
-
-const optionsSupplier = [
-    { label: 'Công ty Kim Lương', value: '0' },
-    { label: 'Trung tâm giấy An Nghĩa', value: '1' },
-    { label: 'Công ty sách Thịnh Gia', value: '2' },
-    { label: 'Văn phòng phẩm An Phát', value: '3' },
-    { label: 'Đồ chơi Vĩnh Hoàn', value: '4' },
-];
-
-const optionsBrand = [
-    { label: 'Thiên Long', value: '0' },
-    { label: 'Hồng Hà', value: '1' },
-    { label: 'Bến Nghé', value: '2' },
-    { label: 'Campus', value: '3' },
-    { label: 'Deli', value: '4' },
+    { label: '150,000đ - 300,000đ', value: '150000-300000' },
+    { label: '300,000đ - 500,000đ', value: '300000-500000' },
+    { label: '500,000đ - 700,000đ', value: '500000-700000' },
+    { label: '700,000đ - Trở lên', value: '700000-50000000' },
 ];
 
 function ListProduct() {
 
     const navigate = useNavigate();
+    const toastContext = useContext(ToastContext);
+
+    // API PROPS
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pageSize, setPageSize] = useState(12);
+    const [totalRows, setTotalRows] = useState(0);
+    const [clear, setClear] = useState(false);
+    const [sortBy, setSortBy] = useState('productId');
+    const [orderBy, setOrderBy] = useState('asc');
+
     // SEARCH
     const [search, setSearch] = useState('');
     const handleSearch = (e) => {
@@ -73,49 +61,182 @@ function ListProduct() {
     };
 
     // FILTER
-    const [selectedLSP, setSelectedLSP] = useState([]);
+    const [optionsLSP, setOptionsLSP] = useState([]);
+    const [optionsSupplier, setOptionsSupplier] = useState([]);
+    const [optionsPublisher, setOptionsPublisher] = useState([]);
+    const [optionsAuthor, setOptionsAuthor] = useState([]);
+    const [optionsManufacturer, setOptionsManufacturer] = useState([]);
+
+    // FILTER SELECTED
     const [selectedTT, setSelectedTT] = useState([]);
     const [selectedPriceRange, setSelectedPriceRange] = useState([]);
+    const [selectedLSP, setSelectedLSP] = useState([]);
     const [selectedSupplier, setSelectedSupplier] = useState([]);
-    const [selectedBrand, setSelectedBrand] = useState([]);
+    const [selectedPublisher, setSelectedPublisher] = useState([]);
+    const [selectedAuthor, setSelectedAuthor] = useState([]);
+    const [selectedManufacturer, setSelectedManufacturer] = useState([]);
 
     const [openFilter, setOpenFilter] = useState(false);
     const handleOpenFilter = () => setOpenFilter(true);
     const handleCloseFilter = () => setOpenFilter(false);
 
     const handleClearFilter = () => {
-        setSelectedLSP([]);
         setSelectedTT([]);
         setSelectedPriceRange([]);
+        setSelectedLSP([]);
         setSelectedSupplier([]);
-        setSelectedBrand([]);
+        setSelectedPublisher([]);
+        setSelectedAuthor([]);
+        setSelectedManufacturer([]);
     };
 
+
+    const returnArray = (arr) => {
+        return arr.map((obj) => obj.value);
+    }
+
     const handleFilter = () => {
-        handleCloseFilter();
+        getList(
+            pageNumber,
+            pageSize,
+            sortBy,
+            orderBy,
+            selectedTT.length > 0 && returnArray(selectedTT),
+            selectedPriceRange.length > 0 && returnArray(selectedPriceRange),
+            selectedLSP.length > 0 && returnArray(selectedLSP),
+            selectedSupplier.length > 0 && returnArray(selectedSupplier),
+            selectedPublisher.length > 0 && returnArray(selectedPublisher),
+            selectedAuthor.length > 0 && returnArray(selectedAuthor),
+            selectedManufacturer.length > 0 && returnArray(selectedManufacturer),
+        );
+
+        console.log(selectedPriceRange);
     };
+
+    // GET DATA CATES
+    const getCate = async () => {
+        const response = await typeProductServices.getAllProductTypes(1, -1)
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+
+        if (response) {
+            const data = await response.data.map((cate) => ({ label: cate.text, value: cate.categoryId }));
+            setOptionsLSP(data);
+        }
+    }
+
+    // GET DATA SUPPLIERS
+    const getSup = async () => {
+        const response = await supplierServices.getAllSuppliers(1, -1)
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+
+        if (response) {
+            const data = await response.data.map((sup) => ({ label: sup.name, value: sup.supplierId }));
+            setOptionsSupplier(data);
+        }
+    };
+
+    // GET DATA PUBLISHERS
+    const getPub = async () => {
+        const response = await productServices.getDetails('publisher')
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+
+        if (response) {
+            const data = await response.map((pub, index) => ({ label: pub, value: index }));
+            setOptionsPublisher(data);
+        }
+    };
+
+    // GET DATA AUTHORS
+    const getAuth = async () => {
+        const response = await productServices.getDetails('author')
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+
+        if (response) {
+            const data = await response.map((auth, index) => ({ label: auth, value: index }));
+            setOptionsAuthor(data);
+        }
+    };
+
+    // GET DATA MANUFACTURERS
+    const getManu = async () => {
+        const response = await productServices.getDetails('manufacturer')
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+
+        if (response) {
+            const data = await response.map((manu, index) => ({ label: manu, value: index }));
+            setOptionsManufacturer(data);
+        }
+    };
+
+    // GET DATA FOR FILTER
+    useEffect(() => {
+        getCate();
+        getSup();
+        getPub();
+        getAuth();
+        getManu();
+        // eslint-disable-next-line no-use-before-define
+    }, [openFilter]);
+
 
     // TABLE
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
-
-
-    useEffect(() => {
-
-        const fetchApi = async () => {
-            const result = await ProductServices.getAllProducts()
-                .catch((err) => {
-                    console.log(err);
-                });
-
-            setPending(false);
-            setRows(result);
-            // console.log(result)
-        }
-
-        fetchApi();
-
-    }, []);
 
     const [showSubHeader, setShowSubHeader] = useState(true);
     const [selectedRow, setSelectedRow] = useState(0);
@@ -165,12 +286,94 @@ function ListProduct() {
         handleOpenModal();
     };
 
+    const getList = async (
+        pageNumber,
+        pageSize,
+        sortBy,
+        orderBy,
+        isActives,
+        priceRanges,
+        categoryIds,
+        supplierIds,
+        publisherIds,
+        authorIds,
+        manufacturerIds,
+    ) => {
+        const props = {
+            pageNumber,
+            pageSize,
+            ...(sortBy && { sortBy }),
+            ...(orderBy && { orderBy }),
+            ...(isActives && { isActives }),
+            ...(priceRanges && { priceRanges }),
+            ...(categoryIds && { categoryIds }),
+            ...(supplierIds && { supplierIds }),
+            ...(publisherIds && { publisherIds }),
+            ...(authorIds && { authorIds }),
+            ...(manufacturerIds && { manufacturerIds }),
+        };
 
+        if (!sortBy) {
+            setSortBy('productId');
+        }
 
+        if (!orderBy) {
+            setOrderBy('asc');
+        }
 
-    // CALL API
+        setPending(true);
+
+        const response = await productServices.getAllProducts(props)
+            .catch((error) => {
+                setPending(false);
+
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+                toastContext.notify('error', 'Có lỗi xảy ra');
+            });
+
+        if (response) {
+            console.log(response.data);
+            setPending(false);
+            setRows(response.data);
+            setTotalRows(response.metadata.count);
+            setClear(false);
+        }
+    }
+
+    // SORT
+    const handleSort = (column, sortDirection) => {
+        setSortBy(column.text);
+        setOrderBy(sortDirection);
+        setPageNumber(1);
+
+        getList(1, pageSize, column.text, sortDirection);
+    };
+
+    // PAGINATION
+    const handlePerRowsChange = async (newPerPage, pageNumber) => {
+        setPageSize(newPerPage);
+        setPageNumber(pageNumber);
+
+        getList(pageNumber, newPerPage, sortBy, orderBy);
+    }
+
+    const handlePageChange = (pageNumber) => {
+        setPageNumber(pageNumber);
+
+        getList(pageNumber, pageSize, sortBy, orderBy);
+    }
+
     useEffect(() => {
-        console.log(encodeURIComponent('Đắc Nhân Tâm Phạm Tuấn Kiệt Đắc Nhân Tâm Phạm Tuấn Kiệt Đắc Nhân Tâm Phạm Tuấn Kiệt '));
+        getList(pageNumber, pageSize);
     }, []);
 
     return (
@@ -261,31 +464,32 @@ function ListProduct() {
                             />
                             <MultiSelectComp
                                 className={cx('margin-bottom')}
-                                options={optionsBrand}
+                                options={optionsManufacturer}
                                 placeholder={'Thương hiệu'}
-                                selected={selectedBrand}
-                                setSelected={setSelectedBrand}
+                                selected={selectedManufacturer}
+                                setSelected={setSelectedManufacturer}
                                 hasSelectAll={true}
                             />
                             <MultiSelectComp
                                 className={cx('margin-bottom')}
-                                options={optionsBrand}
+                                options={optionsPublisher}
                                 placeholder={'Nhà xuất bản'}
-                                selected={selectedBrand}
-                                setSelected={setSelectedBrand}
+                                selected={selectedPublisher}
+                                setSelected={setSelectedPublisher}
                                 hasSelectAll={true}
                             />
                             <MultiSelectComp
                                 className={cx('margin-bottom')}
-                                options={optionsBrand}
+                                options={optionsAuthor}
                                 placeholder={'Tác giả'}
-                                selected={selectedBrand}
-                                setSelected={setSelectedBrand}
+                                selected={selectedAuthor}
+                                setSelected={setSelectedAuthor}
                                 hasSelectAll={true}
                             />
                         </Filter>
                     }
                     // TABLE
+                    clearSelectedRows={clear}
                     selectableRows
                     pagination
                     onRowClicked={onRowClicked}
@@ -306,6 +510,12 @@ function ListProduct() {
                             ]}
                         />
                     }
+                    // PAGINATION
+                    totalRows={totalRows}
+                    handlePerRowsChange={handlePerRowsChange}
+                    handlePageChange={handlePageChange}
+                    // SORT
+                    handleSort={handleSort}
                 />
             </div>
             <ModalComp

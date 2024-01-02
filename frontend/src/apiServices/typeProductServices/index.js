@@ -20,10 +20,18 @@ export const createProductType = async (type) => {
     }
 }
 
-export const deteleProductType = async (types) => {
+export const deleteProductType = async (types) => {
     try {
         const res = await request.deleteMethod(`Categories?${types.map((type) => 'ids=' + type.categoryId).join('&')}`);
+        return res;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
 
+export const updateProductType = async (id, newObject) => {
+    try {
+        const res = await request.putMethod(`Categories/${id}`, newObject);
         return res;
     } catch (error) {
         return Promise.reject(error);

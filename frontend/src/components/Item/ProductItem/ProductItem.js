@@ -81,6 +81,7 @@ export const ProductItem = [
     },
     {
         name: 'Giá bán',
+        text: 'salePrice',
         sortable: true,
         center: true,
         cell: (row) => (
@@ -96,6 +97,7 @@ export const ProductItem = [
     },
     {
         name: 'Giá vốn',
+        text: 'purchasePrice',
         sortable: true,
         center: true,
         cell: (row) => (
@@ -111,6 +113,7 @@ export const ProductItem = [
     },
     {
         name: 'Tồn kho',
+        text: 'currentStock',
         sortable: true,
         center: true,
         cell: (row) => (

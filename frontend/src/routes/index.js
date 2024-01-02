@@ -42,6 +42,7 @@ import EditBillInfo from '~/pages/EditBillInfo';
 import ImportReport from '~/pages/ImportReport';
 import ActivityHistory from '~/pages/ActivityHistory';
 import Overview from '~/pages/Overview';
+import Sell from '~/pages/Sell';
 
 const publicRoutes = [
     // ACCOUNT
@@ -294,6 +295,12 @@ const publicRoutes = [
         path: '/overview',
         component: Overview,
         title: 'Tổng quan',
+    },
+    // SELL
+    {
+        path: '/sell',
+        component: Sell,
+        layout: null,
     },
 ];
 

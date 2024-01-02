@@ -1,10 +1,21 @@
 import * as request from '~/utils/request';
 
-export const getAllProducts = async (pageNumber, pageSize) => {
+export const getAllProducts = async (params) => {
     try {
-        const res = await request.getMethod(`Products?pageSize=${pageSize}&pageNumber=${pageNumber}&sortBy=categoryId&orderBy=asc`);
+        const response = await request.getMethod('Products?', {
+            params,
+            paramsSerializer: (params) => {
+                const serializedParams = Object.keys(params).map((key) => {
+                    return key + '=' + params[key];
+                }).join('&');
 
-        return res;
+                console.log(serializedParams);
+
+                return serializedParams;
+            },
+        });
+
+        return response;
     } catch (error) {
         return Promise.reject(error);
     }
@@ -20,7 +31,7 @@ export const getProduct = async (id) => {
     }
 }
 
-export const UpdateProduct = async (obj) => {
+export const updateProduct = async (obj) => {
     try {
         const res = await request.putMethod('Products', obj);
         return res;
@@ -28,3 +39,14 @@ export const UpdateProduct = async (obj) => {
         return Promise.reject(error);
     }
 }
+
+export const getDetails = async (propName) => {
+    try {
+        const response = await request.getMethod('Products/details/' + propName);
+        return response;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
+

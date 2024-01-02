@@ -97,7 +97,7 @@ function SideBar({ className, title }) {
                         ]}
                     />
                     <SidebarButton
-                        to={'/sales'}
+                        to={'/sell'}
                         title={'Bán tại quầy'}
                         icon={<FontAwesomeIcon icon={faCashRegister} />}
                     />

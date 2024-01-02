@@ -27,6 +27,8 @@ function List({
     totalRows,
     handlePerRowsChange,
     handlePageChange,
+    // SORT REMOTE
+    handleSort,
 }) {
     return (
         <div className={cx('wrapper')}>
@@ -56,9 +58,11 @@ function List({
                         pagination={pagination}
                         clearSelectedRows={clearSelectedRows}
                         // PAGINATION REMOTE 
-                        paginationTotalRows={totalRows}
-                        onChangeRowsPerPage={handlePerRowsChange}
-                        onChangePage={handlePageChange}
+                        totalRows={totalRows}
+                        handlePerRowsChange={handlePerRowsChange}
+                        handlePageChange={handlePageChange}
+                        // SORT REMOTE 
+                        handleSort={handleSort}
                     />
                 </div>
             </div>

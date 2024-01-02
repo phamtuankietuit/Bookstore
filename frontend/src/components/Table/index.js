@@ -96,6 +96,8 @@ function Table({
     totalRows,
     handlePerRowsChange,
     handlePageChange,
+    // SORT REMOTE
+    handleSort,
 }) {
     return (
         <div className={cx('data-table-container')}>
@@ -130,7 +132,9 @@ function Table({
                 subHeaderComponent={subHeaderComponent}
                 // ONCLICK ROW
                 onRowClicked={onRowClicked}
-                // SORT
+                // SORT REMOTE
+                sortServer
+                onSort={handleSort}
                 sortIcon={
                     <FontAwesomeIcon
                         className={cx('icon-margin')}
@@ -155,7 +159,7 @@ function Table({
 
 
                 pagination={pagination}
-                paginationPerPage={20}
+                paginationPerPage={12}
                 paginationComponentOptions={{
                     rowsPerPageText: 'Hiển thị: ',
                     rangeSeparatorText: 'trên',

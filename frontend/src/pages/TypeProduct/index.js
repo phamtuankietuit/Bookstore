@@ -21,6 +21,7 @@ function TypeProduct() {
 
     const toastContext = useContext(ToastContext);
 
+    // CLEAR SELECTED ROWS TABLE
     const [clear, setClear] = useState(false);
 
     // MODAL
@@ -40,8 +41,7 @@ function TypeProduct() {
             if (nameType === '') {
                 setErrorType('Không được bỏ trống');
             } else {
-                // POST
-
+                //    THÊM LOẠI SẢN PHẨM
                 const fetchApi = async () => {
                     setLoading(true);
 
@@ -66,26 +66,30 @@ function TypeProduct() {
                 fetchApi();
             }
         } else if (titleModal === 'Xóa loại sản phẩm?') {
-            // DELETE
+
+            let isSuccess = true;
+
+            // XÓA LOẠI SẢN PHẨM
             const fetchApi = async () => {
                 setLoading(true);
 
-                const result = await typeProductServices.deteleProductType(selectedDelRows)
+                const result = await typeProductServices.deleteProductType(selectedDelRows)
                     .catch((error) => {
+                        isSuccess = false;
                         setLoading(false);
                         if (error.response) {
-                            // The request was made and the server responded with a status code
-                            // that falls out of the range of 2xx
                             console.log(error.response.data);
                             console.log(error.response.status);
                             console.log(error.response.headers);
+
+                            if (error.response.status === 403) {
+                                toastContext.notify('error', 'Không thể xóa loại sản phẩm mặc định');
+                            } else {
+                                toastContext.notify('error', 'Có lỗi xảy ra');
+                            }
                         } else if (error.request) {
-                            // The request was made but no response was received
-                            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                            // http.ClientRequest in node.js
                             console.log(error.request);
                         } else {
-                            // Something happened in setting up the request that triggered an Error
                             console.log('Error', error.message);
                         }
                         console.log(error.config);
@@ -93,25 +97,58 @@ function TypeProduct() {
 
                 if (result) {
                     setLoading(false);
-                    Object.keys(result).forEach(function (key, index) {
-
-                        const name = rows.find(obj => obj.categoryId === key).text;
-
-                        if (result[key].includes('aborted')) {
-                            toastContext.notify('error', 'Không thể xóa loại sản phẩm mặc định ' + name);
+                    result.map((type) => {
+                        if (type.status === 204) {
+                            toastContext.notify('success', 'Xóa thành công loại sản phẩm ' + type.data.text);
+                        } else if (type.status === 403) {
+                            toastContext.notify('error', 'Không thể xóa loại sản phẩm mặc định ' + type.data.text);
                         } else {
-                            toastContext.notify('success', 'Xóa thành công loại sản phẩm ' + name);
+                            toastContext.notify('error', 'Có lỗi xảy ra khi xóa loại sản phẩm ' + type.data.text);
                         }
                     });
+                } else if (isSuccess) {
+                    setLoading(false);
                     handleCloseModal();
+                    toastContext.notify('success', 'Xóa loại sản phẩm thành công');
                     clearSubHeader();
                     setUpdateList(new Date());
                 }
             }
             fetchApi();
         } else {
-            // UPDATE
-            console.log('update');
+            if (nameType === '') {
+                setErrorType('Không được bỏ trống');
+            } else {
+                // CẬP NHẬT LOẠI SẢN PHẨM
+                const fetchApi = async () => {
+                    setLoading(true);
+
+                    const result = await typeProductServices
+                        .updateProductType(clickedRow.categoryId, { categoryId: clickedRow.categoryId, text: nameType })
+                        .catch((error) => {
+                            setLoading(false);
+                            if (error.response) {
+                                console.log(error.response.data);
+                                console.log(error.response.status);
+                                console.log(error.response.headers);
+                            } else if (error.request) {
+                                console.log(error.request);
+                            } else {
+                                console.log('Error', error.message);
+                            }
+                            console.log(error.config);
+                            toastContext.notify('error', 'Có lỗi xảy ra');
+                        });
+
+                    setLoading(false);
+                    handleCloseModal();
+                    toastContext.notify('success', 'Cập nhật loại sản phẩm thành công');
+                    clearSubHeader();
+                    setUpdateList(new Date());
+                }
+
+                fetchApi();
+            }
         }
     };
 
@@ -164,17 +201,26 @@ function TypeProduct() {
         onOpenModal('Xóa loại sản phẩm?');
     };
 
-    // ON ROW CLICKED
+
+
+    // CLICK ROW
+    const [clickedRow, setClickedRow] = useState();
+
     const onRowClicked = useCallback((row) => {
-        setNameType(row.text);
-        onOpenModal('Cập nhật loại sản phẩm');
+        if (Number(row.categoryId.slice(-5)) > 10) {
+            setNameType(row.text);
+            onOpenModal('Cập nhật loại sản phẩm');
+            setClickedRow(row);
+        }
     }, []);
 
 
     // FETCH 
-    const getList = async (pageNumber, pageSize) => {
+    const getList = async (pageNumber) => {
+        setPending(true);
         const response = await typeProductServices.getAllProductTypes(pageNumber, pageSize)
             .catch((error) => {
+                setPending(false);
                 if (error.response) {
                     console.log(error.response.data);
                     console.log(error.response.status);
@@ -190,8 +236,8 @@ function TypeProduct() {
 
         if (response) {
             setPending(false);
-            setRows(response.result);
-            setTotalRows(response.count);
+            setRows(response.data);
+            setTotalRows(response.metadata.count);
             setClear(false);
         }
     }
@@ -200,11 +246,10 @@ function TypeProduct() {
     const [totalRows, setTotalRows] = useState(0);
 
     const handlePerRowsChange = async (newPerPage, pageNumber) => {
-
-        console.log(newPerPage, pageNumber);
-
+        setPending(true);
         const response = await typeProductServices.getAllProductTypes(pageNumber, newPerPage)
             .catch((error) => {
+                setPending(false);
                 if (error.response) {
                     console.log(error.response.data);
                     console.log(error.response.status);
@@ -220,8 +265,9 @@ function TypeProduct() {
 
         if (response) {
             setPending(false);
-            setRows(response.result);
-            setTotalRows(response.count);
+            setRows(response.data);
+            setTotalRows(response.metadata.count);
+            setPageSize(newPerPage);
             setClear(false);
         }
     }
@@ -230,9 +276,11 @@ function TypeProduct() {
         getList(pageNumber);
     }
 
+    const [pageSize, setPageSize] = useState(12);
+
     // CALL API
     useEffect(() => {
-        getList(1, 12);
+        getList(1);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [updateList]);
 
@@ -275,9 +323,9 @@ function TypeProduct() {
                             />
                         }
                         // PAGINATION REMOTE 
-                        paginationTotalRows={totalRows}
-                        onChangeRowsPerPage={handlePerRowsChange}
-                        onChangePage={handlePageChange}
+                        totalRows={totalRows}
+                        handlePerRowsChange={handlePerRowsChange}
+                        handlePageChange={handlePageChange}
                     />
                 </div>
             </div>

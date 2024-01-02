@@ -74,14 +74,6 @@ function ListImport() {
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
 
-    // useEffect(() => {
-    //     const timeout = setTimeout(() => {
-    //         setRows(data3);
-    //         setPending(false);
-    //     }, 500);
-    //     return () => clearTimeout(timeout);
-    // }, []);
-
     useEffect(() => {
 
         const fetchApi = async () => {

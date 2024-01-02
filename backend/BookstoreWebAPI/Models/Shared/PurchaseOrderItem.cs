@@ -4,6 +4,7 @@ namespace BookstoreWebAPI.Models.Shared
 {
     public class PurchaseOrderItem
     {
+
         [JsonProperty("productId")]
         public string ProductId { get; set; }
 
@@ -22,7 +23,7 @@ namespace BookstoreWebAPI.Models.Shared
         [JsonProperty("purchasePrice")]
         public int PurchasePrice { get; set; }
 
-        [JsonProperty("totalCost")]
-        public int TotalCost { get; set; }
+        [JsonProperty("totalPrice")]
+        public int TotalPrice { get; set; }
     }
 }

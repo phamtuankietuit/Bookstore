@@ -2,7 +2,7 @@
 
 namespace BookstoreWebAPI.Models.Shared
 {
-    public class SaleOrderItem
+    public class SalesOrderItem
     {
         [JsonProperty("productId")]
         public string ProductId { get; set; }

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using BookstoreWebAPI.Models.Shared;
-using BookstoreWebAPI.Models.Abstracts;
+using BookstoreWebAPI.Models.Interfaces;
 
 namespace BookstoreWebAPI.Models.DTOs
 {
@@ -31,6 +31,6 @@ namespace BookstoreWebAPI.Models.DTOs
         public bool? IsActive { get; set; }
 
         [JsonProperty("createdAt")]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
     }
 }

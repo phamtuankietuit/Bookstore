@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace BookstoreWebAPI.Models.Abstracts
+namespace BookstoreWebAPI.Models.Interfaces
 {
     public interface ISoftDeleteCosmosDocument
     {

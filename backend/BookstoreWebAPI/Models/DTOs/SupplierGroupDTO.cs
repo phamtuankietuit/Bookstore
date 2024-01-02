@@ -1,4 +1,4 @@
-﻿using BookstoreWebAPI.Models.Abstracts;
+﻿using BookstoreWebAPI.Models.Interfaces;
 using Newtonsoft.Json;
 
 namespace BookstoreWebAPI.Models.DTOs
@@ -18,6 +18,6 @@ namespace BookstoreWebAPI.Models.DTOs
         public string? Note { get; set; }
 
         [JsonProperty("createdAt")]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
     }
 }

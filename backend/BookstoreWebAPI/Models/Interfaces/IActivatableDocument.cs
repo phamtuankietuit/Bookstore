@@ -1,4 +1,4 @@
-﻿namespace BookstoreWebAPI.Models.Abstracts
+﻿namespace BookstoreWebAPI.Models.Interfaces
 {
     public interface IActivatableDocument
     {

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using BookstoreWebAPI.Models.Shared;
-using BookstoreWebAPI.Models.Abstracts;
+using BookstoreWebAPI.Models.Interfaces;
 
 namespace BookstoreWebAPI.Models.Documents
 {
@@ -17,6 +17,12 @@ namespace BookstoreWebAPI.Models.Documents
 
         [JsonProperty("categoryName")]
         public string CategoryName { get; set; }
+
+        [JsonProperty("supplierId")]
+        public string SupplierId { get; set; }
+
+        [JsonProperty("supplierName")]
+        public string SupplierName { get; set; }
 
         [JsonProperty("sku")]
         public string Sku { get; set; }
@@ -59,7 +65,7 @@ namespace BookstoreWebAPI.Models.Documents
         public bool IsRemovable { get; set; }
         
         [JsonProperty("createdAt")]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         
         [JsonProperty("ttl")]
         public int TTL { get; set; }

@@ -1,56 +1,53 @@
-﻿using BookstoreWebAPI.Models.Abstracts;
+﻿using BookstoreWebAPI.Models.Interfaces;
 using Newtonsoft.Json;
 
 namespace BookstoreWebAPI.Models.DTOs
 {
     public class PromotionDTO : IBaseCosmosDTO
     {
-        [JsonProperty("id")]
-        public string Id { get; set; }
-
         [JsonProperty("promotionId")]
-        public string PromotionId { get; set; }
+        public string? PromotionId { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
 
         [JsonProperty("type")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         [JsonProperty("typeName")]
-        public string TypeName { get; set; }
+        public string? TypeName { get; set; }
 
         [JsonProperty("applyToQuantity")]
-        public int ApplyToQuantity { get; set; }
+        public int ApplyToQuantity { get; set; } = 0;
 
         [JsonProperty("usedQuantity")]
-        public int UsedQuantity { get; set; }
+        public int UsedQuantity { get; set; } = 0;
 
         [JsonProperty("remainQuantity")]
-        public int RemainQuantity { get; set; }
+        public int RemainQuantity { get; set; } = 0;
 
         [JsonProperty("applyFromAmount")]
-        public int ApplyFromAmount { get; set; }
+        public int ApplyFromAmount { get; set; } = 0;
 
         [JsonProperty("applyToAmount")]
-        public int ApplyToAmount { get; set; }
+        public int ApplyToAmount { get; set; } = 0;
 
         [JsonProperty("discountRate")]
-        public int DiscountRate { get; set; }
+        public int DiscountRate { get; set; } = 0;
 
         [JsonProperty("discountValue")]
-        public int DiscountValue { get; set; }
+        public int DiscountValue { get; set; } = 0;
 
         [JsonProperty("startAt")]
-        public DateTime StartAt { get; set; }
+        public DateTime? StartAt { get; set; }
 
         [JsonProperty("closeAt")]
-        public DateTime CloseAt { get; set; }
+        public DateTime? CloseAt { get; set; }
 
         [JsonProperty("status")]
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         [JsonProperty("createdAt")]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
     }
 }

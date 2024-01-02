@@ -61,7 +61,7 @@ function ListOrder() {
 
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
-        navigate('/orders/detail/' + row.orderId);
+        navigate('/orders/detail/' + row.salesOrderId);
     }, []);
 
     // TABLE

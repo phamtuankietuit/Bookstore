@@ -11,7 +11,7 @@ export const OrderItem = [
         center: true,
         cell: (row) => (
             <div className={cx('font', 'id')} data-tag="allowRowEvents">
-                {row.orderId}
+                {row.salesOrderId}
             </div>
         ),
     },

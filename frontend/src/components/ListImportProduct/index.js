@@ -29,10 +29,10 @@ function ListImportProduct({ list }) {
                         </div>
                         <div className={cx('columns-item-3')}>{item.orderQuantity}</div>
                         <div className={cx('columns-item-3')}>
-                            <div>{addCommas(item.purchasePrice)}</div>
+                            <div>{addCommas(item.purchasePrice ? item.purchasePrice : 0)}</div>
                         </div>
                         <div className={cx('columns-item-3')}>
-                            {addCommas(item.totalCost)}
+                            {addCommas(item.totalPrice ? item.totalPrice : 0)}
                         </div>
                     </div>
                 ))}

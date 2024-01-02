@@ -69,7 +69,7 @@ function AddDiscount() {
                     toastContext.notify('error', 'Đã có lỗi xảy rồi');
                 }, 2000);
             }
-
+            console.log(obj)
         }
 
         fetchApi();
@@ -88,6 +88,8 @@ function AddDiscount() {
                                 <input
                                     type="text"
                                     placeholder="Nhập tên của khuyến mãi"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
                                 ></input>
                             </div>
                         </div>
@@ -98,8 +100,7 @@ function AddDiscount() {
                                     disabled
                                     type="text"
                                     placeholder="Mã khuyến mãi khởi tạo tự động"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
+
                                 ></input>
                             </div>
                         </div>

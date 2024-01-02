@@ -144,11 +144,11 @@ function AddCheckProduct(props) {
 
                     <Row>
                         <Col md={10} lg={10} className='p-0'>
-                            <SearchResult stypeid={1} setValue={addarr} />
+                            <SearchResult stypeid={2} setValue={addarr} />
                         </Col>
 
                         <Col md={2} lg={2} className='p-0'>
-                            <MultiSelectModal funtion={handleMultiSelected} list={list} />
+                            <MultiSelectModal funtion={handleMultiSelected} supplierID='none' />
                         </Col>
 
                     </Row>

@@ -171,7 +171,7 @@ function Sale() {
             <div className={`${cx('header')} d-flex align-items-center`}>
                 <p className={` ${cx('title')} d-flex `}>Tạo đơn mới</p>
                 <div className={` ${cx('search-bar')} me-auto`}>
-                    <SearchResult stypeid={1} setValue={addarr} />
+                    <SearchResult stypeid={2} setValue={addarr} />
                 </div>
                 <div className={`text-end me-4`}>
                     <FaHouseChimney className={` ${cx('icon')}`} onClick={() => navigate('/overview')} />

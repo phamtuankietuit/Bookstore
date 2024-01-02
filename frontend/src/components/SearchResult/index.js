@@ -14,13 +14,12 @@ import * as ProductServices from '~/apiServices/productServices';
 import * as SuppliersServices from '~/apiServices/supplierServices';
 
 const cx = classNames.bind(styles);
-function SearchResult({ setValue, stypeid, suppliername }) {
+function SearchResult({ setValue, stypeid, supplierID }) {
 
     const [placeholder, setPlaceholder] = useState('');
 
     const [input, setInput] = useState('');
     const [open, setOpen] = useState(false);
-    const [iscall, setIscall] = useState(0)
 
     const [list, setList] = useState([])
     const handleOnCharge = (value) => {
@@ -29,7 +28,7 @@ function SearchResult({ setValue, stypeid, suppliername }) {
     const prevPage = () => {
         if (currentPage !== 1) {
             setcurrentPage(currentPage - 1);
-            setIscall(0)
+
         }
 
     }
@@ -37,7 +36,6 @@ function SearchResult({ setValue, stypeid, suppliername }) {
     const nextPage = () => {
         if (currentPage !== numofTotalPage) {
             setcurrentPage(currentPage + 1);
-            setIscall(0)
         }
 
     }
@@ -46,85 +44,82 @@ function SearchResult({ setValue, stypeid, suppliername }) {
     const [currentPage, setcurrentPage] = useState(1);
 
     const [numofTotalPage, setNumofTotal] = useState(0)
+    const PerPage = 5
+    const indexOflastPd = currentPage * PerPage;
+    const indexOffirstPd = indexOflastPd - PerPage;
 
+    const visible = renderproductlist.slice(indexOffirstPd, indexOflastPd);
 
     const handleClick = (obj) => {
         setValue(obj);
         setOpen(false)
         setcurrentPage(1)
-        setIscall(0)
         console.log(obj);
     }
 
 
     useEffect(() => {
-        if (iscall === 0) {
-            if (stypeid === 0) {
+        if (stypeid === 0) {
+            const fetchApi = async () => {
+                const result = await SuppliersServices.getAllSuppliers(currentPage, -1)
+                    .catch((err) => {
+                        console.log(err);
+                    });
+
+                if (result) {
+                    setList(result.data);
+                    if (numofTotalPage === '') setNumofTotal(result.metadata.count / 5)
+                }
+                // console.log(result)
+            }
+            fetchApi();
+            setPlaceholder('Tìm kiếm theo tên nhà cung cấp')
+        }
+        else if (stypeid === 1) {
+            if (supplierID !== '') {
                 const fetchApi = async () => {
-                    const result = await SuppliersServices.getAllSuppliers(currentPage, 5)
+                    const result = await ProductServices.getProductsOfSupplier(currentPage, -1, supplierID)
                         .catch((err) => {
                             console.log(err);
                         });
 
                     if (result) {
                         setList(result.data);
-                        console.log(result.data)
-                        if (numofTotalPage === '') setNumofTotal(result.metadata.count)
+                        if (numofTotalPage === '') setNumofTotal(result.metadata.count / 5)
                     }
                     // console.log(result)
                 }
-                setIscall(1)
                 fetchApi();
-                setPlaceholder('Tìm kiếm theo tên nhà cung cấp')
-            }
-            else if (stypeid === 1) {
-
-                if (suppliername === null) {
-                    const fetchApi = async () => {
-                        const result = await ProductServices.getAllProducts(currentPage, 5)
-                            .catch((err) => {
-                                console.log(err);
-                            });
-
-                        if (result) {
-                            setList(result.data);
-                            console.log(result.data)
-                            if (numofTotalPage === '') setNumofTotal(result.metadata.count)
-                        }
-                        // console.log(result)
-                    }
-                    fetchApi();
-                }
-                else if (suppliername !== '') {
-
-                    const fetchApi = async () => {
-                        const result = await ProductServices.getProductsOfSupplier(currentPage, 5, suppliername)
-                            .catch((err) => {
-                                console.log(err);
-                            });
-
-                        if (result) {
-                            setList(result.data);
-                            console.log(result.data)
-                            if (numofTotalPage === '') setNumofTotal(result.metadata.count)
-                        }
-                        // console.log(result)
-                    }
-                    fetchApi();
-                }
-
-
-                setPlaceholder('Tìm kiếm theo mã sản phẩm tên sản phẩm')
-                setIscall(1)
             }
             else {
-
-                setPlaceholder('Thêm khách hàng vào đơn')
+                setList([]);
+                setNumofTotal(0)
             }
+            setPlaceholder('Tìm kiếm theo mã sản phẩm tên sản phẩm')
+        }
+        else if (stypeid === 2) {
+            const fetchApi = async () => {
+                const result = await ProductServices.getAllProducts(currentPage, -1)
+                    .catch((err) => {
+                        console.log(err);
+                    });
+
+                if (result) {
+                    setList(result.data);
+                    if (numofTotalPage === '') setNumofTotal(result.metadata.count / 5)
+                }
+                // console.log(result)
+            }
+            fetchApi();
+        }
+        else {
+
+            setPlaceholder('Thêm khách hàng vào đơn')
         }
 
+        if (supplierID === '') setOpen(false)
 
-    });
+    }, [open, supplierID]);
 
 
     return (
@@ -141,7 +136,6 @@ function SearchResult({ setValue, stypeid, suppliername }) {
                     onClick={() => {
                         setOpen(!open)
                         setcurrentPage(1)
-                        setIscall(0)
                     }
 
                     }
@@ -162,8 +156,8 @@ function SearchResult({ setValue, stypeid, suppliername }) {
                                 ) : (
                                     <div>
                                         {
-                                            renderproductlist.map((option, index) => (
-                                                <div className={cx('result-item')} onClick={() => handleClick(option)} key={index}>
+                                            visible.map((option, index) => (
+                                                <div className={cx('result-item')} onClick={() => handleClick(option, index)} key={index}>
                                                     {(() => {
                                                         switch (stypeid) {
                                                             case 0:
@@ -171,6 +165,8 @@ function SearchResult({ setValue, stypeid, suppliername }) {
                                                             case 1:
                                                                 return <Item product={option} />;
                                                             case 2:
+                                                                return <Item product={option} />;
+                                                            case 3:
                                                                 return <div>
                                                                     <p className='fs-6'>{option.name}</p>
                                                                     <p className={cx('color-gray')}>{option.phone}</p>

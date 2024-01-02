@@ -12,7 +12,7 @@ export const getAllSuppliers = async (pageNumber, pageSize) => {
 
 export const getAllSupplierGroups = async (pageNumber, pageSize) => {
     try {
-        const res = await request.getMethod('SupplierGroups');
+        const res = await request.getMethod(`SupplierGroups?pageSize=${pageSize}&pageNumber=${pageNumber}`);
 
         return res;
     } catch (error) {

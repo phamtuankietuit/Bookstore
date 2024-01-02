@@ -21,16 +21,16 @@ import {
     faMagnifyingGlass,
 } from '@fortawesome/free-solid-svg-icons';
 const cx = classNames.bind(styles);
-function ModalProduct({ handleClose, handlesubmit, suppliername }) {
+function ModalProduct({ handleClose, handlesubmit, supplierID }) {
 
     const [data, setdata] = useState([])
     const [submitlist, setSubmit] = useState([])
     const [iscall, setIscall] = useState(0)
     useEffect(() => {
         if (iscall === 0) {
-            if (suppliername === null) {
+            if (supplierID === 'none') {
                 const fetchApi = async () => {
-                    const result = await ProductServices.getAllProducts(currentPage, 5)
+                    const result = await ProductServices.getAllProducts(currentPage, -1)
                         .catch((err) => {
                             console.log(err);
                         });
@@ -45,10 +45,10 @@ function ModalProduct({ handleClose, handlesubmit, suppliername }) {
                 fetchApi();
                 setIscall(1)
             }
-            else if (suppliername !== '') {
+            else if (supplierID !== '') {
 
                 const fetchApi = async () => {
-                    const result = await ProductServices.getProductsOfSupplier(currentPage, 100, suppliername)
+                    const result = await ProductServices.getProductsOfSupplier(currentPage, -1, supplierID)
                         .catch((err) => {
                             console.log(err);
                         });

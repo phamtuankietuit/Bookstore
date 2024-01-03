@@ -83,9 +83,10 @@ function ListCustomer() {
     }
 
     const handleFilter = async () => {
+        setPageNumber(1)
         getList(
             await createObjectQuery(
-                pageNumber,
+                1,
                 pageSize,
                 sortsBy,
                 orderBy,
@@ -179,7 +180,16 @@ function ListCustomer() {
         setOrderBy(sortDirection);
         setPageNumber(1);
 
-        getList(await createObjectQuery(1, pageSize, column.text, sortDirection));
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                pageSize,
+                column.text,
+                sortDirection,
+                selectedTT.length > 0 && returnArray(selectedTT),
+            )
+        );
+
     };
 
     // PAGINATION
@@ -187,13 +197,31 @@ function ListCustomer() {
         setPageSize(newPerPage);
         setPageNumber(pageNumber);
 
-        getList(await createObjectQuery(pageNumber, newPerPage, sortsBy, orderBy));
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                pageSize,
+                sortsBy,
+                orderBy,
+                selectedTT.length > 0 && returnArray(selectedTT),
+            )
+        );
+
     }
 
     const handlePageChange = async (pageNumber) => {
         setPageNumber(pageNumber);
 
-        getList(await createObjectQuery(pageNumber, pageSize, sortsBy, orderBy));
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                pageSize,
+                sortsBy,
+                orderBy,
+                selectedTT.length > 0 && returnArray(selectedTT),
+            )
+        );
+
     }
 
     useEffect(() => {

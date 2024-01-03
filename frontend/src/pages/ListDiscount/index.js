@@ -19,14 +19,14 @@ import { ToastContext } from '~/components/ToastContext';
 const cx = classNames.bind(styles);
 
 const optionsHL = [
-    { label: 'Còn hiệu lực', value: '0' },
-    { label: 'Hết hiệu lực', value: '1' },
+    { label: 'Còn hiệu lực', value: 'true' },
+    { label: 'Hết hiệu lực', value: 'false' },
 ];
 
 const optionsTT = [
-    { label: 'Đang chạy', value: '0' },
-    { label: 'Tạm ngừng', value: '1' },
-    { label: 'Đã hủy', value: '2' },
+    { label: 'Đang chạy', value: 'running' },
+    { label: 'Tạm ngừng', value: 'paused' },
+    { label: 'Đã hủy', value: 'stopped' },
 ];
 
 function ListDiscount() {
@@ -39,27 +39,6 @@ function ListDiscount() {
         setSearch(e.target.value);
     };
 
-    // FILTER
-    const [openFilter, setOpenFilter] = useState(false);
-    const handleOpenFilter = () => setOpenFilter(true);
-    const handleCloseFilter = () => setOpenFilter(false);
-
-    const handleClearFilter = () => {
-        setSelectedHL([]);
-        setSelectedTT([]);
-    };
-
-    const handleFilter = () => {
-        handleCloseFilter();
-    };
-
-    const [selectedHL, setSelectedHL] = useState([]);
-    const [selectedTT, setSelectedTT] = useState([]);
-
-    // ON ROW CLICKED
-    const onRowClicked = useCallback((row) => {
-        navigate('/discounts/detail/' + row.promotionId);
-    }, []);
 
     // TABLE
     const [pageNumber, setPageNumber] = useState(1);
@@ -73,6 +52,69 @@ function ListDiscount() {
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
 
+    // FILTER
+    const [openFilter, setOpenFilter] = useState(false);
+    const handleOpenFilter = () => setOpenFilter(true);
+    const handleCloseFilter = () => setOpenFilter(false);
+
+    const handleClearFilter = () => {
+        setSelectedHL([]);
+        setSelectedTT([]);
+    };
+
+
+    const returnArray = (arr) => {
+        return arr.map((obj) => obj.value);
+    }
+
+    const createObjectQuery = async (
+        pageNumber,
+        pageSize,
+        sortBy,
+        orderBy,
+        statuses,
+        isOutdated
+    ) => {
+        return {
+            pageNumber,
+            pageSize,
+            ...(orderBy && { orderBy }),
+            ...(sortBy && { sortBy }),
+            ...(statuses && { statuses }),
+            ...(isOutdated && { isOutdated }),
+        };
+    }
+
+
+
+    const handleFilter = async () => {
+        setPageNumber(1)
+        getList(
+            await createObjectQuery(
+                1,
+                pageSize,
+                sortBy,
+                orderBy,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedHL.length > 0 && returnArray(selectedHL),
+
+            )
+        );
+
+
+        handleCloseFilter();
+    };
+
+    const [selectedHL, setSelectedHL] = useState([]);
+    const [selectedTT, setSelectedTT] = useState([]);
+
+    // ON ROW CLICKED
+    const onRowClicked = useCallback((row) => {
+        navigate('/discounts/detail/' + row.promotionId);
+    }, []);
+
+
+
     // useEffect(() => {
     //     const timeout = setTimeout(() => {
     //         setRows(data7);
@@ -80,44 +122,20 @@ function ListDiscount() {
     //     }, 500);
     //     return () => clearTimeout(timeout);
     // }, []);
-    const getList = async (
-        pageNumber,
-        pageSize,
-        sortBy,
-        orderBy,
-    ) => {
-        const props = {
-            pageNumber,
-            pageSize,
-            ...(sortBy && { sortBy }),
-            ...(orderBy && { orderBy }),
-        };
-
-        if (!sortBy) {
-            setSortBy('promotionId');
-        }
-
-        if (!orderBy) {
-            setOrderBy('asc');
-        }
-
+    const getList = async (obj) => {
         setPending(true);
 
-        const response = await PromotionServices.getAllPromotions(props)
+        const response = await PromotionServices.getAllPromotions(obj)
             .catch((error) => {
                 setPending(false);
 
-                if (error.response) {
-                    console.log(error.response.data);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                } else if (error.request) {
-                    console.log(error.request);
+                if (error.response.status === 404) {
+                    setRows([]);
+                    setTotalRows(0);
+                    setClear(false);
                 } else {
-                    console.log('Error', error.message);
+                    // toastContext.notify('error', 'Có lỗi xảy ra');
                 }
-                console.log(error.config);
-                toastContext.notify('error', 'Có lỗi xảy ra');
             });
 
         if (response) {
@@ -132,13 +150,33 @@ function ListDiscount() {
         setPageSize(newPerPage);
         setPageNumber(pageNumber);
 
-        getList(pageNumber, newPerPage, sortBy, orderBy);
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                pageSize,
+                sortBy,
+                orderBy,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedHL.length > 0 && returnArray(selectedHL),
+
+            )
+        );
     }
 
-    const handlePageChange = (pageNumber) => {
+    const handlePageChange = async (pageNumber) => {
         setPageNumber(pageNumber);
 
-        getList(pageNumber, pageSize, sortBy, orderBy);
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                pageSize,
+                sortBy,
+                orderBy,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedHL.length > 0 && returnArray(selectedHL),
+
+            )
+        );
     }
 
     const handleSort = (column, sortDirection) => {
@@ -150,7 +188,11 @@ function ListDiscount() {
     };
 
     useEffect(() => {
-        getList(pageNumber, pageSize);
+        const fetch = async () => {
+            getList(await createObjectQuery(pageNumber, pageSize));
+        }
+
+        fetch();
     }, []);
     const [showSubHeader, setShowSubHeader] = useState(true);
     const [selectedRow, setSelectedRow] = useState(0);
@@ -194,6 +236,8 @@ function ListDiscount() {
         setTitleModal(value);
         handleOpenModal();
     };
+
+
 
     return (
         <div className={cx('wrapper')}>

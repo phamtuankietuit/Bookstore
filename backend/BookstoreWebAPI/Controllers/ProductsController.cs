@@ -6,6 +6,9 @@ using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using Microsoft.Extensions.Options;
 using FluentValidation;
 using FluentValidation.Results;
+using BookstoreWebAPI.Services;
+using Azure;
+using Azure.Storage.Blobs;
 
 namespace BookstoreWebAPI.Controllers
 {
@@ -15,19 +18,25 @@ namespace BookstoreWebAPI.Controllers
     {
         private readonly IProductRepository _productRepository;
         private readonly ILogger<ProductsController> _logger;
-        private readonly IValidator<QueryParameters> _validator;
+        private readonly IValidator<QueryParameters> _queryParametersValidator;
+        private readonly IFileService _fileService;
 
-        public ProductsController(IProductRepository productRepository, ILogger<ProductsController> logger, IValidator<QueryParameters> validator)
+        public ProductsController(
+            IProductRepository productRepository,
+            ILogger<ProductsController> logger,
+            IValidator<QueryParameters> validator,
+            IFileService fileService)
         {
             _productRepository = productRepository;
             _logger = logger;
-            _validator = validator;
+            _queryParametersValidator = validator;
+            _fileService = fileService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductDTOsAsync([FromQuery]QueryParameters queryParams, [FromQuery]ProductFilterModel productFilter)
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductDTOsAsync([FromQuery] QueryParameters queryParams, [FromQuery] ProductFilterModel productFilter)
         {
-            ValidationResult result = await _validator.ValidateAsync(queryParams);
+            ValidationResult result = await _queryParametersValidator.ValidateAsync(queryParams);
 
             if (!result.IsValid)
             {
@@ -139,7 +148,7 @@ namespace BookstoreWebAPI.Controllers
         }
 
         [HttpDelete()]
-        public async Task<ActionResult> DeleteProductsAsync([FromQuery]string[] ids)
+        public async Task<ActionResult> DeleteProductsAsync([FromQuery] string[] ids)
         {
             if (ids == null || !ids.Any())
             {
@@ -164,6 +173,68 @@ namespace BookstoreWebAPI.Controllers
             }
 
             return StatusCode(207, result.Responses);
+        }
+
+
+
+        [HttpPost("images")]
+        public async Task<ActionResult> UploadImagesAsync(List<IFormFile> files)
+        {
+            List<FileModel> fileModels = new();
+
+            try
+            {
+
+                foreach(var file in files)
+                {
+                    fileModels.Add(await _fileService.UploadAsync(file));
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (RequestFailedException)
+            {
+                return StatusCode(500, "Upload failed");
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ex.Message);
+
+            }
+
+            var urls = fileModels.Select(x => x.Url);
+            var count = urls.Count();
+
+            return Ok(new
+            {
+                data = urls,
+                metadata = new
+                {
+                    count
+                }
+            }) ;
+        }
+
+
+        [HttpDelete("images/{blobName}")]
+        public async Task<ActionResult> DeleteImageAsync(string blobName)
+        {
+            try
+            {   
+                await _fileService.DeleteAsync(blobName);
+
+                return Ok($"Blob {blobName} deleted successfully.");
+            }
+            catch (RequestFailedException)
+            {
+                return StatusCode(500, "Delete failed");
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ex.Message);
+            }
         }
     }
 }

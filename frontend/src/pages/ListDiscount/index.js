@@ -19,8 +19,8 @@ import { ToastContext } from '~/components/ToastContext';
 const cx = classNames.bind(styles);
 
 const optionsHL = [
-    { label: 'Còn hiệu lực', value: '0' },
-    { label: 'Hết hiệu lực', value: '1' },
+    { label: 'Còn hiệu lực', value: 'true' },
+    { label: 'Hết hiệu lực', value: 'false' },
 ];
 
 const optionsTT = [
@@ -73,6 +73,7 @@ function ListDiscount() {
         sortBy,
         orderBy,
         statuses,
+        isOutdated
     ) => {
         return {
             pageNumber,
@@ -80,6 +81,7 @@ function ListDiscount() {
             ...(orderBy && { orderBy }),
             ...(sortBy && { sortBy }),
             ...(statuses && { statuses }),
+            ...(isOutdated && { isOutdated }),
         };
     }
 
@@ -94,9 +96,10 @@ function ListDiscount() {
                 sortBy,
                 orderBy,
                 selectedTT.length > 0 && returnArray(selectedTT),
+                selectedHL.length > 0 && returnArray(selectedHL),
+
             )
         );
-
 
 
         handleCloseFilter();
@@ -147,7 +150,17 @@ function ListDiscount() {
         setPageSize(newPerPage);
         setPageNumber(pageNumber);
 
-        getList(await createObjectQuery(pageNumber, pageSize, sortBy, orderBy));
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                pageSize,
+                sortBy,
+                orderBy,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedHL.length > 0 && returnArray(selectedHL),
+
+            )
+        );
     }
 
     const handlePageChange = async (pageNumber) => {
@@ -160,6 +173,8 @@ function ListDiscount() {
                 sortBy,
                 orderBy,
                 selectedTT.length > 0 && returnArray(selectedTT),
+                selectedHL.length > 0 && returnArray(selectedHL),
+
             )
         );
     }

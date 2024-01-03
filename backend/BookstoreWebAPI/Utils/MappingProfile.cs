@@ -37,7 +37,7 @@ namespace BookstoreWebAPI.Utils
                 .ForMember(dest => dest.Description, act => act.MapFrom(src => src.Item1.Description))
                 .ForMember(dest => dest.SalePrice, act => act.MapFrom(src => src.Item1.SalePrice))
                 .ForMember(dest => dest.PurchasePrice, act => act.MapFrom(src => src.Item1.PurchasePrice))
-                .ForMember(dest => dest.Attributes, act => act.MapFrom(src => src.Item1.Attributes))
+                .ForMember(dest => dest.OptionalDetails, act => act.MapFrom(src => src.Item1.OptionalDetails))
                 .ForMember(dest => dest.Details, act => act.MapFrom(src => src.Item1.Details))
                 .ForMember(dest => dest.IsActive, act => act.MapFrom(src => src.Item1.IsActive))
                 .ForMember(dest => dest.CreatedAt, act => act.MapFrom(src => src.Item1.CreatedAt))

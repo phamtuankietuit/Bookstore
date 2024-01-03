@@ -3,6 +3,7 @@ using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using BookstoreWebAPI.Models.DTOs;
 using BookstoreWebAPI.Models.Responses;
 using Microsoft.Azure.Cosmos;
+using System.Globalization;
 using System.Text;
 
 namespace BookstoreWebAPI.Utils
@@ -51,14 +52,6 @@ namespace BookstoreWebAPI.Utils
             return queryDef;
         }
 
-        private static void AppendDeleteFilter(StringBuilder query, string defaultSelect, bool isRemovableDocument)
-        {
-            if (isRemovableDocument)
-            {
-                query.Append(" AND c.isDeleted = false");
-            }
-        }
-
         public static void AddResponse<TDTO>(BatchDeletionResult<TDTO> batchDeletionResult, int responseOrder, TDTO responseData, int statusCode) where TDTO : class
         {
             var response = new ResponseWithStatus<TDTO>(id: responseOrder, status: statusCode, data: responseData);
@@ -71,7 +64,7 @@ namespace BookstoreWebAPI.Utils
 
         public static QueryDefinition BuildQuery<T>(QueryParameters queryParams, SupplierFilterModel filter, string defaultSelect = "SELECT *") where T : class
         {
-            var query = new StringBuilder($"{defaultSelect} FROM c WHERE c.isDeleted = false");
+            var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id)");
 
             AppendSupplierFilter(query, filter);
             AppendQueryParameters(query, queryParams);
@@ -85,10 +78,37 @@ namespace BookstoreWebAPI.Utils
 
         public static QueryDefinition BuildQuery<T>(QueryParameters queryParams, CustomerFilterModel filter, string defaultSelect = "SELECT *" , bool isRemovableDocument = true) where T : class
         {
-            var query = new StringBuilder($"{defaultSelect} FROM c WHERE c.isDeleted = false");
+            var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id)");
 
             AppendDeleteFilter(query, defaultSelect, isRemovableDocument);
             AppendCustomerFilter(query, filter);
+            AppendQueryParameters(query, queryParams);
+
+
+            var queryDef = new QueryDefinition(query.ToString());
+
+            return queryDef;
+        }
+
+        public static QueryDefinition BuildQuery<T>(QueryParameters queryParams, PromotionFilterModel filter, string defaultSelect = "SELECT *" , bool isRemovableDocument = true) where T : class
+        {
+            var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id)");
+
+            AppendDeleteFilter(query, defaultSelect, isRemovableDocument);
+            AppendPromotionFilter(query, filter);
+            AppendQueryParameters(query, queryParams);
+
+
+            var queryDef = new QueryDefinition(query.ToString());
+
+            return queryDef;
+        }
+
+        public static QueryDefinition BuildQuery<T>(QueryParameters queryParams, SalesOrderFilterModel filter, string defaultSelect = "SELECT *" , bool isRemovableDocument = true) where T : class
+        {
+            var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id)");
+
+            AppendSalesOrderFilter(query, filter);
             AppendQueryParameters(query, queryParams);
 
 
@@ -179,6 +199,14 @@ namespace BookstoreWebAPI.Utils
             return results;
         }
 
+        private static void AppendDeleteFilter(StringBuilder query, string defaultSelect, bool isRemovableDocument)
+        {
+            if (isRemovableDocument)
+            {
+                query.Append(" AND c.isDeleted = false");
+            }
+        }
+
         private static void AppendProductFilter(StringBuilder query, ProductFilterModel filter)
         {
             if (!VariableHelpers.IsNull(filter.CategoryIds))
@@ -233,7 +261,6 @@ namespace BookstoreWebAPI.Utils
                 query.Append($" AND c.supplierId IN ({supplierIds})");
             }
 
-
             AppendIsActiveFilter(query, filter.IsActives);
         }
 
@@ -243,6 +270,61 @@ namespace BookstoreWebAPI.Utils
             {
                 var supplierIds = string.Join(", ", filter.SupplierIds!.Select(id => $"\"{id}\""));
                 query.Append($" AND c.supplierId IN ({supplierIds})");
+            }
+        }
+
+        private static void AppendPromotionFilter(StringBuilder query, PromotionFilterModel filter)
+        {
+            if (!VariableHelpers.IsNull(filter.Statuses))
+            {
+                var supplierIds = string.Join(", ", filter.Statuses!.Select(id => $"\"{id}\""));
+                query.Append($" AND c.status IN ({supplierIds})");
+            }
+
+            if (!VariableHelpers.IsNull(filter.SalesOrderPrice))
+            {
+                query.Append($" AND c.applyFromAmount <= {filter.SalesOrderPrice}");
+
+                // Since applyToAmount can be null, we only add this condition if applyToAmount is not null
+                query.Append($" AND (c.applyToAmount >= {filter.SalesOrderPrice} OR c.applyToAmount = null)");
+            }
+
+            if (!VariableHelpers.IsNull(filter.IsOutdated))
+            {
+                if (filter.IsOutdated == false)
+                {
+                    query.Append(" AND (NOT IS_NULL(c.closeAt) AND c.closeAt > GetCurrentDateTime())");
+                }
+                else
+                {
+                    query.Append(" AND (NOT IS_NULL(c.closeAt) AND c.closeAt <= GetCurrentDateTime())");
+                }
+            }
+        }
+
+        private static void AppendSalesOrderFilter(StringBuilder query, SalesOrderFilterModel filter)
+        {
+            if (!VariableHelpers.IsNull(filter.CustomerIds))
+            {
+                var customerIds = string.Join(", ", filter.CustomerIds!.Select(id => $"\"{id}\""));
+                query.Append($" AND c.customerId IN ({customerIds})");
+            }
+
+            if (!VariableHelpers.IsNull(filter.StartDate) && !VariableHelpers.IsNull(filter.EndDate))
+            {
+                var startDate = filter.StartDate!.Value.Date;
+                var endDate = filter.EndDate!.Value.Date.AddDays(1); // Add one day to include the end date
+                var isoStartDate = startDate.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
+                var isoEndDate = endDate.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
+
+                query.Append($" AND c.createdAt >= '{isoStartDate}' AND c.createdAt < '{isoEndDate}'");
+            }
+
+            if (!VariableHelpers.IsNull(filter.StaffIds))
+            {
+                // implement staff id filter
+                //var staffIds = string.Join(", ", filter.StaffIds!.Select(id => $"\"{id}\""));
+                //query.Append($" AND c.staffId IN {staffIds}");
             }
         }
 
@@ -273,7 +355,7 @@ namespace BookstoreWebAPI.Utils
                     return;
                 }
 
-                query.Append("$\" AND c.isActive =");
+                query.Append($" AND c.isActive =");
                 if (isActives!.First() == "true")
                 {
                     query.Append("true");

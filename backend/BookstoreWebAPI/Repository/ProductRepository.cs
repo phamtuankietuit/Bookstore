@@ -40,7 +40,7 @@ namespace BookstoreWebAPI.Repository
         {
             var tempQueryParams = new QueryParameters()
             {
-                PageNumber = queryParams.PageNumber,
+                PageNumber = 1,
                 PageSize = -1
             };
 
@@ -217,7 +217,9 @@ namespace BookstoreWebAPI.Repository
             productDoc.ProductId = productId;
             productDoc.CategoryId ??= _defaultCategoryDoc.Id;
             productDoc.CategoryName ??= _defaultCategoryDoc.Name;
+            productDoc.CategoryText ??= _defaultCategoryDoc.Text;
             productDoc.Description ??= "";
+            productDoc.Sku ??= productId;
 
             inventoryDoc.Id = await GetNewInventoryIdAsync();
             inventoryDoc.ProductId ??= productId;
@@ -405,7 +407,7 @@ namespace BookstoreWebAPI.Repository
 
             var result = await CosmosDbUtils.GetDocumentByQueryDefinition<InventoryDocument>(_inventoryContainer, queryDef);
 
-
+            _logger.LogInformation("curr sku: " + sku);
             CheckForNull(result);
 
             return result!;

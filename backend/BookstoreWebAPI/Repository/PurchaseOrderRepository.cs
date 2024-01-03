@@ -40,7 +40,7 @@ namespace BookstoreWebAPI.Repository
         {
             var tempQueryParams = new QueryParameters()
             {
-                PageNumber = queryParams.PageNumber,
+                PageNumber = 1,
                 PageSize = -1
             };
 
@@ -172,9 +172,8 @@ namespace BookstoreWebAPI.Repository
         {
             try
             {
-
                 item.CreatedAt = DateTime.UtcNow;
-                item.MonthYear = item.CreatedAt.Value.ToString("MM-yyyy");
+                item.MonthYear = item.CreatedAt.Value.ToString("yyyy-MM");
 
                 var response = await _purchaseOrderContainer.UpsertItemAsync(
                     item: item,

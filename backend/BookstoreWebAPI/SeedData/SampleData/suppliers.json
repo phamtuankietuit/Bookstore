@@ -13,6 +13,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -30,6 +31,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -47,6 +49,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -64,6 +67,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -81,6 +85,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -98,6 +103,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -115,6 +121,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -132,6 +139,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -149,6 +157,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -166,6 +175,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -183,6 +193,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -200,6 +211,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -217,6 +229,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -234,6 +247,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -251,6 +265,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -268,6 +283,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -285,6 +301,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -302,6 +319,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -319,6 +337,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -336,6 +355,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -353,6 +373,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -370,6 +391,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -387,6 +409,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -404,6 +427,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -421,6 +445,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -438,6 +463,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -455,6 +481,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -472,6 +499,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -489,6 +517,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -506,6 +535,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -523,6 +553,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -540,6 +571,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -557,6 +589,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -574,6 +607,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -591,6 +625,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -608,6 +643,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -625,6 +661,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -642,6 +679,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -659,6 +697,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	},
@@ -676,6 +715,7 @@
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
 		"isActive": true,
+		"isRemovable": true,
 		"isDeleted": false,
 		"ttl": -1
 	}

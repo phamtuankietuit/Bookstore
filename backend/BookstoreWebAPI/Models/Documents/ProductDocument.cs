@@ -48,6 +48,9 @@ namespace BookstoreWebAPI.Models.Documents
         [JsonProperty("details")]
         public Dictionary<string,string> Details { get; set; }
 
+        [JsonProperty("optionalDetails")]
+        public List<OptionalDetails> OptionalDetails { get; set; }
+
         [JsonProperty("ratings")]
         public Ratings Ratings { get; set; }
 

@@ -4,7 +4,7 @@ using BookstoreWebAPI.Models.Interfaces;
 
 namespace BookstoreWebAPI.Models.DTOs
 {
-    public class SupplierDTO : IBaseCosmosDTO
+    public class SupplierDTO : IBaseCosmosDTO, IActivableDTO
     {
         [JsonProperty("supplierId")]
         public string? SupplierId { get; set; }
@@ -28,7 +28,7 @@ namespace BookstoreWebAPI.Models.DTOs
         public string? Description { get; set; }
 
         [JsonProperty("isActive")]
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
 
         [JsonProperty("createdAt")]
         public DateTime? CreatedAt { get; set; }

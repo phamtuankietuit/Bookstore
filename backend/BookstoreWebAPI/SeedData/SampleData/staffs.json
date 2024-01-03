@@ -1,0 +1,44 @@
+[
+	{
+		"id": "staf00000",
+		"staffId": "staf00000",
+		"contact": {
+			"phone": "0866919343",
+			"email": "adminBookstoreUIT@gmail.com"
+		},
+		"profileImage": "",
+		"role": "admin",
+		"address": "UIT, Linh Trung, Thủ Đức, Hồ Chí Minh",
+		"note": "This is for admin role",
+		"createdAt": "2024-01-02T09:09:47.1436654Z",
+		"ttl": -1
+	},
+	{
+		"id": "staf00001",
+		"staffId": "staf00001",
+		"contact": {
+			"phone": "0866919342",
+			"email": "salesBookstoreUIT@gmail.com"
+		},
+		"profileImage": "",
+		"role": "sales",
+		"address": "UIT, Linh Trung, Thủ Đức, Hồ Chí Minh",
+		"note": "This is for sales role",
+		"createdAt": "2024-01-02T09:09:47.1436654Z",
+		"ttl": -1
+	},
+	{
+		"id": "staf00002",
+		"staffId": "staf00002",
+		"contact": {
+			"phone": "0866919344",
+			"email": "warehouseBookstoreUIT@gmail.com"
+		},
+		"profileImage": "",
+		"role": "warehouse",
+		"address": "UIT, Linh Trung, Thủ Đức, Hồ Chí Minh",
+		"note": "This is for warehouse role",
+		"createdAt": "2024-01-02T09:09:47.1436654Z",
+		"ttl": -1
+	}
+]

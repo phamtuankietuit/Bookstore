@@ -41,7 +41,7 @@ namespace BookstoreWebAPI.Repository
         public async Task<int> GetTotalCount(QueryParameters queryParams)
         {
             var tempQueryParams = new QueryParameters(){
-                PageNumber = queryParams.PageNumber,
+                PageNumber = 1,
                 PageSize = -1
             };
 

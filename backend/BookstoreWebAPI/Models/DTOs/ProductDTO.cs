@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using BookstoreWebAPI.Models.Interfaces;
+using BookstoreWebAPI.Models.Shared;
 
 namespace BookstoreWebAPI.Models.DTOs
 {
@@ -50,11 +51,11 @@ namespace BookstoreWebAPI.Models.DTOs
         [JsonProperty("purchasePrice")]
         public int PurchasePrice { get; set; } = 0;
 
-        [JsonProperty("attributes")]
-        public List<string>? Attributes { get; set; }
-
         [JsonProperty("details")]
         public Dictionary<string, string>? Details { get; set; }
+
+        [JsonProperty("optionalDetails")]
+        public List<OptionalDetails> OptionalDetails { get; set; }
 
         [JsonProperty("isActive")]
         public bool IsActive { get; set; }

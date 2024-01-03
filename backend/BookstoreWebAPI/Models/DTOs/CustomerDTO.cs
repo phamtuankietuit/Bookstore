@@ -1,11 +1,10 @@
 ﻿using Newtonsoft.Json;
 using BookstoreWebAPI.Models.Shared;
 using BookstoreWebAPI.Models.Interfaces;
-using System.Diagnostics.CodeAnalysis;
 
 namespace BookstoreWebAPI.Models.DTOs
 {
-    public class CustomerDTO : IBaseCosmosDTO
+    public class CustomerDTO : IBaseCosmosDTO, IActivableDTO
     {
         [JsonProperty("customerID")]
         public string? CustomerId { get; set; }
@@ -33,6 +32,9 @@ namespace BookstoreWebAPI.Models.DTOs
 
         [JsonProperty("note")]
         public string? Note { get; set; }
+
+        [JsonProperty("isActive")]
+        public bool IsActive { get; set; }
 
         [JsonProperty("tags")]
         public List<object>? Tags { get; set; }

@@ -8,7 +8,6 @@ using BookstoreWebAPI.Utils;
 using BookstoreWebAPI.Models.Responses;
 using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
-using BookstoreWebAPI.Exceptions;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -36,7 +35,7 @@ namespace BookstoreWebAPI.Repository
         {
             var tempQueryParams = new QueryParameters()
             {
-                PageNumber = queryParams.PageNumber,
+                PageNumber = 1,
                 PageSize = -1
             };
 
@@ -53,7 +52,7 @@ namespace BookstoreWebAPI.Repository
 
         public async Task<IEnumerable<CustomerDTO>> GetCustomerDTOsAsync(QueryParameters queryParams, CustomerFilterModel filter)
         {
-            var queryDef = CosmosDbUtils.BuildQuery<CustomerDocument>(queryParams);
+            var queryDef = CosmosDbUtils.BuildQuery<CustomerDocument>(queryParams, filter);
 
             var customerDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CustomerDocument>(_customerContainer, queryDef);
             var customerDTOs = customerDocs.Select(customerDoc =>

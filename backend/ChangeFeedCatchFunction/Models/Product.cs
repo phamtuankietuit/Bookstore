@@ -47,7 +47,7 @@ namespace ChangeFeedCatchFunction.Models
         public bool IsDeleted { get; set; }
 
         [JsonProperty("createdAt")]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         [JsonProperty("images")]
         public List<string> Images { get; set; }

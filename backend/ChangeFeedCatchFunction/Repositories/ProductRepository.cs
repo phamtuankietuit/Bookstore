@@ -15,7 +15,7 @@ namespace ChangeFeedCatchFunction.Repositories
             var databaseName = cosmosClient.ClientOptions.ApplicationName;
 
             _productContainer = cosmosClient.GetContainer(databaseName, "products");
-            _inventoryContainer = cosmosClient.GetContainer(databaseName, "inventory");
+            _inventoryContainer = cosmosClient.GetContainer(databaseName, "inventories");
             this._categoryRepository = categoryRepository;
         }
 

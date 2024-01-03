@@ -9,6 +9,10 @@ using static System.Net.Mime.MediaTypeNames;
 using FluentValidation;
 using BookstoreWebAPI.Validators;
 using BookstoreWebAPI.Models.BindingModels;
+using Azure.Storage.Blobs;
+using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using BookstoreWebAPI.Services;
+using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +47,11 @@ builder.Services.AddSingleton((provider) =>
     return new CosmosClient(endpointUri, primaryKey, cosmosClientOptions);  
 });
 
+builder.Services.AddScoped(_ => {
+    //var accountUri = new Uri(!);
+    return new BlobServiceClient(configuration.GetConnectionString("AzureBlobStorage"));
+});
+
 // enable policy8
 builder.Services.AddCors(options =>
 {
@@ -55,7 +64,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-
+builder.Services.AddTransient<IFileService, FileService>();
 
 // adding repositories
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
@@ -69,6 +78,8 @@ builder.Services.AddTransient<ISupplierGroupRepository, SupplierGroupRepository>
 
 // adding validators
 builder.Services.AddTransient<IValidator<QueryParameters>, QueryParametersValidator>();
+builder.Services.AddTransient<IValidator<PromotionFilterModel>, PromotionFilterModelValidator>();
+builder.Services.AddTransient<IValidator<SalesOrderFilterModel>, SalesOrderFilterModelValidator>();
 
 builder.Services.AddTransient<DataSeeder>();
 builder.Services.AddControllers();

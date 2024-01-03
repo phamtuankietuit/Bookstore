@@ -21,31 +21,31 @@ namespace BookstoreWebAPI.Models.Documents
         public string TypeName { get; set; }
 
         [JsonProperty("applyToQuantity")]
-        public int ApplyToQuantity { get; set; }
+        public int? ApplyToQuantity { get; set; }
 
         [JsonProperty("usedQuantity")]
-        public int UsedQuantity { get; set; }
+        public int? UsedQuantity { get; set; }
 
         [JsonProperty("remainQuantity")]
-        public int RemainQuantity { get; set; }
+        public int? RemainQuantity { get; set; }
 
         [JsonProperty("applyFromAmount")]
-        public int ApplyFromAmount { get; set; }
+        public int ApplyFromAmount { get; set; } = 0;
 
         [JsonProperty("applyToAmount")]
-        public int ApplyToAmount { get; set; }
+        public int? ApplyToAmount { get; set; }
 
         [JsonProperty("discountRate")]
-        public int DiscountRate { get; set; }
+        public int DiscountRate { get; set; } = 0;
 
         [JsonProperty("discountValue")]
-        public int DiscountValue { get; set; }
+        public int DiscountValue { get; set; } = 0;
 
         [JsonProperty("startAt")]
         public DateTime StartAt { get; set; }
 
         [JsonProperty("closeAt")]
-        public DateTime CloseAt { get; set; }
+        public DateTime? CloseAt { get; set; }
 
         [JsonProperty("status")]
         public string Status { get; set; }

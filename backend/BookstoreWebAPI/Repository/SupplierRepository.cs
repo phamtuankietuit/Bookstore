@@ -216,9 +216,9 @@ namespace BookstoreWebAPI.Repository
             supplierDoc.Contact ??= defaultContact;
             supplierDoc.Address ??= defaultStringValue;
             supplierDoc.Description ??= defaultStringValue;
-            //supplierDoc.IsActive = true;
-            //supplierDoc.IsRemovable = true;
-            //supplierDoc.IsDeleted = false;
+            supplierDoc.IsActive = true;
+            supplierDoc.IsRemovable = true;
+            supplierDoc.IsDeleted = false;
         }
 
         private async Task<string> GetNewSupplierIdAsync()

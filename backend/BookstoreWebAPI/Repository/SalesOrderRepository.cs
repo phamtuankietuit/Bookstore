@@ -6,49 +6,53 @@ using BookstoreWebAPI.Models.DTOs;
 using BookstoreWebAPI.Repository.Interfaces;
 using BookstoreWebAPI.Utils;
 using BookstoreWebAPI.Models.Responses;
+using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using BookstoreWebAPI.Models.BindingModels;
 
 namespace BookstoreWebAPI.Repository
 {
     public class SalesOrderRepository : ISalesOrderRepository
     {
+        private readonly string salesOrderNewIdCacheName = "LastestSalesOrderId";
         private Container _salesOrderContainer;
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
+        private readonly ILogger<SalesOrderRepository> _logger;
 
-        public SalesOrderRepository(CosmosClient cosmosClient, IMapper mapper, IMemoryCache memoryCache)
+        public SalesOrderRepository(
+            CosmosClient cosmosClient,
+            IMapper mapper,
+            IMemoryCache memoryCache,
+            ILogger<SalesOrderRepository> logger)
         {
             var databaseName = cosmosClient.ClientOptions.ApplicationName;
             var containerName = "salesOrders";
 
             _salesOrderContainer = cosmosClient.GetContainer(databaseName, containerName);
-            this._mapper = mapper;
-            this._memoryCache = memoryCache;
+            _mapper = mapper;
+            _memoryCache = memoryCache;
+            _logger = logger;
         }
 
-        public async Task AddSalesOrderDTOAsync(SalesOrderDTO salesOrderDTO)
+        public async Task<int> GetTotalCount(QueryParameters queryParams, SalesOrderFilterModel filter)
         {
-            var salesOrderDoc = _mapper.Map<SalesOrderDocument>(salesOrderDTO);
+            var tempQueryParams = new QueryParameters()
+            {
+                PageNumber = 1,
+                PageSize = -1
+            };
 
-            await AddSalesOrderDocumentAsync(salesOrderDoc);
+            var queryDef = CosmosDbUtils.BuildQuery<SalesOrderDocument>(tempQueryParams, filter);
+
+            var salesOrderDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<SalesOrderDocument>(_salesOrderContainer, queryDef);
+
+            var count = salesOrderDocs.Count();
+
+            return count;
         }
-
-        public async Task UpdateSalesOrderAsync(SalesOrderDTO salesOrderDTO)
+        public async Task<IEnumerable<SalesOrderDTO>> GetSalesOrderDTOsAsync(QueryParameters queryParams, SalesOrderFilterModel filter)
         {
-            var salesOrderToUpdate = _mapper.Map<SalesOrderDocument>(salesOrderDTO);
-
-            await _salesOrderContainer.UpsertItemAsync(
-                item: salesOrderToUpdate,
-                partitionKey: new PartitionKey(salesOrderToUpdate.MonthYear)
-            );
-        }
-
-        public async Task<IEnumerable<SalesOrderDTO>> GetSalesOrderDTOsAsync()
-        {
-            var queryDef = new QueryDefinition(
-                query:
-                    "SELECT * " +
-                    "FROM so"
-            );
+            var queryDef = CosmosDbUtils.BuildQuery<SalesOrderDocument>(queryParams, filter);
 
             var salesOrderDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<SalesOrderDocument>(_salesOrderContainer, queryDef);
             var salesOrderDTOs = salesOrderDocs.Select(salesOrderDoc =>
@@ -59,9 +63,54 @@ namespace BookstoreWebAPI.Repository
             return salesOrderDTOs;
         }
 
-        public async Task<string> GetNewOrderIdAsync()
+        public async Task<SalesOrderDTO?> GetSalesOrderDTOByIdAsync(string id)
         {
-            if (_memoryCache.TryGetValue("LastestSalesOrderId", out string? lastestId))
+            var salesOrderDoc = await GetSalesOrderDocumentByIdAsync(id);
+
+            var salesOrderDTO = _mapper.Map<SalesOrderDTO>(salesOrderDoc);
+
+            return salesOrderDTO;
+        }
+
+        public async Task<SalesOrderDTO> AddSalesOrderDTOAsync(SalesOrderDTO salesOrderDTO)
+        {
+            // validation for uniqueness
+
+            var salesOrderDoc = _mapper.Map<SalesOrderDocument>(salesOrderDTO);
+            await PopulateDataToNewSalesOrderDocument(salesOrderDoc);
+
+            var createdDocument = await AddSalesOrderDocumentAsync(salesOrderDoc);
+            if (createdDocument.StatusCode == System.Net.HttpStatusCode.Created)
+            {
+                _memoryCache.Set(salesOrderNewIdCacheName, IdUtils.IncreaseId(salesOrderDoc.Id));
+                return _mapper.Map<SalesOrderDTO>(createdDocument.Resource);
+            }
+
+            throw new ArgumentNullException(nameof(createdDocument));
+        }
+
+        private async Task PopulateDataToNewSalesOrderDocument(SalesOrderDocument salesOrderDoc)
+        {
+            var newId = await GetNewSalesOrderIdAsync();
+            salesOrderDoc.Id = newId;
+            salesOrderDoc.SalesOrderId = newId;
+
+            salesOrderDoc.Note ??= "";
+        }
+
+        public async Task UpdateSalesOrderDTOAsync(SalesOrderDTO salesOrderDTO)
+        {
+            var salesOrderToUpdate = _mapper.Map<SalesOrderDocument>(salesOrderDTO);
+
+            await _salesOrderContainer.UpsertItemAsync(
+                item: salesOrderToUpdate,
+                partitionKey: new PartitionKey(salesOrderToUpdate.MonthYear)
+            );
+        }
+
+        public async Task<string> GetNewSalesOrderIdAsync()
+        {
+            if (_memoryCache.TryGetValue(salesOrderNewIdCacheName, out string? lastestId))
             {
                 if (!String.IsNullOrEmpty(lastestId))
                     return lastestId;
@@ -78,34 +127,8 @@ namespace BookstoreWebAPI.Repository
             string currLastestId = (await CosmosDbUtils.GetDocumentByQueryDefinition<ResponseToGetId>(_salesOrderContainer, queryDef))!.Id;
             string newId = IdUtils.IncreaseId(currLastestId);
 
-            _memoryCache.Set("LastestSalesOrderId", newId);
+            _memoryCache.Set(salesOrderNewIdCacheName, newId);
             return newId;
-        }
-
-        public async Task<SalesOrderDTO> GetSalesOrderDTOByIdAsync(string id)
-        {
-            var salesOrderDoc = await GetSalesOrderDocumentByIdAsync(id);
-
-            var salesOrderDTO = _mapper.Map<SalesOrderDTO>(salesOrderDoc);
-
-            return salesOrderDTO;
-        }
-
-        public async Task DeleteSalesOrderAsync(string id)
-        {
-            var salesOrderDoc = await GetSalesOrderDocumentByIdAsync(id);
-
-            if (salesOrderDoc == null)
-            {
-                throw new Exception("SalesOrder Not found!");
-            }
-
-            List<PatchOperation> patchOperations = new List<PatchOperation>()
-            {
-                PatchOperation.Replace("/isDeleted", true)
-            };
-
-            await _salesOrderContainer.PatchItemAsync<SalesOrderDocument>(id, new PartitionKey(salesOrderDoc.MonthYear), patchOperations);
         }
 
         private async Task<SalesOrderDocument?> GetSalesOrderDocumentByIdAsync(string id)
@@ -122,11 +145,15 @@ namespace BookstoreWebAPI.Repository
             return salesOrder;
         }
 
-        public async Task AddSalesOrderDocumentAsync(SalesOrderDocument item)
+
+
+        public async Task<ItemResponse<SalesOrderDocument>> AddSalesOrderDocumentAsync(SalesOrderDocument item)
         {
             item.CreatedAt = DateTime.UtcNow;
+            item.MonthYear = item.CreatedAt.Value.ToString("yyyy-MM");
+            item.ReturnDate = item.CreatedAt.Value.AddDays(5);
 
-            await _salesOrderContainer.UpsertItemAsync(
+            return await _salesOrderContainer.UpsertItemAsync(
                 item: item,
                 partitionKey: new PartitionKey(item.MonthYear)
             );

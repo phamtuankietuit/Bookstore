@@ -14,6 +14,14 @@ function EditDiscount() {
     const [loading, setLoading] = useState(false);
     const [disable, SetDisable] = useState(false);
 
+    const convertISOtoDDMMYYYY = (isoDateString) => {
+        let date = new Date(isoDateString);
+        let day = String(date.getDate()).padStart(2, '0');
+        let month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed in JS
+        let year = date.getFullYear();
+
+        return `${month}/${day}/${year}`;
+    }
     const DisableInputText = () => {
         SetDisable(!disable);
     };
@@ -28,7 +36,7 @@ function EditDiscount() {
                     console.log(err);
                 });
             setObj(result);
-            setDateString(result.startAt + "-" + result.closeAt)
+            setDateString(convertISOtoDDMMYYYY(result.startAt) + "-" + convertISOtoDDMMYYYY(result.closeAt))
         }
 
         fetchApi();
@@ -41,7 +49,12 @@ function EditDiscount() {
         setLoading(true);
         const fetchApi = async () => {
             // console.log(productid.id)
-
+            const date = dateString.split(' – ')
+            console.log(date)
+            const newobj = obj
+            newobj.startAt = new Date(date[0]).toISOString()
+            newobj.closeAt = new Date(date[1]).toISOString()
+            setObj(newobj)
             console.log(obj)
             const result = await PromotionsServices.UpdatePromotion(promotiontid.id, obj)
                 .catch((err) => {
@@ -50,13 +63,13 @@ function EditDiscount() {
             if (result) {
                 setTimeout(() => {
                     setLoading(false);
-                    toastContext.notify('success', 'Đã lưu khuyến mãi');
+                    toastContext.notify('error', 'Đã có lỗi');
                 }, 2000);
             }
             else {
                 setTimeout(() => {
                     setLoading(false);
-                    toastContext.notify('error', 'Đã có lỗi');
+                    toastContext.notify('success', 'Đã lưu khuyến mãi');
                 }, 2000);
             }
 
@@ -67,11 +80,7 @@ function EditDiscount() {
 
     const setDate = (value) => {
         setDateString(value)
-        const date = value.split('–')
-        const newobj = obj
-        newobj.startAt = date[0]
-        newobj.closeAt = date[1]
-        setObj(newobj)
+
     }
     return (
         <div>

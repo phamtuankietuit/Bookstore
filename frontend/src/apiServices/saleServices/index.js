@@ -10,6 +10,16 @@ export const getAllSalesOrders = async () => {
     }
 }
 
+
+export const CreateSalesOrders = async (obj) => {
+    try {
+        const res = await request.postMethod('SalesOrders', obj);
+
+        return res;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
 export const getSalesOrder = async (id) => {
     try {
         const res = await request.getMethod('SalesOrders/' + id);

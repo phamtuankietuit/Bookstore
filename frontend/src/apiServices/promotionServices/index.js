@@ -10,6 +10,16 @@ export const getAllPromotions = async () => {
     }
 }
 
+export const getPromotionsForSale = async (price) => {
+    try {
+        const res = await request.getMethod(`Promotions?pageSize=${-1}&pageNumber=${1}&salesOrderPrice=${price}&statuses=running`);
+
+        return res;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
 export const getPromotion = async (id) => {
     try {
         const res = await request.getMethod('Promotions/' + id);

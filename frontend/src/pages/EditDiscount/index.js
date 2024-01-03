@@ -135,8 +135,13 @@ function EditDiscount() {
                                         <p>Mô tả</p>
                                         <input
                                             type="text"
-                                            defaultValue={obj.type}
+                                            defaultValue={obj.typeName}
                                             placeholder="Nhập mô tả cho khuyến mãi"
+                                            onChange={(e) => {
+                                                const newobj = obj;
+                                                newobj.typeName = e.target.value
+                                                setObj(newobj)
+                                            }}
                                         ></input>
                                     </div>
                                 </div>
@@ -223,7 +228,7 @@ function EditDiscount() {
                             <div className={cx('daterange-container')}>
                                 <DateRange
                                     dateString={dateString}
-                                    setDateString={setDateString}
+                                    setDateString={setDate}
                                     bottom
                                     future
                                 ></DateRange>

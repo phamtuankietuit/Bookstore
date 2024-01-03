@@ -85,40 +85,33 @@ function AddSupplier() {
     };
 
     useEffect(() => {
-        const fetchApi = async () => {
-            const result = await SuppliersServices.getAllSupplierGroups(1, 100)
-                .catch((err) => {
-                    console.log(err);
-                });
+        if (call === false) {
+            const fetchApi = async () => {
+                const result = await SuppliersServices.getAllSupplierGroups(1, -1)
+                    .catch((err) => {
+                        console.log(err);
+                    });
 
-            result.data.map((e) => {
-                if (call === false) {
-                    setOption(op => [...op, e.name])
-                    setGroupIDlist(op => [...op, e.supplierGroupId])
-                }
-                setCall(true)
+                console.log(result.data)
+                result.data.map((e) => {
+                    if (call === false) {
+                        setOption(op => [...op, e.name])
+                        setGroupIDlist(op => [...op, e.supplierGroupId])
+                    }
+                    setCall(true)
 
 
-            })
+                })
 
+            }
+            fetchApi()
         }
-        setTimeout(() => {
-            fetchApi();
-            console.log(call)
-        }, 2500)
-
-
-
-
-
-
-    });
+    }, [option]);
 
     const onChoosegroup = (value) => {
         option.map((e, index) => {
             if (e === value) setGroupID(groupIDlist[index])
         })
-
         setGroup(value)
     }
 

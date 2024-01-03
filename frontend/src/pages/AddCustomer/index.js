@@ -8,7 +8,7 @@ import Button from '~/components/Button';
 import Input from '~/components/Input';
 import ModalLoading from '~/components/ModalLoading';
 import { ToastContext } from '~/components/ToastContext';
-
+import * as CustommerServices from '~/apiServices/customerServices'
 const cx = classNames.bind(styles);
 
 function AddCustomer() {
@@ -27,15 +27,54 @@ function AddCustomer() {
 
     // FROM
     const handleSubmit = () => {
+        setLoading(true);
+        const obj = {
+            name: name,
+            sex: "string",
+            email: email,
+            phoneNumber: phone,
+            address: {
+                address: address,
+                phoneNumber: phone,
+                name: name,
+                email: email
+            },
+            note: "",
+            type: "",
+            tag: {
+
+            }
+
+        }
+        console.log(obj)
         if (name === '') {
             setErrorName('Không được bỏ trống');
         } else {
             // CALL API
-            setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-                toastContext.notify('success', 'Thêm khách hàng thành công');
-            }, 2000);
+            const fetchApi = async () => {
+                const result = await CustommerServices.CreateCustomer(obj)
+                    .catch((err) => {
+                        console.log(err);
+                    });
+
+                if (result) {
+
+                    setTimeout(() => {
+                        setLoading(false);
+                        toastContext.notify('success', 'Đã Thêm khách hàng');
+                        console.log(result)
+                        navigate('/customers/detail/' + result.customerId);
+                    }, 2000);
+                }
+                else {
+                    setTimeout(() => {
+                        setLoading(false);
+                        toastContext.notify('error', 'Không thành công');
+                    }, 2000);
+                }
+            }
+
+            fetchApi();
         }
     };
 

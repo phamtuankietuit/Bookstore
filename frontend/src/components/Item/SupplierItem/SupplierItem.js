@@ -29,7 +29,7 @@ export const SupplierItem = [
         minWidth: '180px',
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.group}
+                {row.supplierGroupName}
             </div>
         ),
     },

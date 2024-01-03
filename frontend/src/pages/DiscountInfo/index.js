@@ -21,11 +21,8 @@ function DiscountInfo() {
 
     const convertISOtoDDMMYYYY = (isoDateString) => {
         let date = new Date(isoDateString);
-        let day = String(date.getDate()).padStart(2, '0');
-        let month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed in JS
-        let year = date.getFullYear();
 
-        return `${day}-${month}-${year}`;
+        return format(date, 'MM/dd/yyyy - HH:mm');;
     }
     useEffect(() => {
 

@@ -15,13 +15,13 @@ namespace BookstoreWebAPI.Controllers
     {
         private readonly ILogger _logger;
         private readonly ICategoryRepository _categoryRepository;
-        private readonly IValidator<QueryParameters> _validator;
+        private readonly IValidator<QueryParameters> _queryParametersValidator;
 
         public CategoriesController(ILogger<CategoriesController> logger, ICategoryRepository categoryRepository, IValidator<QueryParameters> validator)
         {
             _logger = logger;
             _categoryRepository = categoryRepository;
-            _validator = validator;
+            _queryParametersValidator = validator;
         }
 
         // GET: api/<CategoriesController>
@@ -29,7 +29,7 @@ namespace BookstoreWebAPI.Controllers
         public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesAsync([FromQuery]QueryParameters queryParams)
         {
             // validate filter model
-            ValidationResult result = await _validator.ValidateAsync(queryParams);
+            ValidationResult result = await _queryParametersValidator.ValidateAsync(queryParams);
 
             if (!result.IsValid)
             {

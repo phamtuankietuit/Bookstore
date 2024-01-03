@@ -17,20 +17,23 @@ namespace BookstoreWebAPI.Controllers
     {
         private readonly ILogger<CustomersController> _logger;
         private readonly ICustomerRepository _customerRepository;
-        private readonly IValidator<QueryParameters> _validator;
+        private readonly IValidator<QueryParameters> _queryParametersValidator;
 
         public CustomersController(ILogger<CustomersController> logger, ICustomerRepository customerRepository, IValidator<QueryParameters> validator)
         {
             _logger = logger;
             _customerRepository = customerRepository;
-            _validator = validator;
+            _queryParametersValidator = validator;
         }
 
         // GET: api/<CustomersController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CustomerDTO>>> GetCustomerDTOsAsync([FromQuery] QueryParameters queryParams, [FromQuery] CustomerFilterModel filter)
+        public async Task<ActionResult<IEnumerable<CustomerDTO>>> GetCustomerDTOsAsync(
+            [FromQuery] QueryParameters queryParams, 
+            [FromQuery] CustomerFilterModel filter
+        )
         {
-            ValidationResult result = await _validator.ValidateAsync(queryParams);
+            ValidationResult result = await _queryParametersValidator.ValidateAsync(queryParams);
 
             if (!result.IsValid)
             {

@@ -16,12 +16,12 @@ namespace BookstoreWebAPI.Controllers
     {
         private readonly ILogger<PurchaseOrdersController> _logger;
         private readonly IPurchaseOrderRepository _purchaseOrderRepository;
-        private readonly IValidator<QueryParameters> _validator;
+        private readonly IValidator<QueryParameters> _queryParametersValidator;
         public PurchaseOrdersController(ILogger<PurchaseOrdersController> logger, IPurchaseOrderRepository purchaseOrderRepository, IValidator<QueryParameters> validator)
         {
             _logger = logger;
             _purchaseOrderRepository = purchaseOrderRepository;
-            _validator = validator;
+            _queryParametersValidator = validator;
         }
 
         // GET: api/<PurchaseOrdersController>
@@ -29,7 +29,7 @@ namespace BookstoreWebAPI.Controllers
         public async Task<ActionResult<IEnumerable<PurchaseOrderDTO>>> GetPurchaseOrderDTOsAsync([FromQuery] QueryParameters queryParams, [FromQuery] PurchaseOrderFilterModel filter)
         {
             // validate filter model
-            ValidationResult result = await _validator.ValidateAsync(queryParams);
+            ValidationResult result = await _queryParametersValidator.ValidateAsync(queryParams);
 
             if (!result.IsValid)
             {

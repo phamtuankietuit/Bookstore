@@ -1,6 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BookstoreWebAPI.Models.DTOs;
 using BookstoreWebAPI.Repository.Interfaces;
+using BookstoreWebAPI.Models.BindingModels;
+using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using FluentValidation;
+using BookstoreWebAPI.Repository;
+using FluentValidation.Results;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,33 +17,57 @@ namespace BookstoreWebAPI.Controllers
     {
         private readonly ILogger<PromotionsController> _logger;
         private readonly IPromotionRepository _promotionRepository;
+        private readonly IValidator<QueryParameters> _queryParamValidator;
+        private readonly IValidator<PromotionFilterModel> _filterValidator;
 
-        public PromotionsController(ILogger<PromotionsController> logger, IPromotionRepository promotionRepository)
+        public PromotionsController(
+            IPromotionRepository promotionRepository,
+            ILogger<PromotionsController> logger,
+            IValidator<QueryParameters> validator,
+            IValidator<PromotionFilterModel> promoFilterValidator)
         {
-            this._logger = logger;
-            this._promotionRepository = promotionRepository;
+            _logger = logger;
+            _promotionRepository = promotionRepository;
+            _queryParamValidator = validator;
+            _filterValidator = promoFilterValidator;
         }
 
         // GET: api/<PromotionsController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PromotionDTO>>> GetPromotionDTOsAsync()
+        public async Task<ActionResult<IEnumerable<PromotionDTO>>> GetPromotionDTOsAsync(
+            [FromQuery] QueryParameters queryParams,
+            [FromQuery] PromotionFilterModel filter
+        )
         {
-            var promotions = await _promotionRepository.GetPromotionDTOsAsync();
+            ValidationResult queryParamValidationResult = await _queryParamValidator.ValidateAsync(queryParams);
+            ValidationResult filterValidationResult = await _filterValidator.ValidateAsync(filter);
+
+            if (!queryParamValidationResult.IsValid)
+            {
+                return BadRequest(queryParamValidationResult.Errors);
+            }
+
+            if (!filterValidationResult.IsValid)
+            {
+                return BadRequest(filterValidationResult.Errors);
+            }
+
+            int totalCount = await _promotionRepository.GetTotalCount(queryParams, filter);
+            var promotions = await _promotionRepository.GetPromotionDTOsAsync(queryParams, filter);
 
             if (promotions == null || !promotions.Any())
             {
                 return NotFound();
             }
 
-            return Ok(promotions);
-        }
-
-        [HttpGet("newId")]
-        public async Task<ActionResult<string>> GetNewPromotionIdAsync()
-        {
-            string newId = await _promotionRepository.GetNewPromotionIdAsync();
-
-            return Ok(newId);
+            return Ok(new
+            {
+                data = promotions,
+                metadata = new
+                {
+                    count = totalCount
+                }
+            });
         }
 
         // GET api/<PromotionsController>/5
@@ -61,14 +90,22 @@ namespace BookstoreWebAPI.Controllers
         {
             try
             {
-                await _promotionRepository.AddPromotionDTOAsync(promotionDTO);
+                var createdPromotionDTO = await _promotionRepository.AddPromotionDTOAsync(promotionDTO);
 
-                return Ok("Promotion created successfully.");
+                return CreatedAtAction(
+                    nameof(GetPromotionDTOByIdAsync), // method
+                    new { id = createdPromotionDTO.PromotionId }, // param in method
+                    createdPromotionDTO // values returning after the route
+                );
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the promotion. PromotionId: {promotionDTO.PromotionId}");
+                _logger.LogInformation(
+                    $"Promotion Name: {promotionDTO.Name}" +
+                    $"\nError message: {ex.Message}"
+                );
+
+                return Conflict(ex.Message);
             }
         }
 
@@ -76,34 +113,59 @@ namespace BookstoreWebAPI.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdatePromotionAsync(string id, [FromBody] PromotionDTO promotionDTO)
         {
+            if (id != promotionDTO.PromotionId)
+            {
+                return BadRequest("Specified id don't match with the DTO.");
+            }
+
             try
             {
-                await _promotionRepository.UpdatePromotionAsync(promotionDTO);
 
-                return Ok("Promotion updated successfully.");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the promotion. PromotionId: {promotionDTO.PromotionId}");
-            }
-        }
-
-        // DELETE api/<PromotionsController>/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeletePromotionAsync(string id)
-        {
-            try
-            {
-                await _promotionRepository.DeletePromotionAsync(id);
+                await _promotionRepository.UpdatePromotionDTOAsync(promotionDTO);
 
                 return NoContent();
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the promotion. PromotionId: {id}");
+                _logger.LogError(
+                    $"Updating failed. " +
+                    $"\nPromotion Id: {id}. " +
+                    $"\nError message: {ex.Message}");
+
+                return StatusCode(500,
+                    $"An error occurred while updating the promotion. \n" +
+                    $"Promotion Id: {id}\n" +
+                    $"Error message: {ex.Message}");
             }
+        }
+
+        // DELETE api/<PromotionsController>/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeletePromotionsAsync(string[] ids)
+        {
+            if (ids == null || !ids.Any())
+            {
+                return BadRequest("ids is required.");
+            }
+
+            var result = await _promotionRepository.DeletePromotionDTOsAsync(ids);
+
+            if (result.IsSuccessful)
+            {
+                return NoContent();
+            }
+
+            if (result.IsNotFound)
+            {
+                return NotFound();
+            }
+
+            if (result.IsForbidden)
+            {
+                return StatusCode(403);
+            }
+
+            return StatusCode(207, result.Responses);
         }
     }
 }

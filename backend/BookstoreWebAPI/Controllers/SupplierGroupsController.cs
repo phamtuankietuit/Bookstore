@@ -15,13 +15,13 @@ namespace BookstoreWebAPI.Controllers
     {
         private readonly ILogger _logger;
         private readonly ISupplierGroupRepository _supplierGroupRepository;
-        private readonly IValidator<QueryParameters> _validator;
+        private readonly IValidator<QueryParameters> _queryParametersValidator;
 
         public SupplierGroupsController(ILogger<SupplierGroupsController> logger, ISupplierGroupRepository supplierGroupRepository, IValidator<QueryParameters> validator)
         {
             _logger = logger;
             _supplierGroupRepository = supplierGroupRepository;
-            _validator = validator;
+            _queryParametersValidator = validator;
         }
 
         // GET: api/<SupplierGroupsController>
@@ -29,7 +29,7 @@ namespace BookstoreWebAPI.Controllers
         public async Task<ActionResult<IEnumerable<SupplierGroupDTO>>> GetSupplierGroupsAsync([FromQuery]QueryParameters queryParams)
         {
             // validate filter model
-            ValidationResult result = await _validator.ValidateAsync(queryParams);
+            ValidationResult result = await _queryParametersValidator.ValidateAsync(queryParams);
 
             if (!result.IsValid)
             {

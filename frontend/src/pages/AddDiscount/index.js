@@ -44,7 +44,7 @@ function AddDiscount() {
                 typeName: "",
                 applyToQuantity: 0,
                 usedQuantity: 0,
-                remainQuantity: quantity,
+                remainQuantity: parseInt(quantity),
                 applyFromAmount: parseInt(start),
                 applyToAmount: parseInt(end),
                 discountRate: parseInt(discount),
@@ -53,6 +53,7 @@ function AddDiscount() {
                 // closeAt: date[1],
                 status: "running"
             }
+            console.log(obj)
             const result = await PromotionsServices.CreatePromotion(obj)
                 .catch((err) => {
                     console.log(err);

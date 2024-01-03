@@ -42,6 +42,7 @@ function InfoCustomer() {
 
             if (result) {
                 setObj(result)
+                console.log(result)
 
             }
             else {
@@ -140,7 +141,7 @@ function InfoCustomer() {
                                             <div
                                                 className={cx({
                                                     'product-state-container': true,
-                                                    'state-0': !customer.isActive,
+                                                    'state-0': !obj.isActive,
                                                 })}
                                             >
                                                 <FontAwesomeIcon
@@ -148,7 +149,7 @@ function InfoCustomer() {
                                                         'product-state-icon',
                                                     )}
                                                     icon={
-                                                        customer.isActive
+                                                        obj.isActive
                                                             ? faCheck
                                                             : faXmark
                                                     }
@@ -156,7 +157,7 @@ function InfoCustomer() {
                                                 <div
                                                     className={cx('product-state')}
                                                 >
-                                                    {customer.isActive
+                                                    {obj.isActive
                                                         ? 'Đang giao dịch'
                                                         : 'Ngừng giao dịch'}
                                                 </div>

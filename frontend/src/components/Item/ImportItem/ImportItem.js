@@ -1,8 +1,11 @@
 import classNames from 'classnames/bind';
 import styles from './ImportItem.module.scss';
-
+import { format } from 'date-fns';
 const cx = classNames.bind(styles);
-
+const convertISOtoDDMMYYYY = (isoDateString) => {
+    let date = new Date(isoDateString);
+    return format(date, 'MM/dd/yyyy - HH:mm');
+}
 export const ImportItem = [
     {
         name: 'Mã đơn nhập hàng',
@@ -21,7 +24,7 @@ export const ImportItem = [
         sortable: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.createAt}
+                {convertISOtoDDMMYYYY(row.createdAt)}
             </div>
         ),
     },

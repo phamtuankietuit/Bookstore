@@ -14,6 +14,7 @@ import { ToastContext } from '~/components/ToastContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import * as SuppliersServices from '~/apiServices/supplierServices';
+import * as PurchaseorderServices from '~/apiServices/purchaseorderServies';
 import Spinner from 'react-bootstrap/Spinner';
 import { useParams } from 'react-router-dom';
 const cx = classNames.bind(styles);
@@ -33,15 +34,26 @@ function InfoSupplier() {
     const toastContext = useContext(ToastContext);
     const [obj, setObj] = useState(null);
     const suppliertid = useParams();
+
+
     useEffect(() => {
         const fetchApi = async () => {
             // console.log(productid.id)
+
             const result = await SuppliersServices.getSupplier(suppliertid.id)
                 .catch((err) => {
                     console.log(err);
                 });
             setObj(result);
 
+
+            const resultlist = await PurchaseorderServices.getPurchaseOrderFromSupplier(result.supplierId)
+                .catch((err) => {
+                    console.log(err);
+                });
+            setRows(resultlist.data)
+            console.log(rows)
+            setPending(false);
         }
 
         fetchApi();
@@ -55,20 +67,14 @@ function InfoSupplier() {
 
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
-        navigate('/imports/detail/' + row.id);
+        navigate('/imports/detail/' + row.purchaseOrderId);
     }, []);
 
     // TABLE
     const [pending, setPending] = useState(true);
-    const [rows, setRows] = useState([]);
+    const [rows, setRows] = useState(null);
 
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setRows(data3);
-            setPending(false);
-        }, 500);
-        return () => clearTimeout(timeout);
-    }, []);
+
 
     // MODAL LOADING
     const [loading, setLoading] = useState(false);
@@ -201,16 +207,22 @@ function InfoSupplier() {
                                 </div>
                             </div>
                         </Wrapper>
-                        <Wrapper title={'Lịch sử nhập hàng'} className={cx('m-b')}>
-                            <div className={cx('table-wrapper')}>
-                                <Table
-                                    itemComponent={ImportItem}
-                                    data={rows}
-                                    pending={pending}
-                                    onRowClicked={onRowClicked}
-                                />
-                            </div>
-                        </Wrapper>
+                        {
+                            rows === null ? (
+                                <div> </div>
+                            ) : (
+                                <Wrapper title={'Lịch sử nhập hàng'} className={cx('m-b')}>
+                                    <div className={cx('table-wrapper')}>
+                                        <Table
+                                            itemComponent={ImportItem}
+                                            data={rows}
+                                            pending={pending}
+                                            onRowClicked={onRowClicked}
+                                        />
+                                    </div>
+                                </Wrapper>
+                            )
+                        }
                     </div>
 
                     <div className={cx('action')}>

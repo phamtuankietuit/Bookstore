@@ -7,6 +7,7 @@ import * as PromotionsServices from '~/apiServices/promotionServices';
 import Spinner from 'react-bootstrap/Spinner';
 import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
+import format from 'date-fns/format'
 const cx = classNames.bind(styles);
 
 function EditDiscount() {
@@ -16,17 +17,15 @@ function EditDiscount() {
 
     const convertISOtoDDMMYYYY = (isoDateString) => {
         let date = new Date(isoDateString);
-        let day = String(date.getDate()).padStart(2, '0');
-        let month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed in JS
-        let year = date.getFullYear();
 
-        return `${month}/${day}/${year}`;
+        return format(date, 'dd/MM/yyyy');;
     }
     const DisableInputText = () => {
         SetDisable(!disable);
     };
     const promotiontid = useParams();
     const [obj, setObj] = useState(null);
+    const [changeDate, setChangeDate] = useState(false)
     useEffect(() => {
 
         const fetchApi = async () => {
@@ -49,12 +48,15 @@ function EditDiscount() {
         setLoading(true);
         const fetchApi = async () => {
             // console.log(productid.id)
-            const date = dateString.split(' – ')
-            console.log(date)
-            const newobj = obj
-            newobj.startAt = new Date(date[0]).toISOString()
-            newobj.closeAt = new Date(date[1]).toISOString()
-            setObj(newobj)
+            if (changeDate === true) {
+                const date = dateString.split('–')
+                console.log(date)
+                const newobj = obj
+                newobj.startAt = new Date(date[0]).toISOString()
+                newobj.closeAt = new Date(date[1]).toISOString()
+                setObj(newobj)
+            }
+
             console.log(obj)
             const result = await PromotionsServices.UpdatePromotion(promotiontid.id, obj)
                 .catch((err) => {
@@ -80,7 +82,7 @@ function EditDiscount() {
 
     const setDate = (value) => {
         setDateString(value)
-
+        setChangeDate(false)
     }
     return (
         <div>

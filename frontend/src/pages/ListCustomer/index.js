@@ -125,7 +125,7 @@ function ListCustomer() {
 
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
-        navigate('/customers/detail/' + row.id);
+        navigate('/customers/detail/' + row.customerId);
     }, []);
 
     // MODAL LOADING

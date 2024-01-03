@@ -1,10 +1,21 @@
 import * as request from '~/utils/request';
 
-export const getAllPurchaseOrders = async () => {
+export const getAllPurchaseOrders = async (params) => {
     try {
-        const res = await request.getMethod('PurchaseOrders');
+        const response = await request.getMethod('PurchaseOrders?', {
+            params,
+            paramsSerializer: (params) => {
+                const serializedParams = Object.keys(params).map((key) => {
+                    return key + '=' + params[key];
+                }).join('&');
 
-        return res;
+                console.log(serializedParams);
+
+                return serializedParams;
+            },
+        });
+
+        return response;
     } catch (error) {
         return Promise.reject(error);
     }
@@ -31,6 +42,15 @@ export const CreatePurchaseOrder = async (obj) => {
 export const UpdatePurchaseOrder = async (id, obj) => {
     try {
         const res = await request.putMethod('PurchaseOrders/' + id, obj);
+        return res;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
+export const getPurchaseOrderFromSupplier = async (id) => {
+    try {
+        const res = await request.getMethod(`PurchaseOrders?pageSize=${-1}&pageNumber=${1}&supplierIds=${id}`);
         return res;
     } catch (error) {
         return Promise.reject(error);

@@ -24,7 +24,7 @@ function EditBillInfo() {
     const [customer, setCustomer] = useState(null)
     const convertISOtoDDMMYYYY = (isoDateString) => {
         let date = new Date(isoDateString);
-        return format(date, 'MM/dd/yyyy - HH:mm');
+        return format(date, 'dd/MM/yyyy');
     }
     useEffect(() => {
 

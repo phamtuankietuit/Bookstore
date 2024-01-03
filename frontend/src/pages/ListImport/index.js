@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,6 +12,7 @@ import { ImportItem } from '~/components/Item';
 import MultiSelectComp from '~/components/MultiSelectComp';
 import DateRange from '~/components/DateRange';
 import * as PurchaseorderServices from '~/apiServices/purchaseorderServies';
+import { ToastContext } from '~/components/ToastContext';
 const cx = classNames.bind(styles);
 
 const optionsTT = [
@@ -35,6 +36,7 @@ const optionsNV = [
 
 function ListImport() {
     const navigate = useNavigate();
+    const toastContext = useContext(ToastContext)
 
     // SEARCH
     const [search, setSearch] = useState('');
@@ -71,24 +73,90 @@ function ListImport() {
     }, []);
 
     // TABLE
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pageSize, setPageSize] = useState(12);
+    const [totalRows, setTotalRows] = useState(0);
+    const [clear, setClear] = useState(false);
+    const [sortBy, setSortBy] = useState('purchaseOrderId');
+    const [orderBy, setOrderBy] = useState('asc');
+
+
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
+    const getList = async (
+        pageNumber,
+        pageSize,
+        sortBy,
+        orderBy,
+        supplierIds,
+    ) => {
+        const props = {
+            pageNumber,
+            pageSize,
+            ...(sortBy && { sortBy }),
+            ...(orderBy && { orderBy }),
+            ...(supplierIds && { supplierIds }),
+        };
 
-    useEffect(() => {
-
-        const fetchApi = async () => {
-            const result = await PurchaseorderServices.getAllPurchaseOrders()
-                .catch((err) => {
-                    console.log(err);
-                });
-
-            setPending(false);
-            setRows(result);
-            // console.log(result)
+        if (!sortBy) {
+            setSortBy('purchaseOrderId');
         }
 
-        fetchApi();
+        if (!orderBy) {
+            setOrderBy('asc');
+        }
 
+        setPending(true);
+
+        const response = await PurchaseorderServices.getAllPurchaseOrders(props)
+            .catch((error) => {
+                setPending(false);
+
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+                toastContext.notify('error', 'Có lỗi xảy ra');
+            });
+
+        if (response) {
+            console.log(response.data);
+            setPending(false);
+            setRows(response.data);
+            setTotalRows(response.metadata.count);
+            setClear(false);
+        }
+    }
+
+    const handlePerRowsChange = async (newPerPage, pageNumber) => {
+        setPageSize(newPerPage);
+        setPageNumber(pageNumber);
+
+        getList(pageNumber, newPerPage, sortBy, orderBy);
+    }
+
+    const handlePageChange = (pageNumber) => {
+        setPageNumber(pageNumber);
+
+        getList(pageNumber, pageSize, sortBy, orderBy);
+    }
+
+    const handleSort = (column, sortDirection) => {
+        setSortBy(column.text);
+        setOrderBy(sortDirection);
+        setPageNumber(1);
+
+        getList(1, pageSize, column.text, sortDirection);
+    };
+
+    useEffect(() => {
+        getList(pageNumber, pageSize);
     }, []);
     return (
         <div className={cx('wrapper')}>
@@ -160,6 +228,12 @@ function ListImport() {
                     itemComponent={ImportItem}
                     data={rows}
                     pending={pending}
+                    // PAGINATION
+                    totalRows={totalRows}
+                    handlePerRowsChange={handlePerRowsChange}
+                    handlePageChange={handlePageChange}
+                    // SORT
+                    handleSort={handleSort}
                 />
             </div>
         </div>

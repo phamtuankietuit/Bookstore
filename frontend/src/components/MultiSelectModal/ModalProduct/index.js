@@ -13,59 +13,18 @@ import * as ProductServices from '~/apiServices/productServices';
 import DataTable from 'react-data-table-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-    faAngleLeft,
-    faAngleRight,
-    faAngleUp,
-    faAnglesLeft,
-    faAnglesRight,
     faMagnifyingGlass,
 } from '@fortawesome/free-solid-svg-icons';
 const cx = classNames.bind(styles);
-function ModalProduct({ handleClose, handlesubmit, supplierID }) {
+function ModalProduct({ handleClose, handlesubmit, list }) {
 
     const [data, setdata] = useState([])
     const [submitlist, setSubmit] = useState([])
-    const [iscall, setIscall] = useState(0)
+
     useEffect(() => {
-        if (iscall === 0) {
-            if (supplierID === 'none') {
-                const fetchApi = async () => {
-                    const result = await ProductServices.getAllProducts(currentPage, -1)
-                        .catch((err) => {
-                            console.log(err);
-                        });
 
-                    if (result) {
-                        setdata(result.data);
-                        console.log(result.data)
-                        if (numofTotalPage === '') setNumofTotal(result.metadata.count)
-                    }
-                    // console.log(result)
-                }
-                fetchApi();
-                setIscall(1)
-            }
-            else if (supplierID !== '') {
-
-                const fetchApi = async () => {
-                    const result = await ProductServices.getProductsOfSupplier(currentPage, -1, supplierID)
-                        .catch((err) => {
-                            console.log(err);
-                        });
-
-                    if (result) {
-                        setdata(result.data);
-                        console.log(result.data)
-                        if (numofTotalPage === '') setNumofTotal(result.metadata.count)
-                    }
-                    // console.log(result)
-                }
-                fetchApi();
-                setIscall(1)
-            }
-        }
-
-
+        setdata(list)
+        setNumofTotal(data.length)
 
     });
 

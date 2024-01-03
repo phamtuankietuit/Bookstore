@@ -26,8 +26,8 @@ function AddDiscount() {
     };
 
     const [dateString, setDateString] = useState('');
-    const [start, setStart] = useState('');
-    const [end, setEnd] = useState('');
+    const [start, setStart] = useState(0);
+    const [end, setEnd] = useState(0);
     const [discount, setDiscount] = useState('');
     const [name, setName] = useState('')
     const [quantity, setQuantity] = useState(0)
@@ -45,12 +45,12 @@ function AddDiscount() {
                 applyToQuantity: 0,
                 usedQuantity: 0,
                 remainQuantity: quantity,
-                applyFromAmount: start,
-                applyToAmount: end,
-                discountRate: discount,
+                applyFromAmount: parseInt(start),
+                applyToAmount: parseInt(end),
+                discountRate: parseInt(discount),
                 discountValue: 0,
-                startAt: date[0],
-                closeAt: date[1],
+                // startAt: date[0],
+                // closeAt: date[1],
                 status: "running"
             }
             const result = await PromotionsServices.CreatePromotion(obj)
@@ -165,11 +165,12 @@ function AddDiscount() {
                                         value={start}
                                         onChange={(e) =>
                                             setStart(
-                                                addCommas(
-                                                    removeNonNumeric(
-                                                        e.target.value,
-                                                    ),
-                                                ),
+                                                e.target.value
+                                                // addCommas(
+                                                //     removeNonNumeric(
+                                                //         e.target.value,
+                                                //     ),
+                                                // ),
                                             )
                                         }
                                     ></input>
@@ -180,11 +181,12 @@ function AddDiscount() {
                                         value={end}
                                         onChange={(e) =>
                                             setEnd(
-                                                addCommas(
-                                                    removeNonNumeric(
-                                                        e.target.value,
-                                                    ),
-                                                ),
+                                                e.target.value
+                                                // addCommas(
+                                                //     removeNonNumeric(
+                                                //         e.target.value,
+                                                //     ),
+                                                // ),
                                             )
                                         }
                                     ></input>

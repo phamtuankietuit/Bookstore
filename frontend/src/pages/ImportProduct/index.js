@@ -250,6 +250,8 @@ function ImportProduct() {
                                                     setNums(0)
                                                     setCost(0)
                                                     setTotal(0)
+                                                    setPaid(0)
+                                                    setDiscount(0)
                                                 }, 1000);
 
 
@@ -377,7 +379,7 @@ function ImportProduct() {
                                                     setDiscount(0)
                                                     setTotal(cost)
                                                 }}>Giá trị</Button>
-                                                <input className={`ms-3 me-5 w-25 ${cx('textfield')}`} value={discount} type="number" min={0} max={100} onChange={(e) => {
+                                                <input className={`ms-3 me-5 w-50 ${cx('textfield')}`} value={discount} type="number" min={0} max={100} onChange={(e) => {
 
                                                     if (typediscount === true) {
                                                         if (e.target.value > 100) e.target.value = 100;
@@ -422,12 +424,10 @@ function ImportProduct() {
                                     Thanh toán nhà cung cấp
                                 </Col>
                                 <Col xs md lg={4} className='text-end pe-5'>
-                                    <input className={`${cx('textfield')} `} type="number" inputMode="numeric" onChange={(e) => {
-
+                                    <input className={`${cx('textfield')} `} type="number" inputMode="numeric" value={paid} onChange={(e) => {
                                         if (e.target.value > total) e.target.value = total;
                                         else if (e.target.value < 0 || e.target.value === '') e.target.value = 0;
                                         setPaid(parseInt(e.target.value))
-
                                     }} />
                                 </Col>
                             </Row>

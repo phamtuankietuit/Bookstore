@@ -44,7 +44,7 @@ function BillInfo() {
                 <div className={cx('MainInfo-and-Status')}>
                     <div className={cx('MainInfo')}>
                         <div className={cx('BillCode')}>
-                            <p>{obj.orderId}</p>
+                            <p>{obj.salesOrderId}</p>
                             <div className={cx('BillStatus')}>
                                 <p>Hoàn thành</p>
                             </div>
@@ -133,10 +133,10 @@ function BillInfo() {
                                     </p>
                                 </div>
                                 <div className={cx('list-sum-content2')}>
+                                    <p>{addCommas(obj.subtotal)}</p>
+                                    <p>{0}</p>
+                                    <p>{addCommas(obj.discountAmount)}</p>
                                     <p>{addCommas(obj.totalAmount)}</p>
-                                    <p>{data.vat}</p>
-                                    <p>{obj.discounts === null ? 0 : obj.discounts.value}</p>
-                                    <p>{addCommas(data.paid)}</p>
                                 </div>
                             </div>
                         </div>

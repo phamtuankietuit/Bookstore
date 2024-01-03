@@ -56,7 +56,7 @@ function ListDiscount() {
 
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
-        navigate('/discounts/detail/' + row.id);
+        navigate('/discounts/detail/' + row.promotionId);
     }, []);
 
     // TABLE

@@ -169,7 +169,7 @@ function EditBillInfo() {
                                 <div className={cx('list-sum-content2')}>
                                     <p>{addCommas(obj.subtotal)}</p>
                                     <p>0</p>
-                                    <p>{obj.discounts === null ? 0 : obj.discounts.value}</p>
+                                    <p>{addCommas(obj.discountAmount)}</p>
                                     <p>{addCommas(obj.totalAmount)}</p>
                                 </div>
                             </div>

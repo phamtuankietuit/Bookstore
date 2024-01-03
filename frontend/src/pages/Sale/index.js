@@ -16,8 +16,8 @@ import { FaRegCircleXmark } from "react-icons/fa6";
 import { options2, options3 } from '../ImportProduct/data';
 import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
-import { MultiSelect } from 'react-multi-select-component';
 import { useNavigate } from 'react-router-dom';
+import Input from '~/components/Input';
 import * as PromotionServices from '~/apiServices/promotionServices';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -26,7 +26,6 @@ const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 function Sale() {
     const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
-    const [list, setList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [arr, setArr] = useState([])
     const [nums, setNums] = useState(0)
@@ -38,7 +37,6 @@ function Sale() {
     const [customer, setCustomer] = useState(null)
     const [note, setNote] = useState('')
     const [coupon, setCoupon] = useState('')
-    const [optionsPromo, setOptionsPromo] = useState([])
     const addarr = (value) => {
         // console.log(value)
         const isFound = arr.some(element => {
@@ -77,6 +75,7 @@ function Sale() {
 
         setTotal(newcost)
         setNums(newnums)
+        setCall(false)
 
 
 
@@ -91,7 +90,7 @@ function Sale() {
         setTotal(newcost)
         setNums(newnums)
 
-
+        setCall(false)
         setArr(arr.filter(items => items.productId !== productId));
 
 
@@ -131,41 +130,38 @@ function Sale() {
 
     }
 
-
     const [option, setOption] = useState([])
-    const addOption = (value) => {
-        value.map(item => (
-            add(item)
-        ))
-    }
-
-    const add = (value) => {
-        const obj = {
-            label: value.name,
-            value: value
-        }
-
-        setOption(op => [...op, obj])
-    }
+    const [call, setCall] = useState(false)
+    const [items, setItems] = useState([])
     useEffect(() => {
-
-        const fetchApi = async () => {
-            const result = await PromotionServices.getAllPromotions()
-                .catch((err) => {
-                    console.log(err);
-                });
-            if (result) {
-                addOption(result)
-
+        if (call === false) {
+            const fetchApi = async () => {
+                const result = await PromotionServices.getAllPromotions()
+                    .catch((err) => {
+                        console.log(err);
+                    });
+                if (result) {
+                    setOption(result)
+                    setItems([])
+                    arrItems(result)
+                }
+                console.log(result)
+                setCall(true)
+                // console.log(result)
             }
-            console.log(result)
-
-            // console.log(result)
+            fetchApi();
         }
 
-        fetchApi();
+    }, [total])
 
-    }, []);
+    const arrItems = (value) => {
+        value.map(e => {
+            setItems(i => [...i, e.name])
+        })
+    }
+    const onChangeCoupon = (value) => {
+        setCoupon(value)
+    }
     return (
         <div className={` ${cx('wrapper')}`}>
             <div className={`${cx('header')} d-flex align-items-center`}>
@@ -219,14 +215,14 @@ function Sale() {
                         <div><div className={` `}>
                             {
                                 customer === null ? (
-                                    <SearchResult stypeid={2} setValue={addCustomer} list={options3} />
+                                    <SearchResult stypeid={3} setValue={addCustomer} />
                                 ) : (
                                     <Row>
                                         <Col lg={1}>
                                             <img src={customer.img} className={cx('img')} />
                                         </Col>
                                         <Col lg={8} >
-                                            <p className='ms-3'><span className='fs-6'>{customer.name}</span> - {customer.phone}</p>
+                                            <p className='ms-3'><span className='fs-6'>{customer.name}</span> - {customer.phoneNumber}</p>
                                         </Col>
                                         <Col lg={3} className='text-end'>
                                             <FaRegCircleXmark className={cx('icon-delete')} onClick={() => setCustomer(null)} />
@@ -271,18 +267,11 @@ function Sale() {
                                     <p className='ms-3'>Mã giảm giá</p>
                                 </Col>
                                 <Col xs md lg={6} >
-                                    <MultiSelect
-                                        options={option}
-                                        onChange={setCoupon}
+                                    <Input
+                                        className={cx('m-b')}
+                                        items={items}
                                         value={coupon}
-                                        labelledBy="Select"
-                                        hasSelectAll={false}
-                                        overrideStrings={{
-                                            search: 'Tìm kiếm...',
-                                            selectAllFiltered: 'Tất cả (theo tìm kiếm)',
-                                            noOptions: 'Không có kết quả',
-                                            allItemsAreSelected: 'Tất cả',
-                                        }}
+                                        onChange={onChangeCoupon}
                                     />
                                 </Col>
 

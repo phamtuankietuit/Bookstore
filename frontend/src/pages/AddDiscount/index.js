@@ -5,6 +5,7 @@ import { useState, useContext } from 'react';
 import * as PromotionsServices from '~/apiServices/promotionServices';
 import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
+import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -17,6 +18,7 @@ const percent = (num) => {
 };
 
 function AddDiscount() {
+    const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
     const [loading, setLoading] = useState(false);
     const [disable, SetDisable] = useState(false);
@@ -36,23 +38,26 @@ function AddDiscount() {
         setLoading(true);
         const fetchApi = async () => {
             // console.log(productid.id)
-            const date = dateString.split('–')
+            const date = dateString.split(' – ')
 
+
+            console.log(date)
             const obj = {
                 name: name,
                 type: "",
                 typeName: "",
                 applyToQuantity: 0,
                 usedQuantity: 0,
-                remainQuantity: quantity,
+                remainQuantity: parseInt(quantity),
                 applyFromAmount: parseInt(start),
                 applyToAmount: parseInt(end),
                 discountRate: parseInt(discount),
                 discountValue: 0,
-                // startAt: date[0],
-                // closeAt: date[1],
+                startAt: new Date(date[0]).toISOString(),
+                closeAt: new Date(date[1]).toISOString(),
                 status: "running"
             }
+            console.log(obj)
             const result = await PromotionsServices.CreatePromotion(obj)
                 .catch((err) => {
                     console.log(err);
@@ -61,6 +66,7 @@ function AddDiscount() {
                 setTimeout(() => {
                     setLoading(false);
                     toastContext.notify('success', 'Đã lưu khuyến mãi');
+                    navigate('/discounts/detail/' + result.promotionId);
                 }, 2000);
             }
             else {
@@ -69,7 +75,6 @@ function AddDiscount() {
                     toastContext.notify('error', 'Đã có lỗi xảy rồi');
                 }, 2000);
             }
-            console.log(obj)
         }
 
         fetchApi();

@@ -54,7 +54,6 @@ function SearchResult({ setValue, stypeid, supplierID }) {
         setValue(obj);
         setOpen(false)
         setcurrentPage(1)
-        console.log(obj);
     }
 
 

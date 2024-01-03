@@ -13,6 +13,7 @@ function Item_Sale({ product, index, funtion, update }) {
     useEffect(() => {
 
         setObj(product)
+        setTotal(product.salePrice)
 
     }, [obj]);
 
@@ -36,7 +37,7 @@ function Item_Sale({ product, index, funtion, update }) {
                 {index}
             </div>
             <div className={cx('properties-1')}>
-                <img src={product.img} className={cx('img')} />
+                <img src={product.featureImageUrl} className={cx('img')} />
             </div>
             <div className={cx('properties-1')}>
                 <div>{product.sku}</div>
@@ -46,7 +47,7 @@ function Item_Sale({ product, index, funtion, update }) {
             </div>
             <div className={`${cx('properties-3')}`}>
 
-                <input className={cx('textfield')} type="number" min={0} max={product.stock} onChange={(e) => {
+                <input className={cx('textfield')} type="number" min={0} max={product.stock} defaultValue={product.quantity} onChange={(e) => {
                     if (e.target.value > product.stock) e.target.value = product.stock;
                     else if (e.target.value < 0 || e.target.value === '') e.target.value = 0;
 

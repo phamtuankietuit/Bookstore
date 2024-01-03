@@ -8,6 +8,7 @@ import * as PromotionsServices from '~/apiServices/promotionServices';
 import Spinner from 'react-bootstrap/Spinner';
 import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
+import format from 'date-fns/format'
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 function DiscountInfo() {
@@ -17,6 +18,15 @@ function DiscountInfo() {
     const navigate = useNavigate();
     const [obj, setObj] = useState(null);
     const promotiontid = useParams();
+
+    const convertISOtoDDMMYYYY = (isoDateString) => {
+        let date = new Date(isoDateString);
+        let day = String(date.getDate()).padStart(2, '0');
+        let month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed in JS
+        let year = date.getFullYear();
+
+        return `${day}-${month}-${year}`;
+    }
     useEffect(() => {
 
         const fetchApi = async () => {
@@ -72,7 +82,7 @@ function DiscountInfo() {
                                 <div className={cx('content')}>
                                     <h4>{obj.discountRate}% Off</h4>
                                     <p>Siêu giảm giá</p>
-                                    <p>Ngày kết thúc: {obj.closeAt}</p>
+                                    <p>Ngày kết thúc: {convertISOtoDDMMYYYY(obj.closeAt)}</p>
                                 </div>
                                 <div className={cx('logo')}></div>
                             </div>
@@ -94,7 +104,7 @@ function DiscountInfo() {
                                         <p>:</p>
                                     </div>
                                     <div className={cx('second-column')}>
-                                        <p>{obj.startAt}</p>
+                                        <p>{convertISOtoDDMMYYYY(obj.startAt)}</p>
                                     </div>
                                 </div>
                                 <div className={cx('date-content-content-grid1')}>
@@ -105,7 +115,7 @@ function DiscountInfo() {
                                         <p>:</p>
                                     </div>
                                     <div className={cx('second-column')}>
-                                        <p>{obj.closeAt}</p>
+                                        <p>{convertISOtoDDMMYYYY(obj.closeAt)}</p>
                                     </div>
                                 </div>
                             </div>

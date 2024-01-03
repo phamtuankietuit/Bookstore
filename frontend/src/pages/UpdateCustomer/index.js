@@ -41,7 +41,7 @@ function UpdateCustomer() {
                 setAddress(result.address.address);
                 setID(result.customerId)
                 setObj(result)
-                // setIsActive(customer.isActive);
+                setIsActive(result.isActive);
 
             }
             else {
@@ -89,6 +89,7 @@ function UpdateCustomer() {
             newobj.address.phoneNumber = phone
             newobj.address.email = email
             newobj.address.name = name
+            newobj.isActive = isActive
             const fetchApi = async () => {
                 const result = await CustommerServices.updateCustomer(customerid.id, newobj)
                     .catch((err) => {

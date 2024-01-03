@@ -126,9 +126,10 @@ function ListProduct() {
     }
 
     const handleFilter = async () => {
+        setPageNumber(1)
         getList(
             await createObjectQuery(
-                pageNumber,
+                1,
                 pageSize,
                 sortBy,
                 orderBy,
@@ -406,7 +407,22 @@ function ListProduct() {
         setOrderBy(sortDirection);
         setPageNumber(1);
 
-        getList(await createObjectQuery(1, pageSize, column.text, sortDirection));
+        getList(
+            await createObjectQuery(
+                1,
+                pageSize,
+                column.text,
+                sortDirection,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedPriceRange.length > 0 && returnArray(selectedPriceRange),
+                selectedLSP.length > 0 && returnArray(selectedLSP),
+                selectedSupplier.length > 0 && returnArray(selectedSupplier),
+                selectedPublisher.length > 0 && returnArray(selectedPublisher),
+                selectedAuthor.length > 0 && returnArray(selectedAuthor),
+                selectedManufacturer.length > 0 && returnArray(selectedManufacturer)
+            )
+        );
+
     };
 
     // PAGINATION
@@ -414,13 +430,43 @@ function ListProduct() {
         setPageSize(newPerPage);
         setPageNumber(pageNumber);
 
-        getList(await createObjectQuery(pageNumber, newPerPage, sortBy, orderBy));
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                pageSize,
+                sortBy,
+                orderBy,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedPriceRange.length > 0 && returnArray(selectedPriceRange),
+                selectedLSP.length > 0 && returnArray(selectedLSP),
+                selectedSupplier.length > 0 && returnArray(selectedSupplier),
+                selectedPublisher.length > 0 && returnArray(selectedPublisher),
+                selectedAuthor.length > 0 && returnArray(selectedAuthor),
+                selectedManufacturer.length > 0 && returnArray(selectedManufacturer)
+            )
+        );
+
     }
 
     const handlePageChange = async (pageNumber) => {
         setPageNumber(pageNumber);
 
-        getList(await createObjectQuery(pageNumber, pageSize, sortBy, orderBy));
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                pageSize,
+                sortBy,
+                orderBy,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedPriceRange.length > 0 && returnArray(selectedPriceRange),
+                selectedLSP.length > 0 && returnArray(selectedLSP),
+                selectedSupplier.length > 0 && returnArray(selectedSupplier),
+                selectedPublisher.length > 0 && returnArray(selectedPublisher),
+                selectedAuthor.length > 0 && returnArray(selectedAuthor),
+                selectedManufacturer.length > 0 && returnArray(selectedManufacturer)
+            )
+        );
+
     }
 
     useEffect(() => {

@@ -173,17 +173,28 @@ function SellReport() {
                             <Input
                                 className={cx('m-l', 'm-w-group')}
                                 title={'Nhóm theo'}
-                                items={['Ngày', 'Tháng', 'Năm']}
+                                items={
+                                    [
+                                        { label: 'Ngày', value: 'Ngày' },
+                                        { label: 'Tháng', value: 'Tháng' },
+                                        { label: 'Năm', value: 'Năm' },
+                                    ]
+                                }
                                 value={group}
-                                onChange={(value) => setGroup(value)}
+                                handleClickAction={(item) => setGroup(item.value)}
                                 readOnly
                             />
                             <Input
                                 className={cx('m-l', 'm-w-type')}
                                 title={'Loại biểu đồ'}
-                                items={['Biểu đồ cột', 'Biểu đồ đường']}
+                                items={
+                                    [
+                                        { label: 'Biểu đồ cột', value: 'Biểu đồ cột' },
+                                        { label: 'Biểu đồ đường', value: 'Biểu đồ đường' }
+                                    ]
+                                }
                                 value={chartType.title}
-                                onChange={(value) => handleChangeType(value)}
+                                handleClickAction={(item) => handleChangeType(item.label)}
                                 readOnly
                             />
                         </div>

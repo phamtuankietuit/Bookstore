@@ -49,6 +49,16 @@ export const getProduct = async (id) => {
     }
 }
 
+export const deleteProducts = async (products) => {
+    try {
+        const res = await request.deleteMethod(`Products?${products.map((product) => 'ids=' + product.productId).join('&')}`);
+
+        return res;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
 export const updateProduct = async (obj) => {
     try {
         const res = await request.putMethod('Products', obj);
@@ -66,5 +76,15 @@ export const getDetails = async (propName) => {
         return Promise.reject(error);
     }
 }
+
+export const createProduct = async (obj) => {
+    try {
+        const response = await request.postMethod('Products', obj);
+        return response;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
 
 

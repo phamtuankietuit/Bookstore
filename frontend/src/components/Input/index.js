@@ -7,7 +7,15 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
-const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const addCommas = (num) => {
+    if (Number(num) === 0)
+        return '0';
+
+    if (num.indexOf('0') === 0)
+        return num.toString().slice(1).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 const removeNonNumeric = (num) => num.toString().replace(/[^0-9]/g, '');
 
 function Input({
@@ -15,6 +23,7 @@ function Input({
     error,
     value,
     onChange,
+    handleClickAction,
     onChangeMoney,
     money,
     number,
@@ -51,7 +60,7 @@ function Input({
     const hide = () => setVisible(false);
 
     const onClickAction = (item) => {
-        onChange(item);
+        handleClickAction(item);
         hide();
     };
 
@@ -85,7 +94,7 @@ function Input({
                                         className={cx('item')}
                                         onClick={() => onClickAction(item)}
                                     >
-                                        {item}
+                                        {item.label}
                                     </li>
                                 ))}
                             </ul>

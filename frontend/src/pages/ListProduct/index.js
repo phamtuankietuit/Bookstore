@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -7,7 +8,6 @@ import {
     faPlus,
     faUpload,
 } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
 
 import styles from './ListProduct.module.scss';
 import List from '~/components/List';
@@ -24,7 +24,6 @@ import { ToastContext } from '~/components/ToastContext';
 import * as productServices from '~/apiServices/productServices';
 import * as typeProductServices from '~/apiServices/typeProductServices';
 import * as supplierServices from '~/apiServices/supplierServices';
-
 
 const cx = classNames.bind(styles);
 
@@ -45,6 +44,36 @@ function ListProduct() {
 
     const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
+    const [updateList, setUpdateList] = useState(new Date());
+
+    // CREATE OBJECT QUERY
+    const createObjectQuery = async (
+        pageNumber,
+        pageSize,
+        sortBy,
+        orderBy,
+        isActives,
+        priceRanges,
+        categoryIds,
+        supplierIds,
+        publisherIds,
+        authorIds,
+        manufacturerIds,
+    ) => {
+        return {
+            pageNumber,
+            pageSize,
+            ...(sortBy && { sortBy }),
+            ...(orderBy && { orderBy }),
+            ...(isActives && { isActives }),
+            ...(priceRanges && { priceRanges }),
+            ...(categoryIds && { categoryIds }),
+            ...(supplierIds && { supplierIds }),
+            ...(publisherIds && { publisherIds }),
+            ...(authorIds && { authorIds }),
+            ...(manufacturerIds && { manufacturerIds }),
+        };
+    }
 
     // API PROPS
     const [pageNumber, setPageNumber] = useState(1);
@@ -60,7 +89,7 @@ function ListProduct() {
         setSearch(e.target.value);
     };
 
-    // FILTER
+    // FILTER OPTIONS
     const [optionsLSP, setOptionsLSP] = useState([]);
     const [optionsSupplier, setOptionsSupplier] = useState([]);
     const [optionsPublisher, setOptionsPublisher] = useState([]);
@@ -76,6 +105,7 @@ function ListProduct() {
     const [selectedAuthor, setSelectedAuthor] = useState([]);
     const [selectedManufacturer, setSelectedManufacturer] = useState([]);
 
+    // FILTER PROPS
     const [openFilter, setOpenFilter] = useState(false);
     const handleOpenFilter = () => setOpenFilter(true);
     const handleCloseFilter = () => setOpenFilter(false);
@@ -95,22 +125,24 @@ function ListProduct() {
         return arr.map((obj) => obj.value);
     }
 
-    const handleFilter = () => {
+    const handleFilter = async () => {
         getList(
-            pageNumber,
-            pageSize,
-            sortBy,
-            orderBy,
-            selectedTT.length > 0 && returnArray(selectedTT),
-            selectedPriceRange.length > 0 && returnArray(selectedPriceRange),
-            selectedLSP.length > 0 && returnArray(selectedLSP),
-            selectedSupplier.length > 0 && returnArray(selectedSupplier),
-            selectedPublisher.length > 0 && returnArray(selectedPublisher),
-            selectedAuthor.length > 0 && returnArray(selectedAuthor),
-            selectedManufacturer.length > 0 && returnArray(selectedManufacturer),
+            await createObjectQuery(
+                pageNumber,
+                pageSize,
+                sortBy,
+                orderBy,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedPriceRange.length > 0 && returnArray(selectedPriceRange),
+                selectedLSP.length > 0 && returnArray(selectedLSP),
+                selectedSupplier.length > 0 && returnArray(selectedSupplier),
+                selectedPublisher.length > 0 && returnArray(selectedPublisher),
+                selectedAuthor.length > 0 && returnArray(selectedAuthor),
+                selectedManufacturer.length > 0 && returnArray(selectedManufacturer)
+            )
         );
 
-        console.log(selectedPriceRange);
+        handleCloseFilter();
     };
 
     // GET DATA CATES
@@ -248,6 +280,7 @@ function ListProduct() {
     }) => {
         selectedCount > 0 ? setShowSubHeader(true) : setShowSubHeader(false);
         setSelectedRow(selectedCount);
+        setSelectedDelRows(selectedRows);
     };
 
     // SUB HEADER
@@ -279,65 +312,83 @@ function ListProduct() {
         setOpenModal(false);
     };
 
-    const handleValidation = () => { };
+    const [selectedDelRows, setSelectedDelRows] = useState();
+
+    // CLEAR SUB HEADER
+    const clearSubHeader = () => {
+        setShowSubHeader(false);
+        setSelectedRow(0);
+        setClear(true);
+    }
+
+
+    const handleValidation = () => {
+        if (titleModal === 'Xóa sản phẩm?') {
+
+            let isSuccess = true;
+
+            // // XÓA SẢN PHẨM
+            const fetchApi = async () => {
+                setLoading(true);
+
+                const result = await productServices.deleteProducts(selectedDelRows)
+                    .catch((error) => {
+                        isSuccess = false;
+                        setLoading(false);
+                        if (error.response) {
+                            console.log(error.response.data);
+                            console.log(error.response.status);
+                            console.log(error.response.headers);
+                        } else if (error.request) {
+                            console.log(error.request);
+                        } else {
+                            console.log('Error', error.message);
+                        }
+                        console.log(error.config);
+                        toastContext.notify('error', 'Có lỗi xảy ra');
+                    });
+
+                if (result) {
+                    setLoading(false);
+                    result.map((product) => {
+                        if (product.status === 204) {
+                            toastContext.notify('success', 'Xóa thành công sản phẩm ' + product.data.name);
+                        } else {
+                            toastContext.notify('error', 'Có lỗi xảy ra khi xóa sản phẩm ' + product.data.name);
+                        }
+                    });
+                } else if (isSuccess) {
+                    setLoading(false);
+                    handleCloseModal();
+                    toastContext.notify('success', 'Xóa sản phẩm thành công');
+                    clearSubHeader();
+                    setUpdateList(new Date());
+                }
+            }
+
+            fetchApi();
+        }
+    };
 
     const onOpenModal = (value) => {
         setTitleModal(value);
         handleOpenModal();
     };
 
-    const getList = async (
-        pageNumber,
-        pageSize,
-        sortBy,
-        orderBy,
-        isActives,
-        priceRanges,
-        categoryIds,
-        supplierIds,
-        publisherIds,
-        authorIds,
-        manufacturerIds,
-    ) => {
-        const props = {
-            pageNumber,
-            pageSize,
-            ...(sortBy && { sortBy }),
-            ...(orderBy && { orderBy }),
-            ...(isActives && { isActives }),
-            ...(priceRanges && { priceRanges }),
-            ...(categoryIds && { categoryIds }),
-            ...(supplierIds && { supplierIds }),
-            ...(publisherIds && { publisherIds }),
-            ...(authorIds && { authorIds }),
-            ...(manufacturerIds && { manufacturerIds }),
-        };
-
-        if (!sortBy) {
-            setSortBy('productId');
-        }
-
-        if (!orderBy) {
-            setOrderBy('asc');
-        }
-
+    const getList = async (obj) => {
         setPending(true);
 
-        const response = await productServices.getAllProducts(props)
+        const response = await productServices.getAllProducts(obj)
             .catch((error) => {
                 setPending(false);
 
-                if (error.response) {
-                    console.log(error.response.data);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                } else if (error.request) {
-                    console.log(error.request);
+                if (error.response.status === 404) {
+                    setRows([]);
+                    setTotalRows(0);
+                    setClear(false);
                 } else {
-                    console.log('Error', error.message);
+                    toastContext.notify('error', 'Có lỗi xảy ra');
                 }
-                console.log(error.config);
-                toastContext.notify('error', 'Có lỗi xảy ra');
             });
 
         if (response) {
@@ -350,12 +401,12 @@ function ListProduct() {
     }
 
     // SORT
-    const handleSort = (column, sortDirection) => {
+    const handleSort = async (column, sortDirection) => {
         setSortBy(column.text);
         setOrderBy(sortDirection);
         setPageNumber(1);
 
-        getList(1, pageSize, column.text, sortDirection);
+        getList(await createObjectQuery(1, pageSize, column.text, sortDirection));
     };
 
     // PAGINATION
@@ -363,18 +414,45 @@ function ListProduct() {
         setPageSize(newPerPage);
         setPageNumber(pageNumber);
 
-        getList(pageNumber, newPerPage, sortBy, orderBy);
+        getList(await createObjectQuery(pageNumber, newPerPage, sortBy, orderBy));
     }
 
-    const handlePageChange = (pageNumber) => {
+    const handlePageChange = async (pageNumber) => {
         setPageNumber(pageNumber);
 
-        getList(pageNumber, pageSize, sortBy, orderBy);
+        getList(await createObjectQuery(pageNumber, pageSize, sortBy, orderBy));
     }
 
     useEffect(() => {
-        getList(pageNumber, pageSize);
+        const fetch = async () => {
+            getList(await createObjectQuery(pageNumber, pageSize));
+        }
+
+        fetch();
     }, []);
+
+    useEffect(() => {
+        const fetch = async () => {
+            getList(
+                await createObjectQuery(
+                    pageNumber,
+                    pageSize,
+                    sortBy,
+                    orderBy,
+                    selectedTT.length > 0 && returnArray(selectedTT),
+                    selectedPriceRange.length > 0 && returnArray(selectedPriceRange),
+                    selectedLSP.length > 0 && returnArray(selectedLSP),
+                    selectedSupplier.length > 0 && returnArray(selectedSupplier),
+                    selectedPublisher.length > 0 && returnArray(selectedPublisher),
+                    selectedAuthor.length > 0 && returnArray(selectedAuthor),
+                    selectedManufacturer.length > 0 && returnArray(selectedManufacturer)
+                )
+            );
+        }
+
+        fetch();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [updateList])
 
     return (
         <div className={cx('wrapper')}>
@@ -504,8 +582,6 @@ function ListProduct() {
                             itemName={'sản phẩm'}
                             onClickAction={onClickAction}
                             items={[
-                                'Đang giao dịch',
-                                'Ngừng giao dịch',
                                 'Xóa sản phẩm',
                             ]}
                         />

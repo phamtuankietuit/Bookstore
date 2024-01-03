@@ -12,12 +12,20 @@ import SliderImage from '~/components/SliderImage';
 import Button from 'react-bootstrap/Button';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import noImage from '~/assets/images/no-image.png';
 import * as ProductServices from '~/apiServices/productServices';
 import Spinner from 'react-bootstrap/Spinner';
+
+import Barcode from 'react-barcode';
+import ReactToPrint, { useReactToPrint } from 'react-to-print';
+
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
 function InfoProduct() {
+    const svgRef = useRef();
+
     let navigate = useNavigate();
 
     const [price, setprice] = useState([])
@@ -42,13 +50,13 @@ function InfoProduct() {
             const price = [
                 {
                     id: 1,
-                    title: 'Giá bán tại cửa hàng',
-                    value: result.salePrice,
+                    title: 'Giá bán',
+                    value: addCommas(result.salePrice),
                 },
                 {
                     id: 2,
                     title: 'Giá vốn',
-                    value: result.purchasePrice,
+                    value: addCommas(result.purchasePrice),
                 },
             ];
             setprice(price)
@@ -58,7 +66,7 @@ function InfoProduct() {
                 {
                     id: 1,
                     title: 'Nhà cung cấp',
-                    value: result.details.supplierName,
+                    value: result.supplierName,
                 },
                 {
                     id: 2,
@@ -103,12 +111,9 @@ function InfoProduct() {
 
     }, []);
 
-
-
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
-
                 {
                     product === null ? (
                         <Spinner animation="border" role="status">
@@ -124,12 +129,9 @@ function InfoProduct() {
                                         </p>
                                         <Row>
                                             <Col lg={5}>
-                                                <SliderImage list={product.images} />
+                                                <SliderImage list={product.images.length > 0 ? product.images : [noImage,]} />
                                                 <div className="d-flex justify-content-center">
-                                                    <img
-                                                        src={product.barcode}
-                                                        className={cx('barcode')}
-                                                    />
+                                                    <Barcode ref={svgRef} value={product.barcode} className={cx('barcode')} />
                                                 </div>
                                             </Col>
                                             <Col lg={7}>
@@ -140,7 +142,7 @@ function InfoProduct() {
                                                     {addCommas(product.salePrice)} <sup>đ</sup>
                                                 </p>
                                                 <div className="mb-4">
-                                                    Loại sản phẩm :  {product.categoryName}
+                                                    Loại sản phẩm :  {product.categoryText}
                                                 </div>
                                                 <div className="mb-4">
                                                     <Specifications props={details} />
@@ -156,9 +158,6 @@ function InfoProduct() {
                                             <p className="mb-3">
                                                 {product.description}
                                             </p>
-
-
-
                                         </div>
                                     </div>
                                 </Col>
@@ -188,6 +187,15 @@ function InfoProduct() {
                             </Row>
                             <Row>
                                 <Col className="mt-4 text-end me-4">
+                                    <ReactToPrint
+                                        trigger={() => <Button
+                                            className={`m-1 ${cx('my-btn')}`}
+                                            variant="outline-primary"
+                                        >
+                                            In barcode
+                                        </Button>}
+                                        content={() => svgRef.current}
+                                    />
                                     <Button
                                         className={`m-1 ${cx('my-btn')}`}
                                         variant="outline-primary"
@@ -217,8 +225,6 @@ function InfoProduct() {
                         </div>
                     )
                 }
-
-
             </div>
         </div>
     );

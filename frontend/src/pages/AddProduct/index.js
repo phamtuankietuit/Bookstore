@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import classNames from 'classnames/bind';
-import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCircleXmark, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Switch } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -11,13 +11,179 @@ import Button from '~/components/Button';
 import Input from '~/components/Input';
 import ModalComp from '~/components/ModalComp';
 import ModalLoading from '~/components/ModalLoading';
+
 import { ToastContext } from '~/components/ToastContext';
+
+import * as productServices from '~/apiServices/productServices';
+import * as typeProductServices from '~/apiServices/typeProductServices';
+import * as supplierServices from '~/apiServices/supplierServices';
+import * as supplierGroupServices from '~/apiServices/supplierGroupServices';
 
 const cx = classNames.bind(styles);
 
 function AddProduct() {
     const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
+
+    // OPTIONS
+    const [optionsLSP, setOptionsLSP] = useState([]);
+    const [optionsSupplier, setOptionsSupplier] = useState([]);
+    const [optionsPublisher, setOptionsPublisher] = useState([]);
+    const [optionsAuthor, setOptionsAuthor] = useState([]);
+    const [optionsManufacturer, setOptionsManufacturer] = useState([]);
+    const [optionsSupplierGroups, setOptionsSupplierGroups] = useState([]);
+
+    // SELECTED
+    const [selectedLSP, setSelectedLSP] = useState();
+    const [selectedSupplier, setSelectedSupplier] = useState();
+    const [selectedPublisher, setSelectedPublisher] = useState();
+    const [selectedAuthor, setSelectedAuthor] = useState();
+    const [selectedManufacturer, setSelectedManufacturer] = useState();
+    const [selectedSupplierGroups, setSelectedSupplierGroups] = useState();
+
+    // GET DATA CATES
+    const getCate = async () => {
+        const response = await typeProductServices.getAllProductTypes(1, -1)
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+
+        if (response) {
+            const data = await response.data.map((cate) => ({ label: cate.text, value: cate.categoryId, obj: cate }));
+            setOptionsLSP(data);
+        }
+    }
+
+    // GET DATA SUPPLIERS
+    const getSup = async () => {
+        const response = await supplierServices.getAllSuppliers(1, -1)
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+
+        if (response) {
+            const data = await response.data.map((sup) => ({ label: sup.name, value: sup.supplierId, obj: sup }));
+            setOptionsSupplier(data);
+        }
+    };
+
+    // GET DATA PUBLISHERS
+    const getPub = async () => {
+        const response = await productServices.getDetails('publisher')
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+
+        if (response) {
+            const data = await response.map((pub, index) => ({ label: pub, value: index }));
+            setOptionsPublisher(data);
+        }
+    };
+
+    // GET DATA AUTHORS
+    const getAuth = async () => {
+        const response = await productServices.getDetails('author')
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+
+        if (response) {
+            const data = await response.map((auth, index) => ({ label: auth, value: index }));
+            setOptionsAuthor(data);
+        }
+    };
+
+    // GET DATA MANUFACTURERS
+    const getManu = async () => {
+        const response = await productServices.getDetails('manufacturer')
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+
+        if (response) {
+            const data = await response.map((manu, index) => ({ label: manu, value: index }));
+            setOptionsManufacturer(data);
+        }
+    };
+
+    // GET SUPPLIER GROUPS
+    const getSupGroup = async () => {
+        const response = await supplierGroupServices.getAllSupplierGroups(1, -1)
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+
+        if (response) {
+            const data = await response.data.map((supgroup) => ({ label: supgroup.name, value: supgroup.supplierGroupId }));
+            setOptionsSupplierGroups(data);
+        }
+    };
+
+    // GET DATA FOR FILTER
+    useEffect(() => {
+        getCate();
+        getSup();
+        getPub();
+        getAuth();
+        getManu();
+        getSupGroup();
+        // eslint-disable-next-line no-use-before-define
+    }, []);
+
 
     // IMAGES
     const [files, setFiles] = useState([]);
@@ -66,77 +232,56 @@ function AddProduct() {
     };
 
     // COST
-    const [cost, setCost] = useState(0);
+    const [cost, setCost] = useState('0');
     const onChangeCost = (number) => {
         setCost(number);
     };
 
     // PRICE
-    const [price, setPrice] = useState(0);
+    const [price, setPrice] = useState('0');
     const onChangePrice = (number) => {
         setPrice(number);
     };
 
     // STORE
-    const [store, setStore] = useState(0);
+    const [store, setStore] = useState('0');
     const onChangeStore = (number) => {
         setStore(number);
     };
 
     // PUBLISH YEAR
-    const [year, setYear] = useState('');
+    const [publishYear, setPublishYear] = useState('');
     const onChangeYear = (number) => {
-        setYear(number);
+        setPublishYear(number);
     };
 
     // MANUFACTURER
     const [manufacturer, setManufacturer] = useState('');
-    const onChangeManufacturer = (value) => {
-        setManufacturer(value);
-    };
 
     // AUTHOR
     const [author, setAuthor] = useState('');
-    const onChangeAuthor = (value) => {
-        setAuthor(value);
-    };
 
     // PUBLISHER
     const [publisher, setPublisher] = useState('');
-    const onChangePublisher = (value) => {
-        setPublisher(value);
-    };
 
     // SUPPLIER
     const [supplier, setSupplier] = useState('');
-    const onChangeSupplier = (value) => {
-        setSupplier(value);
-    };
+    const [errorSupplier, setErrorSupplier] = useState('');
 
     // PRODUCT TYPE
     const [productType, setProductType] = useState('');
-    const onChangeProductType = (value) => {
-        setProductType(value);
-        if (
-            value === 'Sách Thiếu Nhi' ||
-            value === 'Sách Giáo Khoa - Tham Khảo' ||
-            value === 'Tiểu Thuyết' ||
-            value === 'Truyện Ngắn' ||
-            value === 'Light Novel' ||
-            value === 'Sách Tâm Lý - Kỹ Năng Sống' ||
-            value === 'Sách Học Ngoại Ngữ'
-        ) {
+    const onChangeProductType = (item) => {
+        setProductType(item.label);
+        setSelectedLSP(item);
+
+        if (Number(item.obj.categoryId.slice(-5)) === 0) {
+            setBookProps(true);
+            setRestProps(true);
+        } else if (Number(item.obj.categoryId.slice(-5)) <= 7) {
             setRestProps(false);
             setBookProps(true);
-        } else if (
-            value === 'Văn phòng phẩm' ||
-            value === 'Đồ chơi' ||
-            value === 'Quà lưu niệm'
-        ) {
-            setBookProps(false);
-            setRestProps(true);
         } else {
-            setBookProps(true);
+            setBookProps(false);
             setRestProps(true);
         }
     };
@@ -208,42 +353,174 @@ function AddProduct() {
             if (nameType === '') {
                 setErrorType('Không được bỏ trống');
             } else {
-                setLoading(true);
-                setTimeout(() => {
-                    setLoading(false);
-                    handleCloseModal();
-                }, 2000);
+                //    THÊM LOẠI SẢN PHẨM
+                const fetchApi = async () => {
+                    setLoading(true);
+
+                    const result = await typeProductServices.createProductType({ text: nameType })
+                        .catch((error) => {
+                            if (error.response.status === 409) {
+                                setLoading(false);
+                                toastContext.notify('error', 'Loại sản phẩm đã tồn tại');
+                            } else {
+                                toastContext.notify('error', 'Có lỗi xảy ra');
+                            }
+                        });
+
+                    if (result) {
+                        setLoading(false);
+                        toastContext.notify('success', 'Thêm loại sản phẩm thành công');
+                        handleCloseModal();
+                        getCate();
+                    }
+                }
+                fetchApi();
             }
         } else {
             if (nameSup === '') {
                 setErrorSup('Không được bỏ trống');
             } else {
                 setLoading(true);
-                setTimeout(() => {
-                    setLoading(false);
-                    handleCloseModal();
-                }, 2000);
+                //    THÊM NHÀ CUNG CẤP
+                const fetchApi = async () => {
+                    setLoading(true);
+
+                    const result = await supplierServices
+                        .CreateSuppliers({
+                            name: nameSup,
+                            supplierGroupId: selectedSupplierGroups ? selectedSupplierGroups.supplierGroupId : 'supg00000',
+                            supplierGroupName: selectedSupplierGroups ? selectedSupplierGroups.name : 'Khác',
+                            contact: {
+                                phone: phoneSup,
+                                email: emailSup,
+                            },
+                            address: addressSup,
+                            isActive: true,
+                        })
+                        .catch((error) => {
+                            toastContext.notify('error', 'Có lỗi xảy ra');
+                        });
+
+                    if (result) {
+                        setLoading(false);
+                        toastContext.notify('success', 'Thêm nhà cung cấp thành công');
+                        handleCloseModal();
+                        getSup();
+                    }
+                }
+                fetchApi();
             }
         }
     };
 
+    // CREATE OBJECT PRODUCT
+    const createObjectProduct = async () => {
+        const data = props.filter(prop => {
+            if (prop.propName !== '' && prop.value !== '') {
+                return ({ name: prop.propName, value: prop.value });
+            }
+        }).map(prop => ({ name: prop.propName, value: prop.value }));
+
+        const object = {
+            categoryId: selectedLSP ? selectedLSP.obj.categoryId : 'cate00000',
+            categoryName: selectedLSP ? selectedLSP.obj.name : 'khac',
+            supplierId: selectedSupplier.obj.supplierId,
+            supplierName: selectedSupplier.obj.name,
+            name,
+            currentStock: Number(store.replace(/,/g, '')),
+            description: desc,
+            salePrice: Number(price.replace(/,/g, '')),
+            purchasePrice: Number(cost.replace(/,/g, '')),
+            details: {
+                ...(author && { author }),
+                ...(publishYear && { publishYear }),
+                ...(publisher && { publisher }),
+                ...(manufacturer && { manufacturer }),
+            },
+            optionalDetails: [
+                ...data,
+            ],
+            isActive: status,
+        }
+
+        if (bookProps === true && restProps === false) {
+            delete object.details.manufacturer;
+        } else if (bookProps === false && restProps === true) {
+            delete object.details.publisher;
+            delete object.details.publishYear;
+            delete object.details.author;
+        }
+
+        return object;
+    }
+
     // FROM
     const handleSubmit = () => {
-        if (name === '') {
-            setErrorName('Không được bỏ trống');
+        if (name === '' || supplier === '') {
+            if (name === '')
+                setErrorName('Không được bỏ trống');
+
+            if (supplier === '')
+                setErrorSupplier('Không được bỏ trống');
+
+            toastContext.notify('error', 'Chưa điền các trường bắt buộc');
         } else {
-            // CALL API
+            // ADD PRODUCT
             setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-                toastContext.notify('success', 'Thêm sản phẩm thành công');
-            }, 2000);
+
+            const fetch = async () => {
+                const obj = await createObjectProduct();
+
+                console.log('OBJECT', obj);
+
+                const response = await productServices.createProduct(obj)
+                    .catch((error) => {
+                        if (error.response) {
+                            console.log(error.response.data);
+                            console.log(error.response.status);
+                            console.log(error.response.headers);
+                        } else if (error.request) {
+                            console.log(error.request);
+                        } else {
+                            console.log('Error', error.message);
+                        }
+                        console.log(error.config);
+                        setLoading(false);
+                        toastContext.notify('error', 'Có lỗi xảy ra');
+                    });
+
+                if (response) {
+                    setLoading(false);
+                    console.log(response);
+                    toastContext.notify('success', 'Thêm sản phẩm thành công');
+                }
+            }
+
+            fetch();
         }
     };
 
     const handleExit = () => {
         navigate(-1);
     };
+
+    // ADD PROPS
+    const [props, setProps] = useState([]);
+
+    const addProps = () => {
+        setProps(pre => [...pre, {
+            propName: '',
+            value: '',
+        }]);
+    }
+
+    const deleteProps = (index) => {
+        const newProps = [...props];
+
+        newProps.splice(index, 1);
+
+        setProps(newProps);
+    }
 
     return (
         <div className={cx('wrapper')}>
@@ -353,14 +630,15 @@ function AddProduct() {
                                 <Input
                                     className={cx('m-b')}
                                     title={'Thương hiệu'}
-                                    items={[
-                                        'Thiên Long',
-                                        'Deli',
-                                        'Hồng Hà',
-                                        'Campus',
-                                    ]}
+                                    items={optionsManufacturer}
                                     value={manufacturer}
-                                    onChange={onChangeManufacturer}
+                                    onChange={(value) => {
+                                        setManufacturer(value);
+                                    }}
+                                    handleClickAction={(item) => {
+                                        setManufacturer(item.label);
+                                        setSelectedManufacturer(item);
+                                    }}
                                 />
                             )}
                             {bookProps && (
@@ -369,35 +647,62 @@ function AddProduct() {
                                         className={cx('m-b')}
                                         title={'Năm xuất bản'}
                                         number
-                                        value={year}
+                                        value={publishYear}
                                         onChangeNumber={onChangeYear}
                                     />
                                     <Input
                                         className={cx('m-b')}
                                         title={'Tác giả'}
-                                        items={[
-                                            'Kim Lân',
-                                            'Xuân Diệu',
-                                            'Tố Hữu',
-                                            'Đoàn Thị Điểm',
-                                        ]}
+                                        items={optionsAuthor}
                                         value={author}
-                                        onChange={onChangeAuthor}
+                                        onChange={(value) => {
+                                            setAuthor(value);
+                                        }}
+                                        handleClickAction={(item) => {
+                                            setAuthor(item.label);
+                                            setSelectedAuthor(item);
+                                        }}
                                     />
                                     <Input
                                         className={cx('m-b')}
                                         title={'Nhà xuất bản'}
-                                        items={[
-                                            'Kim Đồng',
-                                            'Nguyễn Huy Phát',
-                                            'Đại học Quốc gia TPHCM',
-                                            'Bộ GD và ĐT',
-                                        ]}
+                                        items={optionsPublisher}
                                         value={publisher}
-                                        onChange={onChangePublisher}
+                                        onChange={(value) => {
+                                            setPublisher(value);
+                                        }}
+                                        handleClickAction={(item) => {
+                                            setPublisher(item.label);
+                                            setSelectedPublisher(item);
+                                        }}
                                     />
                                 </div>
                             )}
+                            {props.map((prop, index) => (
+                                <div key={index} className={cx('two', 'm-b')}>
+                                    <Input
+                                        className={cx('first')}
+                                        title={'Tên thuộc tính'}
+                                        onChange={(value) => { prop.propName = value; }}
+                                    />
+                                    <Input
+                                        className={cx('second')}
+                                        title={'Giá trị'}
+                                        onChange={(value) => { prop.value = value; }}
+                                    />
+                                    <FontAwesomeIcon
+                                        className={cx('two-icon')}
+                                        icon={faCircleXmark}
+                                        onClick={() => deleteProps(index)}
+                                    />
+                                </div>
+                            ))}
+                            <Button
+                                solidBlue
+                                onClick={addProps}
+                            >
+                                Thêm thuộc tính
+                            </Button>
                         </Wrapper>
                     </div>
                     <div className={cx('col2')}>
@@ -408,20 +713,9 @@ function AddProduct() {
                             <div className={cx('two-cols', 'm-b')}>
                                 <Input
                                     title={'Loại sản phẩm'}
-                                    items={[
-                                        'Sách Thiếu Nhi',
-                                        'Sách Giáo Khoa - Tham Khảo',
-                                        'Tiểu Thuyết',
-                                        'Truyện Ngắn',
-                                        'Light Novel',
-                                        'Sách Tâm Lý - Kỹ Năng Sống',
-                                        'Sách Học Ngoại Ngữ',
-                                        'Văn phòng phẩm',
-                                        'Đồ chơi',
-                                        'Quà lưu niệm',
-                                    ]}
+                                    items={optionsLSP}
                                     value={productType}
-                                    onChange={onChangeProductType}
+                                    handleClickAction={onChangeProductType}
                                     readOnly
                                 />
                                 <Button
@@ -435,15 +729,15 @@ function AddProduct() {
                             <div className={cx('two-cols', 'm-b')}>
                                 <Input
                                     title={'Nhà cung cấp'}
-                                    items={[
-                                        'Văn phòng phẩm Kim Sơn',
-                                        'Thiên Long',
-                                        'Nhà sách Nguyễn Văn Cừ',
-                                        'Sách Nguyễn An',
-                                    ]}
+                                    items={optionsSupplier}
                                     value={supplier}
-                                    onChange={onChangeSupplier}
+                                    handleClickAction={(item) => {
+                                        setSupplier(item.label);
+                                        setSelectedSupplier(item);
+                                    }}
+                                    error={errorSupplier}
                                     readOnly
+                                    required
                                 />
                                 <Button
                                     className={cx('btn-add')}
@@ -541,10 +835,13 @@ function AddProduct() {
                                 />
                                 <Input
                                     title={'Nhóm nhà cung cấp'}
-                                    items={['Khác']}
+                                    items={optionsSupplierGroups}
                                     readOnly
                                     value={groupSup}
-                                    onChange={(value) => setGroupSup(value)}
+                                    handleClickAction={(item) => {
+                                        setGroupSup(item.label);
+                                        setSelectedSupplierGroups(item);
+                                    }}
                                 />
                             </div>
                         </div>

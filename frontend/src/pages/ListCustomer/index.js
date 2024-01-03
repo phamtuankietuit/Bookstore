@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useContext } from 'react';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -14,20 +14,53 @@ import Button from '~/components/Button';
 import Filter from '~/components/Filter';
 import MultiSelectComp from '~/components/MultiSelectComp';
 import { CustomerItem } from '~/components/Item';
-import { data10 } from '~/components/Table/sample';
 import SubHeader from '~/components/SubHeader';
 import ModalComp from '~/components/ModalComp';
 import ModalLoading from '~/components/ModalLoading';
 
+import { ToastContext } from '~/components/ToastContext';
+
+import * as customerServices from '~/apiServices/customerServices';
+
 const cx = classNames.bind(styles);
 
 const optionsTT = [
-    { label: 'Đang giao dịch', value: '0' },
-    { label: 'Ngừng giao dịch', value: '1' },
+    { label: 'Đang giao dịch', value: true },
+    { label: 'Ngừng giao dịch', value: false },
 ];
 
 function ListCustomer() {
     const navigate = useNavigate();
+    const toastContext = useContext(ToastContext);
+
+    // API PROPS
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pageSize, setPageSize] = useState(12);
+    const [totalRows, setTotalRows] = useState(0);
+    const [clear, setClear] = useState(false);
+    const [sortsBy, setSortsBy] = useState('customerId');
+    const [orderBy, setOrderBy] = useState('asc');
+
+
+    // CREATE OBJECT QUERY
+    const createObjectQuery = async (
+        pageNumber,
+        pageSize,
+        sortBy,
+        orderBy,
+        isActives,
+    ) => {
+        return {
+            pageNumber,
+            pageSize,
+            ...(orderBy && { orderBy }),
+            ...(sortBy && { sortBy }),
+            ...(isActives && { isActives }),
+        };
+    }
+
+
+
     // SEARCH
     const [search, setSearch] = useState('');
     const handleSearch = (e) => {
@@ -45,21 +78,27 @@ function ListCustomer() {
         setSelectedTT([]);
     };
 
-    const handleFilter = () => {
+    const returnArray = (arr) => {
+        return arr.map((obj) => obj.value);
+    }
+
+    const handleFilter = async () => {
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                pageSize,
+                sortsBy,
+                orderBy,
+                selectedTT.length > 0 && returnArray(selectedTT),
+            )
+        );
+
         handleCloseFilter();
     };
 
     // TABLE
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
-
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setRows(data10);
-            setPending(false);
-        }, 500);
-        return () => clearTimeout(timeout);
-    }, []);
 
     const [showSubHeader, setShowSubHeader] = useState(true);
     const [selectedRow, setSelectedRow] = useState(0);
@@ -102,12 +141,69 @@ function ListCustomer() {
         setOpenModal(false);
     };
 
-    const handleValidation = () => {};
+    const handleValidation = () => { };
 
     const onOpenModal = (value) => {
         setTitleModal(value);
         handleOpenModal();
     };
+
+    const getList = async (obj) => {
+        setPending(true);
+
+        const response = await customerServices.getAllCustomers(obj)
+            .catch((error) => {
+                setPending(false);
+
+                if (error.response.status === 404) {
+                    setRows([]);
+                    setTotalRows(0);
+                    setClear(false);
+                } else {
+                    toastContext.notify('error', 'Có lỗi xảy ra');
+                }
+            });
+
+        if (response) {
+            console.log(response.data);
+            setPending(false);
+            setRows(response.data);
+            setTotalRows(response.metadata.count);
+            setClear(false);
+        }
+    }
+
+    // SORT
+    const handleSort = async (column, sortDirection) => {
+        setSortsBy(column.text);
+        setOrderBy(sortDirection);
+        setPageNumber(1);
+
+        getList(await createObjectQuery(1, pageSize, column.text, sortDirection));
+    };
+
+    // PAGINATION
+    const handlePerRowsChange = async (newPerPage, pageNumber) => {
+        setPageSize(newPerPage);
+        setPageNumber(pageNumber);
+
+        getList(await createObjectQuery(pageNumber, newPerPage, sortsBy, orderBy));
+    }
+
+    const handlePageChange = async (pageNumber) => {
+        setPageNumber(pageNumber);
+
+        getList(await createObjectQuery(pageNumber, pageSize, sortsBy, orderBy));
+    }
+
+    useEffect(() => {
+        const fetch = async () => {
+            getList(await createObjectQuery(pageNumber, pageSize));
+        }
+
+        fetch();
+    }, []);
+
 
     return (
         <div className={cx('wrapper')}>
@@ -180,12 +276,17 @@ function ListCustomer() {
                             itemName={'khách hàng'}
                             onClickAction={onClickAction}
                             items={[
-                                'Đang giao dịch',
-                                'Ngừng giao dịch',
                                 'Xóa khách hàng',
                             ]}
                         />
                     }
+                    clearSelectedRows={clear}
+                    // PAGINATION
+                    totalRows={totalRows}
+                    handlePerRowsChange={handlePerRowsChange}
+                    handlePageChange={handlePageChange}
+                    // SORT
+                    handleSort={handleSort}
                 />
             </div>
             <ModalComp

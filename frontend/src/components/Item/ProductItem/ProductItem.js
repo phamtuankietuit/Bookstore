@@ -2,6 +2,7 @@ import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import styles from './ProductItem.module.scss';
+import noImage from '~/assets/images/no-image.png';
 
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -20,7 +21,7 @@ export const ProductItem = [
                 <div
                     className={cx('product-img')}
                     style={{
-                        backgroundImage: `url('${row.images[0]}')`,
+                        backgroundImage: `url('${row.images[0] ? row.images[0] : noImage}')`,
                     }}
                     data-tag="allowRowEvents"
                 ></div>
@@ -74,7 +75,7 @@ export const ProductItem = [
                 data-tag="allowRowEvents"
             >
                 <div className={cx('product-type')} data-tag="allowRowEvents">
-                    {row.categoryName}
+                    {row.categoryText}
                 </div>
             </div>
         ),

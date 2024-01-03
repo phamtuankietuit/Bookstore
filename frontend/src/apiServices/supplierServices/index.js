@@ -72,18 +72,11 @@ export const CreateSuppliers = async (obj) => {
     try {
         const res = await request.postMethod('Suppliers', obj);
 
-        return res;
-    } catch (error) {
-        return Promise.reject(error);
-    }
-}
-
-export const CreateSupplierGroup = async (obj) => {
-    try {
-        const res = await request.postMethod('SupplierGroups', obj);
+        console.log(obj);
 
         return res;
     } catch (error) {
         return Promise.reject(error);
     }
 }
+

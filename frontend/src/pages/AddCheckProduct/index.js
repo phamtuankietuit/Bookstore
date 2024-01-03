@@ -14,7 +14,6 @@ import Item_Check from '~/components/Item_AddCheckProduct';
 import { FaArrowUpFromBracket } from "react-icons/fa6";
 import Modal from 'react-bootstrap/Modal';
 import { FaCloudArrowDown } from "react-icons/fa6";
-import { options2 } from '../ImportProduct/data';
 import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
 import * as ProductServices from '~/apiServices/productServices';

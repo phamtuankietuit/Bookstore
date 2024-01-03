@@ -1,5 +1,28 @@
 import * as request from '~/utils/request';
 
+
+export const getAllSuppliersForList = async (params) => {
+    try {
+        const response = await request.getMethod('Suppliers?', {
+            params,
+            paramsSerializer: (params) => {
+                const serializedParams = Object.keys(params).map((key) => {
+                    return key + '=' + params[key];
+                }).join('&');
+
+                console.log(serializedParams);
+
+                return serializedParams;
+            },
+        });
+
+        return response;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
+
 export const getAllSuppliers = async (pageNumber, pageSize) => {
     try {
         const res = await request.getMethod(`Suppliers?pageSize=${pageSize}&pageNumber=${pageNumber}&sortBy=supplierId&orderBy=asc`);

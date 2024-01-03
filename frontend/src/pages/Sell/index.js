@@ -29,7 +29,13 @@ function Sell() {
     useEffect(() => {
         const timeout = setTimeout(() => {
             setRows(data.map((row, index) => ({
-                ...row,
+                productId: row.id,
+                sku: row.id,
+                name: row.name,
+                featureImageUrl: row.image[0],
+                quantity: 0,
+                salePrice: 0,
+                totalPrice: 0,
                 index,
             })));
             setPending(false);

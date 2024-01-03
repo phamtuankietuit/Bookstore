@@ -14,6 +14,7 @@ import Input from '~/components/Input';
 import ModalLoading from '~/components/ModalLoading';
 import { ToastContext } from '~/components/ToastContext';
 import * as SuppliersServices from '~/apiServices/supplierServices';
+import * as supplierGroupsServices from '~/apiServices/supplierGroupServices';
 const cx = classNames.bind(styles);
 
 function ListSupplierGroup() {
@@ -40,7 +41,7 @@ function ListSupplierGroup() {
 
             }
             const fetchApi = async () => {
-                const result = await SuppliersServices.CreateSupplierGroup(obj)
+                const result = await supplierGroupsServices.CreateSupplierGroup(obj)
                     .catch((error) => {
                         if (error.response.status === 409) {
                             setLoading(false);

@@ -43,6 +43,8 @@ import ImportReport from '~/pages/ImportReport';
 import ActivityHistory from '~/pages/ActivityHistory';
 import Overview from '~/pages/Overview';
 import Sell from '~/pages/Sell';
+import CameraComponent from '~/components/CameraComponent';
+import Barcode from '~/pages/Barcode';
 
 const publicRoutes = [
     // ACCOUNT
@@ -300,6 +302,16 @@ const publicRoutes = [
     {
         path: '/sell',
         component: Sell,
+        layout: null,
+    },
+    {
+        path: '/camera',
+        component: CameraComponent,
+        layout: null,
+    },
+    {
+        path: '/barcode',
+        component: Barcode,
         layout: null,
     },
 ];

@@ -12,7 +12,7 @@ export const CustomerItem = [
         minWidth: '180px',
         cell: (row) => (
             <div className={cx('font', 'id')} data-tag="allowRowEvents">
-                {row.id}
+                {row.customerId}
             </div>
         ),
     },
@@ -30,7 +30,7 @@ export const CustomerItem = [
         minWidth: '180px',
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.phone}
+                {row.phoneNumber}
             </div>
         ),
     },
@@ -59,23 +59,25 @@ export const CustomerItem = [
     },
     {
         name: 'Tổng chi tiêu',
+        text: 'salesOrderInformation.totalPay',
         center: true,
         sortable: true,
         minWidth: '180px',
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {addCommas(row.totalSpending)}
+                {addCommas(row.salesOrderInformation.totalPay)}
             </div>
         ),
     },
     {
         name: 'Tổng đơn hàng',
+        text: 'salesOrderInformation.purchasedOrder',
         center: true,
         sortable: true,
         minWidth: '180px',
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {addCommas(row.totalOrder)}
+                {addCommas(row.salesOrderInformation.purchasedOrder)}
             </div>
         ),
     },

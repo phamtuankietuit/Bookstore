@@ -175,3 +175,30 @@
         margin-left: 10px;
     }
 }
+
+.two {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .first {
+        width: 30%;
+        margin-right: 5px;
+    }
+    .second {
+        width: 70%;
+        margin-left: 5px;
+    }
+
+    .two-icon {
+        font-size: 30px;
+        margin-top: 25px;
+        margin-left: 10px;
+        color: rgb(210, 210, 210);
+
+        &:hover {
+            color: rgb(226, 62, 62);
+            cursor: pointer;
+        }
+    }
+}

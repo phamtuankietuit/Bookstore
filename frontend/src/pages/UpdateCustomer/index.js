@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
 import classNames from 'classnames/bind';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Switch } from '@mui/material';
 
 import styles from './UpdateCustomer.module.scss';
@@ -9,7 +9,8 @@ import Button from '~/components/Button';
 import Input from '~/components/Input';
 import ModalLoading from '~/components/ModalLoading';
 import { ToastContext } from '~/components/ToastContext';
-
+import * as CustommerServices from '~/apiServices/customerServices'
+import Spinner from 'react-bootstrap/Spinner';
 const cx = classNames.bind(styles);
 
 const customer = {
@@ -24,12 +25,39 @@ const customer = {
 };
 
 function UpdateCustomer() {
+    const customerid = useParams();
+    const [obj, setObj] = useState('')
     useEffect(() => {
-        setName(customer.name);
-        setPhone(customer.phone);
-        setEmail(customer.email);
-        setAddress(customer.address);
-        setIsActive(customer.isActive);
+        const fetchApi = async () => {
+            const result = await CustommerServices.getCustomer(customerid.id)
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            if (result) {
+                setName(result.name);
+                setPhone(result.phoneNumber);
+                setEmail(result.email);
+                setAddress(result.address.address);
+                setID(result.customerId)
+                setObj(result)
+                setIsActive(result.isActive);
+
+            }
+            else {
+                setTimeout(() => {
+                    setLoading(false);
+                    toastContext.notify('error', 'Không thành công');
+                }, 2000);
+            }
+        }
+
+        fetchApi();
+        // setName(customer.name);
+        // setPhone(customer.phone);
+        // setEmail(customer.email);
+        // setAddress(customer.address);
+        // setIsActive(customer.isActive);
     }, []);
 
     const navigate = useNavigate();
@@ -42,7 +70,7 @@ function UpdateCustomer() {
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
     const [isActive, setIsActive] = useState(true);
-
+    const [ID, setID] = useState('')
     // MODAL LOADING
     const [loading, setLoading] = useState(false);
 
@@ -53,13 +81,42 @@ function UpdateCustomer() {
         } else {
             // CALL API
             setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-                toastContext.notify(
-                    'success',
-                    'Cập nhật khách hàng thành công',
-                );
-            }, 2000);
+            const newobj = obj
+            newobj.name = name
+            newobj.phoneNumber = phone
+            newobj.email = email
+            newobj.address.address = address
+            newobj.address.phoneNumber = phone
+            newobj.address.email = email
+            newobj.address.name = name
+            newobj.isActive = isActive
+            const fetchApi = async () => {
+                const result = await CustommerServices.updateCustomer(customerid.id, newobj)
+                    .catch((err) => {
+                        console.log(err);
+                    });
+
+                if (result) {
+                    setTimeout(() => {
+                        setLoading(false);
+                        toastContext.notify('error', 'Không thành công');
+                    }, 2000);
+
+                }
+                else {
+                    setTimeout(() => {
+                        setLoading(false);
+                        toastContext.notify(
+                            'success',
+                            'Cập nhật khách hàng thành công',
+                        );
+                        console.log(newobj)
+                    }, 2000);
+                }
+            }
+
+            fetchApi();
+
         }
     };
 
@@ -79,7 +136,7 @@ function UpdateCustomer() {
                             <div className={cx('col1')}>
                                 <Input
                                     title={'Mã khách hàng'}
-                                    value={customer.id}
+                                    value={ID}
                                     className={cx('m-b')}
                                     readOnly
                                 />

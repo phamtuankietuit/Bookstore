@@ -11,7 +11,7 @@ export const DiscountItem = [
         center: true,
         cell: (row) => (
             <div className={cx('font', 'id')} data-tag="allowRowEvents">
-                {row.id}
+                {row.promotionId}
             </div>
         ),
     },

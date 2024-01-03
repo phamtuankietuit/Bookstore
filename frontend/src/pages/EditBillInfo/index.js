@@ -3,13 +3,14 @@ import classNames from 'classnames/bind';
 import { IoPerson } from 'react-icons/io5';
 import { FaCalendarAlt } from 'react-icons/fa';
 import ListBillProduct from '~/components/ListBillProduct';
-import { data } from './/data';
 import * as saleServices from '~/apiServices/saleServices';
+import * as customerServices from '~/apiServices/customerServices';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
+import { format } from 'date-fns';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
@@ -20,6 +21,11 @@ function EditBillInfo() {
 
     const toastContext = useContext(ToastContext);
     const [loading, setLoading] = useState(false);
+    const [customer, setCustomer] = useState(null)
+    const convertISOtoDDMMYYYY = (isoDateString) => {
+        let date = new Date(isoDateString);
+        return format(date, 'MM/dd/yyyy - HH:mm');
+    }
     useEffect(() => {
 
         const fetchApi = async () => {
@@ -29,6 +35,14 @@ function EditBillInfo() {
                     console.log(err);
                 });
             setObj(result);
+            const resultCus = await customerServices.getCustomer(result.customerId)
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            if (resultCus) {
+                setCustomer(resultCus)
+            }
 
         }
 
@@ -56,6 +70,9 @@ function EditBillInfo() {
                     console.log(err);
                 });
             if (result) {
+
+            }
+            else {
                 setTimeout(() => {
                     setLoading(false);
                     toastContext.notify('success', 'Đã lưu đơn');
@@ -68,7 +85,7 @@ function EditBillInfo() {
     }
     return (
         <div>
-            {obj === null ? (
+            {obj === null && customer === null ? (
                 <Spinner animation="border" role="status">
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
@@ -97,7 +114,7 @@ function EditBillInfo() {
                                     className={cx('Date-icon')}
                                 ></FaCalendarAlt>
                                 <p>Ngày bán: </p>
-                                <p>{obj.createdAt}</p>
+                                <p>{convertISOtoDDMMYYYY(obj.createdAt)}</p>
                             </div>
                         </div>
                     </div>
@@ -110,9 +127,9 @@ function EditBillInfo() {
                             </div>
                             <div className={cx('Info')}>
                                 <div className={cx('Info-name-phone')}>
-                                    <span className={cx('name')}>Khách lẻ</span>
+                                    <span className={cx('name')}>{customer?.name}</span>
                                     <span>-</span>
-                                    <span className={cx('phone')}>0905564417</span>
+                                    <span className={cx('phone')}>{customer?.phoneNumber}</span>
                                 </div>
                                 <div className={cx('Info-contact')}>
                                     <p>LIÊN HỆ</p>
@@ -121,13 +138,13 @@ function EditBillInfo() {
                                             type="text"
                                             readOnly
                                             className={cx('input-text')}
-                                            value={'Email'}
+                                            value={customer?.email}
                                         ></input>
                                         <input
                                             type="text"
                                             readOnly
                                             className={cx('input-text')}
-                                            value={'0905564417'}
+                                            value={customer?.phoneNumber}
                                         ></input>
                                     </div>
                                 </div>
@@ -169,7 +186,7 @@ function EditBillInfo() {
                                 <div className={cx('list-sum-content2')}>
                                     <p>{addCommas(obj.subtotal)}</p>
                                     <p>0</p>
-                                    <p>{obj.discounts === null ? 0 : obj.discounts.value}</p>
+                                    <p>{addCommas(obj.discountAmount)}</p>
                                     <p>{addCommas(obj.totalAmount)}</p>
                                 </div>
                             </div>

@@ -184,11 +184,46 @@ function AddProduct() {
         // eslint-disable-next-line no-use-before-define
     }, []);
 
+    // URL IMAGE
+    const [images, setImages] = useState([]);
 
     // IMAGES
     const [files, setFiles] = useState([]);
     const [fileRemove, setFileRemove] = useState();
     const [filesError, setFilesError] = useState(false);
+
+    const uploadImages = async (files) => {
+        const formData = new FormData();
+
+        files.map((file) => {
+            formData.append('files', file);
+        });
+
+        console.log(formData.getAll('files'));
+
+        const fetch = async () => {
+            const response = await productServices.uploadImage(formData)
+                .catch((error) => {
+                    toastContext.notify('error', 'Có lỗi xảy ra');
+                    if (error.response) {
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    } else if (error.request) {
+                        console.log(error.request);
+                    } else {
+                        console.log('Error', error.message);
+                    }
+                    console.log(error.config);
+                });
+
+            if (response) {
+                setImages(response.data);
+            }
+        }
+
+        fetch();
+    }
 
     const handleAddImages = (e) => {
         if (e.target.files.length + files.length < 6) {
@@ -197,7 +232,13 @@ function AddProduct() {
                 return file;
             });
 
-            setFiles((prev) => [...arr, ...prev]);
+            setFiles((prev) => {
+
+                uploadImages([...arr, ...prev]);
+
+                return [...arr, ...prev];
+            });
+
         } else {
             setFilesError(true);
         }
@@ -206,11 +247,37 @@ function AddProduct() {
     };
 
     const handleRemoveImage = (index) => {
+        console.log(files[index], images[index]);
+
         setFileRemove(files[index]);
         const newFiles = files;
         files.splice(index, 1);
         setFiles(newFiles);
+
+
+        const a = images[index].split('/');
+        deleteImages(a[a.length - 1]);
     };
+
+    const deleteImages = async (blobName) => {
+        const response = await productServices.deleteImage(blobName)
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+
+        if (response) {
+            console.log(response);
+        }
+    }
 
     useEffect(() => {
         return () => {
@@ -281,7 +348,7 @@ function AddProduct() {
             setRestProps(false);
             setBookProps(true);
         } else {
-            setBookProps(false);
+            setBookProps(true);
             setRestProps(true);
         }
     };
@@ -424,6 +491,7 @@ function AddProduct() {
         const object = {
             categoryId: selectedLSP ? selectedLSP.obj.categoryId : 'cate00000',
             categoryName: selectedLSP ? selectedLSP.obj.name : 'khac',
+            categoryText: selectedLSP ? productType : 'Khác',
             supplierId: selectedSupplier.obj.supplierId,
             supplierName: selectedSupplier.obj.name,
             name,
@@ -441,6 +509,9 @@ function AddProduct() {
                 ...data,
             ],
             isActive: status,
+            images: [
+                ...images,
+            ]
         }
 
         if (bookProps === true && restProps === false) {
@@ -493,6 +564,7 @@ function AddProduct() {
                     setLoading(false);
                     console.log(response);
                     toastContext.notify('success', 'Thêm sản phẩm thành công');
+                    navigate('/products/detail/' + response.productId);
                 }
             }
 

@@ -59,9 +59,9 @@ export const deleteProducts = async (products) => {
     }
 }
 
-export const updateProduct = async (obj) => {
+export const updateProduct = async (id, obj) => {
     try {
-        const res = await request.putMethod('Products', obj);
+        const res = await request.putMethod('Products/' + id, obj);
         return res;
     } catch (error) {
         return Promise.reject(error);
@@ -80,6 +80,24 @@ export const getDetails = async (propName) => {
 export const createProduct = async (obj) => {
     try {
         const response = await request.postMethod('Products', obj);
+        return response;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
+export const uploadImage = async (obj) => {
+    try {
+        const response = await request.postMethod('Products/images', obj);
+        return response;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
+export const deleteImage = async (blobName) => {
+    try {
+        const response = await request.deleteMethod('Products/images/' + blobName);
         return response;
     } catch (error) {
         return Promise.reject(error);

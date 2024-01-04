@@ -441,6 +441,7 @@ function AddProduct() {
                 ...data,
             ],
             isActive: status,
+            staffId: ''
         }
 
         if (bookProps === true && restProps === false) {

@@ -8,7 +8,8 @@ import Button from '~/components/Button';
 import Input from '~/components/Input';
 import ModalLoading from '~/components/ModalLoading';
 import { ToastContext } from '~/components/ToastContext';
-
+import * as StaffServices from '~/apiServices/staffServices';
+import Spinner from 'react-bootstrap/Spinner';
 const cx = classNames.bind(styles);
 
 function AddStaff() {
@@ -49,17 +50,51 @@ function AddStaff() {
         } else {
             // CALL API
             setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-                toastContext.notify('success', 'Thêm nhân viên thành công');
-            }, 2000);
+            const fetchApi = async () => {
+                // console.log(productid.id)
+
+
+
+
+                const obj = {
+                    name: name,
+                    contact: {
+                        phone: phone,
+                        email: email
+                    },
+                    role: role,
+                }
+                console.log(obj)
+                const result = await StaffServices.createStaff(obj)
+                    .catch((err) => {
+                        console.log(err);
+                    });
+                console.log(result)
+                if (result) {
+                    setTimeout(() => {
+                        setLoading(false);
+                        toastContext.notify('success', 'Đã thêm nhân viên');
+                        navigate('/staffs');
+                    }, 2000);
+                }
+                else {
+                    setTimeout(() => {
+                        setLoading(false);
+                        toastContext.notify('error', 'Đã có lỗi xảy rồi');
+                    }, 2000);
+                }
+            }
+
+            fetchApi();
         }
     };
 
     const handleExit = () => {
         navigate(-1);
     };
-
+    const setNewRole = (obj) => {
+        setRole(obj.value)
+    }
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -102,12 +137,18 @@ function AddStaff() {
                                 <Input
                                     title={'Vai trò'}
                                     items={[
-                                        'Nhân viên bán hàng',
-                                        'Nhân viên kho',
-                                        'Quản lý',
+                                        {
+                                            label: 'warehouse',
+                                            value: 'warehouse'
+                                        },
+                                        {
+                                            label: 'sale',
+                                            value: 'sale'
+                                        },
+
                                     ]}
                                     value={role}
-                                    onChange={(value) => setRole(value)}
+                                    handleClickAction={setNewRole}
                                     readOnly
                                     required
                                     error={errorRole}

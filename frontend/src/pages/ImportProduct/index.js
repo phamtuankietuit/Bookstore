@@ -172,7 +172,8 @@ function ImportProduct() {
                     paymentMethod: ''
                 },
                 note: note,
-                status: ''
+                // status: '',
+                staffId: '"staf00000"'
             }
             console.log(obj)
 

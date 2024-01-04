@@ -43,8 +43,8 @@ function AddCustomer() {
             type: "",
             tag: {
 
-            }
-
+            },
+            staffId: ''
         }
         console.log(obj)
         if (name === '') {

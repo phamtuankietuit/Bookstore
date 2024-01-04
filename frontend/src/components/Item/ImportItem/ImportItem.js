@@ -37,12 +37,12 @@ export const ImportItem = [
             <div
                 className={cx({
                     'product-state-container': true,
-                    'state-0': !row.isPurchase,
+                    'state-0': !(row.paymentDetails.status === 'paid'),
                 })}
                 data-tag="allowRowEvents"
             >
                 <div className={cx('product-state')} data-tag="allowRowEvents">
-                    {row.isPurchase ? 'Đã thanh toán' : 'Chưa thanh toán'}
+                    {row.paymentDetails.status === 'paid' ? 'Đã thanh toán' : 'Chưa thanh toán'}
                 </div>
             </div>
         ),

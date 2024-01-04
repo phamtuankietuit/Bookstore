@@ -181,10 +181,11 @@ function Sale() {
                     remainAmount: totalAmount - paid,
                     paidAmount: parseInt(paid),
                     paymentMethod: "",
-                    status: (totalAmount - paid) === 0 ? 'paid' : 'unpaid'
+                    // status: (totalAmount - paid) === 0 ? 'paid' : 'unpaid'
                 },
-                status: (totalAmount - paid) === 0 ? 'paid' : 'unpaid',
+                // status: (totalAmount - paid) === 0 ? 'paid' : 'unpaid',
                 note: note,
+                staffId: ''
             }
             console.log(obj)
             const fetchApi = async () => {
@@ -216,6 +217,7 @@ function Sale() {
                         console.log(err);
                     });
                 if (result) {
+                    console.log(result)
                     setOption(result.data)
                     setItems([])
                     arrItems(result.data)
@@ -235,14 +237,19 @@ function Sale() {
 
     const arrItems = (value) => {
         value.map(e => {
-            setItems(i => [...i, e.name])
+            let obj = {
+                label: e.name + ' ' + e.discountRate + '%',
+                value: e.name,
+            }
+            setItems(i => [...i, obj])
         })
+        console.log(items)
     }
     const onChangeCoupon = (value) => {
-        setPromo(value)
+        setPromo(value.value)
         setCoupon(null)
         option.map(e => {
-            if (e.name === value) {
+            if (e.name === value.value) {
                 setCoupon(e)
 
             }
@@ -393,7 +400,8 @@ function Sale() {
                                         className={cx('m-b')}
                                         items={items}
                                         value={promo}
-                                        onChange={onChangeCoupon}
+                                        // onChange={onChangeCoupon}
+                                        handleClickAction={onChangeCoupon}
                                     />
                                 </Col>
 

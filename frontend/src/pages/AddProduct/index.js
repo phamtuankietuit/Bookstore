@@ -511,7 +511,7 @@ function AddProduct() {
             isActive: status,
             images: [
                 ...images,
-            ]
+            ],
         }
 
         if (bookProps === true && restProps === false) {

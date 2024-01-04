@@ -55,7 +55,8 @@ function AddDiscount() {
                 discountValue: 0,
                 startAt: new Date(date[0]).toISOString(),
                 closeAt: new Date(date[1]).toISOString(),
-                status: "running"
+                status: "running",
+                staffId: ''
             }
             console.log(obj)
             const result = await PromotionsServices.CreatePromotion(obj)

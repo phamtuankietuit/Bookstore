@@ -38,6 +38,7 @@ function AddSupplier() {
             setErrorName('Không được bỏ trống');
         } else {
             // CALL API
+            setLoading(true)
             const obj = {
                 name: name,
                 supplierGroupId: groupID,
@@ -48,6 +49,7 @@ function AddSupplier() {
                 },
                 address: address,
                 description: null,
+                staffId: ''
             }
             // setLoading(true);
 
@@ -62,6 +64,7 @@ function AddSupplier() {
                     setTimeout(() => {
                         setLoading(false);
                         toastContext.notify('success', 'Thêm nhà cung cấp thành công');
+                        navigate('/suppliers')
                     }, 2000);
                 }
 
@@ -93,10 +96,16 @@ function AddSupplier() {
                     });
 
                 console.log(result.data)
+                setGroupIDlist(result.data)
+                setOption([])
                 result.data.map((e) => {
                     if (call === false) {
-                        setOption(op => [...op, e.name])
-                        setGroupIDlist(op => [...op, e.supplierGroupId])
+                        let obj = {
+                            label: e.name,
+                            value: e.name
+                        }
+                        setOption(op => [...op, obj])
+
                     }
                     setCall(true)
 
@@ -109,10 +118,11 @@ function AddSupplier() {
     }, [option]);
 
     const onChoosegroup = (value) => {
-        option.map((e, index) => {
-            if (e === value) setGroupID(groupIDlist[index])
+        groupIDlist.map((e) => {
+            if (e.name === value.value) setGroupID(e.supplierGroupId)
         })
-        setGroup(value)
+        setGroup(value.value)
+        console.log(groupID)
     }
 
     // MODAL ADD GROUP
@@ -193,7 +203,7 @@ function AddSupplier() {
                                         title={'Nhóm nhà cung cấp'}
                                         items={option}
                                         value={group}
-                                        onChange={(value) => onChoosegroup(value)}
+                                        handleClickAction={onChoosegroup}
                                         readOnly
                                     />
                                     <Button

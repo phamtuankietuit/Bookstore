@@ -20,3 +20,12 @@ export const login = async (params) => {
         return Promise.reject(error);
     }
 }
+
+export const Login = async (obj) => {
+    try {
+        const res = await request.postMethod('Account/login', obj);
+        return res;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}

@@ -15,7 +15,7 @@ namespace BookstoreWebAPI.Repository
 {
     public class StaffRepository : IStaffRepository
     {
-        private readonly string staffNewIdCacheName = "LastestStaffId";
+        private readonly string _staffNewIdCacheName = "LastestStaffId";
         private readonly EmailUtils _emailUtils;
         private readonly ILogger<StaffRepository> _logger;
         private readonly IMapper _mapper;
@@ -126,7 +126,8 @@ namespace BookstoreWebAPI.Repository
             var createdDocument = await AddStaffDocumentAsync(staffDoc);
             if (createdDocument.StatusCode == System.Net.HttpStatusCode.Created)
             {
-                _memoryCache.Set(staffNewIdCacheName, IdUtils.IncreaseId(staffDoc.Id));
+                _memoryCache.Set(_staffNewIdCacheName, IdUtils.IncreaseId(staffDoc.Id));
+
                 return _mapper.Map<StaffDTO>(createdDocument.Resource);
             }
 
@@ -176,16 +177,14 @@ namespace BookstoreWebAPI.Repository
             );
         }
 
-        
-
         public async Task<BatchDeletionResult<StaffDTO>> DeleteStaffDTOsAsync(string[] ids)
         {
             BatchDeletionResult<StaffDTO> result = new()
             {
                 Responses = new(),
-                IsSuccessful = true,
-                IsForbidden = true,
-                IsNotFound = true
+                IsNotSuccessful = true,
+                IsNotForbidden = true,
+                IsFound = true
             };
 
             int currOrder = 0;
@@ -265,15 +264,14 @@ namespace BookstoreWebAPI.Repository
             staffDoc.Id = await GetNewStaffIdAsync();
             staffDoc.StaffId = staffDoc.Id;
 
+            staffDoc.IsActive = true;
             staffDoc.IsDeleted = false;
             staffDoc.IsRemovable = true;
         }
 
-        
-
         public async Task<string> GetNewStaffIdAsync()
         {
-            if (_memoryCache.TryGetValue(staffNewIdCacheName, out string? lastestId))
+            if (_memoryCache.TryGetValue(_staffNewIdCacheName, out string? lastestId))
             {
                 if (!string.IsNullOrEmpty(lastestId))
                     return lastestId;
@@ -290,7 +288,7 @@ namespace BookstoreWebAPI.Repository
             string currLastestId = (await CosmosDbUtils.GetDocumentByQueryDefinition<ResponseToGetId>(_staffContainer, queryDef))!.Id;
             string newId = IdUtils.IncreaseId(currLastestId);
 
-            _memoryCache.Set(staffNewIdCacheName, newId);
+            _memoryCache.Set(_staffNewIdCacheName, newId);
             return newId;
         }
 
@@ -323,7 +321,7 @@ namespace BookstoreWebAPI.Repository
         }
 
 
-        public async Task<ItemResponse<StaffDocument>> AddStaffDocumentAsync(StaffDocument item)
+        private async Task<ItemResponse<StaffDocument>> AddStaffDocumentAsync(StaffDocument item)
         {
             item.CreatedAt = DateTime.UtcNow;
             item.ModifiedAt = item.CreatedAt;

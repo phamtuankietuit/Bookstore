@@ -18,9 +18,15 @@ namespace BookstoreWebAPI.Repository
         private readonly ILogger<CustomerRepository> _logger;
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
+        private readonly IActivityLogRepository _activityLogRepository;
         private Container _customerContainer;
 
-        public CustomerRepository(CosmosClient cosmosClient, IMapper mapper, IMemoryCache memoryCache, ILogger<CustomerRepository> logger)
+        public CustomerRepository(
+            CosmosClient cosmosClient,
+            IMapper mapper,
+            IMemoryCache memoryCache,
+            ILogger<CustomerRepository> logger,
+            IActivityLogRepository activityLogRepository)
         {
             var databaseName = cosmosClient.ClientOptions.ApplicationName;
             var containerName = "customers";
@@ -29,6 +35,7 @@ namespace BookstoreWebAPI.Repository
             _mapper = mapper;
             _memoryCache = memoryCache;
             _logger = logger;
+            _activityLogRepository = activityLogRepository;
         }
 
         public async Task<int> GetTotalCount(QueryParameters queryParams, CustomerFilterModel filter)
@@ -83,6 +90,14 @@ namespace BookstoreWebAPI.Repository
             if (createdDocument.StatusCode == System.Net.HttpStatusCode.Created)
             {
                 _memoryCache.Set(customerNewIdCacheName, IdUtils.IncreaseId(customerDoc.Id));
+
+                await _activityLogRepository.LogActivity(
+                    Enums.ActivityTypes.create,
+                    customerDoc.StaffId,
+                    "Sản phẩm",
+                    customerDoc.CustomerId
+                );
+
                 return _mapper.Map<CustomerDTO>(createdDocument.Resource);
             }
 
@@ -92,10 +107,18 @@ namespace BookstoreWebAPI.Repository
         public async Task UpdateCustomerDTOAsync(CustomerDTO customerDTO)
         {
             var customerToUpdate = _mapper.Map<CustomerDocument>(customerDTO);
+            customerToUpdate.ModifiedAt = DateTime.UtcNow;
 
             await _customerContainer.UpsertItemAsync(
                 item: customerToUpdate,
                 partitionKey: new PartitionKey(customerToUpdate.CustomerId)
+            );
+
+            await _activityLogRepository.LogActivity(
+                Enums.ActivityTypes.update,
+                customerToUpdate.StaffId,
+                "Sản phẩm",
+                customerToUpdate.CustomerId
             );
         }
 
@@ -104,9 +127,9 @@ namespace BookstoreWebAPI.Repository
             BatchDeletionResult<CustomerDTO> result = new()
             {
                 Responses = new(),
-                IsSuccessful = true,
-                IsForbidden = true,
-                IsNotFound = true
+                IsNotSuccessful = true,
+                IsNotForbidden = true,
+                IsFound = true
             };
 
             int currOrder = 0;
@@ -150,6 +173,8 @@ namespace BookstoreWebAPI.Repository
                     statusCode: 204
                 );
 
+                
+
                 _logger.LogInformation($"Deleted customer with id: {id}");
             }
 
@@ -166,6 +191,13 @@ namespace BookstoreWebAPI.Repository
             };
 
             await _customerContainer.PatchItemAsync<CustomerDocument>(customerDoc.Id, new PartitionKey(customerDoc.CustomerId), patchOperations);
+            
+            await _activityLogRepository.LogActivity(
+                Enums.ActivityTypes.delete,
+                customerDoc.StaffId,
+                "Sản phẩm",
+                customerDoc.CustomerId
+            );
         }
 
         private async Task PopulateDataToNewCustomerDocument(CustomerDocument customerDoc)
@@ -189,9 +221,11 @@ namespace BookstoreWebAPI.Repository
             customerDoc.Tags ??= new();
         }
 
-        public async Task<ItemResponse<CustomerDocument>> AddCustomerDocumentAsync(CustomerDocument item)
+        private async Task<ItemResponse<CustomerDocument>> AddCustomerDocumentAsync(CustomerDocument item)
         {
             item.CreatedAt = DateTime.UtcNow;
+            item.ModifiedAt = item.CreatedAt;
+
 
             return await _customerContainer.UpsertItemAsync(
                 item: item,

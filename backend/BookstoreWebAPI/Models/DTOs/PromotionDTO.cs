@@ -45,7 +45,7 @@ namespace BookstoreWebAPI.Models.DTOs
         public DateTime? CloseAt { get; set; }
 
         [JsonProperty("isActive")]
-        public bool IsActive { get; set; }
+        public bool? IsActive { get; set; }
 
         [JsonProperty("status")]
         public string? Status { get; set; }
@@ -57,6 +57,6 @@ namespace BookstoreWebAPI.Models.DTOs
         public DateTime? ModifiedAt { get; set; }
 
         [JsonProperty("staffId")]
-        public string? StaffId { get; set; }
+        public string StaffId { get; set; }
     }
 }

@@ -1,14 +1,12 @@
-﻿using BookstoreWebAPI.Exceptions;
+﻿using Azure;
+using BookstoreWebAPI.Exceptions;
 using BookstoreWebAPI.Models.BindingModels;
-using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using BookstoreWebAPI.Models.DTOs;
-using BookstoreWebAPI.Repository;
 using BookstoreWebAPI.Repository.Interfaces;
+using BookstoreWebAPI.Services;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.TagHelpers;
-using Microsoft.Extensions.Azure;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,15 +19,18 @@ namespace BookstoreWebAPI.Controllers
         private readonly IStaffRepository _staffRepository;
         private readonly ILogger<StaffsController> _logger;
         private readonly IValidator<QueryParameters> _queryParametersValidator;
+        private readonly IFileService _fileService;
 
         public StaffsController(
             IStaffRepository staffRepository,
             ILogger<StaffsController> logger,
-            IValidator<QueryParameters> queryParametersValidator)
+            IValidator<QueryParameters> queryParametersValidator,
+            IFileService fileService)
         {
             _staffRepository = staffRepository;
             _logger = logger;
             _queryParametersValidator = queryParametersValidator;
+            _fileService = fileService;
         }
 
         // GET: api/<StaffsController>
@@ -111,6 +112,8 @@ namespace BookstoreWebAPI.Controllers
             }
         }
 
+
+
         // PUT api/<StaffsController>/5
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateStaffAsync(string id, [FromBody] StaffDTO staffDTO)
@@ -151,22 +154,77 @@ namespace BookstoreWebAPI.Controllers
 
             var result = await _staffRepository.DeleteStaffDTOsAsync(ids);
 
-            if (result.IsSuccessful)
+            int statusCount = 0;
+            if (!result.IsNotSuccessful) statusCount++;
+            if (!result.IsFound) statusCount++;
+            if (!result.IsNotForbidden) statusCount++;
+
+            if (statusCount > 1)
+                return StatusCode(207, result.Responses);
+            else if (!result.IsNotSuccessful) return NoContent();
+            else if (!result.IsFound) return NotFound();
+
+            return StatusCode(403);
+        }
+
+        [HttpPost("images")]
+        public async Task<ActionResult> UploadImagesAsync(List<IFormFile> files)
+        {
+            List<FileModel> fileModels = new();
+
+            try
             {
-                return NoContent();
+
+                foreach (var file in files)
+                {
+                    fileModels.Add(await _fileService.UploadAsync(file));
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (RequestFailedException)
+            {
+                return StatusCode(500, "Upload failed");
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ex.Message);
+
             }
 
-            if (result.IsNotFound)
-            {
-                return NotFound();
-            }
+            var urls = fileModels.Select(x => x.Url);
+            var count = urls.Count();
 
-            if (result.IsForbidden)
+            return Ok(new
             {
-                return StatusCode(403);
-            }
+                data = urls,
+                metadata = new
+                {
+                    count
+                }
+            });
+        }
 
-            return StatusCode(207, result.Responses);
+
+        [HttpDelete("images/{blobName}")]
+        public async Task<ActionResult> DeleteImageAsync(string blobName)
+        {
+            try
+            {
+                await _fileService.DeleteAsync(blobName);
+
+                return Ok($"Blob {blobName} deleted successfully.");
+            }
+            catch (RequestFailedException)
+            {
+                return StatusCode(500, "Delete failed");
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ex.Message);
+            }
         }
     }
 }

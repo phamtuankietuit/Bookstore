@@ -111,12 +111,15 @@ builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
 builder.Services.AddTransient<ISupplierGroupRepository, SupplierGroupRepository>();
 builder.Services.AddTransient<IStaffRepository, StaffRepository>();
 builder.Services.AddTransient<IAccountRepository, AccountRepository>();
+builder.Services.AddTransient<IActivityLogRepository, ActivityLogRepository>();
+
 
 // adding validators
 builder.Services.AddTransient<IValidator<QueryParameters>, QueryParametersValidator>();
 builder.Services.AddTransient<IValidator<PromotionFilterModel>, PromotionFilterModelValidator>();
 builder.Services.AddTransient<IValidator<SalesOrderFilterModel>, SalesOrderFilterModelValidator>();
 builder.Services.AddTransient<IValidator<PurchaseOrderFilterModel>, PurchaseOrderFilterModelValidator>();
+builder.Services.AddTransient<IValidator<ActivityLogFilterModel>, ActivityLogFilterModelValidator>();
 
 builder.Services.AddTransient<DataSeeder>();
 builder.Services.AddControllers();
@@ -227,7 +230,8 @@ async Task<bool> EnsureContainersAreCreatedAsync(Database database)
         ("purchaseOrders", "/monthYear"),
         ("promotions", "/promotionId"),
         ("customers","/customerId"),
-        ("staffs", "/staffId")
+        ("staffs", "/staffId"),
+        ("activityLogs","/staffId")
     };
 
     foreach (var (containerName, partitionKeyPath) in containersToCreate)

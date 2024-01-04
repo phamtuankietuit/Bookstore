@@ -8,7 +8,6 @@ using BookstoreWebAPI.Utils;
 using BookstoreWebAPI.Models.Responses;
 using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
-using BookstoreWebAPI.Models.Shared;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -18,13 +17,16 @@ namespace BookstoreWebAPI.Repository
         private readonly ILogger<PurchaseOrderRepository> _logger;
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
+        private readonly IActivityLogRepository _activityLogRepository;
         private Container _purchaseOrderContainer;
+
 
         public PurchaseOrderRepository(
             CosmosClient cosmosClient,
             ILogger<PurchaseOrderRepository> logger,
             IMapper mapper,
-            IMemoryCache memoryCache)
+            IMemoryCache memoryCache,
+            IActivityLogRepository activityLogRepository)
         {
             _logger = logger;
             _mapper = mapper;
@@ -34,6 +36,7 @@ namespace BookstoreWebAPI.Repository
             var containerName = "purchaseOrders";
 
             _purchaseOrderContainer = cosmosClient.GetContainer(databaseName, containerName);
+            _activityLogRepository = activityLogRepository;
         }
 
         public async Task<int> GetTotalCount(QueryParameters queryParams, PurchaseOrderFilterModel filter)
@@ -87,6 +90,14 @@ namespace BookstoreWebAPI.Repository
             if (createdDocument.StatusCode == System.Net.HttpStatusCode.Created)
             {
                 _memoryCache.Set(purchaseOrderNewIdCacheName, IdUtils.IncreaseId(purchaseOrderDoc.Id));
+
+                await _activityLogRepository.LogActivity(
+                    Enums.ActivityTypes.create,
+                    purchaseOrderDoc.StaffId,
+                    "Đơn nhập hàng",
+                    purchaseOrderDoc.PurchaseOrderId
+                );
+
                 return _mapper.Map<PurchaseOrderDTO>(createdDocument.Resource);
             }
 
@@ -101,13 +112,21 @@ namespace BookstoreWebAPI.Repository
         {
             var purchaseOrderToUpdate = _mapper.Map<PurchaseOrderDocument>(purchaseOrderDTO);
             
-            purchaseOrderToUpdate.CreatedAt ??= DateTime.UtcNow;
-            purchaseOrderToUpdate.MonthYear ??= purchaseOrderToUpdate.CreatedAt.Value.ToString("MM-yyyy");
+            purchaseOrderToUpdate.MonthYear ??= purchaseOrderToUpdate.CreatedAt!.Value.ToString("MM-yyyy");
+            purchaseOrderToUpdate.ModifiedAt = DateTime.UtcNow;
 
             await _purchaseOrderContainer.UpsertItemAsync(
                 item: purchaseOrderToUpdate,
                 partitionKey: new PartitionKey(purchaseOrderToUpdate.MonthYear)
             );
+
+            await _activityLogRepository.LogActivity(
+                Enums.ActivityTypes.update,
+                purchaseOrderToUpdate.StaffId,
+                "Đơn nhập hàng",
+                purchaseOrderToUpdate.PurchaseOrderId
+            );
+
         }
 
         private async Task<string> GetNewPurchaseOrderIdAsync()
@@ -168,12 +187,13 @@ namespace BookstoreWebAPI.Repository
             return purchaseOrder;
         }
 
-        public async Task<ItemResponse<PurchaseOrderDocument>> AddPurchaseOrderDocumentAsync(PurchaseOrderDocument item)
+        private async Task<ItemResponse<PurchaseOrderDocument>> AddPurchaseOrderDocumentAsync(PurchaseOrderDocument item)
         {
             try
             {
                 item.CreatedAt = DateTime.UtcNow;
                 item.MonthYear = item.CreatedAt.Value.ToString("yyyy-MM");
+                item.ModifiedAt = item.CreatedAt;
 
                 var response = await _purchaseOrderContainer.UpsertItemAsync(
                     item: item,

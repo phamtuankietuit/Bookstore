@@ -18,13 +18,15 @@ namespace BookstoreWebAPI.Repository
         private readonly ILogger<SupplierGroupRepository> _logger;
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
+        private readonly IActivityLogRepository _activityLogRepository;
         private Container _supplierGroupContainer;
 
         public SupplierGroupRepository(
             CosmosClient cosmosClient,
             ILogger<SupplierGroupRepository> logger,
             IMapper mapper,
-            IMemoryCache memoryCache)
+            IMemoryCache memoryCache,
+            IActivityLogRepository activityLogRepository)
         {
             _logger = logger;
             _mapper = mapper;
@@ -33,6 +35,7 @@ namespace BookstoreWebAPI.Repository
             var containerName = "supplierGroups";
 
             _supplierGroupContainer = cosmosClient.GetContainer(databaseName, containerName);
+            _activityLogRepository = activityLogRepository;
         }
 
         public async Task<int> GetTotalCount()
@@ -85,6 +88,14 @@ namespace BookstoreWebAPI.Repository
             if (createdDocument.StatusCode == System.Net.HttpStatusCode.Created)
             {
                 _memoryCache.Set(supplierGroupNewIdCacheName, IdUtils.IncreaseId(supplierGroupDoc.Id));
+
+                await _activityLogRepository.LogActivity(
+                    Enums.ActivityTypes.create,
+                    supplierGroupDoc.StaffId,
+                    "Nhóm nhà cung cấp",
+                    supplierGroupDoc.SupplierGroupId
+                );
+
                 return _mapper.Map<SupplierGroupDTO>(createdDocument.Resource);
             }
 
@@ -93,10 +104,18 @@ namespace BookstoreWebAPI.Repository
         public async Task UpdateSupplierGroupDTOAsync(SupplierGroupDTO item)
         {
             var supplierGroupToUpdate = _mapper.Map<SupplierGroupDocument>(item);
+            supplierGroupToUpdate.ModifiedAt = DateTime.UtcNow;
 
             await _supplierGroupContainer.UpsertItemAsync(
                 item: supplierGroupToUpdate,
                 partitionKey: new PartitionKey(supplierGroupToUpdate.SupplierGroupId)
+            );
+
+            await _activityLogRepository.LogActivity(
+                Enums.ActivityTypes.update,
+                supplierGroupToUpdate.StaffId,
+                "Nhóm nhà cung cấp",
+                supplierGroupToUpdate.SupplierGroupId
             );
 
             // Change feed to update products
@@ -106,9 +125,9 @@ namespace BookstoreWebAPI.Repository
             BatchDeletionResult<SupplierGroupDTO> result = new()
             {
                 Responses = new(),
-                IsSuccessful = true,
-                IsForbidden = true,
-                IsNotFound = true
+                IsNotSuccessful = true,
+                IsNotForbidden = true,
+                IsFound = true
             };
 
             int currOrder = 0;
@@ -181,6 +200,14 @@ namespace BookstoreWebAPI.Repository
             };
 
             await _supplierGroupContainer.PatchItemAsync<SupplierGroupDocument>(id, new PartitionKey(supplierGroupDoc.SupplierGroupId), patchOperations);
+
+            await _activityLogRepository.LogActivity(
+                Enums.ActivityTypes.delete,
+                supplierGroupDoc.StaffId,
+                "Nhóm nhà cung cấp",
+                supplierGroupDoc.SupplierGroupId
+            );
+
         }
 
         private async Task<string> GetNewSupplierGroupIdAsync()
@@ -244,11 +271,12 @@ namespace BookstoreWebAPI.Repository
 
 
         // for data seeder, private after production
-        public async Task<ItemResponse<SupplierGroupDocument>> AddSupplierGroupDocumentAsync(SupplierGroupDocument item)
+        private async Task<ItemResponse<SupplierGroupDocument>> AddSupplierGroupDocumentAsync(SupplierGroupDocument item)
         {
             try
             {
                 item.CreatedAt = DateTime.UtcNow;
+                item.ModifiedAt = item.CreatedAt;
 
                 var response = await _supplierGroupContainer.UpsertItemAsync(
                     item: item,

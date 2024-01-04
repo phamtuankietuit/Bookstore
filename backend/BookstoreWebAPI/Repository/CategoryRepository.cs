@@ -21,19 +21,22 @@ namespace BookstoreWebAPI.Repository
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
         private Container _categoryContainer;
+        private readonly IActivityLogRepository _activityLogRepository;
 
         public CategoryRepository(
-            CosmosClient cosmosClient, 
-            ILogger<CategoryRepository> logger, 
+            CosmosClient cosmosClient,
+            ILogger<CategoryRepository> logger,
             IMapper mapper,
-            IMemoryCache memoryCache) 
+            IMemoryCache memoryCache,
+            IActivityLogRepository activityLogRepository)
         {
+            var databaseName = cosmosClient.ClientOptions.ApplicationName;
+            var containerName = "categories";
+
             _logger = logger;
             _mapper = mapper;
             _memoryCache = memoryCache;
-            
-            var databaseName = cosmosClient.ClientOptions.ApplicationName;
-            var containerName = "categories";
+            _activityLogRepository = activityLogRepository;
 
             _categoryContainer = cosmosClient.GetContainer(databaseName, containerName);
         }
@@ -92,6 +95,14 @@ namespace BookstoreWebAPI.Repository
             if (createdDocument.StatusCode == System.Net.HttpStatusCode.Created)
             {
                 _memoryCache.Set(categoryNewIdCacheName, IdUtils.IncreaseId(categoryDoc.Id));
+
+                await _activityLogRepository.LogActivity(
+                    Enums.ActivityTypes.create,
+                    categoryDTO.StaffId,
+                    "Loại sản phẩm",
+                    categoryDTO.CategoryId
+                );
+
                 return _mapper.Map<CategoryDTO>(createdDocument.Resource);
             }
 
@@ -102,11 +113,19 @@ namespace BookstoreWebAPI.Repository
         {
             var categoryToUpdate = _mapper.Map<CategoryDocument>(item);
             categoryToUpdate.Name = StringUtils.RemoveAccentsAndHyphenize(item.Text);
+            categoryToUpdate.ModifiedAt = DateTime.UtcNow;
 
             await _categoryContainer.UpsertItemAsync(
                 item: categoryToUpdate,
                 partitionKey: new PartitionKey(categoryToUpdate.CategoryId)
             );
+
+            await _activityLogRepository.LogActivity(
+                    Enums.ActivityTypes.update,
+                    categoryToUpdate.StaffId,
+                    "Loại sản phẩm",
+                    categoryToUpdate.CategoryId
+                );
 
             // Change feed to update products
         }
@@ -115,9 +134,9 @@ namespace BookstoreWebAPI.Repository
             BatchDeletionResult<CategoryDTO> result = new()
             {
                 Responses = new(),
-                IsSuccessful = true,
-                IsForbidden = true,
-                IsNotFound = true
+                IsNotSuccessful = true,
+                IsNotForbidden = true,
+                IsFound = true
             };
 
             int currOrder = 0;
@@ -159,6 +178,13 @@ namespace BookstoreWebAPI.Repository
                     responseOrder: currOrder,
                     responseData: categoryDTO,
                     statusCode: 204
+                );
+
+                await _activityLogRepository.LogActivity(
+                    Enums.ActivityTypes.delete, 
+                    categoryDTO.StaffId, 
+                    "Loại sản phẩm", 
+                    categoryDTO.CategoryId
                 );
 
                 _logger.LogInformation($"Deleted category with id: {id}");
@@ -263,6 +289,7 @@ namespace BookstoreWebAPI.Repository
             try
             {
                 item.CreatedAt = DateTime.UtcNow;
+                item.ModifiedAt = item.CreatedAt;
                 
                 var response = await _categoryContainer.UpsertItemAsync(
                     item: item,

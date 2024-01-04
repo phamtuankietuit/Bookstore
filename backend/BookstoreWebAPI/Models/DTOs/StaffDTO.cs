@@ -4,10 +4,10 @@ using Newtonsoft.Json;
 
 namespace BookstoreWebAPI.Models.DTOs
 {
-    public class StaffDTO : IBaseCosmosDTO
+    public class StaffDTO : IBaseCosmosDTO, IActivableDTO
     {
         [JsonProperty("staffId")]
-        public string? StaffId { get; set; }
+        public string StaffId { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -20,6 +20,9 @@ namespace BookstoreWebAPI.Models.DTOs
 
         [JsonProperty("role")]
         public string Role { get; set; }
+
+        [JsonProperty("isActive")]
+        public bool? IsActive { get; set; }
 
         [JsonProperty("address")]
         public string? Address { get; set; }

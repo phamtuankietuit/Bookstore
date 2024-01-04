@@ -21,10 +21,16 @@ namespace BookstoreWebAPI.Repository
         private Container _supplierGroupContainer;
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
+        private readonly IActivityLogRepository _activityLogRepository;
         private readonly ILogger<SupplierRepository> _logger;
         private SupplierGroupDocument? _defaultSupplierGroup;
 
-        public SupplierRepository(CosmosClient cosmosClient, IMapper mapper, IMemoryCache memoryCache, ILogger<SupplierRepository> logger)
+        public SupplierRepository(
+            CosmosClient cosmosClient,
+            IMapper mapper,
+            IMemoryCache memoryCache,
+            ILogger<SupplierRepository> logger,
+            IActivityLogRepository activityLogRepository)
         {
             var databaseName = cosmosClient.ClientOptions.ApplicationName;
             var containerName = "suppliers";
@@ -34,6 +40,7 @@ namespace BookstoreWebAPI.Repository
             _mapper = mapper;
             _memoryCache = memoryCache;
             _logger = logger;
+            _activityLogRepository = activityLogRepository;
         }
 
 
@@ -87,6 +94,14 @@ namespace BookstoreWebAPI.Repository
             if (documentToCreate.StatusCode == System.Net.HttpStatusCode.Created)
             {
                 _memoryCache.Set(supplierNewIdCacheName, IdUtils.IncreaseId(supplierDoc.Id));
+
+                await _activityLogRepository.LogActivity(
+                    Enums.ActivityTypes.create,
+                    supplierDoc.StaffId,
+                    "Nhà cung cấp",
+                    supplierDoc.SupplierId
+                );
+
                 return _mapper.Map<SupplierDTO>(documentToCreate.Resource);
             }
 
@@ -96,10 +111,18 @@ namespace BookstoreWebAPI.Repository
         public async Task UpdateSupplierDTOAsync(SupplierDTO supplierDTO)
         {
             var supplierToUpdate = _mapper.Map<SupplierDocument>(supplierDTO);
+            supplierToUpdate.ModifiedAt = DateTime.UtcNow;
 
             await _supplierContainer.UpsertItemAsync(
                 item: supplierToUpdate,
                 partitionKey: new PartitionKey(supplierToUpdate.SupplierId)
+            );
+
+            await _activityLogRepository.LogActivity(
+                Enums.ActivityTypes.update,
+                supplierToUpdate.StaffId,
+                "Nhà cung cấp",
+                supplierToUpdate.SupplierId
             );
 
             // change feed to update products
@@ -110,9 +133,9 @@ namespace BookstoreWebAPI.Repository
             BatchDeletionResult<SupplierDTO> result = new()
             {
                 Responses = new(),
-                IsSuccessful = true,
-                IsForbidden = true,
-                IsNotFound = true
+                IsNotSuccessful = true,
+                IsNotForbidden = true,
+                IsFound = true
             };
 
             int currOrder = 0;
@@ -185,6 +208,13 @@ namespace BookstoreWebAPI.Repository
             };
 
             await _supplierGroupContainer.PatchItemAsync<SupplierDocument>(id, new PartitionKey(supplierDoc.SupplierId), patchOperations);
+
+            await _activityLogRepository.LogActivity(
+                Enums.ActivityTypes.delete,
+                supplierDoc.StaffId,
+                "Nhà cung cấp",
+                supplierDoc.SupplierId
+            );
         }
 
 
@@ -258,11 +288,12 @@ namespace BookstoreWebAPI.Repository
             return result;
         }
 
-        public async Task<ItemResponse<SupplierDocument>> AddSupplierDocumentAsync(SupplierDocument item)
+        private async Task<ItemResponse<SupplierDocument>> AddSupplierDocumentAsync(SupplierDocument item)
         {
             try
             {
                 item.CreatedAt = DateTime.UtcNow;
+                item.ModifiedAt = item.CreatedAt;
 
                 var response = await _supplierContainer.UpsertItemAsync(
                     item: item,

@@ -17,13 +17,15 @@ namespace BookstoreWebAPI.Repository
         private Container _salesOrderContainer;
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
+        private readonly IActivityLogRepository _activityLogRepository;
         private readonly ILogger<SalesOrderRepository> _logger;
 
         public SalesOrderRepository(
             CosmosClient cosmosClient,
             IMapper mapper,
             IMemoryCache memoryCache,
-            ILogger<SalesOrderRepository> logger)
+            ILogger<SalesOrderRepository> logger,
+            IActivityLogRepository activityLogRepository)
         {
             var databaseName = cosmosClient.ClientOptions.ApplicationName;
             var containerName = "salesOrders";
@@ -32,6 +34,7 @@ namespace BookstoreWebAPI.Repository
             _mapper = mapper;
             _memoryCache = memoryCache;
             _logger = logger;
+            _activityLogRepository = activityLogRepository;
         }
 
         public async Task<int> GetTotalCount(QueryParameters queryParams, SalesOrderFilterModel filter)
@@ -83,6 +86,14 @@ namespace BookstoreWebAPI.Repository
             if (createdDocument.StatusCode == System.Net.HttpStatusCode.Created)
             {
                 _memoryCache.Set(salesOrderNewIdCacheName, IdUtils.IncreaseId(salesOrderDoc.Id));
+
+                await _activityLogRepository.LogActivity(
+                    Enums.ActivityTypes.create,
+                    salesOrderDoc.StaffId,
+                    "Đơn bán hàng",
+                    salesOrderDoc.SalesOrderId
+                );
+
                 return _mapper.Map<SalesOrderDTO>(createdDocument.Resource);
             }
 
@@ -101,10 +112,19 @@ namespace BookstoreWebAPI.Repository
         public async Task UpdateSalesOrderDTOAsync(SalesOrderDTO salesOrderDTO)
         {
             var salesOrderToUpdate = _mapper.Map<SalesOrderDocument>(salesOrderDTO);
+            salesOrderToUpdate.MonthYear = salesOrderToUpdate.CreatedAt!.Value.ToString("MM-yyyy");
+            salesOrderToUpdate.ModifiedAt = DateTime.UtcNow;
 
             await _salesOrderContainer.UpsertItemAsync(
                 item: salesOrderToUpdate,
                 partitionKey: new PartitionKey(salesOrderToUpdate.MonthYear)
+            );
+
+            await _activityLogRepository.LogActivity(
+                Enums.ActivityTypes.update,
+                salesOrderToUpdate.StaffId,
+                "Đơn bán hàng",
+                salesOrderToUpdate.SalesOrderId
             );
         }
 
@@ -147,11 +167,12 @@ namespace BookstoreWebAPI.Repository
 
 
 
-        public async Task<ItemResponse<SalesOrderDocument>> AddSalesOrderDocumentAsync(SalesOrderDocument item)
+        private async Task<ItemResponse<SalesOrderDocument>> AddSalesOrderDocumentAsync(SalesOrderDocument item)
         {
             item.CreatedAt = DateTime.UtcNow;
             item.MonthYear = item.CreatedAt.Value.ToString("yyyy-MM");
             item.ReturnDate = item.CreatedAt.Value.AddDays(5);
+            item.ModifiedAt = item.CreatedAt;
 
             return await _salesOrderContainer.UpsertItemAsync(
                 item: item,

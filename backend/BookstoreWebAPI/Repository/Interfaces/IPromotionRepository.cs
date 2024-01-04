@@ -15,9 +15,5 @@ namespace BookstoreWebAPI.Repository.Interfaces
         Task<PromotionDTO> AddPromotionDTOAsync(PromotionDTO promotionDTO);
         Task UpdatePromotionDTOAsync(PromotionDTO supplierDTO);
         Task<BatchDeletionResult<PromotionDTO>> DeletePromotionDTOsAsync(string[] ids);
-
-        
-        // make private after production
-        Task<ItemResponse<PromotionDocument>> AddPromotionDocumentAsync(PromotionDocument item);
     }
 }

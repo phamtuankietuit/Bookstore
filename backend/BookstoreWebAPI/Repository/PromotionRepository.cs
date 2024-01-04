@@ -18,9 +18,15 @@ namespace BookstoreWebAPI.Repository
         private Container _promotionContainer;
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
+        private readonly IActivityLogRepository _activityLogRepository;
         private ILogger<PromotionRepository> _logger;
 
-        public PromotionRepository(CosmosClient cosmosClient, IMapper mapper, IMemoryCache memoryCache, ILogger<PromotionRepository> logger)
+        public PromotionRepository(
+            CosmosClient cosmosClient,
+            IMapper mapper,
+            IMemoryCache memoryCache,
+            ILogger<PromotionRepository> logger,
+            IActivityLogRepository activityLogRepository)
         {
             var databaseName = cosmosClient.ClientOptions.ApplicationName;
             var containerName = "promotions";
@@ -29,6 +35,7 @@ namespace BookstoreWebAPI.Repository
             _mapper = mapper;
             _memoryCache = memoryCache;
             _logger = logger;
+            _activityLogRepository = activityLogRepository;
         }
 
         public async Task<int> GetTotalCount(QueryParameters queryParams, PromotionFilterModel filter)
@@ -83,6 +90,14 @@ namespace BookstoreWebAPI.Repository
             if (createdDocument.StatusCode == System.Net.HttpStatusCode.Created)
             {
                 _memoryCache.Set(promotionNewIdCacheName, IdUtils.IncreaseId(promotionDoc.Id));
+                
+                await _activityLogRepository.LogActivity(
+                    Enums.ActivityTypes.create,
+                    promotionDoc.StaffId,
+                    "Mã giảm giá",
+                    promotionDoc.PromotionId
+                );
+
                 return _mapper.Map<PromotionDTO>(createdDocument.Resource);
             }
 
@@ -92,11 +107,19 @@ namespace BookstoreWebAPI.Repository
         public async Task UpdatePromotionDTOAsync(PromotionDTO promotionDTO)
         {
             var promotionToUpdate = _mapper.Map<PromotionDocument>(promotionDTO);
+            promotionToUpdate.ModifiedAt = DateTime.UtcNow;
 
             await _promotionContainer.UpsertItemAsync(
                 item: promotionToUpdate,
                 partitionKey: new PartitionKey(promotionToUpdate.PromotionId)
             );
+
+            await _activityLogRepository.LogActivity(
+                    Enums.ActivityTypes.update,
+                    promotionToUpdate.StaffId,
+                    "Mã giảm giá",
+                    promotionToUpdate.PromotionId
+                );
         }
 
         public async Task<BatchDeletionResult<PromotionDTO>> DeletePromotionDTOsAsync(string[] ids)
@@ -104,9 +127,9 @@ namespace BookstoreWebAPI.Repository
             BatchDeletionResult<PromotionDTO> result = new()
             {
                 Responses = new(),
-                IsSuccessful = true,
-                IsForbidden = true,
-                IsNotFound = true
+                IsNotSuccessful = true,
+                IsNotForbidden = true,
+                IsFound = true
             };
 
             int currOrder = 0;
@@ -166,6 +189,13 @@ namespace BookstoreWebAPI.Repository
             };
 
             await _promotionContainer.PatchItemAsync<PromotionDocument>(promotionDoc.Id, new PartitionKey(promotionDoc.PromotionId), patchOperations);
+
+            await _activityLogRepository.LogActivity(
+                Enums.ActivityTypes.delete,
+                promotionDoc.StaffId,
+                "Mã giảm giá",
+                promotionDoc.PromotionId
+            );
         }
 
 
@@ -185,9 +215,10 @@ namespace BookstoreWebAPI.Repository
 
 
 
-        public async Task<ItemResponse<PromotionDocument>> AddPromotionDocumentAsync(PromotionDocument item)
+        private async Task<ItemResponse<PromotionDocument>> AddPromotionDocumentAsync(PromotionDocument item)
         {
             item.CreatedAt = DateTime.UtcNow;
+            item.ModifiedAt = item.CreatedAt;
 
             return await _promotionContainer.UpsertItemAsync(
                 item: item,

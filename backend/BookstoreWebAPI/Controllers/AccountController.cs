@@ -1,4 +1,6 @@
-﻿using BookstoreWebAPI.Models.BindingModels;
+﻿using BookstoreWebAPI.Enums;
+using BookstoreWebAPI.Models.BindingModels;
+using BookstoreWebAPI.Models.DTOs;
 using BookstoreWebAPI.Repository.Interfaces;
 using BookstoreWebAPI.Utils;
 using Microsoft.AspNetCore.Mvc;
@@ -16,14 +18,17 @@ namespace BookstoreWebAPI.Controllers
     {
         private readonly ILogger<AccountController> _logger;
         private readonly IAccountRepository _accountRepository;
+        private readonly IActivityLogRepository _activityLogRepository;
 
 
         public AccountController(
             ILogger<AccountController> logger,
-            IAccountRepository accountRepository)
+            IAccountRepository accountRepository,
+            IActivityLogRepository activityLogRepository)
         {
             _logger = logger;
             _accountRepository = accountRepository;
+            _activityLogRepository = activityLogRepository;
         }
 
         // GET: api/<AccountController>
@@ -40,13 +45,15 @@ namespace BookstoreWebAPI.Controllers
                 var result = await _accountRepository.AuthenticateUser(data);
 
 
+                await _activityLogRepository.LogActivity(ActivityTypes.log_in, result.User.StaffId);
+
                 return Ok(new
                 {
                     user = result.User,
                     token = result.Token
                 });
             }
-            catch(InvalidCredentialException)
+            catch (InvalidCredentialException)
             {
                 return BadRequest("Invalid Credentials");
             }

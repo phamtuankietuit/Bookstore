@@ -10,13 +10,32 @@ namespace BookstoreWebAPI.Utils
 {
     public class CosmosDbUtils
     {
+        public static void AddResponse<TDTO>(BatchDeletionResult<TDTO> batchDeletionResult, int responseOrder, TDTO responseData, int statusCode) where TDTO : class
+        {
+            var response = new ResponseWithStatus<TDTO>(id: responseOrder, status: statusCode, data: responseData);
+            batchDeletionResult.Responses.Add(response);
+
+            switch (statusCode)
+            {
+                case 204:
+                    batchDeletionResult.IsNotSuccessful = false;
+                    break;
+                case 403:
+                    batchDeletionResult.IsNotForbidden = false;
+                    break;
+                case 404:
+                    batchDeletionResult.IsFound = false;
+                    break;
+            }
+        }
+
         public static QueryDefinition BuildQuery<T>(QueryParameters queryParams, string defaultSelect = "SELECT *", bool isRemovableDocument = true) where T : class
         {
             var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id) ");
             AppendDeleteFilter(query, defaultSelect, isRemovableDocument);
             AppendQueryParameters(query, queryParams);
 
-            var queryDef = new QueryDefinition(query.ToString());
+            QueryDefinition queryDef = BuildQueryDef(query);
 
             //if (!string.IsNullOrEmpty(queryParams.Search))
             //{
@@ -34,7 +53,7 @@ namespace BookstoreWebAPI.Utils
             AppendProductFilter(query, filter);
             AppendQueryParameters(query, queryParams);
 
-            var queryDef = new QueryDefinition(query.ToString());
+            QueryDefinition queryDef = BuildQueryDef(query);
 
             return queryDef;
 
@@ -47,19 +66,21 @@ namespace BookstoreWebAPI.Utils
             AppendPurchaseOrderFilter(query, filter);
             AppendQueryParameters(query, queryParams);
 
-            var queryDef = new QueryDefinition(query.ToString());
+            QueryDefinition queryDef = BuildQueryDef(query);
 
             return queryDef;
         }
 
-        public static void AddResponse<TDTO>(BatchDeletionResult<TDTO> batchDeletionResult, int responseOrder, TDTO responseData, int statusCode) where TDTO : class
+        public static QueryDefinition BuildQuery<T>(QueryParameters queryParams, ActivityLogFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true) where T : class
         {
-            var response = new ResponseWithStatus<TDTO>(id: responseOrder, status: statusCode, data: responseData);
-            batchDeletionResult.Responses.Add(response);
+            var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id) ");
+            
+            AppendActivityLogFilter(query, filter);
+            AppendQueryParameters(query, queryParams);
+            QueryDefinition queryDef = BuildQueryDef(query);
 
-            batchDeletionResult.IsSuccessful = (statusCode == 204);
-            batchDeletionResult.IsForbidden = (statusCode == 403);
-            batchDeletionResult.IsNotFound = (statusCode == 404);
+
+            return queryDef;
         }
 
         public static QueryDefinition BuildQuery<T>(QueryParameters queryParams, SupplierFilterModel filter, string defaultSelect = "SELECT *") where T : class
@@ -67,10 +88,9 @@ namespace BookstoreWebAPI.Utils
             var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id)");
 
             AppendSupplierFilter(query, filter);
-            AppendQueryParameters(query, queryParams);
+            AppendQueryParameters(query, queryParams); 
+            QueryDefinition queryDef = BuildQueryDef(query);
 
-
-            var queryDef = new QueryDefinition(query.ToString());
 
             return queryDef;
 
@@ -83,12 +103,13 @@ namespace BookstoreWebAPI.Utils
             AppendDeleteFilter(query, defaultSelect, isRemovableDocument);
             AppendCustomerFilter(query, filter);
             AppendQueryParameters(query, queryParams);
+            QueryDefinition queryDef = BuildQueryDef(query);
 
-
-            var queryDef = new QueryDefinition(query.ToString());
 
             return queryDef;
         }
+
+        
 
         public static QueryDefinition BuildQuery<T>(QueryParameters queryParams, PromotionFilterModel filter, string defaultSelect = "SELECT *" , bool isRemovableDocument = true) where T : class
         {
@@ -97,9 +118,8 @@ namespace BookstoreWebAPI.Utils
             AppendDeleteFilter(query, defaultSelect, isRemovableDocument);
             AppendPromotionFilter(query, filter);
             AppendQueryParameters(query, queryParams);
+            QueryDefinition queryDef = BuildQueryDef(query);
 
-
-            var queryDef = new QueryDefinition(query.ToString());
 
             return queryDef;
         }
@@ -107,17 +127,20 @@ namespace BookstoreWebAPI.Utils
         public static QueryDefinition BuildQuery<T>(QueryParameters queryParams, SalesOrderFilterModel filter, string defaultSelect = "SELECT *" , bool isRemovableDocument = true) where T : class
         {
             var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id)");
-
             AppendSalesOrderFilter(query, filter);
             AppendQueryParameters(query, queryParams);
-
-
-            var queryDef = new QueryDefinition(query.ToString());
-
+            QueryDefinition queryDef = BuildQueryDef(query);
             return queryDef;
         }
 
-        
+        private static QueryDefinition BuildQueryDef(StringBuilder query)
+        {
+
+            // avoid sql injection
+            query = query.Replace(";", "");
+            return new QueryDefinition(query.ToString());
+        }
+
 
         public static async Task<IEnumerable<TDocument>> GetDocumentsByQueryDefinition<TDocument>(Container container, QueryDefinition queryDefinition)
         {
@@ -199,7 +222,13 @@ namespace BookstoreWebAPI.Utils
             return results;
         }
 
-        
+        private static void AppendDeleteFilter(StringBuilder query, string defaultSelect, bool isRemovableDocument)
+        {
+            if (isRemovableDocument)
+            {
+                query.Append(" AND c.isDeleted = false");
+            }
+        }
 
         private static void AppendProductFilter(StringBuilder query, ProductFilterModel filter)
         {
@@ -334,6 +363,23 @@ namespace BookstoreWebAPI.Utils
             AppendIsActiveFilter(query, filter.IsActives);
         }
 
+        private static void AppendActivityLogFilter(StringBuilder query, ActivityLogFilterModel filter)
+        {
+            AppendCreationDateRangeFilter(query, filter.StartDate, filter.EndDate);
+
+            if (!VariableHelpers.IsNull(filter.StaffIds))
+            {
+                var staffIds = string.Join(", ", filter.StaffIds!.Select(id => $"\"{id}\""));
+                query.Append($" AND c.staffId IN ({staffIds})");
+            }
+
+            if (!VariableHelpers.IsNull(filter.ActivityTypes))
+            {
+                var activityTypes = string.Join(", ", filter.ActivityTypes!.Select(id => $"\"{id}\""));
+                query.Append($" AND c.activityType IN ({activityTypes})");
+            }
+        }
+
 
         private static void AppendQueryParameters(StringBuilder query, QueryParameters queryParameters)
         {
@@ -348,13 +394,6 @@ namespace BookstoreWebAPI.Utils
             }
         }
 
-        private static void AppendDeleteFilter(StringBuilder query, string defaultSelect, bool isRemovableDocument)
-        {
-            if (isRemovableDocument)
-            {
-                query.Append(" AND c.isDeleted = false");
-            }
-        }
 
         private static void AppendCreationDateRangeFilter(StringBuilder query, DateTime? startDate, DateTime? endDate)
         {

@@ -17,12 +17,18 @@ namespace BookstoreWebAPI.Controllers
         private readonly ILogger _logger;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IValidator<QueryParameters> _queryParametersValidator;
+        private readonly IActivityLogRepository _activityLogRepository;
 
-        public CategoriesController(ILogger<CategoriesController> logger, ICategoryRepository categoryRepository, IValidator<QueryParameters> validator)
+        public CategoriesController(
+            ILogger<CategoriesController> logger,
+            ICategoryRepository categoryRepository,
+            IValidator<QueryParameters> validator,
+            IActivityLogRepository activityLogRepository)
         {
             _logger = logger;
             _categoryRepository = categoryRepository;
             _queryParametersValidator = validator;
+            _activityLogRepository = activityLogRepository;
         }
 
         // GET: api/<CategoriesController>
@@ -139,22 +145,17 @@ namespace BookstoreWebAPI.Controllers
 
             var result = await _categoryRepository.DeleteCategoriesAsync(ids);
 
-            if (result.IsSuccessful)
-            {
-                return NoContent();
-            }
+            int statusCount = 0;
+            if (!result.IsNotSuccessful) statusCount++;
+            if (!result.IsFound) statusCount++;
+            if (!result.IsNotForbidden) statusCount++;
 
-            if (result.IsNotFound)
-            {
-                return NotFound();
-            }
-
-            if (result.IsForbidden)
-            {
-                return StatusCode(403);
-            }
-
-            return StatusCode(207, result.Responses);
+            if (statusCount > 1)
+                return StatusCode(207, result.Responses);
+            else if (!result.IsNotSuccessful) return NoContent();
+            else if (!result.IsFound) return NotFound();
+            
+            return StatusCode(403);
         }
     }
 }

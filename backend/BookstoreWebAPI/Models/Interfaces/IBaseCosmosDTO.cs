@@ -6,6 +6,6 @@ namespace BookstoreWebAPI.Models.Interfaces
     {
         public DateTime? CreatedAt { get; set; }
         public DateTime? ModifiedAt { get; set; }
-        public string? StaffId { get; set; }
+        public string StaffId { get; set; }
     }
 }

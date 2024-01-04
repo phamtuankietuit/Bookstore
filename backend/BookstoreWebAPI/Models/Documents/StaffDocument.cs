@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace BookstoreWebAPI.Models.Documents
 {
-    public class StaffDocument : IBaseCosmosDocument, ISoftDeleteCosmosDocument
+    public class StaffDocument : IBaseCosmosDocument, ISoftDeleteCosmosDocument, IActivatableDocument
     {
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -28,6 +28,9 @@ namespace BookstoreWebAPI.Models.Documents
 
         [JsonProperty("role")]
         public string Role { get; set; }
+
+        [JsonProperty("isActive")]
+        public bool IsActive { get; set; }
 
         [JsonProperty("address")]
         public string? Address { get; set; }

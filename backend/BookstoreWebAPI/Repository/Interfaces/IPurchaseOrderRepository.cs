@@ -14,10 +14,5 @@ namespace BookstoreWebAPI.Repository.Interfaces
         Task<PurchaseOrderDTO> GetPurchaseOrderDTOByIdAsync(string id);
         Task<PurchaseOrderDTO> AddPurchaseOrderDTOAsync(PurchaseOrderDTO item);
         Task UpdatePurchaseOrderAsync(PurchaseOrderDTO item);
-        //Task<BatchDeletionResult<PurchaseOrderDTO>> DeletePurchaseOrdersAsync(string[] ids);
-
-
-        // for data seeder, remove after production
-        Task<ItemResponse<PurchaseOrderDocument>> AddPurchaseOrderDocumentAsync(PurchaseOrderDocument item);
     }
 }

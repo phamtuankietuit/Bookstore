@@ -15,9 +15,5 @@ namespace BookstoreWebAPI.Repository.Interfaces
         Task<CustomerDTO> AddCustomerDTOAsync(CustomerDTO customerDTO);
         Task UpdateCustomerDTOAsync(CustomerDTO customerDTO);
         Task<BatchDeletionResult<CustomerDTO>> DeleteCustomerDTOsAsync(string[] ids);
-
-
-        // make private after production
-        Task<ItemResponse<CustomerDocument>> AddCustomerDocumentAsync(CustomerDocument item);
     }
 }

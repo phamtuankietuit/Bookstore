@@ -157,22 +157,17 @@ namespace BookstoreWebAPI.Controllers
 
             var result = await _productRepository.DeleteProductsAsync(ids);
 
-            if (result.IsSuccessful)
-            {
-                return NoContent();
-            }
+            int statusCount = 0;
+            if (!result.IsNotSuccessful) statusCount++;
+            if (!result.IsFound) statusCount++;
+            if (!result.IsNotForbidden) statusCount++;
 
-            if (result.IsNotFound)
-            {
-                return NotFound();
-            }
+            if (statusCount > 1)
+                return StatusCode(207, result.Responses);
+            else if (!result.IsNotSuccessful) return NoContent();
+            else if (!result.IsFound) return NotFound();
 
-            if (result.IsForbidden)
-            {
-                return StatusCode(403);
-            }
-
-            return StatusCode(207, result.Responses);
+            return StatusCode(403);
         }
 
 

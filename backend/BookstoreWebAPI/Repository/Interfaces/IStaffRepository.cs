@@ -17,9 +17,5 @@ namespace BookstoreWebAPI.Repository.Interfaces
 
         Task<StaffDTO> GetStaffUsingCredentials(LoginModel data);
         Task UpdatePasswordAsync(UpdatePasswordModel data);
-
-
-        // make private after production
-        Task<ItemResponse<StaffDocument>> AddStaffDocumentAsync(StaffDocument item);
     }
 }

@@ -14,9 +14,5 @@ namespace BookstoreWebAPI.Repository.Interfaces
         Task<CategoryDTO> AddCategoryDTOAsync(CategoryDTO item);
         Task UpdateCategoryDTOAsync(CategoryDTO item);
         Task<BatchDeletionResult<CategoryDTO>> DeleteCategoriesAsync(string[] ids);
-
-
-        // for data seeder, remove after production
-        Task<ItemResponse<CategoryDocument>> AddCategoryDocumentAsync(CategoryDocument item);
     }
 }

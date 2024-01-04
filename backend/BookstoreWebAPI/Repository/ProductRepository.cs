@@ -9,6 +9,7 @@ using BookstoreWebAPI.Utils;
 using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Models.Responses;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -19,21 +20,28 @@ namespace BookstoreWebAPI.Repository
         private readonly ILogger<CategoryRepository> _logger;
         private readonly IMemoryCache _memoryCache;
         private readonly IMapper _mapper;
+        private readonly IActivityLogRepository _activityLogRepository;
         private readonly Container _productContainer;
         private readonly Container _inventoryContainer;
         private readonly Container _categoryContainer;
         private CategoryDocument _defaultCategoryDoc;
 
-        public ProductRepository(CosmosClient cosmosClient, ILogger<CategoryRepository> logger, IMemoryCache memoryCache, IMapper mapper)
+        public ProductRepository(
+            CosmosClient cosmosClient,
+            ILogger<CategoryRepository> logger,
+            IMemoryCache memoryCache,
+            IMapper mapper,
+            IActivityLogRepository activityLogRepository)
         {
             _logger = logger;
             _memoryCache = memoryCache;
             _mapper = mapper;
             var databaseName = cosmosClient.ClientOptions.ApplicationName;
 
-            _productContainer = cosmosClient.GetContainer(databaseName, "products"); 
+            _productContainer = cosmosClient.GetContainer(databaseName, "products");
             _inventoryContainer = cosmosClient.GetContainer(databaseName, "inventories");
             _categoryContainer = cosmosClient.GetContainer(databaseName, "categories");
+            _activityLogRepository = activityLogRepository;
         }
 
         public async Task<int> GetTotalCount(QueryParameters queryParams, ProductFilterModel filter)
@@ -124,6 +132,14 @@ namespace BookstoreWebAPI.Repository
             {
                 _memoryCache.Set(cacheInventoryNewIdName, IdUtils.IncreaseId(inventoryDoc.Id));
                 _memoryCache.Set(cacheProductNewIdName, IdUtils.IncreaseId(productDoc.Id));
+                
+                await _activityLogRepository.LogActivity(
+                    Enums.ActivityTypes.create,
+                    productDoc.StaffId,
+                    "Sản phẩm",
+                    productDoc.ProductId
+                );
+
                 return _mapper.Map<ProductDTO>((productDoc, inventoryDoc));
             }
 
@@ -140,6 +156,9 @@ namespace BookstoreWebAPI.Repository
             inventoryDoc.Id = inventoryDocInDb!.Id;
             inventoryDoc.LastRestocked = inventoryDocInDb.LastRestocked;
 
+            productDoc.ModifiedAt = DateTime.UtcNow;
+            inventoryDoc.ModifiedAt = DateTime.UtcNow;
+
             await _productContainer.UpsertItemAsync(
                 item: productDoc,
                 partitionKey: new PartitionKey(productDoc.Sku));
@@ -147,6 +166,13 @@ namespace BookstoreWebAPI.Repository
             await _inventoryContainer.UpsertItemAsync(
                 item: inventoryDoc,
                 partitionKey: new PartitionKey(inventoryDoc.Sku));
+
+            await _activityLogRepository.LogActivity(
+                    Enums.ActivityTypes.update,
+                    productDoc.StaffId,
+                    "Sản phẩm",
+                    productDoc.ProductId
+                );
 
             _logger.LogInformation($"Product and inventory with id {productDoc.Id} added");
         }
@@ -156,9 +182,9 @@ namespace BookstoreWebAPI.Repository
             BatchDeletionResult<ProductDTO> result = new()
             {
                 Responses = new(),
-                IsSuccessful = true,
-                IsForbidden = true,
-                IsNotFound = true
+                IsNotSuccessful = true,
+                IsNotForbidden = true,
+                IsFound = true
             };
             
             int currOrder = 0;
@@ -205,6 +231,13 @@ namespace BookstoreWebAPI.Repository
 
             await _productContainer.PatchItemAsync<dynamic>(productDoc.Id, new PartitionKey(productDoc.Sku), operations);
             await _inventoryContainer.PatchItemAsync<dynamic>(inventoryDoc.Id, new PartitionKey(inventoryDoc.Sku), operations);
+
+            await _activityLogRepository.LogActivity(
+                    Enums.ActivityTypes.delete,
+                    productDoc.StaffId,
+                    "Sản phẩm",
+                    productDoc.ProductId
+                );
         }
 
 
@@ -450,9 +483,10 @@ namespace BookstoreWebAPI.Repository
 
 
         // code make private after final production
-        public async Task<ItemResponse<InventoryDocument>> AddInventoryDocumentAsync(InventoryDocument item)
+        private async Task<ItemResponse<InventoryDocument>> AddInventoryDocumentAsync(InventoryDocument item)
         {
             item.CreatedAt = DateTime.UtcNow;
+            item.ModifiedAt = item.CreatedAt;
 
             return await _inventoryContainer.UpsertItemAsync(
                 item: item,
@@ -463,9 +497,10 @@ namespace BookstoreWebAPI.Repository
             //_logger.LogInformation($"Inventory with id {item.Id} added");
         }
 
-        public async Task<ItemResponse<ProductDocument>> AddProductDocumentAsync(ProductDocument item)
+        private async Task<ItemResponse<ProductDocument>> AddProductDocumentAsync(ProductDocument item)
         {
             item.CreatedAt = DateTime.UtcNow;
+            item.ModifiedAt = item.CreatedAt;
 
             return await _productContainer.UpsertItemAsync(
                 item: item,

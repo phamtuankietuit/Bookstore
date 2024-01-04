@@ -3,8 +3,8 @@
     public class BatchDeletionResult<TDTO> where TDTO : class
     {
         public List<ResponseWithStatus<TDTO>> Responses {  get; set; }
-        public bool IsSuccessful { get; set; }
-        public bool IsForbidden { get; set; }
-        public bool IsNotFound { get; set; }
+        public bool IsNotSuccessful { get; set; }
+        public bool IsNotForbidden { get; set; }
+        public bool IsFound { get; set; }
     }
 }

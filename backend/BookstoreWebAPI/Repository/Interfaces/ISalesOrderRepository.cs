@@ -13,10 +13,5 @@ namespace BookstoreWebAPI.Repository.Interfaces
         Task<SalesOrderDTO?> GetSalesOrderDTOByIdAsync(string id);
         Task<SalesOrderDTO> AddSalesOrderDTOAsync(SalesOrderDTO salesOrderDTO);
         Task UpdateSalesOrderDTOAsync(SalesOrderDTO salesOrderDTO);
-        
-
-
-        // for data seeder, private later
-        Task<ItemResponse<SalesOrderDocument>> AddSalesOrderDocumentAsync(SalesOrderDocument item);
     }
 }

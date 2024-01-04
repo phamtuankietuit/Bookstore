@@ -15,9 +15,5 @@ namespace BookstoreWebAPI.Repository.Interfaces
         Task<SupplierDTO> AddSupplierDTOAsync(SupplierDTO supplierDTO);
         Task UpdateSupplierDTOAsync(SupplierDTO supplierDTO);
         Task<BatchDeletionResult<SupplierDTO>> DeleteSuppliersAsync(string[] ids);
-
-
-        // for data seeder, remove after production
-        Task<ItemResponse<SupplierDocument>> AddSupplierDocumentAsync(SupplierDocument item);
     }
 }

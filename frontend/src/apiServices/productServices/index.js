@@ -59,6 +59,17 @@ export const deleteProducts = async (products) => {
     }
 }
 
+export const deleteProduct = async (id) => {
+    try {
+        const res = await request.deleteMethod(`Products?ids=${id}`);
+
+        return res;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
+
 export const updateProduct = async (obj) => {
     try {
         const res = await request.putMethod('Products', obj);

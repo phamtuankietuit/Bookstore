@@ -12,21 +12,24 @@ import SliderImage from '~/components/SliderImage';
 import Button from 'react-bootstrap/Button';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import noImage from '~/assets/images/no-image.png';
 import * as ProductServices from '~/apiServices/productServices';
 import Spinner from 'react-bootstrap/Spinner';
-
+import Modal from 'react-bootstrap/Modal';
 import Barcode from 'react-barcode';
 import ReactToPrint, { useReactToPrint } from 'react-to-print';
-
+import { ToastContext } from '~/components/ToastContext';
+import ModalLoading from '~/components/ModalLoading';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
 function InfoProduct() {
+    const toastContext = useContext(ToastContext);
     const svgRef = useRef();
 
     let navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const [price, setprice] = useState([])
 
@@ -37,6 +40,35 @@ function InfoProduct() {
     const productid = useParams();
 
     const [product, setProduct] = useState(null);
+
+
+
+    const [show, setShow] = useState(false);
+    const handleShow = () => setShow(true);
+    const handleClose = () => {
+        setShow(false)
+    };
+
+    const submitdelete = () => {
+        setLoading(true)
+        const result = ProductServices.deleteProduct(product.productId)
+        if (result) {
+            setTimeout(() => {
+                setLoading(false);
+                toastContext.notify('success', 'Đã xóa sản phẩm');
+                console.log(result)
+                navigate('/products');
+            }, 2000);
+        }
+
+        else {
+            setTimeout(() => {
+                setLoading(false);
+                toastContext.notify('success', 'Xóa không thành công');
+                console.log(result)
+            }, 2000);
+        }
+    }
     useEffect(() => {
 
         const fetchApi = async () => {
@@ -206,6 +238,7 @@ function InfoProduct() {
                                     <Button
                                         className={`m-1 ${cx('my-btn')}`}
                                         variant="outline-danger"
+                                        onClick={() => handleShow()}
                                     >
                                         Xóa
                                     </Button>
@@ -225,6 +258,26 @@ function InfoProduct() {
                         </div>
                     )
                 }
+
+                <Modal size="lg" show={show} onHide={handleClose} animation={false}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Xác nhận xóa sản phẩm</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+
+
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" className={`m-1 ${cx('my-btn')}`} onClick={handleClose}>
+                            Thoát
+                        </Button>
+                        <Button variant="danger" className={`m-1 ${cx('my-btn')}`} onClick={submitdelete}>
+                            Xóa
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                <ModalLoading open={loading} title={'Đang tải'} />
             </div>
         </div>
     );

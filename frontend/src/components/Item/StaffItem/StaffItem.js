@@ -12,7 +12,7 @@ export const StaffItem = [
         minWidth: '180px',
         cell: (row) => (
             <div className={cx('font', 'id')} data-tag="allowRowEvents">
-                {row.id}
+                {row.staffId}
             </div>
         ),
     },
@@ -31,7 +31,7 @@ export const StaffItem = [
         minWidth: '180px',
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.phone}
+                {row.contact.phone}
             </div>
         ),
     },
@@ -40,7 +40,7 @@ export const StaffItem = [
         minWidth: '180px',
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.email}
+                {row.contact.email}
             </div>
         ),
     },

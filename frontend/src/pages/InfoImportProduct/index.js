@@ -36,7 +36,6 @@ function InfoImportProduct() {
         console.log(obj);
         setShowpaid(false);
         setLoading(true);
-        console.log(obj)
         const fetchApi = async () => {
             // console.log(productid.id)
             const result = await PurchaseOrdersServices.UpdatePurchaseOrder(importid.id, obj)

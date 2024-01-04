@@ -1,15 +1,19 @@
 import classNames from 'classnames/bind';
 import styles from './ActivityItem.module.scss';
-
+import format from 'date-fns/format'
 const cx = classNames.bind(styles);
+const convertISOtoDDMMYYYY = (isoDateString) => {
+    let date = new Date(isoDateString);
 
+    return format(date, 'MM/dd/yyyy - HH:mm');;
+}
 export const ActivityItem = [
     {
         name: 'Người thao tác',
         minWidth: '180px',
         cell: (row) => (
             <div className={cx('font', 'bold')} data-tag="allowRowEvents">
-                {row.name}
+                {row.staffName}
             </div>
         ),
     },
@@ -18,7 +22,7 @@ export const ActivityItem = [
         minWidth: '180px',
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.createAt}
+                {convertISOtoDDMMYYYY(row.createdAt)}
             </div>
         ),
     },
@@ -29,18 +33,18 @@ export const ActivityItem = [
             <div
                 className={cx({
                     'product-state-container': true,
-                    'state-1': row.operate === 'update',
-                    'state-2': row.operate === 'remove',
-                    'state-3': row.operate === 'login',
+                    'state-1': row.activityType === 'update',
+                    'state-2': row.activityType === 'delete',
+                    'state-3': row.activityType === 'login',
                 })}
                 data-tag="allowRowEvents"
             >
                 <div className={cx('product-state')} data-tag="allowRowEvents">
-                    {row.operate === 'create'
+                    {row.activityType === 'create'
                         ? 'Thêm mới'
-                        : row.operate === 'update'
+                        : row.activityType === 'update'
                             ? 'Cập nhật'
-                            : row.operate === 'remove'
+                            : row.activityType === 'delete'
                                 ? 'Đã xóa'
                                 : 'Đăng nhập'
                     }
@@ -53,7 +57,7 @@ export const ActivityItem = [
         minWidth: '180px',
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.content}
+                {row.activityName}
             </div>
         ),
     },

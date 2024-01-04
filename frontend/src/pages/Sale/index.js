@@ -233,12 +233,11 @@ function Sale() {
     const arrItems = (value) => {
         value.map(e => {
             let obj = {
-                label: e.name,
+                label: e.name + ' ' + e.discountRate + '%',
                 value: e.name,
             }
             setItems(i => [...i, obj])
         })
-
         console.log(items)
     }
     const onChangeCoupon = (value) => {

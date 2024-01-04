@@ -6,13 +6,15 @@ import ModalComp from '~/components/ModalComp';
 import Button from '~/components/Button';
 import Input from '~/components/Input';
 import { ToastContext } from '~/components/ToastContext';
-
+import { useNavigate } from 'react-router-dom';
 import { red } from '@mui/material/colors';
+import * as LoginServices from '~/apiServices/loginServices'
 
 const cx = classNames.bind(styles);
 function Login() {
     //toast context
     const toastContext = useContext(ToastContext);
+    const navigate = useNavigate();
 
     //Modal Comp
     const [open, setOpen] = useState(false);
@@ -132,9 +134,32 @@ function Login() {
                 setMessage('Vui lòng nhập đúng định dạng email');
             } else {
                 setCheckLogin(false);
-                if (password.length >= 8) {
-                    toastContext.notify('success', 'Đăng nhập thành công!');
+
+                const fetchApi = async () => {
+                    // console.log(productid.id)
+                    const obj = {
+                        email: email,
+                        password: password
+                    }
+                    const result = await LoginServices.Login(obj)
+                        .catch((err) => {
+                            console.log(err);
+                        });
+                    console.log(obj)
+                    console.log(result)
+                    if (result) {
+                        toastContext.notify('success', 'Đăng nhập thành công!');
+                        navigate('/overview');
+                    }
+                    else {
+                        toastContext.notify('error', 'Vui long kiểm tra lại email hoặc mật khẩu');
+                    }
                 }
+
+                fetchApi();
+                // if (password.length >= 8) {
+                //     toastContext.notify('success', 'Đăng nhập thành công!');
+                // }
             }
         }
     };

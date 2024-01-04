@@ -9,7 +9,6 @@ import Button from '~/components/Button';
 import List from '~/components/List';
 import Filter from '~/components/Filter';
 import { DiscountItem } from '~/components/Item';
-import { data7 } from '~/components/Table/sample';
 import MultiSelectComp from '~/components/MultiSelectComp';
 import SubHeader from '~/components/SubHeader';
 import ModalComp from '~/components/ModalComp';
@@ -19,8 +18,8 @@ import { ToastContext } from '~/components/ToastContext';
 const cx = classNames.bind(styles);
 
 const optionsHL = [
-    { label: 'Còn hiệu lực', value: 'true' },
-    { label: 'Hết hiệu lực', value: 'false' },
+    { label: 'Còn hiệu lực', value: false },
+    { label: 'Hết hiệu lực', value: true },
 ];
 
 const optionsTT = [
@@ -114,14 +113,6 @@ function ListDiscount() {
     }, []);
 
 
-
-    // useEffect(() => {
-    //     const timeout = setTimeout(() => {
-    //         setRows(data7);
-    //         setPending(false);
-    //     }, 500);
-    //     return () => clearTimeout(timeout);
-    // }, []);
     const getList = async (obj) => {
         setPending(true);
 
@@ -287,6 +278,7 @@ function ListDiscount() {
                         </Filter>
                     }
                     // TABLE
+                    clearSelectedRows={clear}
                     selectableRows
                     pagination
                     onRowClicked={onRowClicked}

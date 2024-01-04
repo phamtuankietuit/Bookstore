@@ -17,8 +17,13 @@ import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
 import { useNavigate } from 'react-router-dom';
 import Input from '~/components/Input';
+import Barcode from '~/pages/Barcode';
+import { Switch } from '@mui/material';
+
+import * as productServices from '~/apiServices/productServices';
 import * as PromotionServices from '~/apiServices/promotionServices';
 import * as SaleServices from '~/apiServices/saleServices';
+
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
@@ -30,6 +35,9 @@ function Sale() {
     const [open, setOpen] = useState(false)
     const [typediscount, setType] = useState(true)
     const [newset, setNewset] = useState(true)
+
+    // update
+    const [updatePage, setUpdatePage] = useState(new Date());
 
     //create obj
     const [arr, setArr] = useState([])
@@ -51,40 +59,37 @@ function Sale() {
 
 
     const addarr = (value) => {
-        // console.log(value)
-        const isFound = arr.some(element => {
+
+        const isFound = arr.some((element, index) => {
             if (element.sku === value.sku) {
                 return true;
             }
-
             return false;
         });
-        const obj = {
-            productId: value.productId,
-            sku: value.sku,
-            name: value.name,
-            featureImageUrl: value.images[0],
-            salePrice: value.salePrice,
-            stock: value.currentStock,
-            quantity: 1,
-            totalPrice: value.salePrice,
-        }
 
         if (isFound === false) {
+            const obj = {
+                productId: value.productId,
+                sku: value.sku,
+                name: value.name,
+                featureImageUrl: value.images[0],
+                salePrice: value.salePrice,
+                stock: value.currentStock,
+                quantity: 1,
+                totalPrice: value.salePrice,
+            }
             setArr(arr => [...arr, obj]);
         }
+
         setPromo('')
         setCoupon(null)
-
-
-
-
     }
 
     useEffect(() => {
         update()
         updateAmount()
-    }, [arr, total])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [arr, total, updatePage])
 
     useEffect(() => {
         updateAmount()
@@ -104,15 +109,15 @@ function Sale() {
                 newnums += item.quantity
             })
         }
-        setTotal(newcost)
-        setNums(newnums)
+
+        setTotal(newcost);
+        setNums(newnums);
 
         setCall(false)
         setPromo('')
         setCoupon(null)
 
         updateAmount()
-
     }
 
     const addCustomer = (value) => {
@@ -247,6 +252,30 @@ function Sale() {
 
 
     }
+
+    const [showScanner, setShowScanner] = useState(false);
+
+    const handleScanner = async (id) => {
+        const response = await productServices.getProduct(id)
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+
+        if (response) {
+            addarr(response);
+        }
+
+    }
+
     return (
         <div className={` ${cx('wrapper')}`}>
             <div className={`${cx('header')} d-flex align-items-center`}>
@@ -255,6 +284,11 @@ function Sale() {
                     <SearchResult stypeid={2} setValue={addarr} />
                 </div>
                 <div className={`text-end me-4`}>
+                    <span>Hiển thị Scanner</span>
+                    <Switch
+                        checked={showScanner}
+                        onChange={() => setShowScanner(!showScanner)}
+                    />
                     <FaHouseChimney className={` ${cx('icon')}`} onClick={() => navigate('/overview')} />
                 </div>
             </div>
@@ -293,6 +327,9 @@ function Sale() {
                                 </div>
                             )
                         }
+                        <div className={cx('barcode', {
+                            'show': showScanner,
+                        })}> <Barcode handleScanner={handleScanner} /></div>
                     </div>
                 </Col>
                 <Col lg={3} >

@@ -1,6 +1,6 @@
-.header{
+.header {
     height: 60px;
-    background: #0964CF;
+    background: #0964cf;
     color: white;
 }
 .wrapper {
@@ -8,22 +8,23 @@
     // overflow: hidden;
     font-size: 14px;
 }
-.title{
+.title {
     font-size: 22px;
     font-weight: 500;
     margin-left: 15px;
 }
 
-.frame{
-    margin: 0px ;
+.frame {
+    margin: 0px;
     padding: 15px 15px;
     background-color: white;
     width: 100%;
     min-height: 880px;
     margin-bottom: 5px;
+    position: relative;
 }
 
-.search-bar{
+.search-bar {
     width: 50%;
     margin-left: 30px;
 }
@@ -34,37 +35,34 @@
     cursor: pointer;
 }
 
-.icon-empty{
+.icon-empty {
     color: rgb(236, 239, 244);
     width: 100px;
     height: 150px;
 }
 
-.icon-delete{
+.icon-delete {
     width: 20px;
     height: 20px;
     cursor: pointer;
-    color: #0964CF;
+    color: #0964cf;
 }
 
-.properties-1{
+.properties-1 {
     min-width: 120px;
     text-align: center;
-
 }
 
-.properties-2{
+.properties-2 {
     min-width: 380px;
 }
 
-.properties-3{
+.properties-3 {
     text-align: center;
     min-width: 180px;
-
-
 }
 
-.columns{
+.columns {
     margin-top: 10px;
     padding: 10px;
     padding-right: 7%;
@@ -72,22 +70,21 @@
     font-weight: 600;
     width: fit-content;
     display: flex;
-
 }
 
-.content{
+.content {
     overflow-y: scroll;
     max-height: 850px;
 }
 
-.my-btn{
+.my-btn {
     min-width: 150px;
     min-height: 50px;
     font-size: 30px;
     padding: 10px 30px;
 }
 
-.textfield{
+.textfield {
     width: 70%;
     height: 30px;
     padding-left: 10px;
@@ -96,8 +93,8 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.147);
     text-align: end;
 
-    &:hover{
-        background-color: #EBEDF1;
+    &:hover {
+        background-color: #ebedf1;
         border-radius: 5px;
         cursor: pointer;
     }
@@ -107,9 +104,9 @@
         -webkit-appearance: none;
         margin: 0;
     }
-} 
+}
 
-.textfield-1{
+.textfield-1 {
     width: 70%;
     height: 30px;
     padding-left: 10px;
@@ -118,16 +115,14 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.147);
     text-align: end;
 
-   
-
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
         margin-right: 3px;
     }
-} 
-.btn{
+}
+.btn {
     font-size: 13px;
     background-color: white;
     color: black;
@@ -135,24 +130,35 @@
     padding: 0;
 }
 
-.btn_active{
+.btn_active {
     font-size: 13px;
-    background-color: #0088FF;
+    background-color: #0088ff;
     color: white;
     width: 60px;
     padding: 0;
 }
 
-.img{
+.img {
     height: 40px;
     width: 40px;
 }
 
-.form-control{
+.form-control {
     border: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.147);
     border-radius: 0;
-    &:focus{
+    &:focus {
         box-shadow: none;
     }
+}
+
+.barcode {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    display: none;
+}
+
+.barcode.show {
+    display: block;
 }

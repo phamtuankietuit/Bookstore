@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import { format } from 'date-fns';
 import styles from './DiscountItem.module.scss';
 
 const cx = classNames.bind(styles);
@@ -41,7 +42,7 @@ export const DiscountItem = [
         center: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.startAt}
+                {format(new Date(row.startAt), 'MM/dd/yyyy - HH:mm')}
             </div>
         ),
     },
@@ -51,7 +52,7 @@ export const DiscountItem = [
         center: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.closeAt}
+                {format(new Date(row.closeAt), 'MM/dd/yyyy - HH:mm')}
             </div>
         ),
     },
@@ -63,8 +64,8 @@ export const DiscountItem = [
             <div
                 className={cx({
                     'product-state-container': true,
-                    'state-1': row.status === 'paused' ? true : false,
-                    'state-2': row.status === 'canceled' ? true : false,
+                    'state-1': row.status === 'paused',
+                    'state-2': row.status === 'stopped',
                 })}
                 data-tag="allowRowEvents"
             >

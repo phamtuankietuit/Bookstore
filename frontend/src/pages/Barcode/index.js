@@ -17,11 +17,16 @@ class Barcode extends React.Component {
         this.onNewScanResult = this.onNewScanResult.bind(this);
     }
 
+    sendData = (decodedText) => {
+        if (decodedText !== this.state.scannedText) {
+            this.props.handleScanner(decodedText);
+        }
+    }
+
     render() {
         const { scannedText, scannedResult } = this.state;
         return (
             <div className={cx('wrapper')}>
-                {/* <h1>Html5Qrcode React example!</h1> */}
                 <Html5QrcodePlugin
                     fps={10}
                     qrbox={250}
@@ -37,6 +42,8 @@ class Barcode extends React.Component {
             scannedText: decodedText,
             scannedResult: JSON.stringify(decodedResult)
         });
+
+        this.sendData(decodedText);
     }
 }
 

@@ -12,6 +12,6 @@ export const SupplierGroupItem = [
     {
         name: 'Mã nhóm',
         minWidth: '180px',
-        cell: (row) => <div className={cx('type')}>{row.id}</div>,
+        cell: (row) => <div className={cx('type')}>{row.supplierGroupId}</div>,
     },
 ];

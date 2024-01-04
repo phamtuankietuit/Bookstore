@@ -32,6 +32,7 @@ const optionsTT = [
 function ListCustomer() {
     const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
+    const [updateList, setUpdateList] = useState(new Date());
 
     // API PROPS
     const [pageNumber, setPageNumber] = useState(1);
@@ -111,6 +112,7 @@ function ListCustomer() {
     }) => {
         selectedCount > 0 ? setShowSubHeader(true) : setShowSubHeader(false);
         setSelectedRow(selectedCount);
+        setSelectedDelRows(selectedRows);
     };
 
     // SUB HEADER
@@ -142,7 +144,59 @@ function ListCustomer() {
         setOpenModal(false);
     };
 
-    const handleValidation = () => { };
+    const [selectedDelRows, setSelectedDelRows] = useState();
+
+    // CLEAR SUB HEADER
+    const clearSubHeader = () => {
+        setShowSubHeader(false);
+        setSelectedRow(0);
+        setClear(true);
+    }
+
+    const handleValidation = () => {
+        let isSuccess = true;
+
+        // XÓA KHÁCH HÀNG
+        const fetchApi = async () => {
+            setLoading(true);
+
+            const result = await customerServices.deleteCustomer(selectedDelRows)
+                .catch((error) => {
+                    isSuccess = false;
+                    setLoading(false);
+                    if (error.response) {
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    } else if (error.request) {
+                        console.log(error.request);
+                    } else {
+                        console.log('Error', error.message);
+                    }
+                    console.log(error.config);
+                    toastContext.notify('error', 'Có lỗi xảy ra');
+                });
+
+            if (result) {
+                setLoading(false);
+                result.map((customer) => {
+                    if (customer.status === 204) {
+                        toastContext.notify('success', 'Xóa thành công khách hàng ' + customer.data.name);
+                    } else {
+                        toastContext.notify('error', 'Có lỗi xảy ra khi xóa khách hàng ' + customer.data.name);
+                    }
+                });
+            } else if (isSuccess) {
+                setLoading(false);
+                handleCloseModal();
+                toastContext.notify('success', 'Xóa khách hàng thành công');
+                clearSubHeader();
+                setUpdateList(new Date());
+            }
+        }
+
+        fetchApi();
+    };
 
     const onOpenModal = (value) => {
         setTitleModal(value);
@@ -230,7 +284,9 @@ function ListCustomer() {
         }
 
         fetch();
-    }, []);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [updateList]);
 
 
     return (

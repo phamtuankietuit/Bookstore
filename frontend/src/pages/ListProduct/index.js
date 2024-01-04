@@ -328,7 +328,7 @@ function ListProduct() {
 
             let isSuccess = true;
 
-            // // XÓA SẢN PHẨM
+            // XÓA SẢN PHẨM
             const fetchApi = async () => {
                 setLoading(true);
 
@@ -433,7 +433,7 @@ function ListProduct() {
         getList(
             await createObjectQuery(
                 pageNumber,
-                pageSize,
+                newPerPage,
                 sortBy,
                 orderBy,
                 selectedTT.length > 0 && returnArray(selectedTT),

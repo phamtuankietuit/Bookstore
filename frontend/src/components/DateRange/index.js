@@ -4,7 +4,7 @@ import Tippy from '@tippyjs/react/headless';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import { vi } from 'date-fns/locale';
-import { format, toDate } from 'date-fns';
+import { format } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 

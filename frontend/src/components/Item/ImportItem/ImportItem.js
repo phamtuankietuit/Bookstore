@@ -19,6 +19,7 @@ export const ImportItem = [
     },
     {
         name: 'Ngày nhập hàng',
+        text: 'createdAt',
         minWidth: '180px',
         center: true,
         sortable: true,

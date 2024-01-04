@@ -60,3 +60,12 @@ export const updateCustomer = async (id, obj) => {
     }
 }
 
+export const deleteCustomer = async (customers) => {
+    try {
+        const res = await request.deleteMethod(`Customers?${customers.map((customer) => 'ids=' + customer.customerId).join('&')}`);
+        return res;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+

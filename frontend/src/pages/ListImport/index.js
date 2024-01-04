@@ -11,38 +11,71 @@ import Filter from '~/components/Filter';
 import { ImportItem } from '~/components/Item';
 import MultiSelectComp from '~/components/MultiSelectComp';
 import DateRange from '~/components/DateRange';
-import * as PurchaseorderServices from '~/apiServices/purchaseorderServies';
 import { ToastContext } from '~/components/ToastContext';
+
+import * as PurchaseorderServices from '~/apiServices/purchaseorderServies';
+import * as supplierServices from '~/apiServices/supplierServices';
+import * as staffServices from '~/apiServices/staffServices';
+
 const cx = classNames.bind(styles);
 
 const optionsTT = [
-    { label: 'Đã thanh toán', value: '0' },
-    { label: 'Chưa thanh toán', value: '1' },
-];
-
-const optionsNCC = [
-    { label: 'Văn phòng phẩm Khê Lương', value: '0' },
-    { label: 'Nhà sách An Hòa Phát', value: '1' },
-    { label: 'Thiên Long', value: '2' },
-    { label: 'Thiết bị văn phòng Nguyễn An', value: '3' },
-];
-
-const optionsNV = [
-    { label: 'Lê Võ Duy Khiêm', value: '0' },
-    { label: 'Phạm Tuấn Kiệt', value: '1' },
-    { label: 'Ngô Trung Quân', value: '2' },
-    { label: 'Nguyễn Trung Kiên', value: '3' },
+    { label: 'Đã thanh toán', value: 'paid' },
+    { label: 'Chưa thanh toán', value: 'unpaid' },
 ];
 
 function ListImport() {
     const navigate = useNavigate();
-    const toastContext = useContext(ToastContext)
+    const toastContext = useContext(ToastContext);
+    const [updateList, setUpdateList] = useState(new Date());
+
+    // API PROPS
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pageSize, setPageSize] = useState(12);
+    const [totalRows, setTotalRows] = useState(0);
+    const [clear, setClear] = useState(false);
+    const [sortBy, setSortBy] = useState('purchaseOrderId');
+    const [orderBy, setOrderBy] = useState('asc');
+
+    // CREATE OBJECT QUERY
+    const createObjectQuery = async (
+        pageNumber,
+        pageSize,
+        sortBy,
+        orderBy,
+        startDate,
+        endDate,
+        status,
+        supplierIds,
+        staffIds,
+    ) => {
+        return {
+            pageNumber,
+            pageSize,
+            ...(orderBy && { orderBy }),
+            ...(sortBy && { sortBy }),
+            ...(startDate && { startDate }),
+            ...(endDate && { endDate }),
+            ...(status && { status }),
+            ...(supplierIds && { supplierIds }),
+            ...(staffIds && { staffIds }),
+        };
+    }
 
     // SEARCH
     const [search, setSearch] = useState('');
     const handleSearch = (e) => {
         setSearch(e.target.value);
     };
+
+    // FILTER OPTIONS
+    const [optionsSupplier, setOptionsSupplier] = useState([]);
+    const [optionsStaff, setOptionsStaff] = useState([]);
+
+    // FILTER SELECTED
+    const [selectedTT, setSelectedTT] = useState([]);
+    const [selectedSupplier, setSelectedSupplier] = useState([]);
+    const [selectedStaff, setSelectedStaff] = useState([]);
 
     // FILTER
     const [openFilter, setOpenFilter] = useState(false);
@@ -51,8 +84,8 @@ function ListImport() {
 
     const handleClearFilter = () => {
         setSelectedTT([]);
-        setSelectedNCC([]);
-        setSelectedNV([]);
+        setSelectedSupplier([]);
+        setSelectedStaff([]);
         setDateString('');
     };
 
@@ -60,58 +93,10 @@ function ListImport() {
         handleCloseFilter();
     };
 
-    const [selectedTT, setSelectedTT] = useState([]);
-    const [selectedNCC, setSelectedNCC] = useState([]);
-    const [selectedNV, setSelectedNV] = useState([]);
-
-    // DATE RANGE PICKER
-    const [dateString, setDateString] = useState('');
-
-    // ON ROW CLICKED
-    const onRowClicked = useCallback((row) => {
-        navigate('/imports/detail/' + row.purchaseOrderId);
-    }, []);
-
-    // TABLE
-    const [pageNumber, setPageNumber] = useState(1);
-    const [pageSize, setPageSize] = useState(12);
-    const [totalRows, setTotalRows] = useState(0);
-    const [clear, setClear] = useState(false);
-    const [sortBy, setSortBy] = useState('purchaseOrderId');
-    const [orderBy, setOrderBy] = useState('asc');
-
-
-    const [pending, setPending] = useState(true);
-    const [rows, setRows] = useState([]);
-    const getList = async (
-        pageNumber,
-        pageSize,
-        sortBy,
-        orderBy,
-        supplierIds,
-    ) => {
-        const props = {
-            pageNumber,
-            pageSize,
-            ...(sortBy && { sortBy }),
-            ...(orderBy && { orderBy }),
-            ...(supplierIds && { supplierIds }),
-        };
-
-        if (!sortBy) {
-            setSortBy('purchaseOrderId');
-        }
-
-        if (!orderBy) {
-            setOrderBy('asc');
-        }
-
-        setPending(true);
-
-        const response = await PurchaseorderServices.getAllPurchaseOrders(props)
+    // GET DATA SUPPLIERS
+    const getSup = async () => {
+        const response = await supplierServices.getAllSuppliers(1, -1)
             .catch((error) => {
-                setPending(false);
-
                 if (error.response) {
                     console.log(error.response.data);
                     console.log(error.response.status);
@@ -122,7 +107,82 @@ function ListImport() {
                     console.log('Error', error.message);
                 }
                 console.log(error.config);
-                toastContext.notify('error', 'Có lỗi xảy ra');
+            });
+
+        if (response) {
+            const data = await response.data.map((sup) => ({ label: sup.name, value: sup.supplierId }));
+            setOptionsSupplier(data);
+        }
+    };
+
+    // GET DATA STAFF
+    const getStaff = async () => {
+        const response = await staffServices.getAllStaffs(1, -1)
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+
+        if (response) {
+            const data = await response.data.map((staff) => ({ label: staff.name, value: staff.staffId }));
+            setOptionsStaff(data);
+        }
+    };
+
+    // GET DATA FOR FILTER
+    useEffect(() => {
+        getSup();
+        // getStaff();
+        // eslint-disable-next-line no-use-before-define
+    }, [openFilter]);
+
+    // DATE RANGE PICKER
+    const [dateString, setDateString] = useState('');
+    const [startDate, setStartDate] = useState();
+    const [endDate, setEndDate] = useState();
+
+    const handleSetDate = (str) => {
+        const arr = str.split(' - ');
+
+        setStartDate((new Date(arr[0])).toISOString());
+        setEndDate((new Date(arr[1])).toISOString());
+        setDateString(str);
+    }
+
+
+    // ON ROW CLICKED
+    const onRowClicked = useCallback((row) => {
+        navigate('/imports/detail/' + row.purchaseOrderId);
+    }, []);
+
+    const [pending, setPending] = useState(true);
+    const [rows, setRows] = useState([]);
+
+    const getList = async (obj) => {
+
+        console.log('run getList', obj);
+
+        setPending(true);
+
+        const response = await PurchaseorderServices.getAllPurchaseOrders(obj)
+            .catch((error) => {
+                setPending(false);
+
+                if (error.response.status === 404) {
+                    setRows([]);
+                    setTotalRows(0);
+                    setClear(false);
+                } else {
+                    toastContext.notify('error', 'Có lỗi xảy ra');
+                }
             });
 
         if (response) {
@@ -147,17 +207,40 @@ function ListImport() {
         getList(pageNumber, pageSize, sortBy, orderBy);
     }
 
-    const handleSort = (column, sortDirection) => {
+    const returnArray = (arr) => {
+        return arr.map((obj) => obj.value);
+    }
+
+    const handleSort = async (column, sortDirection) => {
         setSortBy(column.text);
         setOrderBy(sortDirection);
         setPageNumber(1);
 
-        getList(1, pageSize, column.text, sortDirection);
+        // getList(
+        //     await createObjectQuery(
+        //         pageNumber,
+        //         pageSize,
+        //         column.text,
+        //         sortDirection,
+        //         startDate && startDate,
+        //         endDate && endDate,
+        //         selectedTT.length > 0 && returnArray(selectedTT),
+        //         selectedSupplier.length > 0 && returnArray(selectedTT),
+        //         selectedTT.length > 0 && returnArray(selectedTT),
+        //     )
+        // );
     };
 
     useEffect(() => {
-        getList(pageNumber, pageSize);
-    }, []);
+        const fetch = async () => {
+            getList(await createObjectQuery(pageNumber, pageSize));
+        }
+
+        fetch();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [updateList]);
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -193,7 +276,7 @@ function ListImport() {
                                 title={'Ngày nhập hàng'}
                                 className={cx('m-b')}
                                 dateString={dateString}
-                                setDateString={setDateString}
+                                setDateString={(str) => handleSetDate(str)}
                                 bottom
                             />
                             <MultiSelectComp
@@ -206,23 +289,24 @@ function ListImport() {
                             />
                             <MultiSelectComp
                                 className={cx('m-b')}
-                                options={optionsNCC}
+                                options={optionsSupplier}
                                 placeholder={'Nhà cung cấp'}
-                                selected={selectedNCC}
-                                setSelected={setSelectedNCC}
+                                selected={selectedSupplier}
+                                setSelected={setSelectedSupplier}
                                 hasSelectAll={true}
                             />
                             <MultiSelectComp
                                 className={cx('m-b')}
-                                options={optionsNV}
+                                options={optionsStaff}
                                 placeholder={'Nhân viên tạo'}
-                                selected={selectedNV}
-                                setSelected={setSelectedNV}
+                                selected={selectedStaff}
+                                setSelected={setSelectedStaff}
                                 hasSelectAll={true}
                             />
                         </Filter>
                     }
                     // TABLE
+                    clearSelectedRows={clear}
                     pagination
                     onRowClicked={onRowClicked}
                     itemComponent={ImportItem}

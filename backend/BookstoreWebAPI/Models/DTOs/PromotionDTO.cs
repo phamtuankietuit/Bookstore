@@ -52,5 +52,11 @@ namespace BookstoreWebAPI.Models.DTOs
 
         [JsonProperty("createdAt")]
         public DateTime? CreatedAt { get; set; }
+
+        [JsonProperty("modifiedAt")]
+        public DateTime? ModifiedAt { get; set; }
+
+        [JsonProperty("staffId")]
+        public string? StaffId { get; set; }
     }
 }

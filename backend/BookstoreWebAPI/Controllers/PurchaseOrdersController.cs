@@ -17,11 +17,13 @@ namespace BookstoreWebAPI.Controllers
         private readonly ILogger<PurchaseOrdersController> _logger;
         private readonly IPurchaseOrderRepository _purchaseOrderRepository;
         private readonly IValidator<QueryParameters> _queryParametersValidator;
-        public PurchaseOrdersController(ILogger<PurchaseOrdersController> logger, IPurchaseOrderRepository purchaseOrderRepository, IValidator<QueryParameters> validator)
+        private readonly IValidator<PurchaseOrderFilterModel> _purchaseOrderFilterValidator;
+        public PurchaseOrdersController(ILogger<PurchaseOrdersController> logger, IPurchaseOrderRepository purchaseOrderRepository, IValidator<QueryParameters> validator, IValidator<PurchaseOrderFilterModel> purchaseOrderFilterValidator)
         {
             _logger = logger;
             _purchaseOrderRepository = purchaseOrderRepository;
             _queryParametersValidator = validator;
+            _purchaseOrderFilterValidator = purchaseOrderFilterValidator;
         }
 
         // GET: api/<PurchaseOrdersController>
@@ -30,10 +32,16 @@ namespace BookstoreWebAPI.Controllers
         {
             // validate filter model
             ValidationResult result = await _queryParametersValidator.ValidateAsync(queryParams);
+            ValidationResult validationResult = await _purchaseOrderFilterValidator.ValidateAsync(filter);
 
             if (!result.IsValid)
             {
                 return BadRequest(result.Errors);
+            }
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
             }
 
             int totalCount = await _purchaseOrderRepository.GetTotalCount(queryParams, filter);

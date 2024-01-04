@@ -15,6 +15,7 @@ namespace BookstoreWebAPI.SeedData
         private readonly string _supplierGroupsFilePath = "./SeedData/SampleData/supplierGroups.json";
         private readonly string _promotionsFilePath = "./SeedData/SampleData/promotions.json";
         private readonly string _customersFilePath = "./SeedData/SampleData/customers.json";
+        private readonly string _staffsFilePath = "./SeedData/SampleData/staffs.json";
 
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
@@ -24,28 +25,31 @@ namespace BookstoreWebAPI.SeedData
         private readonly IPromotionRepository _promotionRepository;
         private readonly ICustomerRepository _customerRepository;
         private readonly ISupplierGroupRepository _supplierGroupRepository;
+        private readonly IStaffRepository _staffRepository;
         private readonly ILogger _logger;
 
         public DataSeeder(
-            IProductRepository productRepository, 
-            ICategoryRepository categoryRepository, 
+            IProductRepository productRepository,
+            ICategoryRepository categoryRepository,
             ISalesOrderRepository salesOrderRepository,
             IPurchaseOrderRepository purchaseOrderRepository,
             ISupplierRepository supplierRepository,
             IPromotionRepository promotionRepository,
             ICustomerRepository customerRepository,
             ISupplierGroupRepository supplierGroupRepository,
+            IStaffRepository staffRepository,
             ILogger<DataSeeder> logger)
         {
-            this._productRepository = productRepository;
-            this._categoryRepository = categoryRepository;
-            this._salesOrderRepository = salesOrderRepository;
-            this._purchaseOrderRepository = purchaseOrderRepository;
-            this._supplierRepository = supplierRepository;
-            this._promotionRepository = promotionRepository;
-            this._customerRepository = customerRepository;
-            this._supplierGroupRepository = supplierGroupRepository;
-            this._logger = logger;
+            _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
+            _salesOrderRepository = salesOrderRepository;
+            _purchaseOrderRepository = purchaseOrderRepository;
+            _supplierRepository = supplierRepository;
+            _promotionRepository = promotionRepository;
+            _customerRepository = customerRepository;
+            _supplierGroupRepository = supplierGroupRepository;
+            _staffRepository = staffRepository;
+            _logger = logger;
         }
 
 
@@ -60,6 +64,7 @@ namespace BookstoreWebAPI.SeedData
             var supplierGroupsJsonData = File.ReadAllText(_supplierGroupsFilePath);
             var promotionsJsonData = File.ReadAllText(_promotionsFilePath);
             var customersJsonData = File.ReadAllText(_customersFilePath);
+            var staffsJsonData = File.ReadAllText(_staffsFilePath);
 
 
 
@@ -73,7 +78,7 @@ namespace BookstoreWebAPI.SeedData
                     await _categoryRepository.AddCategoryDocumentAsync(item);
                 }
 
-                _logger.LogInformation("Populated cart data");
+                _logger.LogInformation("Populated category data");
             }
 
             // Seed customers
@@ -86,7 +91,7 @@ namespace BookstoreWebAPI.SeedData
                     await _productRepository.AddInventoryDocumentAsync(item);
                 }
 
-                _logger.LogInformation("Populated customer data");
+                _logger.LogInformation("Populated inventory data");
             }
 
             // Seed products
@@ -124,7 +129,7 @@ namespace BookstoreWebAPI.SeedData
                     await _purchaseOrderRepository.AddPurchaseOrderDocumentAsync(item);
                 }
 
-                _logger.LogInformation("Populated category data");
+                _logger.LogInformation("Populated purchase order data");
             }
 
             // Seed staffs
@@ -137,7 +142,7 @@ namespace BookstoreWebAPI.SeedData
                     await _supplierRepository.AddSupplierDocumentAsync(item);
                 }
 
-                _logger.LogInformation("Populated staff data");
+                _logger.LogInformation("Populated supplier data");
             }
 
             var supplierGroupsItems = JsonConvert.DeserializeObject<List<SupplierGroupDocument>>(supplierGroupsJsonData);
@@ -149,7 +154,7 @@ namespace BookstoreWebAPI.SeedData
                     await _supplierGroupRepository.AddSupplierGroupDocumentAsync(item);
                 }
 
-                _logger.LogInformation("Populated staff data");
+                _logger.LogInformation("Populated supplier group data");
             }
 
 
@@ -178,6 +183,19 @@ namespace BookstoreWebAPI.SeedData
                 }
 
                 _logger.LogInformation("Populated customer data");
+            }
+
+            // Seed customers
+            var staffItems = JsonConvert.DeserializeObject<List<StaffDocument>>(staffsJsonData);
+
+            if (staffItems != null)
+            {
+                foreach (var item in staffItems)
+                {
+                    await _staffRepository.AddStaffDocumentAsync(item);
+                }
+
+                _logger.LogInformation("Populated staff data");
             }
         }
     }

@@ -6,6 +6,9 @@
 		"text": "Khác",
 		"isRemovable": false,
 		"isDeleted": false,
+		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -15,6 +18,9 @@
 		"text": "Truyện Thiếu Nhi",
 		"isRemovable": false,
 		"isDeleted": false,
+		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -24,6 +30,9 @@
 		"text": "Giáo Khoa - Tham Khảo",
 		"isRemovable": false,
 		"isDeleted": false,
+		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -33,6 +42,9 @@
 		"text": "Tiểu Thuyết",
 		"isRemovable": false,
 		"isDeleted": false,
+		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -42,6 +54,9 @@
 		"text": "Truyện Ngắn",
 		"isRemovable": false,
 		"isDeleted": false,
+		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -51,6 +66,9 @@
 		"text": "Light Novel",
 		"isRemovable": false,
 		"isDeleted": false,
+		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -60,6 +78,9 @@
 		"text": "Tâm Lý - Kỹ Năng Sống",
 		"isRemovable": false,
 		"isDeleted": false,
+		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -69,6 +90,9 @@
 		"text": "Sách Học Ngoại Ngữ",
 		"isRemovable": false,
 		"isDeleted": false,
+		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -78,6 +102,9 @@
 		"text": "Văn Phòng Phẩm",
 		"isRemovable": false,
 		"isDeleted": false,
+		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -87,6 +114,9 @@
 		"text": "Đồ Chơi",
 		"isRemovable": false,
 		"isDeleted": false,
+		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -96,6 +126,9 @@
 		"text": "Lưu Niệm",
 		"isRemovable": false,
 		"isDeleted": false,
+		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -105,6 +138,9 @@
 		"text": "Lưu Niệm112",
 		"isRemovable": true,
 		"isDeleted": false,
+		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
+		"staffId": "staf00000",
 		"ttl": -1
 	}
 ]

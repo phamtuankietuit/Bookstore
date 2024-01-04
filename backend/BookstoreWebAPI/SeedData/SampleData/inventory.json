@@ -11,8 +11,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:07",
+		"modifiedAt": "2023-12-01T13:49:07",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -27,8 +29,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:09",
+		"modifiedAt": "2023-12-01T13:49:09",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -43,8 +47,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:11",
+		"modifiedAt": "2023-12-01T13:49:11",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -59,8 +65,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:13",
+		"modifiedAt": "2023-12-01T13:49:13",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -75,8 +83,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:16",
+		"modifiedAt": "2023-12-01T13:49:16",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -91,8 +101,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:18",
+		"modifiedAt": "2023-12-01T13:49:18",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -107,8 +119,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:20",
+		"modifiedAt": "2023-12-01T13:49:20",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -123,8 +137,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:22",
+		"modifiedAt": "2023-12-01T13:49:22",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -139,8 +155,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:24",
+		"modifiedAt": "2023-12-01T13:49:24",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -155,8 +173,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:26",
+		"modifiedAt": "2023-12-01T13:49:26",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -171,8 +191,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:28",
+		"modifiedAt": "2023-12-01T13:49:28",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -187,8 +209,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:30",
+		"modifiedAt": "2023-12-01T13:49:30",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -203,8 +227,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:32",
+		"modifiedAt": "2023-12-01T13:49:32",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -219,8 +245,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:34",
+		"modifiedAt": "2023-12-01T13:49:34",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -235,8 +263,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:36",
+		"modifiedAt": "2023-12-01T13:49:36",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -251,8 +281,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:38",
+		"modifiedAt": "2023-12-01T13:49:38",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -267,8 +299,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:40",
+		"modifiedAt": "2023-12-01T13:49:40",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -283,8 +317,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:43",
+		"modifiedAt": "2023-12-01T13:49:43",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -299,8 +335,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:45",
+		"modifiedAt": "2023-12-01T13:49:45",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -315,8 +353,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:47",
+		"modifiedAt": "2023-12-01T13:49:47",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -331,8 +371,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:49",
+		"modifiedAt": "2023-12-01T13:49:49",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -347,8 +389,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:52",
+		"modifiedAt": "2023-12-01T13:49:52",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -363,8 +407,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:53",
+		"modifiedAt": "2023-12-01T13:49:53",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -379,8 +425,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:55",
+		"modifiedAt": "2023-12-01T13:49:55",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -395,8 +443,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:49:57",
+		"modifiedAt": "2023-12-01T13:49:57",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -411,8 +461,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:00",
+		"modifiedAt": "2023-12-01T13:50:00",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -427,8 +479,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:02",
+		"modifiedAt": "2023-12-01T13:50:02",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -443,8 +497,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:04",
+		"modifiedAt": "2023-12-01T13:50:04",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -459,8 +515,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:06",
+		"modifiedAt": "2023-12-01T13:50:06",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -475,8 +533,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:08",
+		"modifiedAt": "2023-12-01T13:50:08",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -491,8 +551,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:11",
+		"modifiedAt": "2023-12-01T13:50:11",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -507,8 +569,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:13",
+		"modifiedAt": "2023-12-01T13:50:13",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -523,8 +587,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:15",
+		"modifiedAt": "2023-12-01T13:50:15",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -539,8 +605,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:18",
+		"modifiedAt": "2023-12-01T13:50:18",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -555,8 +623,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:20",
+		"modifiedAt": "2023-12-01T13:50:20",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -571,8 +641,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:22",
+		"modifiedAt": "2023-12-01T13:50:22",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -587,8 +659,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:24",
+		"modifiedAt": "2023-12-01T13:50:24",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -603,8 +677,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:26",
+		"modifiedAt": "2023-12-01T13:50:26",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -619,8 +695,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:29",
+		"modifiedAt": "2023-12-01T13:50:29",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -635,8 +713,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:31",
+		"modifiedAt": "2023-12-01T13:50:31",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -651,8 +731,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:33",
+		"modifiedAt": "2023-12-01T13:50:33",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -667,8 +749,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:35",
+		"modifiedAt": "2023-12-01T13:50:35",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -683,8 +767,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:37",
+		"modifiedAt": "2023-12-01T13:50:37",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -699,8 +785,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:40",
+		"modifiedAt": "2023-12-01T13:50:40",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -715,8 +803,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:42",
+		"modifiedAt": "2023-12-01T13:50:42",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -731,8 +821,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:44",
+		"modifiedAt": "2023-12-01T13:50:44",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -747,8 +839,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:47",
+		"modifiedAt": "2023-12-01T13:50:47",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -763,8 +857,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:49",
+		"modifiedAt": "2023-12-01T13:50:49",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -779,8 +875,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:51",
+		"modifiedAt": "2023-12-01T13:50:51",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -795,8 +893,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:53",
+		"modifiedAt": "2023-12-01T13:50:53",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -811,8 +911,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:55",
+		"modifiedAt": "2023-12-01T13:50:55",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -827,8 +929,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:50:58",
+		"modifiedAt": "2023-12-01T13:50:58",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -843,8 +947,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:00",
+		"modifiedAt": "2023-12-01T13:51:00",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -859,8 +965,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:02",
+		"modifiedAt": "2023-12-01T13:51:02",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -875,8 +983,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:04",
+		"modifiedAt": "2023-12-01T13:51:04",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -891,8 +1001,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:06",
+		"modifiedAt": "2023-12-01T13:51:06",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -907,8 +1019,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:08",
+		"modifiedAt": "2023-12-01T13:51:08",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -923,8 +1037,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:11",
+		"modifiedAt": "2023-12-01T13:51:11",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -939,8 +1055,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:13",
+		"modifiedAt": "2023-12-01T13:51:13",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -955,8 +1073,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:15",
+		"modifiedAt": "2023-12-01T13:51:15",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -971,8 +1091,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:17",
+		"modifiedAt": "2023-12-01T13:51:17",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -987,8 +1109,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:19",
+		"modifiedAt": "2023-12-01T13:51:19",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1003,8 +1127,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:22",
+		"modifiedAt": "2023-12-01T13:51:22",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1019,8 +1145,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:24",
+		"modifiedAt": "2023-12-01T13:51:24",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1035,8 +1163,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:26",
+		"modifiedAt": "2023-12-01T13:51:26",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1051,8 +1181,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:28",
+		"modifiedAt": "2023-12-01T13:51:28",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1067,8 +1199,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:31",
+		"modifiedAt": "2023-12-01T13:51:31",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1083,8 +1217,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:33",
+		"modifiedAt": "2023-12-01T13:51:33",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1099,8 +1235,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:35",
+		"modifiedAt": "2023-12-01T13:51:35",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1115,8 +1253,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:37",
+		"modifiedAt": "2023-12-01T13:51:37",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1131,8 +1271,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:39",
+		"modifiedAt": "2023-12-01T13:51:39",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1147,8 +1289,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:42",
+		"modifiedAt": "2023-12-01T13:51:42",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1163,8 +1307,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:44",
+		"modifiedAt": "2023-12-01T13:51:44",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1179,8 +1325,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:46",
+		"modifiedAt": "2023-12-01T13:51:46",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1195,8 +1343,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:48",
+		"modifiedAt": "2023-12-01T13:51:48",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1211,8 +1361,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:50",
+		"modifiedAt": "2023-12-01T13:51:50",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1227,8 +1379,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:52",
+		"modifiedAt": "2023-12-01T13:51:52",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1243,8 +1397,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:55",
+		"modifiedAt": "2023-12-01T13:51:55",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1259,8 +1415,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:57",
+		"modifiedAt": "2023-12-01T13:51:57",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1275,8 +1433,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:51:59",
+		"modifiedAt": "2023-12-01T13:51:59",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1291,8 +1451,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:52:01",
+		"modifiedAt": "2023-12-01T13:52:01",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1307,8 +1469,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:52:04",
+		"modifiedAt": "2023-12-01T13:52:04",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1323,8 +1487,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:52:06",
+		"modifiedAt": "2023-12-01T13:52:06",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1339,8 +1505,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:52:08",
+		"modifiedAt": "2023-12-01T13:52:08",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1355,8 +1523,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:52:10",
+		"modifiedAt": "2023-12-01T13:52:10",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1371,8 +1541,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:52:12",
+		"modifiedAt": "2023-12-01T13:52:12",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1387,8 +1559,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:52:15",
+		"modifiedAt": "2023-12-01T13:52:15",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1403,8 +1577,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:52:17",
+		"modifiedAt": "2023-12-01T13:52:17",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1419,8 +1595,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:52:19",
+		"modifiedAt": "2023-12-01T13:52:19",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1435,8 +1613,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:52:21",
+		"modifiedAt": "2023-12-01T13:52:21",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1451,8 +1631,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:52:23",
+		"modifiedAt": "2023-12-01T13:52:23",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1467,8 +1649,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:52:26",
+		"modifiedAt": "2023-12-01T13:52:26",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1483,8 +1667,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:52:28",
+		"modifiedAt": "2023-12-01T13:52:28",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1499,8 +1685,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:52:30",
+		"modifiedAt": "2023-12-01T13:52:30",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1515,8 +1703,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:52:32",
+		"modifiedAt": "2023-12-01T13:52:32",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1531,8 +1721,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:52:34",
+		"modifiedAt": "2023-12-01T13:52:34",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1547,8 +1739,10 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:52:36",
+		"modifiedAt": "2023-12-01T13:52:36",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -1563,8 +1757,46 @@
 		"lastRestocked": "2023-11-25T09:00:00",
 		"status": "In Stock",
 		"createdAt": "2023-12-01T13:52:38",
+		"modifiedAt": "2023-12-01T13:52:38",
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
+		"ttl": -1
+	},
+	{
+		"id": "inve00099",
+		"productId": "prod00099",
+		"sku": "prod00099",
+		"barcode": "prod00099",
+		"productName": "Compa ABC",
+		"currentStock": 50,
+		"minStock": 0,
+		"maxStock": 0,
+		"lastRestocked": "2024-01-03T06:52:58.9256109Z",
+		"status": "Overstocking",
+		"isDeleted": false,
+		"staffId": "staf00000",
+		"isRemovable": true,
+		"createdAt": "2024-01-03T06:52:58.9269313Z",
+		"modifiedAt": "2024-01-03T06:52:58.9269313Z",
+		"ttl": -1
+	},
+	{
+		"id": "inve00100",
+		"productId": "prod00100",
+		"sku": "prod00100",
+		"barcode": "prod00100",
+		"productName": "Chuột không dây",
+		"currentStock": 20,
+		"minStock": 0,
+		"maxStock": 0,
+		"lastRestocked": "2024-01-03T16:13:15.036348Z",
+		"status": "Overstocking",
+		"isDeleted": true,
+		"staffId": "staf00000",
+		"isRemovable": true,
+		"createdAt": "2024-01-03T16:13:15.0377291Z",
+		"modifiedAt": "2024-01-03T16:13:15.0377291Z",
 		"ttl": -1
 	}
 ]

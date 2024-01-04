@@ -1,4 +1,5 @@
-﻿using BookstoreWebAPI.Models.BindingModels;
+﻿using BookstoreWebAPI.Exceptions;
+using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Models.DTOs;
 using BookstoreWebAPI.Repository.Interfaces;
 using FluentValidation;
@@ -83,14 +84,18 @@ namespace BookstoreWebAPI.Controllers
                     createdSupplierGroupDTO
                 );
             }
+            catch (DuplicateDocumentException ex)
+            {
+                return Conflict(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogInformation(
-                    $"SupplierGroup name: {supplierGroupDTO.Name}" +
+                    $"SupplierGroup Name: {supplierGroupDTO.Name}" +
                     $"\nError message: {ex.Message}"
                 );
 
-                return Conflict(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
 

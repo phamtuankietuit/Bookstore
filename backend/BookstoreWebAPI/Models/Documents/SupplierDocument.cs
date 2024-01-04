@@ -41,8 +41,14 @@ namespace BookstoreWebAPI.Models.Documents
 
         [JsonProperty("createdAt")]
         public DateTime? CreatedAt { get; set; }
-        
+
+        [JsonProperty("modifiedAt")]
+        public DateTime? ModifiedAt { get; set; }
+
         [JsonProperty("ttl")]
         public int TTL { get; set; }
+
+        [JsonProperty("staffId")]
+        public string StaffId { get; set; }
     }
 }

@@ -13,6 +13,10 @@ using Azure.Storage.Blobs;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using BookstoreWebAPI.Services;
 using Azure.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using BookstoreWebAPI.Models.Emails;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +28,26 @@ builder.Services.AddControllersWithViews(options =>
 {
     options.SuppressAsyncSuffixInActionNames = false;
 });
+builder.Services
+    .AddAuthentication(options => {
+        options.DefaultAuthenticateScheme =
+                    JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    }).AddJwtBearer(o => {
+        o.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidAudience = builder.Configuration["JwtSecurityToken:Audience"]!,
+            ValidIssuer = builder.Configuration["JwtSecurityToken:Issuer"]!,
+            IssuerSigningKey = new SymmetricSecurityKey
+            (Encoding.UTF8.GetBytes(builder.Configuration["JwtSecurityToken:Key"]!)),
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
+        };
+    });
 
 // Add services to the container.
 var configuration = builder.Configuration;
@@ -52,6 +76,11 @@ builder.Services.AddScoped(_ => {
     return new BlobServiceClient(configuration.GetConnectionString("AzureBlobStorage"));
 });
 
+var emailConfig = builder.Configuration
+        .GetSection("EmailConfiguration")
+        .Get<EmailConfiguration>();
+builder.Services.AddSingleton(emailConfig);
+
 // enable policy8
 builder.Services.AddCors(options =>
 {
@@ -64,7 +93,12 @@ builder.Services.AddCors(options =>
     });
 });
 
+// adding custom services
 builder.Services.AddTransient<IFileService, FileService>();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+// adding utils
+builder.Services.AddTransient<EmailUtils>();
 
 // adding repositories
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
@@ -75,11 +109,14 @@ builder.Services.AddTransient<IPurchaseOrderRepository, PurchaseOrderRepository>
 builder.Services.AddTransient<IPromotionRepository, PromotionRepository>();
 builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
 builder.Services.AddTransient<ISupplierGroupRepository, SupplierGroupRepository>();
+builder.Services.AddTransient<IStaffRepository, StaffRepository>();
+builder.Services.AddTransient<IAccountRepository, AccountRepository>();
 
 // adding validators
 builder.Services.AddTransient<IValidator<QueryParameters>, QueryParametersValidator>();
 builder.Services.AddTransient<IValidator<PromotionFilterModel>, PromotionFilterModelValidator>();
 builder.Services.AddTransient<IValidator<SalesOrderFilterModel>, SalesOrderFilterModelValidator>();
+builder.Services.AddTransient<IValidator<PurchaseOrderFilterModel>, PurchaseOrderFilterModelValidator>();
 
 builder.Services.AddTransient<DataSeeder>();
 builder.Services.AddControllers();

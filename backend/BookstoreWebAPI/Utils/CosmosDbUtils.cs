@@ -199,13 +199,7 @@ namespace BookstoreWebAPI.Utils
             return results;
         }
 
-        private static void AppendDeleteFilter(StringBuilder query, string defaultSelect, bool isRemovableDocument)
-        {
-            if (isRemovableDocument)
-            {
-                query.Append(" AND c.isDeleted = false");
-            }
-        }
+        
 
         private static void AppendProductFilter(StringBuilder query, ProductFilterModel filter)
         {
@@ -271,6 +265,22 @@ namespace BookstoreWebAPI.Utils
                 var supplierIds = string.Join(", ", filter.SupplierIds!.Select(id => $"\"{id}\""));
                 query.Append($" AND c.supplierId IN ({supplierIds})");
             }
+
+            AppendCreationDateRangeFilter(query, filter.StartDate, filter.EndDate);
+
+            if (!VariableHelpers.IsNull(filter.IsPaidOrder))
+            {
+                query.Append(" AND (NOT IS_NULL(c.paymentDetails)");
+
+                if (filter.IsPaidOrder == true)
+                {
+                    query.Append(" AND STRINGEQUALS(c.paymentDetails.status, 'paid'))");
+                }
+                else
+                {
+                    query.Append(" AND (NOT STRINGEQUALS(c.paymentDetails.status, 'paid')))");
+                }
+            }
         }
 
         private static void AppendPromotionFilter(StringBuilder query, PromotionFilterModel filter)
@@ -310,15 +320,7 @@ namespace BookstoreWebAPI.Utils
                 query.Append($" AND c.customerId IN ({customerIds})");
             }
 
-            if (!VariableHelpers.IsNull(filter.StartDate) && !VariableHelpers.IsNull(filter.EndDate))
-            {
-                var startDate = filter.StartDate!.Value.Date;
-                var endDate = filter.EndDate!.Value.Date.AddDays(1); // Add one day to include the end date
-                var isoStartDate = startDate.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
-                var isoEndDate = endDate.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
-
-                query.Append($" AND c.createdAt >= '{isoStartDate}' AND c.createdAt < '{isoEndDate}'");
-            }
+            AppendCreationDateRangeFilter(query, filter.StartDate, filter.EndDate);
 
             if (!VariableHelpers.IsNull(filter.StaffIds))
             {
@@ -327,6 +329,11 @@ namespace BookstoreWebAPI.Utils
                 //query.Append($" AND c.staffId IN {staffIds}");
             }
         }
+        private static void AppendCustomerFilter(StringBuilder query, CustomerFilterModel filter)
+        {
+            AppendIsActiveFilter(query, filter.IsActives);
+        }
+
 
         private static void AppendQueryParameters(StringBuilder query, QueryParameters queryParameters)
         {
@@ -341,9 +348,25 @@ namespace BookstoreWebAPI.Utils
             }
         }
 
-        private static void AppendCustomerFilter(StringBuilder query, CustomerFilterModel filter)
+        private static void AppendDeleteFilter(StringBuilder query, string defaultSelect, bool isRemovableDocument)
         {
-            AppendIsActiveFilter(query, filter.IsActives);
+            if (isRemovableDocument)
+            {
+                query.Append(" AND c.isDeleted = false");
+            }
+        }
+
+        private static void AppendCreationDateRangeFilter(StringBuilder query, DateTime? startDate, DateTime? endDate)
+        {
+            if (!VariableHelpers.IsNull(startDate) && !VariableHelpers.IsNull(endDate))
+            {
+                var startDateTemp = startDate!.Value.Date;
+                var endDateTemp = endDate!.Value.Date.AddDays(1); // Add one day to include the end date
+                var isoStartDate = startDateTemp.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
+                var isoEndDate = endDateTemp.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
+
+                query.Append($" AND c.createdAt >= '{isoStartDate}' AND c.createdAt < '{isoEndDate}'");
+            }
         }
 
         private static void AppendIsActiveFilter(StringBuilder query, IEnumerable<string>? isActives)

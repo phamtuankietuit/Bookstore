@@ -10,7 +10,7 @@ namespace BookstoreWebAPI.Validators
             RuleFor(x => x.IsOutdatedString)
                 .Custom((isOutdatedString, context) =>
                 {
-                    if (!string.IsNullOrEmpty(isOutdatedString) && isOutdatedString.ToLower() != "true" && isOutdatedString.ToLower() != "false")
+                    if (!string.IsNullOrEmpty(isOutdatedString) && !Boolean.TryParse(isOutdatedString, out var val))
                     {
                         context.AddFailure("IsOutdated has to be true or false");
                     }

@@ -109,6 +109,11 @@ namespace BookstoreWebAPI.Utils
                 .ForMember(dest => dest.IsDeleted, act => act.MapFrom(src => false))
                 .ForMember(dest => dest.TTL, act => act.MapFrom(src => -1));
 
+            CreateMap<StaffDocument, StaffDTO>();
+            CreateMap<StaffDTO, StaffDocument>()
+                .ForMember(dest => dest.Id, act => act.MapFrom(src => src.StaffId))
+                .ForMember(dest => dest.TTL, act => act.MapFrom(src => -1));
+
         }
     }
 }

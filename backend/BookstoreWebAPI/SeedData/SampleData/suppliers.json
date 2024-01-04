@@ -12,9 +12,11 @@
 		"address": "55 Quang Trung, Hà Nội, Việt Nam",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -30,9 +32,11 @@
 		"address": "Số 78 - Đường số 1 - P. 4 - Q. Gò Vấp, TP. Hồ Chí Minh",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -48,9 +52,11 @@
 		"address": "(Tầng 2) 260 Lê Lợi, Phường 4, TP. Vũng Tàu",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -66,9 +72,11 @@
 		"address": "Số 81 Trần Hưng Đạo, Hoàn Kiếm, Hà Nội",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -84,9 +92,11 @@
 		"address": "Tầng 5 Tòa nhà hỗn hợp AZ Lâm Viên, 107 đường Nguyễn Phong Sắc, Phường Dịch Vọng Hậu, Quận Cầu Giấy, Thành phố Hà Nội, Việt Nam",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -102,9 +112,11 @@
 		"address": "57 Vũ Trọng Phụng, P. Phú Thuận, Tân Phú, Thành phố Hồ Chí Minh",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -120,9 +132,11 @@
 		"address": "16B Đinh Tiên Hoàng, P. Đa Kao, Q. 1, Tp. Hồ Chí Minh",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -138,9 +152,11 @@
 		"address": "231 Nguyễn Văn Cừ - Phường 4 - Quận 5 - TP. HCM",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -156,9 +172,11 @@
 		"address": "Tầng 5 Số 19 Lô N7B, Ngõ 125 Lê Văn Lương - KĐT Trung Hòa - Nhân Chính, Thanh Xuân, Hà Nội",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -174,9 +192,11 @@
 		"address": "Số 45 đường 8, KP5, Hiệp Bình Chánh, Thủ Đức, TP Hồ Chí Minh",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -192,9 +212,11 @@
 		"address": "59 - Đỗ Quang - Trung Hòa - Cầu Giấy - Hà Nội",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -210,9 +232,11 @@
 		"address": "357A Lê Văn Sỹ - Phường 1 - Quận Tân Bình - TP. Hồ Chí Minh.",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -228,9 +252,11 @@
 		"address": "585/2A Sư Vạn Hạnh, phường 13, quận 10, Thành phố Hồ Chí Minh",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -246,9 +272,11 @@
 		"address": "Số 18, ngách 37/8 đường Lê Thanh Nghị, phường Bách Khoa, quận Hai Bà Trưng, Hà Nội",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -264,9 +292,11 @@
 		"address": "Tầng 5, số 12 Phố Trung Liệt, Quận Đống Đa, Thành phố Hà Nội",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -282,9 +312,11 @@
 		"address": "11H Nguyễn Thị Minh Khai, Phường Bến Nghé, Quận 1, Tp. Hồ Chí Minh",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -300,9 +332,11 @@
 		"address": "Số 940, 3/2, P. 15, Quận 11, Thành phố Hồ Chí Minh",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -318,9 +352,11 @@
 		"address": "42/35 Nguyễn Minh Hoàng-Phường 12, Quận Tân Bình, Thành Phố Hồ Chí Minh",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -336,9 +372,11 @@
 		"address": "23 Tân Thới Nhất 6, P. Tân Thới Nhất, Q. 12, TP. HCM",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -354,9 +392,11 @@
 		"address": "Tầng 7 - Tòa nhà CirCO, 222 Điện Biên Phủ, Phường Võ Thị Sáu Quận 3, TP.HCM",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -372,9 +412,11 @@
 		"address": "83B Trần Đình Xu, Phường Nguyễn Cư Trinh, Quận 1, Thành phố Hồ Chí Minh",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -390,9 +432,11 @@
 		"address": "Đường Tỉnh 835 - ấp 3A - Xã Phước Lợi - Huyện Bến Lức - Tỉnh Long An",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -408,9 +452,11 @@
 		"address": "41 Lê Văn Huân, phường 13, quận Tân Bình, Thành phố Hồ Chí Minh",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -426,9 +472,11 @@
 		"address": "60 - 62 Lê Lợi, Quận 1, TP. HCM, Việt Nam",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -444,9 +492,11 @@
 		"address": "Tầng 10, Sofic Tower, Số 10 Đường Mai Chí Thọ, Phường Thủ Thiêm, Thành Phố Thủ Đức, Thành Phố Hồ Chí Minh, Việt Nam",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -462,9 +512,11 @@
 		"address": "Số 61/40/12 Đường số 59, Phường 14, Quận Gò Vấp, TP. HCM, Việt Nam",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -480,9 +532,11 @@
 		"address": "604 Đ. Cách Mạng Tháng 8, Phú Cường, Thủ Dầu Một, Bình Dương",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -498,9 +552,11 @@
 		"address": "Số 43 Đường D4, Khu Him Lam Kênh Tẻ, Phường Tân Hưng, Quận 7, TP Hồ Chí Minh",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -516,9 +572,11 @@
 		"address": "348 Bến Vân Đồn, Phường 1, Quận 4, TP. Hồ Chí Minh",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -534,9 +592,11 @@
 		"address": "27 An Xuân, Phường An Khê, Quận Thanh Khê, Đà Nẵng",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -552,9 +612,11 @@
 		"address": "33-35 đường D4, khu Đô thị mới Him Lam, Phường Tân Hưng, Quận 7, TP. Hồ Chí Minh",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -570,9 +632,11 @@
 		"address": "378 Hồng Bàng, P.16, Q.11, TP HCM",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -588,9 +652,11 @@
 		"address": "LK 02 - 03, Dãy B, KĐT Green Pearl, 378 Minh Khai, Hai Bà Trưng, Hà Nội",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -606,9 +672,11 @@
 		"address": "105D Lò Siêu, Phường 16, Quận 11, TP. HCM",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -624,9 +692,11 @@
 		"address": "Số 143/2 Phan Huy Ích - Phường 15 - Quận Tân Bình, Tp Hồ Chí Minh",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -642,9 +712,11 @@
 		"address": "146 Đường Xuân Thới Sơn 24, Ấp Dân Thắng 1 , Xã Tân Thới Nhì, Huyện Hóc Môn, Thành phố Hồ Chí Minh, Việt Nam",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -660,9 +732,11 @@
 		"address": "493/13/9 Lê Đức Thọ, P. 16, Q. Gò Vấp, Tp. Hồ Chí Minh",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -678,9 +752,11 @@
 		"address": "default",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -696,9 +772,11 @@
 		"address": "490 Hương lộ 2, Phường Bình Trị Đông, Quận Bình Tân, Thành phố Hồ Chí Minh",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -714,9 +792,11 @@
 		"address": "919 Hậu Giang, Phường 11, Quận 06, Tp.HCM",
 		"description": "",
 		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
 		"isActive": true,
 		"isRemovable": true,
 		"isDeleted": false,
+		"staffId": "staf00000",
 		"ttl": -1
 	}
 ]

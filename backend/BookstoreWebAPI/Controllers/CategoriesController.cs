@@ -4,6 +4,7 @@ using BookstoreWebAPI.Repository.Interfaces;
 using BookstoreWebAPI.Models.BindingModels;
 using FluentValidation.Results;
 using FluentValidation;
+using BookstoreWebAPI.Exceptions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -83,6 +84,10 @@ namespace BookstoreWebAPI.Controllers
                     createdCategoryDTO // values returning after the route
                 );
             }
+            catch (DuplicateDocumentException ex)
+            {
+                return Conflict(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogInformation(
@@ -90,7 +95,7 @@ namespace BookstoreWebAPI.Controllers
                     $"\nError message: {ex.Message}"
                 );
 
-                return Conflict(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
 

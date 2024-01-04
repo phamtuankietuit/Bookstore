@@ -19,7 +19,10 @@ namespace BookstoreWebAPI.Controllers
         private readonly ICustomerRepository _customerRepository;
         private readonly IValidator<QueryParameters> _queryParametersValidator;
 
-        public CustomersController(ILogger<CustomersController> logger, ICustomerRepository customerRepository, IValidator<QueryParameters> validator)
+        public CustomersController(
+            ILogger<CustomersController> logger,
+            ICustomerRepository customerRepository,
+            IValidator<QueryParameters> validator)
         {
             _logger = logger;
             _customerRepository = customerRepository;

@@ -14,6 +14,7 @@
 			"totalPay": 1499500
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0554302593",
@@ -26,6 +27,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -43,6 +45,7 @@
 			"totalPay": 2672000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0398976059",
@@ -55,6 +58,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -72,6 +76,7 @@
 			"totalPay": 4659000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0183619572",
@@ -84,6 +89,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -101,6 +107,7 @@
 			"totalPay": 4870000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0741183931",
@@ -113,6 +120,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -130,6 +138,7 @@
 			"totalPay": 881000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0431619342",
@@ -142,6 +151,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -159,6 +169,7 @@
 			"totalPay": 1387000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0413998429",
@@ -171,6 +182,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -188,6 +200,7 @@
 			"totalPay": 4781000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0265230459",
@@ -200,6 +213,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -217,6 +231,7 @@
 			"totalPay": 6183000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0735701960",
@@ -229,6 +244,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -246,6 +262,7 @@
 			"totalPay": 4047000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0554629240",
@@ -258,6 +275,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -275,6 +293,7 @@
 			"totalPay": 7870000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0174402411",
@@ -287,6 +306,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -304,6 +324,7 @@
 			"totalPay": 5741000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0948457958",
@@ -316,6 +337,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -333,6 +355,7 @@
 			"totalPay": 6555500
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0744684236",
@@ -345,6 +368,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -362,6 +386,7 @@
 			"totalPay": 3868500
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0143635067",
@@ -374,6 +399,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -391,6 +417,7 @@
 			"totalPay": 2584500
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0191835481",
@@ -403,6 +430,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -420,6 +448,7 @@
 			"totalPay": 3404000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0832433044",
@@ -432,6 +461,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -449,6 +479,7 @@
 			"totalPay": 1814000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0373972711",
@@ -461,6 +492,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -478,6 +510,7 @@
 			"totalPay": 2256000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0443625062",
@@ -490,6 +523,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -507,6 +541,7 @@
 			"totalPay": 2741500
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0148134509",
@@ -519,6 +554,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -536,6 +572,7 @@
 			"totalPay": 4249000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0396175624",
@@ -548,6 +585,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -565,6 +603,7 @@
 			"totalPay": 7116000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0835261436",
@@ -577,6 +616,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -594,6 +634,7 @@
 			"totalPay": 2240000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0561953718",
@@ -606,6 +647,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -623,6 +665,7 @@
 			"totalPay": 276000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0603930777",
@@ -635,6 +678,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -652,6 +696,7 @@
 			"totalPay": 4606000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0282530517",
@@ -664,6 +709,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -681,6 +727,7 @@
 			"totalPay": 7956000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0243537841",
@@ -693,6 +740,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -710,6 +758,7 @@
 			"totalPay": 4768500
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0872038484",
@@ -722,6 +771,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -739,6 +789,7 @@
 			"totalPay": 1193000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0836494695",
@@ -751,6 +802,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -768,6 +820,7 @@
 			"totalPay": 5048000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0762222395",
@@ -780,6 +833,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -797,6 +851,7 @@
 			"totalPay": 2808000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0607909283",
@@ -809,6 +864,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -826,6 +882,7 @@
 			"totalPay": 2996000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0685196103",
@@ -838,6 +895,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
@@ -855,6 +913,7 @@
 			"totalPay": 5402000
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
+		"modifedAt": "2024-01-02T17:05:11Z",
 		"address": {
 			"address": "Quảng Bình, Hà Nội, VN",
 			"phoneNumber": "0879981112",
@@ -867,6 +926,7 @@
 		"isRemovable": true,
 		"isDeleted": false,
 		"isActive": true,
+		"staffId": "staf00000",
 		"ttl": -1
 	}
 ]

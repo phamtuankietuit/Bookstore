@@ -8,16 +8,23 @@ namespace BookstoreWebAPI.Models.BindingModels.FilterModels
 
         internal bool? IsOutdated { get => _isOutdated; private set { } }
 
+        private string? _isOutdatedString;
+
         [FromQuery(Name = "isOutdated")]
         public string? IsOutdatedString
         { 
-            get => _isOutdated.ToString(); 
+            get => _isOutdatedString; 
             set
             {
                 if (bool.TryParse(value, out bool val))
+                {
                     _isOutdated = val;
-                else
+                }
+                else { 
                     _isOutdated = null;
+                }
+                
+                _isOutdatedString = value;
             }
         }
 

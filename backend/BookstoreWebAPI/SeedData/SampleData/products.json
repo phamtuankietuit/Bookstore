@@ -18,7 +18,6 @@
     ],
     "salePrice": 50000,
     "purchasePrice": 42500,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2020",
       "author": "Tô Hoài",
@@ -32,6 +31,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:13",
+    "modifiedAt": "2023-12-11T19:47:13",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/d/e/de-men-50k_1.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/d/e/de_men_50k_1.jpg"
@@ -58,7 +59,6 @@
     ],
     "salePrice": 80000,
     "purchasePrice": 56000,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2022",
       "author": "Tô Hoài",
@@ -72,6 +72,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:15",
+    "modifiedAt": "2023-12-11T19:47:15",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_180888.jpg",
       "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/nhung_truyen_hay_viet_cho_thieu_nhi___to_hoai_tai_ban_2019/2023_03_13_11_45_29_1-390x510.jpg",
@@ -103,7 +105,6 @@
     ],
     "salePrice": 78000,
     "purchasePrice": 54600,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2018",
       "author": "Ngọc Linh",
@@ -117,6 +118,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:17",
+    "modifiedAt": "2023-12-11T19:47:17",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935212341134_1.jpg",
       "https://cdn0.fahasa.com/media/wysiwyg/hieu_kd/2023-08-frame/FrameNCC_DinhTi_1080x1080.png",
@@ -147,7 +150,6 @@
     ],
     "salePrice": 160000,
     "purchasePrice": 128000,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2020",
       "author": "Thích Nhất Hạnh",
@@ -161,6 +163,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:19",
+    "modifiedAt": "2023-12-11T19:47:19",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_37410.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935244842302.jpg",
@@ -192,7 +196,6 @@
     ],
     "salePrice": 225000,
     "purchasePrice": 168750,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2020",
       "author": "Tô Hoài, Đậu Đũa",
@@ -206,6 +209,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:21",
+    "modifiedAt": "2023-12-11T19:47:21",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935244848502.jpg",
       "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/de_men_phieu_luu_ky___dau_dua_minh_hoa___an_ban_ki_niem_100_nam_to_hoai/2022_10_26_13_50_07_1-390x510.jpg",
@@ -237,7 +242,6 @@
     ],
     "salePrice": 80000,
     "purchasePrice": 80000,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2019",
       "author": "Claire Belton",
@@ -251,6 +255,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:23",
+    "modifiedAt": "2023-12-11T19:47:23",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_180905.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/9/7/9786042128483_10_.jpg",
@@ -288,7 +294,6 @@
     ],
     "salePrice": 15000,
     "purchasePrice": 12750,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2022",
       "author": "Nhiều Tác Giả",
@@ -302,6 +307,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:24",
+    "modifiedAt": "2023-12-11T19:47:24",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8934974179832.jpg"
     ],
@@ -327,7 +334,6 @@
     ],
     "salePrice": 186000,
     "purchasePrice": 186000,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2023",
       "author": "Nhiều Tác Giả",
@@ -341,6 +347,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:26",
+    "modifiedAt": "2023-12-11T19:47:26",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/3/3/3300000026817.jpg"
     ],
@@ -366,7 +374,6 @@
     ],
     "salePrice": 138000,
     "purchasePrice": 138000,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2023",
       "author": "Nhiều Tác Giả",
@@ -380,6 +387,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:29",
+    "modifiedAt": "2023-12-11T19:47:29",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/3/3/3300000015903-1_1.jpg"
     ],
@@ -405,7 +414,6 @@
     ],
     "salePrice": 197000,
     "purchasePrice": 189120,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2023",
       "author": "Nhiều Tác Giả",
@@ -419,6 +427,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:31",
+    "modifiedAt": "2023-12-11T19:47:31",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/c/o/combo-3300000026794-1901011620920.jpg"
     ],
@@ -444,7 +454,6 @@
     ],
     "salePrice": 199000,
     "purchasePrice": 199000,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2022",
       "author": "Nhiều Tác Giả",
@@ -458,6 +467,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:32",
+    "modifiedAt": "2023-12-11T19:47:32",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/3/3/3300000015873-1_1.jpg"
     ],
@@ -483,7 +494,6 @@
     ],
     "salePrice": 134000,
     "purchasePrice": 134000,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2023",
       "author": "Nhiều Tác Giả",
@@ -497,6 +507,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:34",
+    "modifiedAt": "2023-12-11T19:47:34",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/3/3/3300000015880-1_1_1.jpg"
     ],
@@ -522,7 +534,6 @@
     ],
     "salePrice": 10000,
     "purchasePrice": 8500,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2020",
       "author": "Nguyễn Tiến Công",
@@ -536,6 +547,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:36",
+    "modifiedAt": "2023-12-11T19:47:36",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_199427.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8931805024064_1.jpg",
@@ -564,7 +577,6 @@
     ],
     "salePrice": 10000,
     "purchasePrice": 8500,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2023",
       "author": "Phạm Văn Công",
@@ -578,6 +590,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:38",
+    "modifiedAt": "2023-12-11T19:47:38",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936036316483.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/b/a/bang_cuu_chuong___bang_chia_1_2023_03_04_11_29_10.jpg",
@@ -607,7 +621,6 @@
     ],
     "salePrice": 10000,
     "purchasePrice": 8500,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2022",
       "author": "Trần Trung Ninh",
@@ -621,6 +634,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:40",
+    "modifiedAt": "2023-12-11T19:47:40",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936036316346.jpg",
       "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/bang_tuan_hoan_cac_nguyen_to_hoa_hoc_theo_chuong_trinh_giao_duc_pho_thong_moi/2023_02_01_09_37_14_1-390x510.jpg",
@@ -650,7 +665,6 @@
     ],
     "salePrice": 73000,
     "purchasePrice": 73000,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2022",
       "author": "Nhiều Tác Giả",
@@ -664,6 +678,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:42",
+    "modifiedAt": "2023-12-11T19:47:42",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/9/7/9786040324283_1_1.jpg",
       "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/tieng_anh_lop_10___sach_hoc_sinh_global_success_2022/2022_07_20_15_34_16_1-390x510.jpg",
@@ -695,7 +711,6 @@
     ],
     "salePrice": 159000,
     "purchasePrice": 127200,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2019",
       "author": "Đỗ Thị Thu Hà",
@@ -709,6 +724,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:45",
+    "modifiedAt": "2023-12-11T19:47:45",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_39486.jpg",
       "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/chinh_phuc_luyen_thi_vao_lop_10_mon_ngu_van_theo_chu_de/2021_07_03_10_51_40_1-390x510.jpg",
@@ -747,7 +764,6 @@
     ],
     "salePrice": 219000,
     "purchasePrice": 186150,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2018",
       "author": "Trịnh Văn Quỳnh, Hoàng Thị Khánh, Đặng Thị Lan Hương, Nguyễn Thị Hà",
@@ -761,6 +777,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:47",
+    "modifiedAt": "2023-12-11T19:47:47",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935246917411_1.jpg",
       "https://cdn0.fahasa.com/media/wysiwyg/hieu_kd/2023-08-frame/FrameNCC_Mcbooks_1080x1080.png",
@@ -815,7 +833,6 @@
     ],
     "salePrice": 108000,
     "purchasePrice": 75600,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2020",
       "author": "José Mauro de Vasconcelos",
@@ -829,6 +846,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:49",
+    "modifiedAt": "2023-12-11T19:47:49",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_217480.jpg",
       "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/cay_cam_ngot_cua_toi/2020_12_17_16_50_30_1-390x510.jpg",
@@ -866,7 +885,6 @@
     ],
     "salePrice": 79000,
     "purchasePrice": 55300,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2020",
       "author": "Paulo Coelho",
@@ -880,6 +898,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:51",
+    "modifiedAt": "2023-12-11T19:47:51",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_36793.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935235226272_1.jpg",
@@ -907,7 +927,6 @@
     ],
     "salePrice": 130000,
     "purchasePrice": 91000,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2023",
       "author": "Nguyễn Nhật Ánh",
@@ -921,6 +940,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:53",
+    "modifiedAt": "2023-12-11T19:47:53",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/m/u/mua-he-khong-ten---bia-mem---qua-tang-kem-1.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/m/u/mua-he-khong-ten---bia-mem---qua-tang-kem.jpg",
@@ -967,7 +988,6 @@
     ],
     "salePrice": 128000,
     "purchasePrice": 85760,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2021",
       "author": "Yoshichi Shimada",
@@ -981,6 +1001,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:55",
+    "modifiedAt": "2023-12-11T19:47:55",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_231202.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935095631537.jpg",
@@ -1008,7 +1030,6 @@
     ],
     "salePrice": 108000,
     "purchasePrice": 74520,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2020",
       "author": "Hoàng Yến",
@@ -1022,6 +1043,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:56",
+    "modifiedAt": "2023-12-11T19:47:56",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_216250.jpg",
       "https://cdn0.fahasa.com/media/wysiwyg/hieu_kd/2023-08-frame/FrameNCC_DinhTi_1080x1080.png",
@@ -1062,7 +1085,6 @@
     ],
     "salePrice": 110000,
     "purchasePrice": 93500,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2018",
       "author": "Nguyễn Nhật Ánh",
@@ -1076,6 +1098,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:47:58",
+    "modifiedAt": "2023-12-11T19:47:58",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/c/a/cam_on_nguoi_lon_bia_mem_1_2018_11_15_13_40_08.JPG",
       "https://cdn0.fahasa.com/media/catalog/product/c/a/cam_on_nguoi_lon_bia_mem_2_2018_11_15_13_40_08.JPG",
@@ -1116,7 +1140,6 @@
     ],
     "salePrice": 99000,
     "purchasePrice": 69300,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2023",
       "author": "Châu Sa Đáy Mắt",
@@ -1130,6 +1153,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:00",
+    "modifiedAt": "2023-12-11T19:48:00",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935325011559.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/_/m/_m_tr_i_d_ng_en_b_a_1.png",
@@ -1166,7 +1191,6 @@
     ],
     "salePrice": 99000,
     "purchasePrice": 69300,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2023",
       "author": "Miêu Công Tử",
@@ -1180,6 +1204,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:02",
+    "modifiedAt": "2023-12-11T19:48:02",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935325010736.jpg",
       "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/999_la_thu_gui_cho_chinh_minh___nhung_la_thu_an_tuong_nhat_phien_ban_song_ngu_trung___viet/2023_06_09_17_36_46_1-390x510.jpg",
@@ -1211,7 +1237,6 @@
     ],
     "salePrice": 95000,
     "purchasePrice": 71250,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2023",
       "author": "Nguyễn Ngọc Tư",
@@ -1225,6 +1250,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:05",
+    "modifiedAt": "2023-12-11T19:48:05",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8934974190554.jpg",
       "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/troi___nguyen_ngoc_tu/2023_10_30_15_17_23_1-390x510.png",
@@ -1265,7 +1292,6 @@
     ],
     "salePrice": 96000,
     "purchasePrice": 67200,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2020",
       "author": "Nhiều Tác Giả",
@@ -1279,6 +1305,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:07",
+    "modifiedAt": "2023-12-11T19:48:07",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/c/o/co-mot-ngay-bo-me-se-gia-di.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/c/o/co-mot-ngay-bo-me-se-gia-di_1.jpg",
@@ -1320,7 +1348,6 @@
     ],
     "salePrice": 89000,
     "purchasePrice": 62300,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2023",
       "author": "Hạ Mer",
@@ -1334,6 +1361,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:08",
+    "modifiedAt": "2023-12-11T19:48:08",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/9/8/98bde27a91ea4bb412fb.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/9/8/98bde27a91ea4bb412fb_1.jpg",
@@ -1368,7 +1397,6 @@
     ],
     "salePrice": 89000,
     "purchasePrice": 75650,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2023",
       "author": "Tuệ Mẫn",
@@ -1382,6 +1410,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:10",
+    "modifiedAt": "2023-12-11T19:48:10",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/9/7/9786043925593.jpg",
       "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/anh_khong_ban__chi_la_khong_nho_em_03_2023/2023_03_13_12_42_34_1-390x510.jpg",
@@ -1413,7 +1443,6 @@
     ],
     "salePrice": 99000,
     "purchasePrice": 92070,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2022",
       "author": "Minh Dự",
@@ -1427,6 +1456,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:12",
+    "modifiedAt": "2023-12-11T19:48:12",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/g/t/gt_-m_nh-ng_i-xu_ng-k_-t_n-th_ng-trong-l_ngbia-1_2.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/m/_/m_nh-ng_i-xu_ng-k_-t_n-th_ng-trong-l_ngbia-1_2.jpg",
@@ -1457,7 +1488,6 @@
     ],
     "salePrice": 126000,
     "purchasePrice": 63000,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2020",
       "author": "Ennki Hakari",
@@ -1471,6 +1501,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:14",
+    "modifiedAt": "2023-12-11T19:48:14",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936186544002.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936186544002_1.jpg"
@@ -1497,7 +1529,6 @@
     ],
     "salePrice": 139000,
     "purchasePrice": 69500,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2022",
       "author": "Ennki Hakari",
@@ -1511,6 +1542,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:16",
+    "modifiedAt": "2023-12-11T19:48:16",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/t/h/th_ng-tin-ph_t-h_nh-s_ch-hi_p-s_-x_ng-3600.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/t/h/th_ng-tin-ph_t-h_nh-s_ch-hi_p-s_-x_ng-3-okb_a.jpg",
@@ -1539,7 +1572,6 @@
     ],
     "salePrice": 149000,
     "purchasePrice": 74500,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2022",
       "author": "Ennki Hakari",
@@ -1553,6 +1585,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:18",
+    "modifiedAt": "2023-12-11T19:48:18",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/t/h/th_ng-tin-ph_t-h_nh-s_ch-hi_p-s_-x_ng...-600_1.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/t/h/th_ng-tin-ph_t-h_nh-s_ch-hi_p-s_-x_ng...-4b_a_1.jpg"
@@ -1579,7 +1613,6 @@
     ],
     "salePrice": 159000,
     "purchasePrice": 135150,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2023",
       "author": "Ennki Hakari",
@@ -1593,6 +1626,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:20",
+    "modifiedAt": "2023-12-11T19:48:20",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/0/7/071123-9.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/q/u/qu_b_n_th_ng_6.png",
@@ -1622,7 +1657,6 @@
     ],
     "salePrice": 95000,
     "purchasePrice": 80750,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2022",
       "author": "Sunsunsun, Momoco",
@@ -1636,6 +1670,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:22",
+    "modifiedAt": "2023-12-11T19:48:22",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/a/r/arya-ban-ben-thinh-thoang-lai-treu-gheo-toi-bang-tieng-nga---tap-1---ban-pho-thong-_-qua-tang.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/a/r/arya_ban_ben_thinh_thoang_lai_treu_gheo_toi_bang_tieng_nga_-_tap_1_-_ban_pho_thong_qua_tang.jpg",
@@ -1663,7 +1699,6 @@
     ],
     "salePrice": 95000,
     "purchasePrice": 76000,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2023",
       "author": "Sunsunsun, Momoco",
@@ -1677,6 +1712,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:24",
+    "modifiedAt": "2023-12-11T19:48:24",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/6/0/600arya-ban-ben-thinh-thoang-lai-treu-gheo-toi-bang-tieng-nga---tap-2---ban-pho-thong.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/a/r/arya_ban_ben_thinh_thoang_lai_treu_gheo_toi_bang_tieng_nga_-_tap_2_-_ban_boxset_-_mat_truoc_box.jpg",
@@ -1705,7 +1742,6 @@
     ],
     "salePrice": 95000,
     "purchasePrice": 71250,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2023",
       "author": "Sunsunsun, Momoco",
@@ -1719,6 +1755,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:26",
+    "modifiedAt": "2023-12-11T19:48:26",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/z/4/z4749269235520_9e8aea22702a59ef1f204c51060a5c10.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/a/r/arya_ban_ben_tap_4_ban_pho_thong.jpg",
@@ -1746,7 +1784,6 @@
     ],
     "salePrice": 45000,
     "purchasePrice": 41850,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2022",
       "author": "Tatsuya Endo, Aya Yajima",
@@ -1760,6 +1797,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:28",
+    "modifiedAt": "2023-12-11T19:48:28",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935244876727.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/s/p/spy_x_family_-_buc_chan_dung_gia_dinh.jpg",
@@ -1788,7 +1827,6 @@
     ],
     "salePrice": 122000,
     "purchasePrice": 103700,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2022",
       "author": "Kosaka Ruka",
@@ -1802,6 +1840,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:30",
+    "modifiedAt": "2023-12-11T19:48:30",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/x/u/xu_t-b_n-ch_-c_n-ta-c_n-s_ngbia1.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/t/h/th_ng-tin-xu_t-b_n-ch_-c_n-ta-c_n-s_ngbia1.jpg",
@@ -1832,7 +1872,6 @@
     ],
     "salePrice": 133000,
     "purchasePrice": 113050,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2022",
       "author": "Kuji Furumiya",
@@ -1846,6 +1885,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:32",
+    "modifiedAt": "2023-12-11T19:48:32",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/t/h/th_ng-tu_t-b_n-ghi-ch_p-c_a-t_ibia1.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/t/h/th_ng-tin-xu_t-b_n-ghi-ch_p-c_a-t_ibia1---copy.jpg",
@@ -1876,7 +1917,6 @@
     ],
     "salePrice": 248000,
     "purchasePrice": 173600,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2020",
       "author": "Lê Đỗ Quỳnh Hương",
@@ -1890,6 +1930,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:34",
+    "modifiedAt": "2023-12-11T19:48:34",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/t/d/tdcsvnsh.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/t/d/tdcsvnsh.png",
@@ -1925,7 +1967,6 @@
     ],
     "salePrice": 200000,
     "purchasePrice": 140000,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2020",
       "author": "Robert Greene",
@@ -1939,6 +1980,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:36",
+    "modifiedAt": "2023-12-11T19:48:36",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_32101.jpg",
       "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/48_nguyen_tac_chu_chot_cua_quyen_luc_tai_ban_2020/2020_06_11_15_11_55_1-390x510.JPG",
@@ -1974,7 +2017,6 @@
     ],
     "salePrice": 86000,
     "purchasePrice": 60200,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2023",
       "author": "Amateur Psychology Nguyễn Đoàn Minh Thư",
@@ -1988,6 +2030,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:38",
+    "modifiedAt": "2023-12-11T19:48:38",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/h/_/h_nh-tinh-c_a-m_t-k_-ngh_-nhi_u-tr_c-1-1.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/b/_/b_a_h_nh-tinh-c_a-m_t-k_-ngh_-nhi_u-tr_c-1-1.jpg",
@@ -2020,7 +2064,6 @@
     ],
     "salePrice": 135000,
     "purchasePrice": 94500,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2023",
       "author": "Thích Nhất Hạnh",
@@ -2034,6 +2077,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:40",
+    "modifiedAt": "2023-12-11T19:48:40",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8932000133735_1.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8932000133735.jpg",
@@ -2066,7 +2111,6 @@
     ],
     "salePrice": 179000,
     "purchasePrice": 125300,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2023",
       "author": "Trần Phách Hàm",
@@ -2080,6 +2124,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:42",
+    "modifiedAt": "2023-12-11T19:48:42",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936066697088.jpg",
       "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/ly_thuyet_tro_choi/2023_08_29_15_54_24_1-390x510.jpg",
@@ -2119,7 +2165,6 @@
     ],
     "salePrice": 139000,
     "purchasePrice": 97300,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2022",
       "author": "Wladislaw Jachtchenko",
@@ -2133,6 +2178,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:44",
+    "modifiedAt": "2023-12-11T19:48:44",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/u/n/untitledthaotungtamly.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/t/h/thuatthaotung1.jpg",
@@ -2163,7 +2210,6 @@
     ],
     "salePrice": 119000,
     "purchasePrice": 83300,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2022",
       "author": "Từ Thính Phong",
@@ -2177,6 +2223,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:45",
+    "modifiedAt": "2023-12-11T19:48:45",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/p/h/ph_t-h_nh-_nh-lu_t-murphybia-1.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/t/h/th_ng-b_o-ph_t-h_nh-_nh-lu_t-murphybia-1.jpg",
@@ -2222,7 +2270,6 @@
     ],
     "salePrice": 99000,
     "purchasePrice": 69300,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2022",
       "author": "Brian L Weiss",
@@ -2236,6 +2283,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:47",
+    "modifiedAt": "2023-12-11T19:48:47",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/6/7/67db9bf2590d75f978e68f9dcfe0db9a.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/k/i/kiep_nao_ta_cung_tim_thay_nhau_tai_ban_2022_1_2022_09_17_10_05_58.jpg",
@@ -2267,7 +2316,6 @@
     ],
     "salePrice": 155000,
     "purchasePrice": 108500,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2022",
       "author": "Michael Sandel",
@@ -2281,6 +2329,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:50",
+    "modifiedAt": "2023-12-11T19:48:50",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/2/0/2023_05_25_15_07_28_1-390x510.jpg",
       "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/canh_cua_mo_rong___phai_trai_dung_sai/2023_05_25_15_07_28_1-390x510.jpg",
@@ -2312,7 +2362,6 @@
     ],
     "salePrice": 135000,
     "purchasePrice": 94500,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2023",
       "author": "Trương Uý",
@@ -2326,6 +2375,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:52",
+    "modifiedAt": "2023-12-11T19:48:52",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935325014222.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/b/_/b_a_30_16.jpg",
@@ -2359,7 +2410,6 @@
     ],
     "salePrice": 220000,
     "purchasePrice": 147400,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2021",
       "author": "Mai Lan Hương, Hà Thanh Uyên",
@@ -2373,6 +2423,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:53",
+    "modifiedAt": "2023-12-11T19:48:53",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/z/3/z3097453775918_7ea22457f168a4de92d0ba8178a2257b.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/z/3/z3097453784945_a03103040fc3d3b5d2ca9088846e3d92.jpg",
@@ -2405,7 +2457,6 @@
     ],
     "salePrice": 190000,
     "purchasePrice": 127300,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2018",
       "author": "Đỗ Nhung",
@@ -2419,6 +2470,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:55",
+    "modifiedAt": "2023-12-11T19:48:55",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935246917176.jpg",
       "https://cdn0.fahasa.com/media/wysiwyg/hieu_kd/2023-08-frame/FrameNCC_Mcbooks_1080x1080.png",
@@ -2466,7 +2519,6 @@
     ],
     "salePrice": 110000,
     "purchasePrice": 73700,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2018",
       "author": "Trang Anh",
@@ -2480,6 +2532,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:57",
+    "modifiedAt": "2023-12-11T19:48:57",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_188186.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/2/5/25_chuyen_de_ngu_phap_tieng_anh_trong_tam___tap_1_1_2022_11_03_11_51_01.jpg",
@@ -2509,7 +2563,6 @@
     ],
     "salePrice": 65000,
     "purchasePrice": 39000,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2019",
       "author": "The Windy",
@@ -2523,6 +2576,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:48:59",
+    "modifiedAt": "2023-12-11T19:48:59",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/c/8/c8516f45954672182b57.jpg",
       "https://cdn0.fahasa.com/media/wysiwyg/hieu_kd/2023-08-frame/FrameNCC_Mcbooks_1080x1080.png",
@@ -2581,7 +2636,6 @@
     ],
     "salePrice": 198000,
     "purchasePrice": 148500,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2023",
       "author": "Khương Lệ Bình, Vương Phương, Vương Phong, Lưu Lệ Bình",
@@ -2595,6 +2649,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:01",
+    "modifiedAt": "2023-12-11T19:49:01",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/9/7/9786043775662.jpg",
       "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/giao_trinh_chuan_hsk_1_tai_ban_2023/2023_05_26_09_26_03_1-390x510.jpg",
@@ -2626,7 +2682,6 @@
     ],
     "salePrice": 98000,
     "purchasePrice": 65660,
-    "attributes": [ "publishYear", "author", "publisher" ],
     "details": {
       "publishYear": "2019",
       "author": "Trang Anh",
@@ -2640,6 +2695,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:03",
+    "modifiedAt": "2023-12-11T19:49:03",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_187866.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/c/a/cam_nang_cau_truc_tieng_anh_1_2020_08_28_16_49_55.jpg",
@@ -2673,7 +2730,6 @@
     ],
     "salePrice": 757000,
     "purchasePrice": 681300,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Casio"
     },
@@ -2685,6 +2741,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:05",
+    "modifiedAt": "2023-12-11T19:49:05",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_8906.jpg",
       "https://cdn0.fahasa.com/media/wysiwyg/hieu_kd/2023-08-frame/FrameNCC_BinhTay_1080x1080.png",
@@ -2718,7 +2776,6 @@
     ],
     "salePrice": 60000,
     "purchasePrice": 57000,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Nhà Xuất Bản Kim Đồng"
     },
@@ -2730,6 +2787,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:07",
+    "modifiedAt": "2023-12-11T19:49:07",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935352601549_1_1.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935352601549_1.png",
@@ -2760,7 +2819,6 @@
     ],
     "salePrice": 60000,
     "purchasePrice": 57000,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Nhà Xuất Bản Kim Đồng"
     },
@@ -2772,6 +2830,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:09",
+    "modifiedAt": "2023-12-11T19:49:09",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935352601556.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935352601556_1__pixian_ai.png",
@@ -2802,7 +2862,6 @@
     ],
     "salePrice": 757000,
     "purchasePrice": 681300,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Casio"
     },
@@ -2814,6 +2873,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:10",
+    "modifiedAt": "2023-12-11T19:49:10",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/c/a/casio-fx-580vn-x-xanh-body-1-dd.jpg",
       "https://cdn0.fahasa.com/media/wysiwyg/hieu_kd/2023-08-frame/FrameNCC_BinhTay_1080x1080.png",
@@ -2843,7 +2904,6 @@
     ],
     "salePrice": 60000,
     "purchasePrice": 57000,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Nhà Xuất Bản Kim Đồng"
     },
@@ -2855,6 +2915,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:12",
+    "modifiedAt": "2023-12-11T19:49:12",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935352601228.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935352601228_1_.png",
@@ -2886,7 +2948,6 @@
     ],
     "salePrice": 9000,
     "purchasePrice": 7200,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Claro"
     },
@@ -2898,6 +2959,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:14",
+    "modifiedAt": "2023-12-11T19:49:14",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8907016014514.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8907016014514-_3_.jpg",
@@ -2927,7 +2990,6 @@
     ],
     "salePrice": 820000,
     "purchasePrice": 738000,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Casio"
     },
@@ -2939,6 +3001,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:16",
+    "modifiedAt": "2023-12-11T19:49:16",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/4/5/4549526613692.jpg",
       "https://cdn0.fahasa.com/media/wysiwyg/hieu_kd/2023-08-frame/FrameNCC_BinhTay_1080x1080.png",
@@ -2975,7 +3039,6 @@
     ],
     "salePrice": 9500,
     "purchasePrice": 9025,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "FAHASA"
     },
@@ -2987,6 +3050,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:17",
+    "modifiedAt": "2023-12-11T19:49:17",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8934986009172_5.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8934986009172-_6__2.jpg",
@@ -3024,7 +3089,6 @@
     ],
     "salePrice": 17000,
     "purchasePrice": 15300,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Mungyo"
     },
@@ -3036,6 +3100,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:20",
+    "modifiedAt": "2023-12-11T19:49:20",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_55405_1.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/8/8804819096009_2__1.jpg",
@@ -3064,7 +3130,6 @@
     ],
     "salePrice": 14000,
     "purchasePrice": 11200,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Thiên Long"
     },
@@ -3076,6 +3141,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:22",
+    "modifiedAt": "2023-12-11T19:49:22",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001821090_1.jpg",
       "https://cdn0.fahasa.com/media/wysiwyg/hieu_kd/2023-08-frame/FrameNCC_ThienLong_1080x1080.png",
@@ -3107,7 +3174,6 @@
     ],
     "salePrice": 10500,
     "purchasePrice": 8190,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Thiên Long"
     },
@@ -3119,6 +3185,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:24",
+    "modifiedAt": "2023-12-11T19:49:24",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001802921_1.jpg",
       "https://cdn0.fahasa.com/media/wysiwyg/hieu_kd/2023-08-frame/FrameNCC_ThienLong_1080x1080.png",
@@ -3148,7 +3216,6 @@
     ],
     "salePrice": 5500,
     "purchasePrice": 4950,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Staedtler"
     },
@@ -3160,6 +3227,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:26",
+    "modifiedAt": "2023-12-11T19:49:26",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_29212.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/4/0/4007817523872-1.jpg",
@@ -3189,7 +3258,6 @@
     ],
     "salePrice": 9500,
     "purchasePrice": 6650,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Bitex"
     },
@@ -3201,6 +3269,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:28",
+    "modifiedAt": "2023-12-11T19:49:28",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935276457444.jpg",
       "https://cdn0.fahasa.com/media/wysiwyg/hieu_kd/2023-08-frame/FrameNCC_BinhTay_1080x1080.png",
@@ -3230,7 +3300,6 @@
     ],
     "salePrice": 3500,
     "purchasePrice": 3150,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Masterart"
     },
@@ -3242,6 +3311,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:29",
+    "modifiedAt": "2023-12-11T19:49:29",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_242253.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/8/8851907134075-_1_.jpg",
@@ -3272,7 +3343,6 @@
     ],
     "salePrice": 8000,
     "purchasePrice": 7200,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Thiên Long"
     },
@@ -3284,6 +3354,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:31",
+    "modifiedAt": "2023-12-11T19:49:31",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_236630.jpg",
       "https://cdn0.fahasa.com/media/wysiwyg/hieu_kd/2023-08-frame/FrameNCC_ThienLong_1080x1080.png",
@@ -3313,7 +3385,6 @@
     ],
     "salePrice": 16500,
     "purchasePrice": 14850,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "OEM"
     },
@@ -3325,6 +3396,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:33",
+    "modifiedAt": "2023-12-11T19:49:33",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/1/5/1507020104040-_1_-1.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/1/5/1507020104040_3_.jpg",
@@ -3353,7 +3426,6 @@
     ],
     "salePrice": 3000,
     "purchasePrice": 2400,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Hiệp Phát"
     },
@@ -3365,6 +3437,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:35",
+    "modifiedAt": "2023-12-11T19:49:35",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_224778.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/1/5/1507020131558-_1_.jpg",
@@ -3393,7 +3467,6 @@
     ],
     "salePrice": 27000,
     "purchasePrice": 24300,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Thiên Long"
     },
@@ -3405,6 +3478,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:37",
+    "modifiedAt": "2023-12-11T19:49:37",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001831419.jpg",
       "https://cdn0.fahasa.com/media/wysiwyg/hieu_kd/2023-08-frame/FrameNCC_ThienLong_1080x1080.png",
@@ -3434,7 +3509,6 @@
     ],
     "salePrice": 8000,
     "purchasePrice": 6000,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Double A"
     },
@@ -3446,6 +3520,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:39",
+    "modifiedAt": "2023-12-11T19:49:39",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_8250.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/8/8858741728217-_6_.jpg",
@@ -3474,7 +3550,6 @@
     ],
     "salePrice": 36000,
     "purchasePrice": 28800,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Cô Tiên Xanh"
     },
@@ -3486,6 +3561,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:41",
+    "modifiedAt": "2023-12-11T19:49:41",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/3/9/3900000146005_2.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/3/9/3900000146005_3_.jpg",
@@ -3515,7 +3592,6 @@
     ],
     "salePrice": 349000,
     "purchasePrice": 296650,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "MINIFORCE"
     },
@@ -3527,6 +3603,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:43",
+    "modifiedAt": "2023-12-11T19:49:43",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/8/8809758733435.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/d/o/do_choi_mo_hinh_miniforce___robot_ho_than_tam_long_hop_the_trioh_v___503020_1_2023_05_18_13_52_45.jpg",
@@ -3560,7 +3638,6 @@
     ],
     "salePrice": 349000,
     "purchasePrice": 296650,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "MINIFORCE"
     },
@@ -3572,6 +3649,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:45",
+    "modifiedAt": "2023-12-11T19:49:45",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/8/8809758733435.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/d/o/do_choi_mo_hinh_miniforce___robot_ho_than_tam_long_hop_the_trioh_v___503020_1_2023_05_18_13_52_45.jpg",
@@ -3605,7 +3684,6 @@
     ],
     "salePrice": 38500,
     "purchasePrice": 28875,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "VPP Hán Minh"
     },
@@ -3617,6 +3695,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:47",
+    "modifiedAt": "2023-12-11T19:49:47",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8938500905674-_8_.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8938500905674-_9_.jpg",
@@ -3646,7 +3726,6 @@
     ],
     "salePrice": 169000,
     "purchasePrice": 118300,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Mattel"
     },
@@ -3658,6 +3737,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:49",
+    "modifiedAt": "2023-12-11T19:49:49",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/7/7/77e3eeaa6424151057b58254bcba52ca.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/2/d/2d2843392e77cc40422015ca8928e46b.jpg",
@@ -3686,7 +3767,6 @@
     ],
     "salePrice": 36000,
     "purchasePrice": 28440,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Cô Tiên Xanh"
     },
@@ -3698,6 +3778,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:51",
+    "modifiedAt": "2023-12-11T19:49:51",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/3/9/3900000125468-dd.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/3/9/3900000125468-dd.jpg",
@@ -3737,7 +3819,6 @@
     ],
     "salePrice": 120000,
     "purchasePrice": 66000,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Happy Baby"
     },
@@ -3749,6 +3830,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:53",
+    "modifiedAt": "2023-12-11T19:49:53",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_236964.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936178581169-1.jpg",
@@ -3777,7 +3860,6 @@
     ],
     "salePrice": 239000,
     "purchasePrice": 191200,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Liên Hiệp Thành"
     },
@@ -3789,6 +3871,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:55",
+    "modifiedAt": "2023-12-11T19:49:55",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936056057380.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936056057380-_3_.jpg",
@@ -3819,7 +3903,6 @@
     ],
     "salePrice": 349000,
     "purchasePrice": 296650,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "MINIFORCE"
     },
@@ -3831,6 +3914,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:57",
+    "modifiedAt": "2023-12-11T19:49:57",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/8/8809758733428.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/d/o/do_choi_mo_hinh_miniforce___robot_ho_than_manh_su_kim_nguu_leo_bull_v___503019_1_2023_05_18_13_52_37.jpg",
@@ -3865,7 +3950,6 @@
     ],
     "salePrice": 229000,
     "purchasePrice": 194650,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "GREEN ENERGY"
     },
@@ -3877,6 +3961,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:49:59",
+    "modifiedAt": "2023-12-11T19:49:59",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936190511526.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936190511526-1.jpg",
@@ -3911,7 +3997,6 @@
     ],
     "salePrice": 69000,
     "purchasePrice": 55200,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Hot Wheels"
     },
@@ -3923,6 +4008,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:50:01",
+    "modifiedAt": "2023-12-11T19:50:01",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/2/0/2001011517622-mau2_4.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/2/0/2001011517622-mau2-_2__5.jpg",
@@ -3955,7 +4042,6 @@
     ],
     "salePrice": 549000,
     "purchasePrice": 439200,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "VECTO"
     },
@@ -3967,6 +4053,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:50:03",
+    "modifiedAt": "2023-12-11T19:50:03",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935337500614.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/d/o/do_choi_sieu_xe_bao_to_dieu_khien_tu_xa___vecto_vt632_gr___mau_xanh_la_1_2023_05_18_08_41_25.jpg",
@@ -3999,7 +4087,6 @@
     ],
     "salePrice": 250000,
     "purchasePrice": 137500,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "WINKA"
     },
@@ -4011,6 +4098,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:50:04",
+    "modifiedAt": "2023-12-11T19:50:04",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_28563.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936178580735-mau1_3_.png",
@@ -4039,7 +4128,6 @@
     ],
     "salePrice": 279000,
     "purchasePrice": 237150,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "TEENBOX"
     },
@@ -4051,6 +4139,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:50:06",
+    "modifiedAt": "2023-12-11T19:50:06",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936134262897.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936134262897-_1_.jpg",
@@ -4083,7 +4173,6 @@
     ],
     "salePrice": 14000,
     "purchasePrice": 11200,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Linh Lan"
     },
@@ -4095,6 +4184,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:50:08",
+    "modifiedAt": "2023-12-11T19:50:08",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936078092796-mau2.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936078092796-mau2_1.jpg",
@@ -4125,7 +4216,6 @@
     ],
     "salePrice": 112000,
     "purchasePrice": 76160,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Bu Bu"
     },
@@ -4137,6 +4227,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:50:10",
+    "modifiedAt": "2023-12-11T19:50:10",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/3/9/3900000173889-mau2.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/b/o/bo_phu_kien_trang_tri_noel___bu_bu_bb055___mau_2_1_2023_11_13_11_13_28.jpg",
@@ -4167,7 +4259,6 @@
     ],
     "salePrice": 113000,
     "purchasePrice": 79100,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "WanLongDa"
     },
@@ -4179,6 +4270,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:50:12",
+    "modifiedAt": "2023-12-11T19:50:12",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/1/8/1880000979228.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/1/8/1880000979228-_3_.jpg",
@@ -4209,7 +4302,6 @@
     ],
     "salePrice": 13000,
     "purchasePrice": 10400,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "The Sun"
     },
@@ -4221,6 +4313,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:50:14",
+    "modifiedAt": "2023-12-11T19:50:14",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8934986009813_1.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8934986009813_3_.jpg",
@@ -4249,7 +4343,6 @@
     ],
     "salePrice": 115000,
     "purchasePrice": 103500,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "TAGGER"
     },
@@ -4261,6 +4354,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:50:16",
+    "modifiedAt": "2023-12-11T19:50:16",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936134262040.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936134262040-_5_.jpg",
@@ -4290,7 +4385,6 @@
     ],
     "salePrice": 98000,
     "purchasePrice": 93100,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Linh Lan"
     },
@@ -4302,6 +4396,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:50:18",
+    "modifiedAt": "2023-12-11T19:50:18",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936078092178.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936078092178-_2_.jpg",
@@ -4331,7 +4427,6 @@
     ],
     "salePrice": 69000,
     "purchasePrice": 65550,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Star Kids"
     },
@@ -4343,6 +4438,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:50:19",
+    "modifiedAt": "2023-12-11T19:50:19",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935256603885.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935256603885-_2_.jpg",
@@ -4373,7 +4470,6 @@
     ],
     "salePrice": 39000,
     "purchasePrice": 37050,
-    "attributes": [ "manufacturer" ],
     "details": {
       "manufacturer": "Linh Lan"
     },
@@ -4385,6 +4481,8 @@
     "isRemovable": true,
     "isDeleted": false,
     "createdAt": "2023-12-11T19:50:21",
+    "modifiedAt": "2023-12-11T19:50:21",
+    "staffId": "staf00000",
     "images": [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936078091522-mau5.jpg",
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936078091522-mau8_1_.jpg",
@@ -4394,6 +4492,87 @@
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936078091522-mau8_5_.jpg"
     ],
     "tags": [],
+    "ttl": -1
+  },
+  {
+    "id": "prod00099",
+    "productId": "prod00099",
+    "categoryId": "cate00008",
+    "categoryName": "van-phong-pham",
+    "categoryText": "Khác",
+    "supplierId": "sup00008",
+    "supplierName": "Cty Phương Nam",
+    "sku": "prod00099",
+    "name": "Compa ABC",
+    "description": "Đây là Compa",
+    "salePriceHistory": [
+      {
+        "date": "2024-01-03T06:52:59.033925Z",
+        "value": 20000
+      }
+    ],
+    "salePrice": 20000,
+    "purchasePrice": 10000,
+    "details": {
+      "manufacturer": "Thiên Long"
+    },
+    "optionalDetails": [
+      {
+        "name": "Chất Liệu",
+        "value": "Inox"
+      }
+    ],
+    "ratings": null,
+    "images": [],
+    "tags": [],
+    "isActive": true,
+    "isDeleted": false,
+    "isRemovable": true,
+    "createdAt": "2024-01-03T06:52:59.033925Z",
+    "modifiedAt": "2024-01-03T06:52:59.033925Z",
+    "staffId": "staf00000",
+    "ttl": -1
+  },
+  {
+    "id": "prod00100",
+    "productId": "prod00100",
+    "categoryId": "cate00014",
+    "categoryName": "đo-đien-tu",
+    "categoryText": "Khác",
+    "supplierId": "sup00013",
+    "supplierName": "AZ Việt Nam",
+    "sku": "prod00100",
+    "name": "Chuột không dây",
+    "description": "Đây là chuột không dây",
+    "salePriceHistory": [
+      {
+        "date": "2024-01-03T16:13:15.0511107Z",
+        "value": 150000
+      }
+    ],
+    "salePrice": 150000,
+    "purchasePrice": 100000,
+    "details": {
+      "manufacturer": "Liên Hiệp Thành"
+    },
+    "optionalDetails": [
+      {
+        "name": "Màu sắc",
+        "value": "Đen"
+      }
+    ],
+    "ratings": null,
+    "images": [
+      "https://bookstore-y1s1.azureedge.net/img-bookstoreuit/20240103161139-0d693c40-1ba4-4cc8-88ea-37d37b8e3943",
+      "https://bookstore-y1s1.azureedge.net/img-bookstoreuit/20240103161139-37d98137-d13d-4306-9eca-94e8f78bae1f"
+    ],
+    "tags": [],
+    "isActive": true,
+    "isDeleted": true,
+    "isRemovable": true,
+    "createdAt": "2024-01-03T16:13:15.0511107Z",
+    "modifiedAt": "2024-01-03T16:13:15.0511107Z",
+    "staffId": "staf00000",
     "ttl": -1
   }
 ]

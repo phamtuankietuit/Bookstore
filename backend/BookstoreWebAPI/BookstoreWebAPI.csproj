@@ -11,8 +11,10 @@
 		<PackageReference Include="Azure.Identity" Version="1.10.4" />
 		<PackageReference Include="Azure.Storage.Blobs" Version="12.19.1" />
 		<PackageReference Include="FluentValidation" Version="11.9.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.14" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.14" />
 		<PackageReference Include="Microsoft.Azure.Cosmos" Version="3.37.0" />
+		<PackageReference Include="NETCore.MailKit" Version="2.1.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="NSwag.Annotations" Version="13.20.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />

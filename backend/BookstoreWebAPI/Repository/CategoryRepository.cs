@@ -174,7 +174,7 @@ namespace BookstoreWebAPI.Repository
             var queryDef = new QueryDefinition(
                 "SELECT * " +
                 "FROM c " +
-                "WHERE c.isDeleted = false AND c.name LIKE @categoryName"
+                "WHERE c.isDeleted = false AND STRINGEQUALS(@categoryName,c.text,true)"
             ).WithParameter("@categoryName", categoryName);
 
             var result = await CosmosDbUtils.GetDocumentByQueryDefinition<CategoryDocument>(_categoryContainer, queryDef);

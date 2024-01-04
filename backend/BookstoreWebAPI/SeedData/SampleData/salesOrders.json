@@ -3,6 +3,7 @@
 		"id": "ord00001",
 		"salesOrderId": "ord00001",
 		"createdAt": "2023-05-03T00:00:00",
+		"modifiedAt": "2023-05-03T00:00:00",
 		"monthYear": "2023-05",
 		"returnDate": "2023-05-08T00:00:00",
 		"customerType": "Retail",
@@ -42,12 +43,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00002",
 		"salesOrderId": "ord00002",
 		"createdAt": "2022-06-27T00:00:00",
+		"modifiedAt": "2022-06-27T00:00:00",
 		"monthYear": "2022-06",
 		"returnDate": "2022-07-02T00:00:00",
 		"customerType": "Retail",
@@ -141,12 +144,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00003",
 		"salesOrderId": "ord00003",
 		"createdAt": "2022-11-24T00:00:00",
+		"modifiedAt": "2022-11-24T00:00:00",
 		"monthYear": "2022-11",
 		"returnDate": "2022-11-29T00:00:00",
 		"customerType": "Retail",
@@ -204,12 +209,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00004",
 		"salesOrderId": "ord00004",
 		"createdAt": "2023-12-18T00:00:00",
+		"modifiedAt": "2023-12-18T00:00:00",
 		"monthYear": "2023-12",
 		"returnDate": "2023-12-23T00:00:00",
 		"customerType": "Retail",
@@ -258,12 +265,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00005",
 		"salesOrderId": "ord00005",
 		"createdAt": "2022-09-21T00:00:00",
+		"modifiedAt": "2022-09-21T00:00:00",
 		"monthYear": "2022-09",
 		"returnDate": "2022-09-26T00:00:00",
 		"customerType": "Retail",
@@ -357,12 +366,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00006",
 		"salesOrderId": "ord00006",
 		"createdAt": "2022-11-04T00:00:00",
+		"modifiedAt": "2022-11-04T00:00:00",
 		"monthYear": "2022-11",
 		"returnDate": "2022-11-09T00:00:00",
 		"customerType": "Retail",
@@ -456,12 +467,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00007",
 		"salesOrderId": "ord00007",
 		"createdAt": "2023-04-08T00:00:00",
+		"modifiedAt": "2023-04-08T00:00:00",
 		"monthYear": "2023-04",
 		"returnDate": "2023-04-13T00:00:00",
 		"customerType": "Retail",
@@ -528,12 +541,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00008",
 		"salesOrderId": "ord00008",
 		"createdAt": "2023-04-12T00:00:00",
+		"modifiedAt": "2023-04-12T00:00:00",
 		"monthYear": "2023-04",
 		"returnDate": "2023-04-17T00:00:00",
 		"customerType": "Retail",
@@ -582,12 +597,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00009",
 		"salesOrderId": "ord00009",
 		"createdAt": "2022-09-20T00:00:00",
+		"modifiedAt": "2022-09-20T00:00:00",
 		"monthYear": "2022-09",
 		"returnDate": "2022-09-25T00:00:00",
 		"customerType": "Retail",
@@ -636,12 +653,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00010",
 		"salesOrderId": "ord00010",
 		"createdAt": "2022-05-07T00:00:00",
+		"modifiedAt": "2022-05-07T00:00:00",
 		"monthYear": "2022-05",
 		"returnDate": "2022-05-12T00:00:00",
 		"customerType": "Retail",
@@ -717,12 +736,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00011",
 		"salesOrderId": "ord00011",
 		"createdAt": "2022-12-13T00:00:00",
+		"modifiedAt": "2022-12-13T00:00:00",
 		"monthYear": "2022-12",
 		"returnDate": "2022-12-18T00:00:00",
 		"customerType": "Retail",
@@ -780,12 +801,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00012",
 		"salesOrderId": "ord00012",
 		"createdAt": "2023-01-24T00:00:00",
+		"modifiedAt": "2023-01-24T00:00:00",
 		"monthYear": "2023-01",
 		"returnDate": "2023-01-29T00:00:00",
 		"customerType": "Retail",
@@ -825,12 +848,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00013",
 		"salesOrderId": "ord00013",
 		"createdAt": "2022-03-09T00:00:00",
+		"modifiedAt": "2022-03-09T00:00:00",
 		"monthYear": "2022-03",
 		"returnDate": "2022-03-14T00:00:00",
 		"customerType": "Retail",
@@ -888,12 +913,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00014",
 		"salesOrderId": "ord00014",
 		"createdAt": "2023-09-02T00:00:00",
+		"modifiedAt": "2023-09-02T00:00:00",
 		"monthYear": "2023-09",
 		"returnDate": "2023-09-07T00:00:00",
 		"customerType": "Retail",
@@ -951,12 +978,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00015",
 		"salesOrderId": "ord00015",
 		"createdAt": "2021-05-03T00:00:00",
+		"modifiedAt": "2021-05-03T00:00:00",
 		"monthYear": "2021-05",
 		"returnDate": "2021-05-08T00:00:00",
 		"customerType": "Retail",
@@ -1005,12 +1034,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00016",
 		"salesOrderId": "ord00016",
 		"createdAt": "2021-07-29T00:00:00",
+		"modifiedAt": "2021-07-29T00:00:00",
 		"monthYear": "2021-07",
 		"returnDate": "2021-08-03T00:00:00",
 		"customerType": "Retail",
@@ -1104,12 +1135,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00017",
 		"salesOrderId": "ord00017",
 		"createdAt": "2022-05-14T00:00:00",
+		"modifiedAt": "2022-05-14T00:00:00",
 		"monthYear": "2022-05",
 		"returnDate": "2022-05-19T00:00:00",
 		"customerType": "Retail",
@@ -1167,12 +1200,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00018",
 		"salesOrderId": "ord00018",
 		"createdAt": "2022-09-20T00:00:00",
+		"modifiedAt": "2022-09-20T00:00:00",
 		"monthYear": "2022-09",
 		"returnDate": "2022-09-25T00:00:00",
 		"customerType": "Retail",
@@ -1239,12 +1274,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00019",
 		"salesOrderId": "ord00019",
 		"createdAt": "2023-05-12T00:00:00",
+		"modifiedAt": "2023-05-12T00:00:00",
 		"monthYear": "2023-05",
 		"returnDate": "2023-05-17T00:00:00",
 		"customerType": "Retail",
@@ -1311,12 +1348,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00020",
 		"salesOrderId": "ord00020",
 		"createdAt": "2021-04-10T00:00:00",
+		"modifiedAt": "2021-04-10T00:00:00",
 		"monthYear": "2021-04",
 		"returnDate": "2021-04-15T00:00:00",
 		"customerType": "Retail",
@@ -1410,12 +1449,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00021",
 		"salesOrderId": "ord00021",
 		"createdAt": "2021-04-28T00:00:00",
+		"modifiedAt": "2021-04-28T00:00:00",
 		"monthYear": "2021-04",
 		"returnDate": "2021-05-03T00:00:00",
 		"customerType": "Retail",
@@ -1455,12 +1496,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00022",
 		"salesOrderId": "ord00022",
 		"createdAt": "2022-05-19T00:00:00",
+		"modifiedAt": "2022-05-19T00:00:00",
 		"monthYear": "2022-05",
 		"returnDate": "2022-05-24T00:00:00",
 		"customerType": "Retail",
@@ -1545,12 +1588,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00023",
 		"salesOrderId": "ord00023",
 		"createdAt": "2022-12-08T00:00:00",
+		"modifiedAt": "2022-12-08T00:00:00",
 		"monthYear": "2022-12",
 		"returnDate": "2022-12-13T00:00:00",
 		"customerType": "Retail",
@@ -1644,12 +1689,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00024",
 		"salesOrderId": "ord00024",
 		"createdAt": "2021-12-18T00:00:00",
+		"modifiedAt": "2021-12-18T00:00:00",
 		"monthYear": "2021-12",
 		"returnDate": "2021-12-23T00:00:00",
 		"customerType": "Retail",
@@ -1689,12 +1736,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00025",
 		"salesOrderId": "ord00025",
 		"createdAt": "2022-06-23T00:00:00",
+		"modifiedAt": "2022-06-23T00:00:00",
 		"monthYear": "2022-06",
 		"returnDate": "2022-06-28T00:00:00",
 		"customerType": "Retail",
@@ -1761,12 +1810,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00026",
 		"salesOrderId": "ord00026",
 		"createdAt": "2022-11-13T00:00:00",
+		"modifiedAt": "2022-11-13T00:00:00",
 		"monthYear": "2022-11",
 		"returnDate": "2022-11-18T00:00:00",
 		"customerType": "Retail",
@@ -1833,12 +1884,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00027",
 		"salesOrderId": "ord00027",
 		"createdAt": "2022-07-06T00:00:00",
+		"modifiedAt": "2022-07-06T00:00:00",
 		"monthYear": "2022-07",
 		"returnDate": "2022-07-11T00:00:00",
 		"customerType": "Retail",
@@ -1878,12 +1931,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00028",
 		"salesOrderId": "ord00028",
 		"createdAt": "2023-11-08T00:00:00",
+		"modifiedAt": "2023-11-08T00:00:00",
 		"monthYear": "2023-11",
 		"returnDate": "2023-11-13T00:00:00",
 		"customerType": "Retail",
@@ -1923,12 +1978,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00029",
 		"salesOrderId": "ord00029",
 		"createdAt": "2022-03-26T00:00:00",
+		"modifiedAt": "2022-03-26T00:00:00",
 		"monthYear": "2022-03",
 		"returnDate": "2022-03-31T00:00:00",
 		"customerType": "Retail",
@@ -2022,12 +2079,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00030",
 		"salesOrderId": "ord00030",
 		"createdAt": "2023-05-26T00:00:00",
+		"modifiedAt": "2023-05-26T00:00:00",
 		"monthYear": "2023-05",
 		"returnDate": "2023-05-31T00:00:00",
 		"customerType": "Retail",
@@ -2121,12 +2180,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00031",
 		"salesOrderId": "ord00031",
 		"createdAt": "2021-08-05T00:00:00",
+		"modifiedAt": "2021-08-05T00:00:00",
 		"monthYear": "2021-08",
 		"returnDate": "2021-08-10T00:00:00",
 		"customerType": "Retail",
@@ -2184,12 +2245,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00032",
 		"salesOrderId": "ord00032",
 		"createdAt": "2023-01-27T00:00:00",
+		"modifiedAt": "2023-01-27T00:00:00",
 		"monthYear": "2023-01",
 		"returnDate": "2023-02-01T00:00:00",
 		"customerType": "Retail",
@@ -2229,12 +2292,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00033",
 		"salesOrderId": "ord00033",
 		"createdAt": "2022-12-09T00:00:00",
+		"modifiedAt": "2022-12-09T00:00:00",
 		"monthYear": "2022-12",
 		"returnDate": "2022-12-14T00:00:00",
 		"customerType": "Retail",
@@ -2319,12 +2384,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00034",
 		"salesOrderId": "ord00034",
 		"createdAt": "2021-09-09T00:00:00",
+		"modifiedAt": "2021-09-09T00:00:00",
 		"monthYear": "2021-09",
 		"returnDate": "2021-09-14T00:00:00",
 		"customerType": "Retail",
@@ -2400,12 +2467,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00035",
 		"salesOrderId": "ord00035",
 		"createdAt": "2022-05-15T00:00:00",
+		"modifiedAt": "2022-05-15T00:00:00",
 		"monthYear": "2022-05",
 		"returnDate": "2022-05-20T00:00:00",
 		"customerType": "Retail",
@@ -2445,12 +2514,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00036",
 		"salesOrderId": "ord00036",
 		"createdAt": "2022-03-19T00:00:00",
+		"modifiedAt": "2022-03-19T00:00:00",
 		"monthYear": "2022-03",
 		"returnDate": "2022-03-24T00:00:00",
 		"customerType": "Retail",
@@ -2544,12 +2615,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00037",
 		"salesOrderId": "ord00037",
 		"createdAt": "2021-11-04T00:00:00",
+		"modifiedAt": "2021-11-04T00:00:00",
 		"monthYear": "2021-11",
 		"returnDate": "2021-11-09T00:00:00",
 		"customerType": "Retail",
@@ -2625,12 +2698,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00038",
 		"salesOrderId": "ord00038",
 		"createdAt": "2022-12-25T00:00:00",
+		"modifiedAt": "2022-12-25T00:00:00",
 		"monthYear": "2022-12",
 		"returnDate": "2022-12-30T00:00:00",
 		"customerType": "Retail",
@@ -2697,12 +2772,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00039",
 		"salesOrderId": "ord00039",
 		"createdAt": "2023-06-07T00:00:00",
+		"modifiedAt": "2023-06-07T00:00:00",
 		"monthYear": "2023-06",
 		"returnDate": "2023-06-12T00:00:00",
 		"customerType": "Retail",
@@ -2742,12 +2819,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00040",
 		"salesOrderId": "ord00040",
 		"createdAt": "2022-05-31T00:00:00",
+		"modifiedAt": "2022-05-31T00:00:00",
 		"monthYear": "2022-05",
 		"returnDate": "2022-06-05T00:00:00",
 		"customerType": "Retail",
@@ -2823,12 +2902,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00041",
 		"salesOrderId": "ord00041",
 		"createdAt": "2023-11-11T00:00:00",
+		"modifiedAt": "2023-11-11T00:00:00",
 		"monthYear": "2023-11",
 		"returnDate": "2023-11-16T00:00:00",
 		"customerType": "Retail",
@@ -2868,12 +2949,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00042",
 		"salesOrderId": "ord00042",
 		"createdAt": "2023-03-22T00:00:00",
+		"modifiedAt": "2023-03-22T00:00:00",
 		"monthYear": "2023-03",
 		"returnDate": "2023-03-27T00:00:00",
 		"customerType": "Retail",
@@ -2940,12 +3023,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00043",
 		"salesOrderId": "ord00043",
 		"createdAt": "2022-11-25T00:00:00",
+		"modifiedAt": "2022-11-25T00:00:00",
 		"monthYear": "2022-11",
 		"returnDate": "2022-11-30T00:00:00",
 		"customerType": "Retail",
@@ -2985,12 +3070,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00044",
 		"salesOrderId": "ord00044",
 		"createdAt": "2021-11-08T00:00:00",
+		"modifiedAt": "2021-11-08T00:00:00",
 		"monthYear": "2021-11",
 		"returnDate": "2021-11-13T00:00:00",
 		"customerType": "Retail",
@@ -3057,12 +3144,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00045",
 		"salesOrderId": "ord00045",
 		"createdAt": "2022-11-24T00:00:00",
+		"modifiedAt": "2022-11-24T00:00:00",
 		"monthYear": "2022-11",
 		"returnDate": "2022-11-29T00:00:00",
 		"customerType": "Retail",
@@ -3102,12 +3191,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00046",
 		"salesOrderId": "ord00046",
 		"createdAt": "2023-01-03T00:00:00",
+		"modifiedAt": "2023-01-03T00:00:00",
 		"monthYear": "2023-01",
 		"returnDate": "2023-01-08T00:00:00",
 		"customerType": "Retail",
@@ -3165,12 +3256,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00047",
 		"salesOrderId": "ord00047",
 		"createdAt": "2021-02-13T00:00:00",
+		"modifiedAt": "2021-02-13T00:00:00",
 		"monthYear": "2021-02",
 		"returnDate": "2021-02-18T00:00:00",
 		"customerType": "Retail",
@@ -3264,12 +3357,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00048",
 		"salesOrderId": "ord00048",
 		"createdAt": "2021-06-02T00:00:00",
+		"modifiedAt": "2021-06-02T00:00:00",
 		"monthYear": "2021-06",
 		"returnDate": "2021-06-07T00:00:00",
 		"customerType": "Retail",
@@ -3336,12 +3431,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00049",
 		"salesOrderId": "ord00049",
 		"createdAt": "2023-03-10T00:00:00",
+		"modifiedAt": "2023-03-10T00:00:00",
 		"monthYear": "2023-03",
 		"returnDate": "2023-03-15T00:00:00",
 		"customerType": "Retail",
@@ -3408,12 +3505,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00050",
 		"salesOrderId": "ord00050",
 		"createdAt": "2022-10-15T00:00:00",
+		"modifiedAt": "2022-10-15T00:00:00",
 		"monthYear": "2022-10",
 		"returnDate": "2022-10-20T00:00:00",
 		"customerType": "Retail",
@@ -3507,12 +3606,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00051",
 		"salesOrderId": "ord00051",
 		"createdAt": "2022-02-08T00:00:00",
+		"modifiedAt": "2022-02-08T00:00:00",
 		"monthYear": "2022-02",
 		"returnDate": "2022-02-13T00:00:00",
 		"customerType": "Retail",
@@ -3570,12 +3671,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00052",
 		"salesOrderId": "ord00052",
 		"createdAt": "2022-06-24T00:00:00",
+		"modifiedAt": "2022-06-24T00:00:00",
 		"monthYear": "2022-06",
 		"returnDate": "2022-06-29T00:00:00",
 		"customerType": "Retail",
@@ -3615,12 +3718,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00053",
 		"salesOrderId": "ord00053",
 		"createdAt": "2021-08-25T00:00:00",
+		"modifiedAt": "2021-08-25T00:00:00",
 		"monthYear": "2021-08",
 		"returnDate": "2021-08-30T00:00:00",
 		"customerType": "Retail",
@@ -3696,12 +3801,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00054",
 		"salesOrderId": "ord00054",
 		"createdAt": "2022-03-16T00:00:00",
+		"modifiedAt": "2022-03-16T00:00:00",
 		"monthYear": "2022-03",
 		"returnDate": "2022-03-21T00:00:00",
 		"customerType": "Retail",
@@ -3741,12 +3848,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00055",
 		"salesOrderId": "ord00055",
 		"createdAt": "2022-04-29T00:00:00",
+		"modifiedAt": "2022-04-29T00:00:00",
 		"monthYear": "2022-04",
 		"returnDate": "2022-05-04T00:00:00",
 		"customerType": "Retail",
@@ -3822,12 +3931,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00056",
 		"salesOrderId": "ord00056",
 		"createdAt": "2021-10-28T00:00:00",
+		"modifiedAt": "2021-10-28T00:00:00",
 		"monthYear": "2021-10",
 		"returnDate": "2021-11-02T00:00:00",
 		"customerType": "Retail",
@@ -3867,12 +3978,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00057",
 		"salesOrderId": "ord00057",
 		"createdAt": "2022-12-03T00:00:00",
+		"modifiedAt": "2022-12-03T00:00:00",
 		"monthYear": "2022-12",
 		"returnDate": "2022-12-08T00:00:00",
 		"customerType": "Retail",
@@ -3921,12 +4034,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00058",
 		"salesOrderId": "ord00058",
 		"createdAt": "2023-08-24T00:00:00",
+		"modifiedAt": "2023-08-24T00:00:00",
 		"monthYear": "2023-08",
 		"returnDate": "2023-08-29T00:00:00",
 		"customerType": "Retail",
@@ -3984,12 +4099,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00059",
 		"salesOrderId": "ord00059",
 		"createdAt": "2022-06-16T00:00:00",
+		"modifiedAt": "2022-06-16T00:00:00",
 		"monthYear": "2022-06",
 		"returnDate": "2022-06-21T00:00:00",
 		"customerType": "Retail",
@@ -4065,12 +4182,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00060",
 		"salesOrderId": "ord00060",
 		"createdAt": "2021-12-18T00:00:00",
+		"modifiedAt": "2021-12-18T00:00:00",
 		"monthYear": "2021-12",
 		"returnDate": "2021-12-23T00:00:00",
 		"customerType": "Retail",
@@ -4146,12 +4265,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00061",
 		"salesOrderId": "ord00061",
 		"createdAt": "2022-03-03T00:00:00",
+		"modifiedAt": "2022-03-03T00:00:00",
 		"monthYear": "2022-03",
 		"returnDate": "2022-03-08T00:00:00",
 		"customerType": "Retail",
@@ -4227,12 +4348,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00062",
 		"salesOrderId": "ord00062",
 		"createdAt": "2022-03-01T00:00:00",
+		"modifiedAt": "2022-03-01T00:00:00",
 		"monthYear": "2022-03",
 		"returnDate": "2022-03-06T00:00:00",
 		"customerType": "Retail",
@@ -4317,12 +4440,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00063",
 		"salesOrderId": "ord00063",
 		"createdAt": "2023-11-10T00:00:00",
+		"modifiedAt": "2023-11-10T00:00:00",
 		"monthYear": "2023-11",
 		"returnDate": "2023-11-15T00:00:00",
 		"customerType": "Retail",
@@ -4380,12 +4505,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00064",
 		"salesOrderId": "ord00064",
 		"createdAt": "2023-06-23T00:00:00",
+		"modifiedAt": "2023-06-23T00:00:00",
 		"monthYear": "2023-06",
 		"returnDate": "2023-06-28T00:00:00",
 		"customerType": "Retail",
@@ -4479,12 +4606,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00065",
 		"salesOrderId": "ord00065",
 		"createdAt": "2021-06-29T00:00:00",
+		"modifiedAt": "2021-06-29T00:00:00",
 		"monthYear": "2021-06",
 		"returnDate": "2021-07-04T00:00:00",
 		"customerType": "Retail",
@@ -4533,12 +4662,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00066",
 		"salesOrderId": "ord00066",
 		"createdAt": "2022-09-13T00:00:00",
+		"modifiedAt": "2022-09-13T00:00:00",
 		"monthYear": "2022-09",
 		"returnDate": "2022-09-18T00:00:00",
 		"customerType": "Retail",
@@ -4578,12 +4709,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00067",
 		"salesOrderId": "ord00067",
 		"createdAt": "2021-07-14T00:00:00",
+		"modifiedAt": "2021-07-14T00:00:00",
 		"monthYear": "2021-07",
 		"returnDate": "2021-07-19T00:00:00",
 		"customerType": "Retail",
@@ -4632,12 +4765,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00068",
 		"salesOrderId": "ord00068",
 		"createdAt": "2021-08-08T00:00:00",
+		"modifiedAt": "2021-08-08T00:00:00",
 		"monthYear": "2021-08",
 		"returnDate": "2021-08-13T00:00:00",
 		"customerType": "Retail",
@@ -4713,12 +4848,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00069",
 		"salesOrderId": "ord00069",
 		"createdAt": "2022-05-07T00:00:00",
+		"modifiedAt": "2022-05-07T00:00:00",
 		"monthYear": "2022-05",
 		"returnDate": "2022-05-12T00:00:00",
 		"customerType": "Retail",
@@ -4767,12 +4904,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00070",
 		"salesOrderId": "ord00070",
 		"createdAt": "2022-10-08T00:00:00",
+		"modifiedAt": "2022-10-08T00:00:00",
 		"monthYear": "2022-10",
 		"returnDate": "2022-10-13T00:00:00",
 		"customerType": "Retail",
@@ -4821,12 +4960,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00071",
 		"salesOrderId": "ord00071",
 		"createdAt": "2022-10-20T00:00:00",
+		"modifiedAt": "2022-10-20T00:00:00",
 		"monthYear": "2022-10",
 		"returnDate": "2022-10-25T00:00:00",
 		"customerType": "Retail",
@@ -4902,12 +5043,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00072",
 		"salesOrderId": "ord00072",
 		"createdAt": "2023-11-16T00:00:00",
+		"modifiedAt": "2023-11-16T00:00:00",
 		"monthYear": "2023-11",
 		"returnDate": "2023-11-21T00:00:00",
 		"customerType": "Retail",
@@ -4983,12 +5126,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00073",
 		"salesOrderId": "ord00073",
 		"createdAt": "2023-03-07T00:00:00",
+		"modifiedAt": "2023-03-07T00:00:00",
 		"monthYear": "2023-03",
 		"returnDate": "2023-03-12T00:00:00",
 		"customerType": "Retail",
@@ -5073,12 +5218,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00074",
 		"salesOrderId": "ord00074",
 		"createdAt": "2022-03-12T00:00:00",
+		"modifiedAt": "2022-03-12T00:00:00",
 		"monthYear": "2022-03",
 		"returnDate": "2022-03-17T00:00:00",
 		"customerType": "Retail",
@@ -5172,12 +5319,14 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	},
 	{
 		"id": "ord00075",
 		"salesOrderId": "ord00075",
 		"createdAt": "2022-05-09T00:00:00",
+		"modifiedAt": "2022-05-09T00:00:00",
 		"monthYear": "2022-05",
 		"returnDate": "2022-05-14T00:00:00",
 		"customerType": "Retail",
@@ -5226,6 +5375,7 @@
 		},
 		"status": "paid",
 		"note": "",
+		"staffId": "staf00000",
 		"ttl": -1
 	}
 ]

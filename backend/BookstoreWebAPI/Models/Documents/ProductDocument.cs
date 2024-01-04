@@ -36,14 +36,14 @@ namespace BookstoreWebAPI.Models.Documents
         [JsonProperty("description")]
         public string Description { get; set; }
 
+        [JsonProperty("salePriceHistory")]
+        public List<PriceHistory> SalePriceHistory { get; set; }
+
         [JsonProperty("salePrice")]
         public int SalePrice { get; set; }
 
         [JsonProperty("purchasePrice")]
         public int PurchasePrice { get; set; }
-
-        [JsonProperty("attributes")]
-        public List<string> Attributes { get; set; }
 
         [JsonProperty("details")]
         public Dictionary<string,string> Details { get; set; }
@@ -53,7 +53,6 @@ namespace BookstoreWebAPI.Models.Documents
 
         [JsonProperty("ratings")]
         public Ratings Ratings { get; set; }
-
 
         [JsonProperty("images")]
         public List<string> Images { get; set; }
@@ -72,8 +71,14 @@ namespace BookstoreWebAPI.Models.Documents
         
         [JsonProperty("createdAt")]
         public DateTime? CreatedAt { get; set; }
-        
+
+        [JsonProperty("modifiedAt")]
+        public DateTime? ModifiedAt { get; set; }
+
         [JsonProperty("ttl")]
         public int TTL { get; set; }
+
+        [JsonProperty("staffId")]
+        public string StaffId { get; set; }
     }
 }

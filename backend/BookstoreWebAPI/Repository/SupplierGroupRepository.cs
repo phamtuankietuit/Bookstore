@@ -73,7 +73,7 @@ namespace BookstoreWebAPI.Repository
 
         public async Task<SupplierGroupDTO> AddSupplierGroupDTOAsync(SupplierGroupDTO supplierGroupDTO)
         {
-            if (await NameExistsInContainer(StringUtils.RemoveAccentsAndHyphenize(supplierGroupDTO.Name)))
+            if (await NameExistsInContainer(supplierGroupDTO.Name))
             {
                 throw new DuplicateDocumentException($"The supplierGroup {supplierGroupDTO.Name} has already been created. Please choose a different name.");
             }
@@ -210,7 +210,7 @@ namespace BookstoreWebAPI.Repository
             var queryDef = new QueryDefinition(
                 "SELECT * " +
                 "FROM c " +
-                "WHERE c.isDeleted = false AND c.name LIKE @supplierGroupName"
+                "WHERE c.isDeleted = false AND STRINGEQUALS(@supplierGroupName,c.name,true)"
             ).WithParameter("@supplierGroupName", supplierGroupName);
 
             var result = await CosmosDbUtils.GetDocumentByQueryDefinition<SupplierGroupDocument>(_supplierGroupContainer, queryDef);
@@ -221,7 +221,6 @@ namespace BookstoreWebAPI.Repository
         {
             supplierGroupDoc.Id = await GetNewSupplierGroupIdAsync();
             supplierGroupDoc.SupplierGroupId = supplierGroupDoc.Id;
-            supplierGroupDoc.Name = StringUtils.RemoveAccentsAndHyphenize(supplierGroupDoc.Name);
             //supplierGroupDoc.IsRemovable = true;
             //supplierGroupDoc.IsDeleted = false;
         }

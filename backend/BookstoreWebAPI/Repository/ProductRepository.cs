@@ -136,7 +136,7 @@ namespace BookstoreWebAPI.Repository
             var productDoc = _mapper.Map<ProductDocument>(productDTO);
             var inventoryDoc = _mapper.Map<InventoryDocument>(productDTO);
 
-            var inventoryDocInDb = await GetInventoryDocumentByProductIdAsync(inventoryDoc.Id);
+            var inventoryDocInDb = await GetInventoryDocumentByProductIdAsync(productDoc.Id);
             inventoryDoc.Id = inventoryDocInDb!.Id;
             inventoryDoc.LastRestocked = inventoryDocInDb.LastRestocked;
 

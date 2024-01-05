@@ -13,13 +13,15 @@ import { StaffItem } from '~/components/Item';
 import SubHeader from '~/components/SubHeader';
 import ModalComp from '~/components/ModalComp';
 import ModalLoading from '~/components/ModalLoading';
-import * as StaffServices from '~/apiServices/staffServices';
 import { ToastContext } from '~/components/ToastContext';
+
+import * as StaffServices from '~/apiServices/staffServices';
+
 const cx = classNames.bind(styles);
 
 const optionsTT = [
-    { label: 'Đang làm việc', value: '0' },
-    { label: 'Đã nghỉ việc', value: '1' },
+    { label: 'Đang làm việc', value: true },
+    { label: 'Đã nghỉ việc', value: false },
 ];
 
 const optionsVT = [
@@ -31,13 +33,14 @@ const optionsVT = [
 function ListStaff() {
     const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
+    const [updateList, setUpdateList] = useState(new Date());
 
     // API PROPS
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(12);
     const [totalRows, setTotalRows] = useState(0);
     const [clear, setClear] = useState(false);
-    const [sortBy, setSortBy] = useState('promotionId');
+    const [sortBy, setSortBy] = useState('staffId');
     const [orderBy, setOrderBy] = useState('asc');
 
     const createObjectQuery = async (
@@ -74,19 +77,19 @@ function ListStaff() {
     };
 
     const handleFilter = async () => {
-        // setPageNumber(1)
-        // getList(
-        //     await createObjectQuery(
-        //         1,
-        //         pageSize,
-        //         sortBy,
-        //         orderBy,
-        //         selectedTT.length > 0 && returnArray(selectedTT),
-        //         selectedVT.length > 0 && returnArray(selectedVT),
+        setPageNumber(1)
+        getList(
+            await createObjectQuery(
+                1,
+                pageSize,
+                sortBy,
+                orderBy,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedVT.length > 0 && returnArray(selectedVT),
 
-        //     )
-        // );
-        // handleCloseFilter();
+            )
+        );
+        handleCloseFilter();
     };
 
     // TABLE
@@ -107,6 +110,7 @@ function ListStaff() {
     }) => {
         selectedCount > 0 ? setShowSubHeader(true) : setShowSubHeader(false);
         setSelectedRow(selectedCount);
+        setSelectedDelRows(selectedRows);
     };
 
     // SUB HEADER
@@ -120,9 +124,20 @@ function ListStaff() {
         }
     };
 
+    const [selectedDelRows, setSelectedDelRows] = useState();
+
+    // CLEAR SUB HEADER
+    const clearSubHeader = () => {
+        setShowSubHeader(false);
+        setSelectedRow(0);
+        setClear(true);
+    }
+
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
-        navigate('/staffs/detail/' + row.staffId);
+        if (row.role !== 'admin') {
+            navigate('/staffs/detail/' + row.staffId);
+        }
     }, []);
 
     // MODAL LOADING
@@ -138,7 +153,58 @@ function ListStaff() {
         setOpenModal(false);
     };
 
-    const handleValidation = () => { };
+    const handleValidation = () => {
+        if (titleModal === 'Xóa nhân viên?') {
+            let isSuccess = true;
+
+            // XÓA NHÂN VIÊN
+            const fetchApi = async () => {
+                setLoading(true);
+
+                const result = await StaffServices.deleteStaffs(selectedDelRows)
+                    .catch((error) => {
+                        isSuccess = false;
+                        setLoading(false);
+                        if (error.response) {
+                            console.log(error.response.data);
+                            console.log(error.response.status);
+                            console.log(error.response.headers);
+
+                            if (error.response.status === 403) {
+                                toastContext.notify('error', 'Không thể xóa admin');
+                            } else {
+                                toastContext.notify('error', 'Có lỗi xảy ra');
+                            }
+                        } else if (error.request) {
+                            console.log(error.request);
+                        } else {
+                            console.log('Error', error.message);
+                        }
+                        console.log(error.config);
+                    });
+
+                if (result) {
+                    setLoading(false);
+                    result.map((staff) => {
+                        if (staff.status === 204) {
+                            toastContext.notify('success', 'Xóa thành công nhân viên ' + staff.data.name);
+                        } else if (staff.status === 403) {
+                            toastContext.notify('error', 'Không thể xóa admin ' + staff.data.name);
+                        } else {
+                            toastContext.notify('error', 'Có lỗi xảy ra khi xóa nhân viên ' + staff.data.name);
+                        }
+                    });
+                } else if (isSuccess) {
+                    setLoading(false);
+                    handleCloseModal();
+                    toastContext.notify('success', 'Xóa nhân viên thành công');
+                    clearSubHeader();
+                    setUpdateList(new Date());
+                }
+            }
+            fetchApi();
+        }
+    };
 
     const onOpenModal = (value) => {
         setTitleModal(value);
@@ -148,8 +214,6 @@ function ListStaff() {
 
     const getList = async (obj) => {
         setPending(true);
-
-        console.log(obj);
 
         const response = await StaffServices.getAllStaffs(obj)
             .catch((error) => {
@@ -174,52 +238,73 @@ function ListStaff() {
     }
 
     const handlePerRowsChange = async (newPerPage, pageNumber) => {
-        // setPageSize(newPerPage);
-        // setPageNumber(pageNumber);
+        setPageSize(newPerPage);
+        setPageNumber(pageNumber);
 
-        // getList(
-        //     await createObjectQuery(
-        //         pageNumber,
-        //         pageSize,
-        //         sortBy,
-        //         orderBy,
-        //         selectedTT.length > 0 && returnArray(selectedTT),
-
-        //     )
-        // );
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                newPerPage,
+                sortBy,
+                orderBy,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedVT.length > 0 && returnArray(selectedVT),
+            )
+        );
     }
 
     const handlePageChange = async (pageNumber) => {
-        // setPageNumber(pageNumber);
+        setPageNumber(pageNumber);
 
-        // getList(
-        //     await createObjectQuery(
-        //         pageNumber,
-        //         pageSize,
-        //         sortBy,
-        //         orderBy,
-        //         selectedTT.length > 0 && returnArray(selectedTT),
-        //     )
-        // );
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                pageSize,
+                sortBy,
+                orderBy,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedVT.length > 0 && returnArray(selectedVT),
+            )
+        );
     }
 
-    const handleSort = (column, sortDirection) => {
-        // setSortBy(column.text);
-        // setOrderBy(sortDirection);
-        // setPageNumber(1);
+    const handleSort = async (column, sortDirection) => {
+        setSortBy(column.text);
+        setOrderBy(sortDirection);
+        setPageNumber(1);
 
-        // getList(1, pageSize, column.text, sortDirection);
+        getList(
+            await createObjectQuery(
+                1,
+                pageSize,
+                column.text,
+                sortDirection,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedVT.length > 0 && returnArray(selectedVT),
+            )
+        );
     };
-
-
 
     useEffect(() => {
         const fetch = async () => {
-            getList(await createObjectQuery(pageNumber, pageSize));
+            getList(
+                await createObjectQuery(
+                    pageNumber,
+                    pageSize,
+                    sortBy,
+                    orderBy,
+                    selectedTT.length > 0 && returnArray(selectedTT),
+                    selectedVT.length > 0 && returnArray(selectedVT),
+                )
+            );
         }
 
         fetch();
-    }, []);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [updateList]);
+
+
+    const selectableRowDisabled = (row) => row.role === 'admin';
 
     return (
         <div className={cx('wrapper')}>
@@ -285,8 +370,6 @@ function ListStaff() {
                             itemName={'nhân viên'}
                             onClickAction={onClickAction}
                             items={[
-                                'Đang làm việc',
-                                'Đã nghỉ việc',
                                 'Xóa nhân viên',
                             ]}
                         />
@@ -298,6 +381,8 @@ function ListStaff() {
                     handlePageChange={handlePageChange}
                     // SORT
                     handleSort={handleSort}
+                    // 
+                    selectableRowDisabled={selectableRowDisabled}
                 />
             </div>
             <ModalComp

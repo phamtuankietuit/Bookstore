@@ -471,14 +471,6 @@ function ListProduct() {
 
     useEffect(() => {
         const fetch = async () => {
-            getList(await createObjectQuery(pageNumber, pageSize));
-        }
-
-        fetch();
-    }, []);
-
-    useEffect(() => {
-        const fetch = async () => {
             getList(
                 await createObjectQuery(
                     pageNumber,
@@ -498,7 +490,7 @@ function ListProduct() {
 
         fetch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [updateList])
+    }, [updateList]);
 
     return (
         <div className={cx('wrapper')}>

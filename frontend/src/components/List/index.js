@@ -29,6 +29,8 @@ function List({
     handlePageChange,
     // SORT REMOTE
     handleSort,
+    // 
+    selectableRowDisabled,
 }) {
     return (
         <div className={cx('wrapper')}>
@@ -63,6 +65,8 @@ function List({
                         handlePageChange={handlePageChange}
                         // SORT REMOTE 
                         handleSort={handleSort}
+                        // 
+                        selectableRowDisabled={selectableRowDisabled}
                     />
                 </div>
             </div>

@@ -51,11 +51,6 @@ function AddStaff() {
             // CALL API
             setLoading(true);
             const fetchApi = async () => {
-                // console.log(productid.id)
-
-
-
-
                 const obj = {
                     name: name,
                     contact: {
@@ -64,24 +59,27 @@ function AddStaff() {
                     },
                     role: role,
                 }
-                console.log(obj)
+
                 const result = await StaffServices.createStaff(obj)
-                    .catch((err) => {
-                        console.log(err);
+                    .catch((error) => {
+                        if (error.response) {
+                            console.log(error.response.data)
+                            console.log(error.response.status);
+                            console.log(error.response.headers);
+                        } else if (error.request) {
+                            console.log(error.request);
+                        } else {
+                            console.log('Error', error.message);
+                        }
+                        console.log(error.config);
+                        toastContext.notify('error', 'Có lỗi xảy ra');
                     });
-                console.log(result)
+
+
                 if (result) {
-                    setTimeout(() => {
-                        setLoading(false);
-                        toastContext.notify('success', 'Đã thêm nhân viên');
-                        navigate('/staffs');
-                    }, 2000);
-                }
-                else {
-                    setTimeout(() => {
-                        setLoading(false);
-                        toastContext.notify('error', 'Đã có lỗi xảy rồi');
-                    }, 2000);
+                    setLoading(false);
+                    toastContext.notify('success', 'Thêm nhân viên thành công');
+                    navigate('/staffs/detail/' + result.staffId);
                 }
             }
 
@@ -138,11 +136,11 @@ function AddStaff() {
                                     title={'Vai trò'}
                                     items={[
                                         {
-                                            label: 'warehouse',
+                                            label: 'Nhân viên kho',
                                             value: 'warehouse'
                                         },
                                         {
-                                            label: 'sale',
+                                            label: 'Nhân viên bán hàng',
                                             value: 'sale'
                                         },
 

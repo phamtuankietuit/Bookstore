@@ -150,10 +150,12 @@ function ListImport() {
     const [endDate, setEndDate] = useState();
 
     const handleSetDate = (str) => {
-        const arr = str.split(' - ');
+        if (str.includes(' - ')) {
+            const arr = str.split(' - ');
 
-        setStartDate((new Date(arr[0])).toISOString());
-        setEndDate((new Date(arr[1])).toISOString());
+            setStartDate((new Date(arr[0])).toISOString());
+            setEndDate((new Date(arr[1])).toISOString());
+        }
         setDateString(str);
     }
 

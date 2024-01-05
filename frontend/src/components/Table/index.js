@@ -98,6 +98,8 @@ function Table({
     handlePageChange,
     // SORT REMOTE
     handleSort,
+    // 
+    selectableRowDisabled,
 }) {
     return (
         <div className={cx('data-table-container')}>
@@ -149,6 +151,8 @@ function Table({
                 selectableRowsComponent={Checkbox}
                 selectableRowsComponentProps={selectProps}
                 onSelectedRowsChange={handleSelectedItems}
+
+                selectableRowDisabled={selectableRowDisabled}
                 // PAGINATION
 
                 // REMOTE 

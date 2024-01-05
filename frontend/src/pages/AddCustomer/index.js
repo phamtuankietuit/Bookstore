@@ -27,7 +27,7 @@ function AddCustomer() {
 
     // FROM
     const handleSubmit = () => {
-        setLoading(true);
+
         const obj = {
             name: name,
             sex: "string",
@@ -52,6 +52,7 @@ function AddCustomer() {
         } else {
             // CALL API
             const fetchApi = async () => {
+                setLoading(true);
                 const result = await CustommerServices.CreateCustomer(obj)
                     .catch((err) => {
                         console.log(err);

@@ -189,7 +189,7 @@ function DiscountInfo() {
                                 <p>{addCommas(obj.applyFromAmount)} đ</p>
                             </div>
                             <div className={cx('second-row')}>
-                                <p>{addCommas(obj.applyToAmount)} đ</p>
+                                <p>{obj.applyToAmount === null ? 'không giới hạn' : addCommas(obj.applyToAmount) + 'đ'} </p>
                             </div>
                             <div className={cx('second-row')}>
                                 <p>{obj.discountRate}</p>

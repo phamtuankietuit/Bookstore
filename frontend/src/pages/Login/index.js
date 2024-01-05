@@ -9,7 +9,7 @@ import { ToastContext } from '~/components/ToastContext';
 import { useNavigate } from 'react-router-dom';
 import { red } from '@mui/material/colors';
 import * as LoginServices from '~/apiServices/loginServices'
-
+import ModalLoading from '~/components/ModalLoading';
 const cx = classNames.bind(styles);
 function Login() {
     //toast context
@@ -38,6 +38,8 @@ function Login() {
 
     const [equal, setEqual] = useState(false);
 
+
+    const [loading, setLoading] = useState(false);
     //Forget Pass Step
     const [step, setStep] = useState({
         step1: true,
@@ -134,7 +136,7 @@ function Login() {
                 setMessage('Vui lòng nhập đúng định dạng email');
             } else {
                 setCheckLogin(false);
-
+                setLoading(true)
                 const fetchApi = async () => {
                     // console.log(productid.id)
                     const obj = {
@@ -149,6 +151,7 @@ function Login() {
                     console.log(result)
                     if (result) {
                         toastContext.notify('success', 'Đăng nhập thành công!');
+                        setLoading(false)
                         navigate('/overview');
                     }
                     else {
@@ -298,6 +301,7 @@ function Login() {
                     </div>
                 )}
             </ModalComp>
+            <ModalLoading open={loading} title={'Đang tải'} />
         </div>
     );
 }

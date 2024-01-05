@@ -29,56 +29,85 @@ function AddDiscount() {
 
     const [dateString, setDateString] = useState('');
     const [start, setStart] = useState(0);
-    const [end, setEnd] = useState(0);
-    const [discount, setDiscount] = useState('');
+    const [end, setEnd] = useState(null);
+    const [discount, setDiscount] = useState(0);
     const [name, setName] = useState('')
     const [quantity, setQuantity] = useState(0)
 
     const submit = () => {
-        setLoading(true);
-        const fetchApi = async () => {
-            // console.log(productid.id)
-            const date = dateString.split(' – ')
-
-
-            console.log(date)
-            const obj = {
-                name: name,
-                type: "",
-                typeName: "",
-                applyToQuantity: 0,
-                usedQuantity: 0,
-                remainQuantity: parseInt(quantity),
-                applyFromAmount: parseInt(start),
-                applyToAmount: parseInt(end),
-                discountRate: parseInt(discount),
-                discountValue: 0,
-                startAt: new Date(date[0]).toISOString(),
-                closeAt: new Date(date[1]).toISOString(),
-                status: "running",
-                staffId: ''
-            }
-            console.log(obj)
-            const result = await PromotionsServices.CreatePromotion(obj)
-                .catch((err) => {
-                    console.log(err);
-                });
-            if (result) {
-                setTimeout(() => {
-                    setLoading(false);
-                    toastContext.notify('success', 'Đã lưu khuyến mãi');
-                    navigate('/discounts/detail/' + result.promotionId);
-                }, 2000);
-            }
-            else {
-                setTimeout(() => {
-                    setLoading(false);
-                    toastContext.notify('error', 'Đã có lỗi xảy rồi');
-                }, 2000);
-            }
+        if (name === '') {
+            setTimeout(() => {
+                setLoading(false);
+                toastContext.notify('error', 'Chưa nhập tên');
+            }, 2000);
+        }
+        else if (parseInt(quantity) === 0 && disable === false) {
+            setTimeout(() => {
+                setLoading(false);
+                toastContext.notify('error', 'Cần chọn số lượng áp dụng');
+            }, 2000);
         }
 
-        fetchApi();
+        else if (dateString === '') {
+            setTimeout(() => {
+                setLoading(false);
+                toastContext.notify('error', 'Chưa chọn ngày');
+            }, 2000);
+        }
+
+        else if (parseInt(discount) === 0) {
+            setTimeout(() => {
+                setLoading(false);
+                toastContext.notify('error', 'Chưa chọn phần trăm chiết khấu');
+            }, 2000);
+        }
+        else {
+            setLoading(true);
+            const fetchApi = async () => {
+                // console.log(productid.id)
+                const date = dateString.split(' – ')
+
+
+                console.log(date)
+                const obj = {
+                    name: name,
+                    type: "",
+                    typeName: "",
+                    applyToQuantity: 0,
+                    usedQuantity: 0,
+                    remainQuantity: parseInt(quantity),
+                    applyFromAmount: parseInt(start),
+                    applyToAmount: parseInt(end),
+                    discountRate: parseInt(discount),
+                    discountValue: 0,
+                    startAt: new Date(date[0]).toISOString(),
+                    closeAt: new Date(date[1]).toISOString(),
+                    status: "running",
+                    staffId: ''
+                }
+                console.log(obj)
+                const result = await PromotionsServices.CreatePromotion(obj)
+                    .catch((err) => {
+                        console.log(err);
+                    });
+                if (result) {
+                    setTimeout(() => {
+                        setLoading(false);
+                        toastContext.notify('success', 'Đã lưu khuyến mãi');
+                        navigate('/discounts/detail/' + result.promotionId);
+                    }, 2000);
+                }
+                else {
+                    setTimeout(() => {
+                        setLoading(false);
+                        toastContext.notify('error', 'Đã có lỗi xảy rồi');
+                    }, 2000);
+                }
+            }
+
+            fetchApi();
+        }
+
     }
     return (
         <div className={cx('container')}>

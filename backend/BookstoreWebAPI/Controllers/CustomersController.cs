@@ -6,11 +6,13 @@ using BookstoreWebAPI.Models.BindingModels;
 using FluentValidation;
 using FluentValidation.Results;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BookstoreWebAPI.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class CustomersController : ControllerBase
@@ -18,15 +20,18 @@ namespace BookstoreWebAPI.Controllers
         private readonly ILogger<CustomersController> _logger;
         private readonly ICustomerRepository _customerRepository;
         private readonly IValidator<QueryParameters> _queryParametersValidator;
+        private readonly IValidator<CustomerFilterModel> _filterValidator;
 
         public CustomersController(
             ILogger<CustomersController> logger,
             ICustomerRepository customerRepository,
-            IValidator<QueryParameters> validator)
+            IValidator<QueryParameters> validator,
+            IValidator<CustomerFilterModel> filterModelValidator)
         {
             _logger = logger;
             _customerRepository = customerRepository;
             _queryParametersValidator = validator;
+            _filterValidator = filterModelValidator;
         }
 
         // GET: api/<CustomersController>
@@ -36,12 +41,11 @@ namespace BookstoreWebAPI.Controllers
             [FromQuery] CustomerFilterModel filter
         )
         {
-            ValidationResult result = await _queryParametersValidator.ValidateAsync(queryParams);
+            ValidationResult queryParamResult = await _queryParametersValidator.ValidateAsync(queryParams);
+            if (!queryParamResult.IsValid) return BadRequest(queryParamResult.Errors);
 
-            if (!result.IsValid)
-            {
-                return BadRequest(result.Errors);
-            }
+            ValidationResult filterModelResult = await _filterValidator.ValidateAsync(filter);
+            if (!filterModelResult.IsValid) return BadRequest(filterModelResult.Errors);
 
             int totalCount = await _customerRepository.GetTotalCount(queryParams, filter);
             var customers = await _customerRepository.GetCustomerDTOsAsync(queryParams, filter);

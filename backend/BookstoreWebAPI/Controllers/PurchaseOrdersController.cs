@@ -5,11 +5,13 @@ using FluentValidation;
 using BookstoreWebAPI.Models.BindingModels;
 using FluentValidation.Results;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BookstoreWebAPI.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class PurchaseOrdersController : ControllerBase
@@ -17,32 +19,30 @@ namespace BookstoreWebAPI.Controllers
         private readonly ILogger<PurchaseOrdersController> _logger;
         private readonly IPurchaseOrderRepository _purchaseOrderRepository;
         private readonly IValidator<QueryParameters> _queryParametersValidator;
-        private readonly IValidator<PurchaseOrderFilterModel> _purchaseOrderFilterValidator;
-        public PurchaseOrdersController(ILogger<PurchaseOrdersController> logger, IPurchaseOrderRepository purchaseOrderRepository, IValidator<QueryParameters> validator, IValidator<PurchaseOrderFilterModel> purchaseOrderFilterValidator)
+        private readonly IValidator<PurchaseOrderFilterModel> _filterValidator;
+        public PurchaseOrdersController(
+            ILogger<PurchaseOrdersController> logger,
+            IPurchaseOrderRepository purchaseOrderRepository,
+            IValidator<QueryParameters> validator,
+            IValidator<PurchaseOrderFilterModel> purchaseOrderFilterValidator)
         {
             _logger = logger;
             _purchaseOrderRepository = purchaseOrderRepository;
             _queryParametersValidator = validator;
-            _purchaseOrderFilterValidator = purchaseOrderFilterValidator;
+            _filterValidator = purchaseOrderFilterValidator;
         }
 
         // GET: api/<PurchaseOrdersController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PurchaseOrderDTO>>> GetPurchaseOrderDTOsAsync([FromQuery] QueryParameters queryParams, [FromQuery] PurchaseOrderFilterModel filter)
+        public async Task<ActionResult<IEnumerable<PurchaseOrderDTO>>> GetPurchaseOrderDTOsAsync(
+            [FromQuery] QueryParameters queryParams,
+            [FromQuery] PurchaseOrderFilterModel filter)
         {
-            // validate filter model
-            ValidationResult result = await _queryParametersValidator.ValidateAsync(queryParams);
-            ValidationResult validationResult = await _purchaseOrderFilterValidator.ValidateAsync(filter);
+            ValidationResult queryParamResult = await _queryParametersValidator.ValidateAsync(queryParams);
+            if (!queryParamResult.IsValid) return BadRequest(queryParamResult.Errors);
 
-            if (!result.IsValid)
-            {
-                return BadRequest(result.Errors);
-            }
-
-            if (!validationResult.IsValid)
-            {
-                return BadRequest(validationResult.Errors);
-            }
+            ValidationResult filterModelResult = await _filterValidator.ValidateAsync(filter);
+            if (!filterModelResult.IsValid) return BadRequest(filterModelResult.Errors);
 
             int totalCount = await _purchaseOrderRepository.GetTotalCount(queryParams, filter);
             var purchaseOrders = await _purchaseOrderRepository.GetPurchaseOrderDTOsAsync(queryParams, filter);

@@ -6,11 +6,13 @@ using FluentValidation.Results;
 using FluentValidation;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using BookstoreWebAPI.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BookstoreWebAPI.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class SuppliersController : ControllerBase
@@ -18,15 +20,18 @@ namespace BookstoreWebAPI.Controllers
         private readonly ILogger<SuppliersController> _logger;
         private readonly ISupplierRepository _supplierRepository;
         private readonly IValidator<QueryParameters> _queryParametersValidator;
+        private readonly IValidator<SupplierFilterModel> _filterValidator;
 
         public SuppliersController(
             ISupplierRepository supplierRepository,
             ILogger<SuppliersController> logger,
-            IValidator<QueryParameters> validator)
+            IValidator<QueryParameters> validator,
+            IValidator<SupplierFilterModel> filterValidator)
         {
             _logger = logger;
             _supplierRepository = supplierRepository;
             _queryParametersValidator = validator;
+            _filterValidator = filterValidator;
         }
 
         // GET: api/<SuppliersController>
@@ -34,12 +39,12 @@ namespace BookstoreWebAPI.Controllers
         public async Task<ActionResult<IEnumerable<SupplierDTO>>> GetSupplierDTOsAsync([FromQuery] QueryParameters queryParams, [FromQuery]SupplierFilterModel filter)
         {
             // validate filter model
-            ValidationResult result = await _queryParametersValidator.ValidateAsync(queryParams);
+            ValidationResult queryParamResult = await _queryParametersValidator.ValidateAsync(queryParams);
+            if (!queryParamResult.IsValid) return BadRequest(queryParamResult.Errors);
 
-            if (!result.IsValid)
-            {
-                return BadRequest(result.Errors);
-            }
+            ValidationResult filterModelResult = await _filterValidator.ValidateAsync(filter);
+            if (!filterModelResult.IsValid) return BadRequest(filterModelResult.Errors);
+
 
             var totalCount = await _supplierRepository.GetTotalCount();
             var suppliers = await _supplierRepository.GetSupplierDTOsAsync(queryParams, filter);

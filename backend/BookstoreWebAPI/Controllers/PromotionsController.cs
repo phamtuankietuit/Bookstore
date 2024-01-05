@@ -6,18 +6,21 @@ using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using FluentValidation;
 using BookstoreWebAPI.Repository;
 using FluentValidation.Results;
+using BookstoreWebAPI.Validators;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BookstoreWebAPI.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class PromotionsController : ControllerBase
     {
         private readonly ILogger<PromotionsController> _logger;
         private readonly IPromotionRepository _promotionRepository;
-        private readonly IValidator<QueryParameters> _queryParamValidator;
+        private readonly IValidator<QueryParameters> _queryParametersValidator;
         private readonly IValidator<PromotionFilterModel> _filterValidator;
 
         public PromotionsController(
@@ -28,7 +31,7 @@ namespace BookstoreWebAPI.Controllers
         {
             _logger = logger;
             _promotionRepository = promotionRepository;
-            _queryParamValidator = validator;
+            _queryParametersValidator = validator;
             _filterValidator = promoFilterValidator;
         }
 
@@ -39,18 +42,11 @@ namespace BookstoreWebAPI.Controllers
             [FromQuery] PromotionFilterModel filter
         )
         {
-            ValidationResult queryParamValidationResult = await _queryParamValidator.ValidateAsync(queryParams);
-            ValidationResult filterValidationResult = await _filterValidator.ValidateAsync(filter);
+            ValidationResult queryParamResult = await _queryParametersValidator.ValidateAsync(queryParams);
+            if (!queryParamResult.IsValid) return BadRequest(queryParamResult.Errors);
 
-            if (!queryParamValidationResult.IsValid)
-            {
-                return BadRequest(queryParamValidationResult.Errors);
-            }
-
-            if (!filterValidationResult.IsValid)
-            {
-                return BadRequest(filterValidationResult.Errors);
-            }
+            ValidationResult filterModelResult = await _filterValidator.ValidateAsync(filter);
+            if (!filterModelResult.IsValid) return BadRequest(filterModelResult.Errors);
 
             int totalCount = await _promotionRepository.GetTotalCount(queryParams, filter);
             var promotions = await _promotionRepository.GetPromotionDTOsAsync(queryParams, filter);

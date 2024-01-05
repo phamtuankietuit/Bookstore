@@ -9,9 +9,11 @@ using FluentValidation.Results;
 using BookstoreWebAPI.Services;
 using Azure;
 using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookstoreWebAPI.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : Controller
@@ -19,32 +21,38 @@ namespace BookstoreWebAPI.Controllers
         private readonly IProductRepository _productRepository;
         private readonly ILogger<ProductsController> _logger;
         private readonly IValidator<QueryParameters> _queryParametersValidator;
+        private readonly IValidator<ProductFilterModel> _filterValidator;
+        
         private readonly IFileService _fileService;
 
         public ProductsController(
             IProductRepository productRepository,
             ILogger<ProductsController> logger,
             IValidator<QueryParameters> validator,
+            IValidator<ProductFilterModel> filterValidator,
             IFileService fileService)
         {
             _productRepository = productRepository;
             _logger = logger;
             _queryParametersValidator = validator;
             _fileService = fileService;
+            _filterValidator = filterValidator;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductDTOsAsync([FromQuery] QueryParameters queryParams, [FromQuery] ProductFilterModel productFilter)
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductDTOsAsync(
+            [FromQuery] QueryParameters queryParams,
+            [FromQuery] ProductFilterModel filter)
         {
-            ValidationResult result = await _queryParametersValidator.ValidateAsync(queryParams);
+            ValidationResult queryParamResult = await _queryParametersValidator.ValidateAsync(queryParams);
+            if (!queryParamResult.IsValid) return BadRequest(queryParamResult.Errors);
 
-            if (!result.IsValid)
-            {
-                return BadRequest(result.Errors);
-            }
+            ValidationResult filterModelResult = await _filterValidator.ValidateAsync(filter);
+            if (!filterModelResult.IsValid) return BadRequest(filterModelResult.Errors);
 
-            int totalCount = await _productRepository.GetTotalCount(queryParams, productFilter);
-            var products = await _productRepository.GetProductDTOsAsync(queryParams, productFilter);
+
+            int totalCount = await _productRepository.GetTotalCount(queryParams, filter);
+            var products = await _productRepository.GetProductDTOsAsync(queryParams, filter);
 
             if (products == null || !products.Any())
             {

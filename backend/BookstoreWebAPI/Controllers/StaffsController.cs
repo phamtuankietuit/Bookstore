@@ -1,17 +1,20 @@
 ﻿using Azure;
 using BookstoreWebAPI.Exceptions;
 using BookstoreWebAPI.Models.BindingModels;
+using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using BookstoreWebAPI.Models.DTOs;
 using BookstoreWebAPI.Repository.Interfaces;
 using BookstoreWebAPI.Services;
 using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BookstoreWebAPI.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class StaffsController : ControllerBase
@@ -19,35 +22,39 @@ namespace BookstoreWebAPI.Controllers
         private readonly IStaffRepository _staffRepository;
         private readonly ILogger<StaffsController> _logger;
         private readonly IValidator<QueryParameters> _queryParametersValidator;
+        private readonly IValidator<StaffFilterModel> _filterValidator;
         private readonly IFileService _fileService;
 
         public StaffsController(
             IStaffRepository staffRepository,
             ILogger<StaffsController> logger,
             IValidator<QueryParameters> queryParametersValidator,
+            IValidator<StaffFilterModel> filterModelValidator,
             IFileService fileService)
         {
             _staffRepository = staffRepository;
             _logger = logger;
             _queryParametersValidator = queryParametersValidator;
             _fileService = fileService;
+            _filterValidator = filterModelValidator;
         }
 
         // GET: api/<StaffsController>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StaffDTO>>> GetStaffDTOsAsync(
-            [FromQuery] QueryParameters queryParams
+            [FromQuery] QueryParameters queryParams,
+            [FromQuery] StaffFilterModel filter
         )
         {
-            ValidationResult result = await _queryParametersValidator.ValidateAsync(queryParams);
+            ValidationResult queryParamResult = await _queryParametersValidator.ValidateAsync(queryParams);
+            if (!queryParamResult.IsValid) return BadRequest(queryParamResult.Errors);
 
-            if (!result.IsValid)
-            {
-                return BadRequest(result.Errors);
-            }
+            ValidationResult filterModelResult = await _filterValidator.ValidateAsync(filter);
+            if (!filterModelResult.IsValid) return BadRequest(filterModelResult.Errors);
 
-            int totalCount = await _staffRepository.GetTotalCount(queryParams);
-            var staffs = await _staffRepository.GetStaffDTOsAsync(queryParams);
+
+            int totalCount = await _staffRepository.GetTotalCount(queryParams, filter);
+            var staffs = await _staffRepository.GetStaffDTOsAsync(queryParams, filter);
 
             if (staffs == null || !staffs.Any())
             {

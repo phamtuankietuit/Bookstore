@@ -6,11 +6,13 @@ using FluentValidation;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using FluentValidation.Results;
 using BookstoreWebAPI.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BookstoreWebAPI.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class SalesOrdersController : ControllerBase
@@ -18,7 +20,7 @@ namespace BookstoreWebAPI.Controllers
         private readonly ISalesOrderRepository _salesOrderRepository;
         private readonly ILogger<SalesOrdersController> _logger;
         private readonly IValidator<QueryParameters> _queryParametersValidator;
-        private readonly IValidator<SalesOrderFilterModel> _filterModelValidator;
+        private readonly IValidator<SalesOrderFilterModel> _filterValidator;
 
         public SalesOrdersController(
             ISalesOrderRepository salesOrderRepository,
@@ -29,7 +31,7 @@ namespace BookstoreWebAPI.Controllers
             _salesOrderRepository = salesOrderRepository;
             _logger = logger;
             _queryParametersValidator = validator;
-            _filterModelValidator = filterModelValidator;
+            _filterValidator = filterModelValidator;
         }
 
         // GET: api/<SalesOrdersController>
@@ -38,12 +40,11 @@ namespace BookstoreWebAPI.Controllers
             [FromQuery] QueryParameters queryParams,
             [FromQuery] SalesOrderFilterModel filter)
         {
-            ValidationResult result = await _queryParametersValidator.ValidateAsync(queryParams);
+            ValidationResult queryParamResult = await _queryParametersValidator.ValidateAsync(queryParams);
+            if (!queryParamResult.IsValid) return BadRequest(queryParamResult.Errors);
 
-            if (!result.IsValid)
-            {
-                return BadRequest(result.Errors);
-            }
+            ValidationResult filterModelResult = await _filterValidator.ValidateAsync(filter);
+            if (!filterModelResult.IsValid) return BadRequest(filterModelResult.Errors);
 
 
             int totalCount = await _salesOrderRepository.GetTotalCount(queryParams, filter);

@@ -1,15 +1,20 @@
 ﻿using BookstoreWebAPI.Exceptions;
 using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Models.DTOs;
+using BookstoreWebAPI.Repository;
 using BookstoreWebAPI.Repository.Interfaces;
+using BookstoreWebAPI.Services;
 using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BookstoreWebAPI.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class SupplierGroupsController : ControllerBase
@@ -26,16 +31,14 @@ namespace BookstoreWebAPI.Controllers
         }
 
         // GET: api/<SupplierGroupsController>
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SupplierGroupDTO>>> GetSupplierGroupsAsync([FromQuery]QueryParameters queryParams)
         {
             // validate filter model
-            ValidationResult result = await _queryParametersValidator.ValidateAsync(queryParams);
+            ValidationResult queryParamsResult = await _queryParametersValidator.ValidateAsync(queryParams);
+            if (!queryParamsResult.IsValid) return BadRequest(queryParamsResult.Errors); 
 
-            if (!result.IsValid)
-            {
-                return BadRequest(result.Errors);
-            }
 
 
             int totalCount = await _supplierGroupRepository.GetTotalCount();
@@ -76,6 +79,7 @@ namespace BookstoreWebAPI.Controllers
         {
             try
             {
+
                 var createdSupplierGroupDTO = await _supplierGroupRepository.AddSupplierGroupDTOAsync(supplierGroupDTO);
 
                 return CreatedAtAction(

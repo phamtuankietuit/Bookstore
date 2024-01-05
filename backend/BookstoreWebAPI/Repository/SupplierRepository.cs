@@ -96,7 +96,7 @@ namespace BookstoreWebAPI.Repository
                 _memoryCache.Set(supplierNewIdCacheName, IdUtils.IncreaseId(supplierDoc.Id));
 
                 await _activityLogRepository.LogActivity(
-                    Enums.ActivityTypes.create,
+                    Enums.ActivityType.create,
                     supplierDoc.StaffId,
                     "Nhà cung cấp",
                     supplierDoc.SupplierId
@@ -119,7 +119,7 @@ namespace BookstoreWebAPI.Repository
             );
 
             await _activityLogRepository.LogActivity(
-                Enums.ActivityTypes.update,
+                Enums.ActivityType.update,
                 supplierToUpdate.StaffId,
                 "Nhà cung cấp",
                 supplierToUpdate.SupplierId
@@ -210,7 +210,7 @@ namespace BookstoreWebAPI.Repository
             await _supplierGroupContainer.PatchItemAsync<SupplierDocument>(id, new PartitionKey(supplierDoc.SupplierId), patchOperations);
 
             await _activityLogRepository.LogActivity(
-                Enums.ActivityTypes.delete,
+                Enums.ActivityType.delete,
                 supplierDoc.StaffId,
                 "Nhà cung cấp",
                 supplierDoc.SupplierId

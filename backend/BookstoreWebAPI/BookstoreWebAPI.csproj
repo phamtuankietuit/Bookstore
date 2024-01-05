@@ -32,6 +32,9 @@
 	<ItemGroup>
 	  <None Include="..\.editorconfig" Link=".editorconfig" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Validators\DTOs\" />
+	</ItemGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)' == '' Or '$(Configuration)' == 'Debug'">
 		<EnvironmentName>Development</EnvironmentName>

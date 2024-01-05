@@ -1,8 +1,10 @@
 ﻿using BookstoreWebAPI.Enums;
 using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Models.DTOs;
+using BookstoreWebAPI.Models.Responses;
 using BookstoreWebAPI.Repository.Interfaces;
 using BookstoreWebAPI.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
 using System.Security.Authentication;
@@ -42,16 +44,12 @@ namespace BookstoreWebAPI.Controllers
 
             try
             {
-                var result = await _accountRepository.AuthenticateUser(data);
+                AuthenticateResult result = await _accountRepository.AuthenticateUser(data);
 
 
-                await _activityLogRepository.LogActivity(ActivityTypes.log_in, result.User.StaffId);
+                await _activityLogRepository.LogActivity(ActivityType.log_in, result.User.StaffId);
 
-                return Ok(new
-                {
-                    user = result.User,
-                    token = result.Token
-                });
+                return Ok(result);
             }
             catch (InvalidCredentialException)
             {

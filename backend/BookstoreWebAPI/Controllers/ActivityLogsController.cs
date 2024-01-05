@@ -17,18 +17,18 @@ namespace BookstoreWebAPI.Controllers
         private readonly ILogger<ActivityLogsController> _logger;
         private readonly IActivityLogRepository _activityLogRepository;
         private readonly IValidator<QueryParameters> _queryParametersValidator;
-        private readonly IValidator<ActivityLogFilterModel> _activityLogFilterModelValidator;
+        private readonly IValidator<ActivityLogFilterModel> _filterValidator;
 
         public ActivityLogsController(
             ILogger<ActivityLogsController> logger,
             IActivityLogRepository activityLogRepository,
             IValidator<QueryParameters> validator,
-            IValidator<ActivityLogFilterModel> activityLogFilterModelValidator)
+            IValidator<ActivityLogFilterModel> filterModelValidator)
         {
             _logger = logger;
             _activityLogRepository = activityLogRepository;
             _queryParametersValidator = validator;
-            _activityLogFilterModelValidator = activityLogFilterModelValidator;
+            _filterValidator = filterModelValidator;
         }
 
         // GET: api/<ActivityLogsController>
@@ -38,18 +38,11 @@ namespace BookstoreWebAPI.Controllers
             [FromQuery] ActivityLogFilterModel filter
         )
         {
-            ValidationResult result = await _queryParametersValidator.ValidateAsync(queryParams);
-            ValidationResult filterResult = await _activityLogFilterModelValidator.ValidateAsync(filter);
-            
-            if (!result.IsValid)
-            {
-                return BadRequest(result.Errors);
-            }
+            ValidationResult queryParamResult = await _queryParametersValidator.ValidateAsync(queryParams);
+            if (!queryParamResult.IsValid) return BadRequest(queryParamResult.Errors);
 
-            if (!filterResult.IsValid)
-            {
-                return BadRequest(filterResult.Errors);
-            }
+            ValidationResult filterModelResult = await _filterValidator.ValidateAsync(filter);
+            if (!filterModelResult.IsValid) return BadRequest(filterModelResult.Errors);
 
             int totalCount = await _activityLogRepository.GetTotalCount(queryParams, filter);
             var activityLogs = await _activityLogRepository.GetActivityLogDTOsAsync(queryParams, filter);

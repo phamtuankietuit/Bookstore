@@ -8,6 +8,7 @@ using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Models.DTOs;
 using System.Security.Authentication;
 using BookstoreWebAPI.Exceptions;
+using System.Security.Cryptography;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -36,10 +37,13 @@ namespace BookstoreWebAPI.Repository
 
                 // If successful, generate a token
                 var token = GenerateJwtToken(user);
+                var newRefreshToken = GenerateRefreshToken();
+
                 var result = new AuthenticateResult()
                 {
                     User = user,
-                    Token = token
+                    Token = token,
+                    RefreshToken = newRefreshToken
                 };
 
                 return result;
@@ -120,6 +124,14 @@ namespace BookstoreWebAPI.Repository
             var tokenString = tokenHandler.WriteToken(token);
 
             return tokenString;
+        }
+
+        private string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
         }
     }
 }

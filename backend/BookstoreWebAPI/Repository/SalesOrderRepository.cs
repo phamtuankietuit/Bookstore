@@ -88,7 +88,7 @@ namespace BookstoreWebAPI.Repository
                 _memoryCache.Set(salesOrderNewIdCacheName, IdUtils.IncreaseId(salesOrderDoc.Id));
 
                 await _activityLogRepository.LogActivity(
-                    Enums.ActivityTypes.create,
+                    Enums.ActivityType.create,
                     salesOrderDoc.StaffId,
                     "Đơn bán hàng",
                     salesOrderDoc.SalesOrderId
@@ -121,7 +121,7 @@ namespace BookstoreWebAPI.Repository
             );
 
             await _activityLogRepository.LogActivity(
-                Enums.ActivityTypes.update,
+                Enums.ActivityType.update,
                 salesOrderToUpdate.StaffId,
                 "Đơn bán hàng",
                 salesOrderToUpdate.SalesOrderId

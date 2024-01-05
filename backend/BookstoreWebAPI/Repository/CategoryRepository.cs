@@ -97,7 +97,7 @@ namespace BookstoreWebAPI.Repository
                 _memoryCache.Set(categoryNewIdCacheName, IdUtils.IncreaseId(categoryDoc.Id));
 
                 await _activityLogRepository.LogActivity(
-                    Enums.ActivityTypes.create,
+                    Enums.ActivityType.create,
                     categoryDTO.StaffId,
                     "Loại sản phẩm",
                     categoryDTO.CategoryId
@@ -121,7 +121,7 @@ namespace BookstoreWebAPI.Repository
             );
 
             await _activityLogRepository.LogActivity(
-                    Enums.ActivityTypes.update,
+                    Enums.ActivityType.update,
                     categoryToUpdate.StaffId,
                     "Loại sản phẩm",
                     categoryToUpdate.CategoryId
@@ -181,7 +181,7 @@ namespace BookstoreWebAPI.Repository
                 );
 
                 await _activityLogRepository.LogActivity(
-                    Enums.ActivityTypes.delete, 
+                    Enums.ActivityType.delete, 
                     categoryDTO.StaffId, 
                     "Loại sản phẩm", 
                     categoryDTO.CategoryId

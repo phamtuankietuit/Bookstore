@@ -152,7 +152,7 @@ namespace BookstoreWebAPI.Repository
             return newId;
         }
 
-        public async Task LogActivity(ActivityTypes activityType, string? staffId, string objectName="", string objectId="")
+        public async Task LogActivity(ActivityType activityType, string? staffId, string objectName="", string objectId="")
         {
             var activityTypeString = activityType.ToString();
             var activityName = GetActivityName(activityTypeString, objectName, objectId);

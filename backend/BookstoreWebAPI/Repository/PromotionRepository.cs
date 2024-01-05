@@ -92,7 +92,7 @@ namespace BookstoreWebAPI.Repository
                 _memoryCache.Set(promotionNewIdCacheName, IdUtils.IncreaseId(promotionDoc.Id));
                 
                 await _activityLogRepository.LogActivity(
-                    Enums.ActivityTypes.create,
+                    Enums.ActivityType.create,
                     promotionDoc.StaffId,
                     "Mã giảm giá",
                     promotionDoc.PromotionId
@@ -115,7 +115,7 @@ namespace BookstoreWebAPI.Repository
             );
 
             await _activityLogRepository.LogActivity(
-                    Enums.ActivityTypes.update,
+                    Enums.ActivityType.update,
                     promotionToUpdate.StaffId,
                     "Mã giảm giá",
                     promotionToUpdate.PromotionId
@@ -191,7 +191,7 @@ namespace BookstoreWebAPI.Repository
             await _promotionContainer.PatchItemAsync<PromotionDocument>(promotionDoc.Id, new PartitionKey(promotionDoc.PromotionId), patchOperations);
 
             await _activityLogRepository.LogActivity(
-                Enums.ActivityTypes.delete,
+                Enums.ActivityType.delete,
                 promotionDoc.StaffId,
                 "Mã giảm giá",
                 promotionDoc.PromotionId

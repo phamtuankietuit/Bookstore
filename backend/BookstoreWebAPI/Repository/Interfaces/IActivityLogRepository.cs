@@ -16,6 +16,6 @@ namespace BookstoreWebAPI.Repository.Interfaces
         Task<ActivityLogDTO?> GetActivityLogDTOByIdAsync(string id);
         Task<ActivityLogDTO> AddActivityLogDTOAsync(ActivityLogDTO activityLogDTO);
         string GetActivityName(string activityType, string objectName = "", string objectId = "");
-        Task LogActivity(ActivityTypes activityType, string? staffId, string objectName="", string objectId="");
+        Task LogActivity(ActivityType activityType, string? staffId, string objectName="", string objectId="");
     }
 }

@@ -92,7 +92,7 @@ namespace BookstoreWebAPI.Repository
                 _memoryCache.Set(customerNewIdCacheName, IdUtils.IncreaseId(customerDoc.Id));
 
                 await _activityLogRepository.LogActivity(
-                    Enums.ActivityTypes.create,
+                    Enums.ActivityType.create,
                     customerDoc.StaffId,
                     "Sản phẩm",
                     customerDoc.CustomerId
@@ -115,7 +115,7 @@ namespace BookstoreWebAPI.Repository
             );
 
             await _activityLogRepository.LogActivity(
-                Enums.ActivityTypes.update,
+                Enums.ActivityType.update,
                 customerToUpdate.StaffId,
                 "Sản phẩm",
                 customerToUpdate.CustomerId
@@ -193,7 +193,7 @@ namespace BookstoreWebAPI.Repository
             await _customerContainer.PatchItemAsync<CustomerDocument>(customerDoc.Id, new PartitionKey(customerDoc.CustomerId), patchOperations);
             
             await _activityLogRepository.LogActivity(
-                Enums.ActivityTypes.delete,
+                Enums.ActivityType.delete,
                 customerDoc.StaffId,
                 "Sản phẩm",
                 customerDoc.CustomerId

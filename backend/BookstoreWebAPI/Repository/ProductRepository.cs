@@ -134,7 +134,7 @@ namespace BookstoreWebAPI.Repository
                 _memoryCache.Set(cacheProductNewIdName, IdUtils.IncreaseId(productDoc.Id));
                 
                 await _activityLogRepository.LogActivity(
-                    Enums.ActivityTypes.create,
+                    Enums.ActivityType.create,
                     productDoc.StaffId,
                     "Sản phẩm",
                     productDoc.ProductId
@@ -168,7 +168,7 @@ namespace BookstoreWebAPI.Repository
                 partitionKey: new PartitionKey(inventoryDoc.Sku));
 
             await _activityLogRepository.LogActivity(
-                    Enums.ActivityTypes.update,
+                    Enums.ActivityType.update,
                     productDoc.StaffId,
                     "Sản phẩm",
                     productDoc.ProductId
@@ -233,7 +233,7 @@ namespace BookstoreWebAPI.Repository
             await _inventoryContainer.PatchItemAsync<dynamic>(inventoryDoc.Id, new PartitionKey(inventoryDoc.Sku), operations);
 
             await _activityLogRepository.LogActivity(
-                    Enums.ActivityTypes.delete,
+                    Enums.ActivityType.delete,
                     productDoc.StaffId,
                     "Sản phẩm",
                     productDoc.ProductId

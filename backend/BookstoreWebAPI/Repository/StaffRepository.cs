@@ -10,6 +10,7 @@ using BookstoreWebAPI.Exceptions;
 using BookstoreWebAPI.Repository.Interfaces;
 using Microsoft.Azure.Cosmos.Linq;
 using System.Security.Authentication;
+using BookstoreWebAPI.Models.BindingModels.FilterModels;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -39,7 +40,7 @@ namespace BookstoreWebAPI.Repository
             _emailUtils = emailUtils;
         }
 
-        public async Task<int> GetTotalCount(QueryParameters queryParams)
+        public async Task<int> GetTotalCount(QueryParameters queryParams, StaffFilterModel filter)
         {
             var tempQueryParams = new QueryParameters()
             {
@@ -49,7 +50,7 @@ namespace BookstoreWebAPI.Repository
 
             tempQueryParams.PageSize = -1;
 
-            var queryDef = CosmosDbUtils.BuildQuery<StaffDocument>(tempQueryParams);
+            var queryDef = CosmosDbUtils.BuildQuery<StaffDocument>(tempQueryParams, filter);
 
             var staffDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<StaffDocument>(_staffContainer, queryDef);
 
@@ -58,9 +59,9 @@ namespace BookstoreWebAPI.Repository
             return count;
         }
 
-        public async Task<IEnumerable<StaffDTO>> GetStaffDTOsAsync(QueryParameters queryParams)
+        public async Task<IEnumerable<StaffDTO>> GetStaffDTOsAsync(QueryParameters queryParams, StaffFilterModel filter)
         {
-            var queryDef = CosmosDbUtils.BuildQuery<StaffDocument>(queryParams);
+            var queryDef = CosmosDbUtils.BuildQuery<StaffDocument>(queryParams, filter);
 
             var staffDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<StaffDocument>(_staffContainer, queryDef);
             var staffDTOs = staffDocs.Select(staffDoc =>
@@ -153,8 +154,16 @@ namespace BookstoreWebAPI.Repository
 
         public async Task UpdateStaffDTOAsync(StaffDTO staffDTO)
         {
+            var staffInDb = await GetStaffDocumentByIdAsync(staffDTO.StaffId)
+                ?? throw new DocumentNotFoundException("Staff Not Found");
+
+
+
             var staffToUpdate = _mapper.Map<StaffDocument>(staffDTO);
             staffToUpdate.ModifiedAt = DateTime.UtcNow;
+
+            staffToUpdate.HashedAndSaltedPassword = staffInDb.HashedAndSaltedPassword;
+            staffToUpdate.DefaultPassword = staffInDb.DefaultPassword;
 
             await _staffContainer.UpsertItemAsync(
                 item: staffToUpdate,

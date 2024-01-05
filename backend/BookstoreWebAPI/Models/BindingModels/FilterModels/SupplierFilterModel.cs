@@ -8,8 +8,29 @@ namespace BookstoreWebAPI.Models.BindingModels.FilterModels
         [ModelBinder(BinderType = typeof(CommaDelimitedArrayModelBinder<string>))]
         public IEnumerable<string>? SupplierGroupIds { get; set; }
 
+
+
+        private bool? _isActive;
+        internal bool? IsActive { get => _isActive; private set { } }
+
+        private string? _isActiveString;
+
         [FromQuery(Name = "isActive")]
-        [ModelBinder(BinderType = typeof(CommaDelimitedArrayModelBinder<string>))]
-        public IEnumerable<string>? IsActives { get; set; }
+        public string? IsActiveString
+        {
+            get => _isActiveString;
+            set
+            {
+                if (bool.TryParse(value, out bool val))
+                {
+                    _isActive = val;
+                }
+                else
+                {
+                    _isActive = null;
+                }
+                _isActiveString = value;
+            }
+        }
     }
 }

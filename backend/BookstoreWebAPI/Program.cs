@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using BookstoreWebAPI.Models.Emails;
+using BookstoreWebAPI.Validators.FilterModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -120,6 +121,10 @@ builder.Services.AddTransient<IValidator<PromotionFilterModel>, PromotionFilterM
 builder.Services.AddTransient<IValidator<SalesOrderFilterModel>, SalesOrderFilterModelValidator>();
 builder.Services.AddTransient<IValidator<PurchaseOrderFilterModel>, PurchaseOrderFilterModelValidator>();
 builder.Services.AddTransient<IValidator<ActivityLogFilterModel>, ActivityLogFilterModelValidator>();
+builder.Services.AddTransient<IValidator<StaffFilterModel>, StaffFilterModelValidator>();
+builder.Services.AddTransient<IValidator<SupplierFilterModel>, SupplierFilterModelValidator>();
+builder.Services.AddTransient<IValidator<CustomerFilterModel>, CustomerFilterModelValidator>();
+builder.Services.AddTransient<IValidator<ProductFilterModel>, ProductFilterModelValidator>();
 
 builder.Services.AddTransient<DataSeeder>();
 builder.Services.AddControllers();
@@ -206,9 +211,13 @@ else
     app.UseHsts();
 }
 
+
 app.UseCors();
 
+
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

@@ -2,7 +2,7 @@
 
 namespace BookstoreWebAPI.Models.BindingModels.FilterModels
 {
-    public class CustomerFilterModel
+    public class StaffFilterModel
     {
         private bool? _isActive;
         internal bool? IsActive { get => _isActive; private set { } }
@@ -26,5 +26,10 @@ namespace BookstoreWebAPI.Models.BindingModels.FilterModels
                 _isActiveString = value;
             }
         }
+
+
+        [FromQuery(Name = "roles")]
+        [ModelBinder(BinderType = typeof(CommaDelimitedArrayModelBinder<string>))]
+        public IEnumerable<string>? Roles { get; set; }
     }
 }

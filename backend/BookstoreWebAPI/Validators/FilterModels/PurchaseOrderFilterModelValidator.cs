@@ -1,13 +1,21 @@
-﻿using BookstoreWebAPI.Enums;
-using BookstoreWebAPI.Models.BindingModels.FilterModels;
+﻿using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using FluentValidation;
 
-namespace BookstoreWebAPI.Validators
+namespace BookstoreWebAPI.Validators.FilterModels
 {
-    public class ActivityLogFilterModelValidator : AbstractValidator<ActivityLogFilterModel>
+    public class PurchaseOrderFilterModelValidator : AbstractValidator<PurchaseOrderFilterModel>
     {
-        public ActivityLogFilterModelValidator()
+        public PurchaseOrderFilterModelValidator()
         {
+            RuleFor(x => x.IsPaidOrderString)
+                .Custom((isPaidOrderString, context) =>
+                {
+                    if (!string.IsNullOrEmpty(isPaidOrderString) && !bool.TryParse(isPaidOrderString, out var val))
+                    {
+                        context.AddFailure("IsPaidOrder has to be true or false");
+                    }
+                });
+
             RuleFor(x => x.StartDate)
                 .Must(BeAValidDate)
                 .When(x => x.StartDate.HasValue)
@@ -30,17 +38,6 @@ namespace BookstoreWebAPI.Validators
                         model.EndDate = model.StartDate;
                     }
                 });
-
-            RuleFor(filter => filter.ActivityTypes)
-                .Must(BeValidActivityTypes!)
-                .WithMessage("Invalid activity type.")
-                .When(filter => filter.ActivityTypes != null && filter.ActivityTypes.Any());
-        }
-
-        private bool BeValidActivityTypes(IEnumerable<string> activityTypes)
-        {
-            var validActivityTypes = Enum.GetNames(typeof(ActivityTypes));
-            return activityTypes.All(at => validActivityTypes.Contains(at));
         }
 
         private bool BeAValidDate(DateTime? date)
@@ -49,3 +46,4 @@ namespace BookstoreWebAPI.Validators
         }
     }
 }
+

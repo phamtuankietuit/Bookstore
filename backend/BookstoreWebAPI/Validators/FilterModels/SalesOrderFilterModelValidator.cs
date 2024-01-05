@@ -1,21 +1,13 @@
 ﻿using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using FluentValidation;
+using System.Globalization;
 
-namespace BookstoreWebAPI.Validators
+namespace BookstoreWebAPI.Validators.FilterModels
 {
-    public class PurchaseOrderFilterModelValidator : AbstractValidator<PurchaseOrderFilterModel>
+    public class SalesOrderFilterModelValidator : AbstractValidator<SalesOrderFilterModel>
     {
-        public PurchaseOrderFilterModelValidator()
+        public SalesOrderFilterModelValidator()
         {
-            RuleFor(x => x.IsPaidOrderString)
-                .Custom((isPaidOrderString, context) =>
-                {
-                    if (!string.IsNullOrEmpty(isPaidOrderString) && !Boolean.TryParse(isPaidOrderString, out var val))
-                    {
-                        context.AddFailure("IsPaidOrder has to be true or false");
-                    }
-                });
-
             RuleFor(x => x.StartDate)
                 .Must(BeAValidDate)
                 .When(x => x.StartDate.HasValue)
@@ -46,4 +38,3 @@ namespace BookstoreWebAPI.Validators
         }
     }
 }
-

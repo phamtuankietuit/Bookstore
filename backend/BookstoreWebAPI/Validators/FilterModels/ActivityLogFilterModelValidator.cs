@@ -1,12 +1,12 @@
-﻿using BookstoreWebAPI.Models.BindingModels.FilterModels;
+﻿using BookstoreWebAPI.Enums;
+using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using FluentValidation;
-using System.Globalization;
 
-namespace BookstoreWebAPI.Validators
+namespace BookstoreWebAPI.Validators.FilterModels
 {
-    public class SalesOrderFilterModelValidator : AbstractValidator<SalesOrderFilterModel>
+    public class ActivityLogFilterModelValidator : AbstractValidator<ActivityLogFilterModel>
     {
-        public SalesOrderFilterModelValidator()
+        public ActivityLogFilterModelValidator()
         {
             RuleFor(x => x.StartDate)
                 .Must(BeAValidDate)
@@ -30,6 +30,17 @@ namespace BookstoreWebAPI.Validators
                         model.EndDate = model.StartDate;
                     }
                 });
+
+            RuleFor(filter => filter.ActivityTypes)
+                .Must(BeValidActivityTypes!)
+                .WithMessage("Invalid activity type.")
+                .When(filter => filter.ActivityTypes != null && filter.ActivityTypes.Any());
+        }
+
+        private bool BeValidActivityTypes(IEnumerable<string> activityTypes)
+        {
+            var validActivityTypes = Enum.GetNames(typeof(ActivityType));
+            return activityTypes.All(at => validActivityTypes.Contains(at));
         }
 
         private bool BeAValidDate(DateTime? date)

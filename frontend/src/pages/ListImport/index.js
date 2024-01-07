@@ -200,13 +200,27 @@ function ListImport() {
         setPageSize(newPerPage);
         setPageNumber(pageNumber);
 
-        getList(pageNumber, newPerPage, sortBy, orderBy);
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                pageSize,
+                sortBy,
+                orderBy,
+            )
+        );
     }
 
-    const handlePageChange = (pageNumber) => {
+    const handlePageChange = async (pageNumber) => {
         setPageNumber(pageNumber);
 
-        getList(pageNumber, pageSize, sortBy, orderBy);
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                pageSize,
+                sortBy,
+                orderBy,
+            )
+        );
     }
 
     const returnArray = (arr) => {

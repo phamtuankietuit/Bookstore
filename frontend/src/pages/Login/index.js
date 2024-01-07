@@ -150,11 +150,11 @@ function Login() {
                     console.log(obj)
                     console.log(result)
                     if (result) {
-                        toastContext.notify('success', 'Đăng nhập thành công!');
                         setLoading(false)
                         navigate('/overview');
                     }
                     else {
+                        setLoading(false)
                         toastContext.notify('error', 'Vui long kiểm tra lại email hoặc mật khẩu');
                     }
                 }

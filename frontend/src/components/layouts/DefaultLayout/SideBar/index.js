@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -16,10 +17,20 @@ import AppLogo from '~/assets/images/AppLogo.svg';
 import styles from './Sidebar.module.scss';
 import SidebarDropdown from '../SidebarDropdown';
 import SidebarButton from '../SidebarButton';
+import { getLocalStorage } from '~/store/getLocalStorage';
 
 const cx = classNames.bind(styles);
 
 function SideBar({ className, title }) {
+
+    const [arr, setArr] = useState();
+    const [role, setRole] = useState('admin');
+
+    useEffect(() => {
+        const roleInLocalStorage = getLocalStorage().user.role;
+        setRole(roleInLocalStorage);
+    }, []);
+
     const classes = cx('wrapper', {
         [className]: className,
     });
@@ -33,26 +44,30 @@ function SideBar({ className, title }) {
                 </div>
                 <hr className={cx('divider')} />
                 <div className={cx('content')}>
-                    <SidebarButton
-                        to={'/overview'}
-                        title={'Tổng quan'}
-                        icon={<FontAwesomeIcon icon={faHouse} />}
-                    />
-                    <SidebarDropdown
-                        state={title}
-                        icon={<FontAwesomeIcon icon={faReceipt} />}
-                        title={'Đơn hàng'}
-                        items={[
-                            {
-                                title: 'Danh sách đơn hàng',
-                                to: '/orders',
-                            },
-                            {
-                                title: 'Khách trả hàng',
-                                to: '/return',
-                            },
-                        ]}
-                    />
+                    {role === 'admin' &&
+                        <SidebarButton
+                            to={'/overview'}
+                            title={'Tổng quan'}
+                            icon={<FontAwesomeIcon icon={faHouse} />}
+                        />
+                    }
+                    {(role === 'sales' || role === 'admin') &&
+                        <SidebarDropdown
+                            state={title}
+                            icon={<FontAwesomeIcon icon={faReceipt} />}
+                            title={'Đơn hàng'}
+                            items={[
+                                {
+                                    title: 'Danh sách đơn hàng',
+                                    to: '/orders',
+                                },
+                                {
+                                    title: 'Khách trả hàng',
+                                    to: '/return',
+                                },
+                            ]}
+                        />
+                    }
                     <SidebarDropdown
                         state={title}
                         icon={<FontAwesomeIcon icon={faBox} />}
@@ -76,42 +91,54 @@ function SideBar({ className, title }) {
                             },
                         ]}
                     />
-                    <SidebarButton
-                        to={'/customers'}
-                        title={'Khách hàng'}
-                        icon={<FontAwesomeIcon icon={faUser} />}
-                    />
-                    <SidebarDropdown
-                        state={title}
-                        icon={<FontAwesomeIcon icon={faChartSimple} />}
-                        title={'Báo cáo'}
-                        items={[
-                            {
-                                title: 'Báo cáo bán hàng',
-                                to: '/reports/sell',
-                            },
-                        ]}
-                    />
-                    <SidebarButton
-                        to={'/sales'}
-                        title={'Bán tại quầy'}
-                        icon={<FontAwesomeIcon icon={faCashRegister} />}
-                    />
-                    <SidebarButton
-                        to={'/discounts'}
-                        title={'Khuyến mãi'}
-                        icon={<FontAwesomeIcon icon={faPercent} />}
-                    />
-                    <SidebarButton
-                        to={'/staffs'}
-                        title={'Quản lý nhân viên'}
-                        icon={<FontAwesomeIcon icon={faClipboardUser} />}
-                    />
-                    <SidebarButton
-                        to={'/activity'}
-                        title={'Nhật ký hoạt động'}
-                        icon={<FontAwesomeIcon icon={faClockRotateLeft} />}
-                    />
+                    {(role === 'sales' || role === 'admin') &&
+                        <SidebarButton
+                            to={'/customers'}
+                            title={'Khách hàng'}
+                            icon={<FontAwesomeIcon icon={faUser} />}
+                        />
+                    }
+                    {role === 'admin' &&
+                        <SidebarDropdown
+                            state={title}
+                            icon={<FontAwesomeIcon icon={faChartSimple} />}
+                            title={'Báo cáo'}
+                            items={[
+                                {
+                                    title: 'Báo cáo bán hàng',
+                                    to: '/reports/sell',
+                                },
+                            ]}
+                        />
+                    }
+                    {(role === 'sales' || role === 'admin') &&
+                        <SidebarButton
+                            to={'/sales'}
+                            title={'Bán tại quầy'}
+                            icon={<FontAwesomeIcon icon={faCashRegister} />}
+                        />
+                    }
+                    {role === 'admin' &&
+                        <SidebarButton
+                            to={'/discounts'}
+                            title={'Khuyến mãi'}
+                            icon={<FontAwesomeIcon icon={faPercent} />}
+                        />
+                    }
+                    {role === 'admin' &&
+                        <SidebarButton
+                            to={'/staffs'}
+                            title={'Quản lý nhân viên'}
+                            icon={<FontAwesomeIcon icon={faClipboardUser} />}
+                        />
+                    }
+                    {role === 'admin' &&
+                        <SidebarButton
+                            to={'/activity'}
+                            title={'Nhật ký hoạt động'}
+                            icon={<FontAwesomeIcon icon={faClockRotateLeft} />}
+                        />
+                    }
                 </div>
             </div>
         </div>

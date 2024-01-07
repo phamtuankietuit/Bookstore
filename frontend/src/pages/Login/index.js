@@ -1,21 +1,28 @@
-import classNames from 'classnames/bind';
-import styles from './Login.module.scss';
-import logo from '../../assets/images/logo.png';
 import { useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import classNames from 'classnames/bind';
+
+import styles from './Login.module.scss';
+import Logo from '~/assets/images/logo.png';
 import ModalComp from '~/components/ModalComp';
 import Button from '~/components/Button';
 import Input from '~/components/Input';
-import { ToastContext } from '~/components/ToastContext';
-import { useNavigate } from 'react-router-dom';
 import ModalLoading from '~/components/ModalLoading';
 
-import * as LoginServices from '~/apiServices/loginServices';
+import { ToastContext } from '~/components/ToastContext';
+
+import * as loginServices from '~/apiServices/loginServices';
 import * as staffServices from '~/apiServices/staffServices';
 
 const cx = classNames.bind(styles);
+
 function Login() {
+
+    const toastContext = useContext(ToastContext);
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
 
+    // CHECK IS LOGIN
     useEffect(() => {
         const isLogin = window.localStorage.getItem('isLogin');
 
@@ -53,54 +60,56 @@ function Login() {
         } else {
             setLoading(false);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    //toast context
-    const toastContext = useContext(ToastContext);
-    const navigate = useNavigate();
 
-    //Modal Comp
+
+
+    // MODAL
     const [open, setOpen] = useState(false);
-    const handleOpen = () => {
+
+    const handleOpenModal = () => {
         setOpen(true);
         setStep({ step1: true, step2: false, step3: false });
     };
-    const handleClose = () => setOpen(false);
-
-    const [forgetEmail, setForgetEmail] = useState('');
-    const [errorEmail, setErrorEmail] = useState('');
-
-    const [OTP, setOTP] = useState('');
-    const [errorOTP, setErrorOTP] = useState('');
-
-    const [newPass, setNewPass] = useState('');
-    const [errorNewPass, setErrorrNewPass] = useState('');
-
-    const [renewPass, setReNewPass] = useState('');
-    const [errorReNewPass, setErrorrReNewPass] = useState('');
-
-    const [equal, setEqual] = useState(false);
-
-
-    //Forget Pass Step
-    const [step, setStep] = useState({
-        step1: true,
-        step2: false,
-        step3: false,
-    });
 
     const handleCloseModal = () => {
-        handleClose();
         setForgetEmail('');
         setOTP('');
         setNewPass('');
         setReNewPass('');
         setErrorEmail('');
         setErrorOTP('');
-        setErrorrNewPass('');
-        setErrorrReNewPass('');
+        setErrorNewPass('');
+        setErrorReNewPass('');
         setEqual(false);
+        setOpen(false);
     };
+
+    // MODAL PROPS
+    const [step, setStep] = useState({
+        step1: true,
+        step2: false,
+        step3: false,
+    });
+
+    // MODAL FORGOT EMAIL
+    const [forgetEmail, setForgetEmail] = useState('');
+    const [errorEmail, setErrorEmail] = useState('');
+
+    // MODAL OTP
+    const [OTP, setOTP] = useState('');
+    const [errorOTP, setErrorOTP] = useState('');
+
+    // MODAL NEW PASSWORD
+    const [newPass, setNewPass] = useState('');
+    const [errorNewPass, setErrorNewPass] = useState('');
+
+    const [renewPass, setReNewPass] = useState('');
+    const [errorReNewPass, setErrorReNewPass] = useState('');
+
+    const [equal, setEqual] = useState(false);
 
     const handleValidation = () => {
         if (step.step1) {
@@ -116,15 +125,16 @@ function Login() {
         if (forgetEmail === '') {
             setErrorEmail('Không được bỏ trống');
         } else {
-            const filter =
-                /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            const filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
             if (!filter.test(forgetEmail)) {
                 setErrorEmail('Email sai định dạng!');
             } else {
                 setLoading(true);
                 let isSuccess = true;
                 const fetch = async () => {
-                    const response = await LoginServices.forgotPassword({ email: forgetEmail })
+                    // eslint-disable-next-line no-unused-vars
+                    const response = await loginServices.forgotPassword({ email: forgetEmail })
                         .catch((error) => {
                             setLoading(false);
                             isSuccess = false;
@@ -143,6 +153,7 @@ function Login() {
             }
         }
     };
+
     const handleValidationStep2 = () => {
         if (OTP === '') {
             setErrorOTP('Không được bỏ trống');
@@ -154,10 +165,10 @@ function Login() {
     const handleValidationStep3 = () => {
         if (renewPass === '' || newPass === '') {
             if (newPass === '') {
-                setErrorrNewPass('Không được bỏ trống');
+                setErrorNewPass('Không được bỏ trống');
             }
             if (renewPass === '') {
-                setErrorrReNewPass('Không được bỏ trống');
+                setErrorReNewPass('Không được bỏ trống');
             }
         } else {
             if (newPass === renewPass) {
@@ -169,25 +180,15 @@ function Login() {
         }
     };
 
+    // LOGIN PROPS
     const [email, setEmail] = useState('');
-
-    const [password, SetPassword] = useState('');
-
-    const OnChangeEmail = (e) => {
-        setEmail(e.target.value);
-    };
-
-    const OnChangePass = (e) => {
-        SetPassword(e.target.value);
-    };
-
+    const [password, setPassword] = useState('');
     const [message, setMessage] = useState();
+    const [isValid, setIsValid] = useState(false);
 
-    const [checklogin, setCheckLogin] = useState(false);
-
-    const OnClickLogin = () => {
+    const handleLogin = () => {
         if (email === '' || password === '') {
-            setCheckLogin('error');
+            setIsValid('error');
             setMessage('Vui lòng điền đủ thông tin!');
         } else {
             const filter =
@@ -195,7 +196,7 @@ function Login() {
             if (!filter.test(email)) {
                 setMessage('Vui lòng nhập đúng định dạng email');
             } else {
-                setCheckLogin(false);
+                setIsValid(false);
                 setLoading(true);
 
                 const fetchApi = async () => {
@@ -204,11 +205,15 @@ function Login() {
                         password: password,
                     }
 
-                    const result = await LoginServices.Login(obj)
+                    console.log(obj);
+
+                    const result = await loginServices.login(obj)
                         .catch((error) => {
                             if (error.response) {
                                 if (error.response.status === 400) {
                                     toastContext.notify('error', 'Vui lòng kiểm tra lại email hoặc mật khẩu');
+                                } else if (error.response.status === 403) {
+                                    toastContext.notify('error', 'Tài khoản đã bị vô hiệu hóa');
                                 }
                             } else {
                                 toastContext.notify('error', 'Có lỗi xảy ra');
@@ -218,19 +223,15 @@ function Login() {
                     console.log(result);
 
                     if (result) {
-                        if (result.user.isActive === true) {
-                            window.localStorage.setItem('object', JSON.stringify(result));
-                            window.localStorage.setItem('isLogin', true);
+                        window.localStorage.setItem('object', JSON.stringify(result));
+                        window.localStorage.setItem('isLogin', true);
 
-                            if (result.user.role === 'admin') {
-                                navigate('overview');
-                            } else if (result.user.role === 'warehouse') {
-                                navigate('/products');
-                            } else {
-                                navigate('orders');
-                            }
+                        if (result.user.role === 'admin') {
+                            navigate('/overview');
+                        } else if (result.user.role === 'warehouse') {
+                            navigate('/products');
                         } else {
-                            toastContext.notify('error', 'Tài khoản đã bị vô hiệu hóa');
+                            navigate('/orders');
                         }
                     }
 
@@ -246,7 +247,7 @@ function Login() {
         <div className={cx('container')}>
             <div className={cx('login-form')}>
                 <div className={cx('form-logo')}>
-                    <img src={logo} className={cx('logo')}></img>
+                    <img src={Logo} className={cx('logo')} alt='' />
                     <h1>Triple K</h1>
                 </div>
                 <p
@@ -262,18 +263,18 @@ function Login() {
                 >
                     Đăng nhập vào cửa hàng của bạn
                 </p>
-                {checklogin && <p className={cx('login-message')}>{message}</p>}
+                {isValid && <p className={cx('login-message')}>{message}</p>}
                 <div className={cx('login-text')}>
                     <input
                         type="text"
                         placeholder="Số điện thoại hoặc email"
                         id="account"
                         value={email}
-                        onChange={OnChangeEmail}
+                        onChange={(e) => setEmail(e.target.value)}
                     ></input>
                     <div
                         className={cx('input-border', {
-                            red: checklogin
+                            red: isValid
                                 ? email === ''
                                     ? true
                                     : false
@@ -287,11 +288,11 @@ function Login() {
                         placeholder="Mật khẩu"
                         id="password"
                         value={password}
-                        onChange={OnChangePass}
+                        onChange={(e) => setPassword(e.target.value)}
                     ></input>
                     <div
                         className={cx('input-border', {
-                            red: checklogin
+                            red: isValid
                                 ? password === ''
                                     ? true
                                     : false
@@ -300,9 +301,9 @@ function Login() {
                     ></div>
                 </div>
                 <div className={cx('forgot-pass')}>
-                    <p onClick={() => handleOpen()}>Quên mật khẩu?</p>
+                    <p onClick={() => handleOpenModal()}>Quên mật khẩu?</p>
                 </div>
-                <button className={cx('login-btn')} onClick={OnClickLogin}>
+                <button className={cx('login-btn')} onClick={handleLogin}>
                     ĐĂNG NHẬP
                 </button>
             </div>

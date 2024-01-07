@@ -43,23 +43,26 @@ function Header({ title, back }) {
     useEffect(() => {
         const object = getLocalStorage();
 
-        const fetch = async () => {
-            const response = await staffServices.getStaff(object.user.staffId)
-                .catch((error) => {
-                    console.log(error);
-                });
+        if (object) {
+            const fetch = async () => {
+                const response = await staffServices.getStaff(object.user.staffId)
+                    .catch((error) => {
+                        console.log(error);
+                    });
 
-            if (response) {
-                setName(response.name);
-                setImage(response.profileImage);
+                if (response) {
+                    setName(response.name);
+                    setImage(response.profileImage);
+                }
             }
+
+            fetch();
         }
 
-        fetch();
     }, []);
 
     const handleLogOut = () => {
-        window.localStorage.removeItem('object');
+        window.localStorage.setItem('object', null);
         window.localStorage.setItem('isLogin', false);
         navigate('/');
     };

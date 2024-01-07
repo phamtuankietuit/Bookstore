@@ -15,7 +15,6 @@ export const postMethod = async (path, options = {}, loginRequest) => {
 
     if (loginRequest === false) {
         headers.staffId = getLocalStorage().user.staffId;
-        console.log('Có headers');
     }
 
     console.log('HEADERS', headers);
@@ -36,7 +35,7 @@ export const putMethod = async (path, options = {}) => {
     return response.data;
 };
 
-export const deleteMethod = async (path, options = {}) => {
+export const deleteMethod = async (path) => {
     const response = await request.delete(path, {
         headers: {
             'staffId': getLocalStorage().user.staffId,

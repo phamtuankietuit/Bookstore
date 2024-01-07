@@ -43,14 +43,18 @@ import ImportReport from '~/pages/ImportReport';
 import ActivityHistory from '~/pages/ActivityHistory';
 import Overview from '~/pages/Overview';
 import Sell from '~/pages/Sell';
-import CameraComponent from '~/components/CameraComponent';
-import Barcode from '~/pages/Barcode';
 
 const publicRoutes = [
     // ACCOUNT
-    { path: '/', component: Login, layout: null, title: 'Login' },
+    { path: '/', component: Login, layout: null },
+];
+
+const roles = ['warehouse', 'sales'];
+
+const privateRoutes = [
     {
         path: '/profile',
+        role: roles[0] + roles[1],
         component: Profile,
         layout: null,
     },
@@ -62,17 +66,20 @@ const publicRoutes = [
     // ORDER
     {
         path: '/orders',
+        role: roles[1],
         component: ListOrder,
         title: 'Danh sách đơn hàng',
     },
     {
         path: '/orders/detail/:id',
+        role: roles[1],
         component: BillInfo,
         title: 'Thông tin hoá đơn',
         back: true,
     },
     {
         path: '/orders/update/:id',
+        role: roles[1],
         component: EditBillInfo,
         title: 'Cập nhật hoá đơn',
         back: true,
@@ -80,29 +87,34 @@ const publicRoutes = [
     // PRODUCT
     {
         path: '/products',
+        role: roles[0] + roles[1],
         component: ListProduct,
         title: 'Danh sách sản phẩm',
     },
     {
         path: '/products/add',
+        role: roles[0] + roles[1],
         component: AddProduct,
         title: 'Thêm sản phẩm',
         back: true,
     },
     {
         path: '/products/detail/:id',
+        role: roles[0] + roles[1],
         component: InfoProduct,
         title: 'Chi tiết sản phẩm',
         back: true,
     },
     {
         path: '/products/update/:id',
+        role: roles[0] + roles[1],
         component: UpdateProduct,
         title: 'Cập nhật sản phẩm',
         back: true,
     },
     {
         path: '/products/type',
+        role: roles[0] + roles[1],
         component: TypeProduct,
         title: 'Loại sản phẩm',
         back: true,
@@ -110,23 +122,27 @@ const publicRoutes = [
     // IMPORT
     {
         path: '/imports',
+        role: roles[0],
         component: ListImport,
         title: 'Danh sách đơn nhập hàng',
     },
     {
         path: '/imports/add',
+        role: roles[0],
         component: ImportProduct,
         title: 'Tạo đơn nhập hàng',
         back: true,
     },
     {
         path: '/imports/update/:id',
+        role: roles[0],
         component: UpdateImportProduct,
         title: 'Chỉnh sửa đơn nhập hàng',
         back: true,
     },
     {
         path: '/imports/detail/:id',
+        role: roles[0],
         component: InfoImportProduct,
         title: 'Chi tiết đơn nhập hàng',
         back: true,
@@ -134,23 +150,27 @@ const publicRoutes = [
     // CHECK PRODUCT
     {
         path: '/checks',
+        role: roles[0],
         component: ListCheck,
         title: 'Danh sách đơn kiểm hàng',
     },
     {
         path: '/checks/add',
+        role: roles[0],
         component: AddCheckProduct,
         title: 'Tạo đơn kiểm hàng',
         back: true,
     },
     {
         path: '/checks/detail/:id',
+        role: roles[0],
         component: InfoCheckProduct,
         title: 'Chi tiết đơn kiểm hàng',
         back: true,
     },
     {
         path: '/checks/update/:id',
+        role: roles[0],
         component: UpdateCheckProduct,
         title: 'Chỉnh sửa đơn kiểm hàng',
         back: true,
@@ -158,29 +178,34 @@ const publicRoutes = [
     // SUPPLIER
     {
         path: '/suppliers',
+        role: roles[0] + roles[1],
         component: ListSupplier,
         title: 'Danh sách nhà cung cấp',
     },
     {
         path: '/suppliers/add',
+        role: roles[0] + roles[1],
         component: AddSupplier,
         title: 'Thêm nhà cung cấp',
         back: true,
     },
     {
         path: '/suppliers/detail/:id',
+        role: roles[0] + roles[1],
         component: InfoSupplier,
         title: 'Chi tiết nhà cung cấp',
         back: true,
     },
     {
         path: '/suppliers/update/:id',
+        role: roles[0] + roles[1],
         component: UpdateSupplier,
         title: 'Cập nhật nhà cung cấp',
         back: true,
     },
     {
         path: '/suppliers/group',
+        role: roles[0] + roles[1],
         component: ListSupplierGroup,
         title: 'Danh sách nhóm nhà cung cấp',
         back: true,
@@ -212,17 +237,20 @@ const publicRoutes = [
     // RETURN
     {
         path: '/return',
+        role: roles[1],
         component: ListReturn,
         title: 'Danh sách đơn trả hàng',
     },
     {
         path: '/return/add/:id',
+        role: roles[1],
         component: AddReturnProduct,
         title: 'Tạo đơn trả hàng',
         back: true,
     },
     {
         path: '/return/detail/:id',
+        role: roles[1],
         component: InfoReturn,
         title: 'Chi tiết đơn trả hàng',
         back: true,
@@ -230,29 +258,34 @@ const publicRoutes = [
     // SALE
     {
         path: '/sales',
+        role: roles[1],
         component: Sale,
         layout: null,
     },
     // CUSTOMER
     {
         path: '/customers',
+        role: roles[1],
         component: ListCustomer,
         title: 'Danh sách khách hàng',
     },
     {
         path: '/customers/add',
+        role: roles[1],
         component: AddCustomer,
         title: 'Thêm khách hàng',
         back: true,
     },
     {
         path: '/customers/detail/:id',
+        role: roles[1],
         component: InfoCustomer,
         title: 'Chi tiết khách hàng',
         back: true,
     },
     {
         path: '/customers/update/:id',
+        role: roles[1],
         component: UpdateCustomer,
         title: 'Cập nhật khách hàng',
         back: true,
@@ -304,18 +337,6 @@ const publicRoutes = [
         component: Sell,
         layout: null,
     },
-    {
-        path: '/camera',
-        component: CameraComponent,
-        layout: null,
-    },
-    {
-        path: '/barcode',
-        component: Barcode,
-        layout: null,
-    },
 ];
-
-const privateRoutes = [];
 
 export { publicRoutes, privateRoutes };

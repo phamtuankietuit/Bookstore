@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { GrPrint } from 'react-icons/gr';
-import { FaRegCopy } from 'react-icons/fa6';
 import { IoPerson } from 'react-icons/io5';
 import { FaCalendarAlt } from 'react-icons/fa';
 import styles from './BillInfo.module.scss';

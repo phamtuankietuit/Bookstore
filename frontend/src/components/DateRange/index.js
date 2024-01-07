@@ -19,12 +19,12 @@ function DateRange({ className, title, dateString, setDateString, bottom, future
         setRange(range);
         if (range?.from) {
             if (!range.to) {
-                setDateString(format(range.from, 'MM/dd/yyyy'));
+                setDateString(format(range.from, 'dd/MM/yyyy'));
             } else if (range.to) {
                 setDateString(
-                    `${format(range.from, 'MM/dd/yyyy')} – ${format(
+                    `${format(range.from, 'dd/MM/yyyy')} – ${format(
                         range.to,
-                        'MM/dd/yyyy',
+                        'dd/MM/yyyy',
                     )}`,
                 );
             }

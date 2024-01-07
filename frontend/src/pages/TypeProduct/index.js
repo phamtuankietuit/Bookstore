@@ -300,6 +300,13 @@ function TypeProduct() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [updateList]);
 
+    const selectableRowDisabled = (row) => {
+        if (Number(row.categoryId.slice(-5)) <= 10) {
+            return true;
+        }
+        return false;
+    }
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -342,6 +349,8 @@ function TypeProduct() {
                         totalRows={totalRows}
                         handlePerRowsChange={handlePerRowsChange}
                         handlePageChange={handlePageChange}
+                        // 
+                        selectableRowDisabled={selectableRowDisabled}
                     />
                 </div>
             </div>

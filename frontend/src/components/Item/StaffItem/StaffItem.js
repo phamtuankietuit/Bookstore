@@ -18,6 +18,7 @@ export const StaffItem = [
     },
     {
         name: 'Tên nhân viên',
+        text: 'name',
         sortable: true,
         minWidth: '180px',
         cell: (row) => (
@@ -72,7 +73,9 @@ export const StaffItem = [
         minWidth: '180px',
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.role}
+                {row.role === 'admin' && 'Quản lý'}
+                {row.role === 'warehouse' && 'Nhân viên kho'}
+                {row.role === 'sale' && 'Nhân viên bán hàng'}
             </div>
         ),
     },

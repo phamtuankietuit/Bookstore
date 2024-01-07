@@ -1,8 +1,10 @@
 import classNames from 'classnames/bind';
+import { format } from 'date-fns';
 import styles from './OrderItem.module.scss';
 
+
 const cx = classNames.bind(styles);
-// const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
 export const OrderItem = [
     {
@@ -22,7 +24,7 @@ export const OrderItem = [
         sortable: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.createdAt}
+                {format(new Date(row.createdAt), 'dd/MM/yyyy - HH:mm')}
             </div>
         ),
     },
@@ -41,7 +43,7 @@ export const OrderItem = [
         center: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.totalAmount}
+                {addCommas(row.totalAmount)}
             </div>
         ),
     },

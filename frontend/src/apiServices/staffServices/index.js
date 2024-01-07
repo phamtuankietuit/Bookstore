@@ -38,3 +38,12 @@ export const createStaff = async (obj) => {
         return Promise.reject(error);
     }
 }
+
+export const deleteStaffs = async (staffs) => {
+    try {
+        const res = await request.deleteMethod(`Staffs?${staffs.map((staff) => 'ids=' + staff.staffId).join('&')}`);
+        return res;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}

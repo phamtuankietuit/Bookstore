@@ -7,17 +7,11 @@ import Button from '~/components/Button';
 import Input from '~/components/Input';
 import { ToastContext } from '~/components/ToastContext';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
 import ModalLoading from '~/components/ModalLoading';
 
 import * as LoginServices from '~/apiServices/loginServices';
 import * as staffServices from '~/apiServices/staffServices';
 
-=======
-import { red } from '@mui/material/colors';
-import * as LoginServices from '~/apiServices/loginServices'
-import ModalLoading from '~/components/ModalLoading';
->>>>>>> 46707d8edd5560ef1d50afaff48346fea9b12901
 const cx = classNames.bind(styles);
 function Login() {
     const [loading, setLoading] = useState(true);
@@ -88,7 +82,6 @@ function Login() {
     const [equal, setEqual] = useState(false);
 
 
-    const [loading, setLoading] = useState(false);
     //Forget Pass Step
     const [step, setStep] = useState({
         step1: true,
@@ -203,12 +196,8 @@ function Login() {
                 setMessage('Vui lòng nhập đúng định dạng email');
             } else {
                 setCheckLogin(false);
-<<<<<<< HEAD
                 setLoading(true);
 
-=======
-                setLoading(true)
->>>>>>> 46707d8edd5560ef1d50afaff48346fea9b12901
                 const fetchApi = async () => {
                     const obj = {
                         email: email,
@@ -229,7 +218,6 @@ function Login() {
                     console.log(result);
 
                     if (result) {
-<<<<<<< HEAD
                         if (result.user.isActive === true) {
                             window.localStorage.setItem('object', JSON.stringify(result));
                             window.localStorage.setItem('isLogin', true);
@@ -244,14 +232,6 @@ function Login() {
                         } else {
                             toastContext.notify('error', 'Tài khoản đã bị vô hiệu hóa');
                         }
-=======
-                        setLoading(false)
-                        navigate('/overview');
-                    }
-                    else {
-                        setLoading(false)
-                        toastContext.notify('error', 'Vui long kiểm tra lại email hoặc mật khẩu');
->>>>>>> 46707d8edd5560ef1d50afaff48346fea9b12901
                     }
 
                     setLoading(false);

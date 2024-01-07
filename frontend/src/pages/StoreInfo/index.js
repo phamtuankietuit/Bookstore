@@ -23,6 +23,12 @@ function StoreInfo() {
     const handleSave = () => {
         toastContext.notify('success', 'Cập nhật thông tin thành công!');
     };
+
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [email, setEmail] = useState('');
+    const [address, setAddress] = useState('');
+
     return (
         <div className={cx('container')}>
             <div className={cx('header')}>
@@ -34,7 +40,7 @@ function StoreInfo() {
                         {/* <h3>Thông tin liên hệ</h3>
                         <p className={cx('details')}>
                             Thông tin được sử dụng để liên lạc với cửa hàng
-                        </p> */}
+                        </p>
                         <div className={cx('profile-card')}>
                             {image ? (
                                 <img
@@ -61,7 +67,7 @@ function StoreInfo() {
                                     onChange={handleImageChange}
                                 ></input>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <div className={cx('content2')}>
                         <h3>Thông tin cửa hàng</h3>
@@ -74,16 +80,17 @@ function StoreInfo() {
                                 <input
                                     className={cx('text-inp')}
                                     type="text"
-                                    value={'TripleK'}
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
                                 ></input>
                             </div>
                             <div className={cx('grid-content')}>
                                 <p>SĐT</p>
                                 <input
                                     className={cx('text-inp')}
-                                    type="text"
-                                    value={'0961826917'}
-                                    readOnly
+                                    type="tel"
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)}
                                 ></input>
                             </div>
                             <div className={cx('grid-content')}>
@@ -91,7 +98,8 @@ function StoreInfo() {
                                 <input
                                     className={cx('text-inp')}
                                     type="text"
-                                    value={'khiem6112003@gmail.com'}
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 ></input>
                             </div>
                             <div className={cx('grid-content')}>
@@ -99,9 +107,11 @@ function StoreInfo() {
                                 <input
                                     className={cx('text-inp')}
                                     type="text"
+                                    value={address}
+                                    onChange={(e) => setAddress(e.target.value)}
                                 ></input>
                             </div>
-                            <div className={cx('grid-content')}>
+                            {/* <div className={cx('grid-content')}>
                                 <p>Phường/Xã</p>
                                 <input
                                     className={cx('text-inp')}
@@ -115,7 +125,7 @@ function StoreInfo() {
                                     className={cx('text-inp')}
                                     type="text"
                                 ></input>
-                            </div>
+                            </div> */}
                         </div>
                         <div className={cx('btn-c')}>
                             <button onClick={handleSave}>Lưu</button>

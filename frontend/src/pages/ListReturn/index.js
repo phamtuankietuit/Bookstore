@@ -95,7 +95,7 @@ function ListReturn() {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
-                <div className={cx('tool-bar')}>
+                {/* <div className={cx('tool-bar')}>
                     <div className={cx('tool-bar-left')}>
                         <Button
                             leftIcon={<FontAwesomeIcon icon={faDownload} />}
@@ -114,7 +114,7 @@ function ListReturn() {
                             Tạo đơn trả hàng
                         </Button>
                     </div>
-                </div>
+                </div> */}
 
                 <List
                     searchVisibility={true}

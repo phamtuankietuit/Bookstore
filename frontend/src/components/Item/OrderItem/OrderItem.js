@@ -47,14 +47,14 @@ export const OrderItem = [
             </div>
         ),
     },
-    {
-        name: 'Nhân viên tạo',
-        minWidth: '180px',
-        center: true,
-        cell: (row) => (
-            <div className={cx('font')} data-tag="allowRowEvents">
-                {row.staffCreated}
-            </div>
-        ),
-    },
+    // {
+    //     name: 'Nhân viên tạo',
+    //     minWidth: '180px',
+    //     center: true,
+    //     cell: (row) => (
+    //         <div className={cx('font')} data-tag="allowRowEvents">
+    //             {row.staffCreated}
+    //         </div>
+    //     ),
+    // },
 ];

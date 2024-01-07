@@ -16,7 +16,7 @@ import { ToastContext } from '~/components/ToastContext';
 import * as PurchaseorderServices from '~/apiServices/purchaseorderServies';
 import * as supplierServices from '~/apiServices/supplierServices';
 import * as staffServices from '~/apiServices/staffServices';
-
+import { ConvertISO } from '~/components/ConvertISO';
 const cx = classNames.bind(styles);
 
 const optionsTT = [
@@ -48,6 +48,7 @@ function ListImport() {
         status,
         supplierIds,
         staffIds,
+        query,
     ) => {
         return {
             pageNumber,
@@ -59,6 +60,7 @@ function ListImport() {
             ...(status && { status }),
             ...(supplierIds && { supplierIds }),
             ...(staffIds && { staffIds }),
+            ...(query && { query }),
         };
     }
 
@@ -67,6 +69,26 @@ function ListImport() {
     const handleSearch = (e) => {
         setSearch(e.target.value);
     };
+
+    const handleKeyDown = async (e) => {
+        if (e.key === 'Enter') {
+            setPageNumber(1);
+            getList(
+                await createObjectQuery(
+                    1,
+                    pageSize,
+                    sortBy,
+                    orderBy,
+                    dateString && ConvertISO(dateString).startDate,
+                    dateString && ConvertISO(dateString).endDate,
+                    selectedTT.length > 0 && returnArray(selectedTT),
+                    selectedSupplier.length > 0 && returnArray(selectedTT),
+                    selectedTT.length > 0 && returnArray(selectedTT),
+                    search,
+                )
+            );
+        }
+    }
 
     // FILTER OPTIONS
     const [optionsSupplier, setOptionsSupplier] = useState([]);
@@ -89,7 +111,24 @@ function ListImport() {
         setDateString('');
     };
 
-    const handleFilter = () => {
+    const handleFilter = async () => {
+        setPageNumber(1);
+
+        getList(
+            await createObjectQuery(
+                1,
+                pageSize,
+                sortBy,
+                orderBy,
+                dateString && ConvertISO(dateString).startDate,
+                dateString && ConvertISO(dateString).endDate,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedSupplier.length > 0 && returnArray(selectedTT),
+                selectedTT.length > 0 && returnArray(selectedTT),
+                search,
+            )
+        );
+
         handleCloseFilter();
     };
 
@@ -117,7 +156,7 @@ function ListImport() {
 
     // GET DATA STAFF
     const getStaff = async () => {
-        const response = await staffServices.getAllStaffs(1, -1)
+        const response = await staffServices.getAllStaffs({ pageNumber: 1, pageSize: -1 })
             .catch((error) => {
                 if (error.response) {
                     console.log(error.response.data);
@@ -140,22 +179,15 @@ function ListImport() {
     // GET DATA FOR FILTER
     useEffect(() => {
         getSup();
-        // getStaff();
+        getStaff();
         // eslint-disable-next-line no-use-before-define
     }, [openFilter]);
 
     // DATE RANGE PICKER
     const [dateString, setDateString] = useState('');
-    const [startDate, setStartDate] = useState();
-    const [endDate, setEndDate] = useState();
+
 
     const handleSetDate = (str) => {
-        if (str.includes(' - ')) {
-            const arr = str.split(' - ');
-
-            setStartDate((new Date(arr[0])).toISOString());
-            setEndDate((new Date(arr[1])).toISOString());
-        }
         setDateString(str);
     }
 
@@ -200,13 +232,39 @@ function ListImport() {
         setPageSize(newPerPage);
         setPageNumber(pageNumber);
 
-        getList(pageNumber, newPerPage, sortBy, orderBy);
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                newPerPage,
+                sortBy,
+                orderBy,
+                dateString && ConvertISO(dateString).startDate,
+                dateString && ConvertISO(dateString).endDate,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedSupplier.length > 0 && returnArray(selectedTT),
+                selectedTT.length > 0 && returnArray(selectedTT),
+                search,
+            )
+        );
     }
 
-    const handlePageChange = (pageNumber) => {
+    const handlePageChange = async (pageNumber) => {
         setPageNumber(pageNumber);
 
-        getList(pageNumber, pageSize, sortBy, orderBy);
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                pageSize,
+                sortBy,
+                orderBy,
+                dateString && ConvertISO(dateString).startDate,
+                dateString && ConvertISO(dateString).endDate,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedSupplier.length > 0 && returnArray(selectedTT),
+                selectedTT.length > 0 && returnArray(selectedTT),
+                search,
+            )
+        );
     }
 
     const returnArray = (arr) => {
@@ -218,24 +276,38 @@ function ListImport() {
         setOrderBy(sortDirection);
         setPageNumber(1);
 
-        // getList(
-        //     await createObjectQuery(
-        //         pageNumber,
-        //         pageSize,
-        //         column.text,
-        //         sortDirection,
-        //         startDate && startDate,
-        //         endDate && endDate,
-        //         selectedTT.length > 0 && returnArray(selectedTT),
-        //         selectedSupplier.length > 0 && returnArray(selectedTT),
-        //         selectedTT.length > 0 && returnArray(selectedTT),
-        //     )
-        // );
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                pageSize,
+                column.text,
+                sortDirection,
+                dateString && ConvertISO(dateString).startDate,
+                dateString && ConvertISO(dateString).endDate,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedSupplier.length > 0 && returnArray(selectedTT),
+                selectedTT.length > 0 && returnArray(selectedTT),
+                search,
+            )
+        );
     };
 
     useEffect(() => {
         const fetch = async () => {
-            getList(await createObjectQuery(pageNumber, pageSize));
+            getList(
+                await createObjectQuery(
+                    pageNumber,
+                    pageSize,
+                    sortBy,
+                    orderBy,
+                    dateString && ConvertISO(dateString).startDate,
+                    dateString && ConvertISO(dateString).endDate,
+                    selectedTT.length > 0 && returnArray(selectedTT),
+                    selectedSupplier.length > 0 && returnArray(selectedTT),
+                    selectedTT.length > 0 && returnArray(selectedTT),
+                    search,
+                )
+            );
         }
 
         fetch();
@@ -266,6 +338,7 @@ function ListImport() {
                     }
                     search={search}
                     handleSearch={handleSearch}
+                    handleKeyDown={handleKeyDown}
                     filterComponent={
                         <Filter
                             open={openFilter}

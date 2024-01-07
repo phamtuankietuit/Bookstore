@@ -47,3 +47,12 @@ export const deleteStaffs = async (staffs) => {
         return Promise.reject(error);
     }
 }
+
+export const updateStaff = async (id, obj) => {
+    try {
+        const res = await request.putMethod('Staffs/' + id, obj);
+        return res;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}

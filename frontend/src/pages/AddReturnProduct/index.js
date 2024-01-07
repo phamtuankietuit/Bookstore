@@ -8,25 +8,31 @@ import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Item_Return from '~/components/Item_Return';
-import { data } from './data';
 import Spinner from 'react-bootstrap/Spinner';
 import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
+
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
 function AddReturnProduct() {
+    const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
     const [loading, setLoading] = useState(false);
-    let navigate = useNavigate()
-    const [obj, setObj] = useState(null)
-    const [isset, setIsset] = useState(false)
+
+    const [obj, setObj] = useState(null);
+    const [isset, setIsset] = useState(false);
+
+
     useEffect(() => {
-        setObj(data)
+        setObj()
         if (isset === false && obj !== null) {
             AddArr(obj.list)
             setIsset(true)
         }
-    });
+    }, []);
+
+
     const [total, setTotal] = useState(0)
     const [note, setNote] = useState('')
     const [nums, setNums] = useState(0)
@@ -72,18 +78,14 @@ function AddReturnProduct() {
         const newarr = arr.filter(arr => arr.nums > 0)
         if (nums === 0) {
             setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-                toastContext.notify('error', 'Chưa trả sản phẩm nào');
-            }, 2000);
+            setLoading(false);
+            toastContext.notify('error', 'Chưa trả sản phẩm nào');
         }
         else {
             setLoading(true);
-            setTimeout(() => {
-                console.log(newarr)
-                setLoading(false);
-                toastContext.notify('success', 'Đã tạo đơn trả');
-            }, 2000);
+            console.log(newarr)
+            setLoading(false);
+            toastContext.notify('success', 'Đã tạo đơn trả');
         }
     }
     const returnid = useParams()
@@ -110,9 +112,6 @@ function AddReturnProduct() {
                                         <p>{returnid.id}</p>
                                     </Col>
                                 </Row>
-
-
-
                             </div>
 
                             <div className={cx('frame')}>

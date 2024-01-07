@@ -6,9 +6,10 @@ import styles from './SearchBar.module.scss';
 
 const cx = classNames.bind(styles);
 
-function SearchBar({ placeholder, value, onChange, className }) {
+function SearchBar({ placeholder, value, onChange, className, onKeyDown }) {
     const props = {
         onChange,
+        onKeyDown,
     };
 
     const classes = cx('search-bar', {

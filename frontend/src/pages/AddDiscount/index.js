@@ -6,6 +6,10 @@ import * as PromotionsServices from '~/apiServices/promotionServices';
 import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
 import { useNavigate } from 'react-router-dom';
+import { getLocalStorage } from '~/store/getLocalStorage';
+
+import { ConvertISO } from '~/components/ConvertISO';
+
 const cx = classNames.bind(styles);
 
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -25,83 +29,66 @@ function AddDiscount() {
 
     const DisableInputText = () => {
         SetDisable(!disable);
+        setQuantity(0);
     };
 
     const [dateString, setDateString] = useState('');
     const [start, setStart] = useState(0);
     const [end, setEnd] = useState(null);
     const [discount, setDiscount] = useState(0);
-    const [name, setName] = useState('')
-    const [quantity, setQuantity] = useState(0)
+    const [name, setName] = useState('');
+    const [quantity, setQuantity] = useState(0);
 
     const submit = () => {
         if (name === '') {
-            setTimeout(() => {
-                setLoading(false);
-                toastContext.notify('error', 'Chưa nhập tên');
-            }, 2000);
-        }
-        else if (parseInt(quantity) === 0 && disable === false) {
-            setTimeout(() => {
-                setLoading(false);
-                toastContext.notify('error', 'Cần chọn số lượng áp dụng');
-            }, 2000);
-        }
-
-        else if (dateString === '') {
-            setTimeout(() => {
-                setLoading(false);
-                toastContext.notify('error', 'Chưa chọn ngày');
-            }, 2000);
-        }
-
-        else if (parseInt(discount) === 0) {
-            setTimeout(() => {
-                setLoading(false);
-                toastContext.notify('error', 'Chưa chọn phần trăm chiết khấu');
-            }, 2000);
-        }
-        else {
+            setLoading(false);
+            toastContext.notify('error', 'Chưa nhập tên');
+        } else if (quantity === '') {
+            setLoading(false);
+            toastContext.notify('error', 'Cần chọn số lượng áp dụng');
+        } else if (dateString === '') {
+            setLoading(false);
+            toastContext.notify('error', 'Chưa chọn ngày');
+        } else if (parseInt(discount) === 0) {
+            setLoading(false);
+            toastContext.notify('error', 'Chưa chọn phần trăm chiết khấu');
+        } else {
             setLoading(true);
             const fetchApi = async () => {
-                // console.log(productid.id)
-                const date = dateString.split(' – ')
 
+                let endValue = null;
+                if (Number(end) > 0) {
+                    endValue = Number(end);
+                }
 
-                console.log(date)
                 const obj = {
                     name: name,
-                    type: "",
-                    typeName: "",
-                    applyToQuantity: 0,
-                    usedQuantity: 0,
-                    remainQuantity: parseInt(quantity),
-                    applyFromAmount: parseInt(start),
-                    applyToAmount: parseInt(end),
-                    discountRate: parseInt(discount),
-                    discountValue: 0,
-                    startAt: new Date(date[0]).toISOString(),
-                    closeAt: new Date(date[1]).toISOString(),
+                    remainQuantity: Number(quantity),
+                    applyFromAmount: Number(start),
+                    applyToAmount: endValue,
+                    discountRate: Number(discount),
+                    startAt: ConvertISO(dateString).startDate,
+                    closeAt: ConvertISO(dateString).endDate,
                     status: "running",
-                    staffId: ''
+                    staffId: getLocalStorage().user.staffId,
                 }
-                console.log(obj)
+
+                console.log(obj);
+
                 const result = await PromotionsServices.CreatePromotion(obj)
                     .catch((err) => {
                         console.log(err);
                     });
+
                 if (result) {
-                    setTimeout(() => {
-                        setLoading(false);
-                        toastContext.notify('success', 'Đã lưu khuyến mãi');
-                        navigate('/discounts/detail/' + result.promotionId);
-                    }, 2000);
+                    setLoading(false);
+                    toastContext.notify('success', 'Đã lưu khuyến mãi');
+                    navigate('/discounts/detail/' + result.promotionId);
+
                 }
                 else {
-                    setTimeout(() => {
-                        setLoading(false);
-                        toastContext.notify('error', 'Đã có lỗi xảy rồi');
-                    }, 2000);
+                    setLoading(false);
+                    toastContext.notify('error', 'Có lỗi xảy ra');
                 }
             }
 
@@ -143,19 +130,19 @@ function AddDiscount() {
                             <div>
                                 <p>Số lượng áp dụng</p>
                                 <input
-                                    type="text"
+                                    type="number"
                                     placeholder="Nhập số lượng áp dụng"
                                     disabled={disable}
                                     value={quantity}
                                     onChange={(e) => {
                                         if (e.target.value < 0) e.target.value = 0
-                                        setQuantity(e.target.value)
+                                        setQuantity(e.target.value);
                                     }}
 
                                 ></input>
                             </div>
                         </div>
-                        <div className={cx('input-text')}>
+                        {/* <div className={cx('input-text')}>
                             <div>
                                 <p>Mô tả</p>
                                 <input
@@ -163,16 +150,16 @@ function AddDiscount() {
                                     placeholder="Nhập mô tả cho khuyến mãi"
                                 ></input>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
-                    <div className={cx('checkbox-wrapper')}>
+                    {/* <div className={cx('checkbox-wrapper')}>
                         <input
                             onClick={DisableInputText}
                             id="cb"
                             type="checkbox"
                         ></input>
                         <label htmlFor="cb">Không giới hạn số lượng</label>
-                    </div>
+                    </div> */}
                 </div>
                 <div className={cx('grid1-discount-info')}>
                     <div className={cx('title')}>
@@ -263,9 +250,6 @@ function AddDiscount() {
                 </div>
                 <div className={cx('button-container')}>
                     <button className={cx('save-but')} onClick={() => submit()}>Lưu</button>
-                    <button className={cx('save-add-but')} onClick={() => submit()}>
-                        Lưu và kích hoạt
-                    </button>
                 </div>
             </div>
             <ModalLoading open={loading} title={'Đang tải'} />

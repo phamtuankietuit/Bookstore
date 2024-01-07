@@ -3,16 +3,47 @@ import styles from './Profile.module.scss';
 import NewHeader from '~/components/NewHeader';
 import avt from '../../assets/images/minimal-morning-landscape-8k-gx-scaled.jpg';
 import { FaCloudUploadAlt } from 'react-icons/fa';
-import { IoIosMail } from 'react-icons/io';
-import { FaPhoneAlt } from 'react-icons/fa';
-import { useState, useRef, useContext } from 'react';
-import DatePicker from '~/components/DatePicker';
+import { useState, useContext, useEffect } from 'react';
 import { ToastContext } from '~/components/ToastContext';
+
+import { getLocalStorage } from '~/store/getLocalStorage';
+
+import * as staffServices from '~/apiServices/staffServices';
+import * as loginServices from '~/apiServices/loginServices';
+import noImage from '~/assets/images/no-image.png';
+import ModalLoading from '~/components/ModalLoading';
 
 const cx = classNames.bind(styles);
 
 function Profile() {
     const toastContext = useContext(ToastContext);
+    const [loading, setLoading] = useState(false);
+
+    const [obj, setObj] = useState();
+
+    useEffect(() => {
+        const id = getLocalStorage().user.staffId;
+
+        const fetch = async () => {
+            const response = await staffServices.getStaff(id)
+                .catch((error) => {
+                    toastContext.error('error', 'Có lỗi xảy ra');
+                });
+
+            if (response) {
+                console.log(response);
+                setObj(response);
+                setName(response.name);
+                setPhone(response.contact.phone);
+                setEmail(response.contact.email);
+                setAddress(response.address);
+            }
+        }
+
+        fetch();
+    }, []);
+
+
     //xử lý đổi mật khẩu
     const [currentPass, setcurrentPass] = useState('');
     const [newPass, setnewPass] = useState('');
@@ -27,6 +58,8 @@ function Profile() {
     const onChangeReNewPass = (e) => {
         setrenewPass(e.target.value);
     };
+
+
     //kiểm tra điều kiện
     const [message, setMessage] = useState();
 
@@ -40,21 +73,36 @@ function Profile() {
             setMessage('Vui lòng nhập đủ thông tin!');
             setchecklogin(false);
         } else {
-            if (
-                currentPass.length >= 8 &&
-                newPass.length >= 8 &&
-                newPass === renewPass
-            ) {
-                toastContext.notify('success', 'Đổi mật khẩu thành công!');
+            if (newPass === renewPass) {
                 setShow(false);
-            } else {
-                if (newPass.length < 8) {
-                    setShowMessage(true);
-                    setMessage('Mật khẩu mới phải có độ dài ít nhất 8 kí tự');
-                } else if (newPass !== renewPass) {
-                    setShowMessage(true);
-                    setMessage('Xác nhận mật khẩu mới không trùng khớp');
+
+                let isSuccess = true;
+
+                const fetch = async () => {
+                    const response = await loginServices.updatePassword(
+                        {
+                            email: obj.contact.email,
+                            oldPassword: currentPass,
+                            newPassword: newPass,
+                        }
+                    )
+                        .catch((error) => {
+                            setLoading(false);
+                            isSuccess = false;
+                            console.log(error);
+                            toastContext.notify('error', 'Mật khẩu hiện tại không chính xác');
+                        });
+
+                    if (isSuccess) {
+                        setLoading(false);
+                        toastContext.notify('success', 'Cập nhật mật khẩu thành công');
+                    }
                 }
+
+                fetch();
+            } else {
+                setShowMessage(true);
+                setMessage('Xác nhận mật khẩu mới không trùng khớp');
             }
         }
     };
@@ -80,9 +128,47 @@ function Profile() {
         setShow(true);
     };
     //Lưu chỉnh sửa
-    const handleSave = () => {
-        toastContext.notify('success', 'Cập nhật thông tin thành công!');
+    const handleSave = async () => {
+
+        let isSuccess = true;
+
+        setLoading(true);
+
+        const newObj = {
+            ...obj,
+            name,
+            contact: {
+                phone,
+                email,
+            },
+            address,
+        };
+
+        const response = await staffServices.updateStaff(obj.staffId, newObj)
+            .catch((error) => {
+                setLoading(false);
+                isSuccess = false;
+                if (error?.response?.status === 409) {
+                    toastContext.notify('error', 'Email đã tồn tại');
+                } else {
+                    toastContext.notify('error', 'Có lỗi xảy ra');
+                }
+
+            });
+
+        if (isSuccess) {
+            setLoading(false);
+            toastContext.notify('success', 'Cập nhật tài khoản thành công');
+        }
     };
+
+    // PROPS
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [email, setEmail] = useState('');
+    const [dateOfBirth, setDateOfBirth] = useState('');
+    const [address, setAddress] = useState('');
+
     return (
         <div className={cx('container')}>
             <div className={cx('header')}>
@@ -91,7 +177,7 @@ function Profile() {
             <div className={cx('header-and-content')}>
                 <div className={cx('content')}>
                     <div className={cx('content1')}>
-                        <div className={cx('profile-card')}>
+                        {/* <div className={cx('profile-card')}>
                             {image ? (
                                 <img
                                     className={cx('profile-avt')}
@@ -105,7 +191,7 @@ function Profile() {
                                     alt=""
                                 />
                             )}
-                        </div>
+                        </div> */}
                         {/* <div className={cx('profile-tag')}>
                             <IoIosMail className={cx('icon-mail')}></IoIosMail>
                             <p>khiem6112003@gmail.com</p>
@@ -116,9 +202,7 @@ function Profile() {
                             ></FaPhoneAlt>
                             <p>0961826917</p>
                         </div> */}
-                        <div className={cx('infor-card')}>
-                            {/* <h1>Duy Khiêm</h1> */}
-                            {/* <p>Cập nhật Avatar</p> */}
+                        {/* <div className={cx('infor-card')}>
                             <div className={cx('input-file')}>
                                 <FaCloudUploadAlt
                                     className={cx('icon-cloud')}
@@ -129,7 +213,7 @@ function Profile() {
                                     onChange={handleImageChange}
                                 ></input>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <div className={cx('content2')}>
                         <h3>Thông tin tài khoản</h3>
@@ -143,16 +227,17 @@ function Profile() {
                                 <input
                                     className={cx('text-inp')}
                                     type="text"
-                                    value={'Lê Võ Duy Khiêm'}
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
                                 ></input>
                             </div>
                             <div className={cx('grid-content')}>
                                 <p>SĐT</p>
                                 <input
                                     className={cx('text-inp')}
-                                    type="text"
-                                    disabled
-                                    value={'0961826917'}
+                                    type="tel"
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)}
                                 ></input>
                             </div>
                             <div className={cx('grid-content')}>
@@ -160,18 +245,19 @@ function Profile() {
                                 <input
                                     className={cx('text-inp')}
                                     type="text"
-                                    value={'khiem6112003@gmail.com'}
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 ></input>
                             </div>
-                            <div className={cx('grid-content')}>
+                            {/* <div className={cx('grid-content')}>
                                 <p>Ngày sinh</p>
-                                {/* <input
+                                <input
                                     className={cx('text-inp')}
                                     type="text"
-                                ></input> */}
+                                ></input>
                                 <DatePicker></DatePicker>
-                            </div>
-                            <div className={cx('grid-content')}>
+                            </div> */}
+                            {/* <div className={cx('grid-content')}>
                                 <p>Giới tính</p>
                                 <input
                                     className={cx('text-inp', { gd: true })}
@@ -218,12 +304,14 @@ function Profile() {
                                         </ul>
                                     </div>
                                 )}
-                            </div>
+                            </div> */}
                             <div className={cx('grid-content')}>
                                 <p>Địa chỉ</p>
                                 <input
                                     className={cx('text-inp')}
                                     type="text"
+                                    value={address}
+                                    onChange={(e) => setAddress(e.target.value)}
                                 ></input>
                             </div>
                         </div>
@@ -263,7 +351,7 @@ function Profile() {
                                 onChange={onChangeCurrentPass}
                             ></input>
                         </div>
-                        <div className={cx('grid-content')}>
+                        {/* <div className={cx('grid-content')}>
                             <p>SĐT</p>
                             <input
                                 className={cx('text-inp', {
@@ -277,7 +365,7 @@ function Profile() {
                                 disabled
                                 value={'0961826917'}
                             ></input>
-                        </div>
+                        </div> */}
                         <div className={cx('grid-content')}>
                             <p>Nhập mật khẩu mới</p>
                             <input
@@ -303,14 +391,14 @@ function Profile() {
                             ></input>
                         </div>
                     </div>
-                    <p>
+                    {/* <p>
                         <b style={{ color: 'red' }}>Lưu ý:</b> Mật khẩu cần thoả
                         mãn các điều kiện sau
                     </p>
                     <p>- Độ dài ít nhất 8 kí tự.</p>
                     <p>
                         - Xác nhận lại mật khẩu phải trùng khớp với mật khẩu mới
-                    </p>
+                    </p> */}
                     <div className={cx('but-container')}>
                         <button
                             className={cx('cancel-but')}
@@ -327,6 +415,7 @@ function Profile() {
                     </div>
                 </div>
             )}
+            <ModalLoading open={loading} title={'Đang tải'} />
         </div>
     );
 }

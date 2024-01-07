@@ -42,7 +42,7 @@ export const DiscountItem = [
         center: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {format(new Date(row.startAt), 'MM/dd/yyyy - HH:mm')}
+                {format(new Date(row.startAt), 'dd/MM/yyyy')}
             </div>
         ),
     },
@@ -52,7 +52,7 @@ export const DiscountItem = [
         center: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {format(new Date(row.closeAt), 'MM/dd/yyyy - HH:mm')}
+                {format(new Date(row.closeAt), 'dd/MM/yyyy')}
             </div>
         ),
     },

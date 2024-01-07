@@ -38,6 +38,23 @@ function ListDiscount() {
         setSearch(e.target.value);
     };
 
+    const handleKeyDown = async (e) => {
+        if (e.key === 'Enter') {
+            setPageNumber(1);
+            getList(
+                await createObjectQuery(
+                    1,
+                    pageSize,
+                    sortBy,
+                    orderBy,
+                    selectedTT.length > 0 && returnArray(selectedTT),
+                    selectedHL.length > 0 && returnArray(selectedHL),
+                    search,
+                )
+            );
+        }
+    }
+
 
     // TABLE
     const [pageNumber, setPageNumber] = useState(1);
@@ -72,15 +89,26 @@ function ListDiscount() {
         sortBy,
         orderBy,
         statuses,
-        isOutdated
+        isOutdated,
+        query,
     ) => {
+
+        let arr = [];
+
+        if (isOutdated) {
+            if (isOutdated.length < 2) {
+                arr = [...isOutdated];
+            }
+        }
+
         return {
             pageNumber,
             pageSize,
             ...(orderBy && { orderBy }),
             ...(sortBy && { sortBy }),
             ...(statuses && { statuses }),
-            ...(isOutdated && { isOutdated }),
+            ...(isOutdated && { isOutdated: arr }),
+            ...(query && { query }),
         };
     }
 
@@ -96,7 +124,7 @@ function ListDiscount() {
                 orderBy,
                 selectedTT.length > 0 && returnArray(selectedTT),
                 selectedHL.length > 0 && returnArray(selectedHL),
-
+                search,
             )
         );
 
@@ -125,7 +153,7 @@ function ListDiscount() {
                     setTotalRows(0);
                     setClear(false);
                 } else {
-                    // toastContext.notify('error', 'Có lỗi xảy ra');
+                    toastContext.notify('error', 'Có lỗi xảy ra');
                 }
             });
 
@@ -149,7 +177,7 @@ function ListDiscount() {
                 orderBy,
                 selectedTT.length > 0 && returnArray(selectedTT),
                 selectedHL.length > 0 && returnArray(selectedHL),
-
+                search,
             )
         );
     }
@@ -165,17 +193,27 @@ function ListDiscount() {
                 orderBy,
                 selectedTT.length > 0 && returnArray(selectedTT),
                 selectedHL.length > 0 && returnArray(selectedHL),
-
+                search,
             )
         );
     }
 
-    const handleSort = (column, sortDirection) => {
+    const handleSort = async (column, sortDirection) => {
         setSortBy(column.text);
         setOrderBy(sortDirection);
         setPageNumber(1);
 
-        getList(1, pageSize, column.text, sortDirection);
+        getList(
+            await createObjectQuery(
+                1,
+                pageSize,
+                column.text,
+                sortDirection,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedHL.length > 0 && returnArray(selectedHL),
+                search,
+            )
+        );
     };
 
     useEffect(() => {
@@ -185,6 +223,8 @@ function ListDiscount() {
 
         fetch();
     }, []);
+
+
     const [showSubHeader, setShowSubHeader] = useState(true);
     const [selectedRow, setSelectedRow] = useState(0);
 
@@ -251,6 +291,7 @@ function ListDiscount() {
                     placeholderSearch={'Tìm kiếm theo mã, tên khuyến mãi'}
                     search={search}
                     handleSearch={handleSearch}
+                    handleKeyDown={handleKeyDown}
                     filterComponent={
                         <Filter
                             open={openFilter}
@@ -278,8 +319,6 @@ function ListDiscount() {
                         </Filter>
                     }
                     // TABLE
-                    clearSelectedRows={clear}
-                    selectableRows
                     pagination
                     onRowClicked={onRowClicked}
                     showSubHeader={showSubHeader}

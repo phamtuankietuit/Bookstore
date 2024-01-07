@@ -47,10 +47,10 @@ function SideBar({ className, title }) {
                                 title: 'Danh sách đơn hàng',
                                 to: '/orders',
                             },
-                            {
-                                title: 'Khách trả hàng',
-                                to: '/return',
-                            },
+                            // {
+                            //     title: 'Khách trả hàng',
+                            //     to: '/return',
+                            // },
                         ]}
                     />
                     <SidebarDropdown
@@ -66,10 +66,10 @@ function SideBar({ className, title }) {
                                 title: 'Nhập hàng',
                                 to: '/imports',
                             },
-                            {
-                                title: 'Kiểm hàng',
-                                to: '/checks',
-                            },
+                            // {
+                            //     title: 'Kiểm hàng',
+                            //     to: '/checks',
+                            // },
                             {
                                 title: 'Nhà cung cấp',
                                 to: '/suppliers',
@@ -89,10 +89,6 @@ function SideBar({ className, title }) {
                             {
                                 title: 'Báo cáo bán hàng',
                                 to: '/reports/sell',
-                            },
-                            {
-                                title: 'Báo cáo nhập hàng',
-                                to: '/reports/import',
                             },
                         ]}
                     />

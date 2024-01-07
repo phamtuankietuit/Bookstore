@@ -1,8 +1,8 @@
 import * as request from '~/utils/request';
 
-export const getAllProductTypes = async (pageNumber, pageSize) => {
+export const getAllProductTypes = async (pageNumber, pageSize, query) => {
     try {
-        const res = await request.getMethod(`Categories?pageSize=${pageSize}&pageNumber=${pageNumber}&sortBy=categoryId&orderBy=asc`);
+        const res = await request.getMethod(`Categories?pageSize=${pageSize}&pageNumber=${pageNumber}&query=${query}`);
 
         return res;
     } catch (error) {

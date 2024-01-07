@@ -216,7 +216,7 @@ const publicRoutes = [
         title: 'Danh sách đơn trả hàng',
     },
     {
-        path: '/return/add',
+        path: '/return/add/:id',
         component: AddReturnProduct,
         title: 'Tạo đơn trả hàng',
         back: true,

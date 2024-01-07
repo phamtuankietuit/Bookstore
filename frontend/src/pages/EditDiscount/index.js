@@ -2,15 +2,19 @@ import styles from './EditDiscount.module.scss';
 import classNames from 'classnames/bind';
 import DateRange from '~/components/DateRange';
 import { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import * as PromotionsServices from '~/apiServices/promotionServices';
 import Spinner from 'react-bootstrap/Spinner';
 import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
-import format from 'date-fns/format'
+import format from 'date-fns/format';
+import { getLocalStorage } from '~/store/getLocalStorage';
+
+import { ConvertISO } from '~/components/ConvertISO';
 const cx = classNames.bind(styles);
 
 function EditDiscount() {
+    const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
     const [loading, setLoading] = useState(false);
     const [disable, SetDisable] = useState(false);
@@ -25,59 +29,93 @@ function EditDiscount() {
     };
     const promotiontid = useParams();
     const [obj, setObj] = useState(null);
-    const [changeDate, setChangeDate] = useState(false)
+    const [changeDate, setChangeDate] = useState(false);
+
+    const [dateString, setDateString] = useState('');
+    const [start, setStart] = useState(0);
+    const [end, setEnd] = useState(null);
+    const [discount, setDiscount] = useState(0);
+    const [name, setName] = useState('');
+    const [quantity, setQuantity] = useState(0);
+
     useEffect(() => {
 
         const fetchApi = async () => {
-            // console.log(productid.id)
             const result = await PromotionsServices.getPromotion(promotiontid.id)
                 .catch((err) => {
                     console.log(err);
                 });
-            setObj(result);
-            setDateString(convertISOtoDDMMYYYY(result.startAt) + "-" + convertISOtoDDMMYYYY(result.closeAt))
+
+            if (result) {
+                setObj(result);
+                setDateString(convertISOtoDDMMYYYY(result.startAt) + " – " + convertISOtoDDMMYYYY(result.closeAt));
+                setName(result.name);
+                setStart(result.applyFromAmount);
+                setEnd(result.applyToAmount);
+                setQuantity(result.remainQuantity);
+                setDiscount(result.discountRate);
+            }
         }
 
         fetchApi();
 
     }, []);
 
-    const [dateString, setDateString] = useState('');
-
     const submit = () => {
-        setLoading(true);
-        const fetchApi = async () => {
-            // console.log(productid.id)
-            if (changeDate === true) {
-                const date = dateString.split('–')
-                console.log(date)
-                const newobj = obj
-                newobj.startAt = new Date(date[0]).toISOString()
-                newobj.closeAt = new Date(date[1]).toISOString()
-                setObj(newobj)
+        if (name === '') {
+            setLoading(false);
+            toastContext.notify('error', 'Chưa nhập tên');
+        } else if (quantity === '') {
+            setLoading(false);
+            toastContext.notify('error', 'Cần chọn số lượng áp dụng');
+        } else if (dateString === '') {
+            setLoading(false);
+            toastContext.notify('error', 'Chưa chọn ngày');
+        } else if (parseInt(discount) === 0) {
+            setLoading(false);
+            toastContext.notify('error', 'Chưa chọn phần trăm chiết khấu');
+        } else {
+            setLoading(true);
+
+            let isSuccess = true;
+
+            const fetchApi = async () => {
+
+                let endValue = null;
+                if (Number(end) > 0) {
+                    endValue = Number(end);
+                }
+
+                const newObj = {
+                    ...obj,
+                    name: name,
+                    remainQuantity: Number(quantity),
+                    applyFromAmount: Number(start),
+                    applyToAmount: endValue,
+                    discountRate: Number(discount),
+                    startAt: ConvertISO(dateString).startDate,
+                    closeAt: ConvertISO(dateString).endDate,
+                }
+
+                console.log(newObj);
+
+                const result = await PromotionsServices.UpdatePromotion(promotiontid.id, newObj)
+                    .catch((err) => {
+                        console.log(err);
+                        isSuccess = false;
+                        setLoading(false);
+                        toastContext.notify('error', 'Có lỗi xảy ra');
+                    });
+
+                if (isSuccess) {
+                    setLoading(false);
+                    toastContext.notify('success', 'Cập nhật khuyến mãi thành công');
+                }
             }
 
-            console.log(obj)
-            const result = await PromotionsServices.UpdatePromotion(promotiontid.id, obj)
-                .catch((err) => {
-                    console.log(err);
-                });
-            if (result) {
-                setTimeout(() => {
-                    setLoading(false);
-                    toastContext.notify('error', 'Đã có lỗi');
-                }, 2000);
-            }
-            else {
-                setTimeout(() => {
-                    setLoading(false);
-                    toastContext.notify('success', 'Đã lưu khuyến mãi');
-                }, 2000);
-            }
-
+            fetchApi();
         }
 
-        fetchApi();
     }
 
     const setDate = (value) => {
@@ -104,13 +142,9 @@ function EditDiscount() {
                                         <p>Tên khuyến mãi</p>
                                         <input
                                             type="text"
-                                            defaultValue={obj.name}
+                                            defaultValue={name}
                                             placeholder="Nhập tên của khuyến mãi"
-                                            onChange={(e) => {
-                                                const newobj = obj;
-                                                newobj.name = e.target.value
-                                                setObj(newobj)
-                                            }}
+                                            onChange={(e) => setName(e.target.value)}
                                         ></input>
                                     </div>
                                 </div>
@@ -131,17 +165,13 @@ function EditDiscount() {
                                         <input
                                             type="text"
                                             placeholder="Nhập số lượng áp dụng"
-                                            defaultValue={obj.remainQuantity}
+                                            value={quantity}
                                             disabled={disable}
-                                            onChange={(e) => {
-                                                const newobj = obj;
-                                                newobj.remainQuantity = e.target.value
-                                                setObj(newobj)
-                                            }}
+                                            onChange={(e) => setQuantity(e.target.value)}
                                         ></input>
                                     </div>
                                 </div>
-                                <div className={cx('input-text')}>
+                                {/* <div className={cx('input-text')}>
                                     <div>
                                         <p>Mô tả</p>
                                         <input
@@ -150,21 +180,21 @@ function EditDiscount() {
                                             placeholder="Nhập mô tả cho khuyến mãi"
                                             onChange={(e) => {
                                                 const newobj = obj;
-                                                newobj.typeName = e.target.value
-                                                setObj(newobj)
+                                                newobj.typeName = e.target.value;
+                                                setObj(newobj);
                                             }}
                                         ></input>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
-                            <div className={cx('checkbox-wrapper')}>
+                            {/* <div className={cx('checkbox-wrapper')}>
                                 <input
                                     onClick={DisableInputText}
                                     id="cb"
                                     type="checkbox"
                                 ></input>
                                 <label htmlFor="cb">Không giới hạn số lượng</label>
-                            </div>
+                            </div> */}
                         </div>
                         <div className={cx('grid1-discount-info')}>
                             <div className={cx('title')}>
@@ -189,42 +219,27 @@ function EditDiscount() {
                                         <div className={cx('table-ThirdRow')}>
                                             <input
                                                 type="number"
-                                                defaultValue={obj.applyFromAmount}
-                                                onChange={(e) => {
-                                                    if (e.target.value < 0 || e.target.value === '') e.target.value = 0
-                                                    const newobj = obj;
-                                                    newobj.applyFromAmount = e.target.value
-                                                    setObj(newobj)
-                                                }}
+                                                defaultValue={start}
+                                                onChange={(e) => setStart(e.target.value)}
                                                 inputMode='numeric'
                                             ></input>
                                         </div>
                                         <div className={cx('table-ThirdRow')}>
                                             <input
                                                 type="number"
-                                                defaultValue={obj.applyToAmount}
-                                                onChange={(e) => {
-                                                    if (e.target.value < obj.applyFromAmount || e.target.value === '') e.target.value = obj.applyFromAmount
-                                                    const newobj = obj;
-                                                    newobj.applyToAmount = e.target.value
-                                                    setObj(newobj)
-                                                }}
+                                                defaultValue={end}
+                                                onChange={(e) => setEnd(e.target.value)}
                                                 inputMode='numeric'
                                             ></input>
                                         </div>
                                         <div className={cx('table-ThirdRow')}>
                                             <input
                                                 type="number"
-                                                defaultValue={obj.discountRate}
-                                                onChange={(e) => {
-                                                    if (e.target.value > 100) e.target.value = 100
-                                                    else if (e.target.value <= 0 || e.target.value === '') e.target.value = 0
-                                                    const newobj = obj;
-                                                    newobj.discountRate = e.target.value
-                                                    setObj(newobj)
-                                                }}
+                                                defaultValue={discount}
+                                                onChange={(e) => setDiscount(e.target.value)}
                                                 inputMode='numeric'
                                             ></input>
+                                            <span>%</span>
                                         </div>
                                     </div>
                                 </div>
@@ -246,7 +261,7 @@ function EditDiscount() {
                             </div>
                         </div>
                         <div className={cx('button-container')}>
-                            <button className={cx('cancel-but')}>Huỷ</button>
+                            <button className={cx('cancel-but')} onClick={() => navigate(-1)}>Huỷ</button>
                             <button className={cx('save-but')} onClick={() => submit()}>Lưu</button>
                         </div>
                     </div>

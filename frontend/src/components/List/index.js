@@ -31,6 +31,7 @@ function List({
     handleSort,
     // 
     selectableRowDisabled,
+    handleKeyDown,
 }) {
     return (
         <div className={cx('wrapper')}>
@@ -42,6 +43,7 @@ function List({
                             placeholder={placeholderSearch}
                             value={search}
                             onChange={(e) => handleSearch(e)}
+                            onKeyDown={(e) => handleKeyDown(e)}
                         />
                     )}
 

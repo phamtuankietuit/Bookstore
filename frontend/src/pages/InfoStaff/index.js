@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import classNames from 'classnames/bind';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Switch } from '@mui/material';
@@ -16,47 +16,37 @@ import * as StaffServices from '~/apiServices/staffServices';
 import Spinner from 'react-bootstrap/Spinner';
 const cx = classNames.bind(styles);
 
-const staff = {
-    id: 'NV0002',
-    name: 'Nguyễn Văn A',
-    phone: '0235556963',
-    email: 'hello@example.com',
-    dateOfBirth: '28/04/2023',
-    address: '252 Hai Bà Trưng, Bình Thạnh, TPHCM',
-    role: 'Nhân viên kho',
-    isActive: false,
-};
-
 function InfoStaff() {
+    const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
-    const suppliertid = useParams();
-    const [obj, setObj] = useState(null)
+    const staffId = useParams();
+    const [obj, setObj] = useState(null);
+
     useEffect(() => {
-
-
         const fetchApi = async () => {
-            // console.log(productid.id)
-
-            const result = await StaffServices.getStaff(suppliertid.id)
+            const result = await StaffServices.getStaff(staffId.id)
                 .catch((err) => {
                     console.log(err);
                 });
+
+
             setObj(result);
-            setRole(result.role)
+            setIsActive(result.isActive);
+
+            if (result.role === 'warehouse') {
+                setRole({ label: 'Nhân viên kho', value: 'warehouse' });
+            } else {
+                setRole({ label: 'Nhân viên bán hàng', value: 'sale' });
+            }
         }
 
         fetchApi();
     }, []);
 
-    // PROPS
-    const [name, setName] = useState('');
-    const [phone, setPhone] = useState('');
-    const [email, setEmail] = useState('');
-    const [group, setGroup] = useState('');
-    const [address, setAddress] = useState('');
     const [isActive, setIsActive] = useState(true);
+    const [role, setRole] = useState({});
+    const [errorRole, setErrorRole] = useState('');
 
-    const navigate = useNavigate();
     const handleExit = () => {
         navigate(-1);
     };
@@ -69,30 +59,55 @@ function InfoStaff() {
     const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);
 
-    const handleValidation = () => {
+    const handleValidation = async () => {
         setLoading(true);
-        setTimeout(() => {
+        let isSuccess = true;
+
+        const response = await StaffServices.deleteStaffs([obj])
+            .catch((error) => {
+                setLoading(false);
+                isSuccess = false;
+                toastContext.notify('error', 'Xóa nhân viên không thành công');
+            });
+
+        if (isSuccess) {
             setLoading(false);
-            handleCloseModal();
             toastContext.notify('success', 'Xóa nhân viên thành công');
-        }, 2000);
+            navigate('/staffs');
+            handleCloseModal();
+        }
     };
 
-    const [role, setRole] = useState('');
-    const [errorRole, setErrorRole] = useState('');
 
-    const handleSubmit = () => {
-        // CALL API
+
+    const handleSubmit = async () => {
+        let isSuccess = true;
+
+        const newObj = {
+            ...obj,
+            isActive: isActive,
+            role: role.value,
+        };
+
         setLoading(true);
-        setTimeout(() => {
+
+        const response = await StaffServices.updateStaff(obj.staffId, newObj)
+            .catch((error) => {
+                isSuccess = false;
+                setLoading(false);
+                toastContext.notify('error', 'Có lỗi xảy ra');
+            });
+
+        if (isSuccess) {
             setLoading(false);
             toastContext.notify('success', 'Cập nhật nhân viên thành công');
-        }, 2000);
+        }
     };
 
     const setNewRole = (obj) => {
-        setRole(obj.value)
+        setRole(obj);
     }
+
     return (
         <div className={cx('wrapper')}>
             {obj === null ? (
@@ -166,23 +181,18 @@ function InfoStaff() {
                                         </div>
                                         <Input
                                             title={'Vai trò'}
-                                            // items={[
-                                            //     {
-                                            //         label: 'warehouse',
-                                            //         value: 'warehouse'
-                                            //     },
-                                            //     {
-                                            //         label: 'sale',
-                                            //         value: 'sale'
-                                            //     },
-                                            //     {
-                                            //         label: 'admin',
-                                            //         value: 'admin'
-                                            //     },
-                                            // ]}
-                                            value={role}
+                                            items={[
+                                                {
+                                                    label: 'Nhân viên kho',
+                                                    value: 'warehouse'
+                                                },
+                                                {
+                                                    label: 'Nhân viên bán hàng',
+                                                    value: 'sales'
+                                                },
+                                            ]}
+                                            value={role.label}
                                             handleClickAction={setNewRole}
-                                            readOnly
                                             required
                                             error={errorRole}
                                             className={cx('m-b')}
@@ -275,7 +285,7 @@ function InfoStaff() {
                 >
                     <div className={cx('info')}>
                         Bạn có chắc chắn muốn xóa nhân viên
-                        <strong> {staff.name}</strong>?
+                        <strong> {obj.name}</strong>?
                     </div>
                 </ModalComp>
                 <ModalLoading open={loading} title={'Đang tải'} />

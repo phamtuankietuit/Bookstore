@@ -5,7 +5,7 @@ const cx = classNames.bind(styles);
 const convertISOtoDDMMYYYY = (isoDateString) => {
     let date = new Date(isoDateString);
 
-    return format(date, 'MM/dd/yyyy - HH:mm');;
+    return format(date, 'dd/MM/yyyy - HH:mm');;
 }
 export const ActivityItem = [
     {
@@ -19,6 +19,8 @@ export const ActivityItem = [
     },
     {
         name: 'Thời gian',
+        text: 'createdAt',
+        sortable: true,
         minWidth: '180px',
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
@@ -35,7 +37,7 @@ export const ActivityItem = [
                     'product-state-container': true,
                     'state-1': row.activityType === 'update',
                     'state-2': row.activityType === 'delete',
-                    'state-3': row.activityType === 'login',
+                    'state-3': row.activityType === 'log_in',
                 })}
                 data-tag="allowRowEvents"
             >

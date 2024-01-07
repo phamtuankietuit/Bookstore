@@ -1,7 +1,8 @@
 import { Fragment } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, redirect } from 'react-router-dom';
 import { publicRoutes } from '~/routes';
 import { DefaultLayout } from '~/components/layouts';
+import { isLogin } from '~/store/getLocalStorage';
 
 function App() {
     return (
@@ -9,6 +10,7 @@ function App() {
             <div>
                 <Routes>
                     {publicRoutes.map((route, index) => {
+
                         const Page = route.component;
 
                         let Layout = DefaultLayout;

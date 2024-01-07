@@ -44,7 +44,7 @@ function AddCustomer() {
             tag: {
 
             },
-            staffId: ''
+            staffId: 'staf00011',
         }
         console.log(obj)
         if (name === '') {

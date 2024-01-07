@@ -50,6 +50,7 @@ function ListCustomer() {
         sortBy,
         orderBy,
         isActives,
+        query,
     ) => {
         return {
             pageNumber,
@@ -57,6 +58,7 @@ function ListCustomer() {
             ...(orderBy && { orderBy }),
             ...(sortBy && { sortBy }),
             ...(isActives && { isActives }),
+            ...(query && { query }),
         };
     }
 
@@ -67,6 +69,22 @@ function ListCustomer() {
     const handleSearch = (e) => {
         setSearch(e.target.value);
     };
+
+    const handleKeyDown = async (e) => {
+        if (e.key === 'Enter') {
+            setPageNumber(1);
+            getList(
+                await createObjectQuery(
+                    1,
+                    pageSize,
+                    sortsBy,
+                    orderBy,
+                    selectedTT.length > 0 && returnArray(selectedTT),
+                    search,
+                )
+            );
+        }
+    }
 
     // FILTER
     const [selectedTT, setSelectedTT] = useState([]);
@@ -92,6 +110,7 @@ function ListCustomer() {
                 sortsBy,
                 orderBy,
                 selectedTT.length > 0 && returnArray(selectedTT),
+                search,
             )
         );
 
@@ -241,6 +260,7 @@ function ListCustomer() {
                 column.text,
                 sortDirection,
                 selectedTT.length > 0 && returnArray(selectedTT),
+                search,
             )
         );
 
@@ -258,6 +278,7 @@ function ListCustomer() {
                 sortsBy,
                 orderBy,
                 selectedTT.length > 0 && returnArray(selectedTT),
+                search,
             )
         );
 
@@ -273,6 +294,7 @@ function ListCustomer() {
                 sortsBy,
                 orderBy,
                 selectedTT.length > 0 && returnArray(selectedTT),
+                search,
             )
         );
 
@@ -280,7 +302,16 @@ function ListCustomer() {
 
     useEffect(() => {
         const fetch = async () => {
-            getList(await createObjectQuery(pageNumber, pageSize));
+            getList(
+                await createObjectQuery(
+                    1,
+                    pageSize,
+                    sortsBy,
+                    orderBy,
+                    selectedTT.length > 0 && returnArray(selectedTT),
+                    search,
+                )
+            );
         }
 
         fetch();
@@ -294,7 +325,7 @@ function ListCustomer() {
             <div className={cx('inner')}>
                 <div className={cx('tool-bar')}>
                     <div className={cx('tool-bar-left')}>
-                        <Button
+                        {/* <Button
                             leftIcon={<FontAwesomeIcon icon={faUpload} />}
                             solidBlue
                             className={cx('margin')}
@@ -307,7 +338,7 @@ function ListCustomer() {
                             className={cx('margin')}
                         >
                             Xuất file
-                        </Button>
+                        </Button> */}
                     </div>
                     <div className={cx('tool-bar-right')}>
                         <Button
@@ -323,10 +354,11 @@ function ListCustomer() {
                 <List
                     searchVisibility={true}
                     placeholderSearch={
-                        'Tìm kiếm theo mã, tên, số điện thoại khách hàng'
+                        'Tìm kiếm theo mã, tên khách hàng'
                     }
                     search={search}
                     handleSearch={handleSearch}
+                    handleKeyDown={handleKeyDown}
                     filterComponent={
                         <Filter
                             open={openFilter}

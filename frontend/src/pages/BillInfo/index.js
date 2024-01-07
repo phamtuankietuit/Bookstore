@@ -153,6 +153,9 @@ function BillInfo() {
                     </div>
                 </div>
                 <div className={cx('button-container')}>
+                    {/* <Link to={"/return/add/" + saleorderid.id} className={cx('edit-btn', 'm-r')}>
+                        Trả hàng
+                    </Link> */}
                     <Link to={"/orders/update/" + saleorderid.id} className={cx('edit-btn')}>
                         Sửa
                     </Link>

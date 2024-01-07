@@ -19,6 +19,8 @@ import * as typeProductServices from '~/apiServices/typeProductServices';
 import * as supplierServices from '~/apiServices/supplierServices';
 import * as supplierGroupServices from '~/apiServices/supplierGroupServices';
 
+import { getLocalStorage } from '~/store/getLocalStorage';
+
 const cx = classNames.bind(styles);
 
 function AddProduct() {
@@ -512,6 +514,7 @@ function AddProduct() {
             images: [
                 ...images,
             ],
+            staffId: getLocalStorage().user.staffId,
         }
 
         if (bookProps === true && restProps === false) {

@@ -1,17 +1,60 @@
 import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
 import logo from '../../assets/images/logo.png';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import ModalComp from '~/components/ModalComp';
 import Button from '~/components/Button';
 import Input from '~/components/Input';
 import { ToastContext } from '~/components/ToastContext';
 import { useNavigate } from 'react-router-dom';
-import { red } from '@mui/material/colors';
-import * as LoginServices from '~/apiServices/loginServices'
+import ModalLoading from '~/components/ModalLoading';
+
+import * as LoginServices from '~/apiServices/loginServices';
+import * as staffServices from '~/apiServices/staffServices';
 
 const cx = classNames.bind(styles);
 function Login() {
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const isLogin = window.localStorage.getItem('isLogin');
+
+        if (isLogin) {
+            const object = JSON.parse(window.localStorage.getItem('object'));
+
+            if (object) {
+                const fetch = async () => {
+                    const response = await staffServices.getStaff(object.user.staffId)
+                        .catch((error) => {
+                            setLoading(false);
+                            console.log(error);
+                        });
+
+                    if (response) {
+                        if (response.isActive === false) {
+                            setLoading(false);
+                        } else {
+                            if (response.role === 'admin') {
+                                navigate('overview');
+                            } else if (response.role === 'warehouse') {
+                                navigate('/products');
+                            } else {
+                                navigate('orders');
+                            }
+                        }
+                    }
+                }
+
+                fetch();
+            } else {
+                setLoading(false);
+            }
+
+        } else {
+            setLoading(false);
+        }
+    }, []);
+
     //toast context
     const toastContext = useContext(ToastContext);
     const navigate = useNavigate();
@@ -77,7 +120,25 @@ function Login() {
             if (!filter.test(forgetEmail)) {
                 setErrorEmail('Email sai định dạng!');
             } else {
-                setStep({ step1: false, step2: true, step3: false });
+                setLoading(true);
+                let isSuccess = true;
+                const fetch = async () => {
+                    const response = await LoginServices.forgotPassword({ email: forgetEmail })
+                        .catch((error) => {
+                            setLoading(false);
+                            isSuccess = false;
+                            toastContext.notify('error', 'Vui lòng kiểm tra lại email');
+                        });
+
+                    if (isSuccess) {
+                        setLoading(false);
+                        toastContext.notify('success', 'Mật khẩu mới đã được cấp qua email. Vui lòng kiểm tra');
+                        handleCloseModal();
+                    }
+                }
+
+                fetch();
+                // setStep({ step1: false, step2: true, step3: false });
             }
         }
     };
@@ -134,32 +195,48 @@ function Login() {
                 setMessage('Vui lòng nhập đúng định dạng email');
             } else {
                 setCheckLogin(false);
+                setLoading(true);
 
                 const fetchApi = async () => {
-                    // console.log(productid.id)
                     const obj = {
                         email: email,
-                        password: password
+                        password: password,
                     }
+
                     const result = await LoginServices.Login(obj)
-                        .catch((err) => {
-                            console.log(err);
+                        .catch((error) => {
+                            if (error.response) {
+                                if (error.response.status === 400) {
+                                    toastContext.notify('error', 'Vui lòng kiểm tra lại email hoặc mật khẩu');
+                                }
+                            } else {
+                                toastContext.notify('error', 'Có lỗi xảy ra');
+                            }
                         });
-                    console.log(obj)
-                    console.log(result)
+
+                    console.log(result);
+
                     if (result) {
-                        toastContext.notify('success', 'Đăng nhập thành công!');
-                        navigate('/overview');
+                        if (result.user.isActive === true) {
+                            window.localStorage.setItem('object', JSON.stringify(result));
+                            window.localStorage.setItem('isLogin', true);
+
+                            if (result.user.role === 'admin') {
+                                navigate('overview');
+                            } else if (result.user.role === 'warehouse') {
+                                navigate('/products');
+                            } else {
+                                navigate('orders');
+                            }
+                        } else {
+                            toastContext.notify('error', 'Tài khoản đã bị vô hiệu hóa');
+                        }
                     }
-                    else {
-                        toastContext.notify('error', 'Vui long kiểm tra lại email hoặc mật khẩu');
-                    }
+
+                    setLoading(false);
                 }
 
                 fetchApi();
-                // if (password.length >= 8) {
-                //     toastContext.notify('success', 'Đăng nhập thành công!');
-                // }
             }
         }
     };
@@ -298,6 +375,7 @@ function Login() {
                     </div>
                 )}
             </ModalComp>
+            <ModalLoading open={loading} title={'Đang tải'} />
         </div>
     );
 }

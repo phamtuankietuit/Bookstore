@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import Tippy from '@tippyjs/react/headless';
@@ -13,6 +13,11 @@ import { Modal, Box, Slide } from '@mui/material';
 import styles from './Header.module.scss';
 import Button from '~/components/Button';
 import SideBar from '../SideBar';
+import noImage from '~/assets/images/no-image.png';
+
+import { getLocalStorage } from '~/store/getLocalStorage';
+
+import * as staffServices from '~/apiServices/staffServices';
 
 const cx = classNames.bind(styles);
 
@@ -31,6 +36,36 @@ const style = {
 
 function Header({ title, back }) {
     const navigate = useNavigate();
+
+    const [name, setName] = useState('');
+    const [image, setImage] = useState();
+
+    useEffect(() => {
+        const object = getLocalStorage();
+
+        const fetch = async () => {
+            const response = await staffServices.getStaff(object.user.staffId)
+                .catch((error) => {
+                    console.log(error);
+                });
+
+            if (response) {
+                setName(response.name);
+                setImage(response.profileImage);
+            }
+        }
+
+        fetch();
+    }, []);
+
+    const handleLogOut = () => {
+        window.localStorage.removeItem('object');
+        window.localStorage.setItem('isLogin', false);
+        navigate('/');
+    };
+
+
+
     // POPPER
     const [visible, setVisible] = useState(false);
     const show = () => setVisible(true);
@@ -81,6 +116,7 @@ function Header({ title, back }) {
                                         />
                                     }
                                     popperStyle
+                                    onClick={handleLogOut}
                                 >
                                     Đăng xuất
                                 </Button>
@@ -92,8 +128,8 @@ function Header({ title, back }) {
                         className={cx('wrapper-info')}
                         onClick={visible ? hide : show}
                     >
-                        <div className={cx('avt')}></div>
-                        <div className={cx('name')}>Phạm Tuấn Kiệt</div>
+                        <img src={image ? image : noImage} className={cx('avt')} />
+                        <div className={cx('name')}>{name}</div>
                     </div>
                 </Tippy>
             </div>

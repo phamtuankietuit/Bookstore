@@ -185,6 +185,34 @@ function TypeProduct() {
         setSearch(e.target.value);
     };
 
+    const handleKeyDown = async (e) => {
+        if (e.key === 'Enter') {
+            setPending(true);
+            const response = await typeProductServices.getAllProductTypes(1, pageSize, search)
+                .catch((error) => {
+                    setPending(false);
+                    if (error.response) {
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    } else if (error.request) {
+                        console.log(error.request);
+                    } else {
+                        console.log('Error', error.message);
+                    }
+                    console.log(error.config);
+                    toastContext.notify('error', 'Có lỗi xảy ra');
+                });
+
+            if (response) {
+                setPending(false);
+                setRows(response.data);
+                setTotalRows(response.metadata.count);
+                setClear(false);
+            }
+        }
+    }
+
     // TABLE
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
@@ -234,7 +262,7 @@ function TypeProduct() {
     // FETCH 
     const getList = async (pageNumber) => {
         setPending(true);
-        const response = await typeProductServices.getAllProductTypes(pageNumber, pageSize)
+        const response = await typeProductServices.getAllProductTypes(pageNumber, pageSize, '')
             .catch((error) => {
                 setPending(false);
                 if (error.response) {
@@ -263,7 +291,7 @@ function TypeProduct() {
 
     const handlePerRowsChange = async (newPerPage, pageNumber) => {
         setPending(true);
-        const response = await typeProductServices.getAllProductTypes(pageNumber, newPerPage)
+        const response = await typeProductServices.getAllProductTypes(pageNumber, newPerPage, '')
             .catch((error) => {
                 setPending(false);
                 if (error.response) {
@@ -327,6 +355,7 @@ function TypeProduct() {
                         }
                         search={search}
                         handleSearch={handleSearch}
+                        handleKeyDown={handleKeyDown}
                         // TABLE
                         clearSelectedRows={clear}
                         onRowClicked={onRowClicked}

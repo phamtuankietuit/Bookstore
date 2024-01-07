@@ -24,6 +24,8 @@ import * as productServices from '~/apiServices/productServices';
 import * as PromotionServices from '~/apiServices/promotionServices';
 import * as SaleServices from '~/apiServices/saleServices';
 
+import { getLocalStorage } from '~/store/getLocalStorage';
+
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
@@ -149,29 +151,26 @@ function Sale() {
     const submit = () => {
         if (customer === null) {
             setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-                toastContext.notify('error', 'Chưa chọn khách hàng');
-            }, 2000);
+            setLoading(false);
+            toastContext.notify('error', 'Chưa chọn khách hàng');
         }
         else if (arr.length === 0 || nums === 0) {
             setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-                toastContext.notify('error', 'Chưa chọn sản phẩm');
-            }, 2000);
+            setLoading(false);
+            toastContext.notify('error', 'Chưa chọn sản phẩm');
+        } if (Number(paid) < Number(totalAmount)) {
+            toastContext.notify('error', 'Tiền khách đưa chưa đủ');
         }
         else {
-            setLoading(true);
+            // setLoading(true);
             const discountAmount = typediscount === true ? (total * (discount + (coupon === null ? 0 : coupon.discountRate)) / 100) : (total * (coupon === null ? 0 : coupon.discountRate) / 100 + discount)
             const totalAmount = total - discountAmount
             const obj = {
-                customerType: customer.type,
                 customerId: customer.customerId,
                 customerName: customer.name,
                 items: arr,
                 subtotal: total,
-                discountItems: [],
+                discountItems: [coupon],
                 discountRate: typediscount === true ? (discount + (coupon === null ? 0 : coupon.discountRate)) : (coupon === null ? 0 : coupon.discountRate),
                 discountValue: typediscount === true ? 0 : discount,
                 discountAmount: discountAmount,
@@ -185,25 +184,30 @@ function Sale() {
                 },
                 // status: (totalAmount - paid) === 0 ? 'paid' : 'unpaid',
                 note: note,
-                staffId: ''
+                staffId: getLocalStorage().user.staffId,
             }
-            console.log(obj)
-            const fetchApi = async () => {
-                const result = await SaleServices.CreateSalesOrders(obj)
-                    .catch((err) => {
-                        console.log(err);
-                    });
+            console.log(obj);
 
-                if (result) {
-                    setTimeout(() => {
-                        setLoading(false);
-                        toastContext.notify('succes', 'Thêm hóa đơn thành công');
-                        navigate('/orders/detail/' + result.salesOrderId);
-                    }, 2000);
-                }
-                // console.log(result)
-            }
-            fetchApi();
+            // const fetchApi = async () => {
+
+            //     let isSuccess = true;
+
+            //     const result = await SaleServices.CreateSalesOrders(obj)
+            //         .catch((err) => {
+            //             isSuccess = false;
+            //             setLoading(false);
+            //             toastContext.notify('error', 'Có lỗi xảy ra');
+            //             console.log(err);
+            //         });
+
+
+            //     if (isSuccess) {
+            //         setLoading(false);
+            //         toastContext.notify('succes', 'Thêm hóa đơn thành công');
+            //     }
+            // }
+
+            // fetchApi();
         }
 
     }
@@ -255,7 +259,7 @@ function Sale() {
             }
         })
 
-        setNewset(!newset)
+        setNewset(!newset);
 
 
     }

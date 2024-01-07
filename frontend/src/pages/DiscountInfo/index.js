@@ -2,18 +2,23 @@ import styles from './DiscountInfo.module.scss';
 import classNames from 'classnames/bind';
 import { useState, useEffect, useContext } from 'react';
 import { BiSolidDiscount } from 'react-icons/bi';
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import * as PromotionsServices from '~/apiServices/promotionServices';
+import { useNavigate, useParams } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
 import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
 import format from 'date-fns/format'
+import Button from '~/components/Button';
+
+import * as PromotionsServices from '~/apiServices/promotionServices';
+
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
 function DiscountInfo() {
     const toastContext = useContext(ToastContext);
     const [loading, setLoading] = useState(false);
+
+    const [updatePage, setUpdatePage] = useState(new Date());
 
     const navigate = useNavigate();
     const [obj, setObj] = useState(null);
@@ -21,46 +26,115 @@ function DiscountInfo() {
 
     const convertISOtoDDMMYYYY = (isoDateString) => {
         let date = new Date(isoDateString);
-
-        return format(date, 'MM/dd/yyyy - HH:mm');;
+        return format(date, 'dd/MM/yyyy');
     }
-    useEffect(() => {
 
+    const [show, setShow] = useState(true);
+
+    useEffect(() => {
         const fetchApi = async () => {
-            // console.log(productid.id)
             const result = await PromotionsServices.getPromotion(promotiontid.id)
                 .catch((err) => {
                     console.log(err);
                 });
-            setObj(result);
 
+            if (result) {
+                console.log(result);
+                setObj(result);
+                if (result.status === 'stopped') {
+                    setShow(false);
+                }
+            }
         }
-
         fetchApi();
-
-    }, []);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [updatePage]);
 
     const submit = () => {
         setLoading(true);
         const fetchApi = async () => {
-            // console.log(productid.id)
-            const newobj = obj
-            newobj.status = 'paused'
-            const result = await PromotionsServices.UpdatePromotion(promotiontid.id, newobj)
-                .catch((err) => {
-                    console.log(err);
-                });
-            if (result) {
-                setTimeout(() => {
-                    setLoading(false);
-                    toastContext.notify('success', 'Đã lưu khuyến mãi');
-                }, 2000);
+            let isSuccess = true;
+
+            const newObj = {
+                ...obj,
+                status: 'paused',
             }
 
+            const result = await PromotionsServices.UpdatePromotion(promotiontid.id, newObj)
+                .catch((err) => {
+                    console.log(err);
+                    isSuccess = false;
+                    setLoading(false);
+                    toastContext.notify('error', 'Có lỗi xảy ra');
+                });
+
+            if (isSuccess) {
+                setLoading(false);
+                toastContext.notify('success', 'Đã tạm ngừng khuyến mãi');
+                setUpdatePage(new Date());
+            }
         }
 
         fetchApi();
     }
+
+    const handleActive = () => {
+        setLoading(true);
+        const fetchApi = async () => {
+            let isSuccess = true;
+
+            const newObj = {
+                ...obj,
+                status: 'running',
+            }
+
+            const result = await PromotionsServices.UpdatePromotion(promotiontid.id, newObj)
+                .catch((err) => {
+                    console.log(err);
+                    isSuccess = false;
+                    setLoading(false);
+                    toastContext.notify('error', 'Có lỗi xảy ra');
+                });
+
+            if (isSuccess) {
+                setLoading(false);
+                toastContext.notify('success', 'Đã kích hoạt khuyến mãi');
+                setUpdatePage(new Date());
+            }
+        }
+
+        fetchApi();
+    }
+
+    const handleCancel = () => {
+        setLoading(true);
+        const fetchApi = async () => {
+            let isSuccess = true;
+
+            const newObj = {
+                ...obj,
+                status: 'stopped',
+            }
+
+            const result = await PromotionsServices.UpdatePromotion(promotiontid.id, newObj)
+                .catch((err) => {
+                    console.log(err);
+                    isSuccess = false;
+                    setLoading(false);
+                    toastContext.notify('error', 'Có lỗi xảy ra');
+                });
+
+            if (isSuccess) {
+                setLoading(false);
+                toastContext.notify('success', 'Đã hủy khuyến mãi');
+                setUpdatePage(new Date());
+            }
+        }
+
+        fetchApi();
+    }
+
+
     return (
         <div className={cx('container')}>
             {obj === null ? (
@@ -147,7 +221,7 @@ function DiscountInfo() {
                             <div className={cx('main-info-content-grid1')}>
                                 <div className={cx('first-column')}>
                                     <p>Mã khuyến mãi</p>
-                                    <p>Mô tả</p>
+                                    <p>Số lượng còn lại</p>
                                 </div>
                                 <div className={cx('split')}>
                                     <p>:</p>
@@ -155,18 +229,22 @@ function DiscountInfo() {
                                 </div>
                                 <div className={cx('second-column')}>
                                     <p>{obj.promotionId}</p>
-                                    <p>Siêu giảm giá tuần lễ vàng</p>
+                                    <p>{obj.remainQuantity}</p>
                                 </div>
                             </div>
                             <div className={cx('main-info-content-grid1')}>
                                 <div className={cx('first-column')}>
-                                    <p>Thời gian còn lại</p>
+                                    <p>Trạng thái</p>
                                 </div>
                                 <div className={cx('split')}>
                                     <p>:</p>
                                 </div>
                                 <div className={cx('second-column')}>
-                                    <p>10 ngày</p>
+                                    <p>
+                                        {obj.status === 'running' && 'Đang chạy'}
+                                        {obj.status === 'paused' && 'Tạm dừng'}
+                                        {obj.status === 'stopped' && 'Đã hủy'}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -192,18 +270,26 @@ function DiscountInfo() {
                                 <p>{obj.applyToAmount === null ? 'không giới hạn' : addCommas(obj.applyToAmount) + 'đ'} </p>
                             </div>
                             <div className={cx('second-row')}>
-                                <p>{obj.discountRate}</p>
+                                <p>{obj.discountRate}%</p>
                             </div>
                         </div>
                     </div>
                     <div className={cx('button-container')}>
-                        <button
-                            className={cx('edit-btn')}
-                            onClick={() => navigate('/discounts/update/' + promotiontid.id)}
-                        >
-                            Sửa
-                        </button>
-                        <button className={cx('stop-btn')} onClick={() => submit()}>Tạm ngừng</button>
+                        {show &&
+                            <div>
+                                <Button outlineRed className={cx('m-r')} onClick={handleCancel}>
+                                    Hủy
+                                </Button>
+                                <button
+                                    className={cx('edit-btn')}
+                                    onClick={() => navigate('/discounts/update/' + promotiontid.id)}
+                                >
+                                    Sửa
+                                </button>
+                                <button className={cx('stop-btn')} onClick={() => submit()}>Tạm ngừng</button>
+                                <button className={cx('stop-btn')} onClick={() => handleActive()}>Kích hoạt</button>
+                            </div>
+                        }
                     </div>
                     <ModalLoading open={loading} title={'Đang tải'} />
                 </div>

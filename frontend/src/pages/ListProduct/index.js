@@ -59,6 +59,7 @@ function ListProduct() {
         publisherIds,
         authorIds,
         manufacturerIds,
+        query,
     ) => {
         return {
             pageNumber,
@@ -72,6 +73,7 @@ function ListProduct() {
             ...(publisherIds && { publisherIds }),
             ...(authorIds && { authorIds }),
             ...(manufacturerIds && { manufacturerIds }),
+            ...(query && { query }),
         };
     }
 
@@ -88,6 +90,28 @@ function ListProduct() {
     const handleSearch = (e) => {
         setSearch(e.target.value);
     };
+
+    const handleKeyDown = async (e) => {
+        if (e.key === 'Enter') {
+            setPageNumber(1);
+            getList(
+                await createObjectQuery(
+                    1,
+                    pageSize,
+                    sortBy,
+                    orderBy,
+                    selectedTT.length > 0 && returnArray(selectedTT),
+                    selectedPriceRange.length > 0 && returnArray(selectedPriceRange),
+                    selectedLSP.length > 0 && returnArray(selectedLSP),
+                    selectedSupplier.length > 0 && returnArray(selectedSupplier),
+                    selectedPublisher.length > 0 && returnArray(selectedPublisher),
+                    selectedAuthor.length > 0 && returnArray(selectedAuthor),
+                    selectedManufacturer.length > 0 && returnArray(selectedManufacturer),
+                    search,
+                )
+            );
+        }
+    }
 
     // FILTER OPTIONS
     const [optionsLSP, setOptionsLSP] = useState([]);
@@ -126,7 +150,7 @@ function ListProduct() {
     }
 
     const handleFilter = async () => {
-        setPageNumber(1)
+        setPageNumber(1);
         getList(
             await createObjectQuery(
                 1,
@@ -139,7 +163,8 @@ function ListProduct() {
                 selectedSupplier.length > 0 && returnArray(selectedSupplier),
                 selectedPublisher.length > 0 && returnArray(selectedPublisher),
                 selectedAuthor.length > 0 && returnArray(selectedAuthor),
-                selectedManufacturer.length > 0 && returnArray(selectedManufacturer)
+                selectedManufacturer.length > 0 && returnArray(selectedManufacturer),
+                search,
             )
         );
 
@@ -148,7 +173,7 @@ function ListProduct() {
 
     // GET DATA CATES
     const getCate = async () => {
-        const response = await typeProductServices.getAllProductTypes(1, -1)
+        const response = await typeProductServices.getAllProductTypes(1, -1, '')
             .catch((error) => {
                 if (error.response) {
                     console.log(error.response.data);
@@ -419,10 +444,10 @@ function ListProduct() {
                 selectedSupplier.length > 0 && returnArray(selectedSupplier),
                 selectedPublisher.length > 0 && returnArray(selectedPublisher),
                 selectedAuthor.length > 0 && returnArray(selectedAuthor),
-                selectedManufacturer.length > 0 && returnArray(selectedManufacturer)
+                selectedManufacturer.length > 0 && returnArray(selectedManufacturer),
+                search,
             )
         );
-
     };
 
     // PAGINATION
@@ -442,7 +467,8 @@ function ListProduct() {
                 selectedSupplier.length > 0 && returnArray(selectedSupplier),
                 selectedPublisher.length > 0 && returnArray(selectedPublisher),
                 selectedAuthor.length > 0 && returnArray(selectedAuthor),
-                selectedManufacturer.length > 0 && returnArray(selectedManufacturer)
+                selectedManufacturer.length > 0 && returnArray(selectedManufacturer),
+                search,
             )
         );
 
@@ -463,7 +489,8 @@ function ListProduct() {
                 selectedSupplier.length > 0 && returnArray(selectedSupplier),
                 selectedPublisher.length > 0 && returnArray(selectedPublisher),
                 selectedAuthor.length > 0 && returnArray(selectedAuthor),
-                selectedManufacturer.length > 0 && returnArray(selectedManufacturer)
+                selectedManufacturer.length > 0 && returnArray(selectedManufacturer),
+                search,
             )
         );
 
@@ -483,7 +510,8 @@ function ListProduct() {
                     selectedSupplier.length > 0 && returnArray(selectedSupplier),
                     selectedPublisher.length > 0 && returnArray(selectedPublisher),
                     selectedAuthor.length > 0 && returnArray(selectedAuthor),
-                    selectedManufacturer.length > 0 && returnArray(selectedManufacturer)
+                    selectedManufacturer.length > 0 && returnArray(selectedManufacturer),
+                    search,
                 )
             );
         }
@@ -497,7 +525,7 @@ function ListProduct() {
             <div className={cx('inner')}>
                 <div className={cx('tool-bar')}>
                     <div className={cx('tool-bar-left')}>
-                        <Button
+                        {/* <Button
                             leftIcon={<FontAwesomeIcon icon={faUpload} />}
                             solidBlue
                             className={cx('margin')}
@@ -510,7 +538,7 @@ function ListProduct() {
                             className={cx('margin')}
                         >
                             Xuất file
-                        </Button>
+                        </Button> */}
                         <Button
                             to="/products/type"
                             leftIcon={<FontAwesomeIcon icon={faListUl} />}
@@ -536,6 +564,7 @@ function ListProduct() {
                     placeholderSearch={
                         'Tìm kiếm theo mã sản phẩm, tên sản phẩm'
                     }
+                    handleKeyDown={handleKeyDown}
                     search={search}
                     handleSearch={handleSearch}
                     filterComponent={

@@ -17,8 +17,14 @@ import * as saleServices from '~/apiServices/saleServices';
 import * as customerServices from '~/apiServices/customerServices';
 import * as staffServices from '~/apiServices/staffServices';
 
+import { ConvertISO } from '~/components/ConvertISO';
 
 const cx = classNames.bind(styles);
+const convertDate = (dateString) => {
+    let dateParts = dateString.split('/');
+    let date = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+    return date.toISOString();
+}
 
 function ListOrder() {
     const navigate = useNavigate();
@@ -35,18 +41,8 @@ function ListOrder() {
         endDate,
         customerIds,
         staffIds,
+        query,
     ) => {
-
-        console.log('object pass', {
-            pageNumber,
-            pageSize,
-            ...(sortBy && { sortBy }),
-            ...(orderBy && { orderBy }),
-            ...(startDate && { startDate }),
-            ...(endDate && { endDate }),
-            ...(customerIds && { customerIds }),
-            ...(staffIds && { staffIds }),
-        });
 
         return {
             pageNumber,
@@ -57,6 +53,7 @@ function ListOrder() {
             ...(endDate && { endDate }),
             ...(customerIds && { customerIds }),
             ...(staffIds && { staffIds }),
+            ...(query && { query }),
         };
     }
 
@@ -77,6 +74,25 @@ function ListOrder() {
         setSearch(e.target.value);
     };
 
+    const handleKeyDown = async (e) => {
+        if (e.key === 'Enter') {
+            setPageNumber(1);
+            getList(
+                await createObjectQuery(
+                    1,
+                    pageSize,
+                    sortBy,
+                    orderBy,
+                    dateCreated && ConvertISO(dateCreated).startDate,
+                    dateCreated && ConvertISO(dateCreated).endDate,
+                    selectedCustomer.length > 0 && returnArray(selectedCustomer),
+                    selectedStaff.length > 0 && returnArray(selectedStaff),
+                    search,
+                )
+            );
+        }
+    }
+
     // FILTER OPTIONS
     const [optionsCustomer, setOptionsCustomer] = useState([]);
     const [optionsStaff, setOptionsStaff] = useState([]);
@@ -84,6 +100,13 @@ function ListOrder() {
     // FILTER SELECTED
     const [selectedCustomer, setSelectedCustomer] = useState([]);
     const [selectedStaff, setSelectedStaff] = useState([]);
+
+    // DATE CREATED
+    const [dateCreated, setDateCreated] = useState('');
+
+    const handleSetDate = (str) => {
+        setDateCreated(str);
+    }
 
     // FILTER
     const [openFilter, setOpenFilter] = useState(false);
@@ -96,50 +119,28 @@ function ListOrder() {
         setDateCreated('');
     };
 
-    const convertDate = (dateString) => {
-        let dateParts = dateString.split('/');
-        let date = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
-        return date.toISOString();
-    }
-
     const handleFilter = async () => {
         setPageNumber(1);
+        getList(
+            await createObjectQuery(
+                1,
+                pageSize,
+                sortBy,
+                orderBy,
+                dateCreated && ConvertISO(dateCreated).startDate,
+                dateCreated && ConvertISO(dateCreated).endDate,
+                selectedCustomer.length > 0 && returnArray(selectedCustomer),
+                selectedStaff.length > 0 && returnArray(selectedStaff),
+                search,
+            ));
 
-        if (dateCreated) {
-            const startDate = convertDate(dateCreated.split(' – ')[0]);
-            const endDate = convertDate(dateCreated.split(' – ')[1]);
-
-            getList(
-                await createObjectQuery(
-                    1,
-                    pageSize,
-                    sortBy,
-                    orderBy,
-                    startDate,
-                    endDate,
-                    selectedCustomer.length > 0 && returnArray(selectedCustomer),
-                    selectedStaff.length > 0 && returnArray(selectedStaff),
-                )
-            );
-        } else {
-            getList(
-                await createObjectQuery(
-                    1,
-                    pageSize,
-                    sortBy,
-                    orderBy,
-                    selectedCustomer.length > 0 && returnArray(selectedCustomer),
-                    selectedStaff.length > 0 && returnArray(selectedStaff),
-                )
-            );
-        }
 
         handleCloseFilter();
     };
 
     // GET DATA CUSTOMER
     const getCus = async () => {
-        const response = await customerServices.getAllCustomerTwo(1, -1)
+        const response = await customerServices.getAllCustomers({ pageNumber: 1, pageSize: -1 })
             .catch((error) => {
                 if (error.response) {
                     console.log(error.response.data);
@@ -188,20 +189,6 @@ function ListOrder() {
         // eslint-disable-next-line no-use-before-define
     }, [openFilter]);
 
-    // DATE CREATED
-    const [dateCreated, setDateCreated] = useState('');
-    const [startDate, setStartDate] = useState();
-    const [endDate, setEndDate] = useState();
-
-    const handleSetDate = (str) => {
-        if (str.includes(' - ')) {
-            const arr = str.split(' - ');
-
-            setStartDate((new Date(arr[0])).toISOString());
-            setEndDate((new Date(arr[1])).toISOString());
-        }
-        setDateCreated(str);
-    }
 
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
@@ -228,6 +215,8 @@ function ListOrder() {
             });
 
         if (response) {
+
+
             console.log(response.data);
             setPending(false);
             setRows(response.data);
@@ -247,10 +236,11 @@ function ListOrder() {
                 pageSize,
                 column.text,
                 sortDirection,
-                startDate && startDate,
-                endDate && endDate,
+                dateCreated && ConvertISO(dateCreated).startDate,
+                dateCreated && ConvertISO(dateCreated).endDate,
                 selectedCustomer.length > 0 && returnArray(selectedCustomer),
                 selectedStaff.length > 0 && returnArray(selectedStaff),
+                search,
             )
         );
 
@@ -268,10 +258,11 @@ function ListOrder() {
                 newPerPage,
                 sortBy,
                 orderBy,
-                startDate && startDate,
-                endDate && endDate,
+                dateCreated && ConvertISO(dateCreated).startDate,
+                dateCreated && ConvertISO(dateCreated).endDate,
                 selectedCustomer.length > 0 && returnArray(selectedCustomer),
                 selectedStaff.length > 0 && returnArray(selectedStaff),
+                search,
             )
         );
 
@@ -286,10 +277,11 @@ function ListOrder() {
                 pageSize,
                 sortBy,
                 orderBy,
-                startDate && startDate,
-                endDate && endDate,
+                dateCreated && ConvertISO(dateCreated).startDate,
+                dateCreated && ConvertISO(dateCreated).endDate,
                 selectedCustomer.length > 0 && returnArray(selectedCustomer),
                 selectedStaff.length > 0 && returnArray(selectedStaff),
+                search,
             )
         );
 
@@ -303,10 +295,11 @@ function ListOrder() {
                     pageSize,
                     sortBy,
                     orderBy,
-                    startDate && startDate,
-                    endDate && endDate,
+                    dateCreated && ConvertISO(dateCreated).startDate,
+                    dateCreated && ConvertISO(dateCreated).endDate,
                     selectedCustomer.length > 0 && returnArray(selectedCustomer),
                     selectedStaff.length > 0 && returnArray(selectedStaff),
+                    search,
                 )
             );
         }
@@ -319,7 +312,7 @@ function ListOrder() {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
-                <div className={cx('tool-bar')}>
+                {/* <div className={cx('tool-bar')}>
                     <div className={cx('tool-bar-left')}>
                         <Button
                             leftIcon={<FontAwesomeIcon icon={faUpload} />}
@@ -337,7 +330,7 @@ function ListOrder() {
                         </Button>
                     </div>
                     <div className={cx('tool-bar-right')}></div>
-                </div>
+                </div> */}
 
                 <List
                     searchVisibility={true}
@@ -346,6 +339,7 @@ function ListOrder() {
                     }
                     search={search}
                     handleSearch={handleSearch}
+                    handleKeyDown={handleKeyDown}
                     filterComponent={
                         <Filter
                             open={openFilter}

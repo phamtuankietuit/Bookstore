@@ -82,6 +82,7 @@ function ImportProduct() {
             purchasePrice: value.purchasePrice,
             orderQuantity: 0,
             totalPrice: 0,
+            staffId: 'staf00011',
         }
 
         if (isFound === false) {

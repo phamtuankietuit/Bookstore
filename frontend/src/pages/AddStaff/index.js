@@ -9,7 +9,8 @@ import Input from '~/components/Input';
 import ModalLoading from '~/components/ModalLoading';
 import { ToastContext } from '~/components/ToastContext';
 import * as StaffServices from '~/apiServices/staffServices';
-import Spinner from 'react-bootstrap/Spinner';
+
+
 const cx = classNames.bind(styles);
 
 function AddStaff() {
@@ -23,7 +24,7 @@ function AddStaff() {
     const [errorPhone, setErrorPhone] = useState('');
     const [email, setEmail] = useState('');
     const [errorEmail, setErrorEmail] = useState('');
-    const [role, setRole] = useState('');
+    const [role, setRole] = useState({});
     const [errorRole, setErrorRole] = useState('');
 
     // MODAL LOADING
@@ -57,8 +58,8 @@ function AddStaff() {
                         phone: phone,
                         email: email
                     },
-                    role: role,
-                }
+                    role: role.value,
+                };
 
                 const result = await StaffServices.createStaff(obj)
                     .catch((error) => {
@@ -72,7 +73,14 @@ function AddStaff() {
                             console.log('Error', error.message);
                         }
                         console.log(error.config);
-                        toastContext.notify('error', 'Có lỗi xảy ra');
+
+                        setLoading(false);
+
+                        if (error.response.status === 409) {
+                            toastContext.notify('error', 'Email đã tồn tại');
+                        } else {
+                            toastContext.notify('error', 'Có lỗi xảy ra');
+                        }
                     });
 
 
@@ -90,9 +98,13 @@ function AddStaff() {
     const handleExit = () => {
         navigate(-1);
     };
+
+
     const setNewRole = (obj) => {
-        setRole(obj.value)
+        setRole(obj);
     }
+
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -141,11 +153,11 @@ function AddStaff() {
                                         },
                                         {
                                             label: 'Nhân viên bán hàng',
-                                            value: 'sale'
+                                            value: 'sales'
                                         },
 
                                     ]}
-                                    value={role}
+                                    value={role.label}
                                     handleClickAction={setNewRole}
                                     readOnly
                                     required

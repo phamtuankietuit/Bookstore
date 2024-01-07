@@ -36,12 +36,55 @@ const optionsNNCC = [
 
 function ListSupplier() {
     const navigate = useNavigate();
-    const toastContext = useContext(ToastContext)
+    const toastContext = useContext(ToastContext);
+
+
+    const createObjectQuery = async (
+        pageNumber,
+        pageSize,
+        sortBy,
+        orderBy,
+        supplierGroupId,
+        isActive,
+        query,
+    ) => {
+        return {
+            pageNumber,
+            pageSize,
+            ...(orderBy && { orderBy }),
+            ...(sortBy && { sortBy }),
+            ...(supplierGroupId && { supplierGroupId }),
+            ...(isActive && { isActive }),
+            ...(query && { query }),
+        };
+    }
+
     // SEARCH
     const [search, setSearch] = useState('');
     const handleSearch = (e) => {
         setSearch(e.target.value);
     };
+
+    const returnArray = (arr) => {
+        return arr.map((obj) => obj.value);
+    }
+
+    const handleKeyDown = async (e) => {
+        if (e.key === 'Enter') {
+            setPageNumber(1);
+            getList(
+                await createObjectQuery(
+                    1,
+                    pageSize,
+                    sortBy,
+                    orderBy,
+                    selectedTT.length > 0 && returnArray(selectedTT),
+                    selectedNNCC.length > 0 && returnArray(selectedNNCC),
+                    search,
+                )
+            );
+        }
+    }
 
     // FILTER
     const [selectedTT, setSelectedTT] = useState([]);
@@ -56,7 +99,19 @@ function ListSupplier() {
         setSelectedNNCC([]);
     };
 
-    const handleFilter = () => {
+    const handleFilter = async () => {
+        setPageNumber(1);
+        getList(
+            await createObjectQuery(
+                1,
+                pageSize,
+                sortBy,
+                orderBy,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedNNCC.length > 0 && returnArray(selectedNNCC),
+                search,
+            )
+        );
         handleCloseFilter();
     };
 
@@ -83,64 +138,68 @@ function ListSupplier() {
         setPageSize(newPerPage);
         setPageNumber(pageNumber);
 
-        getList(pageNumber, newPerPage, sortBy, orderBy);
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                newPerPage,
+                sortBy,
+                orderBy,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedNNCC.length > 0 && returnArray(selectedNNCC),
+                search,
+            )
+        );
     }
 
-    const handlePageChange = (pageNumber) => {
+    const handlePageChange = async (pageNumber) => {
         setPageNumber(pageNumber);
 
-        getList(pageNumber, pageSize, sortBy, orderBy);
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                pageSize,
+                sortBy,
+                orderBy,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedNNCC.length > 0 && returnArray(selectedNNCC),
+                search,
+            )
+        );
     }
 
-    const handleSort = (column, sortDirection) => {
+    const handleSort = async (column, sortDirection) => {
         setSortBy(column.text);
         setOrderBy(sortDirection);
         setPageNumber(1);
 
-        getList(1, pageSize, column.text, sortDirection);
+        getList(
+            await createObjectQuery(
+                1,
+                pageSize,
+                column.text,
+                sortDirection,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedNNCC.length > 0 && returnArray(selectedNNCC),
+                search,
+            )
+        );
     };
 
 
-    const getList = async (
-        pageNumber,
-        pageSize,
-        sortBy,
-        orderBy,
-        supplierIds,
-    ) => {
-        const props = {
-            pageNumber,
-            pageSize,
-            ...(sortBy && { sortBy }),
-            ...(orderBy && { orderBy }),
-            ...(supplierIds && { supplierIds }),
-        };
-
-        if (!sortBy) {
-            setSortBy('supplierId');
-        }
-
-        if (!orderBy) {
-            setOrderBy('asc');
-        }
-
+    const getList = async (obj) => {
         setPending(true);
 
-        const response = await SuppliersServices.getAllSuppliersForList(props)
+        const response = await SuppliersServices.getAllSuppliersForList(obj)
             .catch((error) => {
                 setPending(false);
 
-                if (error.response) {
-                    console.log(error.response.data);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                } else if (error.request) {
-                    console.log(error.request);
+                if (error?.response?.status === 404) {
+                    setRows([]);
+                    setTotalRows(0);
+                    setClear(false);
                 } else {
-                    console.log('Error', error.message);
+                    toastContext.notify('error', 'Có lỗi xảy ra');
                 }
-                console.log(error.config);
-                toastContext.notify('error', 'Có lỗi xảy ra');
             });
 
         if (response) {
@@ -153,8 +212,20 @@ function ListSupplier() {
     }
 
     useEffect(() => {
-
-        getList(pageNumber, pageSize);
+        const fetch = async () => {
+            getList(
+                await createObjectQuery(
+                    1,
+                    pageSize,
+                    sortBy,
+                    orderBy,
+                    selectedTT.length > 0 && returnArray(selectedTT),
+                    selectedNNCC.length > 0 && returnArray(selectedNNCC),
+                    search,
+                )
+            );
+        }
+        fetch();
 
     }, []);
     const [showSubHeader, setShowSubHeader] = useState(true);
@@ -210,7 +281,7 @@ function ListSupplier() {
             <div className={cx('inner')}>
                 <div className={cx('tool-bar')}>
                     <div className={cx('tool-bar-left')}>
-                        <Button
+                        {/* <Button
                             leftIcon={<FontAwesomeIcon icon={faUpload} />}
                             solidBlue
                             className={cx('margin')}
@@ -223,7 +294,7 @@ function ListSupplier() {
                             className={cx('margin')}
                         >
                             Xuất file
-                        </Button>
+                        </Button> */}
                         <Button
                             to="/suppliers/group"
                             leftIcon={<FontAwesomeIcon icon={faListUl} />}
@@ -251,6 +322,7 @@ function ListSupplier() {
                     }
                     search={search}
                     handleSearch={handleSearch}
+                    handleKeyDown={handleKeyDown}
                     filterComponent={
                         <Filter
                             open={openFilter}

@@ -119,3 +119,12 @@
     border-radius: 5px 5px 5px 5px;
     max-width: 125px;
 }
+
+.icon {
+    font-size: 30px;
+    color: var(--primary);
+
+    &:hover {
+        cursor: pointer;
+    }
+}

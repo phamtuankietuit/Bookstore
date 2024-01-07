@@ -75,7 +75,7 @@ export const StaffItem = [
             <div className={cx('font')} data-tag="allowRowEvents">
                 {row.role === 'admin' && 'Quản lý'}
                 {row.role === 'warehouse' && 'Nhân viên kho'}
-                {row.role === 'sale' && 'Nhân viên bán hàng'}
+                {row.role === 'sales' && 'Nhân viên bán hàng'}
             </div>
         ),
     },

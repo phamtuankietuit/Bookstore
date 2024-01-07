@@ -25,7 +25,7 @@ const optionsTT = [
 ];
 
 const optionsVT = [
-    { label: 'Nhân viên bán hàng', value: 'sale' },
+    { label: 'Nhân viên bán hàng', value: 'sales' },
     { label: 'Nhân viên kho', value: 'warehouse' },
     { label: 'Quản lý', value: 'admin' },
 ];
@@ -48,12 +48,26 @@ function ListStaff() {
         pageSize,
         sortBy,
         orderBy,
+        isActive,
+        roles,
+        query,
     ) => {
+        let arr = [];
+
+        if (isActive) {
+            if (isActive.length < 2) {
+                arr = [...isActive];
+            }
+        }
+
         return {
             pageNumber,
             pageSize,
             ...(orderBy && { orderBy }),
             ...(sortBy && { sortBy }),
+            ...(isActive && { isActive: arr }),
+            ...(roles && { roles }),
+            ...(query && { query }),
         };
     }
 
@@ -62,6 +76,23 @@ function ListStaff() {
     const handleSearch = (e) => {
         setSearch(e.target.value);
     };
+
+    const handleKeyDown = async (e) => {
+        if (e.key === 'Enter') {
+            setPageNumber(1);
+            getList(
+                await createObjectQuery(
+                    1,
+                    pageSize,
+                    sortBy,
+                    orderBy,
+                    selectedTT.length > 0 && returnArray(selectedTT),
+                    selectedVT.length > 0 && returnArray(selectedVT),
+                    search,
+                )
+            );
+        }
+    }
 
     // FILTER
     const [selectedTT, setSelectedTT] = useState([]);
@@ -86,7 +117,7 @@ function ListStaff() {
                 orderBy,
                 selectedTT.length > 0 && returnArray(selectedTT),
                 selectedVT.length > 0 && returnArray(selectedVT),
-
+                search
             )
         );
         handleCloseFilter();
@@ -169,38 +200,35 @@ function ListStaff() {
                             console.log(error.response.data);
                             console.log(error.response.status);
                             console.log(error.response.headers);
-
-                            if (error.response.status === 403) {
-                                toastContext.notify('error', 'Không thể xóa admin');
-                            } else {
-                                toastContext.notify('error', 'Có lỗi xảy ra');
-                            }
                         } else if (error.request) {
                             console.log(error.request);
                         } else {
                             console.log('Error', error.message);
                         }
                         console.log(error.config);
+                        toastContext.notify('error', 'Có lỗi xảy ra');
                     });
+
+                console.log(result);
 
                 if (result) {
                     setLoading(false);
                     result.map((staff) => {
                         if (staff.status === 204) {
                             toastContext.notify('success', 'Xóa thành công nhân viên ' + staff.data.name);
-                        } else if (staff.status === 403) {
-                            toastContext.notify('error', 'Không thể xóa admin ' + staff.data.name);
                         } else {
                             toastContext.notify('error', 'Có lỗi xảy ra khi xóa nhân viên ' + staff.data.name);
                         }
                     });
+
                 } else if (isSuccess) {
                     setLoading(false);
-                    handleCloseModal();
                     toastContext.notify('success', 'Xóa nhân viên thành công');
-                    clearSubHeader();
-                    setUpdateList(new Date());
                 }
+
+                handleCloseModal();
+                clearSubHeader();
+                setUpdateList(new Date());
             }
             fetchApi();
         }
@@ -249,6 +277,7 @@ function ListStaff() {
                 orderBy,
                 selectedTT.length > 0 && returnArray(selectedTT),
                 selectedVT.length > 0 && returnArray(selectedVT),
+                search
             )
         );
     }
@@ -264,6 +293,7 @@ function ListStaff() {
                 orderBy,
                 selectedTT.length > 0 && returnArray(selectedTT),
                 selectedVT.length > 0 && returnArray(selectedVT),
+                search
             )
         );
     }
@@ -281,6 +311,7 @@ function ListStaff() {
                 sortDirection,
                 selectedTT.length > 0 && returnArray(selectedTT),
                 selectedVT.length > 0 && returnArray(selectedVT),
+                search
             )
         );
     };
@@ -295,6 +326,7 @@ function ListStaff() {
                     orderBy,
                     selectedTT.length > 0 && returnArray(selectedTT),
                     selectedVT.length > 0 && returnArray(selectedVT),
+                    search,
                 )
             );
         }
@@ -329,6 +361,7 @@ function ListStaff() {
                     }
                     search={search}
                     handleSearch={handleSearch}
+                    handleKeyDown={handleKeyDown}
                     filterComponent={
                         <Filter
                             open={openFilter}

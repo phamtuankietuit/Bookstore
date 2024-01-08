@@ -64,7 +64,6 @@ namespace BookstoreWebAPI.Utils
             QueryDefinition queryDef = BuildQueryDef(query);
 
             return queryDef;
-
         }
 
         public static QueryDefinition BuildQuery<T>(QueryParameters queryParams, PurchaseOrderFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true) where T : class
@@ -248,7 +247,7 @@ namespace BookstoreWebAPI.Utils
         {
             if (isRemovableDocument)
             {
-                query.Append(" AND c.isDeleted = false");
+                query.Append(" and c.isDeleted = false");
             }
         }
 
@@ -257,40 +256,40 @@ namespace BookstoreWebAPI.Utils
             if (!VariableHelpers.IsNull(filter.CategoryIds))
             {
                 var categoryIds = string.Join(", ", filter.CategoryIds!.Select(id => $"\"{id}\""));
-                query.Append($" AND c.categoryId IN ({categoryIds})");
+                query.Append($" and c.categoryId IN ({categoryIds})");
             }
 
             if (!VariableHelpers.IsNull(filter.SupplierIds))
             {
                 var supplierIds = string.Join(", ", filter.SupplierIds!.Select(id => $"\"{id}\""));
-                query.Append($" AND c.supplierId IN ({supplierIds})");
+                query.Append($" and c.supplierId IN ({supplierIds})");
             }
 
             if (!VariableHelpers.IsNull(filter.PriceRangeStrings))
             {
                 var priceRangeConditions = filter.PriceRanges!
-                    .Select(range => $"(c.salePrice BETWEEN {range.MinPrice} AND {range.MaxPrice})");
+                    .Select(range => $"(c.salePrice BETWEEN {range.MinPrice} and {range.MaxPrice})");
 
                 var priceRangeQuery = string.Join(" OR ", priceRangeConditions);
-                query.Append($" AND ({priceRangeQuery})");
+                query.Append($" and ({priceRangeQuery})");
             }
 
             if (!VariableHelpers.IsNull(filter.Manufacturers))
             {
                 var manufacturers = string.Join(", ", filter.Manufacturers!.Select(m => $"'{m}'"));
-                query.Append($" AND c.details.manufacturer IN ({manufacturers})");
+                query.Append($" and c.details.manufacturer IN ({manufacturers})");
             }
 
             if (!VariableHelpers.IsNull(filter.AuthorIds))
             {
                 var authors = string.Join(", ", filter.Authors!.Select(id => $"'{id}'"));
-                query.Append($" AND c.details.author IN ({authors})");
+                query.Append($" and c.details.author IN ({authors})");
             }
 
             if (!VariableHelpers.IsNull(filter.PublisherIds))
             {
                 var publishers = string.Join(", ", filter.Publishers!.Select(id => $"'{id}'"));
-                query.Append($" AND c.details.publisher IN ({publishers})");
+                query.Append($" and c.details.publisher IN ({publishers})");
             }
 
             AppendIsActiveFilter(query, filter.IsActive);
@@ -303,7 +302,7 @@ namespace BookstoreWebAPI.Utils
             if (!VariableHelpers.IsNull(filter.SupplierGroupIds))
             {
                 var supplierGroupIds = string.Join(", ", filter.SupplierGroupIds!.Select(id => $"\"{id}\""));
-                query.Append($" AND c.supplierGroupId IN ({supplierGroupIds})");
+                query.Append($" and c.supplierGroupId IN ({supplierGroupIds})");
             }
 
             AppendIsActiveFilter(query, filter.IsActive);
@@ -314,22 +313,22 @@ namespace BookstoreWebAPI.Utils
             if (!VariableHelpers.IsNull(filter.SupplierIds))
             {
                 var supplierIds = string.Join(", ", filter.SupplierIds!.Select(id => $"\"{id}\""));
-                query.Append($" AND c.supplierId IN ({supplierIds})");
+                query.Append($" and c.supplierId IN ({supplierIds})");
             }
 
             AppendCreationDateRangeFilter(query, filter.StartDate, filter.EndDate);
 
             if (!VariableHelpers.IsNull(filter.IsPaidOrder))
             {
-                query.Append(" AND (NOT IS_NULL(c.paymentDetails)");
+                query.Append(" and (NOT IS_NULL(c.paymentDetails)");
 
                 if (filter.IsPaidOrder == true)
                 {
-                    query.Append(" AND STRINGEQUALS(c.paymentDetails.status, 'paid'))");
+                    query.Append(" and STRINGEQUALS(c.paymentDetails.status, 'paid'))");
                 }
                 else
                 {
-                    query.Append(" AND (NOT STRINGEQUALS(c.paymentDetails.status, 'paid')))");
+                    query.Append(" and (NOT STRINGEQUALS(c.paymentDetails.status, 'paid')))");
                 }
             }
         }
@@ -338,27 +337,27 @@ namespace BookstoreWebAPI.Utils
         {
             if (!VariableHelpers.IsNull(filter.Statuses))
             {
-                var supplierIds = string.Join(", ", filter.Statuses!.Select(id => $"\"{id}\""));
-                query.Append($" AND c.status IN ({supplierIds})");
+                var statuses = string.Join(", ", filter.Statuses!.Select(id => $"\"{id}\""));
+                query.Append($" and c.status IN ({statuses})");
             }
 
             if (!VariableHelpers.IsNull(filter.SalesOrderPrice))
             {
-                query.Append($" AND c.applyFromAmount <= {filter.SalesOrderPrice}");
+                query.Append($" and c.applyFromAmount <= {filter.SalesOrderPrice}");
 
                 // Since applyToAmount can be null, we only add this condition if applyToAmount is not null
-                query.Append($" AND (c.applyToAmount >= {filter.SalesOrderPrice} OR c.applyToAmount = null)");
+                query.Append($" and (c.applyToAmount >= {filter.SalesOrderPrice} OR c.applyToAmount = null)");
             }
 
             if (!VariableHelpers.IsNull(filter.IsOutdated))
             {
                 if (filter.IsOutdated == false)
                 {
-                    query.Append(" AND (NOT IS_NULL(c.closeAt) AND c.closeAt > GetCurrentDateTime())");
+                    query.Append(" and (NOT IS_NULL(c.closeAt) and c.closeAt > GetCurrentDateTime())");
                 }
                 else
                 {
-                    query.Append(" AND (NOT IS_NULL(c.closeAt) AND c.closeAt <= GetCurrentDateTime())");
+                    query.Append(" and (NOT IS_NULL(c.closeAt) and c.closeAt <= GetCurrentDateTime())");
                 }
             }
         }
@@ -368,16 +367,15 @@ namespace BookstoreWebAPI.Utils
             if (!VariableHelpers.IsNull(filter.CustomerIds))
             {
                 var customerIds = string.Join(", ", filter.CustomerIds!.Select(id => $"\"{id}\""));
-                query.Append($" AND c.customerId IN ({customerIds})");
+                query.Append($" and c.customerId IN ({customerIds})");
             }
 
             AppendCreationDateRangeFilter(query, filter.StartDate, filter.EndDate);
 
             if (!VariableHelpers.IsNull(filter.StaffIds))
             {
-                // implement staff id filter
-                //var staffIds = string.Join(", ", filter.StaffIds!.Select(id => $"\"{id}\""));
-                //query.Append($" AND c.staffId IN {staffIds}");
+                var customerIds = string.Join(", ", filter.StaffIds!.Select(id => $"\"{id}\""));
+                query.Append($" and c.staffId IN ({customerIds})");
             }
         }
         private static void AppendCustomerFilter(StringBuilder query, CustomerFilterModel filter)
@@ -392,13 +390,13 @@ namespace BookstoreWebAPI.Utils
             if (!VariableHelpers.IsNull(filter.StaffIds))
             {
                 var staffIds = string.Join(", ", filter.StaffIds!.Select(id => $"\"{id}\""));
-                query.Append($" AND c.staffId IN ({staffIds})");
+                query.Append($" and c.staffId IN ({staffIds})");
             }
 
             if (!VariableHelpers.IsNull(filter.ActivityTypes))
             {
                 var activityTypes = string.Join(", ", filter.ActivityTypes!.Select(id => $"\"{id}\""));
-                query.Append($" AND c.activityType IN ({activityTypes})");
+                query.Append($" and c.activityType IN ({activityTypes})");
             }
         }
 
@@ -407,7 +405,7 @@ namespace BookstoreWebAPI.Utils
             if (!VariableHelpers.IsNull(filter.Roles))
             {
                 var roles = string.Join(", ", filter.Roles!.Select(id => $"\"{id}\""));
-                query.Append($" AND c.role IN ({roles})");
+                query.Append($" and c.role IN ({roles})");
             }
 
             AppendIsActiveFilter(query, filter.IsActive);
@@ -437,7 +435,7 @@ namespace BookstoreWebAPI.Utils
                 var isoStartDate = startDateTemp.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
                 var isoEndDate = endDateTemp.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
 
-                query.Append($" AND c.createdAt >= '{isoStartDate}' AND c.createdAt < '{isoEndDate}'");
+                query.Append($" and c.createdAt >= '{isoStartDate}' and c.createdAt < '{isoEndDate}'");
             }
         }
 
@@ -445,7 +443,7 @@ namespace BookstoreWebAPI.Utils
         {
             if (!VariableHelpers.IsNull(isActive))
             {
-                query.Append($" AND c.isActive = {isActive.ToString()!.ToLower()}");
+                query.Append($" and c.isActive = {isActive.ToString()!.ToLower()}");
             }
         }
     }

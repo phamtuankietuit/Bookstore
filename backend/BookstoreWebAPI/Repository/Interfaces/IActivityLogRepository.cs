@@ -10,6 +10,7 @@ namespace BookstoreWebAPI.Repository.Interfaces
 {
     public interface IActivityLogRepository
     {
+        int TotalCount { get; }
         public Dictionary<string, string> ActivityTypeWithNamePairs { get; }
         Task<int> GetTotalCount(QueryParameters queryParams, ActivityLogFilterModel filter);
         Task<IEnumerable<ActivityLogDTO>> GetActivityLogDTOsAsync(QueryParameters queryParams, ActivityLogFilterModel filter);

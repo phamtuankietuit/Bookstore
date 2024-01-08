@@ -41,8 +41,10 @@ namespace BookstoreWebAPI.Utils
                 .ForMember(dest => dest.Details, act => act.MapFrom(src => src.Item1.Details))
                 .ForMember(dest => dest.IsActive, act => act.MapFrom(src => src.Item1.IsActive))
                 .ForMember(dest => dest.CreatedAt, act => act.MapFrom(src => src.Item1.CreatedAt))
+                .ForMember(dest => dest.ModifiedAt, act => act.MapFrom(src => src.Item1.ModifiedAt))
                 .ForMember(dest => dest.Images, act => act.MapFrom(src => src.Item1.Images))
                 .ForMember(dest => dest.Tags, act => act.MapFrom(src => src.Item1.Tags))
+                .ForMember(dest => dest.StaffId, act => act.MapFrom(src =>src.Item1.StaffId))
 
                 .ForMember(dest => dest.Status, act => act.MapFrom(src => src.Item2.Status))
                 .ForMember(dest => dest.Barcode, act => act.MapFrom(src => src.Item2.Barcode))

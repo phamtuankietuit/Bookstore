@@ -3,7 +3,7 @@ using NSwag.Annotations;
 
 namespace BookstoreWebAPI.Models.BindingModels.FilterModels
 {
-    public class ProductFilterModel
+    public class ProductFilterModel : BaseFilterModel
     {
         // my attributes
         private List<(int MinPrice, int MaxPrice)> _priceRanges;
@@ -16,7 +16,6 @@ namespace BookstoreWebAPI.Models.BindingModels.FilterModels
         internal List<string>? Publishers { get; set; }
 
         // query attributes
-        
         
         [FromQuery(Name = "categoryIds")]
         [ModelBinder(BinderType = typeof(CommaDelimitedArrayModelBinder<string>))]

@@ -2,7 +2,7 @@
 
 namespace BookstoreWebAPI.Models.BindingModels.FilterModels
 {
-    public class ActivityLogFilterModel
+    public class ActivityLogFilterModel : BaseFilterModel
     {
         private DateTime? startDate;
         private DateTime? endDate;

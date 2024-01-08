@@ -2,7 +2,7 @@
 
 namespace BookstoreWebAPI.Models.BindingModels.FilterModels
 {
-    public class PromotionFilterModel
+    public class PromotionFilterModel : BaseFilterModel
     {
         private bool? _isOutdated;
 

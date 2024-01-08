@@ -2,7 +2,7 @@
 
 namespace BookstoreWebAPI.Models.BindingModels.FilterModels
 {
-    public class StaffFilterModel
+    public class StaffFilterModel : BaseFilterModel
     {
         private bool? _isActive;
         internal bool? IsActive { get => _isActive; private set { } }

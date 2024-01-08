@@ -2,7 +2,7 @@
 
 namespace BookstoreWebAPI.Models.BindingModels.FilterModels
 {
-    public class SupplierFilterModel
+    public class SupplierFilterModel : BaseFilterModel
     {
         [FromQuery(Name = "supplierGroupId")]
         [ModelBinder(BinderType = typeof(CommaDelimitedArrayModelBinder<string>))]

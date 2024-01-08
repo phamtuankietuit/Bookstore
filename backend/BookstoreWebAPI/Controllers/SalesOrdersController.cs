@@ -47,8 +47,8 @@ namespace BookstoreWebAPI.Controllers
             if (!filterModelResult.IsValid) return BadRequest(filterModelResult.Errors);
 
 
-            int totalCount = await _salesOrderRepository.GetTotalCount(queryParams, filter);
             var salesOrders = await _salesOrderRepository.GetSalesOrderDTOsAsync(queryParams, filter);
+            int totalCount = _salesOrderRepository.TotalCount;
 
             if (salesOrders == null || !salesOrders.Any())
             {

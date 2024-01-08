@@ -7,6 +7,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using Microsoft.AspNetCore.Authorization;
+using BookstoreWebAPI.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,17 +22,20 @@ namespace BookstoreWebAPI.Controllers
         private readonly ICustomerRepository _customerRepository;
         private readonly IValidator<QueryParameters> _queryParametersValidator;
         private readonly IValidator<CustomerFilterModel> _filterValidator;
+        private readonly UserContextService _userContextService;
 
         public CustomersController(
             ILogger<CustomersController> logger,
             ICustomerRepository customerRepository,
             IValidator<QueryParameters> validator,
-            IValidator<CustomerFilterModel> filterModelValidator)
+            IValidator<CustomerFilterModel> filterModelValidator,
+            UserContextService userContextService)
         {
             _logger = logger;
             _customerRepository = customerRepository;
             _queryParametersValidator = validator;
             _filterValidator = filterModelValidator;
+            _userContextService = userContextService;
         }
 
         // GET: api/<CustomersController>
@@ -47,8 +51,8 @@ namespace BookstoreWebAPI.Controllers
             ValidationResult filterModelResult = await _filterValidator.ValidateAsync(filter);
             if (!filterModelResult.IsValid) return BadRequest(filterModelResult.Errors);
 
-            int totalCount = await _customerRepository.GetTotalCount(queryParams, filter);
             var customers = await _customerRepository.GetCustomerDTOsAsync(queryParams, filter);
+            int totalCount = _customerRepository.TotalCount;
 
             if (customers == null || !customers.Any())
             {
@@ -83,6 +87,10 @@ namespace BookstoreWebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateCustomerAsync([FromBody] CustomerDTO customerDTO)
         {
+            var staffId = Request.Headers["staffId"].ToString();
+            if (staffId == null) return Unauthorized();
+            _userContextService.Current.StaffId = staffId;
+
             try
             {
                 var createdCustomerDTO = await _customerRepository.AddCustomerDTOAsync(customerDTO);
@@ -108,6 +116,10 @@ namespace BookstoreWebAPI.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateCustomerAsync(string id, [FromBody] CustomerDTO customerDTO)
         {
+            var staffId = Request.Headers["staffId"].ToString();
+            if (staffId == null) return Unauthorized();
+            _userContextService.Current.StaffId = staffId;
+
             if (id != customerDTO.CustomerId)
             {
                 return BadRequest("Specified id don't match with the DTO.");
@@ -137,6 +149,10 @@ namespace BookstoreWebAPI.Controllers
         [HttpDelete]
         public async Task<ActionResult> DeleteCustomersAsync([FromQuery] string[] ids)
         {
+            var staffId = Request.Headers["staffId"].ToString();
+            if (staffId == null) return Unauthorized();
+            _userContextService.Current.StaffId = staffId;
+
             if (ids == null || !ids.Any())
             {
                 return BadRequest("ids is required.");

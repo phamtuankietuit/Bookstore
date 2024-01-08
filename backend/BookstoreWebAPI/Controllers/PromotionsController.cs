@@ -48,8 +48,8 @@ namespace BookstoreWebAPI.Controllers
             ValidationResult filterModelResult = await _filterValidator.ValidateAsync(filter);
             if (!filterModelResult.IsValid) return BadRequest(filterModelResult.Errors);
 
-            int totalCount = await _promotionRepository.GetTotalCount(queryParams, filter);
             var promotions = await _promotionRepository.GetPromotionDTOsAsync(queryParams, filter);
+            int totalCount = _promotionRepository.TotalCount;
 
             if (promotions == null || !promotions.Any())
             {

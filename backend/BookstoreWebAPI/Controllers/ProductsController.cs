@@ -3,17 +3,14 @@ using BookstoreWebAPI.Models.DTOs;
 using BookstoreWebAPI.Repository.Interfaces;
 using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
-using Microsoft.Extensions.Options;
 using FluentValidation;
 using FluentValidation.Results;
 using BookstoreWebAPI.Services;
 using Azure;
-using Azure.Storage.Blobs;
-using Microsoft.AspNetCore.Authorization;
 
 namespace BookstoreWebAPI.Controllers
 {
-    
+
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : Controller
@@ -22,7 +19,8 @@ namespace BookstoreWebAPI.Controllers
         private readonly ILogger<ProductsController> _logger;
         private readonly IValidator<QueryParameters> _queryParametersValidator;
         private readonly IValidator<ProductFilterModel> _filterValidator;
-        
+        private readonly UserContextService _userContextService;
+
         private readonly IFileService _fileService;
 
         public ProductsController(
@@ -30,13 +28,15 @@ namespace BookstoreWebAPI.Controllers
             ILogger<ProductsController> logger,
             IValidator<QueryParameters> validator,
             IValidator<ProductFilterModel> filterValidator,
-            IFileService fileService)
+            IFileService fileService,
+            UserContextService userContextService)
         {
             _productRepository = productRepository;
             _logger = logger;
             _queryParametersValidator = validator;
             _fileService = fileService;
             _filterValidator = filterValidator;
+            _userContextService = userContextService;
         }
 
         [HttpGet]
@@ -51,8 +51,8 @@ namespace BookstoreWebAPI.Controllers
             if (!filterModelResult.IsValid) return BadRequest(filterModelResult.Errors);
 
 
-            int totalCount = await _productRepository.GetTotalCount(queryParams, filter);
             var products = await _productRepository.GetProductDTOsAsync(queryParams, filter);
+            int totalCount = _productRepository.TotalCount;
 
             if (products == null || !products.Any())
             {
@@ -106,6 +106,10 @@ namespace BookstoreWebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateProductAsync([FromBody] ProductDTO productDTO)
         {
+            var staffId = Request.Headers["staffId"].ToString();
+            if (staffId == null) return Unauthorized();
+            _userContextService.Current.StaffId = staffId;
+
             try
             {
                 var createdProductDTO = await _productRepository.AddProductDTOAsync(productDTO);
@@ -130,6 +134,10 @@ namespace BookstoreWebAPI.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateProductAsync(string id, [FromBody] ProductDTO productDTO)
         {
+            var staffId = Request.Headers["staffId"].ToString();
+            if (staffId == null) return Unauthorized();
+            _userContextService.Current.StaffId = staffId;
+
             if (id != productDTO.ProductId)
             {
                 return BadRequest("Specified id don't match with the DTO.");
@@ -158,6 +166,10 @@ namespace BookstoreWebAPI.Controllers
         [HttpDelete()]
         public async Task<ActionResult> DeleteProductsAsync([FromQuery] string[] ids)
         {
+            var staffId = Request.Headers["staffId"].ToString();
+            if (staffId == null) return Unauthorized();
+            _userContextService.Current.StaffId = staffId;
+
             if (ids == null || !ids.Any())
             {
                 return BadRequest("ids is required.");

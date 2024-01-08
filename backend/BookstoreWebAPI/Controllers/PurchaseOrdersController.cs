@@ -44,8 +44,8 @@ namespace BookstoreWebAPI.Controllers
             ValidationResult filterModelResult = await _filterValidator.ValidateAsync(filter);
             if (!filterModelResult.IsValid) return BadRequest(filterModelResult.Errors);
 
-            int totalCount = await _purchaseOrderRepository.GetTotalCount(queryParams, filter);
             var purchaseOrders = await _purchaseOrderRepository.GetPurchaseOrderDTOsAsync(queryParams, filter);
+            int totalCount = _purchaseOrderRepository.TotalCount;
 
             if (purchaseOrders == null || !purchaseOrders.Any())
             {

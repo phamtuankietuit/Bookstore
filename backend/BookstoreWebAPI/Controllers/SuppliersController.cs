@@ -1,51 +1,54 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BookstoreWebAPI.Models.DTOs;
+using BookstoreWebAPI.Models.BindingModels;
+using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using BookstoreWebAPI.Repository.Interfaces;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using FluentValidation;
+using FluentValidation.Results;
 
 namespace BookstoreWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SuppliersController : ControllerBase
+    public class SuppliersController(
+        ISupplierRepository supplierRepository,
+        ILogger<SuppliersController> logger,
+        IValidator<QueryParameters> validator,
+        IValidator<SupplierFilterModel> filterValidator
+    ) : ControllerBase
     {
-        private readonly ILogger<SuppliersController> _logger;
-        private readonly ISupplierRepository _supplierRepository;
-
-        public SuppliersController(ILogger<SuppliersController> logger, ISupplierRepository supplierRepository)
-        {
-            this._logger = logger;
-            this._supplierRepository = supplierRepository;
-        }
-
-        // GET: api/<SuppliersController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SupplierDTO>>> GetSupplierDTOsAsync()
+        public async Task<ActionResult<IEnumerable<SupplierDTO>>> GetSupplierDTOsAsync([FromQuery] QueryParameters queryParams, [FromQuery]SupplierFilterModel filter)
         {
-            var suppliers = await _supplierRepository.GetSupplierDTOsAsync();
+            ValidationResult queryParamResult = await validator.ValidateAsync(queryParams);
+            if (!queryParamResult.IsValid) return BadRequest(queryParamResult.Errors);
+
+            ValidationResult filterModelResult = await filterValidator.ValidateAsync(filter);
+            if (!filterModelResult.IsValid) return BadRequest(filterModelResult.Errors);
+
+
+            var suppliers = await supplierRepository.GetSupplierDTOsAsync(queryParams, filter);
+            var totalCount = supplierRepository.TotalCount;
 
             if (suppliers == null || !suppliers.Any())
             {
                 return NotFound();
             }
 
-            return Ok(suppliers);
+            return Ok(new
+            {
+                data = suppliers,
+                metadata = new
+                {
+                    count = totalCount
+                }
+            });
         }
 
-        [HttpGet("newId")]
-        public async Task<ActionResult<string>> GetNewSupplierIdAsync()
-        {
-            string newId = await _supplierRepository.GetNewSupplierIdAsync();
-
-            return Ok(newId);
-        }
-
-        // GET api/<SuppliersController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<SupplierDTO>> GetSupplierDTOByIdAsync(string id)
         {
-            var supplier = await _supplierRepository.GetSupplierDTOByIdAsync(id);
+            var supplier = await supplierRepository.GetSupplierDTOByIdAsync(id);
 
             if (supplier == null)
             {
@@ -55,55 +58,79 @@ namespace BookstoreWebAPI.Controllers
             return Ok(supplier);
         }
 
-        // POST api/<SuppliersController>
         [HttpPost]
-        public async Task<ActionResult> CreateSupplierAsync([FromBody] SupplierDTO supplierDTO)
+        public async Task<ActionResult> CreateSupplierAsync([FromBody]SupplierDTO supplierDTO)
         {
             try
             {
-                await _supplierRepository.AddSupplierDTOAsync(supplierDTO);
+                var createdSupplierDTO = await supplierRepository.AddSupplierDTOAsync(supplierDTO);
 
-                return Ok("Supplier created successfully.");
+                return CreatedAtAction(
+                    nameof(GetSupplierDTOByIdAsync),
+                    new { id = createdSupplierDTO.SupplierId},
+                    createdSupplierDTO
+                );
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the supplier. SupplierId: {supplierDTO.SupplierId}");
+                logger.LogInformation(
+                    $"Supplier name: {supplierDTO.Name}" +
+                    $"\nError message: {ex.Message}"
+                );
+
+                return Conflict(ex.Message);
             }
         }
 
-        // PUT api/<SuppliersController>/5
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateSupplierAsync(string id, [FromBody] SupplierDTO supplierDTO)
         {
+            if (id != supplierDTO.SupplierId)
+            {
+                return BadRequest("Specified id don't match with the DTO.");
+            }
+
             try
             {
-                await _supplierRepository.UpdateSupplierAsync(supplierDTO);
+                await supplierRepository.UpdateSupplierDTOAsync(supplierDTO);
 
-                return Ok("Supplier updated successfully.");
+                return NoContent();
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the supplier. SupplierId: {supplierDTO.SupplierId}");
+                logger.LogError(
+                    $"Updating failed. " +
+                    $"\nSupplier Id: {id}. " +
+                    $"\nError message: {ex.Message}");
+
+                return StatusCode(500, 
+                    $"An error occurred while updating the supplier. \n" +
+                    $"SupplierId: {id}\n" +
+                    $"Error message: {ex.Message}");
             }
         }
 
-        // DELETE api/<SuppliersController>/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteSupplierAsync(string id)
+        public async Task<ActionResult> DeleteSupplierAsync([FromQuery]string[] ids)
         {
-            try
+            if (ids == null || ids.Length == 0)
             {
-                await _supplierRepository.DeleteSupplierAsync(id);
+                return BadRequest("ids is required.");
+            }
 
-                return Ok("Supplier updated successfully.");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the supplier. SupplierId: {id}");
-            }
+            var result = await supplierRepository.DeleteSuppliersAsync(ids);
+
+            int statusCount = 0;
+            if (!result.IsNotSuccessful) statusCount++;
+            if (!result.IsFound) statusCount++;
+            if (!result.IsNotForbidden) statusCount++;
+
+            if (statusCount > 1)
+                return StatusCode(207, result.Responses);
+            else if (!result.IsNotSuccessful) return NoContent();
+            else if (!result.IsFound) return NotFound();
+
+            return StatusCode(403);
         }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
 using BookstoreWebAPI.Models.Shared;
-using BookstoreWebAPI.Models.Abstracts;
+using BookstoreWebAPI.Models.Interfaces;
 
 namespace BookstoreWebAPI.Models.DTOs
 {
-    public class SupplierDTO : IBaseCosmosDTO
+    public class SupplierDTO : IBaseCosmosDTO, IActivableDTO
     {
         [JsonProperty("supplierId")]
         public string? SupplierId { get; set; }
@@ -31,6 +31,12 @@ namespace BookstoreWebAPI.Models.DTOs
         public bool? IsActive { get; set; }
 
         [JsonProperty("createdAt")]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
+
+        [JsonProperty("modifiedAt")]
+        public DateTime? ModifiedAt { get; set; }
+
+        [JsonProperty("staffId")]
+        public string StaffId { get; set; }
     }
 }

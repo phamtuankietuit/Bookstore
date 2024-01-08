@@ -1,0 +1,15 @@
+[
+	{
+		"id": "supg00000",
+		"supplierGroupId": "supg00000",
+		"name": "Khác",
+		"numberOfSupplier": 40,
+		"note": "Nhóm nhà cung cấp mặc định",
+		"createdAt": "2023-11-21T16:31:07",
+		"modifiedAt": "2023-11-21T16:31:07",
+		"isRemovable": false,
+		"isDeleted": false,
+		"staffId": "staf00000",
+		"ttl": -1
+	}
+]

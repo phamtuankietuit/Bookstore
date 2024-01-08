@@ -1,4 +1,4 @@
-﻿using BookstoreWebAPI.Models.Abstracts;
+﻿using BookstoreWebAPI.Models.Interfaces;
 using Newtonsoft.Json;
 
 namespace BookstoreWebAPI.Models.Documents
@@ -17,8 +17,8 @@ namespace BookstoreWebAPI.Models.Documents
         [JsonProperty("barcode")]
         public string Barcode { get; set; }
 
-        [JsonProperty("name")]
-        public string Name { get; set; }
+        [JsonProperty("productName")]
+        public string ProductName { get; set; }
 
         [JsonProperty("currentStock")]
         public int CurrentStock { get; set; }
@@ -42,9 +42,15 @@ namespace BookstoreWebAPI.Models.Documents
         public bool IsRemovable { get; set; }
         
         [JsonProperty("createdAt")]
-        public DateTime CreatedAt { get; set; }
-        
+        public DateTime? CreatedAt { get; set; }
+
+        [JsonProperty("modifiedAt")]
+        public DateTime? ModifiedAt { get; set; }
+
         [JsonProperty("ttl")]
         public int TTL { get; set; }
+
+        [JsonProperty("staffId")]
+        public string StaffId { get; set; }
     }
 }

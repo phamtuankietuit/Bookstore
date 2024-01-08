@@ -1,51 +1,57 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BookstoreWebAPI.Models.DTOs;
+using BookstoreWebAPI.Models.BindingModels;
+using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using BookstoreWebAPI.Repository.Interfaces;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using FluentValidation;
+using FluentValidation.Results;
 
 namespace BookstoreWebAPI.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
-    public class SalesOrdersController : ControllerBase
+    public class SalesOrdersController(
+        ISalesOrderRepository salesOrderRepository,
+        ILogger<SalesOrdersController> logger,
+        IValidator<QueryParameters> validator,
+        IValidator<SalesOrderFilterModel> filterModelValidator
+    ) : ControllerBase
     {
-        private readonly ISalesOrderRepository _salesOrderRepository;
-        private readonly ILogger<SalesOrdersController> _logger;
-
-        public SalesOrdersController(ISalesOrderRepository salesOrderRepository, ILogger<SalesOrdersController> logger)
-        {
-            this._salesOrderRepository = salesOrderRepository;
-            this._logger = logger;
-        }
-
-        // GET: api/<SalesOrdersController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SalesOrderDTO>>> GetSalesOrderDTOsAsync()
+        public async Task<ActionResult<IEnumerable<SalesOrderDTO>>> GetSalesOrderDTOsAsync(
+            [FromQuery] QueryParameters queryParams,
+            [FromQuery] SalesOrderFilterModel filter)
         {
-            var salesOrders = await _salesOrderRepository.GetSalesOrderDTOsAsync();
+            ValidationResult queryParamResult = await validator.ValidateAsync(queryParams);
+            if (!queryParamResult.IsValid) return BadRequest(queryParamResult.Errors);
+
+            ValidationResult filterModelResult = await filterModelValidator.ValidateAsync(filter);
+            if (!filterModelResult.IsValid) return BadRequest(filterModelResult.Errors);
+
+
+            var salesOrders = await salesOrderRepository.GetSalesOrderDTOsAsync(queryParams, filter);
+            int totalCount = salesOrderRepository.TotalCount;
 
             if (salesOrders == null || !salesOrders.Any())
             {
                 return NotFound();
             }
 
-            return Ok(salesOrders);
+            return Ok(new
+            {
+                data = salesOrders,
+                metadata = new
+                {
+                    count = totalCount
+                }
+            });
         }
-
-        [HttpGet("newId")]
-        public async Task<ActionResult<string>> GetNewOrderIdAsync()
-        {
-            string newId = await _salesOrderRepository.GetNewOrderIdAsync();
-
-            return Ok(newId);
-        }
-
-        // GET api/<SalesOrdersController>/5
+        
         [HttpGet("{id}")]
         public async Task<ActionResult<SalesOrderDTO>> GetSalesOrderDTOByIdAsync(string id)
         {
-            var salesOrder = await _salesOrderRepository.GetSalesOrderDTOByIdAsync(id);
+            var salesOrder = await salesOrderRepository.GetSalesOrderDTOByIdAsync(id);
 
             if (salesOrder == null)
             {
@@ -55,54 +61,56 @@ namespace BookstoreWebAPI.Controllers
             return Ok(salesOrder);
         }
 
-        // POST api/<SalesOrdersController>
         [HttpPost]
         public async Task<ActionResult> CreateSalesOrderAsync([FromBody] SalesOrderDTO salesOrderDTO)
         {
             try
             {
-                await _salesOrderRepository.AddSalesOrderDTOAsync(salesOrderDTO);
+                var createdSalesOrderDTO = await salesOrderRepository.AddSalesOrderDTOAsync(salesOrderDTO);
 
-                return Ok("SalesOrder created successfully.");
+                return CreatedAtAction(
+                    nameof(GetSalesOrderDTOByIdAsync),
+                    new { id = createdSalesOrderDTO.SalesOrderId }, 
+                    createdSalesOrderDTO 
+                );
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the salesOrder. OrderId: {salesOrderDTO.OrderId}");
+                logger.LogInformation(
+                    $"SalesOrder Name: {salesOrderDTO.CustomerName}" +
+                    $"\nError message: {ex.Message}"
+                );
+
+                return Conflict(ex.Message);
             }
         }
 
-        // PUT api/<SalesOrdersController>/5
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateSalesOrderAsync(string id, [FromBody] SalesOrderDTO salesOrderDTO)
         {
+            if (id != salesOrderDTO.SalesOrderId)
+            {
+                return BadRequest("Specified id don't match with the DTO.");
+            }
+
             try
             {
-                await _salesOrderRepository.UpdateSalesOrderAsync(salesOrderDTO);
 
-                return Ok("SalesOrder updated successfully.");
+                await salesOrderRepository.UpdateSalesOrderDTOAsync(salesOrderDTO);
+
+                return NoContent();
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the salesOrder. OrderId: {salesOrderDTO.OrderId}");
-            }
-        }
+                logger.LogError(
+                    $"Updating failed. " +
+                    $"\nSalesOrder Id: {id}. " +
+                    $"\nError message: {ex.Message}");
 
-        // DELETE api/<SalesOrdersController>/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteSalesOrderAsync(string id)
-        {
-            try
-            {
-                await _salesOrderRepository.DeleteSalesOrderAsync(id);
-
-                return Ok("SalesOrder updated successfully.");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the salesOrder. OrderId: {id}");
+                return StatusCode(500,
+                    $"An error occurred while updating the salesOrder. \n" +
+                    $"SalesOrder Id: {id}\n" +
+                    $"Error message: {ex.Message}");
             }
         }
     }

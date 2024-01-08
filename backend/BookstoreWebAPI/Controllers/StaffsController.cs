@@ -53,8 +53,8 @@ namespace BookstoreWebAPI.Controllers
             if (!filterModelResult.IsValid) return BadRequest(filterModelResult.Errors);
 
 
-            int totalCount = await _staffRepository.GetTotalCount(queryParams, filter);
             var staffs = await _staffRepository.GetStaffDTOsAsync(queryParams, filter);
+            int totalCount = _staffRepository.TotalCount;
 
             if (staffs == null || !staffs.Any())
             {
@@ -136,6 +136,10 @@ namespace BookstoreWebAPI.Controllers
                 await _staffRepository.UpdateStaffDTOAsync(staffDTO);
 
                 return NoContent();
+            }
+            catch (DuplicateDocumentException)
+            {
+                return Conflict("Email existed");
             }
             catch (Exception ex)
             {

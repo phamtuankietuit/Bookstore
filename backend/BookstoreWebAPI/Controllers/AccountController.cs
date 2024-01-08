@@ -1,14 +1,10 @@
 ﻿using BookstoreWebAPI.Enums;
+using BookstoreWebAPI.Exceptions;
 using BookstoreWebAPI.Models.BindingModels;
-using BookstoreWebAPI.Models.DTOs;
 using BookstoreWebAPI.Models.Responses;
 using BookstoreWebAPI.Repository.Interfaces;
-using BookstoreWebAPI.Utils;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Cosmos;
 using System.Security.Authentication;
-using System.Text;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -46,7 +42,6 @@ namespace BookstoreWebAPI.Controllers
             {
                 AuthenticateResult result = await _accountRepository.AuthenticateUser(data);
 
-
                 await _activityLogRepository.LogActivity(ActivityType.log_in, result.User.StaffId);
 
                 return Ok(result);
@@ -54,6 +49,35 @@ namespace BookstoreWebAPI.Controllers
             catch (InvalidCredentialException)
             {
                 return BadRequest("Invalid Credentials");
+            }
+            catch (AccountDisabledException)
+            {
+                return StatusCode(403, "Account is disabled");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        // GET: api/<AccountController>
+        [HttpPost("forgotPassword")]
+        public async Task<ActionResult> ForgotPassword(BasePasswordModel data)
+        {
+            if (string.IsNullOrEmpty(data.Email))
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                await _accountRepository.ForgotPasswordAsync(data.Email);
+
+                return Ok();
+            }
+            catch (EmailNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -73,6 +97,10 @@ namespace BookstoreWebAPI.Controllers
             catch (InvalidCredentialException)
             {
                 return BadRequest("Invalid credentials.");
+            }
+            catch (AccountDisabledException)
+            {
+                return StatusCode(403, "Account is disabled");
             }
             catch (Exception ex)
             {

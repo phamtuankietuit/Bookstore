@@ -9,6 +9,8 @@ namespace BookstoreWebAPI.Repository.Interfaces
 {
     public interface IProductRepository
     {
+        int TotalCount { get; set; }
+
         Task<int> GetTotalCount(QueryParameters queryParams, ProductFilterModel filter);
         Task<IEnumerable<ProductDTO>> GetProductDTOsAsync(QueryParameters queryParams, ProductFilterModel filter);
         Task<ProductDTO> GetProductDTOByIdAsync(string id);

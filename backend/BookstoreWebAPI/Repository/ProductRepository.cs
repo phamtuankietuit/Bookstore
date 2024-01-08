@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.Azure.Cosmos;
-using Microsoft.Azure.Cosmos.Serialization.HybridRow;
 using Microsoft.Extensions.Caching.Memory;
 using BookstoreWebAPI.Models.Documents;
 using BookstoreWebAPI.Models.DTOs;
@@ -9,7 +8,10 @@ using BookstoreWebAPI.Utils;
 using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Models.Responses;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
-using Microsoft.AspNetCore.Mvc.ViewEngines;
+using BookstoreWebAPI.Services;
+using Azure.Search.Documents.Models;
+using Newtonsoft.Json;
+using BookstoreWebAPI.Models.Shared;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -25,13 +27,20 @@ namespace BookstoreWebAPI.Repository
         private readonly Container _inventoryContainer;
         private readonly Container _categoryContainer;
         private CategoryDocument _defaultCategoryDoc;
+        private readonly UserContextService _userContextService;
+
+        private readonly AzureSearchService _searchService;
+
+        public int TotalCount { get; set; }
 
         public ProductRepository(
             CosmosClient cosmosClient,
             ILogger<CategoryRepository> logger,
             IMemoryCache memoryCache,
             IMapper mapper,
-            IActivityLogRepository activityLogRepository)
+            IActivityLogRepository activityLogRepository,
+            AzureSearchServiceFactory searchServiceFactory,
+            UserContextService userContextService)
         {
             _logger = logger;
             _memoryCache = memoryCache;
@@ -42,6 +51,10 @@ namespace BookstoreWebAPI.Repository
             _inventoryContainer = cosmosClient.GetContainer(databaseName, "inventories");
             _categoryContainer = cosmosClient.GetContainer(databaseName, "categories");
             _activityLogRepository = activityLogRepository;
+
+
+            _searchService = searchServiceFactory.Create(containerName);
+            _userContextService = userContextService;
         }
 
         public async Task<int> GetTotalCount(QueryParameters queryParams, ProductFilterModel filter)
@@ -80,6 +93,8 @@ namespace BookstoreWebAPI.Repository
                 return _mapper.Map<ProductDTO>((productDoc, inventoryDoc));
             }).ToList();
 
+            //TotalCount = inventoryDocs.Count();
+
             return productDTOs;
         }
 
@@ -102,7 +117,7 @@ namespace BookstoreWebAPI.Repository
                 query:
                 $"SELECT DISTINCT c.details.{detailName} as \"value\"" +
                 $"FROM c " +
-                $"WHERE c.isDeleted = false AND IS_DEFINED(c.details.{detailName})"
+                $"WHERE c.isDeleted = false and IS_DEFINED(c.details.{detailName})"
             );
 
             var result = await CosmosDbUtils.GetScalarValuesByQueryDefinition<ResponseToGetString>(_productContainer, queryDef);
@@ -135,7 +150,7 @@ namespace BookstoreWebAPI.Repository
                 
                 await _activityLogRepository.LogActivity(
                     Enums.ActivityType.create,
-                    productDoc.StaffId,
+                    _userContextService.Current.StaffId,
                     "Sản phẩm",
                     productDoc.ProductId
                 );
@@ -152,7 +167,21 @@ namespace BookstoreWebAPI.Repository
             var productDoc = _mapper.Map<ProductDocument>(productDTO);
             var inventoryDoc = _mapper.Map<InventoryDocument>(productDTO);
 
+
+            var productDocInDb = await GetProductDocumentByIdAsync(productDoc.Id);
             var inventoryDocInDb = await GetInventoryDocumentByProductIdAsync(productDoc.Id);
+
+            // check if this is price update, add it to price history
+            if (productDoc.SalePrice != productDocInDb.SalePrice)
+            {
+                productDoc.SalePriceHistory.Add(new PriceHistory()
+                {
+                    Date = DateTime.UtcNow,
+                    Value = productDocInDb.SalePrice
+                });
+            }
+
+
             inventoryDoc.Id = inventoryDocInDb!.Id;
             inventoryDoc.LastRestocked = inventoryDocInDb.LastRestocked;
 
@@ -169,7 +198,7 @@ namespace BookstoreWebAPI.Repository
 
             await _activityLogRepository.LogActivity(
                     Enums.ActivityType.update,
-                    productDoc.StaffId,
+                    _userContextService.Current.StaffId,
                     "Sản phẩm",
                     productDoc.ProductId
                 );
@@ -178,7 +207,7 @@ namespace BookstoreWebAPI.Repository
         }
 
         public async Task<BatchDeletionResult<ProductDTO>> DeleteProductsAsync(string[] ids)
-        {
+        { 
             BatchDeletionResult<ProductDTO> result = new()
             {
                 Responses = new(),
@@ -234,7 +263,7 @@ namespace BookstoreWebAPI.Repository
 
             await _activityLogRepository.LogActivity(
                     Enums.ActivityType.delete,
-                    productDoc.StaffId,
+                    _userContextService.Current.StaffId,
                     "Sản phẩm",
                     productDoc.ProductId
                 );
@@ -251,6 +280,14 @@ namespace BookstoreWebAPI.Repository
             productDoc.CategoryId ??= _defaultCategoryDoc.Id;
             productDoc.CategoryName ??= _defaultCategoryDoc.Name;
             productDoc.CategoryText ??= _defaultCategoryDoc.Text;
+            productDoc.SalePriceHistory ??= new List<PriceHistory>() 
+            { 
+                new PriceHistory()
+                {
+                    Date = DateTime.UtcNow,
+                    Value = productDoc.SalePrice
+                } 
+            };
             productDoc.Description ??= "";
             productDoc.Sku ??= productId;
 
@@ -334,11 +371,12 @@ namespace BookstoreWebAPI.Repository
                 return Enumerable.Empty<ProductDocument>();
             }
 
-            var queryDef = CosmosDbUtils.BuildQuery<ProductDocument>(queryParams, filter);
 
-            var results = await CosmosDbUtils.GetDocumentsByQueryDefinition<ProductDocument>(_productContainer, queryDef);
-
-            return results;
+            filter.Query ??= "*";
+            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+            var searchResult = await _searchService.SearchAsync<ProductDocument>(filter.Query, options);
+            TotalCount = searchResult.TotalCount;
+            return searchResult.Results;
         }
 
         private async Task<CategoryDocument> GetDefaultCategoryDocument()
@@ -420,7 +458,7 @@ namespace BookstoreWebAPI.Repository
             var queryDef = new QueryDefinition(
                 query: "SELECT * " +
                 "FROM p " +
-                "WHERE p.sku = @sku"
+                "WHERE p.sku = @sku AND p.isDeleted = false"
             ).WithParameter("@sku", sku);
 
             var result = await CosmosDbUtils.GetDocumentByQueryDefinition<ProductDocument>(_productContainer, queryDef);
@@ -435,7 +473,7 @@ namespace BookstoreWebAPI.Repository
             var queryDef = new QueryDefinition(
                 query: "SELECT * " +
                 "FROM i " +
-                "WHERE i.sku = @sku AND i.isDeleted = false"
+                "WHERE i.sku = @sku and i.isDeleted = false"
             ).WithParameter("@sku", sku);
 
             var result = await CosmosDbUtils.GetDocumentByQueryDefinition<InventoryDocument>(_inventoryContainer, queryDef);
@@ -451,7 +489,7 @@ namespace BookstoreWebAPI.Repository
             var queryDef = new QueryDefinition(
                 query: "SELECT * " +
                 "FROM products p " +
-                "WHERE p.id = @id AND p.isDeleted = false"
+                "WHERE p.id = @id and p.isDeleted = false"
             ).WithParameter("@id", id);
 
             var result = await CosmosDbUtils.GetDocumentByQueryDefinition<ProductDocument>(_productContainer, queryDef);
@@ -468,7 +506,7 @@ namespace BookstoreWebAPI.Repository
                 query: 
                 "SELECT * " +
                 "FROM i " +
-                "WHERE i.productId = @productId AND i.isDeleted=false"
+                "WHERE i.productId = @productId and i.isDeleted=false"
             ).WithParameter("@productId", productId);
 
             var result = await CosmosDbUtils.GetDocumentByQueryDefinition<InventoryDocument>(_inventoryContainer, queryDef);

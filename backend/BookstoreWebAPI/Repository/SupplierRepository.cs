@@ -10,6 +10,7 @@ using BookstoreWebAPI.Exceptions;
 using BookstoreWebAPI.Models.Responses;
 using BookstoreWebAPI.Models.Shared;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using BookstoreWebAPI.Services;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -17,53 +18,65 @@ namespace BookstoreWebAPI.Repository
     {
         private readonly string supplierNewIdCacheName = "LastestSupplierId";
 
-        private Container _supplierContainer;
-        private Container _supplierGroupContainer;
+        private readonly ILogger<SupplierRepository> _logger;
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
         private readonly IActivityLogRepository _activityLogRepository;
-        private readonly ILogger<SupplierRepository> _logger;
+        private readonly Container _supplierContainer;
+        private readonly Container _supplierGroupContainer;
+        private readonly AzureSearchService _searchService;
+
         private SupplierGroupDocument? _defaultSupplierGroup;
 
+        public int TotalCount {  get; private set; }
+
         public SupplierRepository(
-            CosmosClient cosmosClient,
+            ILogger<SupplierRepository> logger,
             IMapper mapper,
             IMemoryCache memoryCache,
-            ILogger<SupplierRepository> logger,
-            IActivityLogRepository activityLogRepository)
+            IActivityLogRepository activityLogRepository,
+            CosmosClient cosmosClient,
+            AzureSearchServiceFactory searchServiceFactory
+        )
         {
             var databaseName = cosmosClient.ClientOptions.ApplicationName;
             var containerName = "suppliers";
-
             _supplierContainer = cosmosClient.GetContainer(databaseName, containerName);
             _supplierGroupContainer = cosmosClient.GetContainer(databaseName, "supplierGroups");
+
+            _searchService = searchServiceFactory.Create(containerName);
+            _logger = logger;
             _mapper = mapper;
             _memoryCache = memoryCache;
-            _logger = logger;
             _activityLogRepository = activityLogRepository;
         }
 
 
-        public async Task<int> GetTotalCount()
-        {
-            var countQueryDef = new QueryDefinition(
-                query:
-                    "SELECT VALUE COUNT(1) " +
-                    "FROM c " +
-                    "WHERE c.isDeleted = false"
-            );
+        //public async Task<int> GetTotalCount()
+        //{
+        //    var countQueryDef = new QueryDefinition(
+        //        query:
+        //            "SELECT VALUE COUNT(1) " +
+        //            "FROM c " +
+        //            "WHERE c.isDeleted = false"
+        //    );
 
-            var count = await CosmosDbUtils.GetScalarValueByQueryDefinition<int>(_supplierContainer, countQueryDef);
+        //    var count = await CosmosDbUtils.GetScalarValueByQueryDefinition<int>(_supplierContainer, countQueryDef);
 
-            return count;
-        }
+        //    return count;
+        //}
 
         public async Task<IEnumerable<SupplierDTO>> GetSupplierDTOsAsync(QueryParameters queryParams, SupplierFilterModel filter)
         {
-            var queryDef = CosmosDbUtils.BuildQuery<SupplierDocument>(queryParams, filter);
+            filter.Query ??= "*";
 
-            var supplierDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<SupplierDocument>(_supplierContainer, queryDef);
-            var supplierDTOs = supplierDocs.Select(supplierDoc =>
+            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+
+            var searchResult = await _searchService.SearchAsync<SupplierDocument>(filter.Query, options);
+            
+            TotalCount = searchResult.TotalCount;
+            
+            var supplierDTOs = searchResult.Results.Select(supplierDoc =>
             {
                 return _mapper.Map<SupplierDTO>(supplierDoc);
             }).ToList();
@@ -71,9 +84,15 @@ namespace BookstoreWebAPI.Repository
             return supplierDTOs;
         }
 
-        public async Task<SupplierDTO> GetSupplierDTOByIdAsync(string id)
+        public async Task<SupplierDTO?> GetSupplierDTOByIdAsync(string id)
         {
             var supplierDoc = await GetSupplierDocumentByIdAsync(id);
+            
+            if (supplierDoc == null)
+            {
+                return null;
+            }
+
 
             var supplierDTO = _mapper.Map<SupplierDTO>(supplierDoc);
 

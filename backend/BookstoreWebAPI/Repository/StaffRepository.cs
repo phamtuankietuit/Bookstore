@@ -8,32 +8,39 @@ using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Caching.Memory;
 using BookstoreWebAPI.Exceptions;
 using BookstoreWebAPI.Repository.Interfaces;
-using Microsoft.Azure.Cosmos.Linq;
 using System.Security.Authentication;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using BookstoreWebAPI.Services;
 
 namespace BookstoreWebAPI.Repository
 {
     public class StaffRepository : IStaffRepository
     {
         private readonly string _staffNewIdCacheName = "LastestStaffId";
-        private readonly EmailUtils _emailUtils;
+
         private readonly ILogger<StaffRepository> _logger;
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
-        private Container _staffContainer;
+        private readonly Container _staffContainer;
+        private readonly EmailUtils _emailUtils;
+        private readonly AzureSearchService _searchService;
+
+        public int TotalCount { get; private set; }
 
         public StaffRepository(
-            CosmosClient cosmosClient,
+            ILogger<StaffRepository> logger,
             IMapper mapper,
             IMemoryCache memoryCache,
-            ILogger<StaffRepository> logger,
-            EmailUtils emailUtils)
+            CosmosClient cosmosClient,
+            EmailUtils emailUtils,
+            AzureSearchServiceFactory searchServiceFactory
+        )
         {
             var databaseName = cosmosClient.ClientOptions.ApplicationName;
             var containerName = "staffs";
 
             _staffContainer = cosmosClient.GetContainer(databaseName, containerName);
+            _searchService = searchServiceFactory.Create(containerName);
             _mapper = mapper;
             _memoryCache = memoryCache;
             _logger = logger;
@@ -61,9 +68,12 @@ namespace BookstoreWebAPI.Repository
 
         public async Task<IEnumerable<StaffDTO>> GetStaffDTOsAsync(QueryParameters queryParams, StaffFilterModel filter)
         {
-            var queryDef = CosmosDbUtils.BuildQuery<StaffDocument>(queryParams, filter);
+            filter.Query ??= "*";
+            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+            var searchResult = await _searchService.SearchAsync<StaffDocument>(filter.Query, options);
+            TotalCount = searchResult.TotalCount;
+            var staffDocs = searchResult.Results;
 
-            var staffDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<StaffDocument>(_staffContainer, queryDef);
             var staffDTOs = staffDocs.Select(staffDoc =>
             {
                 return _mapper.Map<StaffDTO>(staffDoc);
@@ -81,7 +91,7 @@ namespace BookstoreWebAPI.Repository
             return staffDTO;
         }
 
-        public async Task<StaffDTO> GetStaffUsingCredentials(LoginModel data)
+        public async Task<AuthenticateResult> GetStaffUsingCredentials(LoginModel data)
         {
             var queryDef = new QueryDefinition(
                 " SELECT * " +
@@ -89,20 +99,31 @@ namespace BookstoreWebAPI.Repository
                 " WHERE STRINGEQUALS(c.contact.email, @email, true)"
             ).WithParameter("@email", data.Email);
 
-            var staffDoc= await CosmosDbUtils.GetDocumentByQueryDefinition<StaffDocument>(_staffContainer, queryDef) 
+            var staffDoc = await CosmosDbUtils.GetDocumentByQueryDefinition<StaffDocument>(_staffContainer, queryDef)
                 ?? throw new DocumentNotFoundException($"Staff with email {data.Email} not found.");
 
-            // case 1
-            if (staffDoc.DefaultPassword != null && data.Password == staffDoc.DefaultPassword)
+            if (staffDoc.IsActive == false)
             {
-                var result = _mapper.Map<StaffDTO>(staffDoc);
-                return result;
+                throw new AccountDisabledException();
             }
 
-            // case 2
-            if (staffDoc.HashedAndSaltedPassword != null && SecretHasher.Verify(data.Password, staffDoc.HashedAndSaltedPassword))
+            var isValidByDefaultPassword = staffDoc.DefaultPassword != null && data.Password == staffDoc.DefaultPassword;
+
+            var isValidByMainPassword = false;
+
+            if (staffDoc.HashedAndSaltedPassword != null)
             {
-                var result = _mapper.Map<StaffDTO>(staffDoc);
+                isValidByMainPassword = staffDoc.HashedAndSaltedPassword != null && SecretHasher.Verify(data.Password, staffDoc.HashedAndSaltedPassword);
+            }
+
+            AuthenticateResult result = new()
+            {
+                User = _mapper.Map<StaffDTO>(staffDoc)
+            };
+            // case 1
+            if (isValidByDefaultPassword || isValidByMainPassword)
+            {
+                result.NeedReset = isValidByDefaultPassword;
                 return result;
             }
 
@@ -154,16 +175,23 @@ namespace BookstoreWebAPI.Repository
 
         public async Task UpdateStaffDTOAsync(StaffDTO staffDTO)
         {
+
             var staffInDb = await GetStaffDocumentByIdAsync(staffDTO.StaffId)
                 ?? throw new DocumentNotFoundException("Staff Not Found");
 
 
+            if (await EmailExistsInContainer(staffDTO.Contact.Email) && staffDTO.Contact.Email != staffInDb.Contact.Email)
+            {
+                throw new DuplicateDocumentException($"The email {staffDTO.Contact.Email} is already been used. Please choose a different email");
+            }
 
             var staffToUpdate = _mapper.Map<StaffDocument>(staffDTO);
             staffToUpdate.ModifiedAt = DateTime.UtcNow;
 
             staffToUpdate.HashedAndSaltedPassword = staffInDb.HashedAndSaltedPassword;
             staffToUpdate.DefaultPassword = staffInDb.DefaultPassword;
+            staffToUpdate.IsDeleted = staffInDb.IsDeleted;
+            staffToUpdate.IsRemovable = staffInDb.IsRemovable;
 
             await _staffContainer.UpsertItemAsync(
                 item: staffToUpdate,
@@ -315,7 +343,7 @@ namespace BookstoreWebAPI.Repository
             return staff;
         }
 
-        private async Task<StaffDocument?> GetStaffDocumentByEmailAsync(string email)
+        public async Task<StaffDocument?> GetStaffDocumentByEmailAsync(string email)
         {
             var queryDef = new QueryDefinition(
                 query:
@@ -339,6 +367,20 @@ namespace BookstoreWebAPI.Repository
                 item: item,
                 partitionKey: new PartitionKey(item.StaffId)
             );
+        }
+
+        public async Task UpdateForgotPasswordAsync(ForgotPasswordModel data)
+        {
+            var staffDoc = (await GetStaffDocumentByEmailAsync(data.Email))!;
+
+            staffDoc.HashedAndSaltedPassword = null;
+            staffDoc.DefaultPassword = data.NewPassword;
+
+            await _staffContainer.UpsertItemAsync(
+                item: staffDoc,
+                partitionKey: new PartitionKey(staffDoc.StaffId));
+
+            await _emailUtils.SendDefaultPasswordToEmail(staffDoc.Contact.Email, staffDoc.DefaultPassword);
         }
     }
 }

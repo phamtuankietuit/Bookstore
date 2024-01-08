@@ -9,6 +9,7 @@ namespace BookstoreWebAPI.Repository.Interfaces
 {
     public interface ICustomerRepository
     {
+        int TotalCount { get; }
         Task<int> GetTotalCount(QueryParameters queryParams, CustomerFilterModel filter);
         Task<IEnumerable<CustomerDTO>> GetCustomerDTOsAsync(QueryParameters queryParams, CustomerFilterModel filter);
         Task<CustomerDTO?> GetCustomerDTOByIdAsync(string id);

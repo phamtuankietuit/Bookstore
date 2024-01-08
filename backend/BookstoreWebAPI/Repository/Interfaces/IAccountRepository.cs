@@ -8,5 +8,6 @@ namespace BookstoreWebAPI.Repository.Interfaces
     {
         Task<AuthenticateResult> AuthenticateUser(LoginModel data);
         Task UpdatePasswordAsync(UpdatePasswordModel data);
+        Task ForgotPasswordAsync(string email);
     }
 }

@@ -8,6 +8,7 @@ using BookstoreWebAPI.Utils;
 using BookstoreWebAPI.Models.Responses;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using BookstoreWebAPI.Models.BindingModels;
+using BookstoreWebAPI.Services;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -20,18 +21,24 @@ namespace BookstoreWebAPI.Repository
         private readonly IMemoryCache _memoryCache;
         private readonly IActivityLogRepository _activityLogRepository;
         private ILogger<PromotionRepository> _logger;
+        private readonly AzureSearchService _searchService;
+
+        public int TotalCount { get; private set; }
 
         public PromotionRepository(
             CosmosClient cosmosClient,
             IMapper mapper,
             IMemoryCache memoryCache,
             ILogger<PromotionRepository> logger,
-            IActivityLogRepository activityLogRepository)
+            IActivityLogRepository activityLogRepository,
+            AzureSearchServiceFactory searchServiceFactory)
         {
             var databaseName = cosmosClient.ClientOptions.ApplicationName;
             var containerName = "promotions";
 
             _promotionContainer = cosmosClient.GetContainer(databaseName, containerName);
+            _searchService = searchServiceFactory.Create(containerName);
+
             _mapper = mapper;
             _memoryCache = memoryCache;
             _logger = logger;
@@ -59,9 +66,11 @@ namespace BookstoreWebAPI.Repository
 
         public async Task<IEnumerable<PromotionDTO>> GetPromotionDTOsAsync(QueryParameters queryParams, PromotionFilterModel filter)
         {
-            var queryDef = CosmosDbUtils.BuildQuery<PromotionDocument>(queryParams, filter);
-
-            var promotionDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<PromotionDocument>(_promotionContainer, queryDef);
+            filter.Query ??= "*";
+            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+            var searchResult = await _searchService.SearchAsync<PromotionDocument>(filter.Query, options);
+            TotalCount = searchResult.TotalCount;
+            var promotionDocs = searchResult.Results; 
             var promotionDTOs = promotionDocs.Select(promotionDoc =>
             {
                 return _mapper.Map<PromotionDTO>(promotionDoc);

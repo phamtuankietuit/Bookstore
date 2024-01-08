@@ -8,6 +8,7 @@ using BookstoreWebAPI.Utils;
 using BookstoreWebAPI.Models.Responses;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using BookstoreWebAPI.Models.BindingModels;
+using BookstoreWebAPI.Services;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -19,18 +20,23 @@ namespace BookstoreWebAPI.Repository
         private readonly IMemoryCache _memoryCache;
         private readonly IActivityLogRepository _activityLogRepository;
         private readonly ILogger<SalesOrderRepository> _logger;
+        private readonly AzureSearchService _searchService;
+
+        public int TotalCount {  get; private set; }
 
         public SalesOrderRepository(
             CosmosClient cosmosClient,
             IMapper mapper,
             IMemoryCache memoryCache,
             ILogger<SalesOrderRepository> logger,
-            IActivityLogRepository activityLogRepository)
+            IActivityLogRepository activityLogRepository,
+            AzureSearchServiceFactory searchServiceFactory)
         {
             var databaseName = cosmosClient.ClientOptions.ApplicationName;
             var containerName = "salesOrders";
 
             _salesOrderContainer = cosmosClient.GetContainer(databaseName, containerName);
+            _searchService = searchServiceFactory.Create(containerName);
             _mapper = mapper;
             _memoryCache = memoryCache;
             _logger = logger;
@@ -55,9 +61,11 @@ namespace BookstoreWebAPI.Repository
         }
         public async Task<IEnumerable<SalesOrderDTO>> GetSalesOrderDTOsAsync(QueryParameters queryParams, SalesOrderFilterModel filter)
         {
-            var queryDef = CosmosDbUtils.BuildQuery<SalesOrderDocument>(queryParams, filter);
-
-            var salesOrderDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<SalesOrderDocument>(_salesOrderContainer, queryDef);
+            filter.Query ??= "*";
+            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+            var searchResult = await _searchService.SearchAsync<SalesOrderDocument>(filter.Query, options);
+            TotalCount = searchResult.TotalCount;
+            var salesOrderDocs = searchResult.Results; 
             var salesOrderDTOs = salesOrderDocs.Select(salesOrderDoc =>
             {
                 return _mapper.Map<SalesOrderDTO>(salesOrderDoc);

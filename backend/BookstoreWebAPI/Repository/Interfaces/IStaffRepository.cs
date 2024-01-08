@@ -9,6 +9,7 @@ namespace BookstoreWebAPI.Repository.Interfaces
 {
     public interface IStaffRepository
     {
+        int TotalCount { get; }
         Task<int> GetTotalCount(QueryParameters queryParams, StaffFilterModel filter);
         Task<IEnumerable<StaffDTO>> GetStaffDTOsAsync(QueryParameters queryParams, StaffFilterModel filter);
         Task<StaffDTO?> GetStaffDTOByIdAsync(string id);
@@ -16,7 +17,9 @@ namespace BookstoreWebAPI.Repository.Interfaces
         Task UpdateStaffDTOAsync(StaffDTO staffDTO);
         Task<BatchDeletionResult<StaffDTO>> DeleteStaffDTOsAsync(string[] ids);
 
-        Task<StaffDTO> GetStaffUsingCredentials(LoginModel data);
+        Task<StaffDocument?> GetStaffDocumentByEmailAsync(string email);
+        Task UpdateForgotPasswordAsync(ForgotPasswordModel data);
+        Task<AuthenticateResult> GetStaffUsingCredentials(LoginModel data);
         Task UpdatePasswordAsync(UpdatePasswordModel data);
     }
 }

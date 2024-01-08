@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using BookstoreWebAPI.Exceptions;
 using BookstoreWebAPI.Models.BindingModels;
+using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using BookstoreWebAPI.Models.Documents;
 using BookstoreWebAPI.Models.DTOs;
 using BookstoreWebAPI.Models.Responses;
 using BookstoreWebAPI.Repository.Interfaces;
+using BookstoreWebAPI.Services;
 using BookstoreWebAPI.Utils;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Caching.Memory;
@@ -20,13 +22,17 @@ namespace BookstoreWebAPI.Repository
         private readonly IMemoryCache _memoryCache;
         private readonly IActivityLogRepository _activityLogRepository;
         private Container _supplierGroupContainer;
+        private readonly AzureSearchService _searchService;
+
+        public int TotalCount {  get; private set; }
 
         public SupplierGroupRepository(
             CosmosClient cosmosClient,
             ILogger<SupplierGroupRepository> logger,
             IMapper mapper,
             IMemoryCache memoryCache,
-            IActivityLogRepository activityLogRepository)
+            IActivityLogRepository activityLogRepository,
+            AzureSearchServiceFactory searchServiceFactory)
         {
             _logger = logger;
             _mapper = mapper;
@@ -35,6 +41,7 @@ namespace BookstoreWebAPI.Repository
             var containerName = "supplierGroups";
 
             _supplierGroupContainer = cosmosClient.GetContainer(databaseName, containerName);
+            _searchService = searchServiceFactory.Create(containerName);
             _activityLogRepository = activityLogRepository;
         }
 
@@ -52,11 +59,15 @@ namespace BookstoreWebAPI.Repository
             return count;
         }
 
-        public async Task<IEnumerable<SupplierGroupDTO>> GetSupplierGroupDTOsAsync(QueryParameters queryParams)
+        public async Task<IEnumerable<SupplierGroupDTO>> GetSupplierGroupDTOsAsync(
+            QueryParameters queryParams,
+            SupplierGroupFilterModel filter)
         {
-            var queryDef = CosmosDbUtils.BuildQuery<SupplierGroupDocument>(queryParams);
-
-            var supplierGroupDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<SupplierGroupDocument>(_supplierGroupContainer, queryDef);
+            filter.Query ??= "*";
+            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+            var searchResult = await _searchService.SearchAsync<SupplierGroupDocument>(filter.Query, options);
+            TotalCount = searchResult.TotalCount;
+            var supplierGroupDocs = searchResult.Results;
             var supplierGroupDTOs = supplierGroupDocs.Select(supplierGroupDoc =>
             {
                 return _mapper.Map<SupplierGroupDTO>(supplierGroupDoc);

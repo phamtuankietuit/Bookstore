@@ -8,6 +8,7 @@ using BookstoreWebAPI.Utils;
 using BookstoreWebAPI.Models.Responses;
 using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using BookstoreWebAPI.Services;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -19,14 +20,17 @@ namespace BookstoreWebAPI.Repository
         private readonly IMemoryCache _memoryCache;
         private readonly IActivityLogRepository _activityLogRepository;
         private Container _purchaseOrderContainer;
+        private readonly AzureSearchService _searchService;
 
+        public int TotalCount { get; private set; }
 
         public PurchaseOrderRepository(
             CosmosClient cosmosClient,
             ILogger<PurchaseOrderRepository> logger,
             IMapper mapper,
             IMemoryCache memoryCache,
-            IActivityLogRepository activityLogRepository)
+            IActivityLogRepository activityLogRepository,
+            AzureSearchServiceFactory searchServiceFactory)
         {
             _logger = logger;
             _mapper = mapper;
@@ -36,6 +40,7 @@ namespace BookstoreWebAPI.Repository
             var containerName = "purchaseOrders";
 
             _purchaseOrderContainer = cosmosClient.GetContainer(databaseName, containerName);
+            _searchService = searchServiceFactory.Create(containerName);
             _activityLogRepository = activityLogRepository;
         }
 
@@ -57,9 +62,11 @@ namespace BookstoreWebAPI.Repository
 
         public async Task<IEnumerable<PurchaseOrderDTO>> GetPurchaseOrderDTOsAsync(QueryParameters queryParams, PurchaseOrderFilterModel filter)
         {
-            var queryDef = CosmosDbUtils.BuildQuery<PurchaseOrderDocument>(queryParams, filter, isRemovableDocument:false);
-
-            var purchaseOrderDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<PurchaseOrderDocument>(_purchaseOrderContainer, queryDef);
+            filter.Query ??= "*";
+            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+            var searchResult = await _searchService.SearchAsync<PurchaseOrderDocument>(filter.Query, options);
+            TotalCount = searchResult.TotalCount;
+            var purchaseOrderDocs = searchResult.Results;
             var purchaseOrderDTOs = purchaseOrderDocs.Select(purchaseOrderDoc =>
             {
                 return _mapper.Map<PurchaseOrderDTO>(purchaseOrderDoc);

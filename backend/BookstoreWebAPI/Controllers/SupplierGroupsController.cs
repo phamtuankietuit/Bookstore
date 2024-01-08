@@ -1,47 +1,36 @@
-﻿using BookstoreWebAPI.Exceptions;
+﻿using Microsoft.AspNetCore.Mvc;
+using BookstoreWebAPI.Exceptions;
+using BookstoreWebAPI.Models.DTOs;
 using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
-using BookstoreWebAPI.Models.DTOs;
 using BookstoreWebAPI.Repository.Interfaces;
 using FluentValidation;
 using FluentValidation.Results;
-using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BookstoreWebAPI.Controllers
 {
 
     [Route("api/[controller]")]
     [ApiController]
-    public class SupplierGroupsController : ControllerBase
+    public class SupplierGroupsController(
+        ILogger<SupplierGroupsController> logger,
+        ISupplierGroupRepository supplierGroupRepository,
+        IValidator<QueryParameters> validator
+    ) : ControllerBase
     {
-        private readonly ILogger _logger;
-        private readonly ISupplierGroupRepository _supplierGroupRepository;
-        private readonly IValidator<QueryParameters> _queryParametersValidator;
-
-        public SupplierGroupsController(ILogger<SupplierGroupsController> logger, ISupplierGroupRepository supplierGroupRepository, IValidator<QueryParameters> validator)
-        {
-            _logger = logger;
-            _supplierGroupRepository = supplierGroupRepository;
-            _queryParametersValidator = validator;
-        }
-
-        // GET: api/<SupplierGroupsController>
-        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SupplierGroupDTO>>> GetSupplierGroupsAsync(
             [FromQuery] QueryParameters queryParams,
             [FromQuery] SupplierGroupFilterModel filter)
         {
             // validate filter model
-            ValidationResult queryParamsResult = await _queryParametersValidator.ValidateAsync(queryParams);
+            ValidationResult queryParamsResult = await validator.ValidateAsync(queryParams);
             if (!queryParamsResult.IsValid) return BadRequest(queryParamsResult.Errors); 
 
 
 
-            var supplierGroups = await _supplierGroupRepository.GetSupplierGroupDTOsAsync(queryParams, filter);
-            int totalCount = _supplierGroupRepository.TotalCount;
+            var supplierGroups = await supplierGroupRepository.GetSupplierGroupDTOsAsync(queryParams, filter);
+            int totalCount = supplierGroupRepository.TotalCount;
 
             if (supplierGroups == null || !supplierGroups.Any())
             {
@@ -62,7 +51,7 @@ namespace BookstoreWebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<SupplierGroupDTO>> GetSupplierGroupDTOByIdAsync(string id)
         {
-            var supplierGroup = await _supplierGroupRepository.GetSupplierGroupDTOByIdAsync(id);
+            var supplierGroup = await supplierGroupRepository.GetSupplierGroupDTOByIdAsync(id);
 
             if (supplierGroup == null)
             {
@@ -79,7 +68,7 @@ namespace BookstoreWebAPI.Controllers
             try
             {
 
-                var createdSupplierGroupDTO = await _supplierGroupRepository.AddSupplierGroupDTOAsync(supplierGroupDTO);
+                var createdSupplierGroupDTO = await supplierGroupRepository.AddSupplierGroupDTOAsync(supplierGroupDTO);
 
                 return CreatedAtAction(
                     nameof(GetSupplierGroupDTOByIdAsync),
@@ -93,7 +82,7 @@ namespace BookstoreWebAPI.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogInformation(
+                logger.LogInformation(
                     $"SupplierGroup Name: {supplierGroupDTO.Name}" +
                     $"\nError message: {ex.Message}"
                 );
@@ -113,13 +102,13 @@ namespace BookstoreWebAPI.Controllers
 
             try
             {
-                await _supplierGroupRepository.UpdateSupplierGroupDTOAsync(supplierGroupDTO);
+                await supplierGroupRepository.UpdateSupplierGroupDTOAsync(supplierGroupDTO);
 
                 return NoContent();
             }
             catch (Exception ex)
             {
-                _logger.LogError(
+                logger.LogError(
                     $"Updating failed. " +
                     $"\nSupplier Group Id: {id}. " +
                     $"\nError message: {ex.Message}");
@@ -135,12 +124,12 @@ namespace BookstoreWebAPI.Controllers
         [HttpDelete]
         public async Task<ActionResult> DeleteSupplierGroupsAsync([FromQuery] string[] ids)
         {
-            if (ids == null || !ids.Any())
+            if (ids == null || ids.Length == 0)
             {
                 return BadRequest("ids is required.");
             }
 
-            var result = await _supplierGroupRepository.DeleteSupplierGroupsAsync(ids);
+            var result = await supplierGroupRepository.DeleteSupplierGroupsAsync(ids);
 
             int statusCount = 0;
             if (!result.IsNotSuccessful) statusCount++;

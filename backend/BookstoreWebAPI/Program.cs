@@ -61,7 +61,7 @@ builder.Services.AddSingleton((provider) =>
     var cosmosClientOptions = new CosmosClientOptions
     {
         ApplicationName = databaseName,
-        ConnectionMode = ConnectionMode.Direct
+        ConnectionMode = ConnectionMode.Gateway
     };
 
     LoggerFactory.Create(builder =>

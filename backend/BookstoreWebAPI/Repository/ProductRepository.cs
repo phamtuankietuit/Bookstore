@@ -46,8 +46,9 @@ namespace BookstoreWebAPI.Repository
             _memoryCache = memoryCache;
             _mapper = mapper;
             var databaseName = cosmosClient.ClientOptions.ApplicationName;
+            var containerName = "products";
 
-            _productContainer = cosmosClient.GetContainer(databaseName, "products");
+            _productContainer = cosmosClient.GetContainer(databaseName, containerName);
             _inventoryContainer = cosmosClient.GetContainer(databaseName, "inventories");
             _categoryContainer = cosmosClient.GetContainer(databaseName, "categories");
             _activityLogRepository = activityLogRepository;

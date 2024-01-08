@@ -1,60 +1,44 @@
 ﻿using Azure;
+using Microsoft.AspNetCore.Mvc;
 using BookstoreWebAPI.Exceptions;
+using BookstoreWebAPI.Models.DTOs;
 using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
-using BookstoreWebAPI.Models.DTOs;
 using BookstoreWebAPI.Repository.Interfaces;
 using BookstoreWebAPI.Services;
 using FluentValidation;
 using FluentValidation.Results;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BookstoreWebAPI.Controllers
 {
-    
+
     [Route("api/[controller]")]
     [ApiController]
-    public class StaffsController : ControllerBase
+    public class StaffsController(
+        IStaffRepository staffRepository,
+        ILogger<StaffsController> logger,
+        IValidator<QueryParameters> queryParametersValidator,
+        IValidator<StaffFilterModel> filterModelValidator,
+        IFileService fileService
+    ) : ControllerBase
     {
-        private readonly IStaffRepository _staffRepository;
-        private readonly ILogger<StaffsController> _logger;
-        private readonly IValidator<QueryParameters> _queryParametersValidator;
-        private readonly IValidator<StaffFilterModel> _filterValidator;
-        private readonly IFileService _fileService;
-
-        public StaffsController(
-            IStaffRepository staffRepository,
-            ILogger<StaffsController> logger,
-            IValidator<QueryParameters> queryParametersValidator,
-            IValidator<StaffFilterModel> filterModelValidator,
-            IFileService fileService)
-        {
-            _staffRepository = staffRepository;
-            _logger = logger;
-            _queryParametersValidator = queryParametersValidator;
-            _fileService = fileService;
-            _filterValidator = filterModelValidator;
-        }
-
-        // GET: api/<StaffsController>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StaffDTO>>> GetStaffDTOsAsync(
             [FromQuery] QueryParameters queryParams,
             [FromQuery] StaffFilterModel filter
         )
         {
-            ValidationResult queryParamResult = await _queryParametersValidator.ValidateAsync(queryParams);
+            ValidationResult queryParamResult = await queryParametersValidator.ValidateAsync(queryParams);
             if (!queryParamResult.IsValid) return BadRequest(queryParamResult.Errors);
 
-            ValidationResult filterModelResult = await _filterValidator.ValidateAsync(filter);
+            ValidationResult filterModelResult = await filterModelValidator.ValidateAsync(filter);
             if (!filterModelResult.IsValid) return BadRequest(filterModelResult.Errors);
 
 
-            var staffs = await _staffRepository.GetStaffDTOsAsync(queryParams, filter);
-            int totalCount = _staffRepository.TotalCount;
+            var staffs = await staffRepository.GetStaffDTOsAsync(queryParams, filter);
+            int totalCount = staffRepository.TotalCount;
 
             if (staffs == null || !staffs.Any())
             {
@@ -71,11 +55,10 @@ namespace BookstoreWebAPI.Controllers
             });
         }
 
-        // GET api/<StaffsController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<StaffDTO>> GetStaffDTOByIdAsync(string id)
         {
-            var staff = await _staffRepository.GetStaffDTOByIdAsync(id);
+            var staff = await staffRepository.GetStaffDTOByIdAsync(id);
 
             if (staff == null)
             {
@@ -85,14 +68,12 @@ namespace BookstoreWebAPI.Controllers
             return Ok(staff);
         }
 
-
-        // POST api/<StaffsController>
         [HttpPost]
         public async Task<ActionResult> AddStaffDTOASync([FromBody]StaffDTO staffDTO)
         {
             try
             {
-                var createdStaffDTO = await _staffRepository.AddStaffDTOAsync(staffDTO);
+                var createdStaffDTO = await staffRepository.AddStaffDTOAsync(staffDTO);
                 
                 return CreatedAtAction(
                     nameof(GetStaffDTOByIdAsync),
@@ -110,7 +91,7 @@ namespace BookstoreWebAPI.Controllers
             }
             catch(Exception ex)
             {
-                _logger.LogInformation(
+                logger.LogInformation(
                     $"Staff Name: {staffDTO.Name}" +
                     $"\nError message: {ex.Message}"
                 );
@@ -119,9 +100,6 @@ namespace BookstoreWebAPI.Controllers
             }
         }
 
-
-
-        // PUT api/<StaffsController>/5
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateStaffAsync(string id, [FromBody] StaffDTO staffDTO)
         {
@@ -133,7 +111,7 @@ namespace BookstoreWebAPI.Controllers
             try
             {
 
-                await _staffRepository.UpdateStaffDTOAsync(staffDTO);
+                await staffRepository.UpdateStaffDTOAsync(staffDTO);
 
                 return NoContent();
             }
@@ -143,7 +121,7 @@ namespace BookstoreWebAPI.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(
+                logger.LogError(
                     $"Updating failed. " +
                     $"\nStaff Id: {id}. " +
                     $"\nError message: {ex.Message}");
@@ -158,12 +136,12 @@ namespace BookstoreWebAPI.Controllers
         [HttpDelete]
         public async Task<ActionResult> DeleteStaffsAsync([FromQuery] string[] ids)
         {
-            if (ids == null || !ids.Any())
+            if (ids == null || ids.Length == 0)
             {
                 return BadRequest("ids is required.");
             }
 
-            var result = await _staffRepository.DeleteStaffDTOsAsync(ids);
+            var result = await staffRepository.DeleteStaffDTOsAsync(ids);
 
             int statusCount = 0;
             if (!result.IsNotSuccessful) statusCount++;
@@ -188,7 +166,7 @@ namespace BookstoreWebAPI.Controllers
 
                 foreach (var file in files)
                 {
-                    fileModels.Add(await _fileService.UploadAsync(file));
+                    fileModels.Add(await fileService.UploadAsync(file));
                 }
             }
             catch (ArgumentException ex)
@@ -224,7 +202,7 @@ namespace BookstoreWebAPI.Controllers
         {
             try
             {
-                await _fileService.DeleteAsync(blobName);
+                await fileService.DeleteAsync(blobName);
 
                 return Ok($"Blob {blobName} deleted successfully.");
             }

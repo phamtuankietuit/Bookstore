@@ -1,58 +1,39 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BookstoreWebAPI.Models.DTOs;
-using BookstoreWebAPI.Repository.Interfaces;
-using System.Drawing.Printing;
 using BookstoreWebAPI.Models.BindingModels;
+using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using BookstoreWebAPI.Repository.Interfaces;
+using BookstoreWebAPI.Services;
 using FluentValidation;
 using FluentValidation.Results;
-using BookstoreWebAPI.Models.BindingModels.FilterModels;
-using Microsoft.AspNetCore.Authorization;
-using BookstoreWebAPI.Services;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BookstoreWebAPI.Controllers
 {
-    
+
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomersController : ControllerBase
+    public class CustomersController(
+        ILogger<CustomersController> logger,
+        ICustomerRepository customerRepository,
+        IValidator<QueryParameters> validator,
+        IValidator<CustomerFilterModel> filterModelValidator,
+        UserContextService userContextService
+    ) : ControllerBase
     {
-        private readonly ILogger<CustomersController> _logger;
-        private readonly ICustomerRepository _customerRepository;
-        private readonly IValidator<QueryParameters> _queryParametersValidator;
-        private readonly IValidator<CustomerFilterModel> _filterValidator;
-        private readonly UserContextService _userContextService;
-
-        public CustomersController(
-            ILogger<CustomersController> logger,
-            ICustomerRepository customerRepository,
-            IValidator<QueryParameters> validator,
-            IValidator<CustomerFilterModel> filterModelValidator,
-            UserContextService userContextService)
-        {
-            _logger = logger;
-            _customerRepository = customerRepository;
-            _queryParametersValidator = validator;
-            _filterValidator = filterModelValidator;
-            _userContextService = userContextService;
-        }
-
-        // GET: api/<CustomersController>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CustomerDTO>>> GetCustomerDTOsAsync(
             [FromQuery] QueryParameters queryParams, 
             [FromQuery] CustomerFilterModel filter
         )
         {
-            ValidationResult queryParamResult = await _queryParametersValidator.ValidateAsync(queryParams);
+            ValidationResult queryParamResult = await validator.ValidateAsync(queryParams);
             if (!queryParamResult.IsValid) return BadRequest(queryParamResult.Errors);
 
-            ValidationResult filterModelResult = await _filterValidator.ValidateAsync(filter);
+            ValidationResult filterModelResult = await filterModelValidator.ValidateAsync(filter);
             if (!filterModelResult.IsValid) return BadRequest(filterModelResult.Errors);
 
-            var customers = await _customerRepository.GetCustomerDTOsAsync(queryParams, filter);
-            int totalCount = _customerRepository.TotalCount;
+            var customers = await customerRepository.GetCustomerDTOsAsync(queryParams, filter);
+            int totalCount = customerRepository.TotalCount;
 
             if (customers == null || !customers.Any())
             {
@@ -69,11 +50,10 @@ namespace BookstoreWebAPI.Controllers
             });
         }
 
-        // GET api/<CustomersController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CustomerDTO>> GetCustomerDTOByIdAsync(string id)
         {
-            var customer = await _customerRepository.GetCustomerDTOByIdAsync(id);
+            var customer = await customerRepository.GetCustomerDTOByIdAsync(id);
 
             if (customer == null)
             {
@@ -83,27 +63,26 @@ namespace BookstoreWebAPI.Controllers
             return Ok(customer);
         }
 
-        // POST api/<CustomersController>
         [HttpPost]
         public async Task<ActionResult> CreateCustomerAsync([FromBody] CustomerDTO customerDTO)
         {
             var staffId = Request.Headers["staffId"].ToString();
             if (staffId == null) return Unauthorized();
-            _userContextService.Current.StaffId = staffId;
+            userContextService.Current.StaffId = staffId;
 
             try
             {
-                var createdCustomerDTO = await _customerRepository.AddCustomerDTOAsync(customerDTO);
+                var createdCustomerDTO = await customerRepository.AddCustomerDTOAsync(customerDTO);
 
                 return CreatedAtAction(
-                    nameof(GetCustomerDTOByIdAsync), // method
-                    new { id = createdCustomerDTO.CustomerId }, // param in method
-                    createdCustomerDTO // values returning after the route
+                    nameof(GetCustomerDTOByIdAsync), 
+                    new { id = createdCustomerDTO.CustomerId }, 
+                    createdCustomerDTO 
                 );
             }
             catch (Exception ex)
             {
-                _logger.LogInformation(
+                logger.LogInformation(
                     $"Customer Name: {customerDTO.Name}" +
                     $"\nError message: {ex.Message}"
                 );
@@ -112,13 +91,12 @@ namespace BookstoreWebAPI.Controllers
             }
         }
 
-        // PUT api/<CustomersController>/5
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateCustomerAsync(string id, [FromBody] CustomerDTO customerDTO)
         {
             var staffId = Request.Headers["staffId"].ToString();
             if (staffId == null) return Unauthorized();
-            _userContextService.Current.StaffId = staffId;
+            userContextService.Current.StaffId = staffId;
 
             if (id != customerDTO.CustomerId)
             {
@@ -128,13 +106,13 @@ namespace BookstoreWebAPI.Controllers
             try
             {
 
-                await _customerRepository.UpdateCustomerDTOAsync(customerDTO);
+                await customerRepository.UpdateCustomerDTOAsync(customerDTO);
 
                 return NoContent();
             }
             catch (Exception ex)
             {
-                _logger.LogError(
+                logger.LogError(
                     $"Updating failed. " +
                     $"\nCustomer Id: {id}. " +
                     $"\nError message: {ex.Message}");
@@ -151,14 +129,14 @@ namespace BookstoreWebAPI.Controllers
         {
             var staffId = Request.Headers["staffId"].ToString();
             if (staffId == null) return Unauthorized();
-            _userContextService.Current.StaffId = staffId;
+            userContextService.Current.StaffId = staffId;
 
-            if (ids == null || !ids.Any())
+            if (ids == null || ids.Length == 0)
             {
                 return BadRequest("ids is required.");
             }
 
-            var result = await _customerRepository.DeleteCustomerDTOsAsync(ids);
+            var result = await customerRepository.DeleteCustomerDTOsAsync(ids);
 
             int statusCount = 0;
             if (!result.IsNotSuccessful) statusCount++;

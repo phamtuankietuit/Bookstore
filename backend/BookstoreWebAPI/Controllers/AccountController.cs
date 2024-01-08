@@ -1,35 +1,21 @@
-﻿using BookstoreWebAPI.Enums;
+﻿using Microsoft.AspNetCore.Mvc;
+using BookstoreWebAPI.Enums;
 using BookstoreWebAPI.Exceptions;
-using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Models.Responses;
+using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Repository.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using System.Security.Authentication;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BookstoreWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountController(
+        ILogger<AccountController> logger,
+        IAccountRepository accountRepository,
+        IActivityLogRepository activityLogRepository
+    ) : ControllerBase
     {
-        private readonly ILogger<AccountController> _logger;
-        private readonly IAccountRepository _accountRepository;
-        private readonly IActivityLogRepository _activityLogRepository;
-
-
-        public AccountController(
-            ILogger<AccountController> logger,
-            IAccountRepository accountRepository,
-            IActivityLogRepository activityLogRepository)
-        {
-            _logger = logger;
-            _accountRepository = accountRepository;
-            _activityLogRepository = activityLogRepository;
-        }
-
-        // GET: api/<AccountController>
         [HttpPost("login")]
         public async Task<ActionResult> Login(LoginModel data)
         {
@@ -40,9 +26,9 @@ namespace BookstoreWebAPI.Controllers
 
             try
             {
-                AuthenticateResult result = await _accountRepository.AuthenticateUser(data);
+                AuthenticateResult result = await accountRepository.AuthenticateUser(data);
 
-                await _activityLogRepository.LogActivity(ActivityType.log_in, result.User.StaffId);
+                await activityLogRepository.LogActivity(ActivityType.log_in, result.User.StaffId);
 
                 return Ok(result);
             }
@@ -60,7 +46,6 @@ namespace BookstoreWebAPI.Controllers
             }
         }
 
-        // GET: api/<AccountController>
         [HttpPost("forgotPassword")]
         public async Task<ActionResult> ForgotPassword(BasePasswordModel data)
         {
@@ -71,7 +56,7 @@ namespace BookstoreWebAPI.Controllers
 
             try
             {
-                await _accountRepository.ForgotPasswordAsync(data.Email);
+                await accountRepository.ForgotPasswordAsync(data.Email);
 
                 return Ok();
             }
@@ -90,7 +75,7 @@ namespace BookstoreWebAPI.Controllers
         {
             try
             {
-                await _accountRepository.UpdatePasswordAsync(data);
+                await accountRepository.UpdatePasswordAsync(data);
 
                 return NoContent();
             }

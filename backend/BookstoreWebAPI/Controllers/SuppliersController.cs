@@ -1,53 +1,34 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BookstoreWebAPI.Models.DTOs;
-using BookstoreWebAPI.Repository.Interfaces;
 using BookstoreWebAPI.Models.BindingModels;
-using FluentValidation.Results;
-using FluentValidation;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
-using BookstoreWebAPI.Repository;
-using Microsoft.AspNetCore.Authorization;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using BookstoreWebAPI.Repository.Interfaces;
+using FluentValidation;
+using FluentValidation.Results;
 
 namespace BookstoreWebAPI.Controllers
 {
-    
     [Route("api/[controller]")]
     [ApiController]
-    public class SuppliersController : ControllerBase
+    public class SuppliersController(
+        ISupplierRepository supplierRepository,
+        ILogger<SuppliersController> logger,
+        IValidator<QueryParameters> validator,
+        IValidator<SupplierFilterModel> filterValidator
+    ) : ControllerBase
     {
-        private readonly ILogger<SuppliersController> _logger;
-        private readonly ISupplierRepository _supplierRepository;
-        private readonly IValidator<QueryParameters> _queryParametersValidator;
-        private readonly IValidator<SupplierFilterModel> _filterValidator;
-
-        public SuppliersController(
-            ISupplierRepository supplierRepository,
-            ILogger<SuppliersController> logger,
-            IValidator<QueryParameters> validator,
-            IValidator<SupplierFilterModel> filterValidator)
-        {
-            _logger = logger;
-            _supplierRepository = supplierRepository;
-            _queryParametersValidator = validator;
-            _filterValidator = filterValidator;
-        }
-
-        // GET: api/<SuppliersController>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SupplierDTO>>> GetSupplierDTOsAsync([FromQuery] QueryParameters queryParams, [FromQuery]SupplierFilterModel filter)
         {
-            // validate filter model
-            ValidationResult queryParamResult = await _queryParametersValidator.ValidateAsync(queryParams);
+            ValidationResult queryParamResult = await validator.ValidateAsync(queryParams);
             if (!queryParamResult.IsValid) return BadRequest(queryParamResult.Errors);
 
-            ValidationResult filterModelResult = await _filterValidator.ValidateAsync(filter);
+            ValidationResult filterModelResult = await filterValidator.ValidateAsync(filter);
             if (!filterModelResult.IsValid) return BadRequest(filterModelResult.Errors);
 
 
-            var suppliers = await _supplierRepository.GetSupplierDTOsAsync(queryParams, filter);
-            var totalCount = _supplierRepository.TotalCount;
+            var suppliers = await supplierRepository.GetSupplierDTOsAsync(queryParams, filter);
+            var totalCount = supplierRepository.TotalCount;
 
             if (suppliers == null || !suppliers.Any())
             {
@@ -64,11 +45,10 @@ namespace BookstoreWebAPI.Controllers
             });
         }
 
-        // GET api/<SuppliersController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<SupplierDTO>> GetSupplierDTOByIdAsync(string id)
         {
-            var supplier = await _supplierRepository.GetSupplierDTOByIdAsync(id);
+            var supplier = await supplierRepository.GetSupplierDTOByIdAsync(id);
 
             if (supplier == null)
             {
@@ -78,13 +58,12 @@ namespace BookstoreWebAPI.Controllers
             return Ok(supplier);
         }
 
-        // POST api/<SuppliersController>
         [HttpPost]
         public async Task<ActionResult> CreateSupplierAsync([FromBody]SupplierDTO supplierDTO)
         {
             try
             {
-                var createdSupplierDTO = await _supplierRepository.AddSupplierDTOAsync(supplierDTO);
+                var createdSupplierDTO = await supplierRepository.AddSupplierDTOAsync(supplierDTO);
 
                 return CreatedAtAction(
                     nameof(GetSupplierDTOByIdAsync),
@@ -94,7 +73,7 @@ namespace BookstoreWebAPI.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogInformation(
+                logger.LogInformation(
                     $"Supplier name: {supplierDTO.Name}" +
                     $"\nError message: {ex.Message}"
                 );
@@ -103,7 +82,6 @@ namespace BookstoreWebAPI.Controllers
             }
         }
 
-        // PUT api/<SuppliersController>/5
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateSupplierAsync(string id, [FromBody] SupplierDTO supplierDTO)
         {
@@ -114,13 +92,13 @@ namespace BookstoreWebAPI.Controllers
 
             try
             {
-                await _supplierRepository.UpdateSupplierDTOAsync(supplierDTO);
+                await supplierRepository.UpdateSupplierDTOAsync(supplierDTO);
 
                 return NoContent();
             }
             catch (Exception ex)
             {
-                _logger.LogError(
+                logger.LogError(
                     $"Updating failed. " +
                     $"\nSupplier Id: {id}. " +
                     $"\nError message: {ex.Message}");
@@ -132,16 +110,15 @@ namespace BookstoreWebAPI.Controllers
             }
         }
 
-        // DELETE api/<SuppliersController>/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteSupplierAsync([FromQuery]string[] ids)
         {
-            if (ids == null || !ids.Any())
+            if (ids == null || ids.Length == 0)
             {
                 return BadRequest("ids is required.");
             }
 
-            var result = await _supplierRepository.DeleteSuppliersAsync(ids);
+            var result = await supplierRepository.DeleteSuppliersAsync(ids);
 
             int statusCount = 0;
             if (!result.IsNotSuccessful) statusCount++;

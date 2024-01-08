@@ -13,53 +13,36 @@ namespace BookstoreWebAPI.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : Controller
+    public class ProductsController(
+        IProductRepository productRepository,
+        ILogger<ProductsController> logger,
+        IValidator<QueryParameters> validator,
+        IValidator<ProductFilterModel> filterValidator,
+        IFileService fileService,
+        UserContextService userContextService
+    ) : Controller
     {
-        private readonly IProductRepository _productRepository;
-        private readonly ILogger<ProductsController> _logger;
-        private readonly IValidator<QueryParameters> _queryParametersValidator;
-        private readonly IValidator<ProductFilterModel> _filterValidator;
-        private readonly UserContextService _userContextService;
-
-        private readonly IFileService _fileService;
-
-        public ProductsController(
-            IProductRepository productRepository,
-            ILogger<ProductsController> logger,
-            IValidator<QueryParameters> validator,
-            IValidator<ProductFilterModel> filterValidator,
-            IFileService fileService,
-            UserContextService userContextService)
-        {
-            _productRepository = productRepository;
-            _logger = logger;
-            _queryParametersValidator = validator;
-            _fileService = fileService;
-            _filterValidator = filterValidator;
-            _userContextService = userContextService;
-        }
-
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductDTOsAsync(
             [FromQuery] QueryParameters queryParams,
             [FromQuery] ProductFilterModel filter)
         {
-            ValidationResult queryParamResult = await _queryParametersValidator.ValidateAsync(queryParams);
+            ValidationResult queryParamResult = await validator.ValidateAsync(queryParams);
             if (!queryParamResult.IsValid) return BadRequest(queryParamResult.Errors);
 
-            ValidationResult filterModelResult = await _filterValidator.ValidateAsync(filter);
+            ValidationResult filterModelResult = await filterValidator.ValidateAsync(filter);
             if (!filterModelResult.IsValid) return BadRequest(filterModelResult.Errors);
 
 
-            var products = await _productRepository.GetProductDTOsAsync(queryParams, filter);
-            int totalCount = _productRepository.TotalCount;
+            var products = await productRepository.GetProductDTOsAsync(queryParams, filter);
+            int totalCount = productRepository.TotalCount;
 
             if (products == null || !products.Any())
             {
                 return NotFound();
             }
 
-            _logger.LogInformation($"Returned all products!");
+            logger.LogInformation($"Returned all products!");
             return Ok(new
             {
                 data = products,
@@ -73,7 +56,7 @@ namespace BookstoreWebAPI.Controllers
         [HttpGet("details/{detailName}")]
         public async Task<ActionResult<IEnumerable<string>>> GetProductDetailListAsync(string detailName)
         {
-            var result = await _productRepository.GetDetailsAsync(detailName);
+            var result = await productRepository.GetDetailsAsync(detailName);
 
             if (result == null || !result.Any())
             {
@@ -84,20 +67,18 @@ namespace BookstoreWebAPI.Controllers
             return Ok(result);
         }
 
-
-
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductDTO>> GetProductDTOByIdAsync(string id)
         {
-            var product = await _productRepository.GetProductDTOByIdAsync(id);
+            var product = await productRepository.GetProductDTOByIdAsync(id);
 
             if (product == null)
             {
-                _logger.LogInformation($"Product with id {id} Not Found");
+                logger.LogInformation($"Product with id {id} Not Found");
                 return NotFound();
             }
 
-            _logger.LogInformation($"Product with id {id} Found");
+            logger.LogInformation($"Product with id {id} Found");
 
             return Ok(product);
         }
@@ -108,11 +89,11 @@ namespace BookstoreWebAPI.Controllers
         {
             var staffId = Request.Headers["staffId"].ToString();
             if (staffId == null) return Unauthorized();
-            _userContextService.Current.StaffId = staffId;
+            userContextService.Current.StaffId = staffId;
 
             try
             {
-                var createdProductDTO = await _productRepository.AddProductDTOAsync(productDTO);
+                var createdProductDTO = await productRepository.AddProductDTOAsync(productDTO);
 
                 return CreatedAtAction(
                     nameof(GetProductDTOByIdAsync), // method
@@ -122,7 +103,7 @@ namespace BookstoreWebAPI.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogInformation(
+                logger.LogInformation(
                     $"Product Name: {productDTO.Name}" +
                     $"\nError message: {ex.Message}"
                 );
@@ -136,7 +117,7 @@ namespace BookstoreWebAPI.Controllers
         {
             var staffId = Request.Headers["staffId"].ToString();
             if (staffId == null) return Unauthorized();
-            _userContextService.Current.StaffId = staffId;
+            userContextService.Current.StaffId = staffId;
 
             if (id != productDTO.ProductId)
             {
@@ -145,13 +126,13 @@ namespace BookstoreWebAPI.Controllers
 
             try
             {
-                await _productRepository.UpdateProductDTOAsync(productDTO);
+                await productRepository.UpdateProductDTOAsync(productDTO);
 
                 return NoContent();
             }
             catch (Exception ex)
             {
-                _logger.LogError(
+                logger.LogError(
                     $"Updating failed. " +
                     $"\nProduct Id: {id}. " +
                     $"\nError message: {ex.Message}");
@@ -168,14 +149,14 @@ namespace BookstoreWebAPI.Controllers
         {
             var staffId = Request.Headers["staffId"].ToString();
             if (staffId == null) return Unauthorized();
-            _userContextService.Current.StaffId = staffId;
+            userContextService.Current.StaffId = staffId;
 
-            if (ids == null || !ids.Any())
+            if (ids == null || ids.Length == 0)
             {
                 return BadRequest("ids is required.");
             }
 
-            var result = await _productRepository.DeleteProductsAsync(ids);
+            var result = await productRepository.DeleteProductsAsync(ids);
 
             int statusCount = 0;
             if (!result.IsNotSuccessful) statusCount++;
@@ -190,19 +171,16 @@ namespace BookstoreWebAPI.Controllers
             return StatusCode(403);
         }
 
-
-
         [HttpPost("images")]
         public async Task<ActionResult> UploadImagesAsync(List<IFormFile> files)
         {
-            List<FileModel> fileModels = new();
+            List<FileModel> fileModels = [];
 
             try
             {
-
                 foreach(var file in files)
                 {
-                    fileModels.Add(await _fileService.UploadAsync(file));
+                    fileModels.Add(await fileService.UploadAsync(file));
                 }
             }
             catch (ArgumentException ex)
@@ -232,13 +210,12 @@ namespace BookstoreWebAPI.Controllers
             }) ;
         }
 
-
         [HttpDelete("images/{blobName}")]
         public async Task<ActionResult> DeleteImageAsync(string blobName)
         {
             try
             {   
-                await _fileService.DeleteAsync(blobName);
+                await fileService.DeleteAsync(blobName);
 
                 return Ok($"Blob {blobName} deleted successfully.");
             }

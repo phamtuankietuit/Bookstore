@@ -5,14 +5,12 @@ VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookstoreWebAPI", "BookstoreWebAPI\BookstoreWebAPI.csproj", "{1622DD5E-628F-46FB-8D3D-D83E8FE5DC7A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChangeFeedCatchFunction", "ChangeFeedCatchFunction\ChangeFeedCatchFunction.csproj", "{FB1C0973-AC13-4344-8AF7-11966285F002}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EC912E19-3E40-431C-AE45-5393277B816E}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosmosChangeFeedFunction", "CosmosChangeFeedFunction\CosmosChangeFeedFunction.csproj", "{AF93A924-EAC3-463E-9B95-2BBF0CAAD9F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CosmosChangeFeedFunction", "CosmosChangeFeedFunction\CosmosChangeFeedFunction.csproj", "{AF93A924-EAC3-463E-9B95-2BBF0CAAD9F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,10 +22,6 @@ Global
 		{1622DD5E-628F-46FB-8D3D-D83E8FE5DC7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1622DD5E-628F-46FB-8D3D-D83E8FE5DC7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1622DD5E-628F-46FB-8D3D-D83E8FE5DC7A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB1C0973-AC13-4344-8AF7-11966285F002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB1C0973-AC13-4344-8AF7-11966285F002}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB1C0973-AC13-4344-8AF7-11966285F002}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB1C0973-AC13-4344-8AF7-11966285F002}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AF93A924-EAC3-463E-9B95-2BBF0CAAD9F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AF93A924-EAC3-463E-9B95-2BBF0CAAD9F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF93A924-EAC3-463E-9B95-2BBF0CAAD9F9}.Release|Any CPU.ActiveCfg = Release|Any CPU

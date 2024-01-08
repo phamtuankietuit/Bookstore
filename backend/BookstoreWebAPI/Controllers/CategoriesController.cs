@@ -1,59 +1,39 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using BookstoreWebAPI.Services;
+using BookstoreWebAPI.Exceptions;
 using BookstoreWebAPI.Models.DTOs;
-using BookstoreWebAPI.Repository.Interfaces;
 using BookstoreWebAPI.Models.BindingModels;
+using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using BookstoreWebAPI.Repository.Interfaces;
 using FluentValidation.Results;
 using FluentValidation;
-using BookstoreWebAPI.Exceptions;
-using Microsoft.AspNetCore.Authorization;
-using BookstoreWebAPI.Services;
-using BookstoreWebAPI.Models.BindingModels.FilterModels;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BookstoreWebAPI.Controllers
 {
-    
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriesController : ControllerBase
+    public class CategoriesController(
+        ILogger<CategoriesController> logger,
+        ICategoryRepository categoryRepository,
+        IValidator<QueryParameters> validator,
+        UserContextService userContextService) : ControllerBase
     {
-        private readonly ILogger _logger;
-        private readonly ICategoryRepository _categoryRepository;
-        private readonly IValidator<QueryParameters> _queryParametersValidator;
-        private readonly IActivityLogRepository _activityLogRepository;
-        private readonly UserContextService _userContextService;
+        private readonly ILogger _logger = logger;
 
-        public CategoriesController(
-            ILogger<CategoriesController> logger,
-            ICategoryRepository categoryRepository,
-            IValidator<QueryParameters> validator,
-            IActivityLogRepository activityLogRepository,
-            UserContextService userContextService)
-        {
-            _logger = logger;
-            _categoryRepository = categoryRepository;
-            _queryParametersValidator = validator;
-            _activityLogRepository = activityLogRepository;
-            _userContextService = userContextService;
-        }
-
-        // GET: api/<CategoriesController>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesAsync(
             [FromQuery]QueryParameters queryParams,
             [FromQuery]CategoryFilterModel filter)
         {
-            // validate filter model
-            ValidationResult result = await _queryParametersValidator.ValidateAsync(queryParams);
+            ValidationResult result = await validator.ValidateAsync(queryParams);
 
             if (!result.IsValid)
             {
                 return BadRequest(result.Errors);
             }
 
-            var categories = await _categoryRepository.GetCategoryDTOsAsync(queryParams, filter);
-            int totalCount = _categoryRepository.TotalCount;
+            var categories = await categoryRepository.GetCategoryDTOsAsync(queryParams, filter);
+            int totalCount = categoryRepository.TotalCount;
 
             if (categories == null || !categories.Any()) 
             {
@@ -70,11 +50,10 @@ namespace BookstoreWebAPI.Controllers
             });
         }
 
-        // GET api/<CategoriesController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoryDTO>> GetCategoryDTOByIdAsync(string id)
         {
-            var category = await _categoryRepository.GetCategoryDTOByIdAsync(id);
+            var category = await categoryRepository.GetCategoryDTOByIdAsync(id);
 
             if (category == null)
             {
@@ -84,24 +63,23 @@ namespace BookstoreWebAPI.Controllers
             return Ok(category);
         }
 
-        // POST api/<CategoriesController>
         [HttpPost]
         public async Task<ActionResult> CreateCategoryAsync([FromBody] CategoryDTO categoryDTO)
         {
             var staffId = Request.Headers["staffId"].ToString();
             if (staffId == null) return Unauthorized();
-            _userContextService.Current.StaffId = staffId;
+            userContextService.Current.StaffId = staffId;
 
             try
             {
 
 
-                var createdCategoryDTO = await _categoryRepository.AddCategoryDTOAsync(categoryDTO);
+                var createdCategoryDTO = await categoryRepository.AddCategoryDTOAsync(categoryDTO);
 
                 return CreatedAtAction(
-                    nameof(GetCategoryDTOByIdAsync), // method
-                    new { id = createdCategoryDTO.CategoryId }, // param in method
-                    createdCategoryDTO // values returning after the route
+                    nameof(GetCategoryDTOByIdAsync), 
+                    new { id = createdCategoryDTO.CategoryId }, 
+                    createdCategoryDTO
                 );
             }
             catch (DuplicateDocumentException ex)
@@ -119,13 +97,12 @@ namespace BookstoreWebAPI.Controllers
             }
         }
 
-        // PUT api/<CategoriesController>/5
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateCategoryAsync(string id, [FromBody] CategoryDTO categoryDTO)
         {
             var staffId = Request.Headers["staffId"].ToString();
             if (staffId == null) return Unauthorized();
-            _userContextService.Current.StaffId = staffId;
+            userContextService.Current.StaffId = staffId;
 
             if (id != categoryDTO.CategoryId)
             {
@@ -135,7 +112,7 @@ namespace BookstoreWebAPI.Controllers
             try
             {
 
-                await _categoryRepository.UpdateCategoryDTOAsync(categoryDTO);
+                await categoryRepository.UpdateCategoryDTOAsync(categoryDTO);
 
                 return NoContent();
             }
@@ -158,14 +135,14 @@ namespace BookstoreWebAPI.Controllers
         {
             var staffId = Request.Headers["staffId"].ToString();
             if (staffId == null) return Unauthorized();
-            _userContextService.Current.StaffId = staffId;
+            userContextService.Current.StaffId = staffId;
 
-            if (ids == null || !ids.Any())
+            if (ids == null || ids.Length == 0)
             {
                 return BadRequest("ids is required.");
             }
 
-            var result = await _categoryRepository.DeleteCategoriesAsync(ids);
+            var result = await categoryRepository.DeleteCategoriesAsync(ids);
 
             int statusCount = 0;
             if (!result.IsNotSuccessful) statusCount++;

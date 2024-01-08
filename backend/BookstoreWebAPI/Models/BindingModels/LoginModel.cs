@@ -2,10 +2,8 @@
 
 namespace BookstoreWebAPI.Models.BindingModels
 {
-    public class LoginModel
+    public class LoginModel : BasePasswordModel
     {
-        [JsonProperty("email")]
-        public string Email { get; set; }
 
         [JsonProperty("password")]
         public string Password { get; set; }

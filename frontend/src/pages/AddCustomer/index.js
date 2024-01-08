@@ -9,6 +9,7 @@ import Input from '~/components/Input';
 import ModalLoading from '~/components/ModalLoading';
 import { ToastContext } from '~/components/ToastContext';
 import * as CustommerServices from '~/apiServices/customerServices'
+import { getLocalStorage } from '~/store/getLocalStorage';
 const cx = classNames.bind(styles);
 
 function AddCustomer() {
@@ -44,7 +45,7 @@ function AddCustomer() {
             tag: {
 
             },
-            staffId: 'staf00011',
+            staffId: getLocalStorage().user.staffId,
         }
         console.log(obj)
         if (name === '') {

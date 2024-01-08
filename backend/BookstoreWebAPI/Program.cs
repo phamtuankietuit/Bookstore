@@ -82,7 +82,10 @@ var emailConfig = builder.Configuration
         .Get<EmailConfiguration>();
 builder.Services.AddSingleton(emailConfig);
 
-// enable policy8
+// add search service
+builder.Services.AddSingleton<AzureSearchServiceFactory>();
+
+// enable policy
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -126,6 +129,7 @@ builder.Services.AddTransient<IValidator<SupplierFilterModel>, SupplierFilterMod
 builder.Services.AddTransient<IValidator<CustomerFilterModel>, CustomerFilterModelValidator>();
 builder.Services.AddTransient<IValidator<ProductFilterModel>, ProductFilterModelValidator>();
 
+builder.Services.AddSingleton<UserContextService>();
 builder.Services.AddTransient<DataSeeder>();
 builder.Services.AddControllers();
 

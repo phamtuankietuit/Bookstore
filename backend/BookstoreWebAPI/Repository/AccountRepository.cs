@@ -9,22 +9,24 @@ using BookstoreWebAPI.Models.DTOs;
 using System.Security.Authentication;
 using BookstoreWebAPI.Exceptions;
 using System.Security.Cryptography;
+using BookstoreWebAPI.Utils;
 
 namespace BookstoreWebAPI.Repository
 {
     public class AccountRepository : IAccountRepository
     {
-        private readonly IConfiguration _configuration;
         private readonly ILogger<AccountRepository> _logger;
+        private readonly IConfiguration _configuration;
         private readonly IStaffRepository _staffRepository;
 
         public AccountRepository(
             IConfiguration configuration,
             ILogger<AccountRepository> logger,
-            IStaffRepository staffRepository)
+            IStaffRepository staffRepository
+        )
         {
-            _configuration = configuration;
             _logger = logger;
+            _configuration = configuration;
             _staffRepository = staffRepository;
         }
 
@@ -32,16 +34,16 @@ namespace BookstoreWebAPI.Repository
         {
             try
             {
-                var user = await _staffRepository.GetStaffUsingCredentials(data);
+                var authenticateResult = await _staffRepository.GetStaffUsingCredentials(data);
                 
 
-                // If successful, generate a token
-                var token = GenerateJwtToken(user);
+                var token = GenerateJwtToken(authenticateResult.User);
                 var newRefreshToken = GenerateRefreshToken();
 
                 var result = new AuthenticateResult()
                 {
-                    User = user,
+                    User = authenticateResult.User,
+                    NeedReset = authenticateResult.NeedReset,
                     Token = token,
                     RefreshToken = newRefreshToken
                 };
@@ -58,22 +60,30 @@ namespace BookstoreWebAPI.Repository
             }
         }
 
+        public async Task ForgotPasswordAsync(string email)
+        {
+            var staffDoc = await _staffRepository.GetStaffDocumentByEmailAsync(email)
+                ?? throw new EmailNotFoundException();
+
+
+            await _staffRepository.UpdateForgotPasswordAsync(new ForgotPasswordModel()
+            {
+                Email = email,
+                NewPassword = PasswordUtils.GenerateDefaultPassword()
+            });
+        }
+
         public async Task UpdatePasswordAsync(UpdatePasswordModel data)
         {
-
             try
             {
-                var staff = await _staffRepository.GetStaffUsingCredentials(new LoginModel() { Email = data.Email, Password = data.OldPassword });
+                var authenticateResult = await _staffRepository.GetStaffUsingCredentials(new LoginModel() { Email = data.Email, Password = data.OldPassword });
 
                 await _staffRepository.UpdatePasswordAsync(data);
             }
             catch (DocumentNotFoundException)
             {
                 throw new InvalidCredentialException();
-            }
-            catch (InvalidCredentialException)
-            {
-                throw;
             }
             catch (Exception)
             {
@@ -104,7 +114,7 @@ namespace BookstoreWebAPI.Repository
                             _configuration["JwtSecurityToken:Issuer"]!),
                         new(JwtRegisteredClaimNames.Aud,
                             _configuration["JwtSecurityToken:Audience"]!),
-                        new("UserId", user.StaffId.ToString()),
+                        new("UserId", user.StaffId!.ToString()),
                         new("Username", user.Contact.Email)
                     };
 

@@ -7,9 +7,10 @@ using BookstoreWebAPI.Repository.Interfaces;
 using BookstoreWebAPI.Utils;
 using System.Data;
 using BookstoreWebAPI.Exceptions;
-using Microsoft.AspNetCore.Mvc;
 using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Models.Responses;
+using BookstoreWebAPI.Services;
+using BookstoreWebAPI.Models.BindingModels.FilterModels;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -22,13 +23,19 @@ namespace BookstoreWebAPI.Repository
         private readonly IMemoryCache _memoryCache;
         private Container _categoryContainer;
         private readonly IActivityLogRepository _activityLogRepository;
+        private readonly UserContextService _userContextService;
+        private readonly AzureSearchService _searchService;
+
+        public int TotalCount { get; set; }
 
         public CategoryRepository(
             CosmosClient cosmosClient,
             ILogger<CategoryRepository> logger,
             IMapper mapper,
             IMemoryCache memoryCache,
-            IActivityLogRepository activityLogRepository)
+            IActivityLogRepository activityLogRepository,
+            UserContextService userContextService,
+            AzureSearchServiceFactory searchServiceFactory)
         {
             var databaseName = cosmosClient.ClientOptions.ApplicationName;
             var containerName = "categories";
@@ -37,8 +44,11 @@ namespace BookstoreWebAPI.Repository
             _mapper = mapper;
             _memoryCache = memoryCache;
             _activityLogRepository = activityLogRepository;
+            _userContextService = userContextService;
 
             _categoryContainer = cosmosClient.GetContainer(databaseName, containerName);
+            _searchService = searchServiceFactory.Create(containerName);
+
         }
 
         public async Task<int> GetTotalCount(QueryParameters queryParams)
@@ -59,11 +69,14 @@ namespace BookstoreWebAPI.Repository
             return count;
         }
 
-        public async Task<IEnumerable<CategoryDTO>> GetCategoryDTOsAsync(QueryParameters queryParams)
+        public async Task<IEnumerable<CategoryDTO>> GetCategoryDTOsAsync(QueryParameters queryParams, CategoryFilterModel filter)
         {
-            var queryDef = CosmosDbUtils.BuildQuery<CategoryDocument>(queryParams);
-
-            var categoryDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CategoryDocument>(_categoryContainer, queryDef);
+            filter.Query ??= "*";
+            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+            var searchResult = await _searchService.SearchAsync<CategoryDocument>(filter.Query, options);
+            TotalCount = searchResult.TotalCount;
+            var categoryDocs = searchResult.Results;
+            //var categoryDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CategoryDocument>(_categoryContainer, queryDef);
             var categoryDTOs = categoryDocs.Select(categoryDoc =>
             {
                 return _mapper.Map<CategoryDTO>(categoryDoc);
@@ -98,7 +111,7 @@ namespace BookstoreWebAPI.Repository
 
                 await _activityLogRepository.LogActivity(
                     Enums.ActivityType.create,
-                    categoryDTO.StaffId,
+                    _userContextService.Current.StaffId,
                     "Loại sản phẩm",
                     categoryDTO.CategoryId
                 );
@@ -122,7 +135,7 @@ namespace BookstoreWebAPI.Repository
 
             await _activityLogRepository.LogActivity(
                     Enums.ActivityType.update,
-                    categoryToUpdate.StaffId,
+                    _userContextService.Current.StaffId,
                     "Loại sản phẩm",
                     categoryToUpdate.CategoryId
                 );
@@ -180,12 +193,7 @@ namespace BookstoreWebAPI.Repository
                     statusCode: 204
                 );
 
-                await _activityLogRepository.LogActivity(
-                    Enums.ActivityType.delete, 
-                    categoryDTO.StaffId, 
-                    "Loại sản phẩm", 
-                    categoryDTO.CategoryId
-                );
+                
 
                 _logger.LogInformation($"Deleted category with id: {id}");
             }
@@ -248,6 +256,13 @@ namespace BookstoreWebAPI.Repository
             };
 
             await _categoryContainer.PatchItemAsync<CategoryDocument>(categoryDoc.Id, new PartitionKey(categoryDoc.CategoryId), patchOperations);
+
+            await _activityLogRepository.LogActivity(
+                    Enums.ActivityType.delete,
+                    _userContextService.Current.StaffId,
+                    "Loại sản phẩm",
+                    categoryDoc.CategoryId
+                );
         }
 
         //private async Task DeleteCategoryAsync(string categoryId)

@@ -8,6 +8,7 @@ using BookstoreWebAPI.Utils;
 using BookstoreWebAPI.Models.Responses;
 using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using BookstoreWebAPI.Services;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -20,22 +21,31 @@ namespace BookstoreWebAPI.Repository
         private readonly IMemoryCache _memoryCache;
         private readonly IActivityLogRepository _activityLogRepository;
         private Container _customerContainer;
+        private readonly UserContextService _userContextService;
+        private readonly AzureSearchService _searchService;
+
+        public int TotalCount {  get; private set; }
 
         public CustomerRepository(
             CosmosClient cosmosClient,
             IMapper mapper,
             IMemoryCache memoryCache,
             ILogger<CustomerRepository> logger,
-            IActivityLogRepository activityLogRepository)
+            IActivityLogRepository activityLogRepository,
+            UserContextService userContextService,
+            AzureSearchServiceFactory searchServiceFactory)
         {
             var databaseName = cosmosClient.ClientOptions.ApplicationName;
             var containerName = "customers";
 
             _customerContainer = cosmosClient.GetContainer(databaseName, containerName);
+            _searchService = searchServiceFactory.Create(containerName);
+
             _mapper = mapper;
             _memoryCache = memoryCache;
             _logger = logger;
             _activityLogRepository = activityLogRepository;
+            _userContextService = userContextService;
         }
 
         public async Task<int> GetTotalCount(QueryParameters queryParams, CustomerFilterModel filter)
@@ -59,9 +69,11 @@ namespace BookstoreWebAPI.Repository
 
         public async Task<IEnumerable<CustomerDTO>> GetCustomerDTOsAsync(QueryParameters queryParams, CustomerFilterModel filter)
         {
-            var queryDef = CosmosDbUtils.BuildQuery<CustomerDocument>(queryParams, filter);
-
-            var customerDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CustomerDocument>(_customerContainer, queryDef);
+            filter.Query ??= "*";
+            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+            var searchResult = await _searchService.SearchAsync<CustomerDocument>(filter.Query, options);
+            TotalCount = searchResult.TotalCount;
+            var customerDocs = searchResult.Results;
             var customerDTOs = customerDocs.Select(customerDoc =>
             {
                 return _mapper.Map<CustomerDTO>(customerDoc);
@@ -93,7 +105,7 @@ namespace BookstoreWebAPI.Repository
 
                 await _activityLogRepository.LogActivity(
                     Enums.ActivityType.create,
-                    customerDoc.StaffId,
+                    _userContextService.Current.StaffId,
                     "Sản phẩm",
                     customerDoc.CustomerId
                 );
@@ -103,7 +115,7 @@ namespace BookstoreWebAPI.Repository
 
             throw new ArgumentNullException(nameof(createdDocument));
         }
-
+         
         public async Task UpdateCustomerDTOAsync(CustomerDTO customerDTO)
         {
             var customerToUpdate = _mapper.Map<CustomerDocument>(customerDTO);
@@ -116,7 +128,7 @@ namespace BookstoreWebAPI.Repository
 
             await _activityLogRepository.LogActivity(
                 Enums.ActivityType.update,
-                customerToUpdate.StaffId,
+                _userContextService.Current.StaffId,
                 "Sản phẩm",
                 customerToUpdate.CustomerId
             );
@@ -194,7 +206,7 @@ namespace BookstoreWebAPI.Repository
             
             await _activityLogRepository.LogActivity(
                 Enums.ActivityType.delete,
-                customerDoc.StaffId,
+                _userContextService.Current.StaffId,
                 "Sản phẩm",
                 customerDoc.CustomerId
             );

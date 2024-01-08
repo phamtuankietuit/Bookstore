@@ -7,6 +7,7 @@ using BookstoreWebAPI.Models.Documents;
 using BookstoreWebAPI.Models.DTOs;
 using BookstoreWebAPI.Models.Responses;
 using BookstoreWebAPI.Repository.Interfaces;
+using BookstoreWebAPI.Services;
 using BookstoreWebAPI.Utils;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Caching.Memory;
@@ -22,6 +23,9 @@ namespace BookstoreWebAPI.Repository
         private readonly IMemoryCache _memoryCache;
         private readonly Container _logContainer;
         private readonly IStaffRepository _staffRepository;
+        private readonly AzureSearchService _searchService;
+
+
         private readonly Dictionary<string,string> dicitonary = new Dictionary<string, string>()
                 {
                     { "log_in", "Đã đăng nhập" },
@@ -31,6 +35,7 @@ namespace BookstoreWebAPI.Repository
                 };
         public Dictionary<string, string> ActivityTypeWithNamePairs { get => dicitonary; }
 
+        public int TotalCount { get; private set; }
 
         public ActivityLogRepository(
             CosmosClient cosmosClient,
@@ -38,16 +43,19 @@ namespace BookstoreWebAPI.Repository
             ILogger<AccountRepository> logger,
             IMemoryCache memoryCache,
             IMapper mapper,
-            IStaffRepository staffRepository)
+            IStaffRepository staffRepository,
+            AzureSearchServiceFactory searchServiceFactory)
         {
             var databaseName = cosmosClient.ClientOptions.ApplicationName;
+            var containerName = "activityLogs";
             _configuration = configuration;
             _logger = logger;
             _memoryCache = memoryCache;
             _mapper = mapper;
             _staffRepository = staffRepository;
 
-            _logContainer = cosmosClient.GetContainer(databaseName, "activityLogs");
+            _logContainer = cosmosClient.GetContainer(databaseName, containerName);
+            _searchService = searchServiceFactory.Create(containerName);
         }
 
         public async Task<int> GetTotalCount(QueryParameters queryParams, ActivityLogFilterModel filter)
@@ -69,11 +77,15 @@ namespace BookstoreWebAPI.Repository
             return count;
         }
 
-        public async Task<IEnumerable<ActivityLogDTO>> GetActivityLogDTOsAsync(QueryParameters queryParams, ActivityLogFilterModel filter)
+        public async Task<IEnumerable<ActivityLogDTO>> GetActivityLogDTOsAsync(
+            QueryParameters queryParams,
+            ActivityLogFilterModel filter)
         {
-            var queryDef = CosmosDbUtils.BuildQuery<ActivityLogDocument>(queryParams, filter);
-
-            var activityLogDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<ActivityLogDocument>(_logContainer, queryDef);
+            filter.Query ??= "*";
+            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+            var searchResult = await _searchService.SearchAsync<ActivityLogDocument>(filter.Query, options);
+            TotalCount = searchResult.TotalCount;
+            var activityLogDocs = searchResult.Results;
             var activityLogDTOs = activityLogDocs.Select(activityLogDoc =>
             {
                 return _mapper.Map<ActivityLogDTO>(activityLogDoc);

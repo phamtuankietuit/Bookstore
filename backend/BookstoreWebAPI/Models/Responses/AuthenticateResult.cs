@@ -10,6 +10,9 @@ namespace BookstoreWebAPI.Models.Responses
         [JsonProperty("user")]
         public StaffDTO User { get; set; }
 
+        [JsonProperty("needReset")]
+        public bool NeedReset { get; set; }
+
         [JsonProperty("token")]
         public string Token { get; set; }
 

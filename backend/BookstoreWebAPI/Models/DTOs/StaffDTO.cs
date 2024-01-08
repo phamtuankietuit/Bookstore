@@ -7,7 +7,7 @@ namespace BookstoreWebAPI.Models.DTOs
     public class StaffDTO : IBaseCosmosDTO, IActivableDTO
     {
         [JsonProperty("staffId")]
-        public string StaffId { get; set; }
+        public string? StaffId { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }

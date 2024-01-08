@@ -55,7 +55,7 @@ namespace BookstoreWebAPI.Models.DTOs
         public Dictionary<string, string>? Details { get; set; }
 
         [JsonProperty("optionalDetails")]
-        public List<OptionalDetails> OptionalDetails { get; set; }
+        public List<OptionalDetails>? OptionalDetails { get; set; }
 
         [JsonProperty("isActive")]
         public bool IsActive { get; set; }

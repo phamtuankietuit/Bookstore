@@ -67,7 +67,7 @@ namespace BookstoreWebAPI.Controllers
         public async Task<ActionResult> CreateCategoryAsync([FromBody] CategoryDTO categoryDTO)
         {
             var staffId = Request.Headers["staffId"].ToString();
-            if (staffId == null) return Unauthorized();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
             userContextService.Current.StaffId = staffId;
 
             try
@@ -101,7 +101,7 @@ namespace BookstoreWebAPI.Controllers
         public async Task<ActionResult> UpdateCategoryAsync(string id, [FromBody] CategoryDTO categoryDTO)
         {
             var staffId = Request.Headers["staffId"].ToString();
-            if (staffId == null) return Unauthorized();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
             userContextService.Current.StaffId = staffId;
 
             if (id != categoryDTO.CategoryId)
@@ -134,7 +134,7 @@ namespace BookstoreWebAPI.Controllers
         public async Task<ActionResult> DeleteCategoriesAsync([FromQuery] string[] ids)
         {
             var staffId = Request.Headers["staffId"].ToString();
-            if (staffId == null) return Unauthorized();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
             userContextService.Current.StaffId = staffId;
 
             if (ids == null || ids.Length == 0)

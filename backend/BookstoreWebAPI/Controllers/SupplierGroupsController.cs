@@ -6,6 +6,7 @@ using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using BookstoreWebAPI.Repository.Interfaces;
 using FluentValidation;
 using FluentValidation.Results;
+using BookstoreWebAPI.Services;
 
 namespace BookstoreWebAPI.Controllers
 {
@@ -15,7 +16,8 @@ namespace BookstoreWebAPI.Controllers
     public class SupplierGroupsController(
         ILogger<SupplierGroupsController> logger,
         ISupplierGroupRepository supplierGroupRepository,
-        IValidator<QueryParameters> validator
+        IValidator<QueryParameters> validator,
+        UserContextService userContextService
     ) : ControllerBase
     {
         [HttpGet]
@@ -65,6 +67,10 @@ namespace BookstoreWebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateSupplierGroupAsync([FromBody] SupplierGroupDTO supplierGroupDTO)
         {
+            var staffId = Request.Headers["staffId"].ToString();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
+            userContextService.Current.StaffId = staffId;
+
             try
             {
 
@@ -95,6 +101,10 @@ namespace BookstoreWebAPI.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateSupplierGroupAsync(string id, [FromBody] SupplierGroupDTO supplierGroupDTO)
         {
+            var staffId = Request.Headers["staffId"].ToString();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
+            userContextService.Current.StaffId = staffId;
+
             if (id != supplierGroupDTO.SupplierGroupId)
             {
                 return BadRequest("Specified id don't match with the DTO.");
@@ -124,6 +134,10 @@ namespace BookstoreWebAPI.Controllers
         [HttpDelete]
         public async Task<ActionResult> DeleteSupplierGroupsAsync([FromQuery] string[] ids)
         {
+            var staffId = Request.Headers["staffId"].ToString();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
+            userContextService.Current.StaffId = staffId;
+
             if (ids == null || ids.Length == 0)
             {
                 return BadRequest("ids is required.");

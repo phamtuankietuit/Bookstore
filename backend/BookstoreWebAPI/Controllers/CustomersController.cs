@@ -67,7 +67,7 @@ namespace BookstoreWebAPI.Controllers
         public async Task<ActionResult> CreateCustomerAsync([FromBody] CustomerDTO customerDTO)
         {
             var staffId = Request.Headers["staffId"].ToString();
-            if (staffId == null) return Unauthorized();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
             userContextService.Current.StaffId = staffId;
 
             try
@@ -95,7 +95,7 @@ namespace BookstoreWebAPI.Controllers
         public async Task<ActionResult> UpdateCustomerAsync(string id, [FromBody] CustomerDTO customerDTO)
         {
             var staffId = Request.Headers["staffId"].ToString();
-            if (staffId == null) return Unauthorized();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
             userContextService.Current.StaffId = staffId;
 
             if (id != customerDTO.CustomerId)
@@ -128,7 +128,7 @@ namespace BookstoreWebAPI.Controllers
         public async Task<ActionResult> DeleteCustomersAsync([FromQuery] string[] ids)
         {
             var staffId = Request.Headers["staffId"].ToString();
-            if (staffId == null) return Unauthorized();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
             userContextService.Current.StaffId = staffId;
 
             if (ids == null || ids.Length == 0)

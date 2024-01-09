@@ -1,5 +1,31 @@
 [
 	{
+		"id": "cust00000",
+		"customerId": "cust00000",
+		"name": "Khách lẻ",
+		"sex": "",
+		"email": "",
+		"phoneNumber": "",
+		"salesOrderInformation": {
+			"lastOrderAt": "2024-01-02T17:05:11Z",
+			"purchasedOrder": 0,
+			"orderedQuantity": 0,
+			"returnQuantity": 0,
+			"totalPay": 0
+		},
+		"address": "",
+		"type": "Retail",
+		"note": "",
+		"tags": [],
+		"isActive": true,
+		"isDeleted": false,
+		"isRemovable": true,
+		"createdAt": "2024-01-02T17:05:11Z",
+		"modifiedAt": "2024-01-02T17:05:11Z",
+		"staffId": "staf00000",
+		"ttl": -1
+	},
+	{
 		"id": "cust00001",
 		"customerId": "cust00001",
 		"name": "Nguyễn Văn Kiệt",
@@ -15,12 +41,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0554302593",
-			"name": "Nhà",
-			"email": "nguyenvankiet00001@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -46,12 +67,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0398976059",
-			"name": "Nhà",
-			"email": "dangnguyenquan00002@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -77,12 +93,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0183619572",
-			"name": "Nhà",
-			"email": "dangnguyennam00003@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -108,12 +119,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0741183931",
-			"name": "Nhà",
-			"email": "lenguyen00004@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -139,12 +145,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0431619342",
-			"name": "Nhà",
-			"email": "lekhiem00005@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -170,12 +171,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0413998429",
-			"name": "Nhà",
-			"email": "hohoang00006@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -201,12 +197,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0265230459",
-			"name": "Nhà",
-			"email": "phamkien00007@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -232,12 +223,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0735701960",
-			"name": "Nhà",
-			"email": "tonam00008@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -263,12 +249,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0554629240",
-			"name": "Nhà",
-			"email": "phamnu00009@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -294,12 +275,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0174402411",
-			"name": "Nhà",
-			"email": "nguyenvanlan00010@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -325,12 +301,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0948457958",
-			"name": "Nhà",
-			"email": "dangthikien00011@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -356,12 +327,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0744684236",
-			"name": "Nhà",
-			"email": "honu00012@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -387,12 +353,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0143635067",
-			"name": "Nhà",
-			"email": "dangnguyennam00013@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -418,12 +379,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0191835481",
-			"name": "Nhà",
-			"email": "dangthikhiem00014@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -449,12 +405,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0832433044",
-			"name": "Nhà",
-			"email": "nguyenquan00015@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -480,12 +431,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0373972711",
-			"name": "Nhà",
-			"email": "dangngocngoc00016@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -511,12 +457,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0443625062",
-			"name": "Nhà",
-			"email": "tranvannu00017@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -542,12 +483,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0148134509",
-			"name": "Nhà",
-			"email": "tranvankhiem00018@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -573,12 +509,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0396175624",
-			"name": "Nhà",
-			"email": "toquan00019@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -604,12 +535,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0835261436",
-			"name": "Nhà",
-			"email": "tranvanquan00020@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -635,12 +561,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0561953718",
-			"name": "Nhà",
-			"email": "trinhlong00021@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -666,12 +587,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0603930777",
-			"name": "Nhà",
-			"email": "trinhvy00022@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -697,12 +613,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0282530517",
-			"name": "Nhà",
-			"email": "nguyenvankhiem00023@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -728,12 +639,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0243537841",
-			"name": "Nhà",
-			"email": "tranvananh00024@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -759,12 +665,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0872038484",
-			"name": "Nhà",
-			"email": "dangnguyennam00025@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -790,12 +691,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0836494695",
-			"name": "Nhà",
-			"email": "lelan00026@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -821,12 +717,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0762222395",
-			"name": "Nhà",
-			"email": "dangnguyenquan00027@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -852,12 +743,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0607909283",
-			"name": "Nhà",
-			"email": "nguyenvananh00028@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -883,12 +769,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0685196103",
-			"name": "Nhà",
-			"email": "lekien00029@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],
@@ -914,12 +795,7 @@
 		},
 		"createdAt": "2024-01-02T17:05:11Z",
 		"modifedAt": "2024-01-02T17:05:11Z",
-		"address": {
-			"address": "Quảng Bình, Hà Nội, VN",
-			"phoneNumber": "0879981112",
-			"name": "Nhà",
-			"email": "toquan00030@gmail.com"
-		},
+		"address": "Quảng Bình, Hà Nội, VN",
 		"type": "Retail",
 		"note": "",
 		"tags": [],

@@ -39,22 +39,6 @@ namespace BookstoreWebAPI.Repository
             _activityLogRepository = activityLogRepository;
         }
 
-        public async Task<int> GetTotalCount(QueryParameters queryParams, AdjustmentTicketFilterModel filter)
-        {
-            var tempQueryParams = new QueryParameters()
-            {
-                PageNumber = 1,
-                PageSize = -1
-            };
-
-            var queryDef = CosmosDbUtils.BuildQuery<AdjustmentTicketDocument>(tempQueryParams, filter, isRemovableDocument: false);
-            var adjustmentTickets = await CosmosDbUtils.GetDocumentsByQueryDefinition<AdjustmentTicketDTO>(_adjustmentTicketContainer, queryDef);
-
-            var count = adjustmentTickets.Count();
-
-            return count;
-        }
-
         public async Task<IEnumerable<AdjustmentTicketDTO>> GetAdjustmentTicketDTOsAsync(QueryParameters queryParams, AdjustmentTicketFilterModel filter)
         {
             var queryDef = CosmosDbUtils.BuildQuery<AdjustmentTicketDocument>(queryParams, filter, isRemovableDocument: false);

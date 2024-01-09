@@ -66,11 +66,7 @@ namespace BookstoreWebAPI.Repository
                 ?? throw new EmailNotFoundException();
 
 
-            await _staffRepository.UpdateForgotPasswordAsync(new ForgotPasswordModel()
-            {
-                Email = email,
-                NewPassword = PasswordUtils.GenerateDefaultPassword()
-            });
+            await _staffRepository.UpdateForgotPasswordAsync(email);
         }
 
         public async Task UpdatePasswordAsync(UpdatePasswordModel data)

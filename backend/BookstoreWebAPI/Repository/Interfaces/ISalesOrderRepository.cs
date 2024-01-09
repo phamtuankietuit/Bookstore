@@ -9,7 +9,6 @@ namespace BookstoreWebAPI.Repository.Interfaces
     public interface ISalesOrderRepository
     {
         int TotalCount { get; }
-        Task<int> GetTotalCount(QueryParameters queryParams, SalesOrderFilterModel filter);
         Task<IEnumerable<SalesOrderDTO>> GetSalesOrderDTOsAsync(QueryParameters queryParams, SalesOrderFilterModel filter);
         Task<SalesOrderDTO?> GetSalesOrderDTOByIdAsync(string id);
         Task<SalesOrderDTO> AddSalesOrderDTOAsync(SalesOrderDTO salesOrderDTO);

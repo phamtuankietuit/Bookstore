@@ -11,6 +11,7 @@ using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Models.Responses;
 using BookstoreWebAPI.Services;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using Azure.Search.Documents.Models;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -24,7 +25,8 @@ namespace BookstoreWebAPI.Repository
         private Container _categoryContainer;
         private readonly IActivityLogRepository _activityLogRepository;
         private readonly UserContextService _userContextService;
-        private readonly AzureSearchService _searchService;
+        private readonly AzureSearchClientService _searchService;
+        private readonly IndexDocumentsBatch<SearchDocument> _categoryBatch;
 
         public int TotalCount { get; set; }
 
@@ -46,27 +48,10 @@ namespace BookstoreWebAPI.Repository
             _activityLogRepository = activityLogRepository;
             _userContextService = userContextService;
 
+            _categoryBatch = new();
             _categoryContainer = cosmosClient.GetContainer(databaseName, containerName);
             _searchService = searchServiceFactory.Create(containerName);
 
-        }
-
-        public async Task<int> GetTotalCount(QueryParameters queryParams)
-        {
-            var tempQueryParams = new QueryParameters(){
-                PageNumber = 1,
-                PageSize = -1
-            };
-
-            tempQueryParams.PageSize = -1;
-
-            var queryDef = CosmosDbUtils.BuildQuery<CategoryDocument>(tempQueryParams);
-
-            var categoryDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CategoryDocument>(_categoryContainer, queryDef);
-
-            var count = categoryDocs.Count();
-
-            return count;
         }
 
         public async Task<IEnumerable<CategoryDTO>> GetCategoryDTOsAsync(QueryParameters queryParams, CategoryFilterModel filter)
@@ -116,6 +101,12 @@ namespace BookstoreWebAPI.Repository
                     categoryDTO.CategoryId
                 );
 
+                _searchService.InsertToBatch(_categoryBatch, createdDocument.Resource, BatchAction.Upload);
+                await _searchService.ExecuteBatchIndex(_categoryBatch);
+                
+                _logger.LogInformation($"[CategoryRepository] Uploaded new category {createdDocument.Resource.Id} to index");
+
+
                 return _mapper.Map<CategoryDTO>(createdDocument.Resource);
             }
 
@@ -139,6 +130,11 @@ namespace BookstoreWebAPI.Repository
                     "Loại sản phẩm",
                     categoryToUpdate.CategoryId
                 );
+
+            _searchService.InsertToBatch(_categoryBatch, categoryToUpdate, BatchAction.Merge);
+            await _searchService.ExecuteBatchIndex(_categoryBatch);
+
+            _logger.LogInformation($"[CategoryRepository] Merged uploaded category {categoryToUpdate.Id} to index");
 
             // Change feed to update products
         }
@@ -193,11 +189,16 @@ namespace BookstoreWebAPI.Repository
                     statusCode: 204
                 );
 
-                
+                _searchService.InsertToBatch(_categoryBatch, categoryDoc, BatchAction.Merge);
+
 
                 _logger.LogInformation($"Deleted category with id: {id}");
             }
 
+            await _searchService.ExecuteBatchIndex(_categoryBatch);
+
+            _logger.LogInformation($"[CategoryRepository] Merged deleted categories into index, count: {_categoryBatch.Actions.Count}");
+            
             return result;
 
             // code to update the product in background using function
@@ -221,8 +222,8 @@ namespace BookstoreWebAPI.Repository
             categoryDoc.Id = await GetNewCategoryIdAsync();
             categoryDoc.CategoryId = categoryDoc.Id;
             categoryDoc.Name = StringUtils.RemoveAccentsAndHyphenize(categoryDoc.Text);
-            //categoryDoc.IsRemovable = true;
-            //categoryDoc.IsDeleted = false;
+            categoryDoc.IsRemovable = true;
+            categoryDoc.IsDeleted = false;
         }
 
         private async Task<string> GetNewCategoryIdAsync()
@@ -264,25 +265,6 @@ namespace BookstoreWebAPI.Repository
                     categoryDoc.CategoryId
                 );
         }
-
-        //private async Task DeleteCategoryAsync(string categoryId)
-        //{
-        //    var categoryDoc = await GetCategoryDocumentByIdAsync(categoryId) ?? throw new DocumentNotFoundException($"Category with id {categoryId} not found.");
-
-        //    if (!categoryDoc.IsRemovable)
-        //    {
-        //        throw new DocumentRemovalException("This category is not removable.");
-        //    }
-
-        //    List<PatchOperation> patchOperations = new()
-        //    {
-        //        PatchOperation.Replace("/isDeleted", true)
-        //    };
-
-        //    await _categoryContainer.PatchItemAsync<CategoryDocument>(categoryId, new PartitionKey(categoryDoc.CategoryId), patchOperations);
-
-        //    // change feed to update products
-        //}
 
         private async Task<CategoryDocument?> GetCategoryDocumentByIdAsync(string id)
         {

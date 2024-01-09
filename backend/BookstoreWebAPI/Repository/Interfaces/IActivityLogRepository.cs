@@ -12,11 +12,10 @@ namespace BookstoreWebAPI.Repository.Interfaces
     {
         int TotalCount { get; }
         public Dictionary<string, string> ActivityTypeWithNamePairs { get; }
-        Task<int> GetTotalCount(QueryParameters queryParams, ActivityLogFilterModel filter);
         Task<IEnumerable<ActivityLogDTO>> GetActivityLogDTOsAsync(QueryParameters queryParams, ActivityLogFilterModel filter);
         Task<ActivityLogDTO?> GetActivityLogDTOByIdAsync(string id);
         Task<ActivityLogDTO> AddActivityLogDTOAsync(ActivityLogDTO activityLogDTO);
         string GetActivityName(string activityType, string objectName = "", string objectId = "");
-        Task LogActivity(ActivityType activityType, string? staffId, string objectName="", string objectId="");
+        Task LogActivity(ActivityType activityType, string staffId, string objectName="", string objectId="");
     }
 }

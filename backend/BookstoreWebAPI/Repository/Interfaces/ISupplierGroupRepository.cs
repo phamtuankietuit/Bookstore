@@ -10,7 +10,6 @@ namespace BookstoreWebAPI.Repository.Interfaces
     public interface ISupplierGroupRepository
     {
         int TotalCount { get; }
-        Task<int> GetTotalCount();
         Task<IEnumerable<SupplierGroupDTO>> GetSupplierGroupDTOsAsync(QueryParameters queryParams, SupplierGroupFilterModel filter);
         Task<SupplierGroupDTO?> GetSupplierGroupDTOByIdAsync(string id);
         Task<SupplierGroupDTO> AddSupplierGroupDTOAsync(SupplierGroupDTO item);

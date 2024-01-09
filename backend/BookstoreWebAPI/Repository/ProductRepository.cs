@@ -28,8 +28,9 @@ namespace BookstoreWebAPI.Repository
         private readonly Container _categoryContainer;
         private CategoryDocument _defaultCategoryDoc;
         private readonly UserContextService _userContextService;
+        private readonly AzureSearchClientService _searchService;
+        private readonly IndexDocumentsBatch<SearchDocument> _productBatch;
 
-        private readonly AzureSearchService _searchService;
 
         public int TotalCount { get; set; }
 
@@ -40,52 +41,43 @@ namespace BookstoreWebAPI.Repository
             IMapper mapper,
             IActivityLogRepository activityLogRepository,
             AzureSearchServiceFactory searchServiceFactory,
-            UserContextService userContextService)
+            UserContextService userContextService
+        )
         {
-            _logger = logger;
-            _memoryCache = memoryCache;
-            _mapper = mapper;
             var databaseName = cosmosClient.ClientOptions.ApplicationName;
             var containerName = "products";
 
             _productContainer = cosmosClient.GetContainer(databaseName, containerName);
             _inventoryContainer = cosmosClient.GetContainer(databaseName, "inventories");
             _categoryContainer = cosmosClient.GetContainer(databaseName, "categories");
-            _activityLogRepository = activityLogRepository;
-
-
             _searchService = searchServiceFactory.Create(containerName);
+
+
+            _logger = logger;
+            _memoryCache = memoryCache;
+            _mapper = mapper;
+            _activityLogRepository = activityLogRepository;
             _userContextService = userContextService;
+            _productBatch = new();
         }
-
-        public async Task<int> GetTotalCount(QueryParameters queryParams, ProductFilterModel filter)
-        {
-            var tempQueryParams = new QueryParameters()
-            {
-                PageNumber = 1,
-                PageSize = -1
-            };
-
-            var productDocs = await GetProductDocumentsAsync(tempQueryParams, filter);
-
-            var count = productDocs.Count();
-
-            return count;
-        }
-
         public async Task<IEnumerable<ProductDTO>> GetProductDTOsAsync(QueryParameters queryParams, ProductFilterModel filter)
         {
             var productDocs = await GetProductDocumentsAsync(queryParams, filter);
 
-            if (productDocs == null || !productDocs.Any())
+            if (VariableHelpers.IsNull(productDocs))
             {
                 return Enumerable.Empty<ProductDTO>();
             }
 
-            List<InventoryDocument> inventoryDocs = new();
+            List<InventoryDocument> inventoryDocs = [];
             foreach (var productDoc in productDocs)
             {
-                inventoryDocs.Add(await GetInventoryDocumentBySkuASync(productDoc.Sku));
+                var inventory = await GetInventoryDocumentBySkuASync(productDoc.Sku);
+
+                if (inventory != null)
+                {
+                    inventoryDocs.Add(inventory);
+                }
             }
 
             var productDTOs = productDocs.Select(productDoc =>
@@ -156,6 +148,12 @@ namespace BookstoreWebAPI.Repository
                     productDoc.ProductId
                 );
 
+                _searchService.InsertToBatch(_productBatch, createdProduct.Resource, BatchAction.Upload);
+                await _searchService.ExecuteBatchIndex(_productBatch);
+
+                _logger.LogInformation($"[ProductRepository] Uploaded new product {createdProduct.Resource.Id} to index");
+
+
                 return _mapper.Map<ProductDTO>((productDoc, inventoryDoc));
             }
 
@@ -165,17 +163,17 @@ namespace BookstoreWebAPI.Repository
         
         public async Task UpdateProductDTOAsync(ProductDTO productDTO)
         {
-            var productDoc = _mapper.Map<ProductDocument>(productDTO);
-            var inventoryDoc = _mapper.Map<InventoryDocument>(productDTO);
+            var productToUpdate = _mapper.Map<ProductDocument>(productDTO);
+            var inventoryToUpdate = _mapper.Map<InventoryDocument>(productDTO);
 
 
-            var productDocInDb = await GetProductDocumentByIdAsync(productDoc.Id);
-            var inventoryDocInDb = await GetInventoryDocumentByProductIdAsync(productDoc.Id);
+            var productDocInDb = await GetProductDocumentByIdAsync(productToUpdate.Id);
+            var inventoryDocInDb = await GetInventoryDocumentByProductIdAsync(productToUpdate.Id);
 
             // check if this is price update, add it to price history
-            if (productDoc.SalePrice != productDocInDb.SalePrice)
+            if (productToUpdate.SalePrice != productDocInDb.SalePrice)
             {
-                productDoc.SalePriceHistory.Add(new PriceHistory()
+                productToUpdate.SalePriceHistory.Add(new PriceHistory()
                 {
                     Date = DateTime.UtcNow,
                     Value = productDocInDb.SalePrice
@@ -183,28 +181,32 @@ namespace BookstoreWebAPI.Repository
             }
 
 
-            inventoryDoc.Id = inventoryDocInDb!.Id;
-            inventoryDoc.LastRestocked = inventoryDocInDb.LastRestocked;
+            inventoryToUpdate.Id = inventoryDocInDb!.Id;
+            inventoryToUpdate.LastRestocked = inventoryDocInDb.LastRestocked;
 
-            productDoc.ModifiedAt = DateTime.UtcNow;
-            inventoryDoc.ModifiedAt = DateTime.UtcNow;
+            productToUpdate.ModifiedAt = DateTime.UtcNow;
+            inventoryToUpdate.ModifiedAt = DateTime.UtcNow;
 
             await _productContainer.UpsertItemAsync(
-                item: productDoc,
-                partitionKey: new PartitionKey(productDoc.Sku));
+                item: productToUpdate,
+                partitionKey: new PartitionKey(productToUpdate.Sku));
 
             await _inventoryContainer.UpsertItemAsync(
-                item: inventoryDoc,
-                partitionKey: new PartitionKey(inventoryDoc.Sku));
+                item: inventoryToUpdate,
+                partitionKey: new PartitionKey(inventoryToUpdate.Sku));
 
             await _activityLogRepository.LogActivity(
                     Enums.ActivityType.update,
                     _userContextService.Current.StaffId,
                     "Sản phẩm",
-                    productDoc.ProductId
+                    productToUpdate.ProductId
                 );
 
-            _logger.LogInformation($"Product and inventory with id {productDoc.Id} added");
+            _searchService.InsertToBatch(_productBatch, productToUpdate, BatchAction.Merge);
+            await _searchService.ExecuteBatchIndex(_productBatch);
+
+            _logger.LogInformation($"[ProductRepository] Merged uploaded product {productToUpdate.Id} to index");
+
         }
 
         public async Task<BatchDeletionResult<ProductDTO>> DeleteProductsAsync(string[] ids)
@@ -244,9 +246,13 @@ namespace BookstoreWebAPI.Repository
                     responseData: productDTO,
                     statusCode: 204
                 );
+                _searchService.InsertToBatch(_productBatch, productDoc, BatchAction.Merge);
 
                 _logger.LogInformation($"Deleted category with id: {id}");
             }
+            await _searchService.ExecuteBatchIndex(_productBatch);
+
+            _logger.LogInformation($"[ProductRepository] Merged deleted categories into index, count: {_productBatch.Actions.Count}");
 
             return result;
         }
@@ -254,10 +260,10 @@ namespace BookstoreWebAPI.Repository
 
         private async Task DeleteProductAndInventoryDocument(ProductDocument productDoc, InventoryDocument inventoryDoc)
         {
-            List<PatchOperation> operations = new List<PatchOperation>()
-                {
-                    PatchOperation.Replace("/isDeleted", true)
-                };
+            List<PatchOperation> operations =
+            [
+                PatchOperation.Replace("/isDeleted", true)
+            ];
 
             await _productContainer.PatchItemAsync<dynamic>(productDoc.Id, new PartitionKey(productDoc.Sku), operations);
             await _inventoryContainer.PatchItemAsync<dynamic>(inventoryDoc.Id, new PartitionKey(inventoryDoc.Sku), operations);
@@ -291,6 +297,7 @@ namespace BookstoreWebAPI.Repository
             };
             productDoc.Description ??= "";
             productDoc.Sku ??= productId;
+            productDoc.OptionalDetails ??= [];
 
             inventoryDoc.Id = await GetNewInventoryIdAsync();
             inventoryDoc.ProductId ??= productId;
@@ -517,7 +524,11 @@ namespace BookstoreWebAPI.Repository
 
         private void CheckForNull<TDocument>(TDocument? document)
         {
-            if (document == null) throw new ArgumentNullException(nameof(document));
+            if (document == null)
+            {
+                _logger.LogInformation("can't find document");
+                return;
+            }
         }
 
 

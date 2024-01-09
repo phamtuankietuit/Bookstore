@@ -10,7 +10,6 @@ namespace BookstoreWebAPI.Repository.Interfaces
     public interface ICategoryRepository
     {
         int TotalCount { get; set; }
-        Task<int> GetTotalCount(QueryParameters queryParams);
         Task<IEnumerable<CategoryDTO>> GetCategoryDTOsAsync(QueryParameters queryParams, CategoryFilterModel filter);
         Task<CategoryDTO?> GetCategoryDTOByIdAsync(string id);
         Task<CategoryDTO> AddCategoryDTOAsync(CategoryDTO item);

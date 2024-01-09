@@ -9,6 +9,7 @@ using BookstoreWebAPI.Models.Responses;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Services;
+using Azure.Search.Documents.Models;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -20,7 +21,8 @@ namespace BookstoreWebAPI.Repository
         private readonly IMemoryCache _memoryCache;
         private readonly IActivityLogRepository _activityLogRepository;
         private readonly ILogger<SalesOrderRepository> _logger;
-        private readonly AzureSearchService _searchService;
+        private readonly AzureSearchClientService _searchService;
+        private readonly IndexDocumentsBatch<SearchDocument> _salesOrderBatch;
 
         public int TotalCount {  get; private set; }
 
@@ -41,24 +43,9 @@ namespace BookstoreWebAPI.Repository
             _memoryCache = memoryCache;
             _logger = logger;
             _activityLogRepository = activityLogRepository;
+            _salesOrderBatch = new();
         }
 
-        public async Task<int> GetTotalCount(QueryParameters queryParams, SalesOrderFilterModel filter)
-        {
-            var tempQueryParams = new QueryParameters()
-            {
-                PageNumber = 1,
-                PageSize = -1
-            };
-
-            var queryDef = CosmosDbUtils.BuildQuery<SalesOrderDocument>(tempQueryParams, filter);
-
-            var salesOrderDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<SalesOrderDocument>(_salesOrderContainer, queryDef);
-
-            var count = salesOrderDocs.Count();
-
-            return count;
-        }
         public async Task<IEnumerable<SalesOrderDTO>> GetSalesOrderDTOsAsync(QueryParameters queryParams, SalesOrderFilterModel filter)
         {
             filter.Query ??= "*";
@@ -102,6 +89,11 @@ namespace BookstoreWebAPI.Repository
                     salesOrderDoc.SalesOrderId
                 );
 
+                _searchService.InsertToBatch(_salesOrderBatch, createdDocument.Resource, BatchAction.Upload);
+                await _searchService.ExecuteBatchIndex(_salesOrderBatch);
+
+                _logger.LogInformation($"[SalesOrderRepository] Uploaded new salesOrder {createdDocument.Resource.Id} to index");
+
                 return _mapper.Map<SalesOrderDTO>(createdDocument.Resource);
             }
 
@@ -120,7 +112,7 @@ namespace BookstoreWebAPI.Repository
         public async Task UpdateSalesOrderDTOAsync(SalesOrderDTO salesOrderDTO)
         {
             var salesOrderToUpdate = _mapper.Map<SalesOrderDocument>(salesOrderDTO);
-            salesOrderToUpdate.MonthYear = salesOrderToUpdate.CreatedAt!.Value.ToString("MM-yyyy");
+            salesOrderToUpdate.MonthYear = salesOrderToUpdate.CreatedAt!.Value.ToString("yyyy-MM");
             salesOrderToUpdate.ModifiedAt = DateTime.UtcNow;
 
             await _salesOrderContainer.UpsertItemAsync(
@@ -134,6 +126,12 @@ namespace BookstoreWebAPI.Repository
                 "Đơn bán hàng",
                 salesOrderToUpdate.SalesOrderId
             );
+
+            _searchService.InsertToBatch(_salesOrderBatch, salesOrderToUpdate, BatchAction.Merge);
+            await _searchService.ExecuteBatchIndex(_salesOrderBatch);
+
+            _logger.LogInformation($"[SalesOrderRepository] Merged uploaded salesOrder {salesOrderToUpdate.Id} to index");
+
         }
 
         public async Task<string> GetNewSalesOrderIdAsync()

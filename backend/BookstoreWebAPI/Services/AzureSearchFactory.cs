@@ -1,20 +1,16 @@
 ﻿namespace BookstoreWebAPI.Services
 {
-    public class AzureSearchServiceFactory
+    public class AzureSearchServiceFactory(IConfiguration configuration, ILogger<AzureSearchClientService> logger)
     {
-        private readonly IConfiguration _configuration;
+        private readonly IConfiguration _configuration = configuration;
 
-        public AzureSearchServiceFactory(IConfiguration configuration)
+        public AzureSearchClientService Create(string containerName)
         {
-            _configuration = configuration;
-        }
-
-        public AzureSearchService Create(string containerName)
-        {
-            return new AzureSearchService(
+            return new AzureSearchClientService(
                 _configuration["AzureSearch:ServiceName"]!,
                 $"bookstore-{containerName.ToLower()}-cosmosdb-index",
-                _configuration["AzureSearch:QueryApiKey"]!
+                _configuration["AzureSearch:QueryApiKey"]!,
+                logger
             );
         }
     }

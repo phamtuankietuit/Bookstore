@@ -65,7 +65,6 @@ namespace BookstoreWebAPI.Utils
             CreateMap<SupplierDocument, SupplierDTO>();
             CreateMap<SupplierDTO, SupplierDocument>()
                 .ForMember(dest => dest.Id, act => act.MapFrom(src => src.SupplierId))
-                .ForMember(dest => dest.IsActive, act => act.MapFrom(src => true))
                 .ForMember(dest => dest.IsRemovable, act => act.MapFrom(src => true))
                 .ForMember(dest => dest.IsDeleted, act => act.MapFrom(src => false))
                 .ForMember(dest => dest.TTL, act => act.MapFrom(src => -1));
@@ -74,7 +73,6 @@ namespace BookstoreWebAPI.Utils
             CreateMap<CustomerDocument, CustomerDTO>();
             CreateMap<CustomerDTO, CustomerDocument>()
                 .ForMember(dest => dest.Id, act => act.MapFrom(src => src.CustomerId))
-                .ForMember(dest => dest.IsActive, act => act.MapFrom(src => true))
                 .ForMember(dest => dest.IsRemovable, act => act.MapFrom(src => true))
                 .ForMember(dest => dest.IsDeleted, act => act.MapFrom(src => false))
                 .ForMember(dest => dest.TTL, act => act.MapFrom(src => -1));
@@ -106,7 +104,6 @@ namespace BookstoreWebAPI.Utils
             CreateMap<PromotionDocument, PromotionDTO>();
             CreateMap<PromotionDTO, PromotionDocument>()
                 .ForMember(dest => dest.Id, act => act.MapFrom(src => src.PromotionId))
-                .ForMember(dest => dest.IsActive, act => act.MapFrom(src => true))
                 .ForMember(dest => dest.IsRemovable, act => act.MapFrom(src => true))
                 .ForMember(dest => dest.IsDeleted, act => act.MapFrom(src => false))
                 .ForMember(dest => dest.TTL, act => act.MapFrom(src => -1));
@@ -119,7 +116,7 @@ namespace BookstoreWebAPI.Utils
             CreateMap<ActivityLogDocument, ActivityLogDTO>();
             CreateMap<ActivityLogDTO, ActivityLogDocument>()
                 .ForMember(dest => dest.Id, act => act.MapFrom(src => src.StaffId))
-                .ForMember(dest => dest.TTL, act => act.MapFrom(src => -1));
+                .ForMember(dest => dest.TTL, act => act.MapFrom(src => 604800));
 
 
             CreateMap<AdjustmentItemDocument, AdjustmentItemDTO>();
@@ -132,6 +129,21 @@ namespace BookstoreWebAPI.Utils
                 .ForMember(dest => dest.Id, act => act.MapFrom(src => src.AdjustmentTicketId))
                 .ForMember(dest => dest.TTL, act => act.MapFrom(src => -1));
 
+            CreateMap<LocationDocument, LocationDTO>();
+            CreateMap<LocationDTO, LocationDocument>()
+                .ForMember(dest => dest.Id, act => act.MapFrom(src => src.LocationId))
+                .ForMember(dest => dest.TTL, act => act.MapFrom(src => -1));
+            
+            CreateMap<ReturnOrderDocument, ReturnOrderDTO>();
+            CreateMap<ReturnOrderDTO, ReturnOrderDocument>()
+                .ForMember(dest => dest.Id, act => act.MapFrom(src => src.ReturnOrderId))
+                .ForMember(dest => dest.TTL, act => act.MapFrom(src => -1));
+
+            CreateMap<ReturnOrderItem, SalesOrderItem>()
+                .ForMember(dest => dest.Quantity, act => act.MapFrom(src => src.SoldQuantity));
+
+            CreateMap<SalesOrderItem, ReturnOrderItem>()
+                .ForMember(dest => dest.SoldQuantity, act => act.MapFrom(src => src.Quantity));
         }
     }
 }

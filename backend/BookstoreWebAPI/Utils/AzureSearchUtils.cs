@@ -3,8 +3,6 @@ using BookstoreWebAPI.Models.BindingModels;
 using System.Text;
 using Azure.Search.Documents;
 using Azure.Search.Documents.Models;
-using System.Globalization;
-using BookstoreWebAPI.Models.Documents;
 
 namespace BookstoreWebAPI.Utils
 {
@@ -61,6 +59,16 @@ namespace BookstoreWebAPI.Utils
         }
 
         public static SearchOptions BuildOptions(QueryParameters queryParameters, SalesOrderFilterModel filter)
+        {
+            var options = BuildBaseOptions(queryParameters);
+
+            var filterQuery = BuildFilter(filter);
+            options.Filter = filterQuery;
+
+            return options;
+        }
+
+        public static SearchOptions BuildOptions(QueryParameters queryParameters, ReturnOrderFilterModel filter)
         {
             var options = BuildBaseOptions(queryParameters);
 
@@ -134,6 +142,8 @@ namespace BookstoreWebAPI.Utils
         {
             var query = new StringBuilder("ttl eq -1");
 
+            query.Append(" and isDeleted eq false ");
+
             AppendFilter(query, filter);
 
             return query.ToString();
@@ -142,6 +152,8 @@ namespace BookstoreWebAPI.Utils
         private static string BuildFilter(ProductFilterModel filter)
         {
             var query = new StringBuilder("ttl eq -1");
+
+            query.Append(" and isDeleted eq false ");
 
             AppendFilter(query, filter);
 
@@ -152,6 +164,8 @@ namespace BookstoreWebAPI.Utils
         private static string BuildFilter(CustomerFilterModel filter)
         {
             var query = new StringBuilder("ttl eq -1");
+            
+            query.Append(" and isDeleted eq false ");
 
             AppendFilter(query, filter);
 
@@ -162,6 +176,8 @@ namespace BookstoreWebAPI.Utils
         private static string BuildFilter(PromotionFilterModel filter)
         {
             var query = new StringBuilder("ttl eq -1");
+
+            query.Append(" and isDeleted eq false ");
 
             AppendFilter(query, filter);
 
@@ -188,10 +204,20 @@ namespace BookstoreWebAPI.Utils
 
             return query.ToString();
         }
+
+        private static string BuildFilter(ReturnOrderFilterModel filter)
+        {
+            var query = new StringBuilder("ttl eq -1");
+
+            AppendFilter(query, filter);
+
+
+            return query.ToString();
+        }
         
         private static string BuildFilter(ActivityLogFilterModel filter)
         {
-            var query = new StringBuilder("ttl eq -1");
+            var query = new StringBuilder("ttl gt -2");
 
             AppendFilter(query, filter);
 
@@ -203,6 +229,8 @@ namespace BookstoreWebAPI.Utils
         {
             var query = new StringBuilder("ttl eq -1");
 
+            query.Append(" and isDeleted eq false ");
+
             AppendFilter(query, filter);
 
 
@@ -213,6 +241,8 @@ namespace BookstoreWebAPI.Utils
         {
             var query = new StringBuilder("ttl eq -1");
 
+            query.Append(" and isDeleted eq false ");
+
             AppendFilter(query, filter);
 
 
@@ -222,6 +252,8 @@ namespace BookstoreWebAPI.Utils
         private static string BuildFilter(StaffFilterModel filter)
         {
             var query = new StringBuilder("ttl eq -1");
+
+            query.Append(" and isDeleted eq false ");
 
             AppendFilter(query, filter);
 
@@ -342,30 +374,29 @@ namespace BookstoreWebAPI.Utils
 
         private static void AppendFilter(StringBuilder query, SalesOrderFilterModel filter)
         {
+            AppendCreationDateRangeFilter(query, filter.StartDate, filter.EndDate);
+            AppendStaffIdFilter(query, filter.StaffIds);
+            
+
             if (!VariableHelpers.IsNull(filter.CustomerIds))
             {
                 var customerIds = string.Join(", ", filter.CustomerIds!.Select(id => $"{id}"));
                 query.Append($" and search.in(customerId, '{customerIds}')");
             }
+        }
 
+        
+
+        private static void AppendFilter(StringBuilder query, ReturnOrderFilterModel filter)
+        {
             AppendCreationDateRangeFilter(query, filter.StartDate, filter.EndDate);
-
-            if (!VariableHelpers.IsNull(filter.StaffIds))
-            {
-                var staffIds = string.Join(", ", filter.StaffIds!.Select(id => $"{id}"));
-                query.Append($" and search.in(staffId, '{staffIds}')");
-            }
+            AppendStaffIdFilter(query, filter.StaffIds);
         }
 
         private static void AppendFilter(StringBuilder query, ActivityLogFilterModel filter)
         {
             AppendCreationDateRangeFilter(query, filter.StartDate, filter.EndDate);
-
-            if (!VariableHelpers.IsNull(filter.StaffIds))
-            {
-                var staffIds = string.Join(", ", filter.StaffIds!.Select(id => $"{id}"));
-                query.Append($" and search.in(staffId, '{staffIds}')");
-            }
+            AppendStaffIdFilter(query, filter.StaffIds);
 
             if (!VariableHelpers.IsNull(filter.ActivityTypes))
             {
@@ -415,10 +446,19 @@ namespace BookstoreWebAPI.Utils
             {
                 var startDateTemp = startDate!.Value.Date;
                 var endDateTemp = endDate!.Value.Date.AddDays(1); // Add one day to include the end date
-                var isoStartDate = startDateTemp.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-                var isoEndDate = endDateTemp.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                var isoStartDate = startDateTemp.ToString("yyyy-MM-ddT00:00:00Z");
+                var isoEndDate = endDateTemp.ToString("yyyy-MM-ddT00:00:00Z");
 
-                query.Append($" and createdAt ge datetime'{isoStartDate}' and createdAt lt datetime'{isoEndDate}'");
+                query.Append($" and createdAt ge {isoStartDate} and createdAt lt {isoEndDate}");
+            }
+        }
+
+        private static void AppendStaffIdFilter(StringBuilder query, IEnumerable<string>? staffIdsEnumerable)
+        {
+            if (!VariableHelpers.IsNull(staffIdsEnumerable))
+            {
+                var staffIds = string.Join(", ", staffIdsEnumerable!.Select(id => $"{id}"));
+                query.Append($" and search.in(staffId, '{staffIds}')");
             }
         }
     }

@@ -1,10 +1,4 @@
 ﻿namespace BookstoreWebAPI.Exceptions
 {
-    public class AccountDisabledException : Exception
-    {
-        public AccountDisabledException(string message = "Account is disabled") : base(message) 
-        {
-             
-        }
-    }
+    public class AccountDisabledException(string message = "Account is disabled") : Exception(message) { }
 }

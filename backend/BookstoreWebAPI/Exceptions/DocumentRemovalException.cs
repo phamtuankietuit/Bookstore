@@ -1,7 +1,4 @@
 ﻿namespace BookstoreWebAPI.Exceptions
 {
-    public class DocumentRemovalException : Exception
-    {
-        public DocumentRemovalException(string message) : base(message) { }
-    }
+    public class DocumentRemovalException(string message) : Exception(message) { }
 }

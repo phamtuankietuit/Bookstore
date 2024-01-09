@@ -71,5 +71,8 @@ namespace BookstoreWebAPI.Models.Documents
 
         [JsonProperty("staffId")]
         public string StaffId { get; set; }
+
+        [JsonProperty("staffName")]
+        public string StaffName { get; set; }
     }
 }

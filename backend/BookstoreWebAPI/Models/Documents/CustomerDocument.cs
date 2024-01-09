@@ -28,7 +28,7 @@ namespace BookstoreWebAPI.Models.Documents
         public SalesOrderInformation SalesOrderInformation { get; set; }
 
         [JsonProperty("address")]
-        public CustomerAddress Address { get; set; }
+        public string Address { get; set; }
 
         [JsonProperty("type")]
         public string Type { get; set; }

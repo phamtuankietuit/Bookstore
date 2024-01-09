@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
-using CosmosChangeFeedFunction.Models.Documentshared;
 using CosmosChangeFeedFunction.Models.Interfaces;
+using CosmosChangeFeedFunction.Models.Shared;
 
 namespace CosmosChangeFeedFunction.Models.Documents
 {

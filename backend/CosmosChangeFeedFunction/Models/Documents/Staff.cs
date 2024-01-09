@@ -1,6 +1,6 @@
 ﻿using CosmosChangeFeedFunction.Models.Interfaces;
-using CosmosChangeFeedFunction.Models.Documentshared;
 using Newtonsoft.Json;
+using CosmosChangeFeedFunction.Models.Shared;
 
 namespace CosmosChangeFeedFunction.Models.Documents
 {
@@ -17,6 +17,7 @@ namespace CosmosChangeFeedFunction.Models.Documents
 
         [JsonProperty("hashedAndSaltedPassword")]
         public string? HashedAndSaltedPassword { get; set; }
+
         [JsonProperty("defaultPassword")]
         public string? DefaultPassword { get; set; }
 

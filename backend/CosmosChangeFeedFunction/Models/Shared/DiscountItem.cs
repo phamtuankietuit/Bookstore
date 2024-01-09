@@ -1,12 +1,9 @@
 ﻿using Newtonsoft.Json;
 
-namespace CosmosChangeFeedFunction.Models.Documentshared
+namespace CosmosChangeFeedFunction.Models.Shared
 {
     public class DiscountItem
     {
-        [JsonProperty("reason")]
-        public string? Reason { get; set; }
-
         [JsonProperty("rate")]
         public int Rate { get; set; } = 0;
 
@@ -18,5 +15,8 @@ namespace CosmosChangeFeedFunction.Models.Documentshared
 
         [JsonProperty("source")]
         public string? Source { get; set; }
+
+        [JsonProperty("promotionId")]
+        public string? PromotionId { get; set; }
     }
 }

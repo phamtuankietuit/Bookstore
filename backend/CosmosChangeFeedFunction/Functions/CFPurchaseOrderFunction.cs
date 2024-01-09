@@ -44,15 +44,15 @@ namespace CosmosChangeFeedFunction.Functions
                             await inventoryRepository.UpdateStockFromPO(item.ProductId, item.OrderQuantity);
                         }
 
-                        _purchaseOrderSearchClientService.InsertToBatch(purchaseOrderBatch, updatedPurchaseOrder, BatchAction.Upload);
+                        //_purchaseOrderSearchClientService.InsertToBatch(purchaseOrderBatch, updatedPurchaseOrder, BatchAction.Upload);
                     }
                     else
                     {
                         _logger.LogInformation($"[CFCategory] Creating purchaseOrder id: {updatedPurchaseOrder.Id}");
 
-                        _purchaseOrderSearchClientService.InsertToBatch(purchaseOrderBatch, updatedPurchaseOrder, BatchAction.Merge);
                     }
 
+                    _purchaseOrderSearchClientService.InsertToBatch(purchaseOrderBatch, updatedPurchaseOrder, BatchAction.MergeOrUpload);
                 }
 
 

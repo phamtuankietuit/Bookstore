@@ -50,7 +50,7 @@ namespace CosmosChangeFeedFunction.Functions
                         await categoryRepository.DeleteCategoryAsync(updatedCategory);
 
                         // call Delete if perform a hard delete
-                        _categorySearchClientService.InsertToBatch(categoryBatch, updatedCategory, BatchAction.Delete);
+                        //_categorySearchClientService.InsertToBatch(categoryBatch, updatedCategory, BatchAction.Delete);
                     }
                     // category updated
                     else if (!updatedCategory.IsDeleted)
@@ -60,13 +60,12 @@ namespace CosmosChangeFeedFunction.Functions
                             _logger.LogInformation($"[CFCategory] Updating category id: {updatedCategory.Id}");
                             updatedProducts = await productRepository.UpdateCategoriesAsync(updatedCategory.CategoryId);
 
-                            _categorySearchClientService.InsertToBatch(categoryBatch, updatedCategory, BatchAction.Merge);
+                            //_categorySearchClientService.InsertToBatch(categoryBatch, updatedCategory, BatchAction.Merge);
                         }
                         else
                         {
                             _logger.LogInformation($"[CFCategory] Creating category id: {updatedCategory.Id}");
 
-                            _categorySearchClientService.InsertToBatch(categoryBatch, updatedCategory, BatchAction.Upload);
                         }
                     }
 
@@ -78,6 +77,8 @@ namespace CosmosChangeFeedFunction.Functions
                             _productSearchClientService.InsertToBatch(productBatch, updatedProduct, BatchAction.Merge);
                         }
                     }
+
+                    _categorySearchClientService.InsertToBatch(categoryBatch, updatedCategory, BatchAction.MergeOrUpload);
                 }
 
                 await _categorySearchClientService.ExecuteBatchIndex(categoryBatch);

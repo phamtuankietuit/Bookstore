@@ -42,7 +42,7 @@ namespace CosmosChangeFeedFunction.Functions
                         // perform a hard delete if you want - remember to call searchclient to delete from index
 
                         // call Merge if perform soft delete
-                        _customerSearchClientService.InsertToBatch(customerBatch, updatedCustomer, BatchAction.Merge);
+                        //_customerSearchClientService.InsertToBatch(customerBatch, updatedCustomer, BatchAction.Merge);
                     }
                     else if (!updatedCustomer.IsDeleted)
                     {
@@ -50,16 +50,16 @@ namespace CosmosChangeFeedFunction.Functions
                         {
                             _logger.LogInformation($"[CFCustomer] Updating customer, customer id: {updatedCustomer.Id} ");
 
-                            _customerSearchClientService.InsertToBatch(customerBatch, updatedCustomer, BatchAction.Merge);
+                            //_customerSearchClientService.InsertToBatch(customerBatch, updatedCustomer, BatchAction.Merge);
                         }
                         else
                         {
                             _logger.LogInformation($"[CFCustomer] Creating customer, customer id: {updatedCustomer.Id} ");
 
-                            _customerSearchClientService.InsertToBatch(customerBatch, updatedCustomer, BatchAction.Upload);
                         }
                     }
 
+                    _customerSearchClientService.InsertToBatch(customerBatch, updatedCustomer, BatchAction.MergeOrUpload);
                 }
 
                 await _customerSearchClientService.ExecuteBatchIndex(customerBatch);

@@ -1,7 +1,7 @@
 ﻿using CosmosChangeFeedFunction.Models.Interfaces;
 using Newtonsoft.Json;
 
-namespace CosmosChangeFeedFunction.Models.Documents
+namespace CosmosChangeFeedFunction.Models.Documents 
 {
     public class SupplierGroup : IBaseCosmos, ISoftDeleteCosmos
     {

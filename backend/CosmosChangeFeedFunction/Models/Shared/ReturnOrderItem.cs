@@ -2,7 +2,7 @@
 
 namespace CosmosChangeFeedFunction.Models.Shared
 {
-    public class SalesOrderItem
+    public class ReturnOrderItem
     {
         [JsonProperty("productId")]
         public string ProductId { get; set; }
@@ -16,13 +16,19 @@ namespace CosmosChangeFeedFunction.Models.Shared
         [JsonProperty("featureImageUrl")]
         public string FeatureImageUrl { get; set; }
 
-        [JsonProperty("quantity")]
-        public int Quantity { get; set; }
+        [JsonProperty("soldQuantity")]
+        public int SoldQuantity { get; set; }
 
         [JsonProperty("salePrice")]
         public int SalePrice { get; set; }
 
-        [JsonProperty("totalPrice")]
-        public int TotalPrice { get; set; }
+        [JsonProperty("returnQuantity")]
+        public int ReturnQuantity { get; set; }
+
+        [JsonProperty("refund")]
+        public int Refund { get; set; }
+
+        [JsonProperty("totalRefund")]
+        public int TotalRefund { get; set; }
     }
 }

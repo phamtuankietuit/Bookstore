@@ -10,7 +10,6 @@ namespace BookstoreWebAPI.Repository.Interfaces
     public interface ISupplierRepository
     {
         int TotalCount { get; }
-        //Task<int> GetTotalCount();
         Task<IEnumerable<SupplierDTO>> GetSupplierDTOsAsync(QueryParameters queryParams, SupplierFilterModel filter);
         Task<SupplierDTO?> GetSupplierDTOByIdAsync(string id);
         Task<SupplierDTO> AddSupplierDTOAsync(SupplierDTO supplierDTO);

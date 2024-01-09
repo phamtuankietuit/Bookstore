@@ -1,4 +1,5 @@
 ﻿using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using BookstoreWebAPI.Utils;
 using FluentValidation;
 
 namespace BookstoreWebAPI.Validators.FilterModels
@@ -17,12 +18,12 @@ namespace BookstoreWebAPI.Validators.FilterModels
                 });
 
             RuleFor(x => x.StartDate)
-                .Must(BeAValidDate)
+                .Must(VariableHelpers.BeAValidDate)
                 .When(x => x.StartDate.HasValue)
                 .WithMessage("The StartDate field must be a valid date.");
 
             RuleFor(x => x.EndDate)
-                .Must(BeAValidDate)
+                .Must(VariableHelpers.BeAValidDate)
                 .When(x => x.EndDate.HasValue)
                 .WithMessage("The EndDate field must be a valid date.");
 
@@ -38,11 +39,6 @@ namespace BookstoreWebAPI.Validators.FilterModels
                         model.EndDate = model.StartDate;
                     }
                 });
-        }
-
-        private bool BeAValidDate(DateTime? date)
-        {
-            return date != null && date != default(DateTime);
         }
     }
 }

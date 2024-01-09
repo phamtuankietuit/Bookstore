@@ -14,7 +14,7 @@ namespace CosmosChangeFeedFunction.Functions
     )
     {
         private readonly ILogger _logger = loggerFactory.CreateLogger<CFStaffFunction>();
-        private readonly AzureSearchClientService _staffSearchClientService = searchClientFactory.Create("bookstore-purchaseorders-cosmosdb-index");
+        private readonly AzureSearchClientService _staffSearchClientService = searchClientFactory.Create("bookstore-staffs-cosmosdb-index");
         private readonly AzureSearchClientService _activityLogSearchClientService = searchClientFactory.Create(indexName: "bookstore-activityLogs-cosmosdb-index");
 
 
@@ -47,7 +47,7 @@ namespace CosmosChangeFeedFunction.Functions
                         // perform a hard delete if you want - remember to call searchclient to delete from index
 
                         // call Merge if perform soft delete
-                        _staffSearchClientService.InsertToBatch(staffBatch, updatedStaff, BatchAction.Merge);
+                        //_staffSearchClientService.InsertToBatch(staffBatch, updatedStaff, BatchAction.Merge);
                     }
                     else if (!updatedStaff.IsDeleted)
                     {
@@ -57,13 +57,12 @@ namespace CosmosChangeFeedFunction.Functions
 
                             updatedActivityLogs = await activityLogRepository.UpdateStaffInfoAsync(updatedStaff);
 
-                            _staffSearchClientService.InsertToBatch(staffBatch, updatedStaff, BatchAction.Merge);
+                            //_staffSearchClientService.InsertToBatch(staffBatch, updatedStaff, BatchAction.Merge);
                         }
                         else
                         {
                             _logger.LogInformation($"[CFStaff] Creating staff id: {updatedStaff.Id}");
 
-                            _staffSearchClientService.InsertToBatch(staffBatch, updatedStaff, BatchAction.Upload);
                         }
                     }
 
@@ -75,6 +74,9 @@ namespace CosmosChangeFeedFunction.Functions
                             _activityLogSearchClientService.InsertToBatch(activityLogBatch, updatedActivityLog, BatchAction.Merge);
                         }
                     }
+                    
+                    
+                    _staffSearchClientService.InsertToBatch(staffBatch, updatedStaff, BatchAction.MergeOrUpload);
                 }
 
                 await _staffSearchClientService.ExecuteBatchIndex(staffBatch);

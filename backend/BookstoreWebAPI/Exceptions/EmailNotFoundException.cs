@@ -1,10 +1,4 @@
 ﻿namespace BookstoreWebAPI.Exceptions
 {
-    public class EmailNotFoundException : Exception
-    {
-        public EmailNotFoundException(string message = "Email not found.") : base(message)
-        {
-            
-        }
-    }
+    public class EmailNotFoundException(string message = "Email not found.") : Exception(message) { }
 }

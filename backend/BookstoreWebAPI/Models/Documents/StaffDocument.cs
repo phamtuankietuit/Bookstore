@@ -17,6 +17,7 @@ namespace BookstoreWebAPI.Models.Documents
 
         [JsonProperty("hashedAndSaltedPassword")]
         public string? HashedAndSaltedPassword { get; set; }
+
         [JsonProperty("defaultPassword")]
         public string? DefaultPassword { get; set; }
 

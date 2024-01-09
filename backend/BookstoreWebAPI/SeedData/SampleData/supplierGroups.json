@@ -5,11 +5,23 @@
 		"name": "Khác",
 		"numberOfSupplier": 40,
 		"note": "Nhóm nhà cung cấp mặc định",
-		"createdAt": "2023-11-21T16:31:07",
-		"modifiedAt": "2023-11-21T16:31:07",
+		"createdAt": "2023-11-21T16:31:07Z",
+		"modifiedAt": "2023-11-21T16:31:07Z",
 		"isRemovable": false,
 		"isDeleted": false,
 		"staffId": "staf00000",
+		"ttl": -1
+	},
+	{
+		"id": "supg00001",
+		"supplierGroupId": "supg00001",
+		"name": "hello",
+		"numberOfSupplier": 0,
+		"note": null,
+		"isRemovable": true,
+		"isDeleted": false,
+		"createdAt": "2024-01-06T03:56:54.879804Z",
+		"modifiedAt": "2024-01-06T03:56:54.879804Z",
 		"ttl": -1
 	}
 ]

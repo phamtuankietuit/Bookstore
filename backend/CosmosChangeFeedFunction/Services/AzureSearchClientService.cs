@@ -1,7 +1,9 @@
 ﻿using Azure;
+using Azure.Core.Serialization;
 using Azure.Search.Documents;
 using Azure.Search.Documents.Models;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System.ComponentModel;
 
 namespace CosmosChangeFeedFunction.Services
@@ -21,9 +23,21 @@ namespace CosmosChangeFeedFunction.Services
 
         public AzureSearchClientService(ILoggerFactory loggerFactory, string serviceName, string indexName, string adminApiKey)
         {
-            Uri endpoint = new Uri($"https://{serviceName}.search.windows.net");
+            Uri endpoint = new($"https://{serviceName}.search.windows.net");
             AzureKeyCredential adminCredential = new(adminApiKey);
-            _searchClient = new(endpoint, indexName, adminCredential);
+
+            var settings = new JsonSerializerSettings
+            {
+                // Customize anything else you want here; otherwise, defaults are used.
+                NullValueHandling = NullValueHandling.Ignore,
+            };
+
+            var options = new SearchClientOptions
+            {
+                Serializer = new NewtonsoftJsonObjectSerializer(settings),
+            };
+
+            _searchClient = new SearchClient(endpoint, indexName, adminCredential, options);
 
             _logger = loggerFactory.CreateLogger<AzureSearchClientService>();
         }
@@ -50,12 +64,6 @@ namespace CosmosChangeFeedFunction.Services
 
                 allActions = allActions.Skip(BatchSizeLimit).ToList();
             }
-
-            //var result = await _searchClient.IndexDocumentsAsync(largeBatch);
-
-            //var response = result.GetRawResponse();
-
-            //return response.Status;
         }
 
         public void InsertToBatch<T>(IndexDocumentsBatch<SearchDocument> batch, T updatedObject, BatchAction batchAction) where T : class
@@ -87,6 +95,7 @@ namespace CosmosChangeFeedFunction.Services
             foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(updatedObject))
             {
                 objectDictionary.Add(property.Name, property.GetValue(updatedObject));
+                _logger.LogInformation($"{property.Name}");
             }
 
             var searchDoc = new SearchDocument(objectDictionary);

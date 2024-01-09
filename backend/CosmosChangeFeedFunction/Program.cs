@@ -35,6 +35,7 @@ var host = new HostBuilder()
         services.AddTransient<ISupplierRepository, SupplierRepository>();
         services.AddTransient<ISupplierGroupRepository, SupplierGroupRepository>();
         services.AddTransient<IStaffRepository, StaffRepository>();
+        services.AddTransient<ICustomerRepository, CustomerRepository>();
     })
     .Build();
 

@@ -5,6 +5,7 @@ using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using BookstoreWebAPI.Repository.Interfaces;
 using FluentValidation;
 using FluentValidation.Results;
+using BookstoreWebAPI.Services;
 
 namespace BookstoreWebAPI.Controllers
 {
@@ -15,7 +16,8 @@ namespace BookstoreWebAPI.Controllers
         ISalesOrderRepository salesOrderRepository,
         ILogger<SalesOrdersController> logger,
         IValidator<QueryParameters> validator,
-        IValidator<SalesOrderFilterModel> filterModelValidator
+        IValidator<SalesOrderFilterModel> filterModelValidator,
+        UserContextService userContextService
     ) : ControllerBase
     {
         [HttpGet]
@@ -64,6 +66,10 @@ namespace BookstoreWebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateSalesOrderAsync([FromBody] SalesOrderDTO salesOrderDTO)
         {
+            var staffId = Request.Headers["staffId"].ToString();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
+            userContextService.Current.StaffId = staffId;
+
             try
             {
                 var createdSalesOrderDTO = await salesOrderRepository.AddSalesOrderDTOAsync(salesOrderDTO);
@@ -88,6 +94,10 @@ namespace BookstoreWebAPI.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateSalesOrderAsync(string id, [FromBody] SalesOrderDTO salesOrderDTO)
         {
+            var staffId = Request.Headers["staffId"].ToString();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
+            userContextService.Current.StaffId = staffId;
+
             if (id != salesOrderDTO.SalesOrderId)
             {
                 return BadRequest("Specified id don't match with the DTO.");

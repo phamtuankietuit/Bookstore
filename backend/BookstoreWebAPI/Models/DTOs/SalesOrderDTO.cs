@@ -62,5 +62,8 @@ namespace BookstoreWebAPI.Models.DTOs
 
         [JsonProperty("staffId")]
         public string StaffId { get; set; }
+
+        [JsonProperty("staffName")]
+        public string StaffName { get; set; }
     }
 }

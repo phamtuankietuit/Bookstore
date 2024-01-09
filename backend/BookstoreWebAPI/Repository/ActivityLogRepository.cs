@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Search.Documents.Models;
 using BookstoreWebAPI.Enums;
 using BookstoreWebAPI.Exceptions;
 using BookstoreWebAPI.Models.BindingModels;
@@ -17,13 +18,13 @@ namespace BookstoreWebAPI.Repository
     public class ActivityLogRepository : IActivityLogRepository
     {
         private readonly string _activityLogNewIdCacheName = "LastestActivityLogId";
-        private readonly IConfiguration _configuration;
         private readonly ILogger<AccountRepository> _logger;
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
         private readonly Container _logContainer;
         private readonly IStaffRepository _staffRepository;
-        private readonly AzureSearchService _searchService;
+        private readonly AzureSearchClientService _searchService;
+        private readonly IndexDocumentsBatch<SearchDocument> _activityBatch;
 
 
         private readonly Dictionary<string,string> dicitonary = new Dictionary<string, string>()
@@ -48,33 +49,14 @@ namespace BookstoreWebAPI.Repository
         {
             var databaseName = cosmosClient.ClientOptions.ApplicationName;
             var containerName = "activityLogs";
-            _configuration = configuration;
+            _logContainer = cosmosClient.GetContainer(databaseName, containerName);
+            _searchService = searchServiceFactory.Create(containerName);
+
             _logger = logger;
             _memoryCache = memoryCache;
             _mapper = mapper;
             _staffRepository = staffRepository;
-
-            _logContainer = cosmosClient.GetContainer(databaseName, containerName);
-            _searchService = searchServiceFactory.Create(containerName);
-        }
-
-        public async Task<int> GetTotalCount(QueryParameters queryParams, ActivityLogFilterModel filter)
-        {
-            var tempQueryParams = new QueryParameters()
-            {
-                PageNumber = 1,
-                PageSize = -1
-            };
-
-            tempQueryParams.PageSize = -1;
-
-            var queryDef = CosmosDbUtils.BuildQuery<ActivityLogDocument>(tempQueryParams, filter);
-
-            var activityLogDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<ActivityLogDocument>(_logContainer, queryDef);
-
-            var count = activityLogDocs.Count();
-
-            return count;
+            _activityBatch = new();
         }
 
         public async Task<IEnumerable<ActivityLogDTO>> GetActivityLogDTOsAsync(
@@ -103,6 +85,28 @@ namespace BookstoreWebAPI.Repository
             return activityLogDTO;
         }
 
+        public async Task LogActivity(ActivityType activityType, string staffId, string objectName = "", string objectId = "")
+        {
+            var activityTypeString = activityType.ToString();
+            var activityName = GetActivityName(activityTypeString, objectName, objectId);
+            var UtcNow = DateTime.UtcNow;
+
+            if (string.IsNullOrEmpty(staffId))
+            {
+                // hardcoding the staffId if nothing is defined in the header
+                staffId = "staf00000";
+            }
+
+            await AddActivityLogDTOAsync(new ActivityLogDTO()
+            {
+                StaffId = staffId,
+                ActivityType = activityTypeString,
+                ActivityName = activityName,
+                CreatedAt = UtcNow,
+                ModifiedAt = UtcNow
+            });
+        }
+
         public async Task<ActivityLogDTO> AddActivityLogDTOAsync(ActivityLogDTO activityLogDTO)
         {
             var activityLogDoc = _mapper.Map<ActivityLogDocument>(activityLogDTO);
@@ -117,7 +121,12 @@ namespace BookstoreWebAPI.Repository
 
             var staff = await _staffRepository.GetStaffDTOByIdAsync(activityLogDoc.StaffId);
             
-            var staffName = staff!.Name;
+            if (staff == null)
+            {
+                throw new ArgumentException("Logging activity", nameof(staff));
+            }
+
+            var staffName = staff.Name;
 
             activityLogDoc.Id = await GetNewActivityLogIdAsync();
             activityLogDoc.ActivityId = activityLogDoc.Id;
@@ -128,6 +137,13 @@ namespace BookstoreWebAPI.Repository
             if (createdDocument.StatusCode == System.Net.HttpStatusCode.Created)
             {
                 _memoryCache.Set(_activityLogNewIdCacheName, IdUtils.IncreaseId(activityLogDoc.Id));
+
+                _searchService.InsertToBatch(_activityBatch, createdDocument.Resource, BatchAction.Upload);
+                await _searchService.ExecuteBatchIndex(_activityBatch);
+
+                _logger.LogInformation($"[ActivityLogRepository] Uploaded new activityLog {createdDocument.Resource.Id} to index");
+
+
                 return _mapper.Map<ActivityLogDTO>(createdDocument.Resource);
             }
 
@@ -164,20 +180,7 @@ namespace BookstoreWebAPI.Repository
             return newId;
         }
 
-        public async Task LogActivity(ActivityType activityType, string? staffId, string objectName="", string objectId="")
-        {
-            var activityTypeString = activityType.ToString();
-            var activityName = GetActivityName(activityTypeString, objectName, objectId);
-            var UtcNow = DateTime.UtcNow;
-            await AddActivityLogDTOAsync(new ActivityLogDTO()
-            {
-                StaffId = staffId,
-                ActivityType = activityTypeString,
-                ActivityName = activityName,
-                CreatedAt = UtcNow,
-                ModifiedAt = UtcNow
-            });
-        }
+        
 
         public string GetActivityName(string activityType, string objectName = "", string objectId = "")
         {

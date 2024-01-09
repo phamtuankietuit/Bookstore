@@ -9,6 +9,7 @@ using BookstoreWebAPI.Models.Responses;
 using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using BookstoreWebAPI.Services;
+using Azure.Search.Documents.Models;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -22,7 +23,8 @@ namespace BookstoreWebAPI.Repository
         private readonly IActivityLogRepository _activityLogRepository;
         private Container _customerContainer;
         private readonly UserContextService _userContextService;
-        private readonly AzureSearchService _searchService;
+        private readonly AzureSearchClientService _searchService;
+        private readonly IndexDocumentsBatch<SearchDocument> _customerBatch;
 
         public int TotalCount {  get; private set; }
 
@@ -46,25 +48,7 @@ namespace BookstoreWebAPI.Repository
             _logger = logger;
             _activityLogRepository = activityLogRepository;
             _userContextService = userContextService;
-        }
-
-        public async Task<int> GetTotalCount(QueryParameters queryParams, CustomerFilterModel filter)
-        {
-            var tempQueryParams = new QueryParameters()
-            {
-                PageNumber = 1,
-                PageSize = -1
-            };
-
-            tempQueryParams.PageSize = -1;
-
-            var queryDef = CosmosDbUtils.BuildQuery<CustomerDocument>(tempQueryParams, filter);
-
-            var customerDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CustomerDocument>(_customerContainer, queryDef);
-
-            var count = customerDocs.Count();
-
-            return count;
+            _customerBatch = new();
         }
 
         public async Task<IEnumerable<CustomerDTO>> GetCustomerDTOsAsync(QueryParameters queryParams, CustomerFilterModel filter)
@@ -110,6 +94,12 @@ namespace BookstoreWebAPI.Repository
                     customerDoc.CustomerId
                 );
 
+                _searchService.InsertToBatch(_customerBatch, createdDocument.Resource, BatchAction.Upload);
+                await _searchService.ExecuteBatchIndex(_customerBatch);
+
+                _logger.LogInformation($"[CustomerRepository] Uploaded new customer {createdDocument.Resource.Id} to index");
+
+
                 return _mapper.Map<CustomerDTO>(createdDocument.Resource);
             }
 
@@ -132,6 +122,12 @@ namespace BookstoreWebAPI.Repository
                 "Sản phẩm",
                 customerToUpdate.CustomerId
             );
+
+            _searchService.InsertToBatch(_customerBatch, customerToUpdate, BatchAction.Merge);
+            await _searchService.ExecuteBatchIndex(_customerBatch);
+
+            _logger.LogInformation($"[CustomerRepository] Merged uploaded customer {customerToUpdate.Id} to index");
+
         }
 
         public async Task<BatchDeletionResult<CustomerDTO>> DeleteCustomerDTOsAsync(string[] ids)
@@ -185,10 +181,15 @@ namespace BookstoreWebAPI.Repository
                     statusCode: 204
                 );
 
-                
+                _searchService.InsertToBatch(_customerBatch, customerDoc, BatchAction.Merge);
+
 
                 _logger.LogInformation($"Deleted customer with id: {id}");
             }
+
+            await _searchService.ExecuteBatchIndex(_customerBatch);
+
+            _logger.LogInformation($"[CustomerRepository] Merged deleted categories into index, count: {_customerBatch.Actions.Count}");
 
             return result;
 
@@ -220,13 +221,7 @@ namespace BookstoreWebAPI.Repository
             customerDoc.Email ??= "";
             customerDoc.PhoneNumber ??= "";
             customerDoc.SalesOrderInformation ??= new();
-            customerDoc.Address ??= new()
-            {
-                Address = "",
-                Email = "",
-                Name = "",
-                PhoneNumber = ""
-            };
+            customerDoc.Address ??= "";
 
             customerDoc.Type ??= "Retail";
             customerDoc.Note ??= "";

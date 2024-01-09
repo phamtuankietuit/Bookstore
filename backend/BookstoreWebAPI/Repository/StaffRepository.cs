@@ -11,6 +11,7 @@ using BookstoreWebAPI.Repository.Interfaces;
 using System.Security.Authentication;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using BookstoreWebAPI.Services;
+using Azure.Search.Documents.Models;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -23,7 +24,8 @@ namespace BookstoreWebAPI.Repository
         private readonly IMemoryCache _memoryCache;
         private readonly Container _staffContainer;
         private readonly EmailUtils _emailUtils;
-        private readonly AzureSearchService _searchService;
+        private readonly AzureSearchClientService _searchService;
+        private readonly IndexDocumentsBatch<SearchDocument> _staffBatch;
 
         public int TotalCount { get; private set; }
 
@@ -45,25 +47,7 @@ namespace BookstoreWebAPI.Repository
             _memoryCache = memoryCache;
             _logger = logger;
             _emailUtils = emailUtils;
-        }
-
-        public async Task<int> GetTotalCount(QueryParameters queryParams, StaffFilterModel filter)
-        {
-            var tempQueryParams = new QueryParameters()
-            {
-                PageNumber = 1,
-                PageSize = -1
-            };
-
-            tempQueryParams.PageSize = -1;
-
-            var queryDef = CosmosDbUtils.BuildQuery<StaffDocument>(tempQueryParams, filter);
-
-            var staffDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<StaffDocument>(_staffContainer, queryDef);
-
-            var count = staffDocs.Count();
-
-            return count;
+            _staffBatch = new();
         }
 
         public async Task<IEnumerable<StaffDTO>> GetStaffDTOsAsync(QueryParameters queryParams, StaffFilterModel filter)
@@ -150,27 +134,17 @@ namespace BookstoreWebAPI.Repository
             {
                 _memoryCache.Set(_staffNewIdCacheName, IdUtils.IncreaseId(staffDoc.Id));
 
+                _searchService.InsertToBatch(_staffBatch, createdDocument.Resource, BatchAction.Upload);
+                await _searchService.ExecuteBatchIndex(_staffBatch);
+
+                _logger.LogInformation($"[StaffRepository] Uploaded new staff {createdDocument.Resource.Id} to index");
+
+
                 return _mapper.Map<StaffDTO>(createdDocument.Resource);
             }
 
-            throw new ArgumentNullException(nameof(createdDocument));
-        }
 
-        private async Task SendEmailWithDefaultPasswordToStaffEmail(StaffDocument staffDoc)
-        {
-            var defaultPassword = PasswordUtils.GenerateDefaultPassword();
-
-            try
-            {
-                await _emailUtils.SendDefaultPasswordToEmail(staffDoc.Contact.Email, defaultPassword);
-                
-                staffDoc.DefaultPassword = defaultPassword;
-                staffDoc.HashedAndSaltedPassword = null;
-            }
-            catch (Exception)
-            {
-                throw new InvalidEmailException();
-            }
+            throw new Exception($"Failed to create staff with id: {staffDoc.Id}");
         }
 
         public async Task UpdateStaffDTOAsync(StaffDTO staffDTO)
@@ -197,11 +171,17 @@ namespace BookstoreWebAPI.Repository
                 item: staffToUpdate,
                 partitionKey: new PartitionKey(staffToUpdate.StaffId)
             );
+
+            _searchService.InsertToBatch(_staffBatch, staffToUpdate, BatchAction.Merge);
+            await _searchService.ExecuteBatchIndex(_staffBatch);
+
+            _logger.LogInformation($"[StaffRepository] Merged uploaded staff {staffToUpdate.Id} to index");
+
         }
 
         public async Task UpdatePasswordAsync(UpdatePasswordModel data)
         {
-            StaffDocument staffDoc = (await GetStaffDocumentByEmailAsync(data.Email))!;
+            StaffDocument staffDoc = (await GetStaffDocumentByEmailAsync(data.Email!))!;
 
             var hashedAndSaltedPassword = SecretHasher.Hash(data.NewPassword);
             staffDoc.ModifiedAt = DateTime.UtcNow;
@@ -212,6 +192,17 @@ namespace BookstoreWebAPI.Repository
                 item:staffDoc,
                 partitionKey: new PartitionKey(staffDoc.StaffId)
             );
+        }
+
+        public async Task UpdateForgotPasswordAsync(string email)
+        {
+            var staffDoc = (await GetStaffDocumentByEmailAsync(email))!;
+
+            await SendEmailWithDefaultPasswordToStaffEmail(staffDoc);
+
+            await _staffContainer.UpsertItemAsync(
+                item: staffDoc,
+                partitionKey: new PartitionKey(staffDoc.StaffId));
         }
 
         public async Task<BatchDeletionResult<StaffDTO>> DeleteStaffDTOsAsync(string[] ids)
@@ -264,9 +255,13 @@ namespace BookstoreWebAPI.Repository
                     responseData: staffDTO,
                     statusCode: 204
                 );
+                _searchService.InsertToBatch(_staffBatch, staffDoc, BatchAction.Merge);
 
                 _logger.LogInformation($"Deleted staff with id: {id}");
             }
+            await _searchService.ExecuteBatchIndex(_staffBatch);
+
+            _logger.LogInformation($"[StaffRepository] Merged deleted categories into index, count: {_staffBatch.Actions.Count}");
 
             return result;
 
@@ -275,10 +270,10 @@ namespace BookstoreWebAPI.Repository
 
         private async Task DeleteStaff(StaffDocument staffDoc)
         {
-            List<PatchOperation> patchOperations = new()
-            {
+            List<PatchOperation> patchOperations =
+            [
                 PatchOperation.Replace("/isDeleted", true)
-            };
+            ];
 
             await _staffContainer.PatchItemAsync<StaffDocument>(staffDoc.Id, new PartitionKey(staffDoc.StaffId), patchOperations);
         }
@@ -315,7 +310,7 @@ namespace BookstoreWebAPI.Repository
             }
 
             // Query the database to get the latest product ID
-            QueryDefinition queryDef = new QueryDefinition(
+            QueryDefinition queryDef = new(
                 query:
                 "SELECT TOP 1 c.id " +
                 "FROM c " +
@@ -357,6 +352,22 @@ namespace BookstoreWebAPI.Repository
             return staff;
         }
 
+        private async Task SendEmailWithDefaultPasswordToStaffEmail(StaffDocument staffDoc)
+        {
+            var defaultPassword = PasswordUtils.GenerateDefaultPassword();
+
+            try
+            {
+                await _emailUtils.SendDefaultPasswordToEmail(staffDoc.Contact.Email, defaultPassword);
+
+                staffDoc.DefaultPassword = defaultPassword;
+                staffDoc.HashedAndSaltedPassword = null;
+            }
+            catch (Exception)
+            {
+                throw new InvalidEmailException();
+            }
+        }
 
         private async Task<ItemResponse<StaffDocument>> AddStaffDocumentAsync(StaffDocument item)
         {
@@ -369,18 +380,6 @@ namespace BookstoreWebAPI.Repository
             );
         }
 
-        public async Task UpdateForgotPasswordAsync(ForgotPasswordModel data)
-        {
-            var staffDoc = (await GetStaffDocumentByEmailAsync(data.Email))!;
-
-            staffDoc.HashedAndSaltedPassword = null;
-            staffDoc.DefaultPassword = data.NewPassword;
-
-            await _staffContainer.UpsertItemAsync(
-                item: staffDoc,
-                partitionKey: new PartitionKey(staffDoc.StaffId));
-
-            await _emailUtils.SendDefaultPasswordToEmail(staffDoc.Contact.Email, staffDoc.DefaultPassword);
-        }
+        
     }
 }

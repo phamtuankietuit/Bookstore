@@ -9,6 +9,7 @@ using BookstoreWebAPI.Models.Responses;
 using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using BookstoreWebAPI.Services;
+using Azure.Search.Documents.Models;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -20,7 +21,8 @@ namespace BookstoreWebAPI.Repository
         private readonly IMemoryCache _memoryCache;
         private readonly IActivityLogRepository _activityLogRepository;
         private Container _purchaseOrderContainer;
-        private readonly AzureSearchService _searchService;
+        private readonly AzureSearchClientService _searchService;
+        private readonly IndexDocumentsBatch<SearchDocument> _purchaseOrderBatch;
 
         public int TotalCount { get; private set; }
 
@@ -42,22 +44,7 @@ namespace BookstoreWebAPI.Repository
             _purchaseOrderContainer = cosmosClient.GetContainer(databaseName, containerName);
             _searchService = searchServiceFactory.Create(containerName);
             _activityLogRepository = activityLogRepository;
-        }
-
-        public async Task<int> GetTotalCount(QueryParameters queryParams, PurchaseOrderFilterModel filter)
-        {
-            var tempQueryParams = new QueryParameters()
-            {
-                PageNumber = 1,
-                PageSize = -1
-            };
-
-            var queryDef = CosmosDbUtils.BuildQuery<PurchaseOrderDocument>(tempQueryParams, filter, isRemovableDocument:false);
-            var purchaseOrders = await CosmosDbUtils.GetDocumentsByQueryDefinition<PurchaseOrderDTO>(_purchaseOrderContainer, queryDef);
-
-            var count = purchaseOrders.Count();
-
-            return count;
+            _purchaseOrderBatch = new();
         }
 
         public async Task<IEnumerable<PurchaseOrderDTO>> GetPurchaseOrderDTOsAsync(QueryParameters queryParams, PurchaseOrderFilterModel filter)
@@ -105,6 +92,12 @@ namespace BookstoreWebAPI.Repository
                     purchaseOrderDoc.PurchaseOrderId
                 );
 
+                _searchService.InsertToBatch(_purchaseOrderBatch, createdDocument.Resource, BatchAction.Upload);
+                await _searchService.ExecuteBatchIndex(_purchaseOrderBatch);
+
+                _logger.LogInformation($"[PurchaseOrderRepository] Uploaded new purchaseOrder {createdDocument.Resource.Id} to index");
+
+
                 return _mapper.Map<PurchaseOrderDTO>(createdDocument.Resource);
             }
 
@@ -112,14 +105,11 @@ namespace BookstoreWebAPI.Repository
         }
 
 
-
-
-
         public async Task UpdatePurchaseOrderAsync(PurchaseOrderDTO purchaseOrderDTO)
         {
             var purchaseOrderToUpdate = _mapper.Map<PurchaseOrderDocument>(purchaseOrderDTO);
             
-            purchaseOrderToUpdate.MonthYear ??= purchaseOrderToUpdate.CreatedAt!.Value.ToString("MM-yyyy");
+            purchaseOrderToUpdate.MonthYear ??= purchaseOrderToUpdate.CreatedAt!.Value.ToString("yyyy-MM");
             purchaseOrderToUpdate.ModifiedAt = DateTime.UtcNow;
 
             await _purchaseOrderContainer.UpsertItemAsync(
@@ -133,6 +123,10 @@ namespace BookstoreWebAPI.Repository
                 "Đơn nhập hàng",
                 purchaseOrderToUpdate.PurchaseOrderId
             );
+            _searchService.InsertToBatch(_purchaseOrderBatch, purchaseOrderToUpdate, BatchAction.Merge);
+            await _searchService.ExecuteBatchIndex(_purchaseOrderBatch);
+
+            _logger.LogInformation($"[PurchaseOrderRepository] Merged uploaded purchaseOrder {purchaseOrderToUpdate.Id} to index");
 
         }
 

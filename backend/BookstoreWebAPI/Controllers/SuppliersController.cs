@@ -5,6 +5,7 @@ using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using BookstoreWebAPI.Repository.Interfaces;
 using FluentValidation;
 using FluentValidation.Results;
+using BookstoreWebAPI.Services;
 
 namespace BookstoreWebAPI.Controllers
 {
@@ -14,7 +15,8 @@ namespace BookstoreWebAPI.Controllers
         ISupplierRepository supplierRepository,
         ILogger<SuppliersController> logger,
         IValidator<QueryParameters> validator,
-        IValidator<SupplierFilterModel> filterValidator
+        IValidator<SupplierFilterModel> filterValidator,
+        UserContextService userContextService
     ) : ControllerBase
     {
         [HttpGet]
@@ -61,6 +63,10 @@ namespace BookstoreWebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateSupplierAsync([FromBody]SupplierDTO supplierDTO)
         {
+            var staffId = Request.Headers["staffId"].ToString();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
+            userContextService.Current.StaffId = staffId;
+
             try
             {
                 var createdSupplierDTO = await supplierRepository.AddSupplierDTOAsync(supplierDTO);
@@ -85,6 +91,10 @@ namespace BookstoreWebAPI.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateSupplierAsync(string id, [FromBody] SupplierDTO supplierDTO)
         {
+            var staffId = Request.Headers["staffId"].ToString();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
+            userContextService.Current.StaffId = staffId;
+
             if (id != supplierDTO.SupplierId)
             {
                 return BadRequest("Specified id don't match with the DTO.");
@@ -113,6 +123,10 @@ namespace BookstoreWebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteSupplierAsync([FromQuery]string[] ids)
         {
+            var staffId = Request.Headers["staffId"].ToString();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
+            userContextService.Current.StaffId = staffId;
+
             if (ids == null || ids.Length == 0)
             {
                 return BadRequest("ids is required.");

@@ -47,10 +47,9 @@ namespace CosmosChangeFeedFunction.Functions
                         await supplierRepository.ResetSupplierGroup(updatedSupplierGroup);
 
                         // perform a hard delete if you want
-                        await supplierGroupRepository.DeleteSupplierGroupAsync(updatedSupplierGroup);
 
-                        // call Delete if perform a hard delete
-                        _supplierGroupSearchClientService.InsertToBatch(supplierGroupBatch, updatedSupplierGroup, BatchAction.Delete);
+                        // call Merge if perform a soft delete
+                        //_supplierGroupSearchClientService.InsertToBatch(supplierGroupBatch, updatedSupplierGroup, BatchAction.Merge);
 
                     }
                     else if (!updatedSupplierGroup.IsDeleted)// supg is updated
@@ -63,13 +62,12 @@ namespace CosmosChangeFeedFunction.Functions
 
                             updatedSuppliers = await supplierRepository.UpdateSupplierGroup(updatedSupplierGroup);
 
-                            _supplierGroupSearchClientService.InsertToBatch(supplierGroupBatch, updatedSupplierGroup, BatchAction.Merge);
+                            //_supplierGroupSearchClientService.InsertToBatch(supplierGroupBatch, updatedSupplierGroup, BatchAction.Merge);
                         }
                         else
                         {
                             _logger.LogInformation($"[CFSupplierGroup] Creating supplierGroup id: {updatedSupplierGroup.Id}");
 
-                            _supplierGroupSearchClientService.InsertToBatch(supplierGroupBatch, updatedSupplierGroup, BatchAction.Upload);
                         }
                     }
 
@@ -81,6 +79,9 @@ namespace CosmosChangeFeedFunction.Functions
                             _supplierSearchClientService.InsertToBatch(supplierBatch, updatedSupplier, BatchAction.Merge);
                         }
                     }
+                    
+                    
+                    _supplierGroupSearchClientService.InsertToBatch(supplierGroupBatch, updatedSupplierGroup, BatchAction.MergeOrUpload);
                 }
 
 

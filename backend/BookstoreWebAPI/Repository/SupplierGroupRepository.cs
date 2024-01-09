@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Search.Documents.Models;
 using BookstoreWebAPI.Exceptions;
 using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
@@ -16,13 +17,13 @@ namespace BookstoreWebAPI.Repository
     public class SupplierGroupRepository : ISupplierGroupRepository
     {
         private readonly string supplierGroupNewIdCacheName = "LastestSupplierGroupId";
-
         private readonly ILogger<SupplierGroupRepository> _logger;
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
         private readonly IActivityLogRepository _activityLogRepository;
-        private Container _supplierGroupContainer;
-        private readonly AzureSearchService _searchService;
+        private readonly Container _supplierGroupContainer;
+        private readonly AzureSearchClientService _searchService;
+        private readonly IndexDocumentsBatch<SearchDocument> _supplierGroupBatch;
 
         public int TotalCount {  get; private set; }
 
@@ -34,29 +35,17 @@ namespace BookstoreWebAPI.Repository
             IActivityLogRepository activityLogRepository,
             AzureSearchServiceFactory searchServiceFactory)
         {
-            _logger = logger;
-            _mapper = mapper;
-            _memoryCache = memoryCache;
             var databaseName = cosmosClient.ClientOptions.ApplicationName;
             var containerName = "supplierGroups";
 
             _supplierGroupContainer = cosmosClient.GetContainer(databaseName, containerName);
             _searchService = searchServiceFactory.Create(containerName);
+
+            _logger = logger;
+            _mapper = mapper;
+            _memoryCache = memoryCache;
             _activityLogRepository = activityLogRepository;
-        }
-
-        public async Task<int> GetTotalCount()
-        {
-            var countQueryDef = new QueryDefinition(
-                query:
-                    "SELECT VALUE COUNT(1) " +
-                    "FROM c " +
-                    "WHERE c.isDeleted = false"
-            );
-
-            var count = await CosmosDbUtils.GetScalarValueByQueryDefinition<int>(_supplierGroupContainer, countQueryDef);
-
-            return count;
+            _supplierGroupBatch = new();
         }
 
         public async Task<IEnumerable<SupplierGroupDTO>> GetSupplierGroupDTOsAsync(
@@ -68,6 +57,7 @@ namespace BookstoreWebAPI.Repository
             var searchResult = await _searchService.SearchAsync<SupplierGroupDocument>(filter.Query, options);
             TotalCount = searchResult.TotalCount;
             var supplierGroupDocs = searchResult.Results;
+
             var supplierGroupDTOs = supplierGroupDocs.Select(supplierGroupDoc =>
             {
                 return _mapper.Map<SupplierGroupDTO>(supplierGroupDoc);
@@ -106,11 +96,15 @@ namespace BookstoreWebAPI.Repository
                     "Nhóm nhà cung cấp",
                     supplierGroupDoc.SupplierGroupId
                 );
+                _searchService.InsertToBatch(_supplierGroupBatch, createdDocument.Resource, BatchAction.Upload);
+                await _searchService.ExecuteBatchIndex(_supplierGroupBatch);
+
+                _logger.LogInformation($"[SupplierGroupRepository] Uploaded new supplierGroup {createdDocument.Resource.Id} to index");
 
                 return _mapper.Map<SupplierGroupDTO>(createdDocument.Resource);
             }
 
-            throw new ArgumentNullException(nameof(createdDocument));
+            throw new Exception($"Failed to create supplier Group with id: {supplierGroupDoc.Id}");
         }
         public async Task UpdateSupplierGroupDTOAsync(SupplierGroupDTO item)
         {
@@ -128,6 +122,10 @@ namespace BookstoreWebAPI.Repository
                 "Nhóm nhà cung cấp",
                 supplierGroupToUpdate.SupplierGroupId
             );
+            _searchService.InsertToBatch(_supplierGroupBatch, supplierGroupToUpdate, BatchAction.Merge);
+            await _searchService.ExecuteBatchIndex(_supplierGroupBatch);
+
+            _logger.LogInformation($"[SupplierGroupRepository] Merged uploaded supplierGroup {supplierGroupToUpdate.Id} to index");
 
             // Change feed to update products
         }
@@ -181,9 +179,13 @@ namespace BookstoreWebAPI.Repository
                     responseData: supplierGroupDTO,
                     statusCode: 204
                 );
+                _searchService.InsertToBatch(_supplierGroupBatch, supplierGroupDoc, BatchAction.Merge);
 
                 _logger.LogInformation($"Deleted supplierGroup with id: {id}");
             }
+            await _searchService.ExecuteBatchIndex(_supplierGroupBatch);
+
+            _logger.LogInformation($"[SupplierGroupRepository] Merged deleted categories into index, count: {_supplierGroupBatch.Actions.Count}");
 
             return result;
         }

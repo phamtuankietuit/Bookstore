@@ -29,7 +29,7 @@ namespace BookstoreWebAPI.Utils
             }
         }
 
-        public static QueryDefinition BuildQuery<T>(QueryParameters queryParams, string defaultSelect = "SELECT *", bool isRemovableDocument = true) where T : class
+        public static QueryDefinition BuildQuery(QueryParameters queryParams, string defaultSelect = "SELECT *", bool isRemovableDocument = true)
         {
             var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id) ");
             AppendDeleteFilter(query, isRemovableDocument);

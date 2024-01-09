@@ -110,12 +110,14 @@ builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 builder.Services.AddTransient<ISupplierRepository, SupplierRepository>();
 builder.Services.AddTransient<ISalesOrderRepository, SalesOrderRepository>();
 builder.Services.AddTransient<IPurchaseOrderRepository, PurchaseOrderRepository>();
+builder.Services.AddTransient<IReturnOrderRepository, ReturnOrderRepository>();
 builder.Services.AddTransient<IPromotionRepository, PromotionRepository>();
 builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
 builder.Services.AddTransient<ISupplierGroupRepository, SupplierGroupRepository>();
 builder.Services.AddTransient<IStaffRepository, StaffRepository>();
 builder.Services.AddTransient<IAccountRepository, AccountRepository>();
 builder.Services.AddTransient<IActivityLogRepository, ActivityLogRepository>();
+builder.Services.AddTransient<ILocationRepository, LocationRepository>();
 
 
 // adding validators
@@ -123,6 +125,7 @@ builder.Services.AddTransient<IValidator<QueryParameters>, QueryParametersValida
 builder.Services.AddTransient<IValidator<PromotionFilterModel>, PromotionFilterModelValidator>();
 builder.Services.AddTransient<IValidator<SalesOrderFilterModel>, SalesOrderFilterModelValidator>();
 builder.Services.AddTransient<IValidator<PurchaseOrderFilterModel>, PurchaseOrderFilterModelValidator>();
+builder.Services.AddTransient<IValidator<ReturnOrderFilterModel>, ReturnOrderFilterModelValidator>();
 builder.Services.AddTransient<IValidator<ActivityLogFilterModel>, ActivityLogFilterModelValidator>();
 builder.Services.AddTransient<IValidator<StaffFilterModel>, StaffFilterModelValidator>();
 builder.Services.AddTransient<IValidator<SupplierFilterModel>, SupplierFilterModelValidator>();

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace CosmosChangeFeedFunction.Models.Documentshared
+namespace CosmosChangeFeedFunction.Models.Shared
 {
     public class PurchaseOrderItem
     {

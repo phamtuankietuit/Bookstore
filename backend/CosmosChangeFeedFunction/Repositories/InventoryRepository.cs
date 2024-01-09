@@ -20,9 +20,9 @@ namespace CosmosChangeFeedFunction.Repositories
             _logger = loggerFactory.CreateLogger<InventoryRepository>();
         }
 
-        public async Task UpdateProductNameInside(string productId, string newProductName)
+        public async Task UpdateProduct(Product product)
         {
-            var inventoryToUpdate = await GetInventoryByProductId(productId);
+            var inventoryToUpdate = await GetInventoryByProductId(product.Id);
 
             if (inventoryToUpdate == null)
             {
@@ -31,7 +31,9 @@ namespace CosmosChangeFeedFunction.Repositories
 
             List<PatchOperation> operations =
             [
-                PatchOperation.Replace("/productName", newProductName),
+                PatchOperation.Replace("/productName", product.Name),
+                PatchOperation.Replace("/sku", product.Sku),
+                PatchOperation.Replace("/barcode", product.Sku), // currently barcode is the same as sku
                 PatchOperation.Replace("/modifiedAt", DateTime.UtcNow)
             ];
 
@@ -50,9 +52,13 @@ namespace CosmosChangeFeedFunction.Repositories
                 return;
             }
 
+
+            var newStock = inventoryToUpdate.CurrentStock + importQuantity;
             List<PatchOperation> operations =
             [
-                PatchOperation.Replace("/currentStock", inventoryToUpdate.CurrentStock + importQuantity),
+                PatchOperation.Replace("/currentStock", newStock),
+                PatchOperation.Replace("/status", newStock > inventoryToUpdate.MinStock ? "In Stock" : newStock > 0 && newStock <= inventoryToUpdate.MinStock ? "Low Stock" : "Out of Stock"),
+                PatchOperation.Replace("/lastRestocked", DateTime.UtcNow),
                 PatchOperation.Replace("/modifiedAt", DateTime.UtcNow)
             ];
 
@@ -72,9 +78,11 @@ namespace CosmosChangeFeedFunction.Repositories
                 return;
             }
 
+            var newStock = inventoryToUpdate.CurrentStock - saleQuantity;
             List<PatchOperation> operations =
             [
-                PatchOperation.Replace("/currentStock", inventoryToUpdate.CurrentStock - saleQuantity),
+                PatchOperation.Replace("/currentStock", newStock),
+                PatchOperation.Replace("/status", newStock > inventoryToUpdate.MinStock ? "In Stock" : newStock > 0 && newStock <= inventoryToUpdate.MinStock ? "Low Stock" : "Out of Stock"),
                 PatchOperation.Replace("/modifiedAt", DateTime.UtcNow)
             ];
 
@@ -82,6 +90,32 @@ namespace CosmosChangeFeedFunction.Repositories
             await _inventoryContainer.PatchItemAsync<Inventory>(inventoryToUpdate.Id, new PartitionKey(inventoryToUpdate.Sku), operations);
 
             _logger.LogInformation("updated current stock after create salesOrder (sell)");
+        }
+
+        public async Task UpdateStockFromRO(string productId, int returnQuantity)
+        {
+            var inventoryToUpdate = await GetInventoryByProductId(productId);
+
+            if (inventoryToUpdate == null)
+            {
+                _logger.LogError($"Inventory of Product {productId} not found");
+
+                return;
+            }
+
+            var newStock = inventoryToUpdate.CurrentStock + returnQuantity;
+
+            List<PatchOperation> operations =
+            [
+                PatchOperation.Replace("/currentStock", newStock),
+                PatchOperation.Replace("/status", newStock > inventoryToUpdate.MinStock ? "In Stock" : newStock > 0 && newStock <= inventoryToUpdate.MinStock ? "Low Stock" : "Out of Stock"),
+                PatchOperation.Replace("/modifiedAt", DateTime.UtcNow)
+            ];
+
+            
+            await _inventoryContainer.PatchItemAsync<Inventory>(inventoryToUpdate.Id, new PartitionKey(inventoryToUpdate.Sku), operations);
+
+            _logger.LogInformation("updated current stock after create returnOrder (sell)");
         }
 
         private async Task<Inventory?> GetInventoryByProductId(string productId)

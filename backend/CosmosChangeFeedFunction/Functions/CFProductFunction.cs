@@ -43,7 +43,7 @@ namespace CosmosChangeFeedFunction.Functions
                         // perform a hard delete if you want - remember to call searchclient to delete from index
 
                         // call Merge if perform soft delete
-                        _productSearchClientService.InsertToBatch(productBatch, updatedProduct, BatchAction.Merge);
+                        //_productSearchClientService.InsertToBatch(productBatch, updatedProduct, BatchAction.Merge);
                     }
                     else if (!updatedProduct.IsDeleted)
                     {
@@ -51,17 +51,18 @@ namespace CosmosChangeFeedFunction.Functions
                         {
                             _logger.LogInformation($"[CFProduct] Updating product, product id: {updatedProduct.Id} ");
 
-                            await inventoryRepository.UpdateProductNameInside(updatedProduct.ProductId, updatedProduct.Name);
+                            await inventoryRepository.UpdateProduct(updatedProduct);
 
-                            _productSearchClientService.InsertToBatch(productBatch, updatedProduct, BatchAction.Merge);
+                            //_productSearchClientService.InsertToBatch(productBatch, updatedProduct, BatchAction.Merge);
                         }
                         else
                         {
                             _logger.LogInformation($"[CFProduct] Creating product, product id: {updatedProduct.Id} ");
 
-                            _productSearchClientService.InsertToBatch(productBatch, updatedProduct, BatchAction.Upload);
                         }
                     }
+
+                    _productSearchClientService.InsertToBatch(productBatch, updatedProduct, BatchAction.MergeOrUpload);
                 }
 
 

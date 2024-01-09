@@ -1,4 +1,4 @@
-﻿using CosmosChangeFeedFunction.Models.Documentshared;
+﻿using CosmosChangeFeedFunction.Models.Shared;
 using Newtonsoft.Json;
 
 namespace CosmosChangeFeedFunction.Models.Interfaces

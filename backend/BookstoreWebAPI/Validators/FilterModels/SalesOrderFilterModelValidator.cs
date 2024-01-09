@@ -1,4 +1,5 @@
 ﻿using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using BookstoreWebAPI.Utils;
 using FluentValidation;
 using System.Globalization;
 
@@ -9,12 +10,12 @@ namespace BookstoreWebAPI.Validators.FilterModels
         public SalesOrderFilterModelValidator()
         {
             RuleFor(x => x.StartDate)
-                .Must(BeAValidDate)
+                .Must(VariableHelpers.BeAValidDate)
                 .When(x => x.StartDate.HasValue)
                 .WithMessage("The StartDate field must be a valid date.");
 
             RuleFor(x => x.EndDate)
-                .Must(BeAValidDate)
+                .Must(VariableHelpers.BeAValidDate)
                 .When(x => x.EndDate.HasValue)
                 .WithMessage("The EndDate field must be a valid date.");
 

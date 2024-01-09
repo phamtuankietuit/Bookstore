@@ -9,6 +9,7 @@ using BookstoreWebAPI.Models.Responses;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Services;
+using Azure.Search.Documents.Models;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -21,7 +22,8 @@ namespace BookstoreWebAPI.Repository
         private readonly IMemoryCache _memoryCache;
         private readonly IActivityLogRepository _activityLogRepository;
         private ILogger<PromotionRepository> _logger;
-        private readonly AzureSearchService _searchService;
+        private readonly AzureSearchClientService _searchService;
+        private readonly IndexDocumentsBatch<SearchDocument> _promotionBatch;
 
         public int TotalCount { get; private set; }
 
@@ -43,26 +45,9 @@ namespace BookstoreWebAPI.Repository
             _memoryCache = memoryCache;
             _logger = logger;
             _activityLogRepository = activityLogRepository;
+            _promotionBatch = new();
         }
 
-        public async Task<int> GetTotalCount(QueryParameters queryParams, PromotionFilterModel filter)
-        {
-            var tempQueryParams = new QueryParameters()
-            {
-                PageNumber = 1,
-                PageSize = -1
-            };
-
-            tempQueryParams.PageSize = -1;
-
-            var queryDef = CosmosDbUtils.BuildQuery<PromotionDocument>(tempQueryParams, filter);
-
-            var promotionDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<PromotionDocument>(_promotionContainer, queryDef);
-
-            var count = promotionDocs.Count();
-
-            return count;
-        }
 
         public async Task<IEnumerable<PromotionDTO>> GetPromotionDTOsAsync(QueryParameters queryParams, PromotionFilterModel filter)
         {
@@ -107,6 +92,12 @@ namespace BookstoreWebAPI.Repository
                     promotionDoc.PromotionId
                 );
 
+                _searchService.InsertToBatch(_promotionBatch, createdDocument.Resource, BatchAction.Upload);
+                await _searchService.ExecuteBatchIndex(_promotionBatch);
+
+                _logger.LogInformation($"[PromotionRepository] Uploaded new promotion {createdDocument.Resource.Id} to index");
+
+
                 return _mapper.Map<PromotionDTO>(createdDocument.Resource);
             }
 
@@ -129,6 +120,12 @@ namespace BookstoreWebAPI.Repository
                     "Mã giảm giá",
                     promotionToUpdate.PromotionId
                 );
+
+            _searchService.InsertToBatch(_promotionBatch, promotionToUpdate, BatchAction.Merge);
+            await _searchService.ExecuteBatchIndex(_promotionBatch);
+
+            _logger.LogInformation($"[PromotionRepository] Merged uploaded promotion {promotionToUpdate.Id} to index");
+
         }
 
         public async Task<BatchDeletionResult<PromotionDTO>> DeletePromotionDTOsAsync(string[] ids)
@@ -181,9 +178,13 @@ namespace BookstoreWebAPI.Repository
                     responseData: promotionDTO,
                     statusCode: 204
                 );
+                _searchService.InsertToBatch(_promotionBatch, promotionDoc, BatchAction.Merge);
 
                 _logger.LogInformation($"Deleted promotion with id: {id}");
             }
+            await _searchService.ExecuteBatchIndex(_promotionBatch);
+
+            _logger.LogInformation($"[PromotionRepository] Merged deleted categories into index, count: {_promotionBatch.Actions.Count}");
 
             return result;
 

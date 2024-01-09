@@ -37,14 +37,13 @@ namespace CosmosChangeFeedFunction.Repositories
         {
             var supplierDocsToUpdate = await GetSuppliersInSupplierGroupAsync(supplierGroup.Id);
 
-            if (supplierDocsToUpdate == null)
+            if (supplierDocsToUpdate == null || !supplierDocsToUpdate.Any())
             {
                 _logger.LogError($"No supplier belongs to supplier group id {supplierGroup.SupplierGroupId}");
 
                 return null;
             }
 
-             
             return await UpdateSupplierGroup("supg00000", supplierDocsToUpdate);
         }
 
@@ -52,7 +51,7 @@ namespace CosmosChangeFeedFunction.Repositories
         {
             var supplierDocsToUpdate = await GetSuppliersInSupplierGroupAsync(supplierGroup.Id);
 
-            if (supplierDocsToUpdate == null)
+            if (supplierDocsToUpdate == null || !supplierDocsToUpdate.Any())
             {
                 _logger.LogError($"No supplier belongs to supplier group id {supplierGroup.SupplierGroupId}");
 

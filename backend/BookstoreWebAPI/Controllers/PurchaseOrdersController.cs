@@ -5,6 +5,7 @@ using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using BookstoreWebAPI.Repository.Interfaces;
 using FluentValidation;
 using FluentValidation.Results;
+using BookstoreWebAPI.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,7 +18,8 @@ namespace BookstoreWebAPI.Controllers
         ILogger<PurchaseOrdersController> logger,
         IPurchaseOrderRepository purchaseOrderRepository,
         IValidator<QueryParameters> validator,
-        IValidator<PurchaseOrderFilterModel> purchaseOrderFilterValidator
+        IValidator<PurchaseOrderFilterModel> purchaseOrderFilterValidator,
+        UserContextService userContextService
     ) : ControllerBase
     {
 
@@ -66,6 +68,10 @@ namespace BookstoreWebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> CreatePurchaseOrderAsync([FromBody] PurchaseOrderDTO purchaseOrderDTO)
         {
+            var staffId = Request.Headers["staffId"].ToString();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
+            userContextService.Current.StaffId = staffId;
+
             try
             {
                 var createdPurchaseOrder = await purchaseOrderRepository.AddPurchaseOrderDTOAsync(purchaseOrderDTO);
@@ -90,6 +96,9 @@ namespace BookstoreWebAPI.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdatePurchaseOrderAsync(string id, [FromBody] PurchaseOrderDTO purchaseOrderDTO)
         {
+            var staffId = Request.Headers["staffId"].ToString();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
+            userContextService.Current.StaffId = staffId;
 
             if (id != purchaseOrderDTO.PurchaseOrderId)
             {

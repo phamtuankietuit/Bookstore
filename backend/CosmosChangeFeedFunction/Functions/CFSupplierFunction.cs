@@ -14,7 +14,7 @@ namespace CosmosChangeFeedFunction.Functions
     )
     {
         private readonly ILogger _logger = loggerFactory.CreateLogger<CFSupplierFunction>();
-        private readonly AzureSearchClientService _supplierSearchClientService = searchClientFactory.Create(indexName: "bookstore-categories-cosmosdb-index");
+        private readonly AzureSearchClientService _supplierSearchClientService = searchClientFactory.Create(indexName: "bookstore-suppliers-cosmosdb-index");
         private readonly AzureSearchClientService _productSearchClientService = searchClientFactory.Create(indexName: "bookstore-products-cosmosdb-index");
 
 
@@ -49,7 +49,7 @@ namespace CosmosChangeFeedFunction.Functions
                         //await supplierRepository.DeleteSupplierAsync(updatedSupplier);
 
                         // call Merge if perform a soft delete
-                        _supplierSearchClientService.InsertToBatch(supplierBatch, updatedSupplier, BatchAction.Merge);
+                        //_supplierSearchClientService.InsertToBatch(supplierBatch, updatedSupplier, BatchAction.Merge);
                     }
                     else if (!updatedSupplier.IsDeleted)// Supplier is updated
                     {
@@ -59,13 +59,12 @@ namespace CosmosChangeFeedFunction.Functions
 
                             updatedProducts = await productRepository.UpdateSuppliersAsync(updatedSupplier.SupplierId);
 
-                            _supplierSearchClientService.InsertToBatch(supplierBatch, updatedSupplier, BatchAction.Merge);
+                            //_supplierSearchClientService.InsertToBatch(supplierBatch, updatedSupplier, BatchAction.Merge);
                         }
                         else
                         {
                             _logger.LogInformation($"[CFSupplier] Creating supplier id: {updatedSupplier.Id}");
 
-                            _supplierSearchClientService.InsertToBatch(supplierBatch, updatedSupplier, BatchAction.Upload);
                         }
                     }
 
@@ -77,6 +76,9 @@ namespace CosmosChangeFeedFunction.Functions
                             _productSearchClientService.InsertToBatch(productBatch, updatedProduct, BatchAction.Merge);
                         }
                     }
+                    
+                    
+                    _supplierSearchClientService.InsertToBatch(supplierBatch, updatedSupplier, BatchAction.MergeOrUpload);
                 }
 
                 await _supplierSearchClientService.ExecuteBatchIndex(supplierBatch);

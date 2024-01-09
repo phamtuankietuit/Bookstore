@@ -3,14 +3,14 @@ using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Caching.Memory;
 using BookstoreWebAPI.Models.Documents;
 using BookstoreWebAPI.Models.DTOs;
-using BookstoreWebAPI.Repository.Interfaces;
-using BookstoreWebAPI.Utils;
-using BookstoreWebAPI.Models.BindingModels;
-using BookstoreWebAPI.Exceptions;
-using BookstoreWebAPI.Models.Responses;
 using BookstoreWebAPI.Models.Shared;
+using BookstoreWebAPI.Models.Responses;
+using BookstoreWebAPI.Models.BindingModels;
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using BookstoreWebAPI.Repository.Interfaces;
 using BookstoreWebAPI.Services;
+using BookstoreWebAPI.Utils;
+using Azure.Search.Documents.Models;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -24,7 +24,8 @@ namespace BookstoreWebAPI.Repository
         private readonly IActivityLogRepository _activityLogRepository;
         private readonly Container _supplierContainer;
         private readonly Container _supplierGroupContainer;
-        private readonly AzureSearchService _searchService;
+        private readonly AzureSearchClientService _searchService;
+        private readonly IndexDocumentsBatch<SearchDocument> _supplierBatch;
 
         private SupplierGroupDocument? _defaultSupplierGroup;
 
@@ -49,22 +50,8 @@ namespace BookstoreWebAPI.Repository
             _mapper = mapper;
             _memoryCache = memoryCache;
             _activityLogRepository = activityLogRepository;
+            _supplierBatch = new();
         }
-
-
-        //public async Task<int> GetTotalCount()
-        //{
-        //    var countQueryDef = new QueryDefinition(
-        //        query:
-        //            "SELECT VALUE COUNT(1) " +
-        //            "FROM c " +
-        //            "WHERE c.isDeleted = false"
-        //    );
-
-        //    var count = await CosmosDbUtils.GetScalarValueByQueryDefinition<int>(_supplierContainer, countQueryDef);
-
-        //    return count;
-        //}
 
         public async Task<IEnumerable<SupplierDTO>> GetSupplierDTOsAsync(QueryParameters queryParams, SupplierFilterModel filter)
         {
@@ -108,9 +95,9 @@ namespace BookstoreWebAPI.Repository
             await PopulateDataToNewSupplierDocument(supplierDoc);
 
 
-            var documentToCreate = await AddSupplierDocumentAsync(supplierDoc);
+            var createdDocument = await AddSupplierDocumentAsync(supplierDoc);
 
-            if (documentToCreate.StatusCode == System.Net.HttpStatusCode.Created)
+            if (createdDocument.StatusCode == System.Net.HttpStatusCode.Created)
             {
                 _memoryCache.Set(supplierNewIdCacheName, IdUtils.IncreaseId(supplierDoc.Id));
 
@@ -121,10 +108,16 @@ namespace BookstoreWebAPI.Repository
                     supplierDoc.SupplierId
                 );
 
-                return _mapper.Map<SupplierDTO>(documentToCreate.Resource);
+                _searchService.InsertToBatch(_supplierBatch, createdDocument.Resource, BatchAction.Upload);
+                await _searchService.ExecuteBatchIndex(_supplierBatch);
+
+                _logger.LogInformation($"[SupplierRepository] Uploaded new supplier {createdDocument.Resource.Id} to index");
+
+
+                return _mapper.Map<SupplierDTO>(createdDocument.Resource);
             }
 
-            throw new ArgumentNullException(nameof(documentToCreate));
+            throw new Exception($"Failed to create supplier with id: {supplierDoc.Id}");
         }
 
         public async Task UpdateSupplierDTOAsync(SupplierDTO supplierDTO)
@@ -144,6 +137,11 @@ namespace BookstoreWebAPI.Repository
                 supplierToUpdate.SupplierId
             );
 
+            _searchService.InsertToBatch(_supplierBatch, supplierToUpdate, BatchAction.Merge);
+            await _searchService.ExecuteBatchIndex(_supplierBatch);
+
+            _logger.LogInformation($"[SupplierRepository] Merged uploaded supplier {supplierToUpdate.Id} to index");
+
             // change feed to update products
         }
 
@@ -151,7 +149,7 @@ namespace BookstoreWebAPI.Repository
         {
             BatchDeletionResult<SupplierDTO> result = new()
             {
-                Responses = new(),
+                Responses = [],
                 IsNotSuccessful = true,
                 IsNotForbidden = true,
                 IsFound = true
@@ -198,9 +196,14 @@ namespace BookstoreWebAPI.Repository
                         responseData: supplierDTO,
                         statusCode: 204
                     );
+                _searchService.InsertToBatch(_supplierBatch, supplierDoc, BatchAction.Merge);
 
                 _logger.LogInformation($"Deleted supplier with id: {id}");
             }
+
+            await _searchService.ExecuteBatchIndex(_supplierBatch);
+
+            _logger.LogInformation($"[SupplierRepository] Merged deleted categories into index, count: {_supplierBatch.Actions.Count}");
 
             return result;
         }
@@ -235,22 +238,6 @@ namespace BookstoreWebAPI.Repository
                 supplierDoc.SupplierId
             );
         }
-
-
-
-        //private async Task DeleteSupplierAsync(string supplierId)
-        //{
-        //    var supplierDoc = await GetSupplierDocumentByIdAsync(supplierId) ?? throw new DocumentNotFoundException($"Category with id {supplierId} not found.");
-
-        //    List<PatchOperation> patchOperations = new()
-        //    {
-        //        PatchOperation.Replace("/isDeleted", true)
-        //    };
-
-        //    await _supplierContainer.PatchItemAsync<CategoryDocument>(supplierId, new PartitionKey(supplierDoc.SupplierId), patchOperations);
-
-        //    // change feed to update products
-        //}
 
         private async Task PopulateDataToNewSupplierDocument(SupplierDocument supplierDoc)
         {
@@ -302,7 +289,8 @@ namespace BookstoreWebAPI.Repository
                 "WHERE c.id = @id"
             ).WithParameter("@id", "supg00000");
 
-            var result = (await CosmosDbUtils.GetDocumentByQueryDefinition<SupplierGroupDocument>(_supplierGroupContainer, getDefaultSupGroupQueryDef))!;
+            var result = await CosmosDbUtils.GetDocumentByQueryDefinition<SupplierGroupDocument>(_supplierGroupContainer, getDefaultSupGroupQueryDef)
+                ?? throw new Exception("Default SupplierGroup Not Found!");
 
             return result;
         }

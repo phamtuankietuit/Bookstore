@@ -4,9 +4,6 @@ namespace BookstoreWebAPI.Models.Shared
 {
     public class DiscountItem
     {
-        [JsonProperty("reason")]
-        public string? Reason { get; set; }
-
         [JsonProperty("rate")]
         public int Rate { get; set; } = 0;
 
@@ -18,5 +15,8 @@ namespace BookstoreWebAPI.Models.Shared
 
         [JsonProperty("source")]
         public string? Source { get; set; }
+
+        [JsonProperty("promotionId")]
+        public string? PromotionId { get; set; }
     }
 }

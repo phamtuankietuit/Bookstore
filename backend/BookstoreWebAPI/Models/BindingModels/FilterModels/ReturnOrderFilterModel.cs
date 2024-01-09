@@ -2,7 +2,7 @@
 
 namespace BookstoreWebAPI.Models.BindingModels.FilterModels
 {
-    public class SalesOrderFilterModel : BaseFilterModel
+    public class ReturnOrderFilterModel : BaseFilterModel
     {
         private DateTime? startDate;
         private DateTime? endDate;
@@ -34,14 +34,9 @@ namespace BookstoreWebAPI.Models.BindingModels.FilterModels
                 }
             }
         }
-        
+
         [FromQuery(Name = "staffIds")]
         [ModelBinder(BinderType = typeof(CommaDelimitedArrayModelBinder<string>))]
         public IEnumerable<string>? StaffIds { get; set; }
-
-        [FromQuery(Name = "customerIds")]
-        [ModelBinder(BinderType = typeof(CommaDelimitedArrayModelBinder<string>))]
-        public IEnumerable<string>? CustomerIds { get; set; }
-
     }
 }

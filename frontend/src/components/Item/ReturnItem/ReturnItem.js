@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import { format } from 'date-fns';
 import styles from './ReturnItem.module.scss';
 
 const cx = classNames.bind(styles);
@@ -11,7 +12,7 @@ export const ReturnItem = [
         center: true,
         cell: (row) => (
             <div className={cx('font', 'id')} data-tag="allowRowEvents">
-                {row.id}
+                {row.returnOrderId}
             </div>
         ),
     },
@@ -21,7 +22,7 @@ export const ReturnItem = [
         center: true,
         cell: (row) => (
             <div className={cx('font', 'id')} data-tag="allowRowEvents">
-                {row.idOrder}
+                {row.salesOrderId}
             </div>
         ),
     },
@@ -35,73 +36,24 @@ export const ReturnItem = [
         ),
     },
     {
-        name: 'Trạng thái',
-        minWidth: '180px',
-        center: true,
-        cell: (row) => (
-            <div
-                className={cx({
-                    'product-state-container': true,
-                    'state-1': row.isReturnProduct === 1 ? true : false,
-                    'state-2': row.isReturnProduct === 2 ? true : false,
-                })}
-                data-tag="allowRowEvents"
-            >
-                <div className={cx('product-state')} data-tag="allowRowEvents">
-                    {row.isReturnProduct === 0
-                        ? 'Đã nhận hàng'
-                        : row.isReturnProduct === 1
-                        ? 'Chưa nhận hàng'
-                        : 'Đã hủy'}
-                </div>
-            </div>
-        ),
-    },
-    {
-        name: 'Hoàn tiền',
-        minWidth: '180px',
-        center: true,
-        cell: (row) => (
-            <div
-                className={cx({
-                    'product-state-container': true,
-                    'state-0': !row.isReturnMoney,
-                })}
-                data-tag="allowRowEvents"
-            >
-                <div className={cx('product-state')} data-tag="allowRowEvents">
-                    {row.isReturnMoney ? 'Đã hoàn tiền' : 'Chưa hoàn tiền'}
-                </div>
-            </div>
-        ),
-    },
-    {
         name: 'Tổng tiền',
         minWidth: '180px',
         center: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {addCommas(row.money)}
+                {addCommas(row.totalAmount)}
             </div>
         ),
     },
     {
-        name: 'Ngày nhận hàng',
+        name: 'Ngày trả hàng',
+        text: 'createdAt',
+        sortable: true,
         minWidth: '180px',
         center: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.dateRecieved}
-            </div>
-        ),
-    },
-    {
-        name: 'Lý do trả hàng',
-        minWidth: '180px',
-        center: true,
-        cell: (row) => (
-            <div className={cx('font')} data-tag="allowRowEvents">
-                {row.reason}
+                {format(new Date(row.createdAt), 'dd/MM/yyyy - HH:mm')}
             </div>
         ),
     },

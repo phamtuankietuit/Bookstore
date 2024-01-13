@@ -67,8 +67,6 @@ function Header({ title, back }) {
         navigate('/');
     };
 
-
-
     // POPPER
     const [visible, setVisible] = useState(false);
     const show = () => setVisible(true);
@@ -131,7 +129,7 @@ function Header({ title, back }) {
                         className={cx('wrapper-info')}
                         onClick={visible ? hide : show}
                     >
-                        <img src={image ? image : noImage} className={cx('avt')} />
+                        {/* <img src={image ? image : noImage} className={cx('avt')} /> */}
                         <div className={cx('name')}>{name}</div>
                     </div>
                 </Tippy>

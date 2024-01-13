@@ -5,19 +5,31 @@ const request = axios.create({
     baseURL: 'https://api-bookstore-y1s1.azurewebsites.net/api/',
 });
 
-export const getMethod = async (path, options = {}) => {
+export const getMethod = async (path, options = {}, hasAuth = false) => {
+    const headers = {
+        staffId: getLocalStorage().user.staffId,
+    };
+
+    if (hasAuth === true) {
+        options.headers = headers;
+    }
+
+    // console.log('options', options);
+    // console.log('HEADERS', headers);
+
     const response = await request.get(path, options);
+
     return response.data;
 };
 
 export const postMethod = async (path, options = {}, loginRequest) => {
     const headers = {};
 
-    if (loginRequest === false) {
+    if (!loginRequest) {
         headers.staffId = getLocalStorage().user.staffId;
     }
 
-    console.log('HEADERS', headers);
+    // console.log('HEADERS', headers);
 
     const response = await request.post(path, options, {
         headers: headers,
@@ -26,11 +38,17 @@ export const postMethod = async (path, options = {}, loginRequest) => {
     return response.data;
 };
 
-export const putMethod = async (path, options = {}) => {
+export const putMethod = async (path, options = {}, staffId) => {
+    const headers = {};
+
+    if (staffId) {
+        headers.staffId = staffId;
+    } else {
+        headers.staffId = getLocalStorage().user.staffId;
+    }
+
     const response = await request.put(path, options, {
-        headers: {
-            'staffId': getLocalStorage().user.staffId,
-        }
+        headers: headers,
     });
     return response.data;
 };

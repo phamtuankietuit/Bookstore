@@ -48,7 +48,7 @@ function DateRange({ className, title, dateString, setDateString, bottom, future
         const currentTime = new Date();
         props.toYear = currentTime.getFullYear() + 10;
         delete props.toDate;
-        console.log(props);
+        // console.log(props);
     }
 
     return (

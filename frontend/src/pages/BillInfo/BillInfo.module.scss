@@ -184,6 +184,7 @@
     padding-left: 15px;
     display: flex;
     align-items: center;
+    margin-top: 10px;
 }
 .title p {
     font-weight: 500;
@@ -196,7 +197,7 @@
     width: 100%;
     display: grid;
     grid-template-rows: 35px calc(100% - 35px);
-    padding-left: 20px;
+    padding-left: 15px;
 }
 .Info-name-phone {
     display: flex;
@@ -275,7 +276,6 @@
     width: 100%;
 }
 .list-sum {
-    height: 120px;
     width: 100%;
     display: flex;
     justify-content: right;

@@ -112,7 +112,7 @@ function SearchResult({ setValue, stypeid, supplierID }) {
             }
             fetchApi();
         }
-        else {
+        else if (stypeid === 3) {
             const fetchApi = async () => {
 
                 const result = await CustomerServices.getAllCustomerTwo(currentPage, -1)
@@ -128,6 +128,21 @@ function SearchResult({ setValue, stypeid, supplierID }) {
             }
             fetchApi();
             setPlaceholder('Thêm khách hàng vào đơn')
+        } else {
+            const fetchApi = async () => {
+
+                const result = await ProductServices.getAllProductsTwo(currentPage, -1)
+                    .catch((err) => {
+                        console.log(err);
+                    });
+
+                if (result) {
+                    setList(result.data);
+                    if (numofTotalPage === '') setNumofTotal(result.metadata.count / 5)
+                }
+                // console.log(result)
+            }
+            fetchApi();
         }
 
         if (supplierID === '') setOpen(false)

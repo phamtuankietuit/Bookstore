@@ -174,7 +174,8 @@ function ImportProduct() {
                 },
                 note: note,
                 // status: '',
-                staffId: '"staf00000"'
+                staffId: "staf00000",
+                staffName: 'Phạm Tuấn Kiệt',
             }
             console.log(obj)
 

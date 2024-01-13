@@ -1,4 +1,4 @@
-.item{
+.item {
     height: 80px;
     width: 1185px;
     display: flex;
@@ -7,35 +7,33 @@
     border-top: 1px solid rgba(0, 0, 0, 0.066);
     &:hover {
         background-color: #f3f4f5;
-        .textfield{
+        .textfield {
             background-color: #f3f4f5;
         }
     }
 }
 
-.properties-1{
+.properties-1 {
     min-width: 100px;
     text-align: center;
-
 }
 
-.properties-2{
+.properties-2 {
     min-width: 380px;
+    max-width: 380px;
 }
 
-.properties-3{
+.properties-3 {
     text-align: center;
     width: 180px;
-
-
 }
 
-.img{
+.img {
     height: 40px;
     width: 40px;
 }
 
-.textfield{
+.textfield {
     width: 30%;
     padding-left: 10px;
     font-size: 13px;
@@ -47,16 +45,16 @@
         -webkit-appearance: none;
         margin: 0;
     }
-}   
+}
 
-.icon{
+.icon {
     height: 15px;
     width: 15px;
-    color: #A3A8AF;
+    color: #a3a8af;
     cursor: pointer;
-    &:hover{
-        box-shadow: 0 0 0 5px rgba(#000,.1)  ;
+    &:hover {
+        box-shadow: 0 0 0 5px rgba(#000, 0.1);
         border-radius: 10px;
-        background-color: rgba(#000,.1);
+        background-color: rgba(#000, 0.1);
     }
 }

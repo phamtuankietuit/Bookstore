@@ -1,39 +1,37 @@
-import styles from './DiscountInfo.module.scss';
-import classNames from 'classnames/bind';
 import { useState, useEffect, useContext } from 'react';
-import { BiSolidDiscount } from 'react-icons/bi';
 import { useNavigate, useParams } from 'react-router-dom';
-import Spinner from 'react-bootstrap/Spinner';
-import { ToastContext } from '~/components/ToastContext';
-import ModalLoading from '~/components/ModalLoading';
+import classNames from 'classnames/bind';
 import format from 'date-fns/format'
+import { BiSolidDiscount } from 'react-icons/bi';
+import Spinner from 'react-bootstrap/Spinner';
+
+import styles from './DiscountInfo.module.scss';
+import ModalLoading from '~/components/ModalLoading';
 import Button from '~/components/Button';
+
+import { ToastContext } from '~/components/ToastContext';
 
 import * as PromotionsServices from '~/apiServices/promotionServices';
 
 const cx = classNames.bind(styles);
+
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
 function DiscountInfo() {
-    const toastContext = useContext(ToastContext);
-    const [loading, setLoading] = useState(false);
-
-    const [updatePage, setUpdatePage] = useState(new Date());
-
+    const promotionId = useParams();
     const navigate = useNavigate();
-    const [obj, setObj] = useState(null);
-    const promotiontid = useParams();
+    const toastContext = useContext(ToastContext);
 
-    const convertISOtoDDMMYYYY = (isoDateString) => {
-        let date = new Date(isoDateString);
-        return format(date, 'dd/MM/yyyy');
-    }
+    const [loading, setLoading] = useState(false);
+    const [updatePage, setUpdatePage] = useState(new Date());
+    const [obj, setObj] = useState(null);
 
     const [show, setShow] = useState(true);
 
+    // GET PROMOTION
     useEffect(() => {
         const fetchApi = async () => {
-            const result = await PromotionsServices.getPromotion(promotiontid.id)
+            const result = await PromotionsServices.getPromotion(promotionId.id)
                 .catch((err) => {
                     console.log(err);
                 });
@@ -46,7 +44,9 @@ function DiscountInfo() {
                 }
             }
         }
+
         fetchApi();
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [updatePage]);
 
@@ -60,7 +60,7 @@ function DiscountInfo() {
                 status: 'paused',
             }
 
-            const result = await PromotionsServices.UpdatePromotion(promotiontid.id, newObj)
+            const result = await PromotionsServices.UpdatePromotion(promotionId.id, newObj)
                 .catch((err) => {
                     console.log(err);
                     isSuccess = false;
@@ -88,7 +88,7 @@ function DiscountInfo() {
                 status: 'running',
             }
 
-            const result = await PromotionsServices.UpdatePromotion(promotiontid.id, newObj)
+            const result = await PromotionsServices.UpdatePromotion(promotionId.id, newObj)
                 .catch((err) => {
                     console.log(err);
                     isSuccess = false;
@@ -116,7 +116,7 @@ function DiscountInfo() {
                 status: 'stopped',
             }
 
-            const result = await PromotionsServices.UpdatePromotion(promotiontid.id, newObj)
+            const result = await PromotionsServices.UpdatePromotion(promotionId.id, newObj)
                 .catch((err) => {
                     console.log(err);
                     isSuccess = false;
@@ -153,7 +153,7 @@ function DiscountInfo() {
                                 <div className={cx('content')}>
                                     <h4>{obj.discountRate}% Off</h4>
                                     <p>Siêu giảm giá</p>
-                                    <p>Ngày kết thúc: {convertISOtoDDMMYYYY(obj.closeAt)}</p>
+                                    <p>Ngày kết thúc: {format(new Date(obj.closeAt), 'dd/MM/yyyy')}</p>
                                 </div>
                                 <div className={cx('logo')}></div>
                             </div>
@@ -175,7 +175,7 @@ function DiscountInfo() {
                                         <p>:</p>
                                     </div>
                                     <div className={cx('second-column')}>
-                                        <p>{convertISOtoDDMMYYYY(obj.startAt)}</p>
+                                        <p>{format(new Date(obj.startAt), 'dd/MM/yyyy')}</p>
                                     </div>
                                 </div>
                                 <div className={cx('date-content-content-grid1')}>
@@ -186,7 +186,7 @@ function DiscountInfo() {
                                         <p>:</p>
                                     </div>
                                     <div className={cx('second-column')}>
-                                        <p>{convertISOtoDDMMYYYY(obj.closeAt)}</p>
+                                        <p>{format(new Date(obj.closeAt), 'dd/MM/yyyy')}</p>
                                     </div>
                                 </div>
                             </div>
@@ -267,7 +267,7 @@ function DiscountInfo() {
                                 <p>{addCommas(obj.applyFromAmount)} đ</p>
                             </div>
                             <div className={cx('second-row')}>
-                                <p>{obj.applyToAmount === null ? 'không giới hạn' : addCommas(obj.applyToAmount) + 'đ'} </p>
+                                <p>{obj.applyToAmount === null ? 'không giới hạn' : addCommas(obj.applyToAmount) + ' đ'} </p>
                             </div>
                             <div className={cx('second-row')}>
                                 <p>{obj.discountRate}%</p>
@@ -282,7 +282,7 @@ function DiscountInfo() {
                                 </Button>
                                 <button
                                     className={cx('edit-btn')}
-                                    onClick={() => navigate('/discounts/update/' + promotiontid.id)}
+                                    onClick={() => navigate('/discounts/update/' + promotionId.id)}
                                 >
                                     Sửa
                                 </button>

@@ -147,7 +147,9 @@ function ListCustomer() {
 
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
-        navigate('/customers/detail/' + row.customerId);
+        if (!(Number(row.customerId.slice(-5)) === 0)) {
+            navigate('/customers/detail/' + row.customerId);
+        }
     }, []);
 
     // MODAL LOADING
@@ -319,6 +321,12 @@ function ListCustomer() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [updateList]);
 
+    const selectableRowDisabled = (row) => {
+        if (Number(row.customerId.slice(-5)) === 0) {
+            return true;
+        }
+        return false;
+    }
 
     return (
         <div className={cx('wrapper')}>
@@ -403,6 +411,7 @@ function ListCustomer() {
                     handlePageChange={handlePageChange}
                     // SORT
                     handleSort={handleSort}
+                    selectableRowDisabled={selectableRowDisabled}
                 />
             </div>
             <ModalComp

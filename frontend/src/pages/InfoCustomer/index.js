@@ -1,76 +1,58 @@
 import { useState, useEffect, useCallback, useContext } from 'react';
 import classNames from 'classnames/bind';
 import { useNavigate, useParams } from 'react-router-dom';
+import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Spinner from 'react-bootstrap/Spinner';
 
 import styles from './InfoCustomer.module.scss';
 import Wrapper from '~/components/Wrapper';
 import Button from '~/components/Button';
 import { OrderItem } from '~/components/Item';
-import { data5 } from '~/components/Table/sample';
 import Table from '~/components/Table';
 import ModalComp from '~/components/ModalComp';
 import ModalLoading from '~/components/ModalLoading';
+
 import { ToastContext } from '~/components/ToastContext';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
-import * as CustommerServices from '~/apiServices/customerServices'
-import Spinner from 'react-bootstrap/Spinner';
+
+import * as CustomerServices from '~/apiServices/customerServices';
+import * as saleServices from '~/apiServices/saleServices';
+
 const cx = classNames.bind(styles);
 
-const customer = {
-    id: 'KH0001',
-    name: 'Nguyễn Văn A',
-    phone: '0235556963',
-    email: 'hello@example.com',
-    address: '252 Hai Bà Trưng, Bình Thạnh, TPHCM',
-    totalSpending: 2500000,
-    totalOrder: 25,
-    isActive: true,
-};
-
 function InfoCustomer() {
+    const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
-    const customerid = useParams();
-    const [obj, setObj] = useState(null)
+
+    const customerId = useParams();
+    const [obj, setObj] = useState(null);
+
     useEffect(() => {
-        console.log(customerid.id)
         const fetchApi = async () => {
-            const result = await CustommerServices.getCustomer(customerid.id)
+            const result = await CustomerServices.getCustomer(customerId.id)
                 .catch((err) => {
                     console.log(err);
+                    toastContext.notify('error', 'Có lỗi xảy ra');
                 });
 
             if (result) {
-                setObj(result)
-                console.log(result)
-
-            }
-            else {
-                setTimeout(() => {
-                    setLoading(false);
-                    toastContext.notify('error', 'Không thành công');
-                }, 2000);
+                setObj(result);
+                console.log(result);
             }
         }
 
         fetchApi();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // PROPS
-    const [name, setName] = useState('');
-    const [phone, setPhone] = useState('');
-    const [email, setEmail] = useState('');
-    const [group, setGroup] = useState('');
-    const [address, setAddress] = useState('');
 
-    const navigate = useNavigate();
     const handleExit = () => {
         navigate(-1);
     };
 
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
-        navigate('/imports/detail/' + row.customerId);
+        navigate('/orders/detail/' + row.salesOrderId);
     }, []);
 
     // TABLE
@@ -78,11 +60,34 @@ function InfoCustomer() {
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
-        const timeout = setTimeout(() => {
-            setRows(data5);
+        const fetch = async () => {
+            setPending(true);
+
+            const response = await saleServices.getAllSalesOrders(
+                {
+                    pageNumber: 1,
+                    pageSize: 999999,
+                    customerIds: [customerId.id],
+                }
+            )
+                .catch((error) => {
+                    if (error.response.status === 404) {
+                        setRows([]);
+                    } else {
+                        toastContext.notify('error', 'Có lỗi xảy ra');
+                    }
+                });
+
+            if (response) {
+                console.log(response.data);
+                setRows(response.data);
+            }
+
             setPending(false);
-        }, 500);
-        return () => clearTimeout(timeout);
+        }
+
+        fetch();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // MODAL LOADING
@@ -93,14 +98,24 @@ function InfoCustomer() {
     const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);
 
-    const handleValidation = () => {
+    const handleValidation = async () => {
         setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-            handleCloseModal();
+        let isSuccess = true;
+        const response = await CustomerServices.deleteCustomer([{ customerId: customerId.id }])
+            .catch((error) => {
+                isSuccess = false;
+                console.log(error);
+                toastContext.notify('error', 'Có lỗi xảy ra');
+            });
+
+        if (isSuccess) {
             toastContext.notify('success', 'Xóa khách hàng thành công');
-        }, 2000);
+            navigate('/customers');
+        }
+
+        setLoading(false);
     };
+
 
     return (
         <div className={cx('wrapper')}>
@@ -187,7 +202,7 @@ function InfoCustomer() {
                                             Địa chỉ
                                         </div>
                                         <div className={cx('label-content')}>
-                                            {obj.address.address}
+                                            {obj.address}
                                         </div>
                                     </div>
                                 </div>
@@ -195,12 +210,12 @@ function InfoCustomer() {
                         </Wrapper>
                         <Wrapper title={'Lịch sử mua hàng'} className={cx('m-b')}>
                             <div className={cx('table-wrapper')}>
-                                {/* <Table
+                                <Table
                                     itemComponent={OrderItem}
                                     data={rows}
                                     pending={pending}
                                     onRowClicked={onRowClicked}
-                                /> */}
+                                />
                             </div>
                         </Wrapper>
                     </div>
@@ -220,7 +235,7 @@ function InfoCustomer() {
                             solidBlue
                             className={cx('margin')}
                             onClick={() =>
-                                navigate('/customers/update/' + customerid.id)
+                                navigate('/customers/update/' + customerId.id)
                             }
                         >
                             Sửa

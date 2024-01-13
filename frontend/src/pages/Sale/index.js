@@ -35,7 +35,7 @@ function Sale() {
     const toastContext = useContext(ToastContext);
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false)
-    const [typediscount, setType] = useState(true)
+    const [isRateDiscount, setType] = useState(true)
     const [newset, setNewset] = useState(true)
 
     // update
@@ -97,7 +97,7 @@ function Sale() {
         updateAmount()
     }, [newset])
     const updateAmount = () => {
-        const discountAmount = (typediscount === true ? (total * (discount + (coupon === null ? 0 : coupon.discountRate)) / 100) : (total * (coupon === null ? 0 : coupon.discountRate / 100) + discount))
+        const discountAmount = (isRateDiscount === true ? (total * (discount + (coupon === null ? 0 : coupon.discountRate)) / 100) : (total * (coupon === null ? 0 : coupon.discountRate / 100) + discount))
         setTotalAmout(total - discountAmount)
 
     }
@@ -126,6 +126,9 @@ function Sale() {
         setCustomer(value)
 
     }
+
+
+
     const deletearr = (productId, index) => {
         let newcost = total - arr[index - 1]['totalPrice'];
         let newnums = nums - arr[index - 1]['quantity']
@@ -154,61 +157,92 @@ function Sale() {
             setLoading(false);
             toastContext.notify('error', 'Chưa chọn khách hàng');
         }
-        else if (arr.length === 0 || nums === 0) {
-            setLoading(true);
-            setLoading(false);
-            toastContext.notify('error', 'Chưa chọn sản phẩm');
-        } if (Number(paid) < Number(totalAmount)) {
-            toastContext.notify('error', 'Tiền khách đưa chưa đủ');
-        }
-        else {
-            // setLoading(true);
-            const discountAmount = typediscount === true ? (total * (discount + (coupon === null ? 0 : coupon.discountRate)) / 100) : (total * (coupon === null ? 0 : coupon.discountRate) / 100 + discount)
-            const totalAmount = total - discountAmount
-            const obj = {
-                customerId: customer.customerId,
-                customerName: customer.name,
-                items: arr,
-                subtotal: total,
-                discountItems: [coupon],
-                discountRate: typediscount === true ? (discount + (coupon === null ? 0 : coupon.discountRate)) : (coupon === null ? 0 : coupon.discountRate),
-                discountValue: typediscount === true ? 0 : discount,
-                discountAmount: discountAmount,
-                totalAmount: totalAmount,
-                tax: 0,
-                paymentDetails: {
-                    remainAmount: totalAmount - paid,
-                    paidAmount: parseInt(paid),
-                    paymentMethod: "",
-                    // status: (totalAmount - paid) === 0 ? 'paid' : 'unpaid'
-                },
-                // status: (totalAmount - paid) === 0 ? 'paid' : 'unpaid',
-                note: note,
-                staffId: getLocalStorage().user.staffId,
+        else
+            if (arr.length === 0 || nums === 0) {
+                setLoading(true);
+                setLoading(false);
+                toastContext.notify('error', 'Chưa chọn sản phẩm');
+            } else if (Number(paid) < Number(totalAmount)) {
+                toastContext.notify('error', 'Tiền khách đưa chưa đủ');
+            } else {
+                const discountItems = [];
+
+                if (coupon !== null) {
+                    discountItems.push({
+                        rate: coupon.discountRate,
+                        value: 0,
+                        amount: parseInt(coupon.discountRate * total / 100),
+                        source: 'promotion',
+                        promotionId: coupon.promotionId,
+                    });
+                }
+
+
+                if (discount !== 0) {
+                    let rate = isRateDiscount ? discount : 0;
+                    let value = isRateDiscount ? 0 : discount;
+                    let amount = isRateDiscount ? parseInt(rate * total / 100) : parseInt(total - value);
+
+                    discountItems.push({
+                        rate: rate,
+                        value: value,
+                        amount: amount,
+                        source: 'manual',
+                        promotionId: null,
+                    });
+                }
+
+
+                setLoading(true);
+                const discountAmount = isRateDiscount === true ? (total * (discount + (coupon === null ? 0 : coupon.discountRate)) / 100) : (total * (coupon === null ? 0 : coupon.discountRate) / 100 + discount);
+                const totalAmount = total - discountAmount;
+
+
+                const obj = {
+                    customerId: customer.customerId,
+                    customerName: customer.name,
+                    items: arr,
+                    subtotal: total,
+                    discountItems: discountItems,
+                    discountRate: isRateDiscount === true ? (discount + (coupon === null ? 0 : coupon.discountRate)) : (coupon === null ? 0 : coupon.discountRate),
+                    discountValue: isRateDiscount === true ? 0 : discount,
+                    discountAmount: discountAmount,
+                    totalAmount: totalAmount,
+                    tax: 0,
+                    paymentDetails: {
+                        remainAmount: totalAmount - paid,
+                        paidAmount: parseInt(paid),
+                        paymentMethod: "cash",
+                        status: 'paid',
+                    },
+                    status: 'paid',
+                    note: note,
+                    staffId: getLocalStorage().user.staffId,
+                    staffName: getLocalStorage().user.name,
+                };
+
+                console.log(obj);
+
+                const fetchApi = async () => {
+                    const result = await SaleServices.CreateSalesOrders(obj)
+                        .catch((err) => {
+                            setLoading(false);
+                            toastContext.notify('error', 'Có lỗi xảy ra');
+                            console.log(err);
+                        });
+
+
+                    console.log(result);
+                    if (result) {
+
+
+                        setLoading(false);
+                        toastContext.notify('success', 'Thêm hóa đơn thành công');
+                    }
+                }
+
+                fetchApi();
             }
-            console.log(obj);
-
-            // const fetchApi = async () => {
-
-            //     let isSuccess = true;
-
-            //     const result = await SaleServices.CreateSalesOrders(obj)
-            //         .catch((err) => {
-            //             isSuccess = false;
-            //             setLoading(false);
-            //             toastContext.notify('error', 'Có lỗi xảy ra');
-            //             console.log(err);
-            //         });
-
-
-            //     if (isSuccess) {
-            //         setLoading(false);
-            //         toastContext.notify('succes', 'Thêm hóa đơn thành công');
-            //     }
-            // }
-
-            // fetchApi();
-        }
 
     }
 
@@ -250,18 +284,15 @@ function Sale() {
         console.log(items)
     }
     const onChangeCoupon = (value) => {
-        setPromo(value.value)
-        setCoupon(null)
+        setPromo(value.value);
+        setCoupon(null);
         option.map(e => {
             if (e.name === value.value) {
-                setCoupon(e)
-
+                setCoupon(e);
             }
         })
 
         setNewset(!newset);
-
-
     }
 
     const [showScanner, setShowScanner] = useState(false);
@@ -284,7 +315,18 @@ function Sale() {
         if (response) {
             addarr(response);
         }
+    }
 
+    const handleBackHome = () => {
+        const role = getLocalStorage().user.role;
+
+        if (role === 'admin') {
+            navigate('/overview');
+        } else if (role === 'warehouse') {
+            navigate('/products');
+        } else {
+            navigate('/orders');
+        }
     }
 
     return (
@@ -300,7 +342,7 @@ function Sale() {
                         checked={showScanner}
                         onChange={() => setShowScanner(!showScanner)}
                     />
-                    <FaHouseChimney className={` ${cx('icon')}`} onClick={() => navigate('/overview')} />
+                    <FaHouseChimney className={` ${cx('icon')}`} onClick={handleBackHome} />
                 </div>
             </div>
             <Row>
@@ -390,7 +432,7 @@ function Sale() {
                                 </Col>
                                 <Col xs md lg={6} className='text-end'>
                                     {
-                                        typediscount ? discount + '%' : addCommas(discount) + 'đ'
+                                        isRateDiscount ? discount + '%' : addCommas(discount) + 'đ'
                                     }
                                 </Col>
 
@@ -474,13 +516,13 @@ function Sale() {
                     <div className='d-flex justify-content-between'>
                         <p className='align-self-center'>Chiết khấu thường</p>
                         <div className={`d-flex w-75`}>
-                            <Button className={typediscount ? `${cx('btn_active')}` : `${cx('btn')}`} onClick={() => {
+                            <Button className={isRateDiscount ? `${cx('btn_active')}` : `${cx('btn')}`} onClick={() => {
                                 setType(true)
                                 setDiscount(0)
                                 setNewset(!newset)
 
                             }}>%</Button>
-                            <Button className={typediscount ? `${cx('btn')}` : `${cx('btn_active')}`} onClick={() => {
+                            <Button className={isRateDiscount ? `${cx('btn')}` : `${cx('btn_active')}`} onClick={() => {
                                 setType(false)
                                 setDiscount(0)
                                 setNewset(!newset)
@@ -488,7 +530,7 @@ function Sale() {
                             }}>Giá trị</Button>
                             <input className={`ms-3 me-5 w-50 ${cx('textfield-1')}`} type="number" min={0} max={100} value={discount} onChange={(e) => {
 
-                                if (typediscount === true) {
+                                if (isRateDiscount === true) {
                                     if (e.target.value > 100) e.target.value = 100;
                                     else if (e.target.value < 0 || e.target.value === '') e.target.value = 0;
 

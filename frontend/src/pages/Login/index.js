@@ -67,9 +67,11 @@ function Login() {
 
 
     // MODAL
+    const [titleModal, setTitleModal] = useState('');
     const [open, setOpen] = useState(false);
 
     const handleOpenModal = () => {
+        setTitleModal('Quên mật khẩu');
         setOpen(true);
         setStep({ step1: true, step2: false, step3: false });
     };
@@ -93,6 +95,9 @@ function Login() {
         step2: false,
         step3: false,
     });
+
+    // RESET EMAIL
+    const [currentUser, setCurrentUser] = useState();
 
     // MODAL FORGOT EMAIL
     const [forgetEmail, setForgetEmail] = useState('');
@@ -149,7 +154,6 @@ function Login() {
                 }
 
                 fetch();
-                // setStep({ step1: false, step2: true, step3: false });
             }
         }
     };
@@ -170,13 +174,36 @@ function Login() {
             if (renewPass === '') {
                 setErrorReNewPass('Không được bỏ trống');
             }
-        } else {
-            if (newPass === renewPass) {
-                toastContext.notify('success', 'Đổi mật khẩu mới thành công!');
-                handleCloseModal();
-            } else {
-                setEqual(true);
+        } else if (newPass === renewPass) {
+
+            setLoading(true);
+            const fetch = async () => {
+                let isSuccess = true;
+
+                const newObj = {
+                    email: currentUser.email,
+                    newPassword: newPass,
+                    oldPassword: currentUser.password,
+                };
+
+                const response = await loginServices.updatePassword(newObj, currentUser.staffId)
+                    .catch((error) => {
+                        isSuccess = false;
+                        console.log(error);
+                        toastContext.notify('error', 'Có lỗi xảy ra');
+                    });
+
+                if (isSuccess) {
+                    toastContext.notify('success', 'Đặt lại mật khẩu thành công. Vui lòng đăng nhập lại');
+                    handleCloseModal();
+                }
+
+                setLoading(false);
             }
+
+            fetch();
+        } else {
+            setEqual(true);
         }
     };
 
@@ -220,18 +247,29 @@ function Login() {
                             }
                         });
 
-                    console.log(result);
 
                     if (result) {
-                        window.localStorage.setItem('object', JSON.stringify(result));
-                        window.localStorage.setItem('isLogin', true);
 
-                        if (result.user.role === 'admin') {
-                            navigate('/overview');
-                        } else if (result.user.role === 'warehouse') {
-                            navigate('/products');
+                        if (result.needReset === true) {
+                            setCurrentUser({
+                                staffId: result.user.staffId,
+                                email: result.user.contact.email,
+                                password: password,
+                            });
+                            setTitleModal('Đặt lại mật khẩu');
+                            setOpen(true);
+                            setStep({ step1: false, step2: false, step3: true });
                         } else {
-                            navigate('/orders');
+                            window.localStorage.setItem('object', JSON.stringify(result));
+                            window.localStorage.setItem('isLogin', true);
+
+                            if (result.user.role === 'admin') {
+                                navigate('/overview');
+                            } else if (result.user.role === 'warehouse') {
+                                navigate('/products');
+                            } else {
+                                navigate('/orders');
+                            }
                         }
                     }
 
@@ -310,7 +348,7 @@ function Login() {
             <ModalComp
                 open={open}
                 handleClose={handleCloseModal}
-                title={'Quên mật khẩu'}
+                title={titleModal}
                 actionComponent={
                     <div>
                         <Button

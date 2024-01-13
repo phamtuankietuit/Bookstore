@@ -52,7 +52,7 @@ function ListProduct() {
         pageSize,
         sortBy,
         orderBy,
-        isActives,
+        isActive,
         priceRanges,
         categoryIds,
         supplierIds,
@@ -61,12 +61,21 @@ function ListProduct() {
         manufacturerIds,
         query,
     ) => {
+
+        let arr = [];
+
+        if (isActive) {
+            if (isActive.length < 2) {
+                arr = [...isActive];
+            }
+        }
+
         return {
             pageNumber,
             pageSize,
             ...(sortBy && { sortBy }),
             ...(orderBy && { orderBy }),
-            ...(isActives && { isActives }),
+            ...(isActive && { isActive: arr }),
             ...(priceRanges && { priceRanges }),
             ...(categoryIds && { categoryIds }),
             ...(supplierIds && { supplierIds }),
@@ -384,11 +393,13 @@ function ListProduct() {
                         }
                     });
                 } else if (isSuccess) {
-                    setLoading(false);
-                    handleCloseModal();
-                    toastContext.notify('success', 'Xóa sản phẩm thành công');
-                    clearSubHeader();
-                    setUpdateList(new Date());
+                    setTimeout(() => {
+                        setLoading(false);
+                        handleCloseModal();
+                        toastContext.notify('success', 'Xóa sản phẩm thành công');
+                        clearSubHeader();
+                        setUpdateList(new Date());
+                    }, 1000);
                 }
             }
 
@@ -431,6 +442,8 @@ function ListProduct() {
         setSortBy(column.text);
         setOrderBy(sortDirection);
         setPageNumber(1);
+        console.log('handleSort');
+
 
         getList(
             await createObjectQuery(
@@ -454,6 +467,8 @@ function ListProduct() {
     const handlePerRowsChange = async (newPerPage, pageNumber) => {
         setPageSize(newPerPage);
         setPageNumber(pageNumber);
+        console.log('handlePerRowsChange');
+
 
         getList(
             await createObjectQuery(
@@ -476,6 +491,7 @@ function ListProduct() {
 
     const handlePageChange = async (pageNumber) => {
         setPageNumber(pageNumber);
+        console.log('handlePageChange');
 
         getList(
             await createObjectQuery(
@@ -516,7 +532,9 @@ function ListProduct() {
             );
         }
 
+        setPending(true);
         fetch();
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [updateList]);
 

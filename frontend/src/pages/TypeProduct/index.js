@@ -13,6 +13,7 @@ import Input from '~/components/Input';
 import ModalLoading from '~/components/ModalLoading';
 import { ToastContext } from '~/components/ToastContext';
 import * as typeProductServices from '~/apiServices/typeProductServices';
+import { getLocalStorage } from '~/store/getLocalStorage';
 
 const cx = classNames.bind(styles);
 
@@ -45,8 +46,14 @@ function TypeProduct() {
                 const fetchApi = async () => {
                     setLoading(true);
 
-                    const result = await typeProductServices.createProductType({ text: nameType })
+                    const result = await typeProductServices.createProductType(
+                        {
+                            text: nameType,
+                            staffId: getLocalStorage().user.staffId,
+                        }
+                    )
                         .catch((error) => {
+                            setLoading(false);
                             if (error.response) {
                                 // The request was made and the server responded with a status code
                                 // that falls out of the range of 2xx
@@ -64,7 +71,6 @@ function TypeProduct() {
                             }
                             console.log(error.config);
                             if (error.response.status === 409) {
-                                setLoading(false);
                                 toastContext.notify('error', 'Loại sản phẩm đã tồn tại');
                             } else {
                                 toastContext.notify('error', 'Có lỗi xảy ra');
@@ -140,7 +146,12 @@ function TypeProduct() {
                     setLoading(true);
 
                     const result = await typeProductServices
-                        .updateProductType(clickedRow.categoryId, { categoryId: clickedRow.categoryId, text: nameType })
+                        .updateProductType(clickedRow.categoryId,
+                            {
+                                ...clickedRow,
+                                text: nameType,
+                            }
+                        )
                         .catch((error) => {
                             setLoading(false);
                             if (error.response) {

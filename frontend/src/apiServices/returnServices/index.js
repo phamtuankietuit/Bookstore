@@ -1,8 +1,8 @@
 import * as request from '~/utils/request';
 
-export const getAllSalesOrders = async (params) => {
+export const getAllReturns = async (params) => {
     try {
-        const response = await request.getMethod('SalesOrders?', {
+        const response = await request.getMethod('ReturnOrders?', {
             params,
             paramsSerializer: (params) => {
                 const serializedParams = Object.keys(params).map((key) => {
@@ -21,30 +21,31 @@ export const getAllSalesOrders = async (params) => {
     }
 }
 
-
-export const CreateSalesOrders = async (obj) => {
+export const getReturn = async (id) => {
     try {
-        const res = await request.postMethod('SalesOrders', obj);
-        return res;
-    } catch (error) {
-        return Promise.reject(error);
-    }
-}
-export const getSalesOrder = async (id) => {
-    try {
-        const res = await request.getMethod('SalesOrders/' + id);
+        const res = await request.getMethod('ReturnOrders/' + id);
         return res;
     } catch (error) {
         return Promise.reject(error);
     }
 }
 
-export const UpdateSalesOrder = async (id, obj) => {
+export const getNewReturn = async (id) => {
     try {
-        const res = await request.putMethod('SalesOrders/' + id, obj);
-        console.log(res);
+        const res = await request.getMethod('ReturnOrders/init/' + id, {}, true);
         return res;
     } catch (error) {
         return Promise.reject(error);
     }
 }
+
+
+export const createReturn = async (obj) => {
+    try {
+        const res = await request.postMethod('ReturnOrders', obj);
+        return res;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+

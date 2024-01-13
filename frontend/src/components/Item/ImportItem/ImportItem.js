@@ -57,14 +57,14 @@ export const ImportItem = [
             </div>
         ),
     },
-    // {
-    //     name: 'Nhân viên tạo',
-    //     minWidth: '180px',
-    //     center: true,
-    //     cell: (row) => (
-    //         <div className={cx('font')} data-tag="allowRowEvents">
-    //             {row.staffName}
-    //         </div>
-    //     ),
-    // },
+    {
+        name: 'Nhân viên tạo',
+        minWidth: '180px',
+        center: true,
+        cell: (row) => (
+            <div className={cx('font')} data-tag="allowRowEvents">
+                {row.staffName}
+            </div>
+        ),
+    },
 ];

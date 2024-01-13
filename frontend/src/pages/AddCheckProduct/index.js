@@ -91,17 +91,17 @@ function AddCheckProduct(props) {
     const create = () => {
         if (arr.length === 0) {
             setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-                toastContext.notify('error', 'Chưa chọn sản phẩm');
-            }, 2000);
+
+            setLoading(false);
+            toastContext.notify('error', 'Chưa chọn sản phẩm');
+
         }
         else {
             setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-                toastContext.notify('success', 'Đã tạo phiếu kiểm');
-            }, 2000);
+
+            setLoading(false);
+            toastContext.notify('success', 'Đã tạo phiếu kiểm');
+
             console.log(arr)
         }
     }
@@ -109,7 +109,7 @@ function AddCheckProduct(props) {
     useEffect(() => {
 
         const fetchApi = async () => {
-            const result = await ProductServices.getAllProducts(1, 5)
+            const result = await ProductServices.getAllProducts({ pageNumber: 1, pageSize: -1 })
                 .catch((err) => {
                     console.log(err);
                 });
@@ -134,10 +134,10 @@ function AddCheckProduct(props) {
                     <div className='d-flex'>
                         <p className={` w-50 ${cx('title')}`}>Tất cả</p>
                         <div className='w-50 text-end me-5'>
-                            <span className={`me-2 ${cx('enterfile')}`} onClick={() => handleShow()} >
+                            {/* <span className={`me-2 ${cx('enterfile')}`} onClick={() => handleShow()} >
                                 <FaArrowUpFromBracket className={`me-2 `} />
                                 Nhập file
-                            </span>
+                            </span> */}
                         </div>
                     </div>
 
@@ -174,7 +174,7 @@ function AddCheckProduct(props) {
                                     <div className={cx('no-product')}>
                                         <FaBoxOpen className={cx('icon')} />
                                         <p className='text-center w-100'>Phiếu kiểm hàng của bạn chưa có sản phẩm nào</p>
-                                        <Button className={`m-1 ${cx('my-btn')}`} variant="outline-primary" onClick={() => handleShow()}>Nhập file</Button>
+                                        {/* <Button className={`m-1 ${cx('my-btn')}`} variant="outline-primary" onClick={() => handleShow()}>Nhập file</Button> */}
                                     </div>
                                 ) : (
 

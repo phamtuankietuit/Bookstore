@@ -2,18 +2,22 @@ import { useState, useEffect, useContext } from 'react';
 import classNames from 'classnames/bind';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Switch } from '@mui/material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './InfoStaff.module.scss';
 import Wrapper from '~/components/Wrapper';
 import Button from '~/components/Button';
 import ModalComp from '~/components/ModalComp';
 import ModalLoading from '~/components/ModalLoading';
-import { ToastContext } from '~/components/ToastContext';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Input from '~/components/Input';
-import * as StaffServices from '~/apiServices/staffServices';
 import Spinner from 'react-bootstrap/Spinner';
+
+import { ToastContext } from '~/components/ToastContext';
+
+import * as StaffServices from '~/apiServices/staffServices';
+
+
 const cx = classNames.bind(styles);
 
 function InfoStaff() {
@@ -196,6 +200,7 @@ function InfoStaff() {
                                             required
                                             error={errorRole}
                                             className={cx('m-b')}
+                                            readOnly
                                         />
                                     </div>
                                 </div>

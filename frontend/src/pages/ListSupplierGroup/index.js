@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useCallback } from 'react';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -6,7 +6,6 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import styles from './ListSupplierGroup.module.scss';
 import List from '~/components/List';
 import Button from '~/components/Button';
-import { data9 } from '~/components/Table/sample';
 import { SupplierGroupItem } from '~/components/Item';
 import SubHeader from '~/components/SubHeader';
 import ModalComp from '~/components/ModalComp';
@@ -17,20 +16,25 @@ import { ToastContext } from '~/components/ToastContext';
 import * as SuppliersServices from '~/apiServices/supplierServices';
 import * as supplierGroupsServices from '~/apiServices/supplierGroupServices';
 
+import { getLocalStorage } from '~/store/getLocalStorage';
+
 const cx = classNames.bind(styles);
 
 function ListSupplierGroup() {
     const toastContext = useContext(ToastContext);
     const [updateList, setUpdateList] = useState(new Date());
 
+
     // CREATE OBJECT QUERY
     const createObjectQuery = async (
         pageNumber,
         pageSize,
+        query,
     ) => {
         return {
             pageNumber,
             pageSize,
+            ...(query && { query }),
         };
     }
 
@@ -76,7 +80,13 @@ function ListSupplierGroup() {
                 const fetchApi = async () => {
                     setLoading(true);
 
-                    const result = await supplierGroupsServices.CreateSupplierGroup({ staffId: 'staf00000', name: nameGroup })
+                    const result = await supplierGroupsServices.CreateSupplierGroup
+                        (
+                            {
+                                name: nameGroup,
+                                staffId: getLocalStorage().user.staffId,
+                            }
+                        )
                         .catch((error) => {
                             setLoading(false);
                             if (error.response.status === 409) {
@@ -96,7 +106,7 @@ function ListSupplierGroup() {
                 }
                 fetchApi();
             }
-        } else {
+        } else if (titleModal === 'Xóa nhóm nhà cung cấp?') {
             let isSuccess = true;
 
             // XÓA NHÀ CUNG CẤP
@@ -145,6 +155,42 @@ function ListSupplierGroup() {
                 }
             }
             fetchApi();
+        } else {
+            // CẬP NHẬT
+
+            const fetchApi = async () => {
+                setLoading(true);
+
+                const result = await supplierGroupsServices
+                    .updateSupplierGroup(clickedRow.supplierGroupId,
+                        {
+                            ...clickedRow,
+                            name: nameGroup,
+                        }
+                    )
+                    .catch((error) => {
+                        setLoading(false);
+                        if (error.response) {
+                            console.log(error.response.data);
+                            console.log(error.response.status);
+                            console.log(error.response.headers);
+                        } else if (error.request) {
+                            console.log(error.request);
+                        } else {
+                            console.log('Error', error.message);
+                        }
+                        console.log(error.config);
+                        toastContext.notify('error', 'Có lỗi xảy ra');
+                    });
+
+                setLoading(false);
+                handleCloseModal();
+                toastContext.notify('success', 'Cập nhật nhóm nhà cung cấp thành công');
+                clearSubHeader();
+                setUpdateList(new Date());
+            }
+
+            fetchApi();
         }
     };
 
@@ -156,6 +202,19 @@ function ListSupplierGroup() {
     const handleSearch = (e) => {
         setSearch(e.target.value);
     };
+
+    const handleKeyDown = async (e) => {
+        if (e.key === 'Enter') {
+            setPageNumber(1);
+            getList(
+                await createObjectQuery(
+                    1,
+                    pageSize,
+                    search,
+                )
+            );
+        }
+    }
 
     // TABLE
     const [pending, setPending] = useState(true);
@@ -216,6 +275,7 @@ function ListSupplierGroup() {
             await createObjectQuery(
                 pageNumber,
                 newPerPage,
+                search,
             )
         );
 
@@ -224,12 +284,11 @@ function ListSupplierGroup() {
     const handlePageChange = async (pageNumber) => {
         setPageNumber(pageNumber);
 
-        console.log('handlePageChange', pageNumber);
-
         getList(
             await createObjectQuery(
                 pageNumber,
                 pageSize,
+                search,
             )
         );
     }
@@ -240,6 +299,7 @@ function ListSupplierGroup() {
                 await createObjectQuery(
                     pageNumber,
                     pageSize,
+                    search,
                 )
             );
         }
@@ -247,6 +307,24 @@ function ListSupplierGroup() {
         fetch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [updateList]);
+
+    const selectableRowDisabled = (row) => {
+        if (Number(row.supplierGroupId.slice(-5)) === 0) {
+            return true;
+        }
+        return false;
+    }
+
+    // CLICK ROW
+    const [clickedRow, setClickedRow] = useState();
+
+    const onRowClicked = useCallback((row) => {
+        if (Number(row.supplierGroupId.slice(-5)) > 0) {
+            setNameGroup(row.name);
+            onOpenModal('Cập nhật nhóm nhà cung cấp');
+            setClickedRow(row);
+        }
+    }, []);
 
     return (
         <div className={cx('wrapper')}>
@@ -273,6 +351,7 @@ function ListSupplierGroup() {
                         pagination
                         showSubHeader={showSubHeader}
                         itemComponent={SupplierGroupItem}
+                        onRowClicked={onRowClicked}
                         data={rows}
                         pending={pending}
                         handleSelectedItems={handleSelectedProducts}
@@ -290,6 +369,8 @@ function ListSupplierGroup() {
                         totalRows={totalRows}
                         handlePerRowsChange={handlePerRowsChange}
                         handlePageChange={handlePageChange}
+                        selectableRowDisabled={selectableRowDisabled}
+                        handleKeyDown={handleKeyDown}
                     />
                 </div>
             </div>
@@ -313,7 +394,9 @@ function ListSupplierGroup() {
                             solidRed={titleModal === 'Xóa nhóm nhà cung cấp?'}
                             onClick={handleValidation}
                         >
-                            {titleModal === 'Thêm nhóm nhà cung cấp' ? 'Thêm' : 'Xóa'}
+                            {titleModal === 'Thêm nhóm nhà cung cấp' && 'Thêm'}
+                            {titleModal === 'Xóa nhóm nhà cung cấp?' && 'Xóa'}
+                            {titleModal === 'Cập nhật nhóm nhà cung cấp' && 'Lưu'}
                         </Button>
                     </div>
                 }
@@ -332,6 +415,15 @@ function ListSupplierGroup() {
                         Thao tác này sẽ xóa
                         <strong> {selectedRow}</strong> nhóm nhà cung cấp bạn đã chọn
                     </div>
+                )}
+                {titleModal === 'Cập nhật nhóm nhà cung cấp' && (
+                    <Input
+                        title={'Tên nhóm nhà cung cấp'}
+                        value={nameGroup}
+                        onChange={(value) => setNameGroup(value)}
+                        error={errorGroup}
+                        required
+                    />
                 )}
             </ModalComp>
             <ModalLoading open={loading} title={'Đang tải'} />

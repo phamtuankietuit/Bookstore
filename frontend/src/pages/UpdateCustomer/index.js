@@ -8,28 +8,22 @@ import Wrapper from '~/components/Wrapper';
 import Button from '~/components/Button';
 import Input from '~/components/Input';
 import ModalLoading from '~/components/ModalLoading';
+
 import { ToastContext } from '~/components/ToastContext';
-import * as CustommerServices from '~/apiServices/customerServices'
-import Spinner from 'react-bootstrap/Spinner';
+
+import * as customerServices from '~/apiServices/customerServices';
+
 const cx = classNames.bind(styles);
 
-const customer = {
-    id: 'KH0001',
-    name: 'Nguyễn Văn A',
-    phone: '0235556963',
-    email: 'hello@example.com',
-    address: '252 Hai Bà Trưng, Bình Thạnh, TPHCM',
-    totalSpending: 2500000,
-    totalOrder: 25,
-    isActive: true,
-};
+
 
 function UpdateCustomer() {
-    const customerid = useParams();
-    const [obj, setObj] = useState('')
+    const customerId = useParams();
+    const [obj, setObj] = useState('');
+
     useEffect(() => {
         const fetchApi = async () => {
-            const result = await CustommerServices.getCustomer(customerid.id)
+            const result = await customerServices.getCustomer(customerId.id)
                 .catch((err) => {
                     console.log(err);
                 });
@@ -38,26 +32,17 @@ function UpdateCustomer() {
                 setName(result.name);
                 setPhone(result.phoneNumber);
                 setEmail(result.email);
-                setAddress(result.address.address);
-                setID(result.customerId)
-                setObj(result)
+                setAddress(result.address);
+                setObj(result);
                 setIsActive(result.isActive);
-
             }
             else {
-                setTimeout(() => {
-                    setLoading(false);
-                    toastContext.notify('error', 'Không thành công');
-                }, 2000);
+                setLoading(false);
+                toastContext.notify('error', 'Không thành công');
             }
         }
 
         fetchApi();
-        // setName(customer.name);
-        // setPhone(customer.phone);
-        // setEmail(customer.email);
-        // setAddress(customer.address);
-        // setIsActive(customer.isActive);
     }, []);
 
     const navigate = useNavigate();
@@ -70,7 +55,8 @@ function UpdateCustomer() {
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
     const [isActive, setIsActive] = useState(true);
-    const [ID, setID] = useState('')
+
+
     // MODAL LOADING
     const [loading, setLoading] = useState(false);
 
@@ -79,40 +65,33 @@ function UpdateCustomer() {
         if (name === '') {
             setErrorName('Không được bỏ trống');
         } else {
-            // CALL API
             setLoading(true);
-            const newobj = obj
-            newobj.name = name
-            newobj.phoneNumber = phone
-            newobj.email = email
-            newobj.address.address = address
-            newobj.address.phoneNumber = phone
-            newobj.address.email = email
-            newobj.address.name = name
-            newobj.isActive = isActive
+
+            const newObj = {
+                ...obj,
+                name: name,
+                phoneNumber: phone,
+                email: email,
+                isActive: isActive,
+            };
+
+            console.log(newObj);
+
+            let isSuccess = true;
+
             const fetchApi = async () => {
-                const result = await CustommerServices.updateCustomer(customerid.id, newobj)
+                const result = await customerServices.updateCustomer(customerId.id, newObj)
                     .catch((err) => {
+                        isSuccess = false;
                         console.log(err);
+                        toastContext.notify('error', 'Có lỗi xảy ra');
                     });
 
-                if (result) {
-                    setTimeout(() => {
-                        setLoading(false);
-                        toastContext.notify('error', 'Không thành công');
-                    }, 2000);
+                if (isSuccess) {
+                    toastContext.notify('success', 'Cập nhật khách hàng thành công');
+                }
 
-                }
-                else {
-                    setTimeout(() => {
-                        setLoading(false);
-                        toastContext.notify(
-                            'success',
-                            'Cập nhật khách hàng thành công',
-                        );
-                        console.log(newobj)
-                    }, 2000);
-                }
+                setLoading(false);
             }
 
             fetchApi();
@@ -136,7 +115,7 @@ function UpdateCustomer() {
                             <div className={cx('col1')}>
                                 <Input
                                     title={'Mã khách hàng'}
-                                    value={ID}
+                                    value={customerId.id}
                                     className={cx('m-b')}
                                     readOnly
                                 />

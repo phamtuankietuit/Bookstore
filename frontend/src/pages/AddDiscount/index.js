@@ -15,25 +15,14 @@ const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 const removeNonNumeric = (num) => num.toString().replace(/[^0-9]/g, '');
 
-const percent = (num) => {
-    if (num < 0) return '0';
-    if (num > 100) return '100';
-    return num.toString();
-};
-
 function AddDiscount() {
     const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
     const [loading, setLoading] = useState(false);
-    const [disable, SetDisable] = useState(false);
 
-    const DisableInputText = () => {
-        SetDisable(!disable);
-        setQuantity(0);
-    };
 
     const [dateString, setDateString] = useState('');
-    const [start, setStart] = useState(0);
+    const [start, setStart] = useState('0');
     const [end, setEnd] = useState(null);
     const [discount, setDiscount] = useState(0);
     const [name, setName] = useState('');
@@ -57,14 +46,14 @@ function AddDiscount() {
             const fetchApi = async () => {
 
                 let endValue = null;
-                if (Number(end) > 0) {
-                    endValue = Number(end);
+                if (Number(end.replace(/,/g, '')) > 0) {
+                    endValue = Number(end.replace(/,/g, ''));
                 }
 
                 const obj = {
                     name: name,
                     remainQuantity: Number(quantity),
-                    applyFromAmount: Number(start),
+                    applyFromAmount: Number(start.replace(/,/g, '')),
                     applyToAmount: endValue,
                     discountRate: Number(discount),
                     startAt: ConvertISO(dateString).startDate,
@@ -76,26 +65,23 @@ function AddDiscount() {
                 console.log(obj);
 
                 const result = await PromotionsServices.CreatePromotion(obj)
-                    .catch((err) => {
-                        console.log(err);
+                    .catch((error) => {
+                        console.log(error);
+                        setLoading(false);
+                        toastContext.notify('error', 'Có lỗi xảy ra');
                     });
 
                 if (result) {
                     setLoading(false);
-                    toastContext.notify('success', 'Đã lưu khuyến mãi');
+                    toastContext.notify('success', 'Tạo khuyến mãi thành công');
                     navigate('/discounts/detail/' + result.promotionId);
-
-                }
-                else {
-                    setLoading(false);
-                    toastContext.notify('error', 'Có lỗi xảy ra');
                 }
             }
 
             fetchApi();
         }
-
     }
+
     return (
         <div className={cx('container')}>
             <div className={cx('grid1')}>
@@ -117,49 +103,21 @@ function AddDiscount() {
                         </div>
                         <div className={cx('input-text')}>
                             <div>
-                                <p>Mã khuyến mãi</p>
-                                <input
-                                    disabled
-                                    type="text"
-                                    placeholder="Mã khuyến mãi khởi tạo tự động"
-
-                                ></input>
-                            </div>
-                        </div>
-                        <div className={cx('input-text')}>
-                            <div>
                                 <p>Số lượng áp dụng</p>
                                 <input
-                                    type="number"
                                     placeholder="Nhập số lượng áp dụng"
-                                    disabled={disable}
                                     value={quantity}
                                     onChange={(e) => {
-                                        if (e.target.value < 0) e.target.value = 0
-                                        setQuantity(e.target.value);
+                                        setQuantity(
+                                            removeNonNumeric(
+                                                e.target.value,
+                                            )
+                                        )
                                     }}
-
                                 ></input>
                             </div>
                         </div>
-                        {/* <div className={cx('input-text')}>
-                            <div>
-                                <p>Mô tả</p>
-                                <input
-                                    type="text"
-                                    placeholder="Nhập mô tả cho khuyến mãi"
-                                ></input>
-                            </div>
-                        </div> */}
                     </div>
-                    {/* <div className={cx('checkbox-wrapper')}>
-                        <input
-                            onClick={DisableInputText}
-                            id="cb"
-                            type="checkbox"
-                        ></input>
-                        <label htmlFor="cb">Không giới hạn số lượng</label>
-                    </div> */}
                 </div>
                 <div className={cx('grid1-discount-info')}>
                     <div className={cx('title')}>
@@ -187,12 +145,11 @@ function AddDiscount() {
                                         value={start}
                                         onChange={(e) =>
                                             setStart(
-                                                e.target.value
-                                                // addCommas(
-                                                //     removeNonNumeric(
-                                                //         e.target.value,
-                                                //     ),
-                                                // ),
+                                                addCommas(
+                                                    removeNonNumeric(
+                                                        e.target.value,
+                                                    ),
+                                                ),
                                             )
                                         }
                                     ></input>
@@ -203,12 +160,11 @@ function AddDiscount() {
                                         value={end}
                                         onChange={(e) =>
                                             setEnd(
-                                                e.target.value
-                                                // addCommas(
-                                                //     removeNonNumeric(
-                                                //         e.target.value,
-                                                //     ),
-                                                // ),
+                                                addCommas(
+                                                    removeNonNumeric(
+                                                        e.target.value,
+                                                    ),
+                                                ),
                                             )
                                         }
                                     ></input>
@@ -217,15 +173,13 @@ function AddDiscount() {
                                     <input
                                         type="text"
                                         value={discount}
-                                        onChange={(e) =>
-                                            setDiscount(
-                                                percent(
-                                                    removeNonNumeric(
-                                                        e.target.value,
-                                                    ),
-                                                ),
-                                            )
-                                        }
+                                        onChange={(e) => {
+                                            let value = removeNonNumeric(e.target.value);
+                                            if (value > 100) {
+                                                value = discount;
+                                            }
+                                            setDiscount(value);
+                                        }}
                                     ></input>
                                     <span>%</span>
                                 </div>

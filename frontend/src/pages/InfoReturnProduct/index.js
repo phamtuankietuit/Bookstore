@@ -1,78 +1,49 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useState, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
-import styles from './InfoReturnProduct.module.scss';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import { NavLink } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useEffect, useState, useContext } from 'react';
-import Properties from '~/components/Properties';
-import { data } from './data';
-import { FaCircleCheck } from "react-icons/fa6";
-import { FaCircleXmark } from "react-icons/fa6";
-import { FaPrint } from "react-icons/fa6";
-import Modal from 'react-bootstrap/Modal';
 import Spinner from 'react-bootstrap/Spinner';
-import { ToastContext } from '~/components/ToastContext';
+
+import styles from './InfoReturnProduct.module.scss';
+import Properties from '~/components/Properties';
 import ModalLoading from '~/components/ModalLoading';
+
+import { ToastContext } from '~/components/ToastContext';
+
+import * as returnServices from '~/apiServices/returnServices';
+
 const cx = classNames.bind(styles);
+
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
 function InfoReturn() {
+    const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
     const [loading, setLoading] = useState(false);
-    let navigate = useNavigate();
-    const returnid = useParams()
 
-
-    const [obj, setObj] = useState(null)
+    const returnOrderId = useParams();
+    const [obj, setObj] = useState(null);
 
     useEffect(() => {
-        setObj(data)
+        const fetch = async () => {
+            const response = await returnServices.getReturn(returnOrderId.id)
+                .catch((error) => {
+                    toastContext.notify('error', 'Có lỗi xảy ra');
+                });
 
-    });
-    const [show, setShow] = useState(false);
-    const handleClose = () => {
-        setShow(false)
+            if (response) {
+                console.log(response);
+                setObj(response);
+            }
+        }
 
-    };
-    const handleShow = () => setShow(true);
+        fetch();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-    const [showpaid, setShowpaid] = useState(false);
-    const [showreceived, setShowreceived] = useState(false)
-    const [paid, setPaid] = useState(0)
-    const handleClosepaid = () => setShowpaid(false);
-    const handleShowpaid = () => setShowpaid(true);
-    const handleClosereceived = () => setShowreceived(false);
-    const handleShowreceived = () => setShowreceived(true);
-    const handleSubmitpaid = () => {
-        let newobj = obj;
-        newobj.paid = newobj.paid + paid
-        newobj.unpaid = newobj.total - newobj.paid;
-        setObj(newobj)
-        setShowpaid(false)
-    }
-    const submit = () => {
-        console.log(obj)
-        handleClose()
-    }
-
-    const handleReceived = () => {
-        let newobj = obj;
-        newobj.received = true
-        setObj(newobj)
-        setShowreceived(false)
-    }
-
-    const deleteform = () => {
-        setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-            toastContext.notify('success', 'Đã xóa phiếu');
-        }, 2000);
-    }
 
     return (
         <div className={cx('wrapper')}>
@@ -84,7 +55,7 @@ function InfoReturn() {
                         </Spinner>
                     ) : (<div>
                         <div className={cx('frame')}>
-                            <div className='d-flex mb-2'>
+                            {/* <div className='d-flex mb-2'>
                                 <p className='fs-5 me-4'>{obj.sku}</p>
                                 {
                                     obj.received ? (
@@ -93,27 +64,40 @@ function InfoReturn() {
                                         <div className={cx('status-2')}>Chưa nhân hàng</div>
                                     )
                                 }
-
-
-                            </div>
-                            <div className='my-4'>
+                            </div> */}
+                            {/* <div className='my-4'>
                                 <Button variant="secondary" onClick={() => handleShow()}>
                                     <FaPrint className='me-2' />
                                     In đơn trả hàng
                                 </Button>
-                            </div>
+                            </div> */}
                             <p className={`mt-4 mb-1 ${cx('title')}`}>Thông tin phiếu</p>
                             <hr />
                             <Row>
                                 <Col lg={6} className='mb-2'>
-                                    <Properties props={obj.info} stype={0} />
+                                    <Properties props={[
+                                        {
+                                            id: 0,
+                                            title: 'Mã đơn hàng',
+                                            value: obj.salesOrderId,
+                                        },
+                                        {
+                                            id: 1,
+                                            title: 'Tên khách hàng',
+                                            value: obj.customerName,
+                                        },
+                                        {
+                                            id: 2,
+                                            title: 'Tên nhân viên',
+                                            value: obj.staffName,
+                                        },
+                                    ]} stype={0} />
                                 </Col>
                                 <Col lg={6} className='mb-2'>
-                                    <p className='fw-bold fs-6'>Lý do trả hàng : </p>
-                                    <p className='mb-2'>{obj.reason}</p>
+                                    {/* <p className='fw-bold fs-6'>Lý do trả hàng : </p>
+                                    <p className='mb-2'>{obj.reason}</p> */}
                                     <p className='fw-bold fs-6'>Ghi chú :</p>
                                     <p className='mb-2'>{obj.note}</p>
-
                                 </Col>
                             </Row>
                         </div>
@@ -131,17 +115,17 @@ function InfoReturn() {
                                 </div>
                                 <div className={cx('list-import')}>
                                     {
-                                        obj.list.map((item, index) => (
+                                        obj.items.map((item, index) => (
                                             <div className={`${cx('item')}`} key={item.id}>
                                                 <div className={cx('columns-1')}>{index + 1}</div>
-                                                <div className={cx('columns-1')}><img src={item.img} className={cx('img')} /></div>
+                                                <div className={cx('columns-1')}><img src={item.featureImageUrl} className={cx('img')} /></div>
                                                 <div className={cx('columns-2')}>
                                                     <div className='fs-6'>{item.name}</div>
                                                     <div>{item.sku}</div>
                                                 </div>
-                                                <div className={cx('columns-3')}>{item.nums}</div>
-                                                <div className={cx('columns-3')}>{addCommas(item.cost)}</div>
-                                                <div className={cx('columns-3')}>{addCommas(item.total)}</div>
+                                                <div className={cx('columns-3')}>{item.returnQuantity}</div>
+                                                <div className={cx('columns-3')}>{addCommas(item.salePrice)}</div>
+                                                <div className={cx('columns-3')}>{addCommas(item.refund)}</div>
                                             </div>
                                         ))
                                     }
@@ -152,31 +136,31 @@ function InfoReturn() {
                             <Row className='text-end'>
                                 <Row className='mb-3'>
                                     <Col xs md lg={8} >
-                                        Số lượng trả {obj.length} sản phẩm
+                                        Số lượng trả {obj.totalItem} sản phẩm
                                     </Col>
                                     <Col xs md lg={4} className='text-end pe-5'>
-                                        {obj.nums}
+                                        {obj.totalQuantity}
                                     </Col>
                                 </Row>
-                                <Row className='mb-3'>
+                                {/* <Row className='mb-3'>
                                     <Col xs md lg={8}>
                                         Cần hoàn tiền hàng trả
                                     </Col>
                                     <Col xs md lg={4} className='text-end pe-5'>
                                         {addCommas(obj.total)}
                                     </Col>
-                                </Row>
+                                </Row> */}
                                 <Row className='mb-3'>
                                     <Col xs md lg={8} className='fw-bold'>
                                         Tổng tiền cần hoàn trả khách
                                     </Col>
                                     <Col xs md lg={4} className='text-end pe-5'>
-                                        {addCommas(obj.total)}
+                                        {addCommas(obj.totalAmount)}
                                     </Col>
                                 </Row>
                             </Row>
                         </div>
-                        {
+                        {/* {
                             obj.received ? (
                                 <div className={`${cx('frame')} ${cx('title')} d-flex align-items-center `}>
                                     <FaCircleCheck className={`me-2 ${cx('success')}`} />
@@ -191,10 +175,10 @@ function InfoReturn() {
                                     </div>
                                 </div>
                             )
-                        }
+                        } */}
 
                         <div className={`${cx('frame')} `}>
-                            {
+                            {/* {
                                 obj.total - obj.paid === 0 ? (
                                     <div className={` ${cx('title')} d-flex align-items-center `}>
                                         <FaCircleCheck className={`me-2 ${cx('success')}`} />
@@ -209,8 +193,8 @@ function InfoReturn() {
                                         </div>
                                     </div>
                                 )
-                            }
-                            <hr />
+                            } */}
+                            {/* <hr />
                             <Row className={`w-100 ${cx('bg')} p-3`}>
                                 <Col lg={4} className='d-flex mb-1'>
                                     Cần trả khách: <span className='fw-bold ms-1'> {addCommas(obj.total)}</span>
@@ -221,20 +205,16 @@ function InfoReturn() {
                                 <Col lg={4} className='mb-1'>
                                     Còn phải trả : <span className='text-danger'>{addCommas(obj.unpaid)}</span>
                                 </Col>
-                            </Row>
+                            </Row> */}
                             <Row>
                                 <Col className='mt-4 text-end me-4'>
                                     <Button className={`m-1 ${cx('my-btn')}`} variant="outline-primary" onClick={() => navigate(-1)}>Thoát</Button>
-
-
-                                    {
+                                    {/* {
                                         obj.received ? (<Button className={`m-1 ${cx('my-btn')}`} variant="secondary" disabled>Hủy đơn trả hàng</Button>) : (<Button className={`m-1 ${cx('my-btn')}`} variant="outline-danger" onClick={() => deleteform()}>Hủy đơn trả hàng</Button>)
-                                    }
-                                    {
+                                    } */}
+                                    {/* {
                                         obj.total - obj.paid === 0 ? (<div></div>) : (<Button className={`m-1 ${cx('my-btn')}`} variant="primary" onClick={() => setShowpaid(true)}>Hoàn tiền</Button>)
-                                    }
-
-
+                                    } */}
                                 </Col>
                             </Row>
                         </div>
@@ -243,7 +223,7 @@ function InfoReturn() {
 
 
             </div>
-            <Modal
+            {/* <Modal
                 show={showpaid}
                 onHide={handleClosepaid}
                 backdrop="static"
@@ -309,7 +289,7 @@ function InfoReturn() {
                     </Button>
                     <Button variant="primary" onClick={handleReceived}>Xác nhận</Button>
                 </Modal.Footer>
-            </Modal>
+            </Modal> */}
             <ModalLoading open={loading} title={'Đang tải'} />
         </div >
     );

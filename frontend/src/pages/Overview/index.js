@@ -1,19 +1,48 @@
-import classNames from 'classnames/bind';
+import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import classNames from 'classnames/bind';
+import format from 'date-fns/format';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import styles from './Overview.module.scss';
 import Wrapper from '~/components/Wrapper';
 import Percent from '~/components/Percent';
 import ValueComp from '~/components/ValueComp';
-import { data12 } from '~/components/Table/sample';
 import Button from '~/components/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+
+import { ToastContext } from '~/components/ToastContext';
+
+import * as activityServices from '~/apiServices/ActivityServices'
 
 const cx = classNames.bind(styles);
 
 function Overview() {
     const navigate = useNavigate();
+    const toastContext = useContext(ToastContext);
+
+    const [activities, setActivities] = useState([]);
+
+    useEffect(() => {
+        const fetch = async () => {
+
+            const response = await activityServices
+                .getAllActivity({ pageNumber: 1, pageSize: 20, sortBy: 'createdAt', orderBy: 'desc' })
+                .catch((error) => {
+                    if (error?.response?.status === 404) {
+                        setActivities([]);
+                    } else {
+                        toastContext.notify('error', 'Có lỗi xảy ra');
+                    }
+                });
+
+            if (response) {
+                setActivities(response.data);
+            }
+        }
+
+        fetch();
+    }, []);
 
     return (
         <div className={cx('wrapper')}>
@@ -50,15 +79,15 @@ function Overview() {
                         className={'m-b'}
                     >
                         <div>
-                            {data12.map((activity) => {
-                                return <div key={activity.id} className={cx('ac-wrapper')}>
+                            {activities.map((activity) => {
+                                return <div key={activity.activityId} className={cx('ac-wrapper')}>
                                     <div className={cx('dot-wrapper')}>
                                         <div className={cx('dot')}></div>
                                         <div className={cx('dash')}></div>
                                     </div>
                                     <div className={cx('content')}>
-                                        <div className={cx('title')}>{activity.name} vừa {activity.content}</div>
-                                        <div className={cx('time')}>{activity.createAt}</div>
+                                        <div className={cx('title')}>{activity.staffName} {activity.activityName}</div>
+                                        <div className={cx('time')}>{format(new Date(activity.createdAt), 'dd/MM/yyyy - HH:mm')}</div>
                                     </div>
                                 </div>
                             })}

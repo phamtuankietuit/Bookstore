@@ -18,9 +18,9 @@ export const forgotPassword = async (obj) => {
     }
 }
 
-export const updatePassword = async (obj) => {
+export const updatePassword = async (obj, staffId) => {
     try {
-        const res = await request.putMethod('Account/updatePassword', obj);
+        const res = await request.putMethod('Account/updatePassword', obj, staffId);
         return res;
     } catch (error) {
         return Promise.reject(error);

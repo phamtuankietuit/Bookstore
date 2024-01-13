@@ -38,3 +38,12 @@ export const deleteSupplierGroups = async (items) => {
         return Promise.reject(error);
     }
 }
+
+export const updateSupplierGroup = async (id, obj) => {
+    try {
+        const res = await request.putMethod('SupplierGroups?' + id, obj);
+        return res;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}

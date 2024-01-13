@@ -25,7 +25,14 @@ const optionsTT = [
 
 function ActivityHistory() {
     const toastContext = useContext(ToastContext);
-    const [updateList, setUpdateList] = useState(new Date());
+
+    // API PROPS
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pageSize, setPageSize] = useState(12);
+    const [totalRows, setTotalRows] = useState(0);
+    const [sortBy, setSortBy] = useState('createdAt');
+    const [orderBy, setOrderBy] = useState('desc');
+
 
     const createObjectQuery = async (
         pageNumber,
@@ -149,14 +156,6 @@ function ActivityHistory() {
         // eslint-disable-next-line no-use-before-define
     }, [openFilter]);
 
-
-    // TABLE
-    const [pageNumber, setPageNumber] = useState(1);
-    const [pageSize, setPageSize] = useState(12);
-    const [totalRows, setTotalRows] = useState(0);
-    const [sortBy, setSortBy] = useState('createdAt');
-    const [orderBy, setOrderBy] = useState('desc');
-
     // TABLE
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
@@ -265,7 +264,7 @@ function ActivityHistory() {
 
         fetch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [updateList]);
+    }, []);
 
     return (
         <div className={cx('wrapper')}>

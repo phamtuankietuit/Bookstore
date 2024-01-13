@@ -5,7 +5,7 @@ const cx = classNames.bind(styles);
 const convertISOtoDDMMYYYY = (isoDateString) => {
     let date = new Date(isoDateString);
 
-    return format(date, 'dd/MM/yyyy - HH:mm');;
+    return format(date, 'dd/MM/yyyy - HH:mm');
 }
 export const ActivityItem = [
     {

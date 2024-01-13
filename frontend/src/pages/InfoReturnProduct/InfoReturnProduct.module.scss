@@ -1,7 +1,7 @@
-.frame{
-    margin: 25px auto ;
+.frame {
+    margin: 25px auto;
     padding: 15px 30px;
-    text-wrap:wrap;
+    text-wrap: wrap;
     background-color: white;
     width: 80%;
     min-height: 100px;
@@ -18,7 +18,7 @@
         no-repeat top left;
 }
 
-.status-2{
+.status-2 {
     box-sizing: border-box;
     position: relative;
     display: inline-flex;
@@ -38,7 +38,7 @@
     padding: 5px;
 }
 
-.status-1{
+.status-1 {
     box-sizing: border-box;
     position: relative;
     display: inline-flex;
@@ -57,30 +57,30 @@
     padding: 5px;
 }
 
-.title{
+.title {
     font-size: 16px;
     font-weight: 500;
 }
 
-.columns-1{
+.columns-1 {
     text-align: center;
     min-width: 100px;
 }
 
-.columns-2{
+.columns-2 {
     min-width: 380px;
-
+    max-width: 380px;
 }
-.columns-3{
+.columns-3 {
     min-width: 180px;
     text-align: center;
 }
 
-.bg{
+.bg {
     background-color: rgb(242, 249, 255);
 }
 
-.row{
+.row {
     margin-top: 10px;
     background-color: #c4c2c23e;
     padding: 10px;
@@ -89,19 +89,18 @@
     font-weight: 600;
     width: fit-content;
     display: flex;
-
 }
 
-.img{
+.img {
     height: 40px;
     width: 40px;
 }
-.content-check{
+.content-check {
     overflow: scroll;
     margin-top: 30px;
 }
 
-.item{
+.item {
     height: 80px;
     width: 1195px;
     display: flex;
@@ -115,40 +114,38 @@
     }
 }
 
-.list-import{
+.list-import {
     height: 500px;
     width: 100%;
     padding: 5px;
- 
-
 }
 
 .success {
     color: rgb(13, 180, 115);
 }
 
-.danger{
+.danger {
     color: red;
 }
 
-.my-btn{
+.my-btn {
     min-width: 150px;
     min-height: 50px;
 }
 
-.btn-inframe{
+.btn-inframe {
     min-width: 150px;
     min-height: 40px;
 }
 
-.textfield{
+.textfield {
     padding-left: 10px;
     font-size: 13px;
     border: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.147);
     text-align: end;
 
-    &:hover{
+    &:hover {
         border-bottom: 1px solid black;
     }
 

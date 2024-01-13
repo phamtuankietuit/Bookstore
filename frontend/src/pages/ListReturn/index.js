@@ -1,47 +1,56 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './ListReturn.module.scss';
-import Button from '~/components/Button';
 import List from '~/components/List';
 import Filter from '~/components/Filter';
 import { ReturnItem } from '~/components/Item';
-import { data6 } from '~/components/Table/sample';
 import MultiSelectComp from '~/components/MultiSelectComp';
 import DateRange from '~/components/DateRange';
 
+import { ToastContext } from '~/components/ToastContext';
+
+import * as returnServices from '~/apiServices/returnServices';
+import * as staffServices from '~/apiServices/staffServices';
+
+import { ConvertISO } from '~/components/ConvertISO';
+
 const cx = classNames.bind(styles);
-
-const optionsTT = [
-    { label: 'Đã nhận hàng', value: '0' },
-    { label: 'Chưa nhận hàng', value: '1' },
-    { label: 'Đã hủy', value: '2' },
-];
-
-const optionsHT = [
-    { label: 'Đã hoàn tiền', value: '0' },
-    { label: 'Chưa hoàn tiền', value: '1' },
-];
-
-const optionsNVT = [
-    { label: 'Lê Võ Duy Khiêm', value: '0' },
-    { label: 'Phạm Tuấn Kiệt', value: '1' },
-    { label: 'Ngô Trung Quân', value: '2' },
-    { label: 'Nguyễn Trung Kiên', value: '3' },
-];
-
-const optionsKH = [
-    { label: 'Nguyễn Thị Cẩm Nhung', value: '0' },
-    { label: 'Phạm Văn Thái', value: '1' },
-    { label: 'Cẩm Lệ', value: '2' },
-    { label: 'Chu Văn Sa', value: '3' },
-];
 
 function ListReturn() {
     const navigate = useNavigate();
+    const toastContext = useContext(ToastContext);
+
+    // API PROPS
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pageSize, setPageSize] = useState(12);
+    const [totalRows, setTotalRows] = useState(0);
+    const [sortBy, setSortBy] = useState('returnOrderId');
+    const [orderBy, setOrderBy] = useState('asc');
+
+    // CREATE OBJECT QUERY
+    const createObjectQuery = async (
+        pageNumber,
+        pageSize,
+        sortBy,
+        orderBy,
+        startDate,
+        endDate,
+        staffIds,
+        query,
+    ) => {
+        return {
+            pageNumber,
+            pageSize,
+            ...(sortBy && { sortBy }),
+            ...(orderBy && { orderBy }),
+            ...(startDate && { startDate }),
+            ...(endDate && { endDate }),
+            ...(staffIds && { staffIds }),
+            ...(query && { query }),
+        };
+    }
 
     // SEARCH
     const [search, setSearch] = useState('');
@@ -49,48 +58,205 @@ function ListReturn() {
         setSearch(e.target.value);
     };
 
+    const handleKeyDown = async (e) => {
+        if (e.key === 'Enter') {
+            setPageNumber(1);
+            getList(
+                await createObjectQuery(
+                    1,
+                    pageSize,
+                    sortBy,
+                    orderBy,
+                    dateCreated && ConvertISO(dateCreated).startDate,
+                    dateCreated && ConvertISO(dateCreated).endDate,
+                    selectedStaff.length > 0 && returnArray(selectedStaff),
+                    search,
+                )
+            );
+        }
+    }
+
+    // FILTER OPTIONS
+    const [optionsStaff, setOptionsStaff] = useState([]);
+
+    // FILTER SELECTED
+    const [selectedStaff, setSelectedStaff] = useState([]);
+
+    // DATE CREATED
+    const [dateCreated, setDateCreated] = useState('');
+
     // FILTER
     const [openFilter, setOpenFilter] = useState(false);
     const handleOpenFilter = () => setOpenFilter(true);
     const handleCloseFilter = () => setOpenFilter(false);
 
     const handleClearFilter = () => {
-        setSelectedTT([]);
-        setSelectedKH([]);
-        setSelectedNVT([]);
-        setDateNH('');
-        setDateHT('');
+        setSelectedStaff([]);
+        setDateCreated('');
     };
 
-    const handleFilter = () => {
+    const handleFilter = async () => {
+        setPageNumber(1);
+        getList(
+            await createObjectQuery(
+                1,
+                pageSize,
+                sortBy,
+                orderBy,
+                dateCreated && ConvertISO(dateCreated).startDate,
+                dateCreated && ConvertISO(dateCreated).endDate,
+                selectedStaff.length > 0 && returnArray(selectedStaff),
+                search,
+            )
+        );
+
         handleCloseFilter();
     };
 
-    const [selectedKH, setSelectedKH] = useState([]);
-    const [selectedTT, setSelectedTT] = useState([]);
-    const [selectedHT, setSelectedHT] = useState([]);
-    const [selectedNVT, setSelectedNVT] = useState([]);
+    // GET DATA MANUFACTURERS
+    const getStaff = async () => {
+        const response = await staffServices.getAllStaffs({ pageNumber: 1, pageSize: -1 })
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
 
-    // DATE RANGE PICKER
-    const [dateNH, setDateNH] = useState('');
-    const [dateHT, setDateHT] = useState('');
+        if (response) {
+            const data = await response.data.map((staff, index) => ({ label: staff.name, value: staff.staffId }));
+            setOptionsStaff(data);
+        }
+    };
+
+    // GET DATA FOR FILTER
+    useEffect(() => {
+        getStaff();
+        // eslint-disable-next-line no-use-before-define
+    }, [openFilter]);
+
+    const returnArray = (arr) => {
+        return arr.map((obj) => obj.value);
+    }
 
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
-        navigate('/return/detail/' + row.id);
+        navigate('/return/detail/' + row.returnOrderId);
     }, []);
 
     // TABLE
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
 
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setRows(data6);
+    const getList = async (obj) => {
+        setPending(true);
+
+        const response = await returnServices.getAllReturns(obj)
+            .catch((error) => {
+                setPending(false);
+
+                if (error.response.status === 404) {
+                    setRows([]);
+                    setTotalRows(0);
+                } else {
+                    toastContext.notify('error', 'Có lỗi xảy ra');
+                }
+            });
+
+        if (response) {
+            console.log(response.data);
             setPending(false);
-        }, 500);
-        return () => clearTimeout(timeout);
+            setRows(response.data);
+            setTotalRows(response.metadata.count);
+        }
+    }
+
+    // SORT
+    const handleSort = async (column, sortDirection) => {
+        setSortBy(column.text);
+        setOrderBy(sortDirection);
+        setPageNumber(1);
+
+        getList(
+            await createObjectQuery(
+                1,
+                pageSize,
+                column.text,
+                sortDirection,
+                dateCreated && ConvertISO(dateCreated).startDate,
+                dateCreated && ConvertISO(dateCreated).endDate,
+                selectedStaff.length > 0 && returnArray(selectedStaff),
+                search,
+            )
+        );
+    };
+
+    // PAGINATION
+    const handlePerRowsChange = async (newPerPage, pageNumber) => {
+        setPageSize(newPerPage);
+        setPageNumber(pageNumber);
+
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                newPerPage,
+                sortBy,
+                orderBy,
+                dateCreated && ConvertISO(dateCreated).startDate,
+                dateCreated && ConvertISO(dateCreated).endDate,
+                selectedStaff.length > 0 && returnArray(selectedStaff),
+                search,
+            )
+        );
+
+    }
+
+    const handlePageChange = async (pageNumber) => {
+        setPageNumber(pageNumber);
+
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                pageSize,
+                sortBy,
+                orderBy,
+                dateCreated && ConvertISO(dateCreated).startDate,
+                dateCreated && ConvertISO(dateCreated).endDate,
+                selectedStaff.length > 0 && returnArray(selectedStaff),
+                search,
+            )
+        );
+
+    }
+
+    useEffect(() => {
+        const fetch = async () => {
+            getList(
+                await createObjectQuery(
+                    pageNumber,
+                    pageSize,
+                    sortBy,
+                    orderBy,
+                    dateCreated && ConvertISO(dateCreated).startDate,
+                    dateCreated && ConvertISO(dateCreated).endDate,
+                    selectedStaff.length > 0 && returnArray(selectedStaff),
+                    search,
+                )
+            );
+        }
+
+        setPending(true);
+        fetch();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
 
     return (
         <div className={cx('wrapper')}>
@@ -119,10 +285,11 @@ function ListReturn() {
                 <List
                     searchVisibility={true}
                     placeholderSearch={
-                        'Tìm kiếm theo mã đơn nhập, mã nhà cung cấp'
+                        'Tìm kiếm theo mã đơn trả hàng, mã đơn hàng'
                     }
                     search={search}
                     handleSearch={handleSearch}
+                    handleKeyDown={handleKeyDown}
                     filterComponent={
                         <Filter
                             open={openFilter}
@@ -131,50 +298,19 @@ function ListReturn() {
                             handleClearFilter={handleClearFilter}
                             handleFilter={handleFilter}
                         >
-                            <MultiSelectComp
-                                className={cx('m-b')}
-                                options={optionsKH}
-                                placeholder={'Khách hàng'}
-                                selected={selectedKH}
-                                setSelected={setSelectedKH}
-                                hasSelectAll={true}
-                            />
-                            <MultiSelectComp
-                                className={cx('m-b')}
-                                options={optionsTT}
-                                placeholder={'Trạng thái'}
-                                selected={selectedTT}
-                                setSelected={setSelectedTT}
-                                hasSelectAll={true}
-                            />
-                            <MultiSelectComp
-                                className={cx('m-b')}
-                                options={optionsHT}
-                                placeholder={'Hoàn tiền'}
-                                selected={selectedHT}
-                                setSelected={setSelectedHT}
-                                hasSelectAll={true}
-                            />
                             <DateRange
-                                title={'Ngày nhận hàng'}
+                                title={'Ngày tạo'}
                                 className={cx('m-b')}
-                                dateString={dateNH}
-                                setDateString={setDateNH}
-                                bottom
-                            />
-                            <DateRange
-                                title={'Ngày hoàn tiền'}
-                                className={cx('m-b')}
-                                dateString={dateHT}
-                                setDateString={setDateHT}
+                                dateString={dateCreated}
+                                setDateString={setDateCreated}
                                 bottom
                             />
                             <MultiSelectComp
                                 className={cx('m-b')}
-                                options={optionsNVT}
-                                placeholder={'Nhân viên tạo'}
-                                selected={selectedNVT}
-                                setSelected={setSelectedNVT}
+                                options={optionsStaff}
+                                placeholder={'Nhà cung cấp'}
+                                selected={selectedStaff}
+                                setSelected={setSelectedStaff}
                                 hasSelectAll={true}
                             />
                         </Filter>
@@ -185,6 +321,12 @@ function ListReturn() {
                     itemComponent={ReturnItem}
                     data={rows}
                     pending={pending}
+                    // PAGINATION
+                    totalRows={totalRows}
+                    handlePerRowsChange={handlePerRowsChange}
+                    handlePageChange={handlePageChange}
+                    // SORT
+                    handleSort={handleSort}
                 />
             </div>
         </div>

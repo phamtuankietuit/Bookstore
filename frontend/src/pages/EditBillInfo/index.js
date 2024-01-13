@@ -1,91 +1,98 @@
-import styles from './EditBillInfo.module.scss';
+import { useEffect, useState, useContext } from 'react';
+import { useParams } from 'react-router-dom';
 import classNames from 'classnames/bind';
+import { format } from 'date-fns';
 import { IoPerson } from 'react-icons/io5';
 import { FaCalendarAlt } from 'react-icons/fa';
+import Spinner from 'react-bootstrap/Spinner';
+
+import styles from './EditBillInfo.module.scss';
 import ListBillProduct from '~/components/ListBillProduct';
+import ModalLoading from '~/components/ModalLoading';
+
+import { ToastContext } from '~/components/ToastContext';
+
 import * as saleServices from '~/apiServices/saleServices';
 import * as customerServices from '~/apiServices/customerServices';
-import { useParams } from 'react-router-dom';
-import { useEffect, useState, useContext } from 'react';
-import Spinner from 'react-bootstrap/Spinner';
-import { ToastContext } from '~/components/ToastContext';
-import ModalLoading from '~/components/ModalLoading';
-import { format } from 'date-fns';
+
 const cx = classNames.bind(styles);
+
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-
 function EditBillInfo() {
-    const saleorderid = useParams();
-    const [obj, setObj] = useState(null);
-
     const toastContext = useContext(ToastContext);
     const [loading, setLoading] = useState(false);
-    const [customer, setCustomer] = useState(null)
-    const convertISOtoDDMMYYYY = (isoDateString) => {
-        let date = new Date(isoDateString);
-        return format(date, 'dd/MM/yyyy');
-    }
+
+    const saleOrderId = useParams();
+    const [order, setOrder] = useState(null);
+    const [customer, setCustomer] = useState(null);
+    const [note, setNote] = useState('');
+
     useEffect(() => {
-
         const fetchApi = async () => {
-            // console.log(productid.id)
-            const result = await saleServices.getSalesOrder(saleorderid.id)
-                .catch((err) => {
-                    console.log(err);
-                });
-            setObj(result);
-            const resultCus = await customerServices.getCustomer(result.customerId)
-                .catch((err) => {
-                    console.log(err);
+
+            const responseOrder = await saleServices.getSalesOrder(saleOrderId.id)
+                .catch((error) => {
+                    console.log(error);
+                    toastContext.notify('error', 'Có lỗi xảy ra');
                 });
 
-            if (resultCus) {
-                setCustomer(resultCus)
+            if (responseOrder) {
+                console.log(responseOrder);
+                setOrder(responseOrder);
+                setNote(responseOrder.note);
+            }
+
+            const responseCustomer = await customerServices.getCustomer(responseOrder?.customerId)
+                .catch((err) => {
+                    console.log(err);
+                    toastContext.notify('error', 'Có lỗi xảy ra');
+                });
+
+            if (responseCustomer) {
+                setCustomer(responseCustomer);
             }
 
         }
 
         fetchApi();
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const updateNote = (value) => {
-        let newobj = obj;
-        newobj.note = value;
-        if (newobj.discounts === null) newobj.discounts = {
-            name: "string",
-            value: 0
-        }
-        setObj(newobj)
-    }
-
     const submit = () => {
-        console.log(obj)
         setLoading(true);
+
+        let isSuccess = true;
+
+        const newObj = {
+            ...order,
+            note: note,
+        };
+
+        console.log(newObj);
+
         const fetchApi = async () => {
-            // console.log(productid.id)
-            const result = await saleServices.UpdateSalesOrder(saleorderid.id, obj)
+            const result = await saleServices.UpdateSalesOrder(newObj.salesOrderId, newObj)
                 .catch((err) => {
+                    isSuccess = false;
                     console.log(err);
+                    toastContext.notify('error', 'Có lỗi xảy ra');
                 });
-            if (result) {
 
-            }
-            else {
-                setTimeout(() => {
-                    setLoading(false);
-                    toastContext.notify('success', 'Đã lưu đơn');
-                }, 2000);
+            if (isSuccess) {
+                toastContext.notify('success', 'Cập nhật đơn hàng thành công');
             }
 
+            setLoading(false);
         }
 
         fetchApi();
     }
+
+
     return (
         <div>
-            {obj === null && customer === null ? (
+            {order === null && customer === null ? (
                 <Spinner animation="border" role="status">
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
@@ -93,7 +100,7 @@ function EditBillInfo() {
                 <div className={cx('MainInfo-and-Status')}>
                     <div className={cx('MainInfo')}>
                         <div className={cx('BillCode')}>
-                            <p>Chỉnh sửa hoá đơn {obj.orderId}</p>
+                            <p>Chỉnh sửa hoá đơn {order.orderId}</p>
                         </div>
                         <div className={cx('Print-and-Copy')}>
                             {/* <div className={cx('Print-btn')}>
@@ -107,14 +114,14 @@ function EditBillInfo() {
                             <div className={cx('Staff-info')}>
                                 <IoPerson className={cx('staff-icon')}></IoPerson>
                                 <p>Bán bởi: </p>
-                                <p>Quân</p>
+                                <p>{order.staffName}</p>
                             </div>
                             <div className={cx('Date-info')}>
                                 <FaCalendarAlt
                                     className={cx('Date-icon')}
                                 ></FaCalendarAlt>
                                 <p>Ngày bán: </p>
-                                <p>{convertISOtoDDMMYYYY(obj.createdAt)}</p>
+                                <p>{format(new Date(order.createdAt), 'dd/MM/yyyy - HH:mm')}</p>
                             </div>
                         </div>
                     </div>
@@ -160,8 +167,8 @@ function EditBillInfo() {
                                 <textarea
                                     className={cx('Note-textarea')}
                                     placeholder="VD: Hàng đặt gói riêng"
-                                    defaultValue={obj.note}
-                                    onChange={(e) => updateNote(e.target.value)}
+                                    defaultValue={note}
+                                    onChange={(e) => setNote(e.target.value)}
                                 ></textarea>
                             </div>
                         </div>
@@ -172,7 +179,7 @@ function EditBillInfo() {
                         <div className={cx('title')}>
                             <p>Thông tin sản phẩm</p>
                         </div>
-                        <ListBillProduct list={obj.items} />
+                        <ListBillProduct list={order.items} />
                         <div className={cx('list-sum')}>
                             <div className={cx('list-sum-content')}>
                                 <div className={cx('list-sum-content1')}>
@@ -184,10 +191,10 @@ function EditBillInfo() {
                                     </p>
                                 </div>
                                 <div className={cx('list-sum-content2')}>
-                                    <p>{addCommas(obj.subtotal)}</p>
+                                    <p>{addCommas(order.subtotal)}</p>
                                     <p>0</p>
-                                    <p>{addCommas(obj.discountAmount)}</p>
-                                    <p>{addCommas(obj.totalAmount)}</p>
+                                    <p>{addCommas(order.discountAmount)}</p>
+                                    <p>{addCommas(order.totalAmount)}</p>
                                 </div>
                             </div>
                         </div>
@@ -200,8 +207,6 @@ function EditBillInfo() {
                 <ModalLoading open={loading} title={'Đang tải'} />
             </div> </div>)}
         </div>
-
-
     );
 }
 

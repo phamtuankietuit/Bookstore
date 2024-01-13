@@ -1,16 +1,14 @@
 import { useState, useEffect, useCallback, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faUpload } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './ListOrder.module.scss';
-import Button from '~/components/Button';
 import List from '~/components/List';
 import Filter from '~/components/Filter';
 import { OrderItem } from '~/components/Item';
 import MultiSelectComp from '~/components/MultiSelectComp';
 import DateRange from '~/components/DateRange';
+
 import { ToastContext } from '~/components/ToastContext';
 
 import * as saleServices from '~/apiServices/saleServices';
@@ -20,16 +18,17 @@ import * as staffServices from '~/apiServices/staffServices';
 import { ConvertISO } from '~/components/ConvertISO';
 
 const cx = classNames.bind(styles);
-const convertDate = (dateString) => {
-    let dateParts = dateString.split('/');
-    let date = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
-    return date.toISOString();
-}
 
 function ListOrder() {
     const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
-    const [updateList, setUpdateList] = useState(new Date());
+
+    // API PROPS
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pageSize, setPageSize] = useState(12);
+    const [totalRows, setTotalRows] = useState(0);
+    const [sortBy, setSortBy] = useState('salesOrderId');
+    const [orderBy, setOrderBy] = useState('asc');
 
     // CREATE OBJECT QUERY
     const createObjectQuery = async (
@@ -43,6 +42,18 @@ function ListOrder() {
         staffIds,
         query,
     ) => {
+
+        console.log({
+            pageNumber,
+            pageSize,
+            ...(sortBy && { sortBy }),
+            ...(orderBy && { orderBy }),
+            ...(startDate && { startDate }),
+            ...(endDate && { endDate }),
+            ...(customerIds && { customerIds }),
+            ...(staffIds && { staffIds }),
+            ...(query && { query }),
+        });
 
         return {
             pageNumber,
@@ -61,12 +72,6 @@ function ListOrder() {
         return arr.map((obj) => obj.value);
     }
 
-    // API PROPS
-    const [pageNumber, setPageNumber] = useState(1);
-    const [pageSize, setPageSize] = useState(12);
-    const [totalRows, setTotalRows] = useState(0);
-    const [sortBy, setSortBy] = useState('salesOrderId');
-    const [orderBy, setOrderBy] = useState('asc');
 
     // SEARCH
     const [search, setSearch] = useState('');
@@ -193,6 +198,7 @@ function ListOrder() {
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
         navigate('/orders/detail/' + row.salesOrderId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // TABLE
@@ -204,8 +210,6 @@ function ListOrder() {
 
         const response = await saleServices.getAllSalesOrders(obj)
             .catch((error) => {
-                setPending(false);
-
                 if (error.response.status === 404) {
                     setRows([]);
                     setTotalRows(0);
@@ -215,13 +219,12 @@ function ListOrder() {
             });
 
         if (response) {
-
-
             console.log(response.data);
-            setPending(false);
             setRows(response.data);
             setTotalRows(response.metadata.count);
         }
+
+        setPending(false);
     }
 
     // SORT
@@ -306,7 +309,7 @@ function ListOrder() {
 
         fetch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [updateList]);
+    }, []);
 
 
     return (
@@ -335,7 +338,7 @@ function ListOrder() {
                 <List
                     searchVisibility={true}
                     placeholderSearch={
-                        'Tìm kiếm theo mã đơn hàng, tên, số điện thoại khách hàng'
+                        'Tìm kiếm theo mã đơn hàng, tên khách hàng'
                     }
                     search={search}
                     handleSearch={handleSearch}

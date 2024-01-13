@@ -7,8 +7,8 @@ export const ConvertISO = (dateCreated) => {
         const startDate = new Date(Number(dateParts[2]), Number(dateParts[1]) - 1, Number(dateParts[0]), 0, 0, 0, 1);
         const endDate = new Date(Number(dateParts[2]), Number(dateParts[1]) - 1, Number(dateParts[0]), 23, 59, 59, 999);
 
-        console.log('START', startDate);
-        console.log('END', endDate);
+        // console.log('START', startDate);
+        // console.log('END', endDate);
 
         return {
             startDate: toIsoString(startDate),
@@ -22,8 +22,8 @@ export const ConvertISO = (dateCreated) => {
         const startDate = new Date(Number(startDateParts[2]), Number(startDateParts[1]) - 1, Number(startDateParts[0]));
         const endDate = new Date(Number(endDateParts[2]), Number(endDateParts[1]) - 1, Number(endDateParts[0]), 23, 59, 59, 999);
 
-        console.log('START', startDate);
-        console.log('END', endDate);
+        // console.log('START', startDate);
+        // console.log('END', endDate);
 
         return {
             startDate: toIsoString(startDate),

@@ -1,33 +1,29 @@
-import styles from './EditDiscount.module.scss';
-import classNames from 'classnames/bind';
-import DateRange from '~/components/DateRange';
 import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import * as PromotionsServices from '~/apiServices/promotionServices';
+import classNames from 'classnames/bind';
+import format from 'date-fns/format';
 import Spinner from 'react-bootstrap/Spinner';
+
+import styles from './EditDiscount.module.scss';
+import DateRange from '~/components/DateRange';
 import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
-import format from 'date-fns/format';
+import { ConvertISO } from '~/components/ConvertISO';
+
 import { getLocalStorage } from '~/store/getLocalStorage';
 
-import { ConvertISO } from '~/components/ConvertISO';
+import * as PromotionsServices from '~/apiServices/promotionServices';
+
 const cx = classNames.bind(styles);
 
 function EditDiscount() {
     const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
     const [loading, setLoading] = useState(false);
-    const [disable, SetDisable] = useState(false);
 
-    const convertISOtoDDMMYYYY = (isoDateString) => {
-        let date = new Date(isoDateString);
 
-        return format(date, 'dd/MM/yyyy');;
-    }
-    const DisableInputText = () => {
-        SetDisable(!disable);
-    };
-    const promotiontid = useParams();
+
+    const promotionId = useParams();
     const [obj, setObj] = useState(null);
     const [changeDate, setChangeDate] = useState(false);
 
@@ -41,7 +37,7 @@ function EditDiscount() {
     useEffect(() => {
 
         const fetchApi = async () => {
-            const result = await PromotionsServices.getPromotion(promotiontid.id)
+            const result = await PromotionsServices.getPromotion(promotionId.id)
                 .catch((err) => {
                     console.log(err);
                 });
@@ -99,7 +95,7 @@ function EditDiscount() {
 
                 console.log(newObj);
 
-                const result = await PromotionsServices.UpdatePromotion(promotiontid.id, newObj)
+                const result = await PromotionsServices.UpdatePromotion(promotionId.id, newObj)
                     .catch((err) => {
                         console.log(err);
                         isSuccess = false;
@@ -171,30 +167,8 @@ function EditDiscount() {
                                         ></input>
                                     </div>
                                 </div>
-                                {/* <div className={cx('input-text')}>
-                                    <div>
-                                        <p>Mô tả</p>
-                                        <input
-                                            type="text"
-                                            defaultValue={obj.typeName}
-                                            placeholder="Nhập mô tả cho khuyến mãi"
-                                            onChange={(e) => {
-                                                const newobj = obj;
-                                                newobj.typeName = e.target.value;
-                                                setObj(newobj);
-                                            }}
-                                        ></input>
-                                    </div>
-                                </div> */}
                             </div>
-                            {/* <div className={cx('checkbox-wrapper')}>
-                                <input
-                                    onClick={DisableInputText}
-                                    id="cb"
-                                    type="checkbox"
-                                ></input>
-                                <label htmlFor="cb">Không giới hạn số lượng</label>
-                            </div> */}
+
                         </div>
                         <div className={cx('grid1-discount-info')}>
                             <div className={cx('title')}>

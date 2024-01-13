@@ -14,7 +14,6 @@ function ListBillProduct({ list }) {
                 <div className={cx('table-column-2')}>Tên sản phẩm</div>
                 <div className={cx('table-column-3')}>Số lượng</div>
                 <div className={cx('table-column-3')}>Đơn giá</div>
-                <div className={cx('table-column-3')}>Chiết khấu</div>
                 <div className={cx('table-column-4')}>Thành tiền</div>
             </div>
             <div className={cx('list-product')}>
@@ -32,11 +31,8 @@ function ListBillProduct({ list }) {
                         <div className={cx('table-column-3')}>
                             <div>{addCommas(item.salePrice)}</div>
                         </div>
-                        <div className={cx('table-column-3')}>
-                            <div>{addCommas(0)}</div>
-                        </div>
                         <div className={cx('table-column-4')}>
-                            {addCommas(item.totalPrice)}
+                            {addCommas(item?.totalPrice)}
                         </div>
                     </div>
                 ))}

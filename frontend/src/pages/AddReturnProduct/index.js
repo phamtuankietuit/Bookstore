@@ -1,99 +1,173 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
-import styles from './AddReturnProduct.module.scss';
-import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
-import { useNavigate } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Item_Return from '~/components/Item_Return';
 import Spinner from 'react-bootstrap/Spinner';
-import { ToastContext } from '~/components/ToastContext';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import styles from './AddReturnProduct.module.scss';
+import Item_Return from '~/components/Item_Return';
 import ModalLoading from '~/components/ModalLoading';
+import Input from '~/components/Input';
+
+import { ToastContext } from '~/components/ToastContext';
+
+import * as saleServices from '~/apiServices/saleServices';
+import * as customerServices from '~/apiServices/customerServices';
+import * as returnServices from '~/apiServices/returnServices';
 
 const cx = classNames.bind(styles);
+
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
 function AddReturnProduct() {
     const navigate = useNavigate();
+    const salesOrderId = useParams();
     const toastContext = useContext(ToastContext);
-    const [loading, setLoading] = useState(false);
 
-    const [obj, setObj] = useState(null);
-    const [isset, setIsset] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [order, setOrder] = useState(null);
+    const [customer, setCustomer] = useState(null);
+
+    const [total, setTotal] = useState(0);
+    const [note, setNote] = useState('');
+    const [productsReturn, setProductsReturn] = useState([]);
+
+    const [numberItem, setNumberItem] = useState(0);
+    const [numberQuantity, setNumberQuantity] = useState(0);
 
 
     useEffect(() => {
-        setObj()
-        if (isset === false && obj !== null) {
-            AddArr(obj.list)
-            setIsset(true)
+        const fetch = async () => {
+            const responseOrder = await returnServices.getNewReturn(salesOrderId.id)
+                .catch((error) => {
+                    console.log(error);
+                    if (error?.response?.status === 403) {
+                        toastContext.notify('error', 'Đơn hàng đã trả hoặc hết hạn');
+                    } else {
+                        toastContext.notify('error', 'Có lỗi xảy ra');
+                    }
+                    navigate(-1);
+                });
+
+            if (responseOrder) {
+                console.log(responseOrder);
+                setOrder(responseOrder);
+                setArray(responseOrder.items);
+
+                const responseCustomer = await customerServices.getCustomer(responseOrder.customerId)
+                    .catch((err) => {
+                        console.log(err);
+                        toastContext.notify('error', 'Có lỗi xảy ra');
+                    });
+
+                if (responseCustomer) {
+                    console.log(responseCustomer);
+                    setCustomer(responseCustomer);
+                }
+            }
         }
+
+        fetch();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const setArray = (products) => {
+        const newArray = products.map((product) => {
+            return {
+                productId: product.productId,
+                name: product.name,
+                sku: product.sku,
+                featureImageUrl: product.featureImageUrl,
+                quantity: 0,
+                maxQuantity: product.soldQuantity,
+                salePrice: product.refund,
+                totalPrice: 0,
+                sale: product.salePrice,
+            };
+        });
 
-    const [total, setTotal] = useState(0)
-    const [note, setNote] = useState('')
-    const [nums, setNums] = useState(0)
-    const [paid, setPaid] = useState(0)
-
-    const update = () => {
-        let newcost = 0;
-        let newnums = 0;
-        if (arr.length !== 0) {
-            arr.map(item => {
-                newcost += item.total
-                newnums += item.nums
-            })
-        }
-        setNums(newnums)
-        setTotal(newcost)
-
+        setProductsReturn(newArray);
     }
-    const AddArr = (value) => {
-        value.map((item) => {
-            let newitem = {
-                id: item.id,
-                name: item.name,
-                sku: item.sku,
-                img: item.img,
-                nums: 0,
-                maxnums: item.nums,
-                cost: item.cost,
-                total: 0,
+
+    const changeTotalPrice = (index, quantity, totalPrice) => {
+        const newArray = productsReturn;
+
+        newArray[index].quantity = Number(quantity);
+        newArray[index].totalPrice = totalPrice;
+
+        setProductsReturn(newArray);
+        changeTotal(newArray);
+    }
+
+    const changeTotal = (array) => {
+        let sum = 0;
+        let numItem = 0;
+        let numQuantity = 0;
+
+        array.forEach(product => {
+            sum += product.totalPrice;
+            if (product.quantity > 0) {
+                numItem += 1;
+                numQuantity += product.quantity;
+            }
+        });
+
+        setTotal(sum);
+        setNumberQuantity(numQuantity);
+        setNumberItem(numItem);
+    }
+
+
+    const submit = async () => {
+        if (numberItem === 0) {
+            toastContext.notify('error', 'Chưa thêm sản phẩm trả');
+        } else {
+            const items = productsReturn.map(product => ({
+                productId: product.productId,
+                sku: product.sku,
+                name: product.name,
+                featureImageUrl: product.featureImageUrl,
+                soldQuantity: product.maxQuantity,
+                salePrice: product.sale,
+                returnQuantity: product.quantity,
+                refund: product.salePrice,
+                totalRefund: product.totalPrice,
+            }));
+
+            const newObj = {
+                ...order,
+                items: items,
+                totalItem: numberItem,
+                totalQuantity: numberQuantity,
+                totalAmount: total,
+            };
+
+            setLoading(true);
+
+            const response = await returnServices.createReturn(newObj)
+                .catch((error) => {
+                    console.log(error);
+                    toastContext.notify('error', 'Có lỗi xảy ra');
+                });
+
+            if (response) {
+                console.log(response);
+                toastContext.notify('success', 'Tạo đơn trả hàng thành công');
+                navigate('/return');
             }
 
-            setArr(arr => [...arr, newitem]);
-        })
-
-    }
-    const [arr, setArr] = useState([])
-
-
-    const [Return, setReturn] = useState(true)
-
-
-    const submit = () => {
-        const newarr = arr.filter(arr => arr.nums > 0)
-        if (nums === 0) {
-            setLoading(true);
             setLoading(false);
-            toastContext.notify('error', 'Chưa trả sản phẩm nào');
-        }
-        else {
-            setLoading(true);
-            console.log(newarr)
-            setLoading(false);
-            toastContext.notify('success', 'Đã tạo đơn trả');
         }
     }
-    const returnid = useParams()
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
                 {
-                    obj === null ? (
+                    (order === null || customer === null) ? (
                         <Spinner animation="border" role="status">
                             <span className="visually-hidden">Loading...</span>
                         </Spinner>
@@ -105,11 +179,11 @@ function AddReturnProduct() {
                                 <Row className='mb-4'>
                                     <Col lg={6} className='mb-2'>
                                         <p>Khách hàng  </p>
-                                        <p>Anh Lê Võ Duy Khiêm - 0333333333</p>
+                                        <p>{customer.name} {customer?.phoneNumber}</p>
                                     </Col>
                                     <Col lg={6} className='mb-2'>
                                         <p>Mã đơn hàng  </p>
-                                        <p>{returnid.id}</p>
+                                        <p>{salesOrderId.id}</p>
                                     </Col>
                                 </Row>
                             </div>
@@ -128,10 +202,13 @@ function AddReturnProduct() {
 
                                     </div>
                                     <div className={cx('list')}>
-                                        {
-                                            arr.map((item, index) => (
-                                                <Item_Return product={item} index={index + 1} key={item.id} update={update} />
-                                            ))
+                                        {productsReturn.map((product, index) =>
+                                        (<Item_Return
+                                            key={product.id}
+                                            product={product}
+                                            index={index + 1}
+                                            changeTotalPrice={changeTotalPrice}
+                                        />))
                                         }
                                     </div>
 
@@ -140,24 +217,24 @@ function AddReturnProduct() {
                                 <Row className='text-end'>
                                     <Row className='mb-3'>
                                         <Col xs md lg={8} >
-                                            Số lượng trả {arr.length} sản phẩm
+                                            {/* Số lượng trả {arr.length} sản phẩm */}
                                         </Col>
                                         <Col xs md lg={4} className='text-end pe-5'>
-                                            {nums}
+                                            {/* {nums} */}
                                         </Col>
                                     </Row>
 
-                                    <Row className='mb-3'>
+                                    {/* <Row className='mb-3'>
                                         <Col xs md lg={8} className='fw-bold'>
                                             Cần hoàn tiền trả hàng
                                         </Col>
                                         <Col xs md lg={4} className='text-end pe-5'>
                                             {addCommas(total)}
                                         </Col>
-                                    </Row>
+                                    </Row> */}
                                 </Row>
                             </div>
-                            <div className={cx('frame')}>
+                            {/* <div className={cx('frame')}>
                                 <Row>
                                     <Col lg={8}>
                                         <p className={`mt-4 mb-1 ${cx('title')}`}>Nhận hàng trả lại</p>
@@ -168,14 +245,13 @@ function AddReturnProduct() {
                                     </Col>
                                 </Row>
 
-                            </div>
+                            </div> */}
                             <div className={cx('frame')}>
                                 <p className={`mt-4 mb-1 ${cx('title')}`}>Hoàn tiền</p>
                                 <Row className='mb-4'>
                                     <Col lg={6} className='mb-2'>
                                         <p className='mb-2'>Ghi chú </p>
                                         <textarea
-
                                             style={{
                                                 fontSize: '13px',
                                                 marginTop: '0px',
@@ -183,26 +259,36 @@ function AddReturnProduct() {
                                                 minWidth: '70%',
                                                 height: '140px',
                                             }}
-
+                                            value={note}
+                                            onChange={(e) => setNote(e.target.value)}
                                         ></textarea>
                                     </Col>
                                     <Col lg={6} className='mb-2'>
                                         <Row className='mt-3'>
-                                            <Col xs md lg={8} className='fw-bold'>
-                                                Tiền cần trả
+                                            <Col xs md lg={8} >
+                                                Số lượng trả ({numberItem} sản phẩm)
                                             </Col>
                                             <Col xs md lg={4} className='text-end pe-5'>
                                                 {
-                                                    addCommas(total)
-
+                                                    numberQuantity
                                                 }
                                             </Col>
                                         </Row>
                                         <Row className='mt-3'>
                                             <Col xs md lg={8} className='fw-bold'>
+                                                Tiền cần trả
+                                            </Col>
+                                            <Col xs md lg={4} className='fw-bold text-end pe-5'>
+                                                {
+                                                    addCommas(total)
+                                                }
+                                            </Col>
+                                        </Row>
+                                        {/* <Row className='mt-3'>
+                                            <Col xs md lg={6} className='fw-bold'>
                                                 Hoàn trả khách
                                             </Col>
-                                            <Col xs md lg={4} className='text-end pe-5'>
+                                            <Col xs md lg={6} className='text-end pe-5'>
                                                 <input className={`${cx('textfield')} `} type="number" inputMode="numeric" onChange={(e) => {
 
                                                     if (e.target.value > total) e.target.value = total;
@@ -210,6 +296,12 @@ function AddReturnProduct() {
                                                     setPaid(parseInt(e.target.value))
 
                                                 }} />
+                                                <Input
+                                                    className={cx('refund')}
+                                                    money
+                                                    value={refund}
+                                                    onChangeMoney={onChangeRefund}
+                                                />
                                             </Col>
                                         </Row>
                                         <hr className={cx('divider')} />
@@ -225,13 +317,13 @@ function AddReturnProduct() {
                                                         addCommas(total - paid)
                                                 }
                                             </Col>
-                                        </Row>
+                                        </Row> */}
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col className='mt-4 text-end me-4'>
                                         <Button className={`m-1 ${cx('my-btn')}`} variant="outline-primary" onClick={() => navigate(-1)}>Thoát</Button>
-                                        <Button className={`m-1 ${cx('my-btn')}`} variant="primary" onClick={() => submit()}>Tạo đơn trả hàng</Button>
+                                        <Button className={`m-1 ${cx('my-btn')}`} variant="primary" onClick={() => submit()}>Hoàn trả</Button>
 
                                     </Col>
                                 </Row>

@@ -1,16 +1,19 @@
-﻿using BookstoreWebAPI.Models.Documents;
+﻿using BookstoreWebAPI.Models.BindingModels;
+using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using BookstoreWebAPI.Models.Documents;
 using BookstoreWebAPI.Models.DTOs;
+using BookstoreWebAPI.Models.Responses;
+using Microsoft.Azure.Cosmos;
 
 namespace BookstoreWebAPI.Repository.Interfaces
 {
     public interface ICustomerRepository
     {
-        Task AddCustomerDocumentAsync(CustomerDocument item);
-        Task AddCustomerDTOAsync(CustomerDTO customerDTO);
-        Task DeleteCustomerAsync(string id);
-        Task<string> GetNewCustomerIdAsync();
-        Task<CustomerDTO> GetCustomerDTOByIdAsync(string id);
-        Task<IEnumerable<CustomerDTO>> GetCustomerDTOsAsync();
-        Task UpdateCustomerAsync(CustomerDTO customerDTO);
+        int TotalCount { get; }
+        Task<IEnumerable<CustomerDTO>> GetCustomerDTOsAsync(QueryParameters queryParams, CustomerFilterModel filter);
+        Task<CustomerDTO?> GetCustomerDTOByIdAsync(string id);
+        Task<CustomerDTO> AddCustomerDTOAsync(CustomerDTO customerDTO);
+        Task UpdateCustomerDTOAsync(CustomerDTO customerDTO);
+        Task<BatchDeletionResult<CustomerDTO>> DeleteCustomerDTOsAsync(string[] ids);
     }
 }

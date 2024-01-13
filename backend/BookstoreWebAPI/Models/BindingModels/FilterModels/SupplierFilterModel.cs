@@ -2,12 +2,35 @@
 
 namespace BookstoreWebAPI.Models.BindingModels.FilterModels
 {
-    public class SupplierFilterModel
+    public class SupplierFilterModel : BaseFilterModel
     {
         [FromQuery(Name = "supplierGroupId")]
-        public string? SupplierGroupId { get; set; }
+        [ModelBinder(BinderType = typeof(CommaDelimitedArrayModelBinder<string>))]
+        public IEnumerable<string>? SupplierGroupIds { get; set; }
+
+
+
+        private bool? _isActive;
+        internal bool? IsActive { get => _isActive; private set { } }
+
+        private string? _isActiveString;
 
         [FromQuery(Name = "isActive")]
-        public string? IsActive { get; set; }
+        public string? IsActiveString
+        {
+            get => _isActiveString;
+            set
+            {
+                if (bool.TryParse(value, out bool val))
+                {
+                    _isActive = val;
+                }
+                else
+                {
+                    _isActive = null;
+                }
+                _isActiveString = value;
+            }
+        }
     }
 }

@@ -1,0 +1,16 @@
+[
+	{
+		"id": "loca00001",
+		"locationId": "loca00001",
+		"name": "TripleK",
+		"contact": {
+			"phone": "0909090909",
+			"email": "tripleK@gmail.com"
+		},
+		"address": "RRPJ+722, Nguyễn Xiển, Long Thạnh Mỹ, Quận 9, Thành phố Hồ Chí Minh",
+		"createAt": "2020-12-10T10:38:48.6784345Z",
+		"modifedAt": "2020-12-10T10:38:48.6784345Z",
+		"adminId": "staf00000",
+		"ttl": -1
+	}
+]

@@ -1,0 +1,122 @@
+[
+	{
+		"id": "ron00002",
+		"returnOrderId": "ron00002",
+		"salesOrderId": "ord00075",
+		"customerId": "cust00030",
+		"customerName": "Tô Quân",
+		"staffId": "staf00000",
+		"staffName": "Phạm Tuấn Kiệt",
+		"items": [
+			{
+				"productId": "prod00048",
+				"sku": "prod00048",
+				"name": "Định Luật Murphy - Mọi Bí Mật Tâm Lý Thao Túng Cuộc Đời Bạn",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/p/h/ph_t-h_nh-_nh-lu_t-murphybia-1.jpg",
+				"soldQuantity": 2,
+				"salePrice": 119000,
+				"returnQuantity": 1,
+				"refund": 119000,
+				"totalRefund": 119000
+			},
+			{
+				"productId": "prod00023",
+				"sku": "prod00023",
+				"name": "Thượng Dương",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_216250.jpg",
+				"soldQuantity": 2,
+				"salePrice": 108000,
+				"returnQuantity": 2,
+				"refund": 108000,
+				"totalRefund": 216000
+			}
+		],
+		"totalItem": 2,
+		"totalQuantity": 3,
+		"totalAmount": 335000,
+		"note": "Return",
+		"createdAt": "2022-05-13T06:15:00Z",
+		"modifiedAt": "2022-05-13T06:15:00Z",
+		"ttl": -1
+	},
+	{
+		"id": "ron00001",
+		"returnOrderId": "ron00001",
+		"salesOrderId": "ord00047",
+		"customerId": "cust00018",
+		"customerName": "Trần Văn Khiêm",
+		"staffId": "staf00000",
+		"staffName": "Phạm Tuấn Kiệt",
+		"items": [
+			{
+				"productId": "prod00093",
+				"sku": "prod00093",
+				"name": "Hộp 16 Trái Châu Trang Trí Giáng Sinh - 6ADKLE16 - Màu Vàng Gold",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/1/8/1880000979228.jpg",
+				"soldQuantity": 3,
+				"salePrice": 113000,
+				"returnQuantity": 3,
+				"refund": 113000,
+				"totalRefund": 339000
+			},
+			{
+				"productId": "prod00082",
+				"sku": "prod00082",
+				"name": "Bộ Tranh Tương Tác Cô Tiên Xanh - Tiệm Cà Phê Tèo",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/9/3900000125468-dd.jpg",
+				"soldQuantity": 4,
+				"salePrice": 36000,
+				"returnQuantity": 2,
+				"refund": 36000,
+				"totalRefund": 72000
+			},
+			{
+				"productId": "prod00074",
+				"sku": "prod00074",
+				"name": "Băng Keo 2 Mặt 5 Ly Hiệp Phát - Màu Trắng",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_224778.jpg",
+				"soldQuantity": 2,
+				"salePrice": 3000,
+				"returnQuantity": 2,
+				"refund": 3000,
+				"totalRefund": 6000
+			}
+		],
+		"totalItem": 3,
+		"totalQuantity": 9,
+		"totalAmount": 417000,
+		"note": "Return",
+		"createdAt": "2021-02-17T09:04:00Z",
+		"modifiedAt": "2021-02-17T09:04:00Z",
+		"ttl": -1
+	},
+	{
+		"id": "ron00003",
+		"returnOrderId": "ron00003",
+		"salesOrderId": "ord00004",
+		"customerId": "cust00002",
+		"customerName": "Đặng Nguyễn Quân",
+		"staffId": "staf00000",
+		"staffName": "Phạm Tuấn Kiệt",
+		"items": [
+			{
+				"productId": "prod00021",
+				"sku": "prod00021",
+				"name": "Mùa Hè Không Tên - Tặng Kèm Bookmark 2 Mặt + Poster Tranh + Chữ Ký Tác Giả Ngẫu Nhiên",
+				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/m/u/mua-he-khong-ten---bia-mem---qua-tang-kem-1.jpg",
+				"soldQuantity": 2,
+				"salePrice": 130000,
+				"returnQuantity": 2,
+				"refund": 130000,
+				"totalRefund": 260000
+			}
+		],
+		"totalItem": 1,
+		"totalQuantity": 2,
+		"totalAmount": 260000,
+		"note": "",
+		"createdAt": "2023-12-19T06:02:55Z",
+		"modifiedAt": "2023-12-19T06:02:55Z",
+		"ttl": -1
+	}
+]

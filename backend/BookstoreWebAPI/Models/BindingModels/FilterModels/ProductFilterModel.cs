@@ -3,65 +3,88 @@ using NSwag.Annotations;
 
 namespace BookstoreWebAPI.Models.BindingModels.FilterModels
 {
-    public class ProductFilterModel
+    public class ProductFilterModel : BaseFilterModel
     {
-        [FromQuery(Name = "categoryId")]
-        public string? CategoryId { get; set; }
+        // my attributes
+        private List<(int MinPrice, int MaxPrice)> _priceRanges;
+        internal List<(int MinPrice, int MaxPrice)>? PriceRanges { get => _priceRanges; private set { } }
 
-        private string? _priceRangeString;
+        internal List<string>? Manufacturers { get; set; }
+        
+        internal List<string>? Authors { get; set; }
 
-        [FromQuery(Name = "priceRange")]
-        public string? PriceRangeString
+        internal List<string>? Publishers { get; set; }
+
+        // query attributes
+        
+        [FromQuery(Name = "categoryIds")]
+        [ModelBinder(BinderType = typeof(CommaDelimitedArrayModelBinder<string>))]
+        public IEnumerable<string>? CategoryIds { get; set; }
+
+        [FromQuery(Name = "supplierIds")]
+        [ModelBinder(BinderType = typeof(CommaDelimitedArrayModelBinder<string>))]
+        public IEnumerable<string>? SupplierIds { get; set; }
+
+
+        private IEnumerable<string>? _priceRangeStrings;
+        [FromQuery(Name = "priceRanges")]
+        [ModelBinder(BinderType = typeof(CommaDelimitedArrayModelBinder<string>))]
+        public IEnumerable<string>? PriceRangeStrings
         {
-            get => _priceRangeString;
+            get => _priceRangeStrings;
             set
             {
-                _priceRangeString = value;
-                if (_priceRangeString == null || string.IsNullOrEmpty(_priceRangeString)) { return; }
+                _priceRangeStrings = value;
+                if (_priceRangeStrings == null || !_priceRangeStrings.Any()) { return; }
 
+                _priceRanges = new();
 
-                var parts = _priceRangeString.Split('-');
-                int min = int.Parse(parts[0]);
-                int max = int.Parse(parts[1]);
+                foreach (var priceRangeString in _priceRangeStrings)
+                {
+                    var parts = priceRangeString.Split('-');
+                    int min = int.Parse(parts[0]);
+                    int max = int.Parse(parts[1]);
+                    _priceRanges.Add((min, max));
+                }
 
-                _priceRange = (min, max);
             }
         }
 
-        [FromQuery(Name = "manufacturerId")]
-        public int ManufacturerId { get; set; } = -1;
+        [FromQuery(Name = "manufacturerIds")]
+        [ModelBinder(BinderType = typeof(CommaDelimitedArrayModelBinder<int>))]
+        public IEnumerable<int>? ManufacturerIds { get; set; }
 
-        [FromQuery(Name = "supplierId")]
-        public int SupplierId { get; set; } = -1;
+        [FromQuery(Name = "authorIds")]
+        [ModelBinder(BinderType = typeof(CommaDelimitedArrayModelBinder<int>))]
+        public IEnumerable<int>? AuthorIds { get; set; }
 
-        [FromQuery(Name = "authorId")]
-        public int AuthorId { get; set; } = -1;
+        [FromQuery(Name = "publisherIds")]
+        [ModelBinder(BinderType = typeof(CommaDelimitedArrayModelBinder<int>))]
+        public IEnumerable<int>? PublisherIds { get; set; }
 
-        [FromQuery(Name = "publisherId")]
-        public int PublisherId { get; set; } = -1;
+
+        private bool? _isActive;
+        internal bool? IsActive { get => _isActive; private set { } }
+
+
+        private string? _isActiveString;
+
         [FromQuery(Name = "isActive")]
-        public string? IsActive { get; set; }
-
-
-        private (int MinPrice, int MaxPrice) _priceRange;
-        public (int MinPrice, int MaxPrice) PriceRange { get => _priceRange; private set { } }
-
-
-        [OpenApiIgnore]
-        public string? Manufacturer { get; private set; }
-
-        [OpenApiIgnore]
-        public string? SupplierName { get; private set; }
-
-        [OpenApiIgnore]
-        public string? Author { get; private set; }
-
-        [OpenApiIgnore]
-        public string? Publisher { get; private set; }
-
-        public void setManufacturer(string newManufacturer) { Manufacturer = newManufacturer; }
-        public void setSupplierName(string newSupplierName) { SupplierName = newSupplierName; }
-        public void setAuthor(string newAuthor) { Author = newAuthor; }
-        public void setPublisher(string newPublisher) { Publisher = newPublisher; }
+        public string? IsActiveString
+        {
+            get => _isActiveString;
+            set
+            {
+                if (bool.TryParse(value, out bool val))
+                {
+                    _isActive = val;
+                }
+                else
+                {
+                    _isActive = null;
+                }
+                _isActiveString = value;
+            }
+        }
     }
 }

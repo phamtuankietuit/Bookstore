@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using BookstoreWebAPI.Models.Shared;
-using BookstoreWebAPI.Models.Abstracts;
+using BookstoreWebAPI.Models.Interfaces;
 
 namespace BookstoreWebAPI.Models.Documents
 {
@@ -18,6 +18,15 @@ namespace BookstoreWebAPI.Models.Documents
         [JsonProperty("categoryName")]
         public string CategoryName { get; set; }
 
+        [JsonProperty("categoryText")]
+        public string CategoryText { get; set; }
+
+        [JsonProperty("supplierId")]
+        public string SupplierId { get; set; }
+
+        [JsonProperty("supplierName")]
+        public string SupplierName { get; set; }
+
         [JsonProperty("sku")]
         public string Sku { get; set; }
 
@@ -27,21 +36,23 @@ namespace BookstoreWebAPI.Models.Documents
         [JsonProperty("description")]
         public string Description { get; set; }
 
+        [JsonProperty("salePriceHistory")]
+        public List<PriceHistory> SalePriceHistory { get; set; }
+
         [JsonProperty("salePrice")]
         public int SalePrice { get; set; }
 
         [JsonProperty("purchasePrice")]
         public int PurchasePrice { get; set; }
 
-        [JsonProperty("attributes")]
-        public List<string> Attributes { get; set; }
-
         [JsonProperty("details")]
         public Dictionary<string,string> Details { get; set; }
 
+        [JsonProperty("optionalDetails")]
+        public List<OptionalDetails> OptionalDetails { get; set; }
+
         [JsonProperty("ratings")]
         public Ratings Ratings { get; set; }
-
 
         [JsonProperty("images")]
         public List<string> Images { get; set; }
@@ -59,9 +70,15 @@ namespace BookstoreWebAPI.Models.Documents
         public bool IsRemovable { get; set; }
         
         [JsonProperty("createdAt")]
-        public DateTime CreatedAt { get; set; }
-        
+        public DateTime? CreatedAt { get; set; }
+
+        [JsonProperty("modifiedAt")]
+        public DateTime? ModifiedAt { get; set; }
+
         [JsonProperty("ttl")]
         public int TTL { get; set; }
+
+        [JsonProperty("staffId")]
+        public string StaffId { get; set; }
     }
 }

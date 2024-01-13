@@ -4,6 +4,20 @@ using BookstoreWebAPI.Repository.Interfaces;
 using BookstoreWebAPI.SeedData;
 using BookstoreWebAPI.Utils;
 using System.Net;
+using Microsoft.AspNetCore.Diagnostics;
+using static System.Net.Mime.MediaTypeNames;
+using FluentValidation;
+using BookstoreWebAPI.Validators;
+using BookstoreWebAPI.Models.BindingModels;
+using Azure.Storage.Blobs;
+using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using BookstoreWebAPI.Services;
+using Azure.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using BookstoreWebAPI.Models.Emails;
+using BookstoreWebAPI.Validators.FilterModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +25,30 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Services.AddMemoryCache();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddControllersWithViews(options =>
+{
+    options.SuppressAsyncSuffixInActionNames = false;
+});
+builder.Services
+    .AddAuthentication(options => {
+        options.DefaultAuthenticateScheme =
+                    JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    }).AddJwtBearer(o => {
+        o.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidAudience = builder.Configuration["JwtSecurityToken:Audience"]!,
+            ValidIssuer = builder.Configuration["JwtSecurityToken:Issuer"]!,
+            IssuerSigningKey = new SymmetricSecurityKey
+            (Encoding.UTF8.GetBytes(builder.Configuration["JwtSecurityToken:Key"]!)),
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
+        };
+    });
 
 // Add services to the container.
 var configuration = builder.Configuration;
@@ -34,15 +72,67 @@ builder.Services.AddSingleton((provider) =>
     return new CosmosClient(endpointUri, primaryKey, cosmosClientOptions);  
 });
 
+builder.Services.AddScoped(_ => {
+    //var accountUri = new Uri(!);
+    return new BlobServiceClient(configuration.GetConnectionString("AzureBlobStorage"));
+});
 
+var emailConfig = builder.Configuration
+        .GetSection("EmailConfiguration")
+        .Get<EmailConfiguration>();
+builder.Services.AddSingleton(emailConfig);
 
+// add search service
+builder.Services.AddSingleton<AzureSearchServiceFactory>();
+
+// enable policy
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin() // or AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowAnyOrigin();
+    });
+});
+
+// adding custom services
+builder.Services.AddTransient<IFileService, FileService>();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+// adding utils
+builder.Services.AddTransient<EmailUtils>();
+
+// adding repositories
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 builder.Services.AddTransient<ISupplierRepository, SupplierRepository>();
 builder.Services.AddTransient<ISalesOrderRepository, SalesOrderRepository>();
 builder.Services.AddTransient<IPurchaseOrderRepository, PurchaseOrderRepository>();
+builder.Services.AddTransient<IReturnOrderRepository, ReturnOrderRepository>();
 builder.Services.AddTransient<IPromotionRepository, PromotionRepository>();
 builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
+builder.Services.AddTransient<ISupplierGroupRepository, SupplierGroupRepository>();
+builder.Services.AddTransient<IStaffRepository, StaffRepository>();
+builder.Services.AddTransient<IAccountRepository, AccountRepository>();
+builder.Services.AddTransient<IActivityLogRepository, ActivityLogRepository>();
+builder.Services.AddTransient<ILocationRepository, LocationRepository>();
+
+
+// adding validators
+builder.Services.AddTransient<IValidator<QueryParameters>, QueryParametersValidator>();
+builder.Services.AddTransient<IValidator<PromotionFilterModel>, PromotionFilterModelValidator>();
+builder.Services.AddTransient<IValidator<SalesOrderFilterModel>, SalesOrderFilterModelValidator>();
+builder.Services.AddTransient<IValidator<PurchaseOrderFilterModel>, PurchaseOrderFilterModelValidator>();
+builder.Services.AddTransient<IValidator<ReturnOrderFilterModel>, ReturnOrderFilterModelValidator>();
+builder.Services.AddTransient<IValidator<ActivityLogFilterModel>, ActivityLogFilterModelValidator>();
+builder.Services.AddTransient<IValidator<StaffFilterModel>, StaffFilterModelValidator>();
+builder.Services.AddTransient<IValidator<SupplierFilterModel>, SupplierFilterModelValidator>();
+builder.Services.AddTransient<IValidator<CustomerFilterModel>, CustomerFilterModelValidator>();
+builder.Services.AddTransient<IValidator<ProductFilterModel>, ProductFilterModelValidator>();
+
+builder.Services.AddSingleton<UserContextService>();
 builder.Services.AddTransient<DataSeeder>();
 builder.Services.AddControllers();
 
@@ -62,11 +152,8 @@ using (var scope = scopeFactory.CreateScope())
     // Get the Database Name
     var databaseName = cosmosClient.ClientOptions.ApplicationName;
 
-    // Autoscale throughput settings
-    ThroughputProperties autoscaleThroughputProperties = ThroughputProperties.CreateAutoscaleThroughput(1000);
-
     //Create the database with autoscale enabled
-    var response = await cosmosClient.CreateDatabaseIfNotExistsAsync(databaseName, throughputProperties: autoscaleThroughputProperties);
+    var response = await cosmosClient.CreateDatabaseIfNotExistsAsync(databaseName);
 
     // Logging
     if (response.StatusCode == HttpStatusCode.Created)
@@ -92,13 +179,52 @@ using (var scope = scopeFactory.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-    app.UseSwaggerUI();
-    app.UseSwagger();
-//}
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler(exceptionHandlerApp =>
+    {
+        exceptionHandlerApp.Run(async context =>
+        {
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+
+            // using static System.Net.Mime.MediaTypeNames;
+            context.Response.ContentType = Text.Plain;
+
+            await context.Response.WriteAsync("An exception was thrown.");
+
+            var exceptionHandlerPathFeature =
+                context.Features.Get<IExceptionHandlerPathFeature>();
+
+            if (exceptionHandlerPathFeature?.Error is FileNotFoundException)
+            {
+                await context.Response.WriteAsync(" The file was not found.");
+            }
+
+            if (exceptionHandlerPathFeature?.Path == "/")
+            {
+                await context.Response.WriteAsync(" Page: Home.");
+            }
+        });
+    });
+
+    app.UseHsts();
+}
+
+
+app.UseCors();
+
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
@@ -113,12 +239,15 @@ async Task<bool> EnsureContainersAreCreatedAsync(Database database)
     {
         ("categories", "/categoryId"),
         ("products", "/sku"),
-        ("inventory", "/sku"),
+        ("inventories", "/sku"),
         ("suppliers", "/supplierId"),
+        ("supplierGroups", "/supplierGroupId"),
         ("salesOrders", "/monthYear"),
         ("purchaseOrders", "/monthYear"),
         ("promotions", "/promotionId"),
-        ("customers","/customerId")
+        ("customers","/customerId"),
+        ("staffs", "/staffId"),
+        ("activityLogs","/staffId")
     };
 
     foreach (var (containerName, partitionKeyPath) in containersToCreate)
@@ -145,8 +274,6 @@ async Task<HttpStatusCode> GetContainerCreationStatusCode(Database database, str
     };
 
     var response = await database.CreateContainerIfNotExistsAsync(properties);
-
-
 
     if (response.StatusCode == HttpStatusCode.Created)
         app.Logger.LogInformation($"Container {containerName} created");

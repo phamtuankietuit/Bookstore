@@ -1,157 +1,231 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
-using BookstoreWebAPI.Models.Documents;
+﻿using Microsoft.AspNetCore.Mvc;
 using BookstoreWebAPI.Models.DTOs;
 using BookstoreWebAPI.Repository.Interfaces;
-using BookstoreWebAPI.Utils;
-using System.Formats.Asn1;
+using BookstoreWebAPI.Models.BindingModels;
+using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using FluentValidation;
+using FluentValidation.Results;
+using BookstoreWebAPI.Services;
+using Azure;
 
 namespace BookstoreWebAPI.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : Controller
+    public class ProductsController(
+        IProductRepository productRepository,
+        ILogger<ProductsController> logger,
+        IValidator<QueryParameters> validator,
+        IValidator<ProductFilterModel> filterValidator,
+        IFileService fileService,
+        UserContextService userContextService
+    ) : Controller
     {
-        private readonly IProductRepository _productRepository;
-        private readonly ILogger<ProductsController> _logger;
-        private readonly IMapper _mapper;
-        private readonly IMemoryCache _memoryCache;
-
-        public ProductsController(IProductRepository productRepository, ILogger<ProductsController> logger, IMapper mapper, IMemoryCache memoryCache)
-        {
-            _productRepository = productRepository;
-            _logger = logger;
-            _mapper = mapper;
-            this._memoryCache = memoryCache;
-        }
-
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductsAsync()
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductDTOsAsync(
+            [FromQuery] QueryParameters queryParams,
+            [FromQuery] ProductFilterModel filter)
         {
-            var products = await _productRepository.GetProductDTOsAsync();
+            ValidationResult queryParamResult = await validator.ValidateAsync(queryParams);
+            if (!queryParamResult.IsValid) return BadRequest(queryParamResult.Errors);
 
-            if (products == null || !products.Any()) 
-            {
-                _logger.LogInformation($"No product found!");
-                return NotFound();
-            }
+            ValidationResult filterModelResult = await filterValidator.ValidateAsync(filter);
+            if (!filterModelResult.IsValid) return BadRequest(filterModelResult.Errors);
 
-            _logger.LogInformation($"Returned all products!");
-            return Ok(products);
-        }
 
-        [HttpGet("category/{categoryId}")]
-        public async Task<ActionResult<IEnumerable<ProductDocument>>> GetProductsInCategoryAsync(string categoryId)
-        {
-            var products = await _productRepository.GetProductDocumentsInCategoryAsync(categoryId);
+            var products = await productRepository.GetProductDTOsAsync(queryParams, filter);
+            int totalCount = productRepository.TotalCount;
 
             if (products == null || !products.Any())
             {
-                _logger.LogInformation($"No product found in category id {categoryId}!");
                 return NotFound();
             }
 
-            _logger.LogInformation($"Returned all products in category id {categoryId}!");
-            return Ok(products);
-        }
-
-
-        [HttpGet("sku/{sku}")]
-        public async Task<ActionResult<ProductDTO>> GetProductBySkuAsync(string sku)
-        {
-            var product = await _productRepository.GetProductDTOBySkuAsync(sku);
-
-            if (product == null)
+            logger.LogInformation($"Returned all products!");
+            return Ok(new
             {
-                _logger.LogInformation($"Product with sku {sku} Not Found");
+                data = products,
+                metadata = new
+                {
+                    count = totalCount
+                }
+            });
+        }
+
+        [HttpGet("details/{detailName}")]
+        public async Task<ActionResult<IEnumerable<string>>> GetProductDetailListAsync(string detailName)
+        {
+            var result = await productRepository.GetDetailsAsync(detailName);
+
+            if (result == null || !result.Any())
+            {
+
                 return NotFound();
             }
 
-            _logger.LogInformation($"Product with sku {sku} Found");
-
-            return Ok(product);
-        }
-
-        [HttpGet("newId")]
-        public async Task<ActionResult<string>> GetNewProductIdAsync()
-        {
-            string newId = await _productRepository.GetNewProductIdAsync();
-
-            return Ok(newId);
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductDTO>> GetProductByIdAsync(string id)
+        public async Task<ActionResult<ProductDTO>> GetProductDTOByIdAsync(string id)
         {
-            var product = await _productRepository.GetProductDTOByIdAsync(id);
+            var product = await productRepository.GetProductDTOByIdAsync(id);
 
             if (product == null)
             {
-                _logger.LogInformation($"Product with id {id} Not Found");
+                logger.LogInformation($"Product with id {id} Not Found");
                 return NotFound();
             }
 
-            _logger.LogInformation($"Product with id {id} Found");
+            logger.LogInformation($"Product with id {id} Found");
 
             return Ok(product);
         }
+
 
         [HttpPost]
         public async Task<ActionResult> CreateProductAsync([FromBody] ProductDTO productDTO)
         {
-            if (productDTO == null)
-            {
-                return BadRequest("Product data is required.");
-            }
+            var staffId = Request.Headers["staffId"].ToString();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
+            userContextService.Current.StaffId = staffId;
 
             try
             {
-                await _productRepository.AddProductDTOAsync(productDTO);
+                var createdProductDTO = await productRepository.AddProductDTOAsync(productDTO);
 
-                return Ok("Product created successfully.");
+                return CreatedAtAction(
+                    nameof(GetProductDTOByIdAsync), // method
+                    new { id = createdProductDTO.ProductId }, // param in method
+                    createdProductDTO // values returning after the route
+                );
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the product. ProductId: {productDTO.ProductId}");
+                logger.LogInformation(
+                    $"Product Name: {productDTO.Name}" +
+                    $"\nError message: {ex.Message}"
+                );
+
+                return Conflict(ex.Message);
             }
         }
 
-        [HttpPut]
-        public async Task<ActionResult> UpdateProductAsync([FromBody] ProductDTO productDTO)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateProductAsync(string id, [FromBody] ProductDTO productDTO)
         {
-            if (productDTO == null)
+            var staffId = Request.Headers["staffId"].ToString();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
+            userContextService.Current.StaffId = staffId;
+
+            if (id != productDTO.ProductId)
             {
-                return BadRequest("Product data is required.");
+                return BadRequest("Specified id don't match with the DTO.");
             }
 
             try
             {
-                await _productRepository.UpdateProductDTOAsync(productDTO);
+                await productRepository.UpdateProductDTOAsync(productDTO);
 
-                return Ok("Product created successfully.");
+                return NoContent();
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while updating the product. ProductId: {productDTO.ProductId}");
+                logger.LogError(
+                    $"Updating failed. " +
+                    $"\nProduct Id: {id}. " +
+                    $"\nError message: {ex.Message}");
+
+                return StatusCode(500,
+                    $"An error occurred while updating the product. \n" +
+                    $"Product Id: {id}\n" +
+                    $"Error message: {ex.Message}");
             }
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteProductAsync(string id)
+        [HttpDelete()]
+        public async Task<ActionResult> DeleteProductsAsync([FromQuery] string[] ids)
         {
+            var staffId = Request.Headers["staffId"].ToString();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
+            userContextService.Current.StaffId = staffId;
+
+            if (ids == null || ids.Length == 0)
+            {
+                return BadRequest("ids is required.");
+            }
+
+            var result = await productRepository.DeleteProductsAsync(ids);
+
+            int statusCount = 0;
+            if (!result.IsNotSuccessful) statusCount++;
+            if (!result.IsFound) statusCount++;
+            if (!result.IsNotForbidden) statusCount++;
+
+            if (statusCount > 1)
+                return StatusCode(207, result.Responses);
+            else if (!result.IsNotSuccessful) return NoContent();
+            else if (!result.IsFound) return NotFound();
+
+            return StatusCode(403);
+        }
+
+        [HttpPost("images")]
+        public async Task<ActionResult> UploadImagesAsync(List<IFormFile> files)
+        {
+            List<FileModel> fileModels = [];
+
             try
             {
-                await _productRepository.DeleteProductDTOAsync(id);
-
-                return Ok("Product deleted successfully");
+                foreach(var file in files)
+                {
+                    fileModels.Add(await fileService.UploadAsync(file));
+                }
             }
-            catch(Exception ex)
+            catch (ArgumentException ex)
             {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while deleting the product. Product Id: {id}");
+                return BadRequest(ex.Message);
+            }
+            catch (RequestFailedException)
+            {
+                return StatusCode(500, "Upload failed");
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ex.Message);
+
+            }
+
+            var urls = fileModels.Select(x => x.Url);
+            var count = urls.Count();
+
+            return Ok(new
+            {
+                data = urls,
+                metadata = new
+                {
+                    count
+                }
+            }) ;
+        }
+
+        [HttpDelete("images/{blobName}")]
+        public async Task<ActionResult> DeleteImageAsync(string blobName)
+        {
+            try
+            {   
+                await fileService.DeleteAsync(blobName);
+
+                return Ok($"Blob {blobName} deleted successfully.");
+            }
+            catch (RequestFailedException)
+            {
+                return StatusCode(500, "Delete failed");
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ex.Message);
             }
         }
     }

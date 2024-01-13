@@ -5,58 +5,55 @@ using BookstoreWebAPI.Models.Documents;
 using BookstoreWebAPI.Models.DTOs;
 using BookstoreWebAPI.Repository.Interfaces;
 using BookstoreWebAPI.Utils;
+using BookstoreWebAPI.Models.Responses;
+using BookstoreWebAPI.Models.BindingModels;
+using BookstoreWebAPI.Models.BindingModels.FilterModels;
+using BookstoreWebAPI.Services;
+using Azure.Search.Documents.Models;
 
 namespace BookstoreWebAPI.Repository
 {
     public class PurchaseOrderRepository : IPurchaseOrderRepository
     {
+        private readonly string purchaseOrderNewIdCacheName = "LastestPurchaseOrderId";
+        private readonly ILogger<PurchaseOrderRepository> _logger;
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
+        private readonly IActivityLogRepository _activityLogRepository;
         private Container _purchaseOrderContainer;
+        private readonly AzureSearchClientService _searchService;
+        private readonly IndexDocumentsBatch<SearchDocument> _purchaseOrderBatch;
 
-        public PurchaseOrderRepository(CosmosClient cosmosClient, IMapper mapper, IMemoryCache memoryCache)
+        public int TotalCount { get; private set; }
+
+        public PurchaseOrderRepository(
+            CosmosClient cosmosClient,
+            ILogger<PurchaseOrderRepository> logger,
+            IMapper mapper,
+            IMemoryCache memoryCache,
+            IActivityLogRepository activityLogRepository,
+            AzureSearchServiceFactory searchServiceFactory)
         {
-            this._mapper = mapper;
-            this._memoryCache = memoryCache;
+            _logger = logger;
+            _mapper = mapper;
+            _memoryCache = memoryCache;
+
             var databaseName = cosmosClient.ClientOptions.ApplicationName;
             var containerName = "purchaseOrders";
 
             _purchaseOrderContainer = cosmosClient.GetContainer(databaseName, containerName);
+            _searchService = searchServiceFactory.Create(containerName);
+            _activityLogRepository = activityLogRepository;
+            _purchaseOrderBatch = new();
         }
 
-        public async Task AddPurchaseOrderDocumentAsync(PurchaseOrderDocument item)
+        public async Task<IEnumerable<PurchaseOrderDTO>> GetPurchaseOrderDTOsAsync(QueryParameters queryParams, PurchaseOrderFilterModel filter)
         {
-            await _purchaseOrderContainer.UpsertItemAsync(
-                item: item,
-                partitionKey: new PartitionKey(item.MonthYear)
-            );
-        }
-
-        public async Task AddPurchaseOrderDTOAsync(PurchaseOrderDTO purchaseOrderDTO)
-        {
-            var purchaseOrderDoc = _mapper.Map<PurchaseOrderDocument>(purchaseOrderDTO);
-
-            await AddPurchaseOrderDocumentAsync(purchaseOrderDoc);
-        }
-        public async Task UpdatePurchaseOrderAsync(PurchaseOrderDTO purchaseOrderDTO)
-        {
-            var purchaseOrderToUpdate = _mapper.Map<PurchaseOrderDocument>(purchaseOrderDTO);
-
-            await _purchaseOrderContainer.UpsertItemAsync(
-                item: purchaseOrderToUpdate,
-                partitionKey: new PartitionKey(purchaseOrderToUpdate.MonthYear)
-            );
-        }
-
-        public async Task<IEnumerable<PurchaseOrderDTO>> GetPurchaseOrderDTOsAsync()
-        {
-            var queryDef = new QueryDefinition(
-                query:
-                    "SELECT * " +
-                    "FROM po"
-            );
-
-            var purchaseOrderDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<PurchaseOrderDocument>(_purchaseOrderContainer, queryDef);
+            filter.Query ??= "*";
+            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+            var searchResult = await _searchService.SearchAsync<PurchaseOrderDocument>(filter.Query, options);
+            TotalCount = searchResult.TotalCount;
+            var purchaseOrderDocs = searchResult.Results;
             var purchaseOrderDTOs = purchaseOrderDocs.Select(purchaseOrderDoc =>
             {
                 return _mapper.Map<PurchaseOrderDTO>(purchaseOrderDoc);
@@ -65,9 +62,77 @@ namespace BookstoreWebAPI.Repository
             return purchaseOrderDTOs;
         }
 
-        public async Task<string> GetNewPurchaseOrderIdAsync()
+        public async Task<PurchaseOrderDTO> GetPurchaseOrderDTOByIdAsync(string id)
         {
-            if (_memoryCache.TryGetValue("LastestPurchaseOrderId", out string? lastestId))
+            var purchaseOrderDoc = await GetPurchaseOrderDocumentByIdAsync(id);
+
+            var purchaseOrderDTO = _mapper.Map<PurchaseOrderDTO>(purchaseOrderDoc);
+
+            return purchaseOrderDTO;
+        }
+
+        public async Task<PurchaseOrderDTO> AddPurchaseOrderDTOAsync(PurchaseOrderDTO purchaseOrderDTO)
+        {
+            // validate unique purchase order
+
+
+            var purchaseOrderDoc = _mapper.Map<PurchaseOrderDocument>(purchaseOrderDTO);
+            await PopulateDataToNewPurchaseOrder(purchaseOrderDoc);
+
+            var createdDocument = await AddPurchaseOrderDocumentAsync(purchaseOrderDoc);
+
+            if (createdDocument.StatusCode == System.Net.HttpStatusCode.Created)
+            {
+                _memoryCache.Set(purchaseOrderNewIdCacheName, IdUtils.IncreaseId(purchaseOrderDoc.Id));
+
+                await _activityLogRepository.LogActivity(
+                    Enums.ActivityType.create,
+                    purchaseOrderDoc.StaffId,
+                    "Đơn nhập hàng",
+                    purchaseOrderDoc.PurchaseOrderId
+                );
+
+                _searchService.InsertToBatch(_purchaseOrderBatch, createdDocument.Resource, BatchAction.Upload);
+                await _searchService.ExecuteBatchIndex(_purchaseOrderBatch);
+
+                _logger.LogInformation($"[PurchaseOrderRepository] Uploaded new purchaseOrder {createdDocument.Resource.Id} to index");
+
+
+                return _mapper.Map<PurchaseOrderDTO>(createdDocument.Resource);
+            }
+
+            throw new ArgumentNullException(nameof(createdDocument));
+        }
+
+
+        public async Task UpdatePurchaseOrderAsync(PurchaseOrderDTO purchaseOrderDTO)
+        {
+            var purchaseOrderToUpdate = _mapper.Map<PurchaseOrderDocument>(purchaseOrderDTO);
+            
+            purchaseOrderToUpdate.MonthYear ??= purchaseOrderToUpdate.CreatedAt!.Value.ToString("yyyy-MM");
+            purchaseOrderToUpdate.ModifiedAt = DateTime.UtcNow;
+
+            await _purchaseOrderContainer.UpsertItemAsync(
+                item: purchaseOrderToUpdate,
+                partitionKey: new PartitionKey(purchaseOrderToUpdate.MonthYear)
+            );
+
+            await _activityLogRepository.LogActivity(
+                Enums.ActivityType.update,
+                purchaseOrderToUpdate.StaffId,
+                "Đơn nhập hàng",
+                purchaseOrderToUpdate.PurchaseOrderId
+            );
+            _searchService.InsertToBatch(_purchaseOrderBatch, purchaseOrderToUpdate, BatchAction.Merge);
+            await _searchService.ExecuteBatchIndex(_purchaseOrderBatch);
+
+            _logger.LogInformation($"[PurchaseOrderRepository] Merged uploaded purchaseOrder {purchaseOrderToUpdate.Id} to index");
+
+        }
+
+        private async Task<string> GetNewPurchaseOrderIdAsync()
+        {
+            if (_memoryCache.TryGetValue(purchaseOrderNewIdCacheName, out string? lastestId))
             {
                 if (!String.IsNullOrEmpty(lastestId))
                     return lastestId;
@@ -88,30 +153,25 @@ namespace BookstoreWebAPI.Repository
             return newId;
         }
 
-        public async Task<PurchaseOrderDTO> GetPurchaseOrderDTOByIdAsync(string id)
+        private async Task PopulateDataToNewPurchaseOrder(PurchaseOrderDocument purchaseOrderDoc)
         {
-            var purchaseOrderDoc = await GetPurchaseOrderDocumentByIdAsync(id);
+            purchaseOrderDoc.Id = await GetNewPurchaseOrderIdAsync();
+            purchaseOrderDoc.PurchaseOrderId = purchaseOrderDoc.Id;
 
-            var purchaseOrderDTO = _mapper.Map<PurchaseOrderDTO>(purchaseOrderDoc);
-
-            return purchaseOrderDTO;
-        }
-
-        public async Task DeletePurchaseOrderAsync(string id)
-        {
-            var purchaseOrderDoc = await GetPurchaseOrderDocumentByIdAsync(id);
-
-            if (purchaseOrderDoc == null)
+            purchaseOrderDoc.PaymentDetails ??= new()
             {
-                throw new Exception("PurchaseOrder Not found!");
-            }
+                PaymentMethod = "",
 
-            List<PatchOperation> patchOperations = new List<PatchOperation>()
-            {
-                PatchOperation.Replace("/isDeleted", true)
             };
+            purchaseOrderDoc.PaymentDetails.Status = DocumentStatusUtils.GetPaymentStatus(
+                purchaseOrderDoc.PaymentDetails.RemainAmount
+            );
 
-            await _purchaseOrderContainer.PatchItemAsync<PurchaseOrderDocument>(id, new PartitionKey(purchaseOrderDoc.MonthYear), patchOperations);
+            purchaseOrderDoc.Status ??= "Completed";
+            purchaseOrderDoc.Note ??= "";
+            purchaseOrderDoc.Tags ??= new();
+            //purchaseOrderDoc.IsRemovable = true;
+            //purchaseOrderDoc.IsDeleted = false;
         }
 
         private async Task<PurchaseOrderDocument?> GetPurchaseOrderDocumentByIdAsync(string id)
@@ -126,6 +186,28 @@ namespace BookstoreWebAPI.Repository
             var purchaseOrder = await CosmosDbUtils.GetDocumentByQueryDefinition<PurchaseOrderDocument>(_purchaseOrderContainer, queryDef);
 
             return purchaseOrder;
+        }
+
+        private async Task<ItemResponse<PurchaseOrderDocument>> AddPurchaseOrderDocumentAsync(PurchaseOrderDocument item)
+        {
+            try
+            {
+                item.CreatedAt = DateTime.UtcNow;
+                item.MonthYear = item.CreatedAt.Value.ToString("yyyy-MM");
+                item.ModifiedAt = item.CreatedAt;
+
+                var response = await _purchaseOrderContainer.UpsertItemAsync(
+                    item: item,
+                    partitionKey: new PartitionKey(item.MonthYear)
+                );
+
+                return response;
+            }
+            catch (CosmosException)
+            {
+                // unhandled
+                throw new Exception("An exception thrown when creating the purchase order document");
+            }
         }
     }
 }

@@ -1,52 +1,59 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using BookstoreWebAPI.Services;
+using BookstoreWebAPI.Exceptions;
 using BookstoreWebAPI.Models.DTOs;
-using BookstoreWebAPI.Repository;
+using BookstoreWebAPI.Models.BindingModels;
+using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using BookstoreWebAPI.Repository.Interfaces;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using FluentValidation.Results;
+using FluentValidation;
 
 namespace BookstoreWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriesController : ControllerBase
+    public class CategoriesController(
+        ILogger<CategoriesController> logger,
+        ICategoryRepository categoryRepository,
+        IValidator<QueryParameters> validator,
+        UserContextService userContextService) : ControllerBase
     {
-        private readonly ILogger _logger;
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly ILogger _logger = logger;
 
-        public CategoriesController(ILogger<CategoriesController> logger, ICategoryRepository categoryRepository)
-        {
-            this._logger = logger;
-            this._categoryRepository = categoryRepository;
-        }
-
-        // GET: api/<CategoriesController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesAsync()
+        public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesAsync(
+            [FromQuery]QueryParameters queryParams,
+            [FromQuery]CategoryFilterModel filter)
         {
-            var categories = await _categoryRepository.GetCategoryDTOsAsync();
+            ValidationResult result = await validator.ValidateAsync(queryParams);
+
+            if (!result.IsValid)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            var categories = await categoryRepository.GetCategoryDTOsAsync(queryParams, filter);
+            int totalCount = categoryRepository.TotalCount;
 
             if (categories == null || !categories.Any()) 
             {
                 return NotFound();
             }
 
-            return Ok(categories);
+            return Ok(new 
+            { 
+                data = categories, 
+                metadata = new 
+                { 
+                    count = totalCount
+                } 
+            });
         }
 
-        [HttpGet("newId")]
-        public async Task<ActionResult<string>> GetNewCategoryIdAsync()
-        {
-            string newId = await _categoryRepository.GetNewCategoryIdAsync();
-
-            return Ok(newId);
-        }
-
-        // GET api/<CategoriesController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoryDTO>> GetCategoryDTOByIdAsync(string id)
         {
-            var category = await _categoryRepository.GetCategoryDTOByIdAsync(id);
+            var category = await categoryRepository.GetCategoryDTOByIdAsync(id);
 
             if (category == null)
             {
@@ -56,55 +63,98 @@ namespace BookstoreWebAPI.Controllers
             return Ok(category);
         }
 
-        // POST api/<CategoriesController>
         [HttpPost]
         public async Task<ActionResult> CreateCategoryAsync([FromBody] CategoryDTO categoryDTO)
         {
+            var staffId = Request.Headers["staffId"].ToString();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
+            userContextService.Current.StaffId = staffId;
+
             try
             {
-                await _categoryRepository.AddCategoryDTOAsync(categoryDTO);
 
-                return Ok("Category created successfully.");
+
+                var createdCategoryDTO = await categoryRepository.AddCategoryDTOAsync(categoryDTO);
+
+                return CreatedAtAction(
+                    nameof(GetCategoryDTOByIdAsync), 
+                    new { id = createdCategoryDTO.CategoryId }, 
+                    createdCategoryDTO
+                );
+            }
+            catch (DuplicateDocumentException ex)
+            {
+                return Conflict(ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the category. CategoryId: {categoryDTO.CategoryId}");
+                _logger.LogInformation(
+                    $"Category Name: {categoryDTO.Text}" +
+                    $"\nError message: {ex.Message}"
+                );
+
+                return StatusCode(500, ex.Message);
             }
         }
 
-        // PUT api/<CategoriesController>/5
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateCategoryAsync(string id, [FromBody] CategoryDTO categoryDTO)
         {
+            var staffId = Request.Headers["staffId"].ToString();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
+            userContextService.Current.StaffId = staffId;
+
+            if (id != categoryDTO.CategoryId)
+            {
+                return BadRequest("Specified id don't match with the DTO.");
+            }
+
             try
             {
-                await _categoryRepository.UpdateCategoryAsync(categoryDTO);
 
-                return Ok("Category updated successfully.");
+                await categoryRepository.UpdateCategoryDTOAsync(categoryDTO);
+
+                return NoContent();
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the category. CategoryId: {categoryDTO.CategoryId}");
+                _logger.LogError(
+                    $"Updating failed. " +
+                    $"\nCategory Id: {id}. " +
+                    $"\nError message: {ex.Message}");
+
+                return StatusCode(500,
+                    $"An error occurred while updating the category. \n" +
+                    $"Category Id: {id}\n" +
+                    $"Error message: {ex.Message}");
             }
         }
 
-        // DELETE api/<CategoriesController>/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteCategoryAsync(string id)
+        [HttpDelete]
+        public async Task<ActionResult> DeleteCategoriesAsync([FromQuery] string[] ids)
         {
-            try
-            {
-                await _categoryRepository.DeleteCategoryAsync(id);
+            var staffId = Request.Headers["staffId"].ToString();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
+            userContextService.Current.StaffId = staffId;
 
-                return Ok("Category updated successfully.");
-            }
-            catch (Exception ex)
+            if (ids == null || ids.Length == 0)
             {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the category. CategoryId: {id}");
+                return BadRequest("ids is required.");
             }
+
+            var result = await categoryRepository.DeleteCategoriesAsync(ids);
+
+            int statusCount = 0;
+            if (!result.IsNotSuccessful) statusCount++;
+            if (!result.IsFound) statusCount++;
+            if (!result.IsNotForbidden) statusCount++;
+
+            if (statusCount > 1)
+                return StatusCode(207, result.Responses);
+            else if (!result.IsNotSuccessful) return NoContent();
+            else if (!result.IsFound) return NotFound();
+            
+            return StatusCode(403);
         }
     }
 }

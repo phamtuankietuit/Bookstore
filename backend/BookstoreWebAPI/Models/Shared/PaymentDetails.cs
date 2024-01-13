@@ -5,15 +5,15 @@ namespace BookstoreWebAPI.Models.Shared
     public class PaymentDetails
     {
         [JsonProperty("remainAmount")]
-        public int RemainAmount { get; set; }
+        public int RemainAmount { get; set; } = 0;
 
         [JsonProperty("paidAmount")]
-        public int PaidAmount { get; set; }
+        public int PaidAmount { get; set; } = 0;
 
         [JsonProperty("paymentMethod")]
-        public string PaymentMethod { get; set; }
+        public string? PaymentMethod { get; set; }
 
         [JsonProperty("status")]
-        public string Status { get; set; }
+        public string? Status { get; set; }
     }
 }

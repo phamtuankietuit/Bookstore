@@ -12,6 +12,7 @@ import ModalComp from '~/components/ModalComp';
 import ModalLoading from '~/components/ModalLoading';
 import { ToastContext } from '~/components/ToastContext';
 import * as SuppliersServices from '~/apiServices/supplierServices';
+import { getLocalStorage } from '~/store/getLocalStorage';
 const cx = classNames.bind(styles);
 
 function AddSupplier() {
@@ -49,7 +50,7 @@ function AddSupplier() {
                 },
                 address: address,
                 description: null,
-                staffId: 'staf00011',
+                staffId: getLocalStorage().user.staffId,
             }
             // setLoading(true);
 

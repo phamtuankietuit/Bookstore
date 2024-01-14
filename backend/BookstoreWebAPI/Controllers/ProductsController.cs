@@ -53,6 +53,7 @@ namespace BookstoreWebAPI.Controllers
             });
         }
 
+
         [HttpGet("details/{detailName}")]
         public async Task<ActionResult<IEnumerable<string>>> GetProductDetailListAsync(string detailName)
         {
@@ -66,6 +67,7 @@ namespace BookstoreWebAPI.Controllers
 
             return Ok(result);
         }
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductDTO>> GetProductDTOByIdAsync(string id)

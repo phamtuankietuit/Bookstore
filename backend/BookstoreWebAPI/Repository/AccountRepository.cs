@@ -9,7 +9,6 @@ using BookstoreWebAPI.Models.DTOs;
 using System.Security.Authentication;
 using BookstoreWebAPI.Exceptions;
 using System.Security.Cryptography;
-using BookstoreWebAPI.Utils;
 
 namespace BookstoreWebAPI.Repository
 {

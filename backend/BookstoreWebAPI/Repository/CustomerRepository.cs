@@ -53,11 +53,30 @@ namespace BookstoreWebAPI.Repository
 
         public async Task<IEnumerable<CustomerDTO>> GetCustomerDTOsAsync(QueryParameters queryParams, CustomerFilterModel filter)
         {
-            filter.Query ??= "*";
-            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
-            var searchResult = await _searchService.SearchAsync<CustomerDocument>(filter.Query, options);
-            TotalCount = searchResult.TotalCount;
-            var customerDocs = searchResult.Results;
+            IEnumerable<CustomerDocument?> customerDocs = [];
+
+            if (filter.Query == null)
+            {
+                var queryDef = CosmosDbUtils.BuildQuery(queryParams, filter);
+                customerDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CustomerDocument>(_customerContainer, queryDef);
+                TotalCount = customerDocs == null ? 0: customerDocs.Count();
+                
+                if (queryParams.PageSize != -1)
+                {
+                    queryParams.PageSize = -1;
+                    var queryDefGetAll = CosmosDbUtils.BuildQuery(queryParams, filter);
+                    var allCustomerDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CustomerDocument>(_customerContainer, queryDefGetAll);
+                    TotalCount = allCustomerDocs == null ? 0: allCustomerDocs.Count();
+                }
+            }
+            else
+            {
+                var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+                var searchResult = await _searchService.SearchAsync<CustomerDocument>(filter.Query, options);
+                TotalCount = searchResult.TotalCount;
+                customerDocs = searchResult.Results;
+            }
+
             var customerDTOs = customerDocs.Select(customerDoc =>
             {
                 return _mapper.Map<CustomerDTO>(customerDoc);
@@ -90,7 +109,7 @@ namespace BookstoreWebAPI.Repository
                 await _activityLogRepository.LogActivity(
                     Enums.ActivityType.create,
                     _userContextService.Current.StaffId,
-                    "Sản phẩm",
+                    "Khách hàng",
                     customerDoc.CustomerId
                 );
 
@@ -119,7 +138,7 @@ namespace BookstoreWebAPI.Repository
             await _activityLogRepository.LogActivity(
                 Enums.ActivityType.update,
                 _userContextService.Current.StaffId,
-                "Sản phẩm",
+                "Khách hàng",
                 customerToUpdate.CustomerId
             );
 
@@ -198,6 +217,7 @@ namespace BookstoreWebAPI.Repository
 
         private async Task DeleteCustomer(CustomerDocument customerDoc)
         {
+            customerDoc.IsDeleted = true;
             List<PatchOperation> patchOperations = new()
             {
                 PatchOperation.Replace("/isDeleted", true)
@@ -208,7 +228,7 @@ namespace BookstoreWebAPI.Repository
             await _activityLogRepository.LogActivity(
                 Enums.ActivityType.delete,
                 _userContextService.Current.StaffId,
-                "Sản phẩm",
+                "Khách hàng",
                 customerDoc.CustomerId
             );
         }

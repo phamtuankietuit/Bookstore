@@ -72,8 +72,6 @@ namespace BookstoreWebAPI.Controllers
 
             try
             {
-
-
                 var createdCategoryDTO = await categoryRepository.AddCategoryDTOAsync(categoryDTO);
 
                 return CreatedAtAction(

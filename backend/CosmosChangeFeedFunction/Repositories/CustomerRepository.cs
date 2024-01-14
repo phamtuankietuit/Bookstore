@@ -34,10 +34,10 @@ namespace CosmosChangeFeedFunction.Repositories
 
             List<PatchOperation> operations =
             [
-                PatchOperation.Replace("/lastOrderAt", DateTime.UtcNow),
-                PatchOperation.Replace("/purchasedOrder", customerToUpdate.SalesOrderInformation.OrderedQuantity++),
-                PatchOperation.Replace("/orderedQuantity", customerToUpdate.SalesOrderInformation.OrderedQuantity + salesOrder.Items.Count),
-                PatchOperation.Replace("/totalPay", customerToUpdate.SalesOrderInformation.TotalPay + salesOrder.TotalAmount),
+                PatchOperation.Replace("/salesOrderInformation/lastOrderAt", DateTime.UtcNow),
+                PatchOperation.Replace("/salesOrderInformation/purchasedOrder", customerToUpdate.SalesOrderInformation.OrderedQuantity++),
+                PatchOperation.Replace("/salesOrderInformation/orderedQuantity", customerToUpdate.SalesOrderInformation.OrderedQuantity + salesOrder.Items.Count),
+                PatchOperation.Replace("/salesOrderInformation/totalPay", customerToUpdate.SalesOrderInformation.TotalPay + salesOrder.TotalAmount),
                 PatchOperation.Replace("/modifiedAt", DateTime.UtcNow)
             ];
 
@@ -64,8 +64,8 @@ namespace CosmosChangeFeedFunction.Repositories
 
             List<PatchOperation> operations =
             [
-                PatchOperation.Replace("/returnQuantity", customerToUpdate.SalesOrderInformation.ReturnQuantity + returnOrder.Items.Count),
-                PatchOperation.Replace("/totalPay", customerToUpdate.SalesOrderInformation.TotalPay - returnOrder.TotalAmount),
+                PatchOperation.Replace("/salesOrderInformation/returnQuantity", customerToUpdate.SalesOrderInformation.ReturnQuantity + returnOrder.Items.Count),
+                PatchOperation.Replace("/salesOrderInformation/totalPay", customerToUpdate.SalesOrderInformation.TotalPay - returnOrder.TotalAmount),
                 PatchOperation.Replace("/modifiedAt", DateTime.UtcNow)
             ];
 

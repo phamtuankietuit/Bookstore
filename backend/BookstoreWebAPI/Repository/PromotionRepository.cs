@@ -51,11 +51,29 @@ namespace BookstoreWebAPI.Repository
 
         public async Task<IEnumerable<PromotionDTO>> GetPromotionDTOsAsync(QueryParameters queryParams, PromotionFilterModel filter)
         {
-            filter.Query ??= "*";
-            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
-            var searchResult = await _searchService.SearchAsync<PromotionDocument>(filter.Query, options);
-            TotalCount = searchResult.TotalCount;
-            var promotionDocs = searchResult.Results; 
+            IEnumerable<PromotionDocument?> promotionDocs = [];
+
+            if (filter.Query == null)
+            {
+                var queryDef = CosmosDbUtils.BuildQuery(queryParams, filter);
+                promotionDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<PromotionDocument>(_promotionContainer, queryDef);
+                TotalCount = promotionDocs == null ? 0 : promotionDocs.Count();
+
+                if (queryParams.PageSize != -1)
+                {
+                    queryParams.PageSize = -1;
+                    var queryDefGetAll = CosmosDbUtils.BuildQuery(queryParams, filter);
+                    var allPromotionDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<PromotionDocument>(_promotionContainer, queryDefGetAll);
+                    TotalCount = allPromotionDocs == null ? 0 : allPromotionDocs.Count();
+                }
+            }
+            else
+            {
+                var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+                var searchResult = await _searchService.SearchAsync<PromotionDocument>(filter.Query, options);
+                TotalCount = searchResult.TotalCount;
+                promotionDocs = searchResult.Results;
+            }
             var promotionDTOs = promotionDocs.Select(promotionDoc =>
             {
                 return _mapper.Map<PromotionDTO>(promotionDoc);
@@ -88,7 +106,7 @@ namespace BookstoreWebAPI.Repository
                 await _activityLogRepository.LogActivity(
                     Enums.ActivityType.create,
                     promotionDoc.StaffId,
-                    "Mã giảm giá",
+                    "Khuyến mãi",
                     promotionDoc.PromotionId
                 );
 
@@ -117,7 +135,7 @@ namespace BookstoreWebAPI.Repository
             await _activityLogRepository.LogActivity(
                     Enums.ActivityType.update,
                     promotionToUpdate.StaffId,
-                    "Mã giảm giá",
+                    "Khuyến mãi",
                     promotionToUpdate.PromotionId
                 );
 
@@ -203,7 +221,7 @@ namespace BookstoreWebAPI.Repository
             await _activityLogRepository.LogActivity(
                 Enums.ActivityType.delete,
                 promotionDoc.StaffId,
-                "Mã giảm giá",
+                "Khuyến mãi",
                 promotionDoc.PromotionId
             );
         }

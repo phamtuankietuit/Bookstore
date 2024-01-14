@@ -48,11 +48,30 @@ namespace BookstoreWebAPI.Repository
 
         public async Task<IEnumerable<SalesOrderDTO>> GetSalesOrderDTOsAsync(QueryParameters queryParams, SalesOrderFilterModel filter)
         {
-            filter.Query ??= "*";
-            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
-            var searchResult = await _searchService.SearchAsync<SalesOrderDocument>(filter.Query, options);
-            TotalCount = searchResult.TotalCount;
-            var salesOrderDocs = searchResult.Results; 
+            IEnumerable<SalesOrderDocument> salesOrderDocs = [];
+
+            if (filter.Query == null)
+            {
+                var queryDef = CosmosDbUtils.BuildQuery(queryParams, filter, isRemovableDocument: false);
+                salesOrderDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<SalesOrderDocument>(_salesOrderContainer, queryDef);
+                TotalCount = salesOrderDocs == null ? 0 : salesOrderDocs.Count();
+
+                if (queryParams.PageSize != -1)
+                {
+                    queryParams.PageSize = -1;
+                    var queryDefGetAll = CosmosDbUtils.BuildQuery(queryParams, filter, isRemovableDocument: false);
+                    var allSalesOrderDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<SalesOrderDocument>(_salesOrderContainer, queryDefGetAll);
+                    TotalCount = allSalesOrderDocs == null ? 0 : allSalesOrderDocs.Count();
+                }
+            }
+            else
+            {
+                var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+                var searchResult = await _searchService.SearchAsync<SalesOrderDocument>(filter.Query, options);
+                TotalCount = searchResult.TotalCount;
+                salesOrderDocs = searchResult.Results;
+            }
+
             var salesOrderDTOs = salesOrderDocs.Select(salesOrderDoc =>
             {
                 return _mapper.Map<SalesOrderDTO>(salesOrderDoc);

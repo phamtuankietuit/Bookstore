@@ -52,6 +52,7 @@ function DiscountInfo() {
 
     const submit = () => {
         setLoading(true);
+
         const fetchApi = async () => {
             let isSuccess = true;
 
@@ -80,6 +81,7 @@ function DiscountInfo() {
 
     const handleActive = () => {
         setLoading(true);
+
         const fetchApi = async () => {
             let isSuccess = true;
 
@@ -292,11 +294,8 @@ function DiscountInfo() {
                         }
                     </div>
                     <ModalLoading open={loading} title={'Đang tải'} />
-                </div>
-
-            )
+                </div>)
             }
-
         </div>
     );
 }

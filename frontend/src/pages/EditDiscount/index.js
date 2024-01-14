@@ -16,19 +16,23 @@ import * as PromotionsServices from '~/apiServices/promotionServices';
 
 const cx = classNames.bind(styles);
 
+const addCommas = (num) => {
+    if (num === null) return;
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
+
+const removeNonNumeric = (num) => num.toString().replace(/[^0-9]/g, '');
+
 function EditDiscount() {
     const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
     const [loading, setLoading] = useState(false);
 
-
-
     const promotionId = useParams();
     const [obj, setObj] = useState(null);
-    const [changeDate, setChangeDate] = useState(false);
 
     const [dateString, setDateString] = useState('');
-    const [start, setStart] = useState(0);
+    const [start, setStart] = useState('0');
     const [end, setEnd] = useState(null);
     const [discount, setDiscount] = useState(0);
     const [name, setName] = useState('');
@@ -44,17 +48,17 @@ function EditDiscount() {
 
             if (result) {
                 setObj(result);
-                setDateString(convertISOtoDDMMYYYY(result.startAt) + " – " + convertISOtoDDMMYYYY(result.closeAt));
+                setDateString(format(new Date(result.startAt), 'dd/MM/yyyy') + " – " + format(new Date(result.closeAt), 'dd/MM/yyyy'));
                 setName(result.name);
-                setStart(result.applyFromAmount);
-                setEnd(result.applyToAmount);
+                setStart(addCommas(result?.applyFromAmount));
+                setEnd(addCommas(result?.applyToAmount));
                 setQuantity(result.remainQuantity);
                 setDiscount(result.discountRate);
             }
         }
 
         fetchApi();
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const submit = () => {
@@ -67,7 +71,7 @@ function EditDiscount() {
         } else if (dateString === '') {
             setLoading(false);
             toastContext.notify('error', 'Chưa chọn ngày');
-        } else if (parseInt(discount) === 0) {
+        } else if (parseInt(discount) === 0 || discount === '') {
             setLoading(false);
             toastContext.notify('error', 'Chưa chọn phần trăm chiết khấu');
         } else {
@@ -78,15 +82,20 @@ function EditDiscount() {
             const fetchApi = async () => {
 
                 let endValue = null;
-                if (Number(end) > 0) {
-                    endValue = Number(end);
+                if (Number(end?.replace(/,/g, '')) > 0) {
+                    endValue = Number(end.replace(/,/g, ''));
+                }
+
+                let startValue = 0;
+                if (Number(start?.replace(/,/g, '')) >= 0) {
+                    startValue = Number(start.replace(/,/g, ''));
                 }
 
                 const newObj = {
                     ...obj,
                     name: name,
                     remainQuantity: Number(quantity),
-                    applyFromAmount: Number(start),
+                    applyFromAmount: startValue,
                     applyToAmount: endValue,
                     discountRate: Number(discount),
                     startAt: ConvertISO(dateString).startDate,
@@ -111,13 +120,8 @@ function EditDiscount() {
 
             fetchApi();
         }
-
     }
 
-    const setDate = (value) => {
-        setDateString(value)
-        setChangeDate(false)
-    }
     return (
         <div>
             {obj === null ? (
@@ -159,11 +163,13 @@ function EditDiscount() {
                                     <div>
                                         <p>Số lượng áp dụng</p>
                                         <input
-                                            type="text"
                                             placeholder="Nhập số lượng áp dụng"
                                             value={quantity}
-                                            disabled={disable}
-                                            onChange={(e) => setQuantity(e.target.value)}
+                                            onChange={(e) => setQuantity(
+                                                removeNonNumeric(
+                                                    e.target.value,
+                                                )
+                                            )}
                                         ></input>
                                     </div>
                                 </div>
@@ -192,26 +198,42 @@ function EditDiscount() {
                                         </div>
                                         <div className={cx('table-ThirdRow')}>
                                             <input
-                                                type="number"
-                                                defaultValue={start}
-                                                onChange={(e) => setStart(e.target.value)}
-                                                inputMode='numeric'
+                                                value={start}
+                                                onChange={(e) =>
+                                                    setStart(
+                                                        addCommas(
+                                                            removeNonNumeric(
+                                                                e.target.value,
+                                                            ),
+                                                        ),
+                                                    )
+                                                }
                                             ></input>
                                         </div>
                                         <div className={cx('table-ThirdRow')}>
                                             <input
-                                                type="number"
-                                                defaultValue={end}
-                                                onChange={(e) => setEnd(e.target.value)}
-                                                inputMode='numeric'
+                                                value={end}
+                                                onChange={(e) =>
+                                                    setEnd(
+                                                        addCommas(
+                                                            removeNonNumeric(
+                                                                e.target.value,
+                                                            ),
+                                                        ),
+                                                    )
+                                                }
                                             ></input>
                                         </div>
                                         <div className={cx('table-ThirdRow')}>
                                             <input
-                                                type="number"
-                                                defaultValue={discount}
-                                                onChange={(e) => setDiscount(e.target.value)}
-                                                inputMode='numeric'
+                                                value={discount}
+                                                onChange={(e) => {
+                                                    let value = removeNonNumeric(e.target.value);
+                                                    if (value > 100) {
+                                                        value = discount;
+                                                    }
+                                                    setDiscount(value);
+                                                }}
                                             ></input>
                                             <span>%</span>
                                         </div>
@@ -228,7 +250,7 @@ function EditDiscount() {
                             <div className={cx('daterange-container')}>
                                 <DateRange
                                     dateString={dateString}
-                                    setDateString={setDate}
+                                    setDateString={setDateString}
                                     bottom
                                     future
                                 ></DateRange>
@@ -243,8 +265,6 @@ function EditDiscount() {
             )}
             <ModalLoading open={loading} title={'Đang tải'} />
         </div>
-
-
     );
 }
 

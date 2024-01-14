@@ -27,8 +27,8 @@ function ListOrder() {
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(12);
     const [totalRows, setTotalRows] = useState(0);
-    const [sortBy, setSortBy] = useState('salesOrderId');
-    const [orderBy, setOrderBy] = useState('asc');
+    const [sortBy, setSortBy] = useState('');
+    const [orderBy, setOrderBy] = useState('');
 
     // CREATE OBJECT QUERY
     const createObjectQuery = async (
@@ -42,19 +42,6 @@ function ListOrder() {
         staffIds,
         query,
     ) => {
-
-        console.log({
-            pageNumber,
-            pageSize,
-            ...(sortBy && { sortBy }),
-            ...(orderBy && { orderBy }),
-            ...(startDate && { startDate }),
-            ...(endDate && { endDate }),
-            ...(customerIds && { customerIds }),
-            ...(staffIds && { staffIds }),
-            ...(query && { query }),
-        });
-
         return {
             pageNumber,
             pageSize,
@@ -82,12 +69,15 @@ function ListOrder() {
     const handleKeyDown = async (e) => {
         if (e.key === 'Enter') {
             setPageNumber(1);
+            setSortBy('');
+            setOrderBy('');
+
             getList(
                 await createObjectQuery(
                     1,
                     pageSize,
-                    sortBy,
-                    orderBy,
+                    '',
+                    '',
                     dateCreated && ConvertISO(dateCreated).startDate,
                     dateCreated && ConvertISO(dateCreated).endDate,
                     selectedCustomer.length > 0 && returnArray(selectedCustomer),
@@ -227,8 +217,12 @@ function ListOrder() {
         setPending(false);
     }
 
-    // SORT
+    // REMOTE SORT
     const handleSort = async (column, sortDirection) => {
+        if (column.text === undefined || sortDirection === undefined) {
+            return;
+        }
+
         setSortBy(column.text);
         setOrderBy(sortDirection);
         setPageNumber(1);
@@ -250,7 +244,7 @@ function ListOrder() {
     };
 
 
-    // PAGINATION
+    // REMOTE PAGINATION
     const handlePerRowsChange = async (newPerPage, pageNumber) => {
         setPageSize(newPerPage);
         setPageNumber(pageNumber);
@@ -292,6 +286,10 @@ function ListOrder() {
 
     useEffect(() => {
         const fetch = async () => {
+
+            setOrderBy('');
+            setSortBy('');
+
             getList(
                 await createObjectQuery(
                     pageNumber,

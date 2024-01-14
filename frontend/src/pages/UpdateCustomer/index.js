@@ -73,6 +73,7 @@ function UpdateCustomer() {
                 phoneNumber: phone,
                 email: email,
                 isActive: isActive,
+                address: address,
             };
 
             console.log(newObj);

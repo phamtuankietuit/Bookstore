@@ -1,9 +1,10 @@
 import { useState, useEffect, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { faCircleXmark, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Switch } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import Spinner from 'react-bootstrap/Spinner';
 
 import styles from './UpdateProduct.module.scss';
 import Wrapper from '~/components/Wrapper';
@@ -11,60 +12,75 @@ import Button from '~/components/Button';
 import Input from '~/components/Input';
 import ModalComp from '~/components/ModalComp';
 import ModalLoading from '~/components/ModalLoading';
-import { ToastContext } from '~/components/ToastContext';
-import * as ProductServices from '~/apiServices/productServices';
-import Spinner from 'react-bootstrap/Spinner';
-import { useParams } from 'react-router-dom';
 
+import { ToastContext } from '~/components/ToastContext';
 
 import * as productServices from '~/apiServices/productServices';
 import * as typeProductServices from '~/apiServices/typeProductServices';
 import * as supplierServices from '~/apiServices/supplierServices';
 import * as supplierGroupServices from '~/apiServices/supplierGroupServices';
 
+import { getLocalStorage } from '~/store/getLocalStorage';
+
 const cx = classNames.bind(styles);
+
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
 function UpdateProduct() {
-    const productid = useParams();
+    const navigate = useNavigate();
+    const toastContext = useContext(ToastContext);
+    const productId = useParams();
+    const [obj, setObj] = useState(null);
+    const [render, setRender] = useState(new Date());
 
-    const [obj, setObj] = useState({});
+    // VISIBILITY PROPS
+    const [bookProps, setBookProps] = useState(true);
+    const [restProps, setRestProps] = useState(true);
 
     useEffect(() => {
-        // CALL API
-
         const fetchApi = async () => {
-            // console.log(productid.id)
-            const result = await ProductServices.getProduct(productid.id)
+            const result = await productServices.getProduct(productId.id)
                 .catch((err) => {
                     console.log(err);
-
                 });
-            console.log(result);
-            setObj(result);
-            setName(result.name)
-            setDesc(result.description)
-            setCost(addCommas(result.salePrice))
-            setPrice(addCommas(result.purchasePrice))
-            setStore(addCommas(result.currentStock))
-            setYear(result.details.publishYear)
-            setManufacturer(result.details.supplierName)
-            setAuthor(result.details.author)
-            setPublisher(result.details.publisher)
-            setStatus(result.isActive)
-            setProductType(result.categoryText)
-            setFiles(result.images)
-            setSupplier(result.supplierName);
-            setManufacturer(result.details.manufacturer);
-            if (result.optionalDetails.length > 0) {
-                setProps(result.optionalDetails);
+
+
+            if (result) {
+                console.log(result);
+                setObj(result);
+                setName(result.name);
+                setDesc(result.description);
+                setCost(addCommas(result.salePrice));
+                setPrice(addCommas(result.purchasePrice));
+                setStore(addCommas(result.currentStock));
+                setYear(result.details.publishYear);
+                setManufacturer(result.details.supplierName);
+                setAuthor(result.details.author);
+                setPublisher(result.details.publisher);
+                setStatus(result.isActive);
+                setProductType(result.categoryText);
+                setFiles(result.images);
+                setSupplier(result.supplierName);
+                setManufacturer(result.details.manufacturer);
+                if (result.optionalDetails.length > 0) {
+                    setProps(result.optionalDetails);
+                }
+
+                if (Number(result.categoryId.slice(-5)) === 0) {
+                    setBookProps(true);
+                    setRestProps(true);
+                } else if (Number(result.categoryId.slice(-5)) <= 7) {
+                    setBookProps(true);
+                    setRestProps(false);
+                } else if (Number(result.categoryId.slice(-5)) <= 10) {
+                    setBookProps(false);
+                    setRestProps(true);
+                }
             }
-            setImages([...result.images]);
-            console.log([...result.images]);
         }
 
         fetchApi();
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // OPTIONS
@@ -107,7 +123,12 @@ function UpdateProduct() {
 
     // GET DATA SUPPLIERS
     const getSup = async () => {
-        const response = await supplierServices.getAllSuppliers(1, -1)
+        const response = await supplierServices.getSuppliers(
+            {
+                pageNumber: 1,
+                pageSize: -1,
+            }
+        )
             .catch((error) => {
                 if (error.response) {
                     console.log(error.response.data);
@@ -195,7 +216,7 @@ function UpdateProduct() {
 
     // GET SUPPLIER GROUPS
     const getSupGroup = async () => {
-        const response = await supplierGroupServices.getAllSupplierGroups(1, -1)
+        const response = await supplierGroupServices.getSupplierGroups({ pageNumber: 1, pageSize: -1 })
             .catch((error) => {
                 if (error.response) {
                     console.log(error.response.data);
@@ -226,24 +247,17 @@ function UpdateProduct() {
         // eslint-disable-next-line no-use-before-define
     }, []);
 
-    const navigate = useNavigate();
-    const toastContext = useContext(ToastContext);
-
-    // URL IMAGE
-    const [images, setImages] = useState([]);
-
     // IMAGES
     const [files, setFiles] = useState([]);
-    const [fileRemove, setFileRemove] = useState();
     const [filesError, setFilesError] = useState(false);
 
     const uploadImages = async (files) => {
+        setLoading(true);
+
         const formData = new FormData();
 
         files.map((file) => {
-            if (typeof file === 'object') {
-                formData.append('files', file);
-            }
+            formData.append('files', file);
         });
 
         console.log(formData.getAll('files'));
@@ -251,6 +265,7 @@ function UpdateProduct() {
         const fetch = async () => {
             const response = await productServices.uploadImage(formData)
                 .catch((error) => {
+                    setLoading(false);
                     toastContext.notify('error', 'Có lỗi xảy ra');
                     if (error.response) {
                         console.log(error.response.data);
@@ -265,7 +280,9 @@ function UpdateProduct() {
                 });
 
             if (response) {
-                setImages(() => [...response.data]);
+                setLoading(false);
+                setFiles((prev) => [...response.data, ...prev]);
+                console.log('RESPONSE UPLOAD IMAGES', response);
             }
         }
 
@@ -275,17 +292,12 @@ function UpdateProduct() {
     const handleAddImages = (e) => {
         if (e.target.files.length + files.length < 6) {
             const arr = Array.from(e.target.files).map((file) => {
-                file.preview = URL.createObjectURL(file);
                 return file;
             });
 
-            setFiles((prev) => {
+            console.log('PREPARE IMAGE TO UPLOAD', arr);
 
-                uploadImages([...arr, ...prev]);
-
-                return [...arr, ...prev];
-            });
-
+            uploadImages(arr);
         } else {
             setFilesError(true);
         }
@@ -294,47 +306,15 @@ function UpdateProduct() {
     };
 
     const handleRemoveImage = (index) => {
-        console.log(files[index], images[index]);
+        console.log(index);
+        console.log(files[index]);
 
-        setFileRemove(files[index]);
         const newFiles = files;
         newFiles.splice(index, 1);
         setFiles(newFiles);
 
-
-        const a = images[index].split('/');
-        deleteImages(a[a.length - 1]);
-
-        const newImages = images;
-        newImages.splice(index, 1);
-        setImages(newImages);
+        setRender(new Date());
     };
-
-    const deleteImages = async (blobName) => {
-        const response = await productServices.deleteImage(blobName)
-            .catch((error) => {
-                if (error.response) {
-                    console.log(error.response.data);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                } else if (error.request) {
-                    console.log(error.request);
-                } else {
-                    console.log('Error', error.message);
-                }
-                console.log(error.config);
-            });
-
-        if (response) {
-            console.log(response);
-        }
-    }
-
-    useEffect(() => {
-        return () => {
-            fileRemove && URL.revokeObjectURL(fileRemove.preview);
-        };
-    }, [fileRemove]);
 
     // NAME
     const [name, setName] = useState('');
@@ -375,28 +355,16 @@ function UpdateProduct() {
 
     // MANUFACTURER
     const [manufacturer, setManufacturer] = useState('');
-    const onChangeManufacturer = (value) => {
-        setManufacturer(value);
-    };
 
     // AUTHOR
     const [author, setAuthor] = useState('');
-    const onChangeAuthor = (value) => {
-        setAuthor(value);
-    };
 
     // PUBLISHER
     const [publisher, setPublisher] = useState('');
-    const onChangePublisher = (value) => {
-        setPublisher(value);
-    };
 
     // SUPPLIER
     const [supplier, setSupplier] = useState('');
     const [errorSupplier, setErrorSupplier] = useState('');
-    const onChangeSupplier = (value) => {
-        setSupplier(value);
-    };
 
     // PRODUCT TYPE
     const [productType, setProductType] = useState('');
@@ -408,10 +376,10 @@ function UpdateProduct() {
             setBookProps(true);
             setRestProps(true);
         } else if (Number(item.obj.categoryId.slice(-5)) <= 7) {
+            setBookProps(true);
             setRestProps(false);
-            setBookProps(true);
-        } else {
-            setBookProps(true);
+        } else if (Number(item.obj.categoryId.slice(-5)) <= 10) {
+            setBookProps(false);
             setRestProps(true);
         }
     };
@@ -419,9 +387,6 @@ function UpdateProduct() {
     // STATUS
     const [status, setStatus] = useState(true);
 
-    // VISIBILITY PROPS
-    const [bookProps, setBookProps] = useState(true);
-    const [restProps, setRestProps] = useState(true);
 
     // MODAL LOADING
     const [loading, setLoading] = useState(false);
@@ -483,26 +448,77 @@ function UpdateProduct() {
             if (nameType === '') {
                 setErrorType('Không được bỏ trống');
             } else {
-                setLoading(true);
-                setTimeout(() => {
-                    setLoading(false);
-                    handleCloseModal();
-                }, 2000);
+                //    THÊM LOẠI SẢN PHẨM
+                const fetchApi = async () => {
+                    setLoading(true);
+
+                    const result = await typeProductServices.createProductType(
+                        {
+                            text: nameType,
+                            staffId: getLocalStorage().user.staffId,
+                            staffName: getLocalStorage().user.name,
+                        }
+                    ).catch((error) => {
+                        if (error.response.status === 409) {
+                            setLoading(false);
+                            toastContext.notify('error', 'Loại sản phẩm đã tồn tại');
+                        } else {
+                            toastContext.notify('error', 'Có lỗi xảy ra');
+                        }
+                    });
+
+                    if (result) {
+                        setLoading(false);
+                        toastContext.notify('success', 'Thêm loại sản phẩm thành công');
+                        handleCloseModal();
+                        getCate();
+                    }
+                }
+
+                fetchApi();
             }
         } else {
             if (nameSup === '') {
                 setErrorSup('Không được bỏ trống');
             } else {
                 setLoading(true);
-                setTimeout(() => {
-                    setLoading(false);
-                    handleCloseModal();
-                }, 2000);
+                //    THÊM NHÀ CUNG CẤP
+                const fetchApi = async () => {
+                    setLoading(true);
+
+                    const result = await supplierServices
+                        .CreateSuppliers({
+                            name: nameSup,
+                            supplierGroupId: selectedSupplierGroups ? selectedSupplierGroups.supplierGroupId : 'supg00000',
+                            supplierGroupName: selectedSupplierGroups ? selectedSupplierGroups.name : 'Khác',
+                            contact: {
+                                phone: phoneSup,
+                                email: emailSup,
+                            },
+                            address: addressSup,
+                            isActive: true,
+                            staffId: getLocalStorage().user.staffId,
+                            staffName: getLocalStorage().user.name,
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                            toastContext.notify('error', 'Có lỗi xảy ra');
+                        });
+
+                    if (result) {
+                        setLoading(false);
+                        toastContext.notify('success', 'Thêm nhà cung cấp thành công');
+                        handleCloseModal();
+                        getSup();
+                    }
+                }
+
+                fetchApi();
             }
         }
     };
 
-    // CREATE OBJECT PRODUCT
+    // OBJECT PRODUCT
     const createObjectProduct = async () => {
         const data = props.filter(prop => {
             if (prop.propName !== '' && prop.value !== '') {
@@ -511,10 +527,10 @@ function UpdateProduct() {
         }).map(prop => ({ name: prop.name, value: prop.value }));
 
         const object = {
-            ...(obj && obj),
-            categoryId: selectedLSP ? selectedLSP.obj.categoryId : 'cate00000',
-            categoryName: selectedLSP ? selectedLSP.obj.name : 'khac',
-            categoryText: selectedLSP ? productType : 'Khác',
+            ...obj,
+            ...(selectedLSP && { categoryId: selectedLSP.obj.categoryId }),
+            ...(selectedLSP && { categoryName: selectedLSP.obj.name }),
+            ...(selectedLSP && { categoryText: selectedLSP.obj.text }),
             ...(selectedSupplier && { supplierId: selectedSupplier.obj.supplierId }),
             ...(selectedSupplier && { supplierName: selectedSupplier.obj.name }),
             name,
@@ -524,7 +540,7 @@ function UpdateProduct() {
             purchasePrice: Number(cost.replace(/,/g, '')),
             details: {
                 ...(author && { author }),
-                ...(year && { year }),
+                ...(year && { publishYear: year }),
                 ...(publisher && { publisher }),
                 ...(manufacturer && { manufacturer }),
             },
@@ -533,7 +549,7 @@ function UpdateProduct() {
             ],
             isActive: status,
             images: [
-                ...images,
+                ...files,
             ]
         }
 
@@ -551,16 +567,18 @@ function UpdateProduct() {
     // FROM
     const handleSubmit = () => {
         if (name === '' || supplier === '') {
-            if (name === '')
+            if (name === '') {
                 setErrorName('Không được bỏ trống');
+            }
 
-            if (supplier === '')
+            if (supplier === '') {
                 setErrorSupplier('Không được bỏ trống');
+            }
 
             toastContext.notify('error', 'Chưa điền các trường bắt buộc');
         } else {
             // UPDATE PRODUCT
-            setLoading(true);
+            // setLoading(true);
 
             let isSuccess = true;
 
@@ -847,6 +865,7 @@ function UpdateProduct() {
                                         }}
                                         error={errorSupplier}
                                         readOnly
+                                        required
                                     />
                                     <Button
                                         className={cx('btn-add')}
@@ -944,10 +963,13 @@ function UpdateProduct() {
                                     />
                                     <Input
                                         title={'Nhóm nhà cung cấp'}
-                                        items={['Khác']}
+                                        items={optionsSupplierGroups}
                                         readOnly
                                         value={groupSup}
-                                        onChange={(value) => setGroupSup(value)}
+                                        handleClickAction={(item) => {
+                                            setGroupSup(item.label);
+                                            setSelectedSupplierGroups(item);
+                                        }}
                                     />
                                 </div>
                             </div>

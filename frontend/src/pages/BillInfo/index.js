@@ -18,7 +18,7 @@ import { ToastContext } from '~/components/ToastContext';
 const cx = classNames.bind(styles);
 
 const addCommas = (num) => {
-    if (num) {
+    if (num !== null) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 };
@@ -166,10 +166,12 @@ function BillInfo() {
                                     }</p>
                                     <p>{
                                         addCommas(
-                                            (order?.discountItems
+                                            (order
+                                                ?.discountItems
                                                 ?.find((element) => element?.source === 'promotion')
-                                                || { amount: 0 })
-                                                ?.amount
+                                                ||
+                                                { amount: 0 }
+                                            ).amount
                                         )
                                     }</p>
                                     <p><b>{addCommas(order?.totalAmount)}</b></p>

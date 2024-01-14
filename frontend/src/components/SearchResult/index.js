@@ -60,7 +60,12 @@ function SearchResult({ setValue, stypeid, supplierID }) {
     useEffect(() => {
         if (stypeid === 0) {
             const fetchApi = async () => {
-                const result = await SuppliersServices.getAllSuppliers(currentPage, -1)
+                const result = await SuppliersServices.getSuppliers(
+                    {
+                        pageNumber: 1,
+                        pageSize: -1,
+                    }
+                )
                     .catch((err) => {
                         console.log(err);
                     });

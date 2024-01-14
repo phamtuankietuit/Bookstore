@@ -24,6 +24,12 @@ function ListSupplierGroup() {
     const toastContext = useContext(ToastContext);
     const [updateList, setUpdateList] = useState(new Date());
 
+    // API PROPS
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pageSize, setPageSize] = useState(12);
+    const [totalRows, setTotalRows] = useState(0);
+    const [clear, setClear] = useState(false);
+
 
     // CREATE OBJECT QUERY
     const createObjectQuery = async (
@@ -31,18 +37,15 @@ function ListSupplierGroup() {
         pageSize,
         query,
     ) => {
+
+        clearSubHeader();
+
         return {
             pageNumber,
             pageSize,
             ...(query && { query }),
         };
     }
-
-    // API PROPS
-    const [pageNumber, setPageNumber] = useState(1);
-    const [pageSize, setPageSize] = useState(12);
-    const [totalRows, setTotalRows] = useState(0);
-    const [clear, setClear] = useState(false);
 
     // MODAL
     const [titleModal, setTitleModal] = useState('');
@@ -85,6 +88,7 @@ function ListSupplierGroup() {
                             {
                                 name: nameGroup,
                                 staffId: getLocalStorage().user.staffId,
+                                staffName: getLocalStorage().user.name,
                             }
                         )
                         .catch((error) => {
@@ -161,6 +165,8 @@ function ListSupplierGroup() {
             const fetchApi = async () => {
                 setLoading(true);
 
+                let isSuccess = true;
+
                 const result = await supplierGroupsServices
                     .updateSupplierGroup(clickedRow.supplierGroupId,
                         {
@@ -180,14 +186,21 @@ function ListSupplierGroup() {
                             console.log('Error', error.message);
                         }
                         console.log(error.config);
-                        toastContext.notify('error', 'Có lỗi xảy ra');
+                        isSuccess = false;
+                        if (error.response.status === 409) {
+                            toastContext.notify('error', 'Nhóm nhà cung cấp đã tồn tại');
+                        } else {
+                            toastContext.notify('error', 'Có lỗi xảy ra');
+                        }
                     });
 
-                setLoading(false);
-                handleCloseModal();
-                toastContext.notify('success', 'Cập nhật nhóm nhà cung cấp thành công');
-                clearSubHeader();
-                setUpdateList(new Date());
+                if (isSuccess) {
+                    setLoading(false);
+                    handleCloseModal();
+                    toastContext.notify('success', 'Cập nhật nhóm nhà cung cấp thành công');
+                    clearSubHeader();
+                    setUpdateList(new Date());
+                }
             }
 
             fetchApi();
@@ -221,7 +234,7 @@ function ListSupplierGroup() {
     const [rows, setRows] = useState([]);
 
 
-    const [showSubHeader, setShowSubHeader] = useState(true);
+    const [showSubHeader, setShowSubHeader] = useState(false);
     const [selectedRow, setSelectedRow] = useState(0);
     const [selectedDelRows, setSelectedDelRows] = useState();
 
@@ -244,7 +257,7 @@ function ListSupplierGroup() {
     const getList = async (obj) => {
         setPending(true);
 
-        const response = await supplierGroupsServices.getAllSupplierGroups(obj)
+        const response = await supplierGroupsServices.getSupplierGroups(obj)
             .catch((error) => {
                 setPending(false);
 

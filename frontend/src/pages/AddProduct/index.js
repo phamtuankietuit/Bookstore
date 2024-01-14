@@ -67,7 +67,12 @@ function AddProduct() {
 
     // GET DATA SUPPLIERS
     const getSup = async () => {
-        const response = await supplierServices.getAllSuppliers(1, -1)
+        const response = await supplierServices.getSuppliers(
+            {
+                pageNumber: 1,
+                pageSize: -1,
+            }
+        )
             .catch((error) => {
                 if (error.response) {
                     console.log(error.response.data);
@@ -155,7 +160,12 @@ function AddProduct() {
 
     // GET SUPPLIER GROUPS
     const getSupGroup = async () => {
-        const response = await supplierGroupServices.getAllSupplierGroups(1, -1)
+        const response = await supplierGroupServices.getSupplierGroups(
+            {
+                pageNumber: 1,
+                pageSize: -1,
+            }
+        )
             .catch((error) => {
                 if (error.response) {
                     console.log(error.response.data);
@@ -170,7 +180,7 @@ function AddProduct() {
             });
 
         if (response) {
-            const data = await response.data.map((supgroup) => ({ label: supgroup.name, value: supgroup.supplierGroupId }));
+            const data = await response.data.map((item) => ({ label: item.name, value: item.supplierGroupId }));
             setOptionsSupplierGroups(data);
         }
     };
@@ -347,10 +357,10 @@ function AddProduct() {
             setBookProps(true);
             setRestProps(true);
         } else if (Number(item.obj.categoryId.slice(-5)) <= 7) {
+            setBookProps(true);
             setRestProps(false);
-            setBookProps(true);
-        } else {
-            setBookProps(true);
+        } else if (Number(item.obj.categoryId.slice(-5)) <= 10) {
+            setBookProps(false);
             setRestProps(true);
         }
     };
@@ -426,15 +436,20 @@ function AddProduct() {
                 const fetchApi = async () => {
                     setLoading(true);
 
-                    const result = await typeProductServices.createProductType({ text: nameType })
-                        .catch((error) => {
-                            if (error.response.status === 409) {
-                                setLoading(false);
-                                toastContext.notify('error', 'Loại sản phẩm đã tồn tại');
-                            } else {
-                                toastContext.notify('error', 'Có lỗi xảy ra');
-                            }
-                        });
+                    const result = await typeProductServices.createProductType(
+                        {
+                            text: nameType,
+                            staffId: getLocalStorage().user.staffId,
+                            staffName: getLocalStorage().user.name,
+                        }
+                    ).catch((error) => {
+                        if (error.response.status === 409) {
+                            setLoading(false);
+                            toastContext.notify('error', 'Loại sản phẩm đã tồn tại');
+                        } else {
+                            toastContext.notify('error', 'Có lỗi xảy ra');
+                        }
+                    });
 
                     if (result) {
                         setLoading(false);
@@ -443,6 +458,7 @@ function AddProduct() {
                         getCate();
                     }
                 }
+
                 fetchApi();
             }
         } else {
@@ -465,8 +481,11 @@ function AddProduct() {
                             },
                             address: addressSup,
                             isActive: true,
+                            staffId: getLocalStorage().user.staffId,
+                            staffName: getLocalStorage().user.name,
                         })
                         .catch((error) => {
+                            console.log(error);
                             toastContext.notify('error', 'Có lỗi xảy ra');
                         });
 

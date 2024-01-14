@@ -249,7 +249,6 @@ function Login() {
 
 
                     if (result) {
-
                         if (result.needReset === true) {
                             setCurrentUser({
                                 staffId: result.user.staffId,

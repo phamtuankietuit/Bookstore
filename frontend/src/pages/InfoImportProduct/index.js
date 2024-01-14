@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import Modal from 'react-bootstrap/Modal';
-import * as PurchaseOrdersServices from '~/apiServices/purchaseorderServies';
+import * as PurchaseOrdersServices from '~/apiServices/purchaseOrderServices';
 import ModalLoading from '~/components/ModalLoading';
 import { ToastContext } from '~/components/ToastContext';
 const cx = classNames.bind(styles);

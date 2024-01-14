@@ -28,6 +28,8 @@ export const DiscountItem = [
     },
     {
         name: 'Số phiếu còn lại',
+        sortable: true,
+        text: 'remainQuantity',
         minWidth: '180px',
         center: true,
         cell: (row) => (
@@ -38,6 +40,8 @@ export const DiscountItem = [
     },
     {
         name: 'Ngày bắt đầu',
+        sortable: true,
+        text: 'startAt',
         minWidth: '180px',
         center: true,
         cell: (row) => (
@@ -48,6 +52,8 @@ export const DiscountItem = [
     },
     {
         name: 'Ngày kết thúc',
+        sortable: true,
+        text: 'closeAt',
         minWidth: '180px',
         center: true,
         cell: (row) => (

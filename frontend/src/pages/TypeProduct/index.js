@@ -18,12 +18,30 @@ import { getLocalStorage } from '~/store/getLocalStorage';
 const cx = classNames.bind(styles);
 
 function TypeProduct() {
-    const [updateList, setUpdateList] = useState(new Date());
-
     const toastContext = useContext(ToastContext);
-
-    // CLEAR SELECTED ROWS TABLE
+    const [updateList, setUpdateList] = useState(new Date());
     const [clear, setClear] = useState(false);
+
+    // API PROPS
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pageSize, setPageSize] = useState(12);
+    const [totalRows, setTotalRows] = useState(0);
+
+    // CREATE OBJECT QUERY
+    const createObjectQuery = async (
+        pageNumber,
+        pageSize,
+        query,
+    ) => {
+
+        clearSubHeader();
+
+        return {
+            pageNumber,
+            pageSize,
+            ...(query && { query }),
+        };
+    }
 
     // MODAL
     const [titleModal, setTitleModal] = useState('');
@@ -55,18 +73,12 @@ function TypeProduct() {
                         .catch((error) => {
                             setLoading(false);
                             if (error.response) {
-                                // The request was made and the server responded with a status code
-                                // that falls out of the range of 2xx
                                 console.log(error.response.data);
                                 console.log(error.response.status);
                                 console.log(error.response.headers);
                             } else if (error.request) {
-                                // The request was made but no response was received
-                                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                                // http.ClientRequest in node.js
                                 console.log(error.request);
                             } else {
-                                // Something happened in setting up the request that triggered an Error
                                 console.log('Error', error.message);
                             }
                             console.log(error.config);
@@ -145,6 +157,8 @@ function TypeProduct() {
                 const fetchApi = async () => {
                     setLoading(true);
 
+                    let isSuccess = true;
+
                     const result = await typeProductServices
                         .updateProductType(clickedRow.categoryId,
                             {
@@ -154,6 +168,7 @@ function TypeProduct() {
                         )
                         .catch((error) => {
                             setLoading(false);
+                            isSuccess = false;
                             if (error.response) {
                                 console.log(error.response.data);
                                 console.log(error.response.status);
@@ -164,14 +179,20 @@ function TypeProduct() {
                                 console.log('Error', error.message);
                             }
                             console.log(error.config);
-                            toastContext.notify('error', 'Có lỗi xảy ra');
+                            if (error.response.status === 409) {
+                                toastContext.notify('error', 'Loại sản phẩm đã tồn tại');
+                            } else {
+                                toastContext.notify('error', 'Có lỗi xảy ra');
+                            }
                         });
 
-                    setLoading(false);
-                    handleCloseModal();
-                    toastContext.notify('success', 'Cập nhật loại sản phẩm thành công');
-                    clearSubHeader();
-                    setUpdateList(new Date());
+                    if (isSuccess) {
+                        setLoading(false);
+                        handleCloseModal();
+                        toastContext.notify('success', 'Cập nhật loại sản phẩm thành công');
+                        clearSubHeader();
+                        setUpdateList(new Date());
+                    }
                 }
 
                 fetchApi();
@@ -198,29 +219,15 @@ function TypeProduct() {
 
     const handleKeyDown = async (e) => {
         if (e.key === 'Enter') {
-            setPending(true);
-            const response = await typeProductServices.getAllProductTypes(1, pageSize, search)
-                .catch((error) => {
-                    setPending(false);
-                    if (error.response) {
-                        console.log(error.response.data);
-                        console.log(error.response.status);
-                        console.log(error.response.headers);
-                    } else if (error.request) {
-                        console.log(error.request);
-                    } else {
-                        console.log('Error', error.message);
-                    }
-                    console.log(error.config);
-                    toastContext.notify('error', 'Có lỗi xảy ra');
-                });
+            setPageNumber(1);
 
-            if (response) {
-                setPending(false);
-                setRows(response.data);
-                setTotalRows(response.metadata.count);
-                setClear(false);
-            }
+            getList(
+                await createObjectQuery(
+                    1,
+                    pageSize,
+                    search,
+                )
+            );
         }
     }
 
@@ -228,8 +235,7 @@ function TypeProduct() {
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
 
-
-    const [showSubHeader, setShowSubHeader] = useState(true);
+    const [showSubHeader, setShowSubHeader] = useState(false);
     const [selectedRow, setSelectedRow] = useState(0);
     const [selectedDelRows, setSelectedDelRows] = useState();
 
@@ -250,13 +256,10 @@ function TypeProduct() {
         setClear(true);
     }
 
-
     // SUB HEADER
     const onClickAction = (index) => {
         onOpenModal('Xóa loại sản phẩm?');
     };
-
-
 
     // CLICK ROW
     const [clickedRow, setClickedRow] = useState();
@@ -271,22 +274,22 @@ function TypeProduct() {
 
 
     // FETCH 
-    const getList = async (pageNumber) => {
+    const getList = async (obj) => {
         setPending(true);
-        const response = await typeProductServices.getAllProductTypes(pageNumber, pageSize, '')
+
+        const response = await typeProductServices.getAllProductTypes(obj)
             .catch((error) => {
                 setPending(false);
-                if (error.response) {
-                    console.log(error.response.data);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                } else if (error.request) {
-                    console.log(error.request);
+
+                console.log(error);
+
+                if (error?.response?.status === 404) {
+                    setRows([]);
+                    setTotalRows(0);
+                    setClear(false);
                 } else {
-                    console.log('Error', error.message);
+                    toastContext.notify('error', 'Có lỗi xảy ra');
                 }
-                console.log(error.config);
-                toastContext.notify('error', 'Có lỗi xảy ra');
             });
 
         if (response) {
@@ -297,53 +300,49 @@ function TypeProduct() {
         }
     }
 
-    // PAGINATION REMOTE 
-    const [totalRows, setTotalRows] = useState(0);
-
+    // REMOTE PAGINATION
     const handlePerRowsChange = async (newPerPage, pageNumber) => {
-        setPending(true);
-        const response = await typeProductServices.getAllProductTypes(pageNumber, newPerPage, '')
-            .catch((error) => {
-                setPending(false);
-                if (error.response) {
-                    console.log(error.response.data);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                } else if (error.request) {
-                    console.log(error.request);
-                } else {
-                    console.log('Error', error.message);
-                }
-                console.log(error.config);
-                toastContext.notify('error', 'Có lỗi xảy ra');
-            });
+        setPageSize(newPerPage);
+        setPageNumber(pageNumber);
 
-        if (response) {
-            setPending(false);
-            setRows(response.data);
-            setTotalRows(response.metadata.count);
-            setPageSize(newPerPage);
-            setClear(false);
-        }
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                newPerPage,
+                search,
+            )
+        );
     }
 
-    const handlePageChange = (pageNumber) => {
-        getList(pageNumber);
+    const handlePageChange = async (pageNumber) => {
+        setPageNumber(pageNumber);
+
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                pageSize,
+                search,
+            )
+        );
     }
 
-    const [pageSize, setPageSize] = useState(12);
-
-    // CALL API
     useEffect(() => {
-        getList(1);
+        const fetch = async () => {
+            getList(
+                await createObjectQuery(
+                    pageNumber,
+                    pageSize,
+                    search,
+                )
+            );
+        }
+
+        fetch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [updateList]);
 
     const selectableRowDisabled = (row) => {
-        if (Number(row.categoryId.slice(-5)) <= 10) {
-            return true;
-        }
-        return false;
+        return Number(row.categoryId.slice(-5)) <= 10;
     }
 
     return (

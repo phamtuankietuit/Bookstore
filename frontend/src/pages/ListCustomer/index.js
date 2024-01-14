@@ -39,8 +39,8 @@ function ListCustomer() {
     const [pageSize, setPageSize] = useState(12);
     const [totalRows, setTotalRows] = useState(0);
     const [clear, setClear] = useState(false);
-    const [sortsBy, setSortsBy] = useState('customerId');
-    const [orderBy, setOrderBy] = useState('asc');
+    const [sortsBy, setSortsBy] = useState('');
+    const [orderBy, setOrderBy] = useState('');
 
 
     // CREATE OBJECT QUERY
@@ -49,15 +49,25 @@ function ListCustomer() {
         pageSize,
         sortBy,
         orderBy,
-        isActives,
+        isActive,
         query,
     ) => {
+
+        clearSubHeader();
+
+        let arr = [];
+        if (isActive) {
+            if (isActive.length < 2) {
+                arr = [...isActive];
+            }
+        }
+
         return {
             pageNumber,
             pageSize,
             ...(orderBy && { orderBy }),
             ...(sortBy && { sortBy }),
-            ...(isActives && { isActives }),
+            ...(isActive && { isActive: arr }),
             ...(query && { query }),
         };
     }
@@ -73,12 +83,15 @@ function ListCustomer() {
     const handleKeyDown = async (e) => {
         if (e.key === 'Enter') {
             setPageNumber(1);
+            setSortsBy('');
+            setOrderBy('');
+
             getList(
                 await createObjectQuery(
                     1,
                     pageSize,
-                    sortsBy,
-                    orderBy,
+                    '',
+                    '',
                     selectedTT.length > 0 && returnArray(selectedTT),
                     search,
                 )
@@ -102,7 +115,8 @@ function ListCustomer() {
     }
 
     const handleFilter = async () => {
-        setPageNumber(1)
+        setPageNumber(1);
+
         getList(
             await createObjectQuery(
                 1,
@@ -121,7 +135,7 @@ function ListCustomer() {
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
 
-    const [showSubHeader, setShowSubHeader] = useState(true);
+    const [showSubHeader, setShowSubHeader] = useState(false);
     const [selectedRow, setSelectedRow] = useState(0);
 
     const handleSelectedProducts = ({
@@ -251,6 +265,10 @@ function ListCustomer() {
 
     // SORT
     const handleSort = async (column, sortDirection) => {
+        if (column.text === undefined || sortDirection === undefined) {
+            return;
+        }
+
         setSortsBy(column.text);
         setOrderBy(sortDirection);
         setPageNumber(1);
@@ -306,7 +324,7 @@ function ListCustomer() {
         const fetch = async () => {
             getList(
                 await createObjectQuery(
-                    1,
+                    pageNumber,
                     pageSize,
                     sortsBy,
                     orderBy,

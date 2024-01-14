@@ -8,15 +8,13 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <React.StrictMode>
-        <Router>
-            <ToastProvider>
-                <GlobalStyles>
-                    <App />
-                </GlobalStyles>
-            </ToastProvider>
-        </Router>
-    </React.StrictMode>,
+    <Router>
+        <ToastProvider>
+            <GlobalStyles>
+                <App />
+            </GlobalStyles>
+        </ToastProvider>
+    </Router>
 );
 
 // If you want to start measuring performance in your app, pass a function

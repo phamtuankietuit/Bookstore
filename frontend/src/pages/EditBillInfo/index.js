@@ -185,7 +185,8 @@ function EditBillInfo() {
                                 <div className={cx('list-sum-content1')}>
                                     <p>Tổng tiền</p>
                                     <p>VAT</p>
-                                    <p>Chiết khấu</p>
+                                    <p>Chiết khấu thường</p>
+                                    <p>Chiết khấu khuyến mãi</p>
                                     <p>
                                         <b>Khách phải trả</b>
                                     </p>
@@ -193,7 +194,23 @@ function EditBillInfo() {
                                 <div className={cx('list-sum-content2')}>
                                     <p>{addCommas(order.subtotal)}</p>
                                     <p>0</p>
-                                    <p>{addCommas(order.discountAmount)}</p>
+                                    <p>{
+                                        addCommas(
+                                            order?.discountItems
+                                                ?.find((element) => element.source === 'manual')
+                                                ?.amount
+                                        )
+                                    }</p>
+                                    <p>{
+                                        addCommas(
+                                            (order
+                                                ?.discountItems
+                                                ?.find((element) => element?.source === 'promotion')
+                                                ||
+                                                { amount: 0 }
+                                            ).amount
+                                        )
+                                    }</p>
                                     <p>{addCommas(order.totalAmount)}</p>
                                 </div>
                             </div>

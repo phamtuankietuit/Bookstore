@@ -17,6 +17,8 @@ export const SupplierItem = [
     },
     {
         name: 'Tên nhà cung cấp',
+        text: 'name',
+        sortable: true,
         minWidth: '180px',
         cell: (row) => (
             <div className={cx('font', 'overflow')} data-tag="allowRowEvents">

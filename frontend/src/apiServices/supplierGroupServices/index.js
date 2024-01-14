@@ -1,6 +1,6 @@
 import * as request from '~/utils/request';
 
-export const getAllSupplierGroups = async (params) => {
+export const getSupplierGroups = async (params) => {
     try {
         const response = await request.getMethod('SupplierGroups?', {
             params,
@@ -41,7 +41,7 @@ export const deleteSupplierGroups = async (items) => {
 
 export const updateSupplierGroup = async (id, obj) => {
     try {
-        const res = await request.putMethod('SupplierGroups?' + id, obj);
+        const res = await request.putMethod('SupplierGroups/' + id, obj);
         return res;
     } catch (error) {
         return Promise.reject(error);

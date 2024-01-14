@@ -13,8 +13,11 @@ import MultiSelectComp from '~/components/MultiSelectComp';
 import SubHeader from '~/components/SubHeader';
 import ModalComp from '~/components/ModalComp';
 import ModalLoading from '~/components/ModalLoading';
+
 import * as PromotionServices from '~/apiServices/promotionServices';
+
 import { ToastContext } from '~/components/ToastContext';
+
 const cx = classNames.bind(styles);
 
 const optionsHL = [
@@ -30,54 +33,14 @@ const optionsTT = [
 
 function ListDiscount() {
     const navigate = useNavigate();
-    const toastContext = useContext(ToastContext)
+    const toastContext = useContext(ToastContext);
 
-    // SEARCH
-    const [search, setSearch] = useState('');
-    const handleSearch = (e) => {
-        setSearch(e.target.value);
-    };
-
-    const handleKeyDown = async (e) => {
-        if (e.key === 'Enter') {
-            setPageNumber(1);
-            getList(
-                await createObjectQuery(
-                    1,
-                    pageSize,
-                    sortBy,
-                    orderBy,
-                    selectedTT.length > 0 && returnArray(selectedTT),
-                    selectedHL.length > 0 && returnArray(selectedHL),
-                    search,
-                )
-            );
-        }
-    }
-
-
-    // TABLE
+    // API PROPS
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(12);
     const [totalRows, setTotalRows] = useState(0);
-    const [clear, setClear] = useState(false);
-    const [sortBy, setSortBy] = useState('promotionId');
-    const [orderBy, setOrderBy] = useState('asc');
-
-    // TABLE
-    const [pending, setPending] = useState(true);
-    const [rows, setRows] = useState([]);
-
-    // FILTER
-    const [openFilter, setOpenFilter] = useState(false);
-    const handleOpenFilter = () => setOpenFilter(true);
-    const handleCloseFilter = () => setOpenFilter(false);
-
-    const handleClearFilter = () => {
-        setSelectedHL([]);
-        setSelectedTT([]);
-    };
-
+    const [sortBy, setSortBy] = useState('');
+    const [orderBy, setOrderBy] = useState('');
 
     const returnArray = (arr) => {
         return arr.map((obj) => obj.value);
@@ -94,7 +57,6 @@ function ListDiscount() {
     ) => {
 
         let arr = [];
-
         if (isOutdated) {
             if (isOutdated.length < 2) {
                 arr = [...isOutdated];
@@ -112,10 +74,99 @@ function ListDiscount() {
         };
     }
 
+    // SEARCH
+    const [search, setSearch] = useState('');
+    const handleSearch = (e) => {
+        setSearch(e.target.value);
+    };
 
+    const handleKeyDown = async (e) => {
+        if (e.key === 'Enter') {
+            setPageNumber(1);
+            setSortBy('');
+            setOrderBy('');
+
+            getList(
+                await createObjectQuery(
+                    1,
+                    pageSize,
+                    '',
+                    '',
+                    selectedTT.length > 0 && returnArray(selectedTT),
+                    selectedHL.length > 0 && returnArray(selectedHL),
+                    search,
+                )
+            );
+        }
+    }
+
+    // MODAL LOADING
+    const [loading, setLoading] = useState(false);
+
+    // MODAL
+    const [titleModal, setTitleModal] = useState('');
+    const [openModal, setOpenModal] = useState(false);
+
+    const handleOpenModal = () => setOpenModal(true);
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
+
+    const handleValidation = () => { };
+
+    const onOpenModal = (value) => {
+        setTitleModal(value);
+        handleOpenModal();
+    };
+
+    // TABLE
+    const [pending, setPending] = useState(true);
+    const [rows, setRows] = useState([]);
+    const [showSubHeader, setShowSubHeader] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(0);
+
+    const handleSelectedProducts = ({
+        allSelected,
+        selectedCount,
+        selectedRows,
+    }) => {
+        selectedCount > 0 ? setShowSubHeader(true) : setShowSubHeader(false);
+        setSelectedRow(selectedCount);
+    };
+
+    // SUB HEADER
+    const onClickAction = (value) => {
+        if (value === 'Kích hoạt') {
+            onOpenModal('Kích hoạt khuyến mãi');
+        } else if (value === 'Tạm ngừng') {
+            onOpenModal('Tạm ngừng khuyến mãi');
+        } else {
+            onOpenModal('Hủy khuyến mãi?');
+        }
+    };
+
+    // ON ROW CLICKED
+    const onRowClicked = useCallback((row) => {
+        navigate('/discounts/detail/' + row.promotionId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // FILTER
+    const [openFilter, setOpenFilter] = useState(false);
+    const handleOpenFilter = () => setOpenFilter(true);
+    const handleCloseFilter = () => setOpenFilter(false);
+
+    const [selectedHL, setSelectedHL] = useState([]);
+    const [selectedTT, setSelectedTT] = useState([]);
+
+    const handleClearFilter = () => {
+        setSelectedHL([]);
+        setSelectedTT([]);
+    };
 
     const handleFilter = async () => {
-        setPageNumber(1)
+        setPageNumber(1);
         getList(
             await createObjectQuery(
                 1,
@@ -128,19 +179,10 @@ function ListDiscount() {
             )
         );
 
-
         handleCloseFilter();
     };
 
-    const [selectedHL, setSelectedHL] = useState([]);
-    const [selectedTT, setSelectedTT] = useState([]);
-
-    // ON ROW CLICKED
-    const onRowClicked = useCallback((row) => {
-        navigate('/discounts/detail/' + row.promotionId);
-    }, []);
-
-
+    // GET DATA
     const getList = async (obj) => {
         setPending(true);
 
@@ -148,10 +190,9 @@ function ListDiscount() {
             .catch((error) => {
                 setPending(false);
 
-                if (error.response.status === 404) {
+                if (error?.response?.status === 404) {
                     setRows([]);
                     setTotalRows(0);
-                    setClear(false);
                 } else {
                     toastContext.notify('error', 'Có lỗi xảy ra');
                 }
@@ -162,9 +203,10 @@ function ListDiscount() {
             setPending(false);
             setRows(response.data);
             setTotalRows(response.metadata.count);
-            setClear(false);
         }
     }
+
+    // REMOTE PAGINATION
     const handlePerRowsChange = async (newPerPage, pageNumber) => {
         setPageSize(newPerPage);
         setPageNumber(pageNumber);
@@ -198,7 +240,12 @@ function ListDiscount() {
         );
     }
 
+    // REMOTE SORT
     const handleSort = async (column, sortDirection) => {
+        if (column.text === undefined || sortDirection === undefined) {
+            return;
+        }
+
         setSortBy(column.text);
         setOrderBy(sortDirection);
         setPageNumber(1);
@@ -218,57 +265,23 @@ function ListDiscount() {
 
     useEffect(() => {
         const fetch = async () => {
-            getList(await createObjectQuery(pageNumber, pageSize));
+
+
+            getList(
+                await createObjectQuery(
+                    pageNumber,
+                    pageSize,
+                    sortBy,
+                    orderBy,
+                    selectedTT.length > 0 && returnArray(selectedTT),
+                    selectedHL.length > 0 && returnArray(selectedHL),
+                    search,
+                ));
         }
 
         fetch();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-
-    const [showSubHeader, setShowSubHeader] = useState(true);
-    const [selectedRow, setSelectedRow] = useState(0);
-
-    const handleSelectedProducts = ({
-        allSelected,
-        selectedCount,
-        selectedRows,
-    }) => {
-        selectedCount > 0 ? setShowSubHeader(true) : setShowSubHeader(false);
-        setSelectedRow(selectedCount);
-    };
-
-    // SUB HEADER
-    const onClickAction = (value) => {
-        if (value === 'Kích hoạt') {
-            onOpenModal('Kích hoạt khuyến mãi');
-        } else if (value === 'Tạm ngừng') {
-            onOpenModal('Tạm ngừng khuyến mãi');
-        } else {
-            onOpenModal('Hủy khuyến mãi?');
-        }
-    };
-
-    // MODAL LOADING
-    const [loading, setLoading] = useState(false);
-
-    // MODAL
-    const [titleModal, setTitleModal] = useState('');
-    const [openModal, setOpenModal] = useState(false);
-
-    const handleOpenModal = () => setOpenModal(true);
-
-    const handleCloseModal = () => {
-        setOpenModal(false);
-    };
-
-    const handleValidation = () => { };
-
-    const onOpenModal = (value) => {
-        setTitleModal(value);
-        handleOpenModal();
-    };
-
-
 
     return (
         <div className={cx('wrapper')}>
@@ -285,7 +298,6 @@ function ListDiscount() {
                         </Button>
                     </div>
                 </div>
-
                 <List
                     searchVisibility={true}
                     placeholderSearch={'Tìm kiếm theo mã, tên khuyến mãi'}
@@ -331,10 +343,9 @@ function ListDiscount() {
                             count={selectedRow}
                             itemName={'khuyến mãi'}
                             onClickAction={onClickAction}
-                            items={['Kích hoạt', 'Tạm ngừng', 'Hủy']}
+                            items={['Hủy']}
                         />
                     }
-
                     // PAGINATION
                     totalRows={totalRows}
                     handlePerRowsChange={handlePerRowsChange}
@@ -370,25 +381,19 @@ function ListDiscount() {
             >
                 {titleModal === 'Kích hoạt khuyến mãi' && (
                     <div className={cx('info')}>
-                        Bạn có muốn kích hoạt
-                        <strong> {selectedRow}</strong> chương trình khuyến mãi
-                        đã chọn?
+                        Bạn có muốn kích hoạt <b> {selectedRow}</b> chương trình khuyến mãi đã chọn?
                     </div>
                 )}
                 {titleModal === 'Tạm ngừng khuyến mãi' && (
                     <div className={cx('info')}>
-                        Bạn có muốn tạm ngừng
-                        <strong> {selectedRow}</strong> chương trình khuyến mãi
-                        đã chọn? <br />
+                        Bạn có muốn tạm ngừng <b> {selectedRow}</b> chương trình khuyến mãi đã chọn? <br />
                         <span className={cx('red')}>Lưu ý:</span> chỉ tạm ngừng
                         các khuyến mãi đang chạy.
                     </div>
                 )}
                 {titleModal === 'Hủy khuyến mãi?' && (
                     <div className={cx('info')}>
-                        Bạn có muốn hủy
-                        <strong> {selectedRow}</strong> chương trình khuyến mãi
-                        đã chọn?
+                        Bạn có muốn hủy <b> {selectedRow}</b> chương trình khuyến mãi đã chọn?
                     </div>
                 )}
             </ModalComp>

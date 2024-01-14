@@ -15,48 +15,67 @@ import Button from '~/components/Button';
 import Filter from '~/components/Filter';
 import MultiSelectComp from '~/components/MultiSelectComp';
 import { SupplierItem } from '~/components/Item';
-import { data8 } from '~/components/Table/sample';
 import SubHeader from '~/components/SubHeader';
 import ModalComp from '~/components/ModalComp';
 import ModalLoading from '~/components/ModalLoading';
+
 import { ToastContext } from '~/components/ToastContext';
-import * as SuppliersServices from '~/apiServices/supplierServices';
+
+import * as supplierServices from '~/apiServices/supplierServices';
+import * as supplierGroupServices from '~/apiServices/supplierGroupServices';
+
 const cx = classNames.bind(styles);
 
 const optionsTT = [
-    { label: 'Đang giao dịch', value: '0' },
-    { label: 'Ngừng giao dịch', value: '1' },
-];
-
-const optionsNNCC = [
-    { label: 'Sách', value: '0' },
-    { label: 'Vở', value: '1' },
-    { label: 'Bút', value: '2' },
+    { label: 'Đang giao dịch', value: true },
+    { label: 'Ngừng giao dịch', value: false },
 ];
 
 function ListSupplier() {
     const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
+    const [updateList, setUpdateList] = useState(new Date());
 
+    // API PROPS
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pageSize, setPageSize] = useState(12);
+    const [totalRows, setTotalRows] = useState(0);
+    const [clear, setClear] = useState(false);
+    const [sortBy, setSortBy] = useState('');
+    const [orderBy, setOrderBy] = useState('');
 
     const createObjectQuery = async (
         pageNumber,
         pageSize,
         sortBy,
         orderBy,
-        supplierGroupId,
         isActive,
+        supplierGroupId,
         query,
     ) => {
+
+        clearSubHeader();
+
+        let arr = [];
+        if (isActive) {
+            if (isActive.length < 2) {
+                arr = [...isActive];
+            }
+        }
+
         return {
             pageNumber,
             pageSize,
             ...(orderBy && { orderBy }),
             ...(sortBy && { sortBy }),
+            ...(isActive && { isActive: arr }),
             ...(supplierGroupId && { supplierGroupId }),
-            ...(isActive && { isActive }),
             ...(query && { query }),
         };
+    }
+
+    const returnArray = (arr) => {
+        return arr.map((obj) => obj.value);
     }
 
     // SEARCH
@@ -65,42 +84,44 @@ function ListSupplier() {
         setSearch(e.target.value);
     };
 
-    const returnArray = (arr) => {
-        return arr.map((obj) => obj.value);
-    }
-
     const handleKeyDown = async (e) => {
         if (e.key === 'Enter') {
             setPageNumber(1);
+            setSortBy('');
+            setOrderBy('');
+
             getList(
                 await createObjectQuery(
                     1,
                     pageSize,
-                    sortBy,
-                    orderBy,
+                    '',
+                    '',
                     selectedTT.length > 0 && returnArray(selectedTT),
-                    selectedNNCC.length > 0 && returnArray(selectedNNCC),
+                    selectedSupplierGroups.length > 0 && returnArray(selectedSupplierGroups),
                     search,
                 )
             );
         }
     }
 
-    // FILTER
+    // FILTER OPTIONS
+    const [optionsSupplierGroups, setOptionsSupplierGroups] = useState([]);
+    // FILTER SELECTED
     const [selectedTT, setSelectedTT] = useState([]);
-    const [selectedNNCC, setSelectedNNCC] = useState([]);
-
+    const [selectedSupplierGroups, setSelectedSupplierGroups] = useState([]);
+    // FILTER  
     const [openFilter, setOpenFilter] = useState(false);
     const handleOpenFilter = () => setOpenFilter(true);
     const handleCloseFilter = () => setOpenFilter(false);
 
     const handleClearFilter = () => {
         setSelectedTT([]);
-        setSelectedNNCC([]);
+        setSelectedSupplierGroups([]);
     };
 
     const handleFilter = async () => {
         setPageNumber(1);
+
         getList(
             await createObjectQuery(
                 1,
@@ -108,88 +129,146 @@ function ListSupplier() {
                 sortBy,
                 orderBy,
                 selectedTT.length > 0 && returnArray(selectedTT),
-                selectedNNCC.length > 0 && returnArray(selectedNNCC),
+                selectedSupplierGroups.length > 0 && returnArray(selectedSupplierGroups),
                 search,
             )
         );
+
         handleCloseFilter();
     };
 
-    // TABLE
-    const [pageNumber, setPageNumber] = useState(1);
-    const [pageSize, setPageSize] = useState(12);
-    const [totalRows, setTotalRows] = useState(0);
-    const [clear, setClear] = useState(false);
-    const [sortBy, setSortBy] = useState('supplierId');
-    const [orderBy, setOrderBy] = useState('asc');
+    // GET SUPPLIER GROUPS
+    const getSupGroup = async () => {
+        const response = await supplierGroupServices.getSupplierGroups(
+            {
+                pageNumber: 1,
+                pageSize: -1,
+            }
+        )
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+
+        if (response) {
+            const data = await response.data.map((item) => ({ label: item.name, value: item.supplierGroupId }));
+            setOptionsSupplierGroups(data);
+        }
+    };
+
+    // GET DATA FILTER
+    useEffect(() => {
+        getSupGroup();
+        // eslint-disable-next-line no-use-before-define
+    }, [openFilter]);
+
+
     // TABLE
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
+    const [showSubHeader, setShowSubHeader] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(0);
+    const [selectedDelRows, setSelectedDelRows] = useState();
 
-    // useEffect(() => {
-    //     const timeout = setTimeout(() => {
-    //         setRows(data8);
-    //         setPending(false);
-    //     }, 500);
-    //     return () => clearTimeout(timeout);
-    // }, []);
-
-    const handlePerRowsChange = async (newPerPage, pageNumber) => {
-        setPageSize(newPerPage);
-        setPageNumber(pageNumber);
-
-        getList(
-            await createObjectQuery(
-                pageNumber,
-                newPerPage,
-                sortBy,
-                orderBy,
-                selectedTT.length > 0 && returnArray(selectedTT),
-                selectedNNCC.length > 0 && returnArray(selectedNNCC),
-                search,
-            )
-        );
-    }
-
-    const handlePageChange = async (pageNumber) => {
-        setPageNumber(pageNumber);
-
-        getList(
-            await createObjectQuery(
-                pageNumber,
-                pageSize,
-                sortBy,
-                orderBy,
-                selectedTT.length > 0 && returnArray(selectedTT),
-                selectedNNCC.length > 0 && returnArray(selectedNNCC),
-                search,
-            )
-        );
-    }
-
-    const handleSort = async (column, sortDirection) => {
-        setSortBy(column.text);
-        setOrderBy(sortDirection);
-        setPageNumber(1);
-
-        getList(
-            await createObjectQuery(
-                1,
-                pageSize,
-                column.text,
-                sortDirection,
-                selectedTT.length > 0 && returnArray(selectedTT),
-                selectedNNCC.length > 0 && returnArray(selectedNNCC),
-                search,
-            )
-        );
+    const handleSelectedProducts = ({
+        allSelected,
+        selectedCount,
+        selectedRows,
+    }) => {
+        selectedCount > 0 ? setShowSubHeader(true) : setShowSubHeader(false);
+        setSelectedRow(selectedCount);
+        setSelectedDelRows(selectedRows);
     };
 
+    // CLEAR SUB HEADER
+    const clearSubHeader = () => {
+        setShowSubHeader(false);
+        setSelectedRow(0);
+        setClear(true);
+    }
+
+    // SUB HEADER
+    const onClickAction = (value) => {
+        if (value === 'Đang giao dịch') {
+            onOpenModal('Cập nhật trạng thái?');
+        } else if (value === 'Ngừng giao dịch') {
+            onOpenModal('Ngừng giao dịch?');
+        } else {
+            onOpenModal('Xóa nhà cung cấp?');
+        }
+    };
+
+    // ON ROW CLICKED
+    const onRowClicked = useCallback((row) => {
+        navigate('/suppliers/detail/' + row.supplierId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // MODAL LOADING
+    const [loading, setLoading] = useState(false);
+
+    // MODAL
+    const [titleModal, setTitleModal] = useState('');
+    const [openModal, setOpenModal] = useState(false);
+
+    const handleOpenModal = () => setOpenModal(true);
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
+
+    const handleValidation = async () => {
+        if (titleModal === 'Xóa nhà cung cấp?') {
+
+            setLoading(true);
+
+            let isSuccess = true;
+
+            const response = await supplierServices.deleteSupplier(selectedDelRows)
+                .catch((error) => {
+                    setLoading(false);
+                    isSuccess = false;
+                    toastContext.notify('error', 'Có lỗi xảy ra');
+
+                    if (error.response) {
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    } else if (error.request) {
+                        console.log(error.request);
+                    } else {
+                        console.log('Error', error.message);
+                    }
+                    console.log(error.config);
+                });
+
+            if (isSuccess) {
+                setLoading(false);
+                toastContext.notify('success', 'Xóa nhà cung cấp thành công');
+                handleCloseModal();
+                clearSubHeader();
+                setUpdateList(new Date());
+            }
+        }
+    };
+
+    const onOpenModal = (value) => {
+        setTitleModal(value);
+        handleOpenModal();
+    };
 
     const getList = async (obj) => {
         setPending(true);
 
-        const response = await SuppliersServices.getAllSuppliersForList(obj)
+        const response = await supplierServices.getSuppliers(obj)
             .catch((error) => {
                 setPending(false);
 
@@ -211,70 +290,80 @@ function ListSupplier() {
         }
     }
 
+    // REMOTE PAGINATION
+    const handlePerRowsChange = async (newPerPage, pageNumber) => {
+        setPageSize(newPerPage);
+        setPageNumber(pageNumber);
+
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                newPerPage,
+                sortBy,
+                orderBy,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedSupplierGroups.length > 0 && returnArray(selectedSupplierGroups),
+                search,
+            )
+        );
+    }
+
+    const handlePageChange = async (pageNumber) => {
+        setPageNumber(pageNumber);
+
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                pageSize,
+                sortBy,
+                orderBy,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedSupplierGroups.length > 0 && returnArray(selectedSupplierGroups),
+                search,
+            )
+        );
+    }
+
+    // REMOTE SORT
+    const handleSort = async (column, sortDirection) => {
+        if (column.text === undefined || sortDirection === undefined) {
+            return;
+        }
+        setPageNumber(1);
+        setSortBy(column.text);
+        setOrderBy(sortDirection);
+
+        getList(
+            await createObjectQuery(
+                1,
+                pageSize,
+                column.text,
+                sortDirection,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedSupplierGroups.length > 0 && returnArray(selectedSupplierGroups),
+                search,
+            )
+        );
+    };
+
     useEffect(() => {
         const fetch = async () => {
             getList(
                 await createObjectQuery(
-                    1,
+                    pageNumber,
                     pageSize,
                     sortBy,
                     orderBy,
                     selectedTT.length > 0 && returnArray(selectedTT),
-                    selectedNNCC.length > 0 && returnArray(selectedNNCC),
+                    selectedSupplierGroups.length > 0 && returnArray(selectedSupplierGroups),
                     search,
                 )
             );
         }
+
         fetch();
-
-    }, []);
-    const [showSubHeader, setShowSubHeader] = useState(true);
-    const [selectedRow, setSelectedRow] = useState(0);
-
-    const handleSelectedProducts = ({
-        allSelected,
-        selectedCount,
-        selectedRows,
-    }) => {
-        selectedCount > 0 ? setShowSubHeader(true) : setShowSubHeader(false);
-        setSelectedRow(selectedCount);
-    };
-
-    // SUB HEADER
-    const onClickAction = (value) => {
-        if (value === 'Đang giao dịch') {
-            onOpenModal('Cập nhật trạng thái?');
-        } else if (value === 'Ngừng giao dịch') {
-            onOpenModal('Ngừng giao dịch?');
-        } else {
-            onOpenModal('Xóa nhà cung cấp?');
-        }
-    };
-
-    // ON ROW CLICKED
-    const onRowClicked = useCallback((row) => {
-        navigate('/suppliers/detail/' + row.supplierId);
-    }, []);
-
-    // MODAL LOADING
-    const [loading, setLoading] = useState(false);
-
-    // MODAL
-    const [titleModal, setTitleModal] = useState('');
-    const [openModal, setOpenModal] = useState(false);
-
-    const handleOpenModal = () => setOpenModal(true);
-
-    const handleCloseModal = () => {
-        setOpenModal(false);
-    };
-
-    const handleValidation = () => { };
-
-    const onOpenModal = (value) => {
-        setTitleModal(value);
-        handleOpenModal();
-    };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [updateList]);
 
     return (
         <div className={cx('wrapper')}>
@@ -318,7 +407,7 @@ function ListSupplier() {
                 <List
                     searchVisibility={true}
                     placeholderSearch={
-                        'Tìm kiếm theo mã nhà cung cấp, tên, số điện thoại nhà cung cấp'
+                        'Tìm kiếm theo mã, tên nhà cung cấp'
                     }
                     search={search}
                     handleSearch={handleSearch}
@@ -333,10 +422,10 @@ function ListSupplier() {
                         >
                             <MultiSelectComp
                                 className={cx('margin-bottom')}
-                                options={optionsNNCC}
+                                options={optionsSupplierGroups}
                                 placeholder={'Nhóm nhà cung cấp'}
-                                selected={selectedNNCC}
-                                setSelected={setSelectedNNCC}
+                                selected={selectedSupplierGroups}
+                                setSelected={setSelectedSupplierGroups}
                                 hasSelectAll={true}
                             />
                             <MultiSelectComp
@@ -350,6 +439,7 @@ function ListSupplier() {
                         </Filter>
                     }
                     // TABLE
+                    clearSelectedRows={clear}
                     selectableRows
                     pagination
                     onRowClicked={onRowClicked}
@@ -364,8 +454,6 @@ function ListSupplier() {
                             itemName={'nhà cung cấp'}
                             onClickAction={onClickAction}
                             items={[
-                                'Đang giao dịch',
-                                'Ngừng giao dịch',
                                 'Xóa nhà cung cấp',
                             ]}
                         />

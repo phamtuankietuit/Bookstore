@@ -13,10 +13,12 @@ import MultiSelectComp from '~/components/MultiSelectComp';
 import DateRange from '~/components/DateRange';
 import { ToastContext } from '~/components/ToastContext';
 
-import * as PurchaseorderServices from '~/apiServices/purchaseorderServies';
+import * as purchaseOrderServices from '~/apiServices/purchaseOrderServices';
 import * as supplierServices from '~/apiServices/supplierServices';
 import * as staffServices from '~/apiServices/staffServices';
+
 import { ConvertISO } from '~/components/ConvertISO';
+
 const cx = classNames.bind(styles);
 
 const optionsTT = [
@@ -34,8 +36,8 @@ function ListImport() {
     const [pageSize, setPageSize] = useState(12);
     const [totalRows, setTotalRows] = useState(0);
     const [clear, setClear] = useState(false);
-    const [sortBy, setSortBy] = useState('purchaseOrderId');
-    const [orderBy, setOrderBy] = useState('asc');
+    const [sortBy, setSortBy] = useState('');
+    const [orderBy, setOrderBy] = useState('');
 
     // CREATE OBJECT QUERY
     const createObjectQuery = async (
@@ -50,6 +52,20 @@ function ListImport() {
         staffIds,
         query,
     ) => {
+
+        console.log('OBJECT QUERY', {
+            pageNumber,
+            pageSize,
+            ...(orderBy && { orderBy }),
+            ...(sortBy && { sortBy }),
+            ...(startDate && { startDate }),
+            ...(endDate && { endDate }),
+            ...(status && { status }),
+            ...(supplierIds && { supplierIds }),
+            ...(staffIds && { staffIds }),
+            ...(query && { query }),
+        });
+
         return {
             pageNumber,
             pageSize,
@@ -73,12 +89,15 @@ function ListImport() {
     const handleKeyDown = async (e) => {
         if (e.key === 'Enter') {
             setPageNumber(1);
+            setSortBy('');
+            setOrderBy('');
+
             getList(
                 await createObjectQuery(
                     1,
                     pageSize,
-                    sortBy,
-                    orderBy,
+                    '',
+                    '',
                     dateString && ConvertISO(dateString).startDate,
                     dateString && ConvertISO(dateString).endDate,
                     selectedTT.length > 0 && returnArray(selectedTT),
@@ -123,8 +142,8 @@ function ListImport() {
                 dateString && ConvertISO(dateString).startDate,
                 dateString && ConvertISO(dateString).endDate,
                 selectedTT.length > 0 && returnArray(selectedTT),
-                selectedSupplier.length > 0 && returnArray(selectedTT),
-                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedSupplier.length > 0 && returnArray(selectedSupplier),
+                selectedStaff.length > 0 && returnArray(selectedStaff),
                 search,
             )
         );
@@ -134,7 +153,12 @@ function ListImport() {
 
     // GET DATA SUPPLIERS
     const getSup = async () => {
-        const response = await supplierServices.getAllSuppliers(1, -1)
+        const response = await supplierServices.getSuppliers(
+            {
+                pageNumber: 1,
+                pageSize: -1,
+            }
+        )
             .catch((error) => {
                 if (error.response) {
                     console.log(error.response.data);
@@ -195,18 +219,16 @@ function ListImport() {
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
         navigate('/imports/detail/' + row.purchaseOrderId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
 
     const getList = async (obj) => {
-
-        console.log('run getList', obj);
-
         setPending(true);
 
-        const response = await PurchaseorderServices.getAllPurchaseOrders(obj)
+        const response = await purchaseOrderServices.getAllPurchaseOrders(obj)
             .catch((error) => {
                 setPending(false);
 
@@ -272,6 +294,10 @@ function ListImport() {
     }
 
     const handleSort = async (column, sortDirection) => {
+        if (column.text = undefined || sortDirection === undefined) {
+            return;
+        }
+
         setSortBy(column.text);
         setOrderBy(sortDirection);
         setPageNumber(1);

@@ -1,66 +1,65 @@
 import { useState, useEffect, useCallback, useContext } from 'react';
 import classNames from 'classnames/bind';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Spinner from 'react-bootstrap/Spinner';
 
 import styles from './InfoSupplier.module.scss';
 import Wrapper from '~/components/Wrapper';
 import Button from '~/components/Button';
 import { ImportItem } from '~/components/Item';
-import { data3 } from '~/components/Table/sample';
 import Table from '~/components/Table';
 import ModalComp from '~/components/ModalComp';
 import ModalLoading from '~/components/ModalLoading';
 import { ToastContext } from '~/components/ToastContext';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
-import * as SuppliersServices from '~/apiServices/supplierServices';
-import * as PurchaseorderServices from '~/apiServices/purchaseorderServies';
-import Spinner from 'react-bootstrap/Spinner';
-import { useParams } from 'react-router-dom';
+
+import * as supplierServices from '~/apiServices/supplierServices';
+import * as purchaseOrderServices from '~/apiServices/purchaseOrderServices';
+
 const cx = classNames.bind(styles);
 
-const supplier = {
-    id: 'NNC0001',
-    name: 'Văn phòng phẩm An Khang',
-    phone: '0253669787',
-    email: 'ankhang@gmail.com',
-    group: 'Văn phòng phẩm',
-    address: '255 An Dương Vương, Phường 8, Quận 11, TPHCM',
-    isActive: true,
-};
-
-
 function InfoSupplier() {
+    const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
+    const supplierId = useParams();
     const [obj, setObj] = useState(null);
-    const suppliertid = useParams();
-
 
     useEffect(() => {
         const fetchApi = async () => {
-            // console.log(productid.id)
 
-            const result = await SuppliersServices.getSupplier(suppliertid.id)
-                .catch((err) => {
-                    console.log(err);
+            const response = await supplierServices.getSupplier(supplierId.id)
+                .catch((error) => {
+                    console.log(error);
+                    toastContext.notify('error', 'Có lỗi xảy ra');
                 });
-            setObj(result);
 
+            if (response) {
+                setObj(response);
 
-            const resultlist = await PurchaseorderServices.getPurchaseOrderFromSupplier(result.supplierId)
-                .catch((err) => {
-                    console.log(err);
-                });
-            setRows(resultlist.data)
-            console.log(rows)
-            setPending(false);
+                const responsePurchaseOrder = await purchaseOrderServices.getAllPurchaseOrders(
+                    {
+                        pageNumber: 1,
+                        pageSize: 50,
+                        supplierIds: [supplierId.id],
+                    }
+                )
+                    .catch((err) => {
+                        console.log(err);
+                    });
+
+                if (responsePurchaseOrder) {
+                    console.log(responsePurchaseOrder);
+                    setRows(responsePurchaseOrder.data);
+                    setPending(false);
+                }
+            }
         }
 
         fetchApi();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-
-    const navigate = useNavigate();
     const handleExit = () => {
         navigate(-1);
     };
@@ -68,13 +67,12 @@ function InfoSupplier() {
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
         navigate('/imports/detail/' + row.purchaseOrderId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // TABLE
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState(null);
-
-
 
     // MODAL LOADING
     const [loading, setLoading] = useState(false);
@@ -86,30 +84,36 @@ function InfoSupplier() {
 
     const handleValidation = () => {
         setLoading(true);
+
         const fetchApi = async () => {
-            // console.log(productid.id)
-            const result = await SuppliersServices.DeleteSupplier(suppliertid.id)
-                .catch((err) => {
-                    console.log(err);
+
+            let isSuccess = true;
+
+            const result = await supplierServices.deleteSupplier([
+                {
+                    supplierId: supplierId.id,
+                },
+            ])
+                .catch((error) => {
+                    console.log(error);
+                    setLoading(false);
+                    isSuccess = false;
+                    toastContext.notify('error', 'Có lỗi xảy ra');
                 });
 
-            if (result) {
-                setTimeout(() => {
-                    setLoading(false);
-                    handleCloseModal();
-                    toastContext.notify('success', 'Xóa nhà cung cấp thành công');
-                }, 2000);
+            if (isSuccess) {
+                setLoading(false);
+                handleCloseModal();
+                toastContext.notify('success', 'Xóa nhà cung cấp thành công');
+                navigate('/suppliers');
             }
-
         }
 
         fetchApi();
-
     };
 
     return (
         <div className={cx('wrapper')}>
-
             {obj === null ? (
                 <Spinner animation="border" role="status">
                     <span className="visually-hidden">Loading...</span>
@@ -240,7 +244,7 @@ function InfoSupplier() {
                             solidBlue
                             className={cx('margin')}
                             onClick={() =>
-                                navigate('/suppliers/update/' + suppliertid.id)
+                                navigate('/suppliers/update/' + supplierId.id)
                             }
                         >
                             Sửa

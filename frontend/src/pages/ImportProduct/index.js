@@ -17,7 +17,7 @@ import Item_import from '~/components/Item_ImportProduct';
 import { FaBoxOpen } from "react-icons/fa";
 import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
-import * as PurchaseOrdersServices from '~/apiServices/purchaseorderServies';
+import * as PurchaseOrdersServices from '~/apiServices/purchaseOrderServices';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 function ImportProduct() {

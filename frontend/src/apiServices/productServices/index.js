@@ -52,7 +52,6 @@ export const getProduct = async (id) => {
 export const deleteProducts = async (products) => {
     try {
         const res = await request.deleteMethod(`Products?${products.map((product) => 'ids=' + product.productId).join('&')}`);
-
         return res;
     } catch (error) {
         return Promise.reject(error);

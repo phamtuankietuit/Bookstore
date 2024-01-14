@@ -41,7 +41,6 @@ const optionsPriceRange = [
 ];
 
 function ListProduct() {
-
     const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
     const [updateList, setUpdateList] = useState(new Date());
@@ -62,8 +61,9 @@ function ListProduct() {
         query,
     ) => {
 
-        let arr = [];
+        clearSubHeader();
 
+        let arr = [];
         if (isActive) {
             if (isActive.length < 2) {
                 arr = [...isActive];
@@ -91,8 +91,8 @@ function ListProduct() {
     const [pageSize, setPageSize] = useState(12);
     const [totalRows, setTotalRows] = useState(0);
     const [clear, setClear] = useState(false);
-    const [sortBy, setSortBy] = useState('productId');
-    const [orderBy, setOrderBy] = useState('asc');
+    const [sortBy, setSortBy] = useState('');
+    const [orderBy, setOrderBy] = useState('');
 
     // SEARCH
     const [search, setSearch] = useState('');
@@ -103,12 +103,15 @@ function ListProduct() {
     const handleKeyDown = async (e) => {
         if (e.key === 'Enter') {
             setPageNumber(1);
+            setSortBy('');
+            setOrderBy('');
+
             getList(
                 await createObjectQuery(
                     1,
                     pageSize,
-                    sortBy,
-                    orderBy,
+                    '',
+                    '',
                     selectedTT.length > 0 && returnArray(selectedTT),
                     selectedPriceRange.length > 0 && returnArray(selectedPriceRange),
                     selectedLSP.length > 0 && returnArray(selectedLSP),
@@ -204,7 +207,12 @@ function ListProduct() {
 
     // GET DATA SUPPLIERS
     const getSup = async () => {
-        const response = await supplierServices.getAllSuppliers(1, -1)
+        const response = await supplierServices.getSuppliers(
+            {
+                pageNumber: 1,
+                pageSize: -1,
+            }
+        )
             .catch((error) => {
                 if (error.response) {
                     console.log(error.response.data);
@@ -305,7 +313,7 @@ function ListProduct() {
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
 
-    const [showSubHeader, setShowSubHeader] = useState(true);
+    const [showSubHeader, setShowSubHeader] = useState(false);
     const [selectedRow, setSelectedRow] = useState(0);
 
     const handleSelectedProducts = ({
@@ -332,6 +340,8 @@ function ListProduct() {
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
         navigate('/products/detail/' + row.productId);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // MODAL LOADING
@@ -439,10 +449,15 @@ function ListProduct() {
 
     // SORT
     const handleSort = async (column, sortDirection) => {
+        if (column.text === undefined || sortDirection === undefined) {
+            return;
+        }
+
         setSortBy(column.text);
         setOrderBy(sortDirection);
         setPageNumber(1);
-        console.log('handleSort');
+
+        console.log('sort');
 
 
         getList(
@@ -467,8 +482,6 @@ function ListProduct() {
     const handlePerRowsChange = async (newPerPage, pageNumber) => {
         setPageSize(newPerPage);
         setPageNumber(pageNumber);
-        console.log('handlePerRowsChange');
-
 
         getList(
             await createObjectQuery(
@@ -491,7 +504,6 @@ function ListProduct() {
 
     const handlePageChange = async (pageNumber) => {
         setPageNumber(pageNumber);
-        console.log('handlePageChange');
 
         getList(
             await createObjectQuery(
@@ -509,7 +521,6 @@ function ListProduct() {
                 search,
             )
         );
-
     }
 
     useEffect(() => {
@@ -532,9 +543,7 @@ function ListProduct() {
             );
         }
 
-        setPending(true);
         fetch();
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [updateList]);
 

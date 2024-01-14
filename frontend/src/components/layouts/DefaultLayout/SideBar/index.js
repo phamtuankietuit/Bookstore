@@ -22,13 +22,41 @@ import { getLocalStorage } from '~/store/getLocalStorage';
 const cx = classNames.bind(styles);
 
 function SideBar({ className, title }) {
-
-    const [arr, setArr] = useState();
+    const [routes, setRoutes] = useState([]);
     const [role, setRole] = useState('admin');
 
     useEffect(() => {
         const roleInLocalStorage = getLocalStorage().user.role;
         setRole(roleInLocalStorage);
+
+        if (roleInLocalStorage === 'sales') {
+            setRoutes([
+                {
+                    title: 'Danh sách sản phẩm',
+                    to: '/products',
+                },
+            ]);
+        } else {
+            setRoutes([
+                {
+                    title: 'Danh sách sản phẩm',
+                    to: '/products',
+                },
+                {
+                    title: 'Nhập hàng',
+                    to: '/imports',
+                },
+                {
+                    title: 'Kiểm hàng',
+                    to: '/checks',
+                },
+                {
+                    title: 'Nhà cung cấp',
+                    to: '/suppliers',
+                },
+            ]);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const classes = cx('wrapper', {
@@ -72,24 +100,7 @@ function SideBar({ className, title }) {
                         state={title}
                         icon={<FontAwesomeIcon icon={faBox} />}
                         title={'Sản phẩm'}
-                        items={[
-                            {
-                                title: 'Danh sách sản phẩm',
-                                to: '/products',
-                            },
-                            {
-                                title: 'Nhập hàng',
-                                to: '/imports',
-                            },
-                            {
-                                title: 'Kiểm hàng',
-                                to: '/checks',
-                            },
-                            {
-                                title: 'Nhà cung cấp',
-                                to: '/suppliers',
-                            },
-                        ]}
+                        items={routes}
                     />
                     {(role === 'sales' || role === 'admin') &&
                         <SidebarButton

@@ -10,10 +10,16 @@ import Button from '~/components/Button';
 import Input from '~/components/Input';
 import ModalComp from '~/components/ModalComp';
 import ModalLoading from '~/components/ModalLoading';
-import { ToastContext } from '~/components/ToastContext';
-import * as SuppliersServices from '~/apiServices/supplierServices';
 import { getLocalStorage } from '~/store/getLocalStorage';
+
+import { ToastContext } from '~/components/ToastContext';
+
+import * as supplierServices from '~/apiServices/supplierServices';
+import * as supplierGroupServices from '~/apiServices/supplierGroupServices';
+
 const cx = classNames.bind(styles);
+
+const filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
 function AddSupplier() {
     const navigate = useNavigate();
@@ -24,107 +30,19 @@ function AddSupplier() {
     const [errorName, setErrorName] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
+    const [errorEmail, setErrorEmail] = useState('');
     const [group, setGroup] = useState('');
     const [address, setAddress] = useState('');
-    const [option, setOption] = useState([])
-    const [groupIDlist, setGroupIDlist] = useState([])
-    const [groupID, setGroupID] = useState('')
-    const [call, setCall] = useState(false)
+
+    const [optionsSupplierGroups, setOptionsSupplierGroups] = useState([]);
+    const [selectedSupplierGroups, setSelectedSupplierGroups] = useState();
+
     // MODAL LOADING
     const [loading, setLoading] = useState(false);
-
-    // FROM
-    const handleSubmit = () => {
-        if (name === '') {
-            setErrorName('Không được bỏ trống');
-        } else {
-            // CALL API
-            setLoading(true)
-            const obj = {
-                name: name,
-                supplierGroupId: groupID,
-                supplierGroupName: group,
-                contact: {
-                    phone: phone,
-                    email: email
-                },
-                address: address,
-                description: null,
-                staffId: getLocalStorage().user.staffId,
-            }
-            // setLoading(true);
-
-
-            const fetchApi = async () => {
-                const result = await SuppliersServices.CreateSuppliers(obj)
-                    .catch((err) => {
-                        console.log(err);
-                    });
-
-                if (result) {
-                    setTimeout(() => {
-                        setLoading(false);
-                        toastContext.notify('success', 'Thêm nhà cung cấp thành công');
-                        navigate('/suppliers')
-                    }, 2000);
-                }
-
-                else {
-                    setTimeout(() => {
-                        setLoading(false);
-                        toastContext.notify('error', 'Đã có lỗi');
-                    }, 2000);
-                }
-                console.log(obj)
-            }
-
-            fetchApi();
-
-
-        }
-    };
 
     const handleExit = () => {
         navigate(-1);
     };
-
-    useEffect(() => {
-        if (call === false) {
-            const fetchApi = async () => {
-                const result = await SuppliersServices.getAllSupplierGroups(1, -1)
-                    .catch((err) => {
-                        console.log(err);
-                    });
-
-                console.log(result.data)
-                setGroupIDlist(result.data)
-                setOption([])
-                result.data.map((e) => {
-                    if (call === false) {
-                        let obj = {
-                            label: e.name,
-                            value: e.name
-                        }
-                        setOption(op => [...op, obj])
-
-                    }
-                    setCall(true)
-
-
-                })
-
-            }
-            fetchApi()
-        }
-    }, [option]);
-
-    const onChoosegroup = (value) => {
-        groupIDlist.map((e) => {
-            if (e.name === value.value) setGroupID(e.supplierGroupId)
-        })
-        setGroup(value.value)
-        console.log(groupID)
-    }
 
     // MODAL ADD GROUP
     const [open, setOpen] = useState(false);
@@ -134,21 +52,35 @@ function AddSupplier() {
     const [nameGroup, setNameGroup] = useState('');
     const [errorGroup, setErrorGroup] = useState('');
 
-    const handleValidation = () => {
+    const handleValidation = async () => {
         if (nameGroup === '') {
             setErrorGroup('Không được bỏ trống');
         } else {
             setLoading(true);
-            setTimeout(() => {
+
+            const result = await supplierGroupServices.CreateSupplierGroup
+                (
+                    {
+                        name: nameGroup,
+                        staffId: getLocalStorage().user.staffId,
+                        staffName: getLocalStorage().user.name,
+                    }
+                )
+                .catch((error) => {
+                    setLoading(false);
+                    if (error.response.status === 409) {
+                        toastContext.notify('error', 'Nhóm nhà cung cấp đã tồn tại');
+                    } else {
+                        toastContext.notify('error', 'Có lỗi xảy ra');
+                    }
+                });
+
+            if (result) {
                 setLoading(false);
-                setNameGroup('');
-                setErrorGroup('');
-                handleClose();
-                toastContext.notify(
-                    'success',
-                    'Thêm nhóm nhà cung cấp thành công',
-                );
-            }, 2000);
+                toastContext.notify('success', 'Thêm nhóm nhà cung cấp thành công');
+                handleCloseModal();
+                getSupGroup();
+            }
         }
     };
 
@@ -156,6 +88,80 @@ function AddSupplier() {
         setNameGroup('');
         setErrorGroup('');
         handleClose();
+    };
+
+    // GET SUPPLIER GROUP
+    const getSupGroup = async () => {
+        const response = await supplierGroupServices.getSupplierGroups(
+            {
+                pageNumber: 1,
+                pageSize: -1,
+            }
+        )
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+
+        if (response) {
+            const data = await response.data.map((item) => ({ label: item.name, value: item.supplierGroupId }));
+            setOptionsSupplierGroups(data);
+        }
+    }
+
+    useEffect(() => {
+        getSupGroup();
+    }, []);
+
+    const handleSubmit = async () => {
+        if (name === '') {
+            setErrorName('Không được bỏ trống');
+        } else if (email !== '' && !filter.test(email)) {
+            setErrorEmail('Vui lòng nhập đúng định dạng email');
+        } else {
+            const obj = {
+                name: name,
+                ...(selectedSupplierGroups
+                    ? { supplierGroupId: selectedSupplierGroups.value }
+                    : { supplierGroupId: 'supg00000' }
+                ),
+                ...(selectedSupplierGroups
+                    ? { supplierGroupName: selectedSupplierGroups.label }
+                    : { supplierGroupName: 'Khác' }
+                ),
+                contact: {
+                    phone: phone,
+                    email: email,
+                },
+                address: address,
+                isActive: true,
+                staffId: getLocalStorage().user.staffId,
+                staffName: getLocalStorage().user.name,
+            };
+
+            setLoading(true);
+
+            const response = await supplierServices.CreateSuppliers(obj)
+                .catch((error) => {
+                    console.log(error);
+                    setLoading(false);
+                    toastContext.notify('error', 'Có lỗi xảy ra');
+                });
+
+            if (response) {
+                setLoading(false);
+                toastContext.notify('success', 'Thêm nhà cung cấp thành công');
+                navigate('/suppliers/detail/' + response.supplierId);
+            }
+        }
     };
 
     return (
@@ -181,6 +187,7 @@ function AddSupplier() {
                                     value={email}
                                     onChange={(value) => setEmail(value)}
                                     className={cx('m-b')}
+                                    error={errorEmail}
                                 />
                                 <Input
                                     title={'Địa chỉ'}
@@ -202,9 +209,12 @@ function AddSupplier() {
                                 <div className={cx('two-cols', 'm-b')}>
                                     <Input
                                         title={'Nhóm nhà cung cấp'}
-                                        items={option}
+                                        items={optionsSupplierGroups}
                                         value={group}
-                                        handleClickAction={onChoosegroup}
+                                        handleClickAction={(item) => {
+                                            setGroup(item.label);
+                                            setSelectedSupplierGroups(item);
+                                        }}
                                         readOnly
                                     />
                                     <Button

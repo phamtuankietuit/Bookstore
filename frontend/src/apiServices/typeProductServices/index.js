@@ -1,8 +1,19 @@
 import * as request from '~/utils/request';
 
-export const getAllProductTypes = async (pageNumber, pageSize, query) => {
+export const getAllProductTypes = async (params) => {
     try {
-        const res = await request.getMethod(`Categories?pageSize=${pageSize}&pageNumber=${pageNumber}&query=${query}`);
+        const res = await request.getMethod('Categories?', {
+            params,
+            paramsSerializer: (params) => {
+                const serializedParams = Object.keys(params).map((key) => {
+                    return key + '=' + params[key];
+                }).join('&');
+
+                console.log(serializedParams);
+
+                return serializedParams;
+            },
+        });
 
         return res;
     } catch (error) {

@@ -40,8 +40,8 @@ function ListStaff() {
     const [pageSize, setPageSize] = useState(12);
     const [totalRows, setTotalRows] = useState(0);
     const [clear, setClear] = useState(false);
-    const [sortBy, setSortBy] = useState('staffId');
-    const [orderBy, setOrderBy] = useState('asc');
+    const [sortBy, setSortBy] = useState('');
+    const [orderBy, setOrderBy] = useState('');
 
     const createObjectQuery = async (
         pageNumber,
@@ -52,8 +52,10 @@ function ListStaff() {
         roles,
         query,
     ) => {
-        let arr = [];
 
+        clearSubHeader();
+
+        let arr = [];
         if (isActive) {
             if (isActive.length < 2) {
                 arr = [...isActive];
@@ -80,12 +82,15 @@ function ListStaff() {
     const handleKeyDown = async (e) => {
         if (e.key === 'Enter') {
             setPageNumber(1);
+            setSortBy('');
+            setOrderBy('');
+
             getList(
                 await createObjectQuery(
                     1,
                     pageSize,
-                    sortBy,
-                    orderBy,
+                    '',
+                    '',
                     selectedTT.length > 0 && returnArray(selectedTT),
                     selectedVT.length > 0 && returnArray(selectedVT),
                     search,
@@ -131,7 +136,7 @@ function ListStaff() {
         return arr.map((obj) => obj.value);
     }
 
-    const [showSubHeader, setShowSubHeader] = useState(true);
+    const [showSubHeader, setShowSubHeader] = useState(false);
     const [selectedRow, setSelectedRow] = useState(0);
 
     const handleSelectedProducts = ({
@@ -299,6 +304,10 @@ function ListStaff() {
     }
 
     const handleSort = async (column, sortDirection) => {
+        if (column.text === undefined || sortDirection === undefined) {
+            return;
+        }
+
         setSortBy(column.text);
         setOrderBy(sortDirection);
         setPageNumber(1);

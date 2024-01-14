@@ -12,6 +12,7 @@ function App() {
         if (isLogin() === 'false') {
             navigate('/');
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

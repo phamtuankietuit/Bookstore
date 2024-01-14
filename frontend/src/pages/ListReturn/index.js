@@ -26,8 +26,8 @@ function ListReturn() {
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(12);
     const [totalRows, setTotalRows] = useState(0);
-    const [sortBy, setSortBy] = useState('returnOrderId');
-    const [orderBy, setOrderBy] = useState('asc');
+    const [sortBy, setSortBy] = useState('');
+    const [orderBy, setOrderBy] = useState('');
 
     // CREATE OBJECT QUERY
     const createObjectQuery = async (
@@ -61,12 +61,15 @@ function ListReturn() {
     const handleKeyDown = async (e) => {
         if (e.key === 'Enter') {
             setPageNumber(1);
+            setSortBy('');
+            setOrderBy('');
+
             getList(
                 await createObjectQuery(
                     1,
                     pageSize,
-                    sortBy,
-                    orderBy,
+                    'score',
+                    '',
                     dateCreated && ConvertISO(dateCreated).startDate,
                     dateCreated && ConvertISO(dateCreated).endDate,
                     selectedStaff.length > 0 && returnArray(selectedStaff),
@@ -179,6 +182,9 @@ function ListReturn() {
 
     // SORT
     const handleSort = async (column, sortDirection) => {
+        if (column.text === undefined || sortDirection === undefined) {
+            return;
+        }
         setSortBy(column.text);
         setOrderBy(sortDirection);
         setPageNumber(1);
@@ -237,12 +243,16 @@ function ListReturn() {
 
     useEffect(() => {
         const fetch = async () => {
+
+            setSortBy('');
+            setOrderBy('');
+
             getList(
                 await createObjectQuery(
                     pageNumber,
                     pageSize,
-                    sortBy,
-                    orderBy,
+                    '',
+                    '',
                     dateCreated && ConvertISO(dateCreated).startDate,
                     dateCreated && ConvertISO(dateCreated).endDate,
                     selectedStaff.length > 0 && returnArray(selectedStaff),
@@ -251,12 +261,9 @@ function ListReturn() {
             );
         }
 
-        setPending(true);
         fetch();
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
 
     return (
         <div className={cx('wrapper')}>

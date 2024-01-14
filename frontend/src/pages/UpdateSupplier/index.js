@@ -1,9 +1,10 @@
 import { useState, useContext, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useNavigate } from 'react-router-dom';
 import { Switch } from '@mui/material';
+import Spinner from 'react-bootstrap/Spinner';
 
 import styles from './UpdateSupplier.module.scss';
 import Wrapper from '~/components/Wrapper';
@@ -11,32 +12,17 @@ import Button from '~/components/Button';
 import Input from '~/components/Input';
 import ModalComp from '~/components/ModalComp';
 import ModalLoading from '~/components/ModalLoading';
+import { getLocalStorage } from '~/store/getLocalStorage';
 import { ToastContext } from '~/components/ToastContext';
-import * as SuppliersServices from '~/apiServices/supplierServices';
-import Spinner from 'react-bootstrap/Spinner';
-import { useParams } from 'react-router-dom';
+
+import * as supplierServices from '~/apiServices/supplierServices';
+import * as supplierGroupServices from '~/apiServices/supplierGroupServices';
+
 const cx = classNames.bind(styles);
 
-const supplier = {
-    id: 'NNC0001',
-    name: 'Văn phòng phẩm An Khang',
-    phone: '0253669787',
-    email: 'ankhang@gmail.com',
-    group: 'Văn phòng phẩm',
-    address: '255 An Dương Vương, Phường 8, Quận 11, TPHCM',
-    isActive: true,
-};
+const filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
 function UpdateSupplier() {
-    // useEffect(() => {
-    //     setName(supplier.name);
-    //     setPhone(supplier.phone);
-    //     setEmail(supplier.email);
-    //     setGroup(supplier.group);
-    //     setAddress(supplier.address);
-    //     setIsActive(supplier.isActive);
-    // }, []);
-
     const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
 
@@ -45,100 +31,120 @@ function UpdateSupplier() {
     const [errorName, setErrorName] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
+    const [errorEmail, setErrorEmail] = useState('');
     const [group, setGroup] = useState('');
     const [address, setAddress] = useState('');
     const [isActive, setIsActive] = useState(true);
 
-
     const [obj, setObj] = useState(null);
-    const suppliertid = useParams();
+    const supplierId = useParams();
+
     useEffect(() => {
         const fetchApi = async () => {
-            // console.log(productid.id)
-            const result = await SuppliersServices.getSupplier(suppliertid.id)
+
+            const response = await supplierServices.getSupplier(supplierId.id)
                 .catch((err) => {
                     console.log(err);
+                    toastContext.notify('error', 'Có lỗi xảy ra');
                 });
-            setObj(result);
-            setName(result.name)
-            setPhone(result.contact.phone)
-            setEmail(result.contact.email)
-            setAddress(result.address)
-            setIsActive(result.isActive)
-            setNameGroup(result.supplierGroupName)
 
+            if (response) {
+                console.log(response);
+                setObj(response);
+                setName(response.name);
+                setPhone(response.contact.phone);
+                setEmail(response.contact.email);
+                setAddress(response.address);
+                setIsActive(response.isActive);
+                setGroup(response.supplierGroupName);
+            }
         }
 
         fetchApi();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const [optionsSupplierGroups, setOptionsSupplierGroups] = useState([]);
+    const [selectedSupplierGroups, setSelectedSupplierGroups] = useState();
+
+
+    // GET SUPPLIER GROUP
+    const getSupGroup = async () => {
+        const response = await supplierGroupServices.getSupplierGroups(
+            {
+                pageNumber: 1,
+                pageSize: -1,
+            }
+        )
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+
+        if (response) {
+            const data = await response.data.map((item) => ({ label: item.name, value: item.supplierGroupId }));
+            setOptionsSupplierGroups(data);
+        }
+    }
+
+    useEffect(() => {
+        getSupGroup();
+    }, []);
+
+
     // MODAL LOADING
     const [loading, setLoading] = useState(false);
 
     // FROM
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (name === '') {
             setErrorName('Không được bỏ trống');
+        } else if (email !== '' && !filter.test(email)) {
+            setErrorEmail('Vui lòng nhập đúng định dạng email');
         } else {
-            // CALL API
-            const newobj = {
-                supplierId: obj.supplierId,
+            const newObj = {
+                ...obj,
                 name: name,
-                supplierGroupId: obj.supplierGroupId,
-                supplierGroupName: obj.supplierGroupName,
+                ...(selectedSupplierGroups
+                    ? { supplierGroupId: selectedSupplierGroups.value }
+                    : { supplierGroupId: 'supg00000' }
+                ),
+                ...(selectedSupplierGroups
+                    ? { supplierGroupName: selectedSupplierGroups.label }
+                    : { supplierGroupName: 'Khác' }
+                ),
                 contact: {
                     phone: phone,
-                    email: email
+                    email: email,
                 },
                 address: address,
-                description: obj.description,
-                createdAt: obj.createdAt,
-                isActive: isActive
+                isActive: isActive,
+            };
 
-            }
-
-            // setObj(obj => ({ 
-            //     ...obj, 
-            //     updateobj 
-            // }))
-            // setObj(newobj)
-            // console.log(newobj)
             setLoading(true);
-            const fetchApi = async () => {
-                // console.log(productid.id)
-                const result = await SuppliersServices.UpdateSupplier(suppliertid.id, newobj)
-                    .catch((err) => {
-                        console.log(err);
-                    });
-                if (result) {
-                    setTimeout(() => {
-                        setLoading(false);
-                        toastContext.notify(
-                            'error',
-                            'Cập nhật nhà cung cấp không thành công',
-                        );
 
+            let isSuccess = true;
 
-                        // console.log(obj)
-                    }, 2000);
-                }
-                else {
-                    setTimeout(() => {
-                        setLoading(false);
-                        toastContext.notify(
-                            'success',
-                            'Cập nhật nhà cung cấp thành công',
-                        );
+            const response = await supplierServices.UpdateSupplier(obj.supplierId, newObj)
+                .catch((error) => {
+                    console.log(error);
+                    isSuccess = false;
+                    setLoading(false);
+                    toastContext.notify('error', 'Có lỗi xảy ra');
+                });
 
-
-
-                        // console.log(obj)
-                    }, 2000);
-                }
-
+            if (isSuccess) {
+                setLoading(false);
+                toastContext.notify('success', 'Cập nhật nhà cung cấp thành công');
             }
-
-            fetchApi();
-
         }
     };
 
@@ -154,21 +160,35 @@ function UpdateSupplier() {
     const [nameGroup, setNameGroup] = useState('');
     const [errorGroup, setErrorGroup] = useState('');
 
-    const handleValidation = () => {
+    const handleValidation = async () => {
         if (nameGroup === '') {
             setErrorGroup('Không được bỏ trống');
         } else {
             setLoading(true);
-            setTimeout(() => {
+
+            const result = await supplierGroupServices.CreateSupplierGroup
+                (
+                    {
+                        name: nameGroup,
+                        staffId: getLocalStorage().user.staffId,
+                        staffName: getLocalStorage().user.name,
+                    }
+                )
+                .catch((error) => {
+                    setLoading(false);
+                    if (error.response.status === 409) {
+                        toastContext.notify('error', 'Nhóm nhà cung cấp đã tồn tại');
+                    } else {
+                        toastContext.notify('error', 'Có lỗi xảy ra');
+                    }
+                });
+
+            if (result) {
                 setLoading(false);
-                setNameGroup('');
-                setErrorGroup('');
-                handleClose();
-                toastContext.notify(
-                    'success',
-                    'Thêm nhóm nhà cung cấp thành công',
-                );
-            }, 2000);
+                toastContext.notify('success', 'Thêm nhóm nhà cung cấp thành công');
+                handleCloseModal();
+                getSupGroup();
+            }
         }
     };
 
@@ -204,21 +224,14 @@ function UpdateSupplier() {
                                             title={'Tên nhà cung cấp'}
                                             required
                                             value={name}
-                                            onChange={(value) => {
-                                                setName(value)
-
-                                            }}
+                                            onChange={(value) => setName(value)}
                                             className={cx('m-b')}
                                             error={errorName}
                                         />
                                         <Input
                                             title={'Địa chỉ'}
                                             value={address}
-                                            onChange={(value) => {
-                                                setAddress(value)
-
-
-                                            }}
+                                            onChange={(value) => setAddress(value)}
                                             className={cx('m-b')}
                                         />
                                         <div className={cx('m-b')}>
@@ -236,22 +249,20 @@ function UpdateSupplier() {
                                             title={'Số điện thoại'}
                                             value={phone}
                                             number
-                                            onChangeNumber={(number) => {
+                                            onChangeNumber={(number) =>
                                                 setPhone(number)
-
-
-                                            }
-
-
                                             }
                                             className={cx('m-b')}
                                         />
                                         <div className={cx('two-cols', 'm-b')}>
                                             <Input
                                                 title={'Nhóm nhà cung cấp'}
-                                                items={['Sách', 'Khác']}
-                                                value={obj.supplierGroupName}
-                                                onChange={(value) => setGroup(value)}
+                                                items={optionsSupplierGroups}
+                                                value={group}
+                                                handleClickAction={(item) => {
+                                                    setGroup(item.label);
+                                                    setSelectedSupplierGroups(item);
+                                                }}
                                                 readOnly
                                             />
                                             <Button
@@ -268,10 +279,9 @@ function UpdateSupplier() {
                                             value={email}
                                             onChange={(value) => {
                                                 setEmail(value)
-
-
                                             }}
                                             className={cx('m-b')}
+                                            error={errorEmail}
                                         />
                                     </div>
                                 </div>

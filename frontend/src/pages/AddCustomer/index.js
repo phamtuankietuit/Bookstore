@@ -7,10 +7,16 @@ import Wrapper from '~/components/Wrapper';
 import Button from '~/components/Button';
 import Input from '~/components/Input';
 import ModalLoading from '~/components/ModalLoading';
+
 import { ToastContext } from '~/components/ToastContext';
-import * as CustommerServices from '~/apiServices/customerServices'
+
+import * as customerServices from '~/apiServices/customerServices';
+
 import { getLocalStorage } from '~/store/getLocalStorage';
+
 const cx = classNames.bind(styles);
+
+const filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
 function AddCustomer() {
     const navigate = useNavigate();
@@ -21,6 +27,7 @@ function AddCustomer() {
     const [errorName, setErrorName] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
+    const [errorEmail, setErrorEmail] = useState('');
     const [address, setAddress] = useState('');
 
     // MODAL LOADING
@@ -28,51 +35,39 @@ function AddCustomer() {
 
     // FROM
     const handleSubmit = () => {
-
-        const obj = {
-            name: name,
-            sex: "string",
-            email: email,
-            phoneNumber: phone,
-            address: {
-                address: address,
-                phoneNumber: phone,
-                name: name,
-                email: email
-            },
-            note: "",
-            type: "",
-            tag: {
-
-            },
-            staffId: getLocalStorage().user.staffId,
-        }
-        console.log(obj)
         if (name === '') {
             setErrorName('Không được bỏ trống');
+        } else if (email !== '' && !filter.test(email)) {
+            setErrorEmail('Vui lòng nhập đúng định dạng email');
         } else {
-            // CALL API
+            const obj = {
+                name: name,
+                email: email,
+                phoneNumber: phone,
+                address: address,
+                isActive: true,
+                staffId: getLocalStorage().user.staffId,
+                staffName: getLocalStorage().user.name,
+            }
+
+            console.log(obj);
+
             const fetchApi = async () => {
                 setLoading(true);
-                const result = await CustommerServices.CreateCustomer(obj)
+                const result = await customerServices.CreateCustomer(obj)
                     .catch((err) => {
                         console.log(err);
                     });
 
                 if (result) {
-
-                    setTimeout(() => {
-                        setLoading(false);
-                        toastContext.notify('success', 'Đã Thêm khách hàng');
-                        console.log(result)
-                        navigate('/customers/detail/' + result.customerId);
-                    }, 2000);
+                    console.log(result);
+                    setLoading(false);
+                    toastContext.notify('success', 'Thêm mới khách hàng thành công');
+                    navigate('/customers/detail/' + result.customerId);
                 }
                 else {
-                    setTimeout(() => {
-                        setLoading(false);
-                        toastContext.notify('error', 'Không thành công');
-                    }, 2000);
+                    setLoading(false);
+                    toastContext.notify('error', 'Có lỗi xảy ra');
                 }
             }
 
@@ -124,6 +119,7 @@ function AddCustomer() {
                                     value={email}
                                     onChange={(value) => setEmail(value)}
                                     className={cx('m-b')}
+                                    error={errorEmail}
                                 />
                             </div>
                         </div>

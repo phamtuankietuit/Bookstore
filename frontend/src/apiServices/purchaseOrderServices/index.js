@@ -47,12 +47,3 @@ export const UpdatePurchaseOrder = async (id, obj) => {
         return Promise.reject(error);
     }
 }
-
-export const getPurchaseOrderFromSupplier = async (id) => {
-    try {
-        const res = await request.getMethod(`PurchaseOrders?pageSize=${-1}&pageNumber=${1}&supplierIds=${id}`);
-        return res;
-    } catch (error) {
-        return Promise.reject(error);
-    }
-}

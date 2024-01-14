@@ -1,15 +1,18 @@
 import { useState, useContext } from 'react';
-import classNames from 'classnames/bind';
 import { useNavigate } from 'react-router-dom';
+import classNames from 'classnames/bind';
 
 import styles from './AddStaff.module.scss';
 import Wrapper from '~/components/Wrapper';
 import Button from '~/components/Button';
 import Input from '~/components/Input';
 import ModalLoading from '~/components/ModalLoading';
+
 import { ToastContext } from '~/components/ToastContext';
+
 import * as StaffServices from '~/apiServices/staffServices';
 
+const filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
 const cx = classNames.bind(styles);
 
@@ -24,7 +27,7 @@ function AddStaff() {
     const [errorPhone, setErrorPhone] = useState('');
     const [email, setEmail] = useState('');
     const [errorEmail, setErrorEmail] = useState('');
-    const [role, setRole] = useState({});
+    const [role, setRole] = useState('');
     const [errorRole, setErrorRole] = useState('');
 
     // MODAL LOADING
@@ -32,7 +35,7 @@ function AddStaff() {
 
     // FROM
     const handleSubmit = () => {
-        if (name === '' || phone === '' || email === '' || role === '') {
+        if (name === '' || phone === '' || email === '' || role === '' || !filter.test(email)) {
             if (name === '') {
                 setErrorName('Không được bỏ trống');
             }
@@ -47,6 +50,10 @@ function AddStaff() {
 
             if (role === '') {
                 setErrorRole('Không được bỏ trống');
+            }
+
+            if (email !== '' && !filter.test(email)) {
+                setErrorEmail('Vui lòng nhập đúng định dạng email');
             }
         } else {
             // CALL API

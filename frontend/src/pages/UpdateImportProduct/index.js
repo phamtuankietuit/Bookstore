@@ -14,7 +14,7 @@ import { useEffect, useState, useContext } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import { ToastContext } from '~/components/ToastContext';
 import ModalLoading from '~/components/ModalLoading';
-import * as PurchaseOrdersServices from '~/apiServices/purchaseorderServies';
+import * as PurchaseOrdersServices from '~/apiServices/purchaseOrderServices';
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 function UpdateImportProduct() {

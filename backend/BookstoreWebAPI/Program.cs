@@ -118,7 +118,9 @@ builder.Services.AddTransient<IStaffRepository, StaffRepository>();
 builder.Services.AddTransient<IAccountRepository, AccountRepository>();
 builder.Services.AddTransient<IActivityLogRepository, ActivityLogRepository>();
 builder.Services.AddTransient<IAdjustmentTicketRepository, AdjustmentTicketRepository>();
+builder.Services.AddTransient<IAdjustmentItemRepository, AdjustmentItemRepository>();
 builder.Services.AddTransient<ILocationRepository, LocationRepository>();
+builder.Services.AddTransient<IReportRepository, ReportRepository>();
 
 
 // adding validators
@@ -132,6 +134,7 @@ builder.Services.AddTransient<IValidator<StaffFilterModel>, StaffFilterModelVali
 builder.Services.AddTransient<IValidator<SupplierFilterModel>, SupplierFilterModelValidator>();
 builder.Services.AddTransient<IValidator<CustomerFilterModel>, CustomerFilterModelValidator>();
 builder.Services.AddTransient<IValidator<ProductFilterModel>, ProductFilterModelValidator>();
+builder.Services.AddTransient<IValidator<ReportFilterModel>, ReportFilterModelValidator>();
 
 builder.Services.AddSingleton<UserContextService>();
 builder.Services.AddTransient<DataSeeder>();

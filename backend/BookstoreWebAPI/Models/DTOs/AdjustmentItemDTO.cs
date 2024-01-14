@@ -9,7 +9,7 @@ namespace BookstoreWebAPI.Models.DTOs
         public string? AdjustmentItemId { get; set; }
 
         [JsonProperty("adjustmentTicketId")]
-        public string? AdjustmentTicketId { get; set; }
+        public string AdjustmentTicketId { get; set; }
 
         [JsonProperty("staffId")]
         public string StaffId { get; set; }
@@ -33,7 +33,7 @@ namespace BookstoreWebAPI.Models.DTOs
         public string? Note { get; set; }
 
         [JsonProperty("tags")]
-        public List<object>? Tags { get; set; }
+        public List<string>? Tags { get; set; }
         
         [JsonProperty("createdAt")]
         public DateTime? CreatedAt { get; set; }

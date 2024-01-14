@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace BookstoreWebAPI.Models.Documents
 {
-    public class AdjustmentItemDocument : IBaseCosmosDocument
+    public class AdjustmentItemDocument : IBaseCosmosDocument, ISoftDeleteCosmosDocument
     {
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -41,8 +41,14 @@ namespace BookstoreWebAPI.Models.Documents
         [JsonProperty("note")]
         public string? Note { get; set; }
 
+        [JsonProperty("isDeleted")]
+        public bool IsDeleted { get; set; }
+
+        [JsonProperty("isRemovable")]
+        public bool IsRemovable { get; set; }
+
         [JsonProperty("tags")]
-        public List<object> Tags { get; set; }
+        public List<string> Tags { get; set; }
 
         [JsonProperty("ttl")]
         public int TTL { get; set; }

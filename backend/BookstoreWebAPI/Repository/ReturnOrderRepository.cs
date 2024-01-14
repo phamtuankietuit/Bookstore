@@ -63,14 +63,14 @@ namespace BookstoreWebAPI.Repository
 
             if (filter.Query == null)
             {
-                var queryDef = CosmosDbUtils.BuildQuery(queryParams, filter);
+                var queryDef = CosmosDbUtils.BuildQuery(queryParams, filter, isRemovableDocument: false);
                 returnOrderDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<ReturnOrderDocument>(_returnOrderContainer, queryDef);
                 TotalCount = returnOrderDocs == null ? 0 : returnOrderDocs.Count();
 
                 if (queryParams.PageSize != -1)
                 {
                     queryParams.PageSize = -1;
-                    var queryDefGetAll = CosmosDbUtils.BuildQuery(queryParams, filter);
+                    var queryDefGetAll = CosmosDbUtils.BuildQuery(queryParams, filter, isRemovableDocument: false);
                     var allReturnOrderDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<ReturnOrderDocument>(_returnOrderContainer, queryDefGetAll);
                     TotalCount = allReturnOrderDocs == null ? 0 : allReturnOrderDocs.Count();
                 }

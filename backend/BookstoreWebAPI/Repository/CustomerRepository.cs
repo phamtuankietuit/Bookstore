@@ -109,7 +109,7 @@ namespace BookstoreWebAPI.Repository
                 await _activityLogRepository.LogActivity(
                     Enums.ActivityType.create,
                     _userContextService.Current.StaffId,
-                    "Sản phẩm",
+                    "Khách hàng",
                     customerDoc.CustomerId
                 );
 
@@ -138,7 +138,7 @@ namespace BookstoreWebAPI.Repository
             await _activityLogRepository.LogActivity(
                 Enums.ActivityType.update,
                 _userContextService.Current.StaffId,
-                "Sản phẩm",
+                "Khách hàng",
                 customerToUpdate.CustomerId
             );
 
@@ -228,7 +228,7 @@ namespace BookstoreWebAPI.Repository
             await _activityLogRepository.LogActivity(
                 Enums.ActivityType.delete,
                 _userContextService.Current.StaffId,
-                "Sản phẩm",
+                "Khách hàng",
                 customerDoc.CustomerId
             );
         }

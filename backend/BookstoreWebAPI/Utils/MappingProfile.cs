@@ -144,6 +144,17 @@ namespace BookstoreWebAPI.Utils
 
             CreateMap<SalesOrderItem, ReturnOrderItem>()
                 .ForMember(dest => dest.SoldQuantity, act => act.MapFrom(src => src.Quantity));
+
+
+            CreateMap<AdjustmentItemDocument, AdjustmentItemDTO>();
+            CreateMap<AdjustmentItemDTO, AdjustmentItemDocument>()
+                .ForMember(dest => dest.Id, act => act.MapFrom(src => src.AdjustmentItemId))
+                .ForMember(dest => dest.TTL, act => act.MapFrom(src => -1));
+
+            CreateMap<AdjustmentTicketDocument, AdjustmentTicketDTO>();
+            CreateMap<AdjustmentTicketDTO, AdjustmentTicketDocument>()
+                .ForMember(dest => dest.Id, act => act.MapFrom(src => src.AdjustmentTicketId))
+                .ForMember(dest => dest.TTL, act => act.MapFrom(src => -1));
         }
     }
 }

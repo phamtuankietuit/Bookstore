@@ -98,7 +98,7 @@ namespace BookstoreWebAPI.Repository
             var queryDef = new QueryDefinition(
                 " SELECT * " +
                 " FROM c " +
-                " WHERE STRINGEQUALS(c.contact.email, @email, true)"
+                " WHERE STRINGEQUALS(c.contact.email, @email, true) AND c.isDeleted = false"
             ).WithParameter("@email", data.Email);
 
             var staffDoc = await CosmosDbUtils.GetDocumentByQueryDefinition<StaffDocument>(_staffContainer, queryDef)

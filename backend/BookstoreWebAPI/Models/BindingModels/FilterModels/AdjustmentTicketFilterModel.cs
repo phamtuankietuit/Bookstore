@@ -8,6 +8,5 @@ namespace BookstoreWebAPI.Models.BindingModels.FilterModels
         [ModelBinder(BinderType = typeof(CommaDelimitedArrayModelBinder<string>))]
         public IEnumerable<string>? Statuses { get; set; }
 
-
     }
 }

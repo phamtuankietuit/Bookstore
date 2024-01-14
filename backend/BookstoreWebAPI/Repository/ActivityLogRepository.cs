@@ -63,15 +63,35 @@ namespace BookstoreWebAPI.Repository
             QueryParameters queryParams,
             ActivityLogFilterModel filter)
         {
-            filter.Query ??= "*";
-            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
-            var searchResult = await _searchService.SearchAsync<ActivityLogDocument>(filter.Query, options);
-            TotalCount = searchResult.TotalCount;
-            var activityLogDocs = searchResult.Results;
+            IEnumerable<ActivityLogDocument?> activityLogDocs = [];
+
+            if (filter.Query == null)
+            {
+                var queryDef = CosmosDbUtils.BuildQuery(queryParams, filter);
+                activityLogDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<ActivityLogDocument>(_logContainer, queryDef);
+                TotalCount = activityLogDocs == null ? 0 : activityLogDocs.Count();
+
+                if (queryParams.PageSize != -1)
+                {
+                    queryParams.PageSize = -1;
+                    var queryDefGetAll = CosmosDbUtils.BuildQuery(queryParams, filter);
+                    var allActivityLogDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<ActivityLogDocument>(_logContainer, queryDefGetAll);
+                    TotalCount = allActivityLogDocs == null ? 0 : allActivityLogDocs.Count();
+                }
+            }
+            else
+            {
+                var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+                var searchResult = await _searchService.SearchAsync<ActivityLogDocument>(filter.Query, options);
+                TotalCount = searchResult.TotalCount;
+                activityLogDocs = searchResult.Results;
+            }
+
+
             var activityLogDTOs = activityLogDocs.Select(activityLogDoc =>
             {
                 return _mapper.Map<ActivityLogDTO>(activityLogDoc);
-            }).ToList();
+            });
 
             return activityLogDTOs;
         }

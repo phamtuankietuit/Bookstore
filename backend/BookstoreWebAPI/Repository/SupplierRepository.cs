@@ -55,15 +55,31 @@ namespace BookstoreWebAPI.Repository
 
         public async Task<IEnumerable<SupplierDTO>> GetSupplierDTOsAsync(QueryParameters queryParams, SupplierFilterModel filter)
         {
-            filter.Query ??= "*";
+            IEnumerable<SupplierDocument> supplierDocs = [];
 
-            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+            if (filter.Query == null)
+            {
+                var queryDef = CosmosDbUtils.BuildQuery(queryParams, filter);
+                supplierDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<SupplierDocument>(_supplierContainer, queryDef);
+                TotalCount = supplierDocs == null ? 0 : supplierDocs.Count();
 
-            var searchResult = await _searchService.SearchAsync<SupplierDocument>(filter.Query, options);
-            
-            TotalCount = searchResult.TotalCount;
-            
-            var supplierDTOs = searchResult.Results.Select(supplierDoc =>
+                if (queryParams.PageSize != -1)
+                {
+                    queryParams.PageSize = -1;
+                    var queryDefGetAll = CosmosDbUtils.BuildQuery(queryParams, filter);
+                    var allSupplierDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<SupplierDocument>(_supplierContainer, queryDefGetAll);
+                    TotalCount = allSupplierDocs == null ? 0 : allSupplierDocs.Count();
+                }
+            }
+            else
+            {
+                var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+                var searchResult = await _searchService.SearchAsync<SupplierDocument>(filter.Query, options);
+                TotalCount = searchResult.TotalCount;
+                supplierDocs = searchResult.Results;
+            }
+
+            var supplierDTOs = supplierDocs.Select(supplierDoc =>
             {
                 return _mapper.Map<SupplierDTO>(supplierDoc);
             }).ToList();
@@ -224,6 +240,7 @@ namespace BookstoreWebAPI.Repository
 
         private async Task DeleteSupplier(SupplierDocument supplierDoc, string id)
         {
+            supplierDoc.IsDeleted = true;
             List<PatchOperation> patchOperations = new()
             {
                 PatchOperation.Replace("/isDeleted", true)

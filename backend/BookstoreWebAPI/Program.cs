@@ -117,6 +117,7 @@ builder.Services.AddTransient<ISupplierGroupRepository, SupplierGroupRepository>
 builder.Services.AddTransient<IStaffRepository, StaffRepository>();
 builder.Services.AddTransient<IAccountRepository, AccountRepository>();
 builder.Services.AddTransient<IActivityLogRepository, ActivityLogRepository>();
+builder.Services.AddTransient<IAdjustmentTicketRepository, AdjustmentTicketRepository>();
 builder.Services.AddTransient<ILocationRepository, LocationRepository>();
 
 
@@ -247,7 +248,9 @@ async Task<bool> EnsureContainersAreCreatedAsync(Database database)
         ("promotions", "/promotionId"),
         ("customers","/customerId"),
         ("staffs", "/staffId"),
-        ("activityLogs","/staffId")
+        ("activityLogs","/staffId"),
+        ("adjustmentTickets","/adjustmentTicketId"),
+        ("adjustmentItems","/adjustmentTicketId")
     };
 
     foreach (var (containerName, partitionKeyPath) in containersToCreate)

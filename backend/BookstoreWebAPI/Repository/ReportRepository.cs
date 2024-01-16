@@ -134,10 +134,10 @@ namespace BookstoreWebAPI.Repository
             var topProducts = orders
                 // Flatten the items
                 .SelectMany(order => order.Items)
-                // Group by product id
+                // Group by product name
                 .GroupBy(item => item.ProductId)
-                // Select product id and total quantity
-                .Select(group => new { ProductId = group.Key, Quantity = group.Sum(item => item.Quantity) })
+                // Select product name and total quantity
+                .Select(group => new { ProductName = group.Select(item => item.Name).First(), Quantity = group.Sum(item => item.Quantity) })
                 // Order by quantity descending
                 .OrderByDescending(product => product.Quantity)
                 // Take top 10
@@ -145,10 +145,10 @@ namespace BookstoreWebAPI.Repository
                 // To list
                 .ToList();
 
-            var products = topProducts.Select(p => p.ProductId).ToList();
+            var productNames = topProducts.Select(p => p.ProductName).ToList();
             var quantities = topProducts.Select(p => p.Quantity).ToList();
 
-            return new { products, quantities };
+            return new { productNames, quantities };
         }
 
         private List<Tuple<DateTime, DateTime>> GenerateDateRange(DateTime startDate, DateTime endDate, string groupBy)

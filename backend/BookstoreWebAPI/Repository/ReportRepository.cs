@@ -145,8 +145,10 @@ namespace BookstoreWebAPI.Repository
                 // To list
                 .ToList();
 
+            var products = topProducts.Select(p => p.ProductId).ToList();
+            var quantities = topProducts.Select(p => p.Quantity).ToList();
 
-            return topProducts;
+            return new { products, quantities };
         }
 
         private List<Tuple<DateTime, DateTime>> GenerateDateRange(DateTime startDate, DateTime endDate, string groupBy)
@@ -155,22 +157,26 @@ namespace BookstoreWebAPI.Repository
 
             switch (groupBy.ToLower())
             {
-                case "date":
+                case "day":
                     for (var date = startDate; date <= endDate; date = date.AddDays(1))
                     {
                         dateRange.Add(Tuple.Create(date, date));
                     }
                     break;
                 case "month":
-                    for (var date = startDate; date <= endDate; date = date.AddMonths(1))
+                    for (var date = new DateTime(startDate.Year, startDate.Month, 1); date <= endDate; date = date.AddMonths(1))
                     {
-                        dateRange.Add(Tuple.Create(new DateTime(date.Year, date.Month, 1), new DateTime(date.Year, date.Month, DateTime.DaysInMonth(date.Year, date.Month))));
+                        var endOfMonth = new DateTime(date.Year, date.Month, DateTime.DaysInMonth(date.Year, date.Month));
+                        if (endOfMonth > endDate) endOfMonth = endDate;
+                        dateRange.Add(Tuple.Create(date, endOfMonth));
                     }
                     break;
                 case "year":
-                    for (var date = startDate; date <= endDate; date = date.AddYears(1))
+                    for (var date = new DateTime(startDate.Year, 1, 1); date <= endDate; date = date.AddYears(1))
                     {
-                        dateRange.Add(Tuple.Create(new DateTime(date.Year, 1, 1), new DateTime(date.Year, 12, 31)));
+                        var endOfYear = new DateTime(date.Year, 12, 31);
+                        if (endOfYear > endDate) endOfYear = endDate;
+                        dateRange.Add(Tuple.Create(date, endOfYear));
                     }
                     break;
             }

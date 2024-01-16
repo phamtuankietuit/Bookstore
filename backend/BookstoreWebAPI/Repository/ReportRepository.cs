@@ -21,7 +21,7 @@ namespace BookstoreWebAPI.Repository
 
         public async Task<dynamic> GetTodayOrderReport()
         {
-            var today = DateTime.Now;
+            var today = DateTime.Today;
             var yesterday = today.AddDays(-1);
 
             var todayOrders = await GetOrders(today, today);
@@ -30,8 +30,8 @@ namespace BookstoreWebAPI.Repository
             var todayRevenue = todayOrders.Sum(order => order.TotalAmount);
             var yesterdayRevenue = yesterdayOrders.Sum(order => order.TotalAmount);
 
-            var todayInvest = await GetInvest(today, today);
-            var yesterdayInvest = await GetInvest(yesterday, yesterday);
+            var todayInvest = await GetInvest(todayOrders);
+            var yesterdayInvest = await GetInvest(yesterdayOrders);
 
             var todayProfit = todayRevenue - todayInvest;
             var yesterdayProfit = yesterdayRevenue - yesterdayInvest;
@@ -68,7 +68,7 @@ namespace BookstoreWebAPI.Repository
             {
                 var orders = await GetOrders(date.Item1, date.Item2);
                 var revenue = orders.Sum(order => order.TotalAmount);
-                var invest = await GetInvest(date.Item1, date.Item2);
+                var invest = await GetInvest(orders);
                 var profit = revenue - invest;
 
                 dates.Add(date.Item1.ToString(groupBy == "year" ? "yyyy" : groupBy == "month" ? "MM/yyyy": "dd/MM/yyyy"));
@@ -183,7 +183,7 @@ namespace BookstoreWebAPI.Repository
             QueryParameters queryParameters = new QueryParameters()
             {
                 PageNumber = 1,
-                PageSize = 1
+                PageSize = -1
             };
 
             SalesOrderFilterModel filter = new()
@@ -195,29 +195,11 @@ namespace BookstoreWebAPI.Repository
             return (await salesOrderRepository.GetSalesOrderDTOsAsync(queryParameters, filter)).ToList();
         }
 
-        private async Task<double> GetInvest(DateTime startDate, DateTime endDate)
+        private async Task<double> GetInvest(IEnumerable<SalesOrderDTO> salesOrderDTOs)
         {
-            QueryParameters queryParameters = new QueryParameters()
-            {
-                PageNumber = 1,
-                PageSize = 1
-            };
+            var todayPurchase = salesOrderDTOs.Sum(doc => doc.Items.Sum(item => item.PurchasePrice));            
 
-            ReturnOrderFilterModel filterReturn = new()
-            {
-                StartDate = startDate,
-                EndDate = endDate,
-            };
-            PurchaseOrderFilterModel filterPurchase = new()
-            {
-                StartDate = startDate,
-                EndDate = endDate,
-            };
-
-            var todayReturn = await returnOrderRepository.GetReturnOrderDTOsAsync(queryParameters, filterReturn);
-            var todayPurchase = await purchaseOrderRepository.GetPurchaseOrderDTOsAsync(queryParameters, filterPurchase);
-
-            return todayReturn.Sum(order => order.TotalAmount) + todayPurchase.Sum(order => order.TotalAmount);
+            return todayPurchase;
         }
 
         private double CalculatePercent(double todayValue, double yesterdayValue)

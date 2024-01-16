@@ -57,9 +57,10 @@ namespace BookstoreWebAPI.Repository
             return adItemDTOs;
         }
 
-        public async Task<AdjustmentItemDTO?> AddAdjustmentItemDTOAsync(AdjustmentItemDTO adjustmentItemDTO)
+        public async Task<AdjustmentItemDTO?> AddAdjustmentItemDTOAsync(AdjustmentItemDTO adjustmentItemDTO, string ticketId)
         {
             var adjustmentItemDoc = _mapper.Map<AdjustmentItemDocument>(adjustmentItemDTO);
+            adjustmentItemDoc.AdjustmentTicketId = ticketId;
             await PopulateDataToNewAdjustmentItemDocument(adjustmentItemDoc);
 
             var createdDocument = await AddAdjustmentItemDocumentAsync(adjustmentItemDoc);
@@ -105,7 +106,7 @@ namespace BookstoreWebAPI.Repository
             {
                 if (!adjustmentItemIdsFromDTO.Contains(item.AdjustmentItemId))
                 {
-                    await AddAdjustmentItemDTOAsync(item);
+                    await AddAdjustmentItemDTOAsync(item, item.AdjustmentTicketId);
                 }
             }
         }
@@ -125,7 +126,7 @@ namespace BookstoreWebAPI.Repository
                 PatchOperation.Replace("/isDeleted", true)
             ];
 
-            await _adjustmentItemContainer.PatchItemAsync<AdjustmentItemDocument>(adjustmentItemDoc.Id, new PartitionKey(adjustmentItemDoc.AdjustmentItemId), patchOperations);
+            await _adjustmentItemContainer.PatchItemAsync<AdjustmentItemDocument>(adjustmentItemDoc.Id, new PartitionKey(adjustmentItemDoc.AdjustmentTicketId), patchOperations);
 
             // change feed to update the ticket
         }
@@ -162,7 +163,7 @@ namespace BookstoreWebAPI.Repository
 
             return await _adjustmentItemContainer.UpsertItemAsync(
                 item: item,
-                partitionKey: new PartitionKey(item.AdjustmentItemId)
+                partitionKey: new PartitionKey(item.AdjustmentTicketId)
             );
         }
 

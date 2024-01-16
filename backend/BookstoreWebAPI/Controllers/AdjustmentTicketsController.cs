@@ -73,7 +73,7 @@ namespace BookstoreWebAPI.Controllers
 
                 foreach (var item in items)
                 {
-                    var createdItem = await adjustmentItemRepository.AddAdjustmentItemDTOAsync(item);
+                    var createdItem = await adjustmentItemRepository.AddAdjustmentItemDTOAsync(item, createdTicket.AdjustmentTicketId);
                     createdItems.Add(createdItem);
                 }
 

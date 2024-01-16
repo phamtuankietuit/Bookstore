@@ -133,6 +133,11 @@ namespace BookstoreWebAPI.Repository
 
         public async Task UpdateCategoryDTOAsync(CategoryDTO item)
         {
+            if (await NameExistsInContainer(StringUtils.RemoveAccentsAndHyphenize(item.Text)))
+            {
+                throw new DuplicateDocumentException($"The category {item.Text} has already been created. Please choose a different name.");
+            }
+
             var categoryToUpdate = _mapper.Map<CategoryDocument>(item);
             categoryToUpdate.Name = StringUtils.RemoveAccentsAndHyphenize(item.Text);
             categoryToUpdate.ModifiedAt = DateTime.UtcNow;

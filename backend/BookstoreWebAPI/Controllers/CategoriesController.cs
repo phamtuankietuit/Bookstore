@@ -114,6 +114,10 @@ namespace BookstoreWebAPI.Controllers
 
                 return NoContent();
             }
+            catch (DuplicateDocumentException ex)
+            {
+                return Conflict(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(

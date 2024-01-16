@@ -8,70 +8,77 @@
 		"returnDate": "2021-02-18T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00018",
-		"customerName": "Trần Văn Khiêm",
+		"customerName": "Tr\u1ea7n V\u0103n Khi\u00eam",
 		"items": [
 			{
 				"productId": "prod00093",
 				"sku": "prod00093",
-				"name": "Hộp 16 Trái Châu Trang Trí Giáng Sinh - 6ADKLE16 - Màu Vàng Gold",
+				"name": "H\u1ed9p 16 Tr\u00e1i Ch\u00e2u Trang Tr\u00ed Gi\u00e1ng Sinh - 6ADKLE16 - M\u00e0u V\u00e0ng Gold",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/1/8/1880000979228.jpg",
 				"quantity": 3,
 				"salePrice": 113000,
-				"totalPrice": 339000
+				"totalPrice": 339000,
+				"purchasePrice": 79100
 			},
 			{
 				"productId": "prod00082",
 				"sku": "prod00082",
-				"name": "Bộ Tranh Tương Tác Cô Tiên Xanh - Tiệm Cà Phê Tèo",
+				"name": "B\u1ed9 Tranh T\u01b0\u01a1ng T\u00e1c C\u00f4 Ti\u00ean Xanh - Ti\u1ec7m C\u00e0 Ph\u00ea T\u00e8o",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/9/3900000125468-dd.jpg",
 				"quantity": 4,
 				"salePrice": 36000,
-				"totalPrice": 144000
+				"totalPrice": 144000,
+				"purchasePrice": 28440
 			},
 			{
 				"productId": "prod00062",
 				"sku": "prod00062",
-				"name": "Lịch Bàn Thị Trấn Mèo 2024",
+				"name": "L\u1ecbch B\u00e0n Th\u1ecb Tr\u1ea5n M\u00e8o 2024",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935352601228.jpg",
 				"quantity": 2,
 				"salePrice": 60000,
-				"totalPrice": 120000
+				"totalPrice": 120000,
+				"purchasePrice": 57000
 			},
 			{
 				"productId": "prod00015",
 				"sku": "prod00015",
-				"name": "Bảng Tuần Hoàn Các Nguyên Tố Hóa Học Theo Chương Trình Giáo Dục Phổ Thông Mới",
+				"name": "B\u1ea3ng Tu\u1ea7n Ho\u00e0n C\u00e1c Nguy\u00ean T\u1ed1 H\u00f3a H\u1ecdc Theo Ch\u01b0\u01a1ng Tr\u00ecnh Gi\u00e1o D\u1ee5c Ph\u1ed5 Th\u00f4ng M\u1edbi",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936036316346.jpg",
 				"quantity": 3,
 				"salePrice": 10000,
-				"totalPrice": 30000
+				"totalPrice": 30000,
+				"purchasePrice": 8500
 			},
 			{
 				"productId": "prod00074",
 				"sku": "prod00074",
-				"name": "Băng Keo 2 Mặt 5 Ly Hiệp Phát - Màu Trắng",
+				"name": "B\u0103ng Keo 2 M\u1eb7t 5 Ly Hi\u1ec7p Ph\u00e1t - M\u00e0u Tr\u1eafng",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_224778.jpg",
 				"quantity": 2,
 				"salePrice": 3000,
-				"totalPrice": 6000
+				"totalPrice": 6000,
+				"purchasePrice": 2400
 			},
 			{
 				"productId": "prod00001",
 				"sku": "prod00001",
-				"name": "Dế Mèn Phiêu Lưu Ký - Tái Bản 2020",
+				"name": "D\u1ebf M\u00e8n Phi\u00eau L\u01b0u K\u00fd - T\u00e1i B\u1ea3n 2020",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/d/e/de-men-50k_1.jpg",
 				"quantity": 5,
 				"salePrice": 50000,
-				"totalPrice": 250000
+				"totalPrice": 250000,
+				"purchasePrice": 42500
 			},
 			{
 				"productId": "prod00069",
 				"sku": "prod00069",
-				"name": "Tẩy Chì Học Sinh Staedtler 526 S40",
+				"name": "T\u1ea9y Ch\u00ec H\u1ecdc Sinh Staedtler 526 S40",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_29212.jpg",
 				"quantity": 4,
 				"salePrice": 5500,
-				"totalPrice": 22000
+				"totalPrice": 22000,
+				"purchasePrice": 4950
 			}
 		],
 		"subtotal": 911000,
@@ -98,7 +105,7 @@
 		"status": "returned",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -110,70 +117,77 @@
 		"returnDate": "2021-04-15T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00009",
-		"customerName": "Phạm Nữ",
+		"customerName": "Ph\u1ea1m N\u1eef",
 		"items": [
 			{
 				"productId": "prod00082",
 				"sku": "prod00082",
-				"name": "Bộ Tranh Tương Tác Cô Tiên Xanh - Tiệm Cà Phê Tèo",
+				"name": "B\u1ed9 Tranh T\u01b0\u01a1ng T\u00e1c C\u00f4 Ti\u00ean Xanh - Ti\u1ec7m C\u00e0 Ph\u00ea T\u00e8o",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/9/3900000125468-dd.jpg",
 				"quantity": 5,
 				"salePrice": 36000,
-				"totalPrice": 180000
+				"totalPrice": 180000,
+				"purchasePrice": 28440
 			},
 			{
 				"productId": "prod00033",
 				"sku": "prod00033",
-				"name": "Hiệp Sĩ Xương Trên Đường Du Hành Đến Thế Giới Khác - Tập 3",
+				"name": "Hi\u1ec7p S\u0129 X\u01b0\u01a1ng Tr\u00ean \u0110\u01b0\u1eddng Du H\u00e0nh \u0110\u1ebfn Th\u1ebf Gi\u1edbi Kh\u00e1c - T\u1eadp 3",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/t/h/th_ng-tin-ph_t-h_nh-s_ch-hi_p-s_-x_ng-3600.jpg",
 				"quantity": 4,
 				"salePrice": 139000,
-				"totalPrice": 556000
+				"totalPrice": 556000,
+				"purchasePrice": 69500
 			},
 			{
 				"productId": "prod00008",
 				"sku": "prod00008",
-				"name": "Sách Giáo Khoa Bộ Lớp 1 - Chân Trời Sáng Tạo - Sách Bài Học (Bộ 9 Cuốn) (2023)",
+				"name": "S\u00e1ch Gi\u00e1o Khoa B\u1ed9 L\u1edbp 1 - Ch\u00e2n Tr\u1eddi S\u00e1ng T\u1ea1o - S\u00e1ch B\u00e0i H\u1ecdc (B\u1ed9 9 Cu\u1ed1n) (2023)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/3/3300000026817.jpg",
 				"quantity": 4,
 				"salePrice": 186000,
-				"totalPrice": 744000
+				"totalPrice": 744000,
+				"purchasePrice": 186000
 			},
 			{
 				"productId": "prod00005",
 				"sku": "prod00005",
-				"name": "Dế Mèn Phiêu Lưu Ký - Đậu Đũa Minh Họa",
+				"name": "D\u1ebf M\u00e8n Phi\u00eau L\u01b0u K\u00fd - \u0110\u1eadu \u0110\u0169a Minh H\u1ecda",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935244848502.jpg",
 				"quantity": 3,
 				"salePrice": 225000,
-				"totalPrice": 675000
+				"totalPrice": 675000,
+				"purchasePrice": 168750
 			},
 			{
 				"productId": "prod00028",
 				"sku": "prod00028",
-				"name": "Có Một Ngày, Bố Mẹ Sẽ Già Đi",
+				"name": "C\u00f3 M\u1ed9t Ng\u00e0y, B\u1ed1 M\u1eb9 S\u1ebd Gi\u00e0 \u0110i",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/c/o/co-mot-ngay-bo-me-se-gia-di.jpg",
 				"quantity": 4,
 				"salePrice": 96000,
-				"totalPrice": 384000
+				"totalPrice": 384000,
+				"purchasePrice": 67200
 			},
 			{
 				"productId": "prod00088",
 				"sku": "prod00088",
-				"name": "Đồ Chơi Siêu Xe Bão Tố Điều Khiển Từ Xa - Vecto VT632/GR - Màu Xanh Lá",
+				"name": "\u0110\u1ed3 Ch\u01a1i Si\u00eau Xe B\u00e3o T\u1ed1 \u0110i\u1ec1u Khi\u1ec3n T\u1eeb Xa - Vecto VT632/GR - M\u00e0u Xanh L\u00e1",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935337500614.jpg",
 				"quantity": 2,
 				"salePrice": 549000,
-				"totalPrice": 1098000
+				"totalPrice": 1098000,
+				"purchasePrice": 439200
 			},
 			{
 				"productId": "prod00014",
 				"sku": "prod00014",
-				"name": "Bảng Cửu Chương - Bảng Chia",
+				"name": "B\u1ea3ng C\u1eedu Ch\u01b0\u01a1ng - B\u1ea3ng Chia",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936036316483.jpg",
 				"quantity": 3,
 				"salePrice": 10000,
-				"totalPrice": 30000
+				"totalPrice": 30000,
+				"purchasePrice": 8500
 			}
 		],
 		"subtotal": 3667000,
@@ -200,7 +214,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -212,16 +226,17 @@
 		"returnDate": "2021-05-03T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00009",
-		"customerName": "Phạm Nữ",
+		"customerName": "Ph\u1ea1m N\u1eef",
 		"items": [
 			{
 				"productId": "prod00053",
 				"sku": "prod00053",
-				"name": "Mindmap English Grammar - Ngữ Pháp Tiếng Anh Bằng Sơ Đồ Tư Duy",
+				"name": "Mindmap English Grammar - Ng\u1eef Ph\u00e1p Ti\u1ebfng Anh B\u1eb1ng S\u01a1 \u0110\u1ed3 T\u01b0 Duy",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935246917176.jpg",
 				"quantity": 2,
 				"salePrice": 190000,
-				"totalPrice": 380000
+				"totalPrice": 380000,
+				"purchasePrice": 127300
 			}
 		],
 		"subtotal": 380000,
@@ -248,7 +263,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -260,25 +275,27 @@
 		"returnDate": "2021-05-08T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00007",
-		"customerName": "Phạm Kiên",
+		"customerName": "Ph\u1ea1m Ki\u00ean",
 		"items": [
 			{
 				"productId": "prod00012",
 				"sku": "prod00012",
-				"name": "Sách Giáo Khoa Bộ Lớp 1 - Cánh Diều - Sách Bài Tập (Bộ 11 Cuốn) (2023)",
+				"name": "S\u00e1ch Gi\u00e1o Khoa B\u1ed9 L\u1edbp 1 - C\u00e1nh Di\u1ec1u - S\u00e1ch B\u00e0i T\u1eadp (B\u1ed9 11 Cu\u1ed1n) (2023)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/3/3300000015880-1_1_1.jpg",
 				"quantity": 2,
 				"salePrice": 134000,
-				"totalPrice": 268000
+				"totalPrice": 268000,
+				"purchasePrice": 134000
 			},
 			{
 				"productId": "prod00079",
 				"sku": "prod00079",
-				"name": "Đồ Chơi Mô Hình MINIFORCE - Robot Hộ Thần Tam Long Hợp Thể Trioh V - 503020",
+				"name": "\u0110\u1ed3 Ch\u01a1i M\u00f4 H\u00ecnh MINIFORCE - Robot H\u1ed9 Th\u1ea7n Tam Long H\u1ee3p Th\u1ec3 Trioh V - 503020",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/8/8809758733435.jpg",
 				"quantity": 2,
 				"salePrice": 349000,
-				"totalPrice": 698000
+				"totalPrice": 698000,
+				"purchasePrice": 296650
 			}
 		],
 		"subtotal": 966000,
@@ -305,7 +322,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -317,43 +334,47 @@
 		"returnDate": "2021-06-07T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00018",
-		"customerName": "Trần Văn Khiêm",
+		"customerName": "Tr\u1ea7n V\u0103n Khi\u00eam",
 		"items": [
 			{
 				"productId": "prod00054",
 				"sku": "prod00054",
-				"name": "25 Chuyên Đề Ngữ Pháp Tiếng Anh Trọng Tâm - Tập 1",
+				"name": "25 Chuy\u00ean \u0110\u1ec1 Ng\u1eef Ph\u00e1p Ti\u1ebfng Anh Tr\u1ecdng T\u00e2m - T\u1eadp 1",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_188186.jpg",
 				"quantity": 2,
 				"salePrice": 110000,
-				"totalPrice": 220000
+				"totalPrice": 220000,
+				"purchasePrice": 73700
 			},
 			{
 				"productId": "prod00011",
 				"sku": "prod00011",
-				"name": "Sách Giáo Khoa Bộ Lớp 1 - Cánh Diều - Sách Bài Học (Bộ 9 Cuốn) (2023)",
+				"name": "S\u00e1ch Gi\u00e1o Khoa B\u1ed9 L\u1edbp 1 - C\u00e1nh Di\u1ec1u - S\u00e1ch B\u00e0i H\u1ecdc (B\u1ed9 9 Cu\u1ed1n) (2023)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/3/3300000015873-1_1.jpg",
 				"quantity": 3,
 				"salePrice": 199000,
-				"totalPrice": 597000
+				"totalPrice": 597000,
+				"purchasePrice": 199000
 			},
 			{
 				"productId": "prod00083",
 				"sku": "prod00083",
-				"name": "Đồ Chơi Trống Bi Bô Nốt Nhạc Xanh DK81045",
+				"name": "\u0110\u1ed3 Ch\u01a1i Tr\u1ed1ng Bi B\u00f4 N\u1ed1t Nh\u1ea1c Xanh DK81045",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_236964.jpg",
 				"quantity": 4,
 				"salePrice": 120000,
-				"totalPrice": 480000
+				"totalPrice": 480000,
+				"purchasePrice": 66000
 			},
 			{
 				"productId": "prod00013",
 				"sku": "prod00013",
-				"name": "Bảng Hệ Thống Tuần Hoàn Các Nguyên Tố Hóa Học",
+				"name": "B\u1ea3ng H\u1ec7 Th\u1ed1ng Tu\u1ea7n Ho\u00e0n C\u00e1c Nguy\u00ean T\u1ed1 H\u00f3a H\u1ecdc",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_199427.jpg",
 				"quantity": 4,
 				"salePrice": 10000,
-				"totalPrice": 40000
+				"totalPrice": 40000,
+				"purchasePrice": 8500
 			}
 		],
 		"subtotal": 1337000,
@@ -380,7 +401,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -392,25 +413,27 @@
 		"returnDate": "2021-07-04T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00025",
-		"customerName": "Đặng Nguyễn Nam",
+		"customerName": "\u0110\u1eb7ng Nguy\u1ec5n Nam",
 		"items": [
 			{
 				"productId": "prod00010",
 				"sku": "prod00010",
-				"name": "Sách Giáo Khoa Bộ Lớp 1 - Kết Nối - Sách Bài Học (Bộ 10 Cuốn) (2023) + Bao Sách TP",
+				"name": "S\u00e1ch Gi\u00e1o Khoa B\u1ed9 L\u1edbp 1 - K\u1ebft N\u1ed1i - S\u00e1ch B\u00e0i H\u1ecdc (B\u1ed9 10 Cu\u1ed1n) (2023) + Bao S\u00e1ch TP",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/c/o/combo-3300000026794-1901011620920.jpg",
 				"quantity": 1,
 				"salePrice": 197000,
-				"totalPrice": 197000
+				"totalPrice": 197000,
+				"purchasePrice": 189120
 			},
 			{
 				"productId": "prod00071",
 				"sku": "prod00071",
-				"name": "Chuốt Bút Chì Masterart Cỡ 5 (Mẫu Màu Giao Ngẫu Nhiên)",
+				"name": "Chu\u1ed1t B\u00fat Ch\u00ec Masterart C\u1ee1 5 (M\u1eabu M\u00e0u Giao Ng\u1eabu Nhi\u00ean)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_242253.jpg",
 				"quantity": 2,
 				"salePrice": 3500,
-				"totalPrice": 7000
+				"totalPrice": 7000,
+				"purchasePrice": 3150
 			}
 		],
 		"subtotal": 204000,
@@ -437,7 +460,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -449,25 +472,27 @@
 		"returnDate": "2021-07-19T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00025",
-		"customerName": "Đặng Nguyễn Nam",
+		"customerName": "\u0110\u1eb7ng Nguy\u1ec5n Nam",
 		"items": [
 			{
 				"productId": "prod00068",
 				"sku": "prod00068",
-				"name": "Bút Bi 0.7 mm Thiên Long TL-047 - Mực Xanh",
+				"name": "B\u00fat Bi 0.7 mm Thi\u00ean Long TL-047 - M\u1ef1c Xanh",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001802921_1.jpg",
 				"quantity": 4,
 				"salePrice": 10500,
-				"totalPrice": 42000
+				"totalPrice": 42000,
+				"purchasePrice": 8190
 			},
 			{
 				"productId": "prod00086",
 				"sku": "prod00086",
-				"name": "Đồ Chơi Giáo Dục STEM Lắp Ráp Robot Chạy Bằng Năng Lượng Mặt Trời - Green Enegy 9501",
+				"name": "\u0110\u1ed3 Ch\u01a1i Gi\u00e1o D\u1ee5c STEM L\u1eafp R\u00e1p Robot Ch\u1ea1y B\u1eb1ng N\u0103ng L\u01b0\u1ee3ng M\u1eb7t Tr\u1eddi - Green Enegy 9501",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936190511526.jpg",
 				"quantity": 2,
 				"salePrice": 229000,
-				"totalPrice": 458000
+				"totalPrice": 458000,
+				"purchasePrice": 194650
 			}
 		],
 		"subtotal": 500000,
@@ -494,7 +519,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -506,70 +531,77 @@
 		"returnDate": "2021-08-03T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00007",
-		"customerName": "Phạm Kiên",
+		"customerName": "Ph\u1ea1m Ki\u00ean",
 		"items": [
 			{
 				"productId": "prod00058",
 				"sku": "prod00058",
-				"name": "Máy Tính Casio FX 580 VN X",
+				"name": "M\u00e1y T\u00ednh Casio FX 580 VN X",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_8906.jpg",
 				"quantity": 3,
 				"salePrice": 757000,
-				"totalPrice": 2271000
+				"totalPrice": 2271000,
+				"purchasePrice": 681300
 			},
 			{
 				"productId": "prod00084",
 				"sku": "prod00084",
-				"name": "Cờ Vua Nam Châm Bàn Trung",
+				"name": "C\u1edd Vua Nam Ch\u00e2m B\u00e0n Trung",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936056057380.jpg",
 				"quantity": 1,
 				"salePrice": 239000,
-				"totalPrice": 239000
+				"totalPrice": 239000,
+				"purchasePrice": 191200
 			},
 			{
 				"productId": "prod00080",
 				"sku": "prod00080",
-				"name": "Bộ Xoay Nam Châm",
+				"name": "B\u1ed9 Xoay Nam Ch\u00e2m",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8938500905674-_8_.jpg",
 				"quantity": 3,
 				"salePrice": 38500,
-				"totalPrice": 115500
+				"totalPrice": 115500,
+				"purchasePrice": 28875
 			},
 			{
 				"productId": "prod00069",
 				"sku": "prod00069",
-				"name": "Tẩy Chì Học Sinh Staedtler 526 S40",
+				"name": "T\u1ea9y Ch\u00ec H\u1ecdc Sinh Staedtler 526 S40",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_29212.jpg",
 				"quantity": 5,
 				"salePrice": 5500,
-				"totalPrice": 27500
+				"totalPrice": 27500,
+				"purchasePrice": 4950
 			},
 			{
 				"productId": "prod00092",
 				"sku": "prod00092",
-				"name": "Bộ Phụ Kiện Trang Trí Noel - Bu Bu BB055 - Mẫu 2",
+				"name": "B\u1ed9 Ph\u1ee5 Ki\u1ec7n Trang Tr\u00ed Noel - Bu Bu BB055 - M\u1eabu 2",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/9/3900000173889-mau2.jpg",
 				"quantity": 4,
 				"salePrice": 112000,
-				"totalPrice": 448000
+				"totalPrice": 448000,
+				"purchasePrice": 76160
 			},
 			{
 				"productId": "prod00022",
 				"sku": "prod00022",
-				"name": "Người Bà Tài Giỏi Vùng Saga",
+				"name": "Ng\u01b0\u1eddi B\u00e0 T\u00e0i Gi\u1ecfi V\u00f9ng Saga",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_231202.jpg",
 				"quantity": 3,
 				"salePrice": 128000,
-				"totalPrice": 384000
+				"totalPrice": 384000,
+				"purchasePrice": 85760
 			},
 			{
 				"productId": "prod00054",
 				"sku": "prod00054",
-				"name": "25 Chuyên Đề Ngữ Pháp Tiếng Anh Trọng Tâm - Tập 1",
+				"name": "25 Chuy\u00ean \u0110\u1ec1 Ng\u1eef Ph\u00e1p Ti\u1ebfng Anh Tr\u1ecdng T\u00e2m - T\u1eadp 1",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_188186.jpg",
 				"quantity": 3,
 				"salePrice": 110000,
-				"totalPrice": 330000
+				"totalPrice": 330000,
+				"purchasePrice": 73700
 			}
 		],
 		"subtotal": 3815000,
@@ -596,7 +628,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -608,34 +640,37 @@
 		"returnDate": "2021-08-10T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00012",
-		"customerName": "Hồ Nữ",
+		"customerName": "H\u1ed3 N\u1eef",
 		"items": [
 			{
 				"productId": "prod00026",
 				"sku": "prod00026",
-				"name": "999 Lá Thư Gửi Cho Chính Mình - Những Lá Thư Ấn Tượng Nhất (Phiên Bản Song Ngữ Trung - Việt)",
+				"name": "999 L\u00e1 Th\u01b0 G\u1eedi Cho Ch\u00ednh M\u00ecnh - Nh\u1eefng L\u00e1 Th\u01b0 \u1ea4n T\u01b0\u1ee3ng Nh\u1ea5t (Phi\u00ean B\u1ea3n Song Ng\u1eef Trung - Vi\u1ec7t)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935325010736.jpg",
 				"quantity": 2,
 				"salePrice": 99000,
-				"totalPrice": 198000
+				"totalPrice": 198000,
+				"purchasePrice": 69300
 			},
 			{
 				"productId": "prod00065",
 				"sku": "prod00065",
-				"name": "Tập Học Sinh Wolfoo Và Những Người Bạn - 4 Ô Ly 96 Trang 70gsm - Fahasa 03 (Mẫu Bìa Giao Ngẫu Nhiên)",
+				"name": "T\u1eadp H\u1ecdc Sinh Wolfoo V\u00e0 Nh\u1eefng Ng\u01b0\u1eddi B\u1ea1n - 4 \u00d4 Ly 96 Trang 70gsm - Fahasa 03 (M\u1eabu B\u00eca Giao Ng\u1eabu Nhi\u00ean)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8934986009172_5.jpg",
 				"quantity": 3,
 				"salePrice": 9500,
-				"totalPrice": 28500
+				"totalPrice": 28500,
+				"purchasePrice": 9025
 			},
 			{
 				"productId": "prod00083",
 				"sku": "prod00083",
-				"name": "Đồ Chơi Trống Bi Bô Nốt Nhạc Xanh DK81045",
+				"name": "\u0110\u1ed3 Ch\u01a1i Tr\u1ed1ng Bi B\u00f4 N\u1ed1t Nh\u1ea1c Xanh DK81045",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_236964.jpg",
 				"quantity": 2,
 				"salePrice": 120000,
-				"totalPrice": 240000
+				"totalPrice": 240000,
+				"purchasePrice": 66000
 			}
 		],
 		"subtotal": 466500,
@@ -662,7 +697,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -674,52 +709,57 @@
 		"returnDate": "2021-08-13T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00026",
-		"customerName": "Lê Lan",
+		"customerName": "L\u00ea Lan",
 		"items": [
 			{
 				"productId": "prod00017",
 				"sku": "prod00017",
-				"name": "Chinh Phục Luyện Thi Vào Lớp 10 Môn Ngữ Văn Theo Chủ Đề",
+				"name": "Chinh Ph\u1ee5c Luy\u1ec7n Thi V\u00e0o L\u1edbp 10 M\u00f4n Ng\u1eef V\u0103n Theo Ch\u1ee7 \u0110\u1ec1",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_39486.jpg",
 				"quantity": 1,
 				"salePrice": 159000,
-				"totalPrice": 159000
+				"totalPrice": 159000,
+				"purchasePrice": 127200
 			},
 			{
 				"productId": "prod00010",
 				"sku": "prod00010",
-				"name": "Sách Giáo Khoa Bộ Lớp 1 - Kết Nối - Sách Bài Học (Bộ 10 Cuốn) (2023) + Bao Sách TP",
+				"name": "S\u00e1ch Gi\u00e1o Khoa B\u1ed9 L\u1edbp 1 - K\u1ebft N\u1ed1i - S\u00e1ch B\u00e0i H\u1ecdc (B\u1ed9 10 Cu\u1ed1n) (2023) + Bao S\u00e1ch TP",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/c/o/combo-3300000026794-1901011620920.jpg",
 				"quantity": 2,
 				"salePrice": 197000,
-				"totalPrice": 394000
+				"totalPrice": 394000,
+				"purchasePrice": 189120
 			},
 			{
 				"productId": "prod00060",
 				"sku": "prod00060",
-				"name": "Lịch Treo Tường One Piece 2024 - Tặng Kèm Poster Gắn Bên Trong",
+				"name": "L\u1ecbch Treo T\u01b0\u1eddng One Piece 2024 - T\u1eb7ng K\u00e8m Poster G\u1eafn B\u00ean Trong",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935352601556.jpg",
 				"quantity": 1,
 				"salePrice": 60000,
-				"totalPrice": 60000
+				"totalPrice": 60000,
+				"purchasePrice": 57000
 			},
 			{
 				"productId": "prod00068",
 				"sku": "prod00068",
-				"name": "Bút Bi 0.7 mm Thiên Long TL-047 - Mực Xanh",
+				"name": "B\u00fat Bi 0.7 mm Thi\u00ean Long TL-047 - M\u1ef1c Xanh",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001802921_1.jpg",
 				"quantity": 2,
 				"salePrice": 10500,
-				"totalPrice": 21000
+				"totalPrice": 21000,
+				"purchasePrice": 8190
 			},
 			{
 				"productId": "prod00016",
 				"sku": "prod00016",
-				"name": "Tiếng Anh Lớp 10 - Sách Học Sinh (Global Success) (2022)",
+				"name": "Ti\u1ebfng Anh L\u1edbp 10 - S\u00e1ch H\u1ecdc Sinh (Global Success) (2022)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/9/7/9786040324283_1_1.jpg",
 				"quantity": 5,
 				"salePrice": 73000,
-				"totalPrice": 365000
+				"totalPrice": 365000,
+				"purchasePrice": 73000
 			}
 		],
 		"subtotal": 999000,
@@ -746,7 +786,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -758,52 +798,57 @@
 		"returnDate": "2021-08-30T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00020",
-		"customerName": "Trần Văn Quân",
+		"customerName": "Tr\u1ea7n V\u0103n Qu\u00e2n",
 		"items": [
 			{
 				"productId": "prod00077",
 				"sku": "prod00077",
-				"name": "Bộ Tranh Tương Tác Cô Tiên Xanh - Đi Đu Idol",
+				"name": "B\u1ed9 Tranh T\u01b0\u01a1ng T\u00e1c C\u00f4 Ti\u00ean Xanh - \u0110i \u0110u Idol",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/9/3900000146005_2.jpg",
 				"quantity": 5,
 				"salePrice": 36000,
-				"totalPrice": 180000
+				"totalPrice": 180000,
+				"purchasePrice": 28800
 			},
 			{
 				"productId": "prod00085",
 				"sku": "prod00085",
-				"name": "Đồ Chơi Mô Hình MINIFORCE - Robot Hộ Thần Mãnh Sư Kim Ngưu Leo Bull V - 503019",
+				"name": "\u0110\u1ed3 Ch\u01a1i M\u00f4 H\u00ecnh MINIFORCE - Robot H\u1ed9 Th\u1ea7n M\u00e3nh S\u01b0 Kim Ng\u01b0u Leo Bull V - 503019",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/8/8809758733428.jpg",
 				"quantity": 4,
 				"salePrice": 349000,
-				"totalPrice": 1396000
+				"totalPrice": 1396000,
+				"purchasePrice": 296650
 			},
 			{
 				"productId": "prod00027",
 				"sku": "prod00027",
-				"name": "Trôi - Nguyễn Ngọc Tư",
+				"name": "Tr\u00f4i - Nguy\u1ec5n Ng\u1ecdc T\u01b0",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8934974190554.jpg",
 				"quantity": 5,
 				"salePrice": 95000,
-				"totalPrice": 475000
+				"totalPrice": 475000,
+				"purchasePrice": 71250
 			},
 			{
 				"productId": "prod00010",
 				"sku": "prod00010",
-				"name": "Sách Giáo Khoa Bộ Lớp 1 - Kết Nối - Sách Bài Học (Bộ 10 Cuốn) (2023) + Bao Sách TP",
+				"name": "S\u00e1ch Gi\u00e1o Khoa B\u1ed9 L\u1edbp 1 - K\u1ebft N\u1ed1i - S\u00e1ch B\u00e0i H\u1ecdc (B\u1ed9 10 Cu\u1ed1n) (2023) + Bao S\u00e1ch TP",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/c/o/combo-3300000026794-1901011620920.jpg",
 				"quantity": 2,
 				"salePrice": 197000,
-				"totalPrice": 394000
+				"totalPrice": 394000,
+				"purchasePrice": 189120
 			},
 			{
 				"productId": "prod00022",
 				"sku": "prod00022",
-				"name": "Người Bà Tài Giỏi Vùng Saga",
+				"name": "Ng\u01b0\u1eddi B\u00e0 T\u00e0i Gi\u1ecfi V\u00f9ng Saga",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_231202.jpg",
 				"quantity": 4,
 				"salePrice": 128000,
-				"totalPrice": 512000
+				"totalPrice": 512000,
+				"purchasePrice": 85760
 			}
 		],
 		"subtotal": 2957000,
@@ -830,7 +875,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -842,52 +887,57 @@
 		"returnDate": "2021-09-14T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00013",
-		"customerName": "Đặng Nguyễn Nam",
+		"customerName": "\u0110\u1eb7ng Nguy\u1ec5n Nam",
 		"items": [
 			{
 				"productId": "prod00030",
 				"sku": "prod00030",
-				"name": "Anh Không Bận, Chỉ Là Không Nhớ Em (Tái Bản 2023)",
+				"name": "Anh Kh\u00f4ng B\u1eadn, Ch\u1ec9 L\u00e0 Kh\u00f4ng Nh\u1edb Em (T\u00e1i B\u1ea3n 2023)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/9/7/9786043925593.jpg",
 				"quantity": 4,
 				"salePrice": 89000,
-				"totalPrice": 356000
+				"totalPrice": 356000,
+				"purchasePrice": 75650
 			},
 			{
 				"productId": "prod00075",
 				"sku": "prod00075",
-				"name": "Mực Bút Lông Bảng 25ml - Thiên Long WBI-01 - Mực Xanh",
+				"name": "M\u1ef1c B\u00fat L\u00f4ng B\u1ea3ng 25ml - Thi\u00ean Long WBI-01 - M\u1ef1c Xanh",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001831419.jpg",
 				"quantity": 3,
 				"salePrice": 27000,
-				"totalPrice": 81000
+				"totalPrice": 81000,
+				"purchasePrice": 24300
 			},
 			{
 				"productId": "prod00019",
 				"sku": "prod00019",
-				"name": "Cây Cam Ngọt Của Tôi",
+				"name": "C\u00e2y Cam Ng\u1ecdt C\u1ee7a T\u00f4i",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_217480.jpg",
 				"quantity": 1,
 				"salePrice": 108000,
-				"totalPrice": 108000
+				"totalPrice": 108000,
+				"purchasePrice": 75600
 			},
 			{
 				"productId": "prod00064",
 				"sku": "prod00064",
-				"name": "Máy Tính CASIO FX-880BTG - Màu Đen",
+				"name": "M\u00e1y T\u00ednh CASIO FX-880BTG - M\u00e0u \u0110en",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/4/5/4549526613692.jpg",
 				"quantity": 1,
 				"salePrice": 820000,
-				"totalPrice": 820000
+				"totalPrice": 820000,
+				"purchasePrice": 738000
 			},
 			{
 				"productId": "prod00044",
 				"sku": "prod00044",
-				"name": "Hành Tinh Của Một Kẻ Nghĩ Nhiều",
+				"name": "H\u00e0nh Tinh C\u1ee7a M\u1ed9t K\u1ebb Ngh\u0129 Nhi\u1ec1u",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/h/_/h_nh-tinh-c_a-m_t-k_-ngh_-nhi_u-tr_c-1-1.jpg",
 				"quantity": 1,
 				"salePrice": 86000,
-				"totalPrice": 86000
+				"totalPrice": 86000,
+				"purchasePrice": 60200
 			}
 		],
 		"subtotal": 1451000,
@@ -914,7 +964,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -926,16 +976,17 @@
 		"returnDate": "2021-11-02T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00022",
-		"customerName": "Trịnh Vy",
+		"customerName": "Tr\u1ecbnh Vy",
 		"items": [
 			{
 				"productId": "prod00009",
 				"sku": "prod00009",
-				"name": "Sách Giáo Khoa Bộ Lớp 1 - Chân Trời Sáng Tạo - Sách Bài Tập (Bộ 11 Cuốn) (2023)",
+				"name": "S\u00e1ch Gi\u00e1o Khoa B\u1ed9 L\u1edbp 1 - Ch\u00e2n Tr\u1eddi S\u00e1ng T\u1ea1o - S\u00e1ch B\u00e0i T\u1eadp (B\u1ed9 11 Cu\u1ed1n) (2023)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/3/3300000015903-1_1.jpg",
 				"quantity": 2,
 				"salePrice": 138000,
-				"totalPrice": 276000
+				"totalPrice": 276000,
+				"purchasePrice": 138000
 			}
 		],
 		"subtotal": 276000,
@@ -962,7 +1013,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -974,52 +1025,57 @@
 		"returnDate": "2021-11-09T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00015",
-		"customerName": "Nguyễn Quân",
+		"customerName": "Nguy\u1ec5n Qu\u00e2n",
 		"items": [
 			{
 				"productId": "prod00004",
 				"sku": "prod00004",
-				"name": "Trong Cái Không Có Gì Không?",
+				"name": "Trong C\u00e1i Kh\u00f4ng C\u00f3 G\u00ec Kh\u00f4ng?",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_37410.jpg",
 				"quantity": 4,
 				"salePrice": 160000,
-				"totalPrice": 640000
+				"totalPrice": 640000,
+				"purchasePrice": 128000
 			},
 			{
 				"productId": "prod00054",
 				"sku": "prod00054",
-				"name": "25 Chuyên Đề Ngữ Pháp Tiếng Anh Trọng Tâm - Tập 1",
+				"name": "25 Chuy\u00ean \u0110\u1ec1 Ng\u1eef Ph\u00e1p Ti\u1ebfng Anh Tr\u1ecdng T\u00e2m - T\u1eadp 1",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_188186.jpg",
 				"quantity": 1,
 				"salePrice": 110000,
-				"totalPrice": 110000
+				"totalPrice": 110000,
+				"purchasePrice": 73700
 			},
 			{
 				"productId": "prod00004",
 				"sku": "prod00004",
-				"name": "Trong Cái Không Có Gì Không?",
+				"name": "Trong C\u00e1i Kh\u00f4ng C\u00f3 G\u00ec Kh\u00f4ng?",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_37410.jpg",
 				"quantity": 2,
 				"salePrice": 160000,
-				"totalPrice": 320000
+				"totalPrice": 320000,
+				"purchasePrice": 128000
 			},
 			{
 				"productId": "prod00057",
 				"sku": "prod00057",
-				"name": "Cẩm Nang Cấu Trúc Tiếng Anh",
+				"name": "C\u1ea9m Nang C\u1ea5u Tr\u00fac Ti\u1ebfng Anh",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_187866.jpg",
 				"quantity": 2,
 				"salePrice": 98000,
-				"totalPrice": 196000
+				"totalPrice": 196000,
+				"purchasePrice": 65660
 			},
 			{
 				"productId": "prod00045",
 				"sku": "prod00045",
-				"name": "Giận (Tái Bản 2023)",
+				"name": "Gi\u1eadn (T\u00e1i B\u1ea3n 2023)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8932000133735_1.jpg",
 				"quantity": 4,
 				"salePrice": 135000,
-				"totalPrice": 540000
+				"totalPrice": 540000,
+				"purchasePrice": 94500
 			}
 		],
 		"subtotal": 1806000,
@@ -1046,7 +1102,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -1058,43 +1114,47 @@
 		"returnDate": "2021-11-13T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00017",
-		"customerName": "Trần Văn Nữ",
+		"customerName": "Tr\u1ea7n V\u0103n N\u1eef",
 		"items": [
 			{
 				"productId": "prod00071",
 				"sku": "prod00071",
-				"name": "Chuốt Bút Chì Masterart Cỡ 5 (Mẫu Màu Giao Ngẫu Nhiên)",
+				"name": "Chu\u1ed1t B\u00fat Ch\u00ec Masterart C\u1ee1 5 (M\u1eabu M\u00e0u Giao Ng\u1eabu Nhi\u00ean)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_242253.jpg",
 				"quantity": 3,
 				"salePrice": 3500,
-				"totalPrice": 10500
+				"totalPrice": 10500,
+				"purchasePrice": 3150
 			},
 			{
 				"productId": "prod00041",
 				"sku": "prod00041",
-				"name": "Ghi Chép Của Tôi Người Nhìn Thấy Em Sẽ Biến Mất Vào Ngày Mai",
+				"name": "Ghi Ch\u00e9p C\u1ee7a T\u00f4i Ng\u01b0\u1eddi Nh\u00ecn Th\u1ea5y Em S\u1ebd Bi\u1ebfn M\u1ea5t V\u00e0o Ng\u00e0y Mai",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/t/h/th_ng-tu_t-b_n-ghi-ch_p-c_a-t_ibia1.jpg",
 				"quantity": 4,
 				"salePrice": 133000,
-				"totalPrice": 532000
+				"totalPrice": 532000,
+				"purchasePrice": 113050
 			},
 			{
 				"productId": "prod00068",
 				"sku": "prod00068",
-				"name": "Bút Bi 0.7 mm Thiên Long TL-047 - Mực Xanh",
+				"name": "B\u00fat Bi 0.7 mm Thi\u00ean Long TL-047 - M\u1ef1c Xanh",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001802921_1.jpg",
 				"quantity": 3,
 				"salePrice": 10500,
-				"totalPrice": 31500
+				"totalPrice": 31500,
+				"purchasePrice": 8190
 			},
 			{
 				"productId": "prod00007",
 				"sku": "prod00007",
-				"name": "Bé Học Lễ Giáo - Bubu 12: Đi Lạc (Tái Bản 2022)",
+				"name": "B\u00e9 H\u1ecdc L\u1ec5 Gi\u00e1o - Bubu 12: \u0110i L\u1ea1c (T\u00e1i B\u1ea3n 2022)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8934974179832.jpg",
 				"quantity": 2,
 				"salePrice": 15000,
-				"totalPrice": 30000
+				"totalPrice": 30000,
+				"purchasePrice": 12750
 			}
 		],
 		"subtotal": 604000,
@@ -1121,7 +1181,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -1133,16 +1193,17 @@
 		"returnDate": "2021-12-23T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00010",
-		"customerName": "Nguyễn Văn Lan",
+		"customerName": "Nguy\u1ec5n V\u0103n Lan",
 		"items": [
 			{
 				"productId": "prod00023",
 				"sku": "prod00023",
-				"name": "Thượng Dương",
+				"name": "Th\u01b0\u1ee3ng D\u01b0\u01a1ng",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_216250.jpg",
 				"quantity": 3,
 				"salePrice": 108000,
-				"totalPrice": 324000
+				"totalPrice": 324000,
+				"purchasePrice": 74520
 			}
 		],
 		"subtotal": 324000,
@@ -1169,7 +1230,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -1181,52 +1242,57 @@
 		"returnDate": "2021-12-23T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00024",
-		"customerName": "Trần Văn Anh",
+		"customerName": "Tr\u1ea7n V\u0103n Anh",
 		"items": [
 			{
 				"productId": "prod00040",
 				"sku": "prod00040",
-				"name": "Chỉ Cần Ta Còn Sống",
+				"name": "Ch\u1ec9 C\u1ea7n Ta C\u00f2n S\u1ed1ng",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/x/u/xu_t-b_n-ch_-c_n-ta-c_n-s_ngbia1.jpg",
 				"quantity": 1,
 				"salePrice": 122000,
-				"totalPrice": 122000
+				"totalPrice": 122000,
+				"purchasePrice": 103700
 			},
 			{
 				"productId": "prod00026",
 				"sku": "prod00026",
-				"name": "999 Lá Thư Gửi Cho Chính Mình - Những Lá Thư Ấn Tượng Nhất (Phiên Bản Song Ngữ Trung - Việt)",
+				"name": "999 L\u00e1 Th\u01b0 G\u1eedi Cho Ch\u00ednh M\u00ecnh - Nh\u1eefng L\u00e1 Th\u01b0 \u1ea4n T\u01b0\u1ee3ng Nh\u1ea5t (Phi\u00ean B\u1ea3n Song Ng\u1eef Trung - Vi\u1ec7t)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935325010736.jpg",
 				"quantity": 4,
 				"salePrice": 99000,
-				"totalPrice": 396000
+				"totalPrice": 396000,
+				"purchasePrice": 69300
 			},
 			{
 				"productId": "prod00095",
 				"sku": "prod00095",
-				"name": "Móc Khóa Thú Bông Amuro - Tagger CNGNPL040",
+				"name": "M\u00f3c Kh\u00f3a Thu\u0301 B\u00f4ng Amuro - Tagger CNGNPL040",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936134262040.jpg",
 				"quantity": 4,
 				"salePrice": 115000,
-				"totalPrice": 460000
+				"totalPrice": 460000,
+				"purchasePrice": 103500
 			},
 			{
 				"productId": "prod00066",
 				"sku": "prod00066",
-				"name": "Phấn Vặn Mungyo Đa Năng MBG-12 - Màu Trắng",
+				"name": "Ph\u1ea5n V\u1eb7n Mungyo \u0110a N\u0103ng MBG-12 - M\u00e0u Tr\u1eafng",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_55405_1.jpg",
 				"quantity": 2,
 				"salePrice": 17000,
-				"totalPrice": 34000
+				"totalPrice": 34000,
+				"purchasePrice": 15300
 			},
 			{
 				"productId": "prod00008",
 				"sku": "prod00008",
-				"name": "Sách Giáo Khoa Bộ Lớp 1 - Chân Trời Sáng Tạo - Sách Bài Học (Bộ 9 Cuốn) (2023)",
+				"name": "S\u00e1ch Gi\u00e1o Khoa B\u1ed9 L\u1edbp 1 - Ch\u00e2n Tr\u1eddi S\u00e1ng T\u1ea1o - S\u00e1ch B\u00e0i H\u1ecdc (B\u1ed9 9 Cu\u1ed1n) (2023)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/3/3300000026817.jpg",
 				"quantity": 2,
 				"salePrice": 186000,
-				"totalPrice": 372000
+				"totalPrice": 372000,
+				"purchasePrice": 186000
 			}
 		],
 		"subtotal": 1384000,
@@ -1253,7 +1319,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -1265,34 +1331,37 @@
 		"returnDate": "2022-02-13T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00020",
-		"customerName": "Trần Văn Quân",
+		"customerName": "Tr\u1ea7n V\u0103n Qu\u00e2n",
 		"items": [
 			{
 				"productId": "prod00004",
 				"sku": "prod00004",
-				"name": "Trong Cái Không Có Gì Không?",
+				"name": "Trong C\u00e1i Kh\u00f4ng C\u00f3 G\u00ec Kh\u00f4ng?",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_37410.jpg",
 				"quantity": 4,
 				"salePrice": 160000,
-				"totalPrice": 640000
+				"totalPrice": 640000,
+				"purchasePrice": 128000
 			},
 			{
 				"productId": "prod00067",
 				"sku": "prod00067",
-				"name": "Vỉ 3 Bút Chì Gỗ 2B Thiên Long GP-01 (Mẫu Màu Giao Ngẫu Nhiên)",
+				"name": "V\u1ec9 3 B\u00fat Ch\u00ec G\u1ed7 2B Thi\u00ean Long GP-01 (M\u1eabu M\u00e0u Giao Ng\u1eabu Nhi\u00ean)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001821090_1.jpg",
 				"quantity": 4,
 				"salePrice": 14000,
-				"totalPrice": 56000
+				"totalPrice": 56000,
+				"purchasePrice": 11200
 			},
 			{
 				"productId": "prod00031",
 				"sku": "prod00031",
-				"name": "Mình Ngồi Xuống Kể Tổn Thương Trong Lòng (Tái Bản)",
+				"name": "M\u00ecnh Ng\u1ed3i Xu\u1ed1ng K\u1ec3 T\u1ed5n Th\u01b0\u01a1ng Trong L\u00f2ng (T\u00e1i B\u1ea3n)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/g/t/gt_-m_nh-ng_i-xu_ng-k_-t_n-th_ng-trong-l_ngbia-1_2.jpg",
 				"quantity": 4,
 				"salePrice": 99000,
-				"totalPrice": 396000
+				"totalPrice": 396000,
+				"purchasePrice": 92070
 			}
 		],
 		"subtotal": 1092000,
@@ -1319,7 +1388,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -1331,61 +1400,67 @@
 		"returnDate": "2022-03-06T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00024",
-		"customerName": "Trần Văn Anh",
+		"customerName": "Tr\u1ea7n V\u0103n Anh",
 		"items": [
 			{
 				"productId": "prod00028",
 				"sku": "prod00028",
-				"name": "Có Một Ngày, Bố Mẹ Sẽ Già Đi",
+				"name": "C\u00f3 M\u1ed9t Ng\u00e0y, B\u1ed1 M\u1eb9 S\u1ebd Gi\u00e0 \u0110i",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/c/o/co-mot-ngay-bo-me-se-gia-di.jpg",
 				"quantity": 2,
 				"salePrice": 96000,
-				"totalPrice": 192000
+				"totalPrice": 192000,
+				"purchasePrice": 67200
 			},
 			{
 				"productId": "prod00053",
 				"sku": "prod00053",
-				"name": "Mindmap English Grammar - Ngữ Pháp Tiếng Anh Bằng Sơ Đồ Tư Duy",
+				"name": "Mindmap English Grammar - Ng\u1eef Ph\u00e1p Ti\u1ebfng Anh B\u1eb1ng S\u01a1 \u0110\u1ed3 T\u01b0 Duy",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935246917176.jpg",
 				"quantity": 1,
 				"salePrice": 190000,
-				"totalPrice": 190000
+				"totalPrice": 190000,
+				"purchasePrice": 127300
 			},
 			{
 				"productId": "prod00010",
 				"sku": "prod00010",
-				"name": "Sách Giáo Khoa Bộ Lớp 1 - Kết Nối - Sách Bài Học (Bộ 10 Cuốn) (2023) + Bao Sách TP",
+				"name": "S\u00e1ch Gi\u00e1o Khoa B\u1ed9 L\u1edbp 1 - K\u1ebft N\u1ed1i - S\u00e1ch B\u00e0i H\u1ecdc (B\u1ed9 10 Cu\u1ed1n) (2023) + Bao S\u00e1ch TP",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/c/o/combo-3300000026794-1901011620920.jpg",
 				"quantity": 4,
 				"salePrice": 197000,
-				"totalPrice": 788000
+				"totalPrice": 788000,
+				"purchasePrice": 189120
 			},
 			{
 				"productId": "prod00042",
 				"sku": "prod00042",
-				"name": "Thay Đổi Cuộc Sống Với Nhân Số Học",
+				"name": "Thay \u0110\u1ed5i Cu\u1ed9c S\u1ed1ng V\u1edbi Nh\u00e2n S\u1ed1 H\u1ecdc",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/t/d/tdcsvnsh.jpg",
 				"quantity": 5,
 				"salePrice": 248000,
-				"totalPrice": 1240000
+				"totalPrice": 1240000,
+				"purchasePrice": 173600
 			},
 			{
 				"productId": "prod00035",
 				"sku": "prod00035",
-				"name": "Hiệp Sĩ Xương Trên Đường Du Hành Đến Thế Giới Khác - Tập 5 - Tặng Kèm Bookmark",
+				"name": "Hi\u1ec7p S\u0129 X\u01b0\u01a1ng Tr\u00ean \u0110\u01b0\u1eddng Du H\u00e0nh \u0110\u1ebfn Th\u1ebf Gi\u1edbi Kh\u00e1c - T\u1eadp 5 - T\u1eb7ng K\u00e8m Bookmark",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/0/7/071123-9.jpg",
 				"quantity": 5,
 				"salePrice": 159000,
-				"totalPrice": 795000
+				"totalPrice": 795000,
+				"purchasePrice": 135150
 			},
 			{
 				"productId": "prod00016",
 				"sku": "prod00016",
-				"name": "Tiếng Anh Lớp 10 - Sách Học Sinh (Global Success) (2022)",
+				"name": "Ti\u1ebfng Anh L\u1edbp 10 - S\u00e1ch H\u1ecdc Sinh (Global Success) (2022)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/9/7/9786040324283_1_1.jpg",
 				"quantity": 4,
 				"salePrice": 73000,
-				"totalPrice": 292000
+				"totalPrice": 292000,
+				"purchasePrice": 73000
 			}
 		],
 		"subtotal": 3497000,
@@ -1412,7 +1487,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -1424,52 +1499,57 @@
 		"returnDate": "2022-03-08T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00024",
-		"customerName": "Trần Văn Anh",
+		"customerName": "Tr\u1ea7n V\u0103n Anh",
 		"items": [
 			{
 				"productId": "prod00084",
 				"sku": "prod00084",
-				"name": "Cờ Vua Nam Châm Bàn Trung",
+				"name": "C\u1edd Vua Nam Ch\u00e2m B\u00e0n Trung",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936056057380.jpg",
 				"quantity": 4,
 				"salePrice": 239000,
-				"totalPrice": 956000
+				"totalPrice": 956000,
+				"purchasePrice": 191200
 			},
 			{
 				"productId": "prod00095",
 				"sku": "prod00095",
-				"name": "Móc Khóa Thú Bông Amuro - Tagger CNGNPL040",
+				"name": "M\u00f3c Kh\u00f3a Thu\u0301 B\u00f4ng Amuro - Tagger CNGNPL040",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936134262040.jpg",
 				"quantity": 2,
 				"salePrice": 115000,
-				"totalPrice": 230000
+				"totalPrice": 230000,
+				"purchasePrice": 103500
 			},
 			{
 				"productId": "prod00035",
 				"sku": "prod00035",
-				"name": "Hiệp Sĩ Xương Trên Đường Du Hành Đến Thế Giới Khác - Tập 5 - Tặng Kèm Bookmark",
+				"name": "Hi\u1ec7p S\u0129 X\u01b0\u01a1ng Tr\u00ean \u0110\u01b0\u1eddng Du H\u00e0nh \u0110\u1ebfn Th\u1ebf Gi\u1edbi Kh\u00e1c - T\u1eadp 5 - T\u1eb7ng K\u00e8m Bookmark",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/0/7/071123-9.jpg",
 				"quantity": 2,
 				"salePrice": 159000,
-				"totalPrice": 318000
+				"totalPrice": 318000,
+				"purchasePrice": 135150
 			},
 			{
 				"productId": "prod00077",
 				"sku": "prod00077",
-				"name": "Bộ Tranh Tương Tác Cô Tiên Xanh - Đi Đu Idol",
+				"name": "B\u1ed9 Tranh T\u01b0\u01a1ng T\u00e1c C\u00f4 Ti\u00ean Xanh - \u0110i \u0110u Idol",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/9/3900000146005_2.jpg",
 				"quantity": 4,
 				"salePrice": 36000,
-				"totalPrice": 144000
+				"totalPrice": 144000,
+				"purchasePrice": 28800
 			},
 			{
 				"productId": "prod00025",
 				"sku": "prod00025",
-				"name": "Đám Trẻ Ở Đại Dương Đen",
+				"name": "\u0110\u00e1m Tr\u1ebb \u1ede \u0110\u1ea1i D\u01b0\u01a1ng \u0110en",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935325011559.jpg",
 				"quantity": 3,
 				"salePrice": 99000,
-				"totalPrice": 297000
+				"totalPrice": 297000,
+				"purchasePrice": 69300
 			}
 		],
 		"subtotal": 1945000,
@@ -1496,7 +1576,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -1508,34 +1588,37 @@
 		"returnDate": "2022-03-14T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00006",
-		"customerName": "Hồ Hoàng",
+		"customerName": "H\u1ed3 Ho\u00e0ng",
 		"items": [
 			{
 				"productId": "prod00090",
 				"sku": "prod00090",
-				"name": "Thú Bông Doraemon - Phiên Bản Sinh Nhật Doraemon 03/09 - Size M",
+				"name": "Th\u00fa B\u00f4ng Doraemon - Phi\u00ean B\u1ea3n Sinh Nh\u1eadt Doraemon 03/09 - Size M",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936134262897.jpg",
 				"quantity": 2,
 				"salePrice": 279000,
-				"totalPrice": 558000
+				"totalPrice": 558000,
+				"purchasePrice": 237150
 			},
 			{
 				"productId": "prod00007",
 				"sku": "prod00007",
-				"name": "Bé Học Lễ Giáo - Bubu 12: Đi Lạc (Tái Bản 2022)",
+				"name": "B\u00e9 H\u1ecdc L\u1ec5 Gi\u00e1o - Bubu 12: \u0110i L\u1ea1c (T\u00e1i B\u1ea3n 2022)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8934974179832.jpg",
 				"quantity": 2,
 				"salePrice": 15000,
-				"totalPrice": 30000
+				"totalPrice": 30000,
+				"purchasePrice": 12750
 			},
 			{
 				"productId": "prod00009",
 				"sku": "prod00009",
-				"name": "Sách Giáo Khoa Bộ Lớp 1 - Chân Trời Sáng Tạo - Sách Bài Tập (Bộ 11 Cuốn) (2023)",
+				"name": "S\u00e1ch Gi\u00e1o Khoa B\u1ed9 L\u1edbp 1 - Ch\u00e2n Tr\u1eddi S\u00e1ng T\u1ea1o - S\u00e1ch B\u00e0i T\u1eadp (B\u1ed9 11 Cu\u1ed1n) (2023)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/3/3300000015903-1_1.jpg",
 				"quantity": 3,
 				"salePrice": 138000,
-				"totalPrice": 414000
+				"totalPrice": 414000,
+				"purchasePrice": 138000
 			}
 		],
 		"subtotal": 1002000,
@@ -1562,7 +1645,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -1574,70 +1657,77 @@
 		"returnDate": "2022-03-17T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00030",
-		"customerName": "Tô Quân",
+		"customerName": "T\u00f4 Qu\u00e2n",
 		"items": [
 			{
 				"productId": "prod00061",
 				"sku": "prod00061",
-				"name": "Máy Tính Casio FX580VN X-BU (Màu Xanh)",
+				"name": "M\u00e1y T\u00ednh Casio FX580VN X-BU (M\u00e0u Xanh)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/c/a/casio-fx-580vn-x-xanh-body-1-dd.jpg",
 				"quantity": 1,
 				"salePrice": 757000,
-				"totalPrice": 757000
+				"totalPrice": 757000,
+				"purchasePrice": 681300
 			},
 			{
 				"productId": "prod00088",
 				"sku": "prod00088",
-				"name": "Đồ Chơi Siêu Xe Bão Tố Điều Khiển Từ Xa - Vecto VT632/GR - Màu Xanh Lá",
+				"name": "\u0110\u1ed3 Ch\u01a1i Si\u00eau Xe B\u00e3o T\u1ed1 \u0110i\u1ec1u Khi\u1ec3n T\u1eeb Xa - Vecto VT632/GR - M\u00e0u Xanh L\u00e1",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935337500614.jpg",
 				"quantity": 4,
 				"salePrice": 549000,
-				"totalPrice": 2196000
+				"totalPrice": 2196000,
+				"purchasePrice": 439200
 			},
 			{
 				"productId": "prod00095",
 				"sku": "prod00095",
-				"name": "Móc Khóa Thú Bông Amuro - Tagger CNGNPL040",
+				"name": "M\u00f3c Kh\u00f3a Thu\u0301 B\u00f4ng Amuro - Tagger CNGNPL040",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936134262040.jpg",
 				"quantity": 5,
 				"salePrice": 115000,
-				"totalPrice": 575000
+				"totalPrice": 575000,
+				"purchasePrice": 103500
 			},
 			{
 				"productId": "prod00048",
 				"sku": "prod00048",
-				"name": "Định Luật Murphy - Mọi Bí Mật Tâm Lý Thao Túng Cuộc Đời Bạn",
+				"name": "\u0110\u1ecbnh Lu\u1eadt Murphy - M\u1ecdi B\u00ed M\u1eadt T\u00e2m L\u00fd Thao T\u00fang Cu\u1ed9c \u0110\u1eddi B\u1ea1n",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/p/h/ph_t-h_nh-_nh-lu_t-murphybia-1.jpg",
 				"quantity": 1,
 				"salePrice": 119000,
-				"totalPrice": 119000
+				"totalPrice": 119000,
+				"purchasePrice": 83300
 			},
 			{
 				"productId": "prod00036",
 				"sku": "prod00036",
-				"name": "Arya Bàn Bên Thỉnh Thoảng Lại Trêu Ghẹo Tôi Bằng Tiếng Nga - Tập 1 - Bản Phổ Thông - Tặng Kèm Bookmark Bế Hình + Bìa Áo Limited",
+				"name": "Arya B\u00e0n B\u00ean Th\u1ec9nh Tho\u1ea3ng L\u1ea1i Tr\u00eau Gh\u1eb9o T\u00f4i B\u1eb1ng Ti\u1ebfng Nga - T\u1eadp 1 - B\u1ea3n Ph\u1ed5 Th\u00f4ng - T\u1eb7ng K\u00e8m Bookmark B\u1ebf H\u00ecnh + B\u00eca \u00c1o Limited",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/a/r/arya-ban-ben-thinh-thoang-lai-treu-gheo-toi-bang-tieng-nga---tap-1---ban-pho-thong-_-qua-tang.jpg",
 				"quantity": 3,
 				"salePrice": 95000,
-				"totalPrice": 285000
+				"totalPrice": 285000,
+				"purchasePrice": 80750
 			},
 			{
 				"productId": "prod00047",
 				"sku": "prod00047",
-				"name": "Thuật Thao Túng - Góc Tối Ẩn Sau Mỗi Câu Nói",
+				"name": "Thu\u1eadt Thao T\u00fang - G\u00f3c T\u1ed1i \u1ea8n Sau M\u1ed7i C\u00e2u N\u00f3i",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/u/n/untitledthaotungtamly.jpg",
 				"quantity": 4,
 				"salePrice": 139000,
-				"totalPrice": 556000
+				"totalPrice": 556000,
+				"purchasePrice": 97300
 			},
 			{
 				"productId": "prod00095",
 				"sku": "prod00095",
-				"name": "Móc Khóa Thú Bông Amuro - Tagger CNGNPL040",
+				"name": "M\u00f3c Kh\u00f3a Thu\u0301 B\u00f4ng Amuro - Tagger CNGNPL040",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936134262040.jpg",
 				"quantity": 4,
 				"salePrice": 115000,
-				"totalPrice": 460000
+				"totalPrice": 460000,
+				"purchasePrice": 103500
 			}
 		],
 		"subtotal": 4948000,
@@ -1664,7 +1754,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -1676,16 +1766,17 @@
 		"returnDate": "2022-03-21T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00020",
-		"customerName": "Trần Văn Quân",
+		"customerName": "Tr\u1ea7n V\u0103n Qu\u00e2n",
 		"items": [
 			{
 				"productId": "prod00061",
 				"sku": "prod00061",
-				"name": "Máy Tính Casio FX580VN X-BU (Màu Xanh)",
+				"name": "M\u00e1y T\u00ednh Casio FX580VN X-BU (M\u00e0u Xanh)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/c/a/casio-fx-580vn-x-xanh-body-1-dd.jpg",
 				"quantity": 4,
 				"salePrice": 757000,
-				"totalPrice": 3028000
+				"totalPrice": 3028000,
+				"purchasePrice": 681300
 			}
 		],
 		"subtotal": 3028000,
@@ -1712,7 +1803,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -1724,70 +1815,77 @@
 		"returnDate": "2022-03-24T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00014",
-		"customerName": "Đặng Thị Khiêm",
+		"customerName": "\u0110\u1eb7ng Th\u1ecb Khi\u00eam",
 		"items": [
 			{
 				"productId": "prod00065",
 				"sku": "prod00065",
-				"name": "Tập Học Sinh Wolfoo Và Những Người Bạn - 4 Ô Ly 96 Trang 70gsm - Fahasa 03 (Mẫu Bìa Giao Ngẫu Nhiên)",
+				"name": "T\u1eadp H\u1ecdc Sinh Wolfoo V\u00e0 Nh\u1eefng Ng\u01b0\u1eddi B\u1ea1n - 4 \u00d4 Ly 96 Trang 70gsm - Fahasa 03 (M\u1eabu B\u00eca Giao Ng\u1eabu Nhi\u00ean)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8934986009172_5.jpg",
 				"quantity": 5,
 				"salePrice": 9500,
-				"totalPrice": 47500
+				"totalPrice": 47500,
+				"purchasePrice": 9025
 			},
 			{
 				"productId": "prod00084",
 				"sku": "prod00084",
-				"name": "Cờ Vua Nam Châm Bàn Trung",
+				"name": "C\u1edd Vua Nam Ch\u00e2m B\u00e0n Trung",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936056057380.jpg",
 				"quantity": 2,
 				"salePrice": 239000,
-				"totalPrice": 478000
+				"totalPrice": 478000,
+				"purchasePrice": 191200
 			},
 			{
 				"productId": "prod00025",
 				"sku": "prod00025",
-				"name": "Đám Trẻ Ở Đại Dương Đen",
+				"name": "\u0110\u00e1m Tr\u1ebb \u1ede \u0110\u1ea1i D\u01b0\u01a1ng \u0110en",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935325011559.jpg",
 				"quantity": 1,
 				"salePrice": 99000,
-				"totalPrice": 99000
+				"totalPrice": 99000,
+				"purchasePrice": 69300
 			},
 			{
 				"productId": "prod00036",
 				"sku": "prod00036",
-				"name": "Arya Bàn Bên Thỉnh Thoảng Lại Trêu Ghẹo Tôi Bằng Tiếng Nga - Tập 1 - Bản Phổ Thông - Tặng Kèm Bookmark Bế Hình + Bìa Áo Limited",
+				"name": "Arya B\u00e0n B\u00ean Th\u1ec9nh Tho\u1ea3ng L\u1ea1i Tr\u00eau Gh\u1eb9o T\u00f4i B\u1eb1ng Ti\u1ebfng Nga - T\u1eadp 1 - B\u1ea3n Ph\u1ed5 Th\u00f4ng - T\u1eb7ng K\u00e8m Bookmark B\u1ebf H\u00ecnh + B\u00eca \u00c1o Limited",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/a/r/arya-ban-ben-thinh-thoang-lai-treu-gheo-toi-bang-tieng-nga---tap-1---ban-pho-thong-_-qua-tang.jpg",
 				"quantity": 2,
 				"salePrice": 95000,
-				"totalPrice": 190000
+				"totalPrice": 190000,
+				"purchasePrice": 80750
 			},
 			{
 				"productId": "prod00036",
 				"sku": "prod00036",
-				"name": "Arya Bàn Bên Thỉnh Thoảng Lại Trêu Ghẹo Tôi Bằng Tiếng Nga - Tập 1 - Bản Phổ Thông - Tặng Kèm Bookmark Bế Hình + Bìa Áo Limited",
+				"name": "Arya B\u00e0n B\u00ean Th\u1ec9nh Tho\u1ea3ng L\u1ea1i Tr\u00eau Gh\u1eb9o T\u00f4i B\u1eb1ng Ti\u1ebfng Nga - T\u1eadp 1 - B\u1ea3n Ph\u1ed5 Th\u00f4ng - T\u1eb7ng K\u00e8m Bookmark B\u1ebf H\u00ecnh + B\u00eca \u00c1o Limited",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/a/r/arya-ban-ben-thinh-thoang-lai-treu-gheo-toi-bang-tieng-nga---tap-1---ban-pho-thong-_-qua-tang.jpg",
 				"quantity": 5,
 				"salePrice": 95000,
-				"totalPrice": 475000
+				"totalPrice": 475000,
+				"purchasePrice": 80750
 			},
 			{
 				"productId": "prod00046",
 				"sku": "prod00046",
-				"name": "Lý Thuyết Trò Chơi",
+				"name": "L\u00fd Thuy\u1ebft Tr\u00f2 Ch\u01a1i",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936066697088.jpg",
 				"quantity": 5,
 				"salePrice": 179000,
-				"totalPrice": 895000
+				"totalPrice": 895000,
+				"purchasePrice": 125300
 			},
 			{
 				"productId": "prod00002",
 				"sku": "prod00002",
-				"name": "Những Truyện Hay Viết Cho Thiếu Nhi - Tô Hoài (Tái Bản 2019)",
+				"name": "Nh\u1eefng Truy\u1ec7n Hay Vi\u1ebft Cho Thi\u1ebfu Nhi - T\u00f4 Ho\u00e0i (T\u00e1i B\u1ea3n 2019)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_180888.jpg",
 				"quantity": 5,
 				"salePrice": 80000,
-				"totalPrice": 400000
+				"totalPrice": 400000,
+				"purchasePrice": 56000
 			}
 		],
 		"subtotal": 2584500,
@@ -1814,7 +1912,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -1826,70 +1924,77 @@
 		"returnDate": "2022-03-31T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00012",
-		"customerName": "Hồ Nữ",
+		"customerName": "H\u1ed3 N\u1eef",
 		"items": [
 			{
 				"productId": "prod00044",
 				"sku": "prod00044",
-				"name": "Hành Tinh Của Một Kẻ Nghĩ Nhiều",
+				"name": "H\u00e0nh Tinh C\u1ee7a M\u1ed9t K\u1ebb Ngh\u0129 Nhi\u1ec1u",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/h/_/h_nh-tinh-c_a-m_t-k_-ngh_-nhi_u-tr_c-1-1.jpg",
 				"quantity": 5,
 				"salePrice": 86000,
-				"totalPrice": 430000
+				"totalPrice": 430000,
+				"purchasePrice": 60200
 			},
 			{
 				"productId": "prod00044",
 				"sku": "prod00044",
-				"name": "Hành Tinh Của Một Kẻ Nghĩ Nhiều",
+				"name": "H\u00e0nh Tinh C\u1ee7a M\u1ed9t K\u1ebb Ngh\u0129 Nhi\u1ec1u",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/h/_/h_nh-tinh-c_a-m_t-k_-ngh_-nhi_u-tr_c-1-1.jpg",
 				"quantity": 1,
 				"salePrice": 86000,
-				"totalPrice": 86000
+				"totalPrice": 86000,
+				"purchasePrice": 60200
 			},
 			{
 				"productId": "prod00058",
 				"sku": "prod00058",
-				"name": "Máy Tính Casio FX 580 VN X",
+				"name": "M\u00e1y T\u00ednh Casio FX 580 VN X",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_8906.jpg",
 				"quantity": 1,
 				"salePrice": 757000,
-				"totalPrice": 757000
+				"totalPrice": 757000,
+				"purchasePrice": 681300
 			},
 			{
 				"productId": "prod00093",
 				"sku": "prod00093",
-				"name": "Hộp 16 Trái Châu Trang Trí Giáng Sinh - 6ADKLE16 - Màu Vàng Gold",
+				"name": "H\u1ed9p 16 Tr\u00e1i Ch\u00e2u Trang Tr\u00ed Gi\u00e1ng Sinh - 6ADKLE16 - M\u00e0u V\u00e0ng Gold",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/1/8/1880000979228.jpg",
 				"quantity": 2,
 				"salePrice": 113000,
-				"totalPrice": 226000
+				"totalPrice": 226000,
+				"purchasePrice": 79100
 			},
 			{
 				"productId": "prod00036",
 				"sku": "prod00036",
-				"name": "Arya Bàn Bên Thỉnh Thoảng Lại Trêu Ghẹo Tôi Bằng Tiếng Nga - Tập 1 - Bản Phổ Thông - Tặng Kèm Bookmark Bế Hình + Bìa Áo Limited",
+				"name": "Arya B\u00e0n B\u00ean Th\u1ec9nh Tho\u1ea3ng L\u1ea1i Tr\u00eau Gh\u1eb9o T\u00f4i B\u1eb1ng Ti\u1ebfng Nga - T\u1eadp 1 - B\u1ea3n Ph\u1ed5 Th\u00f4ng - T\u1eb7ng K\u00e8m Bookmark B\u1ebf H\u00ecnh + B\u00eca \u00c1o Limited",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/a/r/arya-ban-ben-thinh-thoang-lai-treu-gheo-toi-bang-tieng-nga---tap-1---ban-pho-thong-_-qua-tang.jpg",
 				"quantity": 2,
 				"salePrice": 95000,
-				"totalPrice": 190000
+				"totalPrice": 190000,
+				"purchasePrice": 80750
 			},
 			{
 				"productId": "prod00079",
 				"sku": "prod00079",
-				"name": "Đồ Chơi Mô Hình MINIFORCE - Robot Hộ Thần Tam Long Hợp Thể Trioh V - 503020",
+				"name": "\u0110\u1ed3 Ch\u01a1i M\u00f4 H\u00ecnh MINIFORCE - Robot H\u1ed9 Th\u1ea7n Tam Long H\u1ee3p Th\u1ec3 Trioh V - 503020",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/8/8809758733435.jpg",
 				"quantity": 4,
 				"salePrice": 349000,
-				"totalPrice": 1396000
+				"totalPrice": 1396000,
+				"purchasePrice": 296650
 			},
 			{
 				"productId": "prod00097",
 				"sku": "prod00097",
-				"name": "Bộ 5 Xốp Eva Kim Tuyến Decal DYI Art & Craft - Star Kids K-901 (Sắc Độ Màu Giao Ngẫu Nhiên)",
+				"name": "B\u1ed9 5 X\u1ed1p Eva Kim Tuy\u1ebfn Decal DYI Art & Craft - Star Kids K-901 (S\u1eafc \u0110\u1ed9 M\u00e0u Giao Ng\u1eabu Nhi\u00ean)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935256603885.jpg",
 				"quantity": 2,
 				"salePrice": 69000,
-				"totalPrice": 138000
+				"totalPrice": 138000,
+				"purchasePrice": 65550
 			}
 		],
 		"subtotal": 3223000,
@@ -1916,7 +2021,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -1928,52 +2033,57 @@
 		"returnDate": "2022-05-04T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00021",
-		"customerName": "Trịnh Long",
+		"customerName": "Tr\u1ecbnh Long",
 		"items": [
 			{
 				"productId": "prod00035",
 				"sku": "prod00035",
-				"name": "Hiệp Sĩ Xương Trên Đường Du Hành Đến Thế Giới Khác - Tập 5 - Tặng Kèm Bookmark",
+				"name": "Hi\u1ec7p S\u0129 X\u01b0\u01a1ng Tr\u00ean \u0110\u01b0\u1eddng Du H\u00e0nh \u0110\u1ebfn Th\u1ebf Gi\u1edbi Kh\u00e1c - T\u1eadp 5 - T\u1eb7ng K\u00e8m Bookmark",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/0/7/071123-9.jpg",
 				"quantity": 4,
 				"salePrice": 159000,
-				"totalPrice": 636000
+				"totalPrice": 636000,
+				"purchasePrice": 135150
 			},
 			{
 				"productId": "prod00030",
 				"sku": "prod00030",
-				"name": "Anh Không Bận, Chỉ Là Không Nhớ Em (Tái Bản 2023)",
+				"name": "Anh Kh\u00f4ng B\u1eadn, Ch\u1ec9 L\u00e0 Kh\u00f4ng Nh\u1edb Em (T\u00e1i B\u1ea3n 2023)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/9/7/9786043925593.jpg",
 				"quantity": 4,
 				"salePrice": 89000,
-				"totalPrice": 356000
+				"totalPrice": 356000,
+				"purchasePrice": 75650
 			},
 			{
 				"productId": "prod00008",
 				"sku": "prod00008",
-				"name": "Sách Giáo Khoa Bộ Lớp 1 - Chân Trời Sáng Tạo - Sách Bài Học (Bộ 9 Cuốn) (2023)",
+				"name": "S\u00e1ch Gi\u00e1o Khoa B\u1ed9 L\u1edbp 1 - Ch\u00e2n Tr\u1eddi S\u00e1ng T\u1ea1o - S\u00e1ch B\u00e0i H\u1ecdc (B\u1ed9 9 Cu\u1ed1n) (2023)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/3/3300000026817.jpg",
 				"quantity": 3,
 				"salePrice": 186000,
-				"totalPrice": 558000
+				"totalPrice": 558000,
+				"purchasePrice": 186000
 			},
 			{
 				"productId": "prod00051",
 				"sku": "prod00051",
-				"name": "Phân Tích Tâm Lý Tội Phạm - Thế Giới Bên Trong Cái Ác",
+				"name": "Ph\u00e2n T\u00edch T\u00e2m L\u00fd T\u1ed9i Ph\u1ea1m - Th\u1ebf Gi\u1edbi B\u00ean Trong C\u00e1i \u00c1c",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935325014222.jpg",
 				"quantity": 3,
 				"salePrice": 135000,
-				"totalPrice": 405000
+				"totalPrice": 405000,
+				"purchasePrice": 94500
 			},
 			{
 				"productId": "prod00027",
 				"sku": "prod00027",
-				"name": "Trôi - Nguyễn Ngọc Tư",
+				"name": "Tr\u00f4i - Nguy\u1ec5n Ng\u1ecdc T\u01b0",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8934974190554.jpg",
 				"quantity": 3,
 				"salePrice": 95000,
-				"totalPrice": 285000
+				"totalPrice": 285000,
+				"purchasePrice": 71250
 			}
 		],
 		"subtotal": 2240000,
@@ -2000,7 +2110,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -2012,52 +2122,57 @@
 		"returnDate": "2022-05-12T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00004",
-		"customerName": "Lê Nguyên",
+		"customerName": "L\u00ea Nguy\u00ean",
 		"items": [
 			{
 				"productId": "prod00014",
 				"sku": "prod00014",
-				"name": "Bảng Cửu Chương - Bảng Chia",
+				"name": "B\u1ea3ng C\u1eedu Ch\u01b0\u01a1ng - B\u1ea3ng Chia",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936036316483.jpg",
 				"quantity": 4,
 				"salePrice": 10000,
-				"totalPrice": 40000
+				"totalPrice": 40000,
+				"purchasePrice": 8500
 			},
 			{
 				"productId": "prod00003",
 				"sku": "prod00003",
-				"name": "365 Truyện Kể Trước Giờ Đi Ngủ - Những Câu Chuyện Phát Triển Chỉ Số Tình Cảm EQ",
+				"name": "365 Truy\u1ec7n K\u1ec3 Tr\u01b0\u1edbc Gi\u1edd \u0110i Ng\u1ee7 - Nh\u1eefng C\u00e2u Chuy\u1ec7n Ph\u00e1t Tri\u1ec3n Ch\u1ec9 S\u1ed1 T\u00ecnh C\u1ea3m EQ",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935212341134_1.jpg",
 				"quantity": 1,
 				"salePrice": 78000,
-				"totalPrice": 78000
+				"totalPrice": 78000,
+				"purchasePrice": 54600
 			},
 			{
 				"productId": "prod00091",
 				"sku": "prod00091",
-				"name": "Túi Giấy Đựng Quà Giáng Sinh Xmax Đứng Size M - Linh Lan 37423",
+				"name": "T\u00fai Gi\u1ea5y \u0110\u1ef1ng Qu\u00e0 Gi\u00e1ng Sinh Xmax \u0110\u1ee9ng Size M - Linh Lan 37423",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936078092796-mau2.jpg",
 				"quantity": 5,
 				"salePrice": 14000,
-				"totalPrice": 70000
+				"totalPrice": 70000,
+				"purchasePrice": 11200
 			},
 			{
 				"productId": "prod00039",
 				"sku": "prod00039",
-				"name": "Spy X Family Tiểu Thuyết: Bức Chân Dung Gia Đình - Tặng Kèm Standee PVC",
+				"name": "Spy X Family Ti\u1ec3u Thuy\u1ebft: B\u1ee9c Ch\u00e2n Dung Gia \u0110\u00ecnh - T\u1eb7ng K\u00e8m Standee PVC",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935244876727.jpg",
 				"quantity": 2,
 				"salePrice": 45000,
-				"totalPrice": 90000
+				"totalPrice": 90000,
+				"purchasePrice": 41850
 			},
 			{
 				"productId": "prod00028",
 				"sku": "prod00028",
-				"name": "Có Một Ngày, Bố Mẹ Sẽ Già Đi",
+				"name": "C\u00f3 M\u1ed9t Ng\u00e0y, B\u1ed1 M\u1eb9 S\u1ebd Gi\u00e0 \u0110i",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/c/o/co-mot-ngay-bo-me-se-gia-di.jpg",
 				"quantity": 1,
 				"salePrice": 96000,
-				"totalPrice": 96000
+				"totalPrice": 96000,
+				"purchasePrice": 67200
 			}
 		],
 		"subtotal": 374000,
@@ -2084,7 +2199,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -2096,25 +2211,27 @@
 		"returnDate": "2022-05-12T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00026",
-		"customerName": "Lê Lan",
+		"customerName": "L\u00ea Lan",
 		"items": [
 			{
 				"productId": "prod00059",
 				"sku": "prod00059",
-				"name": "Lịch Treo Tường Học Viện Siêu Anh Hùng 2024 - Tặng Kèm Poster Gắn Bên Trong",
+				"name": "L\u1ecbch Treo T\u01b0\u1eddng H\u1ecdc Vi\u1ec7n Si\u00eau Anh H\u00f9ng 2024 - T\u1eb7ng K\u00e8m Poster G\u1eafn B\u00ean Trong",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935352601549_1_1.jpg",
 				"quantity": 3,
 				"salePrice": 60000,
-				"totalPrice": 180000
+				"totalPrice": 180000,
+				"purchasePrice": 57000
 			},
 			{
 				"productId": "prod00067",
 				"sku": "prod00067",
-				"name": "Vỉ 3 Bút Chì Gỗ 2B Thiên Long GP-01 (Mẫu Màu Giao Ngẫu Nhiên)",
+				"name": "V\u1ec9 3 B\u00fat Ch\u00ec G\u1ed7 2B Thi\u00ean Long GP-01 (M\u1eabu M\u00e0u Giao Ng\u1eabu Nhi\u00ean)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001821090_1.jpg",
 				"quantity": 1,
 				"salePrice": 14000,
-				"totalPrice": 14000
+				"totalPrice": 14000,
+				"purchasePrice": 11200
 			}
 		],
 		"subtotal": 194000,
@@ -2141,7 +2258,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -2153,25 +2270,27 @@
 		"returnDate": "2022-05-14T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00030",
-		"customerName": "Tô Quân",
+		"customerName": "T\u00f4 Qu\u00e2n",
 		"items": [
 			{
 				"productId": "prod00048",
 				"sku": "prod00048",
-				"name": "Định Luật Murphy - Mọi Bí Mật Tâm Lý Thao Túng Cuộc Đời Bạn",
+				"name": "\u0110\u1ecbnh Lu\u1eadt Murphy - M\u1ecdi B\u00ed M\u1eadt T\u00e2m L\u00fd Thao T\u00fang Cu\u1ed9c \u0110\u1eddi B\u1ea1n",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/p/h/ph_t-h_nh-_nh-lu_t-murphybia-1.jpg",
 				"quantity": 2,
 				"salePrice": 119000,
-				"totalPrice": 238000
+				"totalPrice": 238000,
+				"purchasePrice": 83300
 			},
 			{
 				"productId": "prod00023",
 				"sku": "prod00023",
-				"name": "Thượng Dương",
+				"name": "Th\u01b0\u1ee3ng D\u01b0\u01a1ng",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_216250.jpg",
 				"quantity": 2,
 				"salePrice": 108000,
-				"totalPrice": 216000
+				"totalPrice": 216000,
+				"purchasePrice": 74520
 			}
 		],
 		"subtotal": 454000,
@@ -2198,7 +2317,7 @@
 		"status": "returned",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -2210,34 +2329,37 @@
 		"returnDate": "2022-05-19T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00008",
-		"customerName": "Tô Nam",
+		"customerName": "T\u00f4 Nam",
 		"items": [
 			{
 				"productId": "prod00001",
 				"sku": "prod00001",
-				"name": "Dế Mèn Phiêu Lưu Ký - Tái Bản 2020",
+				"name": "D\u1ebf M\u00e8n Phi\u00eau L\u01b0u K\u00fd - T\u00e1i B\u1ea3n 2020",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/d/e/de-men-50k_1.jpg",
 				"quantity": 1,
 				"salePrice": 50000,
-				"totalPrice": 50000
+				"totalPrice": 50000,
+				"purchasePrice": 42500
 			},
 			{
 				"productId": "prod00058",
 				"sku": "prod00058",
-				"name": "Máy Tính Casio FX 580 VN X",
+				"name": "M\u00e1y T\u00ednh Casio FX 580 VN X",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_8906.jpg",
 				"quantity": 5,
 				"salePrice": 757000,
-				"totalPrice": 3785000
+				"totalPrice": 3785000,
+				"purchasePrice": 681300
 			},
 			{
 				"productId": "prod00030",
 				"sku": "prod00030",
-				"name": "Anh Không Bận, Chỉ Là Không Nhớ Em (Tái Bản 2023)",
+				"name": "Anh Kh\u00f4ng B\u1eadn, Ch\u1ec9 L\u00e0 Kh\u00f4ng Nh\u1edb Em (T\u00e1i B\u1ea3n 2023)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/9/7/9786043925593.jpg",
 				"quantity": 2,
 				"salePrice": 89000,
-				"totalPrice": 178000
+				"totalPrice": 178000,
+				"purchasePrice": 75650
 			}
 		],
 		"subtotal": 4013000,
@@ -2264,7 +2386,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -2276,16 +2398,17 @@
 		"returnDate": "2022-05-20T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00013",
-		"customerName": "Đặng Nguyễn Nam",
+		"customerName": "\u0110\u1eb7ng Nguy\u1ec5n Nam",
 		"items": [
 			{
 				"productId": "prod00070",
 				"sku": "prod00070",
-				"name": "Bút Dạ Quang Pastel - Bitex HL05 - Mild Blue",
+				"name": "B\u00fat D\u1ea1 Quang Pastel - Bitex HL05 - Mild Blue",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935276457444.jpg",
 				"quantity": 5,
 				"salePrice": 9500,
-				"totalPrice": 47500
+				"totalPrice": 47500,
+				"purchasePrice": 6650
 			}
 		],
 		"subtotal": 47500,
@@ -2312,7 +2435,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -2324,61 +2447,67 @@
 		"returnDate": "2022-05-24T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00010",
-		"customerName": "Nguyễn Văn Lan",
+		"customerName": "Nguy\u1ec5n V\u0103n Lan",
 		"items": [
 			{
 				"productId": "prod00093",
 				"sku": "prod00093",
-				"name": "Hộp 16 Trái Châu Trang Trí Giáng Sinh - 6ADKLE16 - Màu Vàng Gold",
+				"name": "H\u1ed9p 16 Tr\u00e1i Ch\u00e2u Trang Tr\u00ed Gi\u00e1ng Sinh - 6ADKLE16 - M\u00e0u V\u00e0ng Gold",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/1/8/1880000979228.jpg",
 				"quantity": 1,
 				"salePrice": 113000,
-				"totalPrice": 113000
+				"totalPrice": 113000,
+				"purchasePrice": 79100
 			},
 			{
 				"productId": "prod00032",
 				"sku": "prod00032",
-				"name": "Hiệp Sĩ Xương Trên Đường Du Hành Đến Thế Giới Khác - Tập 1",
+				"name": "Hi\u1ec7p S\u0129 X\u01b0\u01a1ng Tr\u00ean \u0110\u01b0\u1eddng Du H\u00e0nh \u0110\u1ebfn Th\u1ebf Gi\u1edbi Kh\u00e1c - T\u1eadp 1",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936186544002.jpg",
 				"quantity": 5,
 				"salePrice": 126000,
-				"totalPrice": 630000
+				"totalPrice": 630000,
+				"purchasePrice": 63000
 			},
 			{
 				"productId": "prod00056",
 				"sku": "prod00056",
-				"name": "Giáo Trình Chuẩn HSK 1 (Tái Bản 2023)",
+				"name": "Gi\u00e1o Tr\u00ecnh Chu\u1ea9n HSK 1 (T\u00e1i B\u1ea3n 2023)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/9/7/9786043775662.jpg",
 				"quantity": 5,
 				"salePrice": 198000,
-				"totalPrice": 990000
+				"totalPrice": 990000,
+				"purchasePrice": 148500
 			},
 			{
 				"productId": "prod00021",
 				"sku": "prod00021",
-				"name": "Mùa Hè Không Tên - Tặng Kèm Bookmark 2 Mặt + Poster Tranh + Chữ Ký Tác Giả Ngẫu Nhiên",
+				"name": "M\u00f9a H\u00e8 Kh\u00f4ng T\u00ean - T\u1eb7ng K\u00e8m Bookmark 2 M\u1eb7t + Poster Tranh + Ch\u1eef K\u00fd T\u00e1c Gi\u1ea3 Ng\u1eabu Nhi\u00ean",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/m/u/mua-he-khong-ten---bia-mem---qua-tang-kem-1.jpg",
 				"quantity": 5,
 				"salePrice": 130000,
-				"totalPrice": 650000
+				"totalPrice": 650000,
+				"purchasePrice": 91000
 			},
 			{
 				"productId": "prod00007",
 				"sku": "prod00007",
-				"name": "Bé Học Lễ Giáo - Bubu 12: Đi Lạc (Tái Bản 2022)",
+				"name": "B\u00e9 H\u1ecdc L\u1ec5 Gi\u00e1o - Bubu 12: \u0110i L\u1ea1c (T\u00e1i B\u1ea3n 2022)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8934974179832.jpg",
 				"quantity": 3,
 				"salePrice": 15000,
-				"totalPrice": 45000
+				"totalPrice": 45000,
+				"purchasePrice": 12750
 			},
 			{
 				"productId": "prod00064",
 				"sku": "prod00064",
-				"name": "Máy Tính CASIO FX-880BTG - Màu Đen",
+				"name": "M\u00e1y T\u00ednh CASIO FX-880BTG - M\u00e0u \u0110en",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/4/5/4549526613692.jpg",
 				"quantity": 4,
 				"salePrice": 820000,
-				"totalPrice": 3280000
+				"totalPrice": 3280000,
+				"purchasePrice": 738000
 			}
 		],
 		"subtotal": 5708000,
@@ -2405,7 +2534,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -2417,52 +2546,57 @@
 		"returnDate": "2022-06-05T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00016",
-		"customerName": "Đặng Ngọc Ngọc",
+		"customerName": "\u0110\u1eb7ng Ng\u1ecdc Ng\u1ecdc",
 		"items": [
 			{
 				"productId": "prod00038",
 				"sku": "prod00038",
-				"name": "Arya Bàn Bên Thỉnh Thoảng Lại Trêu Ghẹo Tôi Bằng Tiếng Nga - Tập 4 - Bản Phổ Thông - Tặng Kèm Bookmark Bế Hình + Bìa Áo Bonus",
+				"name": "Arya B\u00e0n B\u00ean Th\u1ec9nh Tho\u1ea3ng L\u1ea1i Tr\u00eau Gh\u1eb9o T\u00f4i B\u1eb1ng Ti\u1ebfng Nga - T\u1eadp 4 - B\u1ea3n Ph\u1ed5 Th\u00f4ng - T\u1eb7ng K\u00e8m Bookmark B\u1ebf H\u00ecnh + B\u00eca \u00c1o Bonus",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/z/4/z4749269235520_9e8aea22702a59ef1f204c51060a5c10.jpg",
 				"quantity": 2,
 				"salePrice": 95000,
-				"totalPrice": 190000
+				"totalPrice": 190000,
+				"purchasePrice": 71250
 			},
 			{
 				"productId": "prod00065",
 				"sku": "prod00065",
-				"name": "Tập Học Sinh Wolfoo Và Những Người Bạn - 4 Ô Ly 96 Trang 70gsm - Fahasa 03 (Mẫu Bìa Giao Ngẫu Nhiên)",
+				"name": "T\u1eadp H\u1ecdc Sinh Wolfoo V\u00e0 Nh\u1eefng Ng\u01b0\u1eddi B\u1ea1n - 4 \u00d4 Ly 96 Trang 70gsm - Fahasa 03 (M\u1eabu B\u00eca Giao Ng\u1eabu Nhi\u00ean)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8934986009172_5.jpg",
 				"quantity": 1,
 				"salePrice": 9500,
-				"totalPrice": 9500
+				"totalPrice": 9500,
+				"purchasePrice": 9025
 			},
 			{
 				"productId": "prod00046",
 				"sku": "prod00046",
-				"name": "Lý Thuyết Trò Chơi",
+				"name": "L\u00fd Thuy\u1ebft Tr\u00f2 Ch\u01a1i",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936066697088.jpg",
 				"quantity": 2,
 				"salePrice": 179000,
-				"totalPrice": 358000
+				"totalPrice": 358000,
+				"purchasePrice": 125300
 			},
 			{
 				"productId": "prod00023",
 				"sku": "prod00023",
-				"name": "Thượng Dương",
+				"name": "Th\u01b0\u1ee3ng D\u01b0\u01a1ng",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_216250.jpg",
 				"quantity": 4,
 				"salePrice": 108000,
-				"totalPrice": 432000
+				"totalPrice": 432000,
+				"purchasePrice": 74520
 			},
 			{
 				"productId": "prod00071",
 				"sku": "prod00071",
-				"name": "Chuốt Bút Chì Masterart Cỡ 5 (Mẫu Màu Giao Ngẫu Nhiên)",
+				"name": "Chu\u1ed1t B\u00fat Ch\u00ec Masterart C\u1ee1 5 (M\u1eabu M\u00e0u Giao Ng\u1eabu Nhi\u00ean)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_242253.jpg",
 				"quantity": 5,
 				"salePrice": 3500,
-				"totalPrice": 17500
+				"totalPrice": 17500,
+				"purchasePrice": 3150
 			}
 		],
 		"subtotal": 1007000,
@@ -2489,7 +2623,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -2501,52 +2635,57 @@
 		"returnDate": "2022-06-21T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00023",
-		"customerName": "Nguyễn Văn Khiêm",
+		"customerName": "Nguy\u1ec5n V\u0103n Khi\u00eam",
 		"items": [
 			{
 				"productId": "prod00098",
 				"sku": "prod00098",
-				"name": "Hộp Quà Cao Cấp Có Nơ - Nắp Rời - Size 15 x 12 x 8 cm - Linh Lan  N151208ORI-N1 - Mẫu 8",
+				"name": "H\u1ed9p Qu\u00e0 Cao C\u1ea5p C\u00f3 N\u01a1 - N\u1eafp R\u1eddi - Size 15 x 12 x 8 cm - Linh Lan  N151208ORI-N1 - M\u1eabu 8",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936078091522-mau5.jpg",
 				"quantity": 1,
 				"salePrice": 39000,
-				"totalPrice": 39000
+				"totalPrice": 39000,
+				"purchasePrice": 37050
 			},
 			{
 				"productId": "prod00093",
 				"sku": "prod00093",
-				"name": "Hộp 16 Trái Châu Trang Trí Giáng Sinh - 6ADKLE16 - Màu Vàng Gold",
+				"name": "H\u1ed9p 16 Tr\u00e1i Ch\u00e2u Trang Tr\u00ed Gi\u00e1ng Sinh - 6ADKLE16 - M\u00e0u V\u00e0ng Gold",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/1/8/1880000979228.jpg",
 				"quantity": 4,
 				"salePrice": 113000,
-				"totalPrice": 452000
+				"totalPrice": 452000,
+				"purchasePrice": 79100
 			},
 			{
 				"productId": "prod00059",
 				"sku": "prod00059",
-				"name": "Lịch Treo Tường Học Viện Siêu Anh Hùng 2024 - Tặng Kèm Poster Gắn Bên Trong",
+				"name": "L\u1ecbch Treo T\u01b0\u1eddng H\u1ecdc Vi\u1ec7n Si\u00eau Anh H\u00f9ng 2024 - T\u1eb7ng K\u00e8m Poster G\u1eafn B\u00ean Trong",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935352601549_1_1.jpg",
 				"quantity": 5,
 				"salePrice": 60000,
-				"totalPrice": 300000
+				"totalPrice": 300000,
+				"purchasePrice": 57000
 			},
 			{
 				"productId": "prod00079",
 				"sku": "prod00079",
-				"name": "Đồ Chơi Mô Hình MINIFORCE - Robot Hộ Thần Tam Long Hợp Thể Trioh V - 503020",
+				"name": "\u0110\u1ed3 Ch\u01a1i M\u00f4 H\u00ecnh MINIFORCE - Robot H\u1ed9 Th\u1ea7n Tam Long H\u1ee3p Th\u1ec3 Trioh V - 503020",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/8/8809758733435.jpg",
 				"quantity": 2,
 				"salePrice": 349000,
-				"totalPrice": 698000
+				"totalPrice": 698000,
+				"purchasePrice": 296650
 			},
 			{
 				"productId": "prod00047",
 				"sku": "prod00047",
-				"name": "Thuật Thao Túng - Góc Tối Ẩn Sau Mỗi Câu Nói",
+				"name": "Thu\u1eadt Thao T\u00fang - G\u00f3c T\u1ed1i \u1ea8n Sau M\u1ed7i C\u00e2u N\u00f3i",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/u/n/untitledthaotungtamly.jpg",
 				"quantity": 3,
 				"salePrice": 139000,
-				"totalPrice": 417000
+				"totalPrice": 417000,
+				"purchasePrice": 97300
 			}
 		],
 		"subtotal": 1906000,
@@ -2573,7 +2712,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -2585,43 +2724,47 @@
 		"returnDate": "2022-06-28T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00011",
-		"customerName": "Đặng Thị Kiên",
+		"customerName": "\u0110\u1eb7ng Th\u1ecb Ki\u00ean",
 		"items": [
 			{
 				"productId": "prod00003",
 				"sku": "prod00003",
-				"name": "365 Truyện Kể Trước Giờ Đi Ngủ - Những Câu Chuyện Phát Triển Chỉ Số Tình Cảm EQ",
+				"name": "365 Truy\u1ec7n K\u1ec3 Tr\u01b0\u1edbc Gi\u1edd \u0110i Ng\u1ee7 - Nh\u1eefng C\u00e2u Chuy\u1ec7n Ph\u00e1t Tri\u1ec3n Ch\u1ec9 S\u1ed1 T\u00ecnh C\u1ea3m EQ",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935212341134_1.jpg",
 				"quantity": 5,
 				"salePrice": 78000,
-				"totalPrice": 390000
+				"totalPrice": 390000,
+				"purchasePrice": 54600
 			},
 			{
 				"productId": "prod00027",
 				"sku": "prod00027",
-				"name": "Trôi - Nguyễn Ngọc Tư",
+				"name": "Tr\u00f4i - Nguy\u1ec5n Ng\u1ecdc T\u01b0",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8934974190554.jpg",
 				"quantity": 4,
 				"salePrice": 95000,
-				"totalPrice": 380000
+				"totalPrice": 380000,
+				"purchasePrice": 71250
 			},
 			{
 				"productId": "prod00089",
 				"sku": "prod00089",
-				"name": "Đồ Chơi Siêu Xe Điều Khiển Từ Xa McLaren WINKA DK81002 - Màu Đỏ",
+				"name": "\u0110\u1ed3 Ch\u01a1i Si\u00eau Xe \u0110i\u1ec1u Khi\u1ec3n T\u1eeb Xa McLaren WINKA DK81002 - M\u00e0u \u0110\u1ecf",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_28563.jpg",
 				"quantity": 2,
 				"salePrice": 250000,
-				"totalPrice": 500000
+				"totalPrice": 500000,
+				"purchasePrice": 137500
 			},
 			{
 				"productId": "prod00064",
 				"sku": "prod00064",
-				"name": "Máy Tính CASIO FX-880BTG - Màu Đen",
+				"name": "M\u00e1y T\u00ednh CASIO FX-880BTG - M\u00e0u \u0110en",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/4/5/4549526613692.jpg",
 				"quantity": 2,
 				"salePrice": 820000,
-				"totalPrice": 1640000
+				"totalPrice": 1640000,
+				"purchasePrice": 738000
 			}
 		],
 		"subtotal": 2910000,
@@ -2648,7 +2791,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -2660,16 +2803,17 @@
 		"returnDate": "2022-06-29T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00020",
-		"customerName": "Trần Văn Quân",
+		"customerName": "Tr\u1ea7n V\u0103n Qu\u00e2n",
 		"items": [
 			{
 				"productId": "prod00098",
 				"sku": "prod00098",
-				"name": "Hộp Quà Cao Cấp Có Nơ - Nắp Rời - Size 15 x 12 x 8 cm - Linh Lan  N151208ORI-N1 - Mẫu 8",
+				"name": "H\u1ed9p Qu\u00e0 Cao C\u1ea5p C\u00f3 N\u01a1 - N\u1eafp R\u1eddi - Size 15 x 12 x 8 cm - Linh Lan  N151208ORI-N1 - M\u1eabu 8",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936078091522-mau5.jpg",
 				"quantity": 1,
 				"salePrice": 39000,
-				"totalPrice": 39000
+				"totalPrice": 39000,
+				"purchasePrice": 37050
 			}
 		],
 		"subtotal": 39000,
@@ -2696,7 +2840,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -2708,70 +2852,77 @@
 		"returnDate": "2022-07-02T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00001",
-		"customerName": "Nguyễn Văn Kiệt",
+		"customerName": "Nguy\u1ec5n V\u0103n Ki\u1ec7t",
 		"items": [
 			{
 				"productId": "prod00032",
 				"sku": "prod00032",
-				"name": "Hiệp Sĩ Xương Trên Đường Du Hành Đến Thế Giới Khác - Tập 1",
+				"name": "Hi\u1ec7p S\u0129 X\u01b0\u01a1ng Tr\u00ean \u0110\u01b0\u1eddng Du H\u00e0nh \u0110\u1ebfn Th\u1ebf Gi\u1edbi Kh\u00e1c - T\u1eadp 1",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936186544002.jpg",
 				"quantity": 1,
 				"salePrice": 126000,
-				"totalPrice": 126000
+				"totalPrice": 126000,
+				"purchasePrice": 63000
 			},
 			{
 				"productId": "prod00002",
 				"sku": "prod00002",
-				"name": "Những Truyện Hay Viết Cho Thiếu Nhi - Tô Hoài (Tái Bản 2019)",
+				"name": "Nh\u1eefng Truy\u1ec7n Hay Vi\u1ebft Cho Thi\u1ebfu Nhi - T\u00f4 Ho\u00e0i (T\u00e1i B\u1ea3n 2019)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_180888.jpg",
 				"quantity": 4,
 				"salePrice": 80000,
-				"totalPrice": 320000
+				"totalPrice": 320000,
+				"purchasePrice": 56000
 			},
 			{
 				"productId": "prod00013",
 				"sku": "prod00013",
-				"name": "Bảng Hệ Thống Tuần Hoàn Các Nguyên Tố Hóa Học",
+				"name": "B\u1ea3ng H\u1ec7 Th\u1ed1ng Tu\u1ea7n Ho\u00e0n C\u00e1c Nguy\u00ean T\u1ed1 H\u00f3a H\u1ecdc",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_199427.jpg",
 				"quantity": 5,
 				"salePrice": 10000,
-				"totalPrice": 50000
+				"totalPrice": 50000,
+				"purchasePrice": 8500
 			},
 			{
 				"productId": "prod00041",
 				"sku": "prod00041",
-				"name": "Ghi Chép Của Tôi Người Nhìn Thấy Em Sẽ Biến Mất Vào Ngày Mai",
+				"name": "Ghi Ch\u00e9p C\u1ee7a T\u00f4i Ng\u01b0\u1eddi Nh\u00ecn Th\u1ea5y Em S\u1ebd Bi\u1ebfn M\u1ea5t V\u00e0o Ng\u00e0y Mai",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/t/h/th_ng-tu_t-b_n-ghi-ch_p-c_a-t_ibia1.jpg",
 				"quantity": 1,
 				"salePrice": 133000,
-				"totalPrice": 133000
+				"totalPrice": 133000,
+				"purchasePrice": 113050
 			},
 			{
 				"productId": "prod00068",
 				"sku": "prod00068",
-				"name": "Bút Bi 0.7 mm Thiên Long TL-047 - Mực Xanh",
+				"name": "B\u00fat Bi 0.7 mm Thi\u00ean Long TL-047 - M\u1ef1c Xanh",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001802921_1.jpg",
 				"quantity": 3,
 				"salePrice": 10500,
-				"totalPrice": 31500
+				"totalPrice": 31500,
+				"purchasePrice": 8190
 			},
 			{
 				"productId": "prod00071",
 				"sku": "prod00071",
-				"name": "Chuốt Bút Chì Masterart Cỡ 5 (Mẫu Màu Giao Ngẫu Nhiên)",
+				"name": "Chu\u1ed1t B\u00fat Ch\u00ec Masterart C\u1ee1 5 (M\u1eabu M\u00e0u Giao Ng\u1eabu Nhi\u00ean)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_242253.jpg",
 				"quantity": 4,
 				"salePrice": 3500,
-				"totalPrice": 14000
+				"totalPrice": 14000,
+				"purchasePrice": 3150
 			},
 			{
 				"productId": "prod00080",
 				"sku": "prod00080",
-				"name": "Bộ Xoay Nam Châm",
+				"name": "B\u1ed9 Xoay Nam Ch\u00e2m",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8938500905674-_8_.jpg",
 				"quantity": 3,
 				"salePrice": 38500,
-				"totalPrice": 115500
+				"totalPrice": 115500,
+				"purchasePrice": 28875
 			}
 		],
 		"subtotal": 790000,
@@ -2798,7 +2949,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -2810,16 +2961,17 @@
 		"returnDate": "2022-07-11T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00011",
-		"customerName": "Đặng Thị Kiên",
+		"customerName": "\u0110\u1eb7ng Th\u1ecb Ki\u00ean",
 		"items": [
 			{
 				"productId": "prod00061",
 				"sku": "prod00061",
-				"name": "Máy Tính Casio FX580VN X-BU (Màu Xanh)",
+				"name": "M\u00e1y T\u00ednh Casio FX580VN X-BU (M\u00e0u Xanh)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/c/a/casio-fx-580vn-x-xanh-body-1-dd.jpg",
 				"quantity": 2,
 				"salePrice": 757000,
-				"totalPrice": 1514000
+				"totalPrice": 1514000,
+				"purchasePrice": 681300
 			}
 		],
 		"subtotal": 1514000,
@@ -2846,7 +2998,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -2858,16 +3010,17 @@
 		"returnDate": "2022-09-18T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00025",
-		"customerName": "Đặng Nguyễn Nam",
+		"customerName": "\u0110\u1eb7ng Nguy\u1ec5n Nam",
 		"items": [
 			{
 				"productId": "prod00018",
 				"sku": "prod00018",
-				"name": "Chiến Thuật Ôn Tập Ngữ Văn Lớp 9 - Luyện Thi Vào 10 Bằng Sơ Đồ Tư Duy",
+				"name": "Chi\u1ebfn Thu\u1eadt \u00d4n T\u1eadp Ng\u1eef V\u0103n L\u1edbp 9 - Luy\u1ec7n Thi V\u00e0o 10 B\u1eb1ng S\u01a1 \u0110\u1ed3 T\u01b0 Duy",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935246917411_1.jpg",
 				"quantity": 5,
 				"salePrice": 219000,
-				"totalPrice": 1095000
+				"totalPrice": 1095000,
+				"purchasePrice": 186150
 			}
 		],
 		"subtotal": 1095000,
@@ -2894,7 +3047,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -2906,25 +3059,27 @@
 		"returnDate": "2022-09-25T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00004",
-		"customerName": "Lê Nguyên",
+		"customerName": "L\u00ea Nguy\u00ean",
 		"items": [
 			{
 				"productId": "prod00060",
 				"sku": "prod00060",
-				"name": "Lịch Treo Tường One Piece 2024 - Tặng Kèm Poster Gắn Bên Trong",
+				"name": "L\u1ecbch Treo T\u01b0\u1eddng One Piece 2024 - T\u1eb7ng K\u00e8m Poster G\u1eafn B\u00ean Trong",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935352601556.jpg",
 				"quantity": 1,
 				"salePrice": 60000,
-				"totalPrice": 60000
+				"totalPrice": 60000,
+				"purchasePrice": 57000
 			},
 			{
 				"productId": "prod00061",
 				"sku": "prod00061",
-				"name": "Máy Tính Casio FX580VN X-BU (Màu Xanh)",
+				"name": "M\u00e1y T\u00ednh Casio FX580VN X-BU (M\u00e0u Xanh)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/c/a/casio-fx-580vn-x-xanh-body-1-dd.jpg",
 				"quantity": 5,
 				"salePrice": 757000,
-				"totalPrice": 3785000
+				"totalPrice": 3785000,
+				"purchasePrice": 681300
 			}
 		],
 		"subtotal": 3845000,
@@ -2951,7 +3106,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -2963,43 +3118,47 @@
 		"returnDate": "2022-09-25T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00008",
-		"customerName": "Tô Nam",
+		"customerName": "T\u00f4 Nam",
 		"items": [
 			{
 				"productId": "prod00097",
 				"sku": "prod00097",
-				"name": "Bộ 5 Xốp Eva Kim Tuyến Decal DYI Art & Craft - Star Kids K-901 (Sắc Độ Màu Giao Ngẫu Nhiên)",
+				"name": "B\u1ed9 5 X\u1ed1p Eva Kim Tuy\u1ebfn Decal DYI Art & Craft - Star Kids K-901 (S\u1eafc \u0110\u1ed9 M\u00e0u Giao Ng\u1eabu Nhi\u00ean)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935256603885.jpg",
 				"quantity": 5,
 				"salePrice": 69000,
-				"totalPrice": 345000
+				"totalPrice": 345000,
+				"purchasePrice": 65550
 			},
 			{
 				"productId": "prod00071",
 				"sku": "prod00071",
-				"name": "Chuốt Bút Chì Masterart Cỡ 5 (Mẫu Màu Giao Ngẫu Nhiên)",
+				"name": "Chu\u1ed1t B\u00fat Ch\u00ec Masterart C\u1ee1 5 (M\u1eabu M\u00e0u Giao Ng\u1eabu Nhi\u00ean)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_242253.jpg",
 				"quantity": 4,
 				"salePrice": 3500,
-				"totalPrice": 14000
+				"totalPrice": 14000,
+				"purchasePrice": 3150
 			},
 			{
 				"productId": "prod00001",
 				"sku": "prod00001",
-				"name": "Dế Mèn Phiêu Lưu Ký - Tái Bản 2020",
+				"name": "D\u1ebf M\u00e8n Phi\u00eau L\u01b0u K\u00fd - T\u00e1i B\u1ea3n 2020",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/d/e/de-men-50k_1.jpg",
 				"quantity": 2,
 				"salePrice": 50000,
-				"totalPrice": 100000
+				"totalPrice": 100000,
+				"purchasePrice": 42500
 			},
 			{
 				"productId": "prod00033",
 				"sku": "prod00033",
-				"name": "Hiệp Sĩ Xương Trên Đường Du Hành Đến Thế Giới Khác - Tập 3",
+				"name": "Hi\u1ec7p S\u0129 X\u01b0\u01a1ng Tr\u00ean \u0110\u01b0\u1eddng Du H\u00e0nh \u0110\u1ebfn Th\u1ebf Gi\u1edbi Kh\u00e1c - T\u1eadp 3",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/t/h/th_ng-tin-ph_t-h_nh-s_ch-hi_p-s_-x_ng-3600.jpg",
 				"quantity": 4,
 				"salePrice": 139000,
-				"totalPrice": 556000
+				"totalPrice": 556000,
+				"purchasePrice": 69500
 			}
 		],
 		"subtotal": 1015000,
@@ -3026,7 +3185,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -3038,70 +3197,77 @@
 		"returnDate": "2022-09-26T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00002",
-		"customerName": "Đặng Nguyễn Quân",
+		"customerName": "\u0110\u1eb7ng Nguy\u1ec5n Qu\u00e2n",
 		"items": [
 			{
 				"productId": "prod00062",
 				"sku": "prod00062",
-				"name": "Lịch Bàn Thị Trấn Mèo 2024",
+				"name": "L\u1ecbch B\u00e0n Th\u1ecb Tr\u1ea5n M\u00e8o 2024",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935352601228.jpg",
 				"quantity": 5,
 				"salePrice": 60000,
-				"totalPrice": 300000
+				"totalPrice": 300000,
+				"purchasePrice": 57000
 			},
 			{
 				"productId": "prod00043",
 				"sku": "prod00043",
-				"name": "48 Nguyên Tắc Chủ Chốt Của Quyền Lực (Tái Bản 2020)",
+				"name": "48 Nguy\u00ean T\u1eafc Ch\u1ee7 Ch\u1ed1t C\u1ee7a Quy\u1ec1n L\u1ef1c (T\u00e1i B\u1ea3n 2020)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_32101.jpg",
 				"quantity": 2,
 				"salePrice": 200000,
-				"totalPrice": 400000
+				"totalPrice": 400000,
+				"purchasePrice": 140000
 			},
 			{
 				"productId": "prod00068",
 				"sku": "prod00068",
-				"name": "Bút Bi 0.7 mm Thiên Long TL-047 - Mực Xanh",
+				"name": "B\u00fat Bi 0.7 mm Thi\u00ean Long TL-047 - M\u1ef1c Xanh",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001802921_1.jpg",
 				"quantity": 5,
 				"salePrice": 10500,
-				"totalPrice": 52500
+				"totalPrice": 52500,
+				"purchasePrice": 8190
 			},
 			{
 				"productId": "prod00059",
 				"sku": "prod00059",
-				"name": "Lịch Treo Tường Học Viện Siêu Anh Hùng 2024 - Tặng Kèm Poster Gắn Bên Trong",
+				"name": "L\u1ecbch Treo T\u01b0\u1eddng H\u1ecdc Vi\u1ec7n Si\u00eau Anh H\u00f9ng 2024 - T\u1eb7ng K\u00e8m Poster G\u1eafn B\u00ean Trong",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935352601549_1_1.jpg",
 				"quantity": 4,
 				"salePrice": 60000,
-				"totalPrice": 240000
+				"totalPrice": 240000,
+				"purchasePrice": 57000
 			},
 			{
 				"productId": "prod00005",
 				"sku": "prod00005",
-				"name": "Dế Mèn Phiêu Lưu Ký - Đậu Đũa Minh Họa",
+				"name": "D\u1ebf M\u00e8n Phi\u00eau L\u01b0u K\u00fd - \u0110\u1eadu \u0110\u0169a Minh H\u1ecda",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935244848502.jpg",
 				"quantity": 3,
 				"salePrice": 225000,
-				"totalPrice": 675000
+				"totalPrice": 675000,
+				"purchasePrice": 168750
 			},
 			{
 				"productId": "prod00065",
 				"sku": "prod00065",
-				"name": "Tập Học Sinh Wolfoo Và Những Người Bạn - 4 Ô Ly 96 Trang 70gsm - Fahasa 03 (Mẫu Bìa Giao Ngẫu Nhiên)",
+				"name": "T\u1eadp H\u1ecdc Sinh Wolfoo V\u00e0 Nh\u1eefng Ng\u01b0\u1eddi B\u1ea1n - 4 \u00d4 Ly 96 Trang 70gsm - Fahasa 03 (M\u1eabu B\u00eca Giao Ng\u1eabu Nhi\u00ean)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8934986009172_5.jpg",
 				"quantity": 1,
 				"salePrice": 9500,
-				"totalPrice": 9500
+				"totalPrice": 9500,
+				"purchasePrice": 9025
 			},
 			{
 				"productId": "prod00006",
 				"sku": "prod00006",
-				"name": "Tớ Là Mèo Pusheen (Tái Bản 2019)",
+				"name": "T\u1edb L\u00e0 M\u00e8o Pusheen (T\u00e1i B\u1ea3n 2019)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_180905.jpg",
 				"quantity": 3,
 				"salePrice": 80000,
-				"totalPrice": 240000
+				"totalPrice": 240000,
+				"purchasePrice": 80000
 			}
 		],
 		"subtotal": 1917000,
@@ -3128,7 +3294,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -3140,25 +3306,27 @@
 		"returnDate": "2022-10-13T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00027",
-		"customerName": "Đặng Nguyễn Quân",
+		"customerName": "\u0110\u1eb7ng Nguy\u1ec5n Qu\u00e2n",
 		"items": [
 			{
 				"productId": "prod00016",
 				"sku": "prod00016",
-				"name": "Tiếng Anh Lớp 10 - Sách Học Sinh (Global Success) (2022)",
+				"name": "Ti\u1ebfng Anh L\u1edbp 10 - S\u00e1ch H\u1ecdc Sinh (Global Success) (2022)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/9/7/9786040324283_1_1.jpg",
 				"quantity": 4,
 				"salePrice": 73000,
-				"totalPrice": 292000
+				"totalPrice": 292000,
+				"purchasePrice": 73000
 			},
 			{
 				"productId": "prod00056",
 				"sku": "prod00056",
-				"name": "Giáo Trình Chuẩn HSK 1 (Tái Bản 2023)",
+				"name": "Gi\u00e1o Tr\u00ecnh Chu\u1ea9n HSK 1 (T\u00e1i B\u1ea3n 2023)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/9/7/9786043775662.jpg",
 				"quantity": 4,
 				"salePrice": 198000,
-				"totalPrice": 792000
+				"totalPrice": 792000,
+				"purchasePrice": 148500
 			}
 		],
 		"subtotal": 1084000,
@@ -3185,7 +3353,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -3197,70 +3365,77 @@
 		"returnDate": "2022-10-20T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00019",
-		"customerName": "Tô Quân",
+		"customerName": "T\u00f4 Qu\u00e2n",
 		"items": [
 			{
 				"productId": "prod00040",
 				"sku": "prod00040",
-				"name": "Chỉ Cần Ta Còn Sống",
+				"name": "Ch\u1ec9 C\u1ea7n Ta C\u00f2n S\u1ed1ng",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/x/u/xu_t-b_n-ch_-c_n-ta-c_n-s_ngbia1.jpg",
 				"quantity": 5,
 				"salePrice": 122000,
-				"totalPrice": 610000
+				"totalPrice": 610000,
+				"purchasePrice": 103700
 			},
 			{
 				"productId": "prod00013",
 				"sku": "prod00013",
-				"name": "Bảng Hệ Thống Tuần Hoàn Các Nguyên Tố Hóa Học",
+				"name": "B\u1ea3ng H\u1ec7 Th\u1ed1ng Tu\u1ea7n Ho\u00e0n C\u00e1c Nguy\u00ean T\u1ed1 H\u00f3a H\u1ecdc",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_199427.jpg",
 				"quantity": 3,
 				"salePrice": 10000,
-				"totalPrice": 30000
+				"totalPrice": 30000,
+				"purchasePrice": 8500
 			},
 			{
 				"productId": "prod00078",
 				"sku": "prod00078",
-				"name": "Đồ Chơi Mô Hình MINIFORCE - Robot Hộ Thần Tam Long Hợp Thể Trioh V - 503020",
+				"name": "\u0110\u1ed3 Ch\u01a1i M\u00f4 H\u00ecnh MINIFORCE - Robot H\u1ed9 Th\u1ea7n Tam Long H\u1ee3p Th\u1ec3 Trioh V - 503020",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/8/8809758733435.jpg",
 				"quantity": 5,
 				"salePrice": 349000,
-				"totalPrice": 1745000
+				"totalPrice": 1745000,
+				"purchasePrice": 296650
 			},
 			{
 				"productId": "prod00038",
 				"sku": "prod00038",
-				"name": "Arya Bàn Bên Thỉnh Thoảng Lại Trêu Ghẹo Tôi Bằng Tiếng Nga - Tập 4 - Bản Phổ Thông - Tặng Kèm Bookmark Bế Hình + Bìa Áo Bonus",
+				"name": "Arya B\u00e0n B\u00ean Th\u1ec9nh Tho\u1ea3ng L\u1ea1i Tr\u00eau Gh\u1eb9o T\u00f4i B\u1eb1ng Ti\u1ebfng Nga - T\u1eadp 4 - B\u1ea3n Ph\u1ed5 Th\u00f4ng - T\u1eb7ng K\u00e8m Bookmark B\u1ebf H\u00ecnh + B\u00eca \u00c1o Bonus",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/z/4/z4749269235520_9e8aea22702a59ef1f204c51060a5c10.jpg",
 				"quantity": 1,
 				"salePrice": 95000,
-				"totalPrice": 95000
+				"totalPrice": 95000,
+				"purchasePrice": 71250
 			},
 			{
 				"productId": "prod00038",
 				"sku": "prod00038",
-				"name": "Arya Bàn Bên Thỉnh Thoảng Lại Trêu Ghẹo Tôi Bằng Tiếng Nga - Tập 4 - Bản Phổ Thông - Tặng Kèm Bookmark Bế Hình + Bìa Áo Bonus",
+				"name": "Arya B\u00e0n B\u00ean Th\u1ec9nh Tho\u1ea3ng L\u1ea1i Tr\u00eau Gh\u1eb9o T\u00f4i B\u1eb1ng Ti\u1ebfng Nga - T\u1eadp 4 - B\u1ea3n Ph\u1ed5 Th\u00f4ng - T\u1eb7ng K\u00e8m Bookmark B\u1ebf H\u00ecnh + B\u00eca \u00c1o Bonus",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/z/4/z4749269235520_9e8aea22702a59ef1f204c51060a5c10.jpg",
 				"quantity": 1,
 				"salePrice": 95000,
-				"totalPrice": 95000
+				"totalPrice": 95000,
+				"purchasePrice": 71250
 			},
 			{
 				"productId": "prod00003",
 				"sku": "prod00003",
-				"name": "365 Truyện Kể Trước Giờ Đi Ngủ - Những Câu Chuyện Phát Triển Chỉ Số Tình Cảm EQ",
+				"name": "365 Truy\u1ec7n K\u1ec3 Tr\u01b0\u1edbc Gi\u1edd \u0110i Ng\u1ee7 - Nh\u1eefng C\u00e2u Chuy\u1ec7n Ph\u00e1t Tri\u1ec3n Ch\u1ec9 S\u1ed1 T\u00ecnh C\u1ea3m EQ",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935212341134_1.jpg",
 				"quantity": 2,
 				"salePrice": 78000,
-				"totalPrice": 156000
+				"totalPrice": 156000,
+				"purchasePrice": 54600
 			},
 			{
 				"productId": "prod00083",
 				"sku": "prod00083",
-				"name": "Đồ Chơi Trống Bi Bô Nốt Nhạc Xanh DK81045",
+				"name": "\u0110\u1ed3 Ch\u01a1i Tr\u1ed1ng Bi B\u00f4 N\u1ed1t Nh\u1ea1c Xanh DK81045",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_236964.jpg",
 				"quantity": 2,
 				"salePrice": 120000,
-				"totalPrice": 240000
+				"totalPrice": 240000,
+				"purchasePrice": 66000
 			}
 		],
 		"subtotal": 2971000,
@@ -3287,7 +3462,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -3299,52 +3474,57 @@
 		"returnDate": "2022-10-25T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00027",
-		"customerName": "Đặng Nguyễn Quân",
+		"customerName": "\u0110\u1eb7ng Nguy\u1ec5n Qu\u00e2n",
 		"items": [
 			{
 				"productId": "prod00097",
 				"sku": "prod00097",
-				"name": "Bộ 5 Xốp Eva Kim Tuyến Decal DYI Art & Craft - Star Kids K-901 (Sắc Độ Màu Giao Ngẫu Nhiên)",
+				"name": "B\u1ed9 5 X\u1ed1p Eva Kim Tuy\u1ebfn Decal DYI Art & Craft - Star Kids K-901 (S\u1eafc \u0110\u1ed9 M\u00e0u Giao Ng\u1eabu Nhi\u00ean)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935256603885.jpg",
 				"quantity": 3,
 				"salePrice": 69000,
-				"totalPrice": 207000
+				"totalPrice": 207000,
+				"purchasePrice": 65550
 			},
 			{
 				"productId": "prod00072",
 				"sku": "prod00072",
-				"name": "Bút Lông Bảng Thiên Long WB-02 - Mực Xanh",
+				"name": "B\u00fat L\u00f4ng B\u1ea3ng Thi\u00ean Long WB-02 - M\u1ef1c Xanh",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_236630.jpg",
 				"quantity": 2,
 				"salePrice": 8000,
-				"totalPrice": 16000
+				"totalPrice": 16000,
+				"purchasePrice": 7200
 			},
 			{
 				"productId": "prod00061",
 				"sku": "prod00061",
-				"name": "Máy Tính Casio FX580VN X-BU (Màu Xanh)",
+				"name": "M\u00e1y T\u00ednh Casio FX580VN X-BU (M\u00e0u Xanh)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/c/a/casio-fx-580vn-x-xanh-body-1-dd.jpg",
 				"quantity": 3,
 				"salePrice": 757000,
-				"totalPrice": 2271000
+				"totalPrice": 2271000,
+				"purchasePrice": 681300
 			},
 			{
 				"productId": "prod00035",
 				"sku": "prod00035",
-				"name": "Hiệp Sĩ Xương Trên Đường Du Hành Đến Thế Giới Khác - Tập 5 - Tặng Kèm Bookmark",
+				"name": "Hi\u1ec7p S\u0129 X\u01b0\u01a1ng Tr\u00ean \u0110\u01b0\u1eddng Du H\u00e0nh \u0110\u1ebfn Th\u1ebf Gi\u1edbi Kh\u00e1c - T\u1eadp 5 - T\u1eb7ng K\u00e8m Bookmark",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/0/7/071123-9.jpg",
 				"quantity": 5,
 				"salePrice": 159000,
-				"totalPrice": 795000
+				"totalPrice": 795000,
+				"purchasePrice": 135150
 			},
 			{
 				"productId": "prod00051",
 				"sku": "prod00051",
-				"name": "Phân Tích Tâm Lý Tội Phạm - Thế Giới Bên Trong Cái Ác",
+				"name": "Ph\u00e2n T\u00edch T\u00e2m L\u00fd T\u1ed9i Ph\u1ea1m - Th\u1ebf Gi\u1edbi B\u00ean Trong C\u00e1i \u00c1c",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935325014222.jpg",
 				"quantity": 5,
 				"salePrice": 135000,
-				"totalPrice": 675000
+				"totalPrice": 675000,
+				"purchasePrice": 94500
 			}
 		],
 		"subtotal": 3964000,
@@ -3371,7 +3551,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -3383,70 +3563,77 @@
 		"returnDate": "2022-11-09T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00003",
-		"customerName": "Đặng Nguyễn Nam",
+		"customerName": "\u0110\u1eb7ng Nguy\u1ec5n Nam",
 		"items": [
 			{
 				"productId": "prod00097",
 				"sku": "prod00097",
-				"name": "Bộ 5 Xốp Eva Kim Tuyến Decal DYI Art & Craft - Star Kids K-901 (Sắc Độ Màu Giao Ngẫu Nhiên)",
+				"name": "B\u1ed9 5 X\u1ed1p Eva Kim Tuy\u1ebfn Decal DYI Art & Craft - Star Kids K-901 (S\u1eafc \u0110\u1ed9 M\u00e0u Giao Ng\u1eabu Nhi\u00ean)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935256603885.jpg",
 				"quantity": 4,
 				"salePrice": 69000,
-				"totalPrice": 276000
+				"totalPrice": 276000,
+				"purchasePrice": 65550
 			},
 			{
 				"productId": "prod00055",
 				"sku": "prod00055",
-				"name": "Tự Học 2000 Từ Vựng Tiếng Anh Theo Chủ Đề (Tái Bản)",
+				"name": "T\u1ef1 H\u1ecdc 2000 T\u1eeb V\u1ef1ng Ti\u1ebfng Anh Theo Ch\u1ee7 \u0110\u1ec1 (T\u00e1i B\u1ea3n)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/c/8/c8516f45954672182b57.jpg",
 				"quantity": 4,
 				"salePrice": 65000,
-				"totalPrice": 260000
+				"totalPrice": 260000,
+				"purchasePrice": 39000
 			},
 			{
 				"productId": "prod00089",
 				"sku": "prod00089",
-				"name": "Đồ Chơi Siêu Xe Điều Khiển Từ Xa McLaren WINKA DK81002 - Màu Đỏ",
+				"name": "\u0110\u1ed3 Ch\u01a1i Si\u00eau Xe \u0110i\u1ec1u Khi\u1ec3n T\u1eeb Xa McLaren WINKA DK81002 - M\u00e0u \u0110\u1ecf",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_28563.jpg",
 				"quantity": 4,
 				"salePrice": 250000,
-				"totalPrice": 1000000
+				"totalPrice": 1000000,
+				"purchasePrice": 137500
 			},
 			{
 				"productId": "prod00068",
 				"sku": "prod00068",
-				"name": "Bút Bi 0.7 mm Thiên Long TL-047 - Mực Xanh",
+				"name": "B\u00fat Bi 0.7 mm Thi\u00ean Long TL-047 - M\u1ef1c Xanh",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001802921_1.jpg",
 				"quantity": 2,
 				"salePrice": 10500,
-				"totalPrice": 21000
+				"totalPrice": 21000,
+				"purchasePrice": 8190
 			},
 			{
 				"productId": "prod00054",
 				"sku": "prod00054",
-				"name": "25 Chuyên Đề Ngữ Pháp Tiếng Anh Trọng Tâm - Tập 1",
+				"name": "25 Chuy\u00ean \u0110\u1ec1 Ng\u1eef Ph\u00e1p Ti\u1ebfng Anh Tr\u1ecdng T\u00e2m - T\u1eadp 1",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_188186.jpg",
 				"quantity": 4,
 				"salePrice": 110000,
-				"totalPrice": 440000
+				"totalPrice": 440000,
+				"purchasePrice": 73700
 			},
 			{
 				"productId": "prod00035",
 				"sku": "prod00035",
-				"name": "Hiệp Sĩ Xương Trên Đường Du Hành Đến Thế Giới Khác - Tập 5 - Tặng Kèm Bookmark",
+				"name": "Hi\u1ec7p S\u0129 X\u01b0\u01a1ng Tr\u00ean \u0110\u01b0\u1eddng Du H\u00e0nh \u0110\u1ebfn Th\u1ebf Gi\u1edbi Kh\u00e1c - T\u1eadp 5 - T\u1eb7ng K\u00e8m Bookmark",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/0/7/071123-9.jpg",
 				"quantity": 4,
 				"salePrice": 159000,
-				"totalPrice": 636000
+				"totalPrice": 636000,
+				"purchasePrice": 135150
 			},
 			{
 				"productId": "prod00096",
 				"sku": "prod00096",
-				"name": "Hộp Quà Chữ Nhật Giấy Đính Nơ - Linh Lan 38 x 28 cm",
+				"name": "H\u1ed9p Qu\u00e0 Ch\u1eef Nh\u1eadt Gi\u1ea5y \u0110\u00ednh N\u01a1 - Linh Lan 38 x 28 cm",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936078092178.jpg",
 				"quantity": 4,
 				"salePrice": 98000,
-				"totalPrice": 392000
+				"totalPrice": 392000,
+				"purchasePrice": 93100
 			}
 		],
 		"subtotal": 3025000,
@@ -3473,7 +3660,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -3485,43 +3672,47 @@
 		"returnDate": "2022-11-18T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00011",
-		"customerName": "Đặng Thị Kiên",
+		"customerName": "\u0110\u1eb7ng Th\u1ecb Ki\u00ean",
 		"items": [
 			{
 				"productId": "prod00025",
 				"sku": "prod00025",
-				"name": "Đám Trẻ Ở Đại Dương Đen",
+				"name": "\u0110\u00e1m Tr\u1ebb \u1ede \u0110\u1ea1i D\u01b0\u01a1ng \u0110en",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935325011559.jpg",
 				"quantity": 4,
 				"salePrice": 99000,
-				"totalPrice": 396000
+				"totalPrice": 396000,
+				"purchasePrice": 69300
 			},
 			{
 				"productId": "prod00026",
 				"sku": "prod00026",
-				"name": "999 Lá Thư Gửi Cho Chính Mình - Những Lá Thư Ấn Tượng Nhất (Phiên Bản Song Ngữ Trung - Việt)",
+				"name": "999 L\u00e1 Th\u01b0 G\u1eedi Cho Ch\u00ednh M\u00ecnh - Nh\u1eefng L\u00e1 Th\u01b0 \u1ea4n T\u01b0\u1ee3ng Nh\u1ea5t (Phi\u00ean B\u1ea3n Song Ng\u1eef Trung - Vi\u1ec7t)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935325010736.jpg",
 				"quantity": 5,
 				"salePrice": 99000,
-				"totalPrice": 495000
+				"totalPrice": 495000,
+				"purchasePrice": 69300
 			},
 			{
 				"productId": "prod00032",
 				"sku": "prod00032",
-				"name": "Hiệp Sĩ Xương Trên Đường Du Hành Đến Thế Giới Khác - Tập 1",
+				"name": "Hi\u1ec7p S\u0129 X\u01b0\u01a1ng Tr\u00ean \u0110\u01b0\u1eddng Du H\u00e0nh \u0110\u1ebfn Th\u1ebf Gi\u1edbi Kh\u00e1c - T\u1eadp 1",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936186544002.jpg",
 				"quantity": 3,
 				"salePrice": 126000,
-				"totalPrice": 378000
+				"totalPrice": 378000,
+				"purchasePrice": 63000
 			},
 			{
 				"productId": "prod00013",
 				"sku": "prod00013",
-				"name": "Bảng Hệ Thống Tuần Hoàn Các Nguyên Tố Hóa Học",
+				"name": "B\u1ea3ng H\u1ec7 Th\u1ed1ng Tu\u1ea7n Ho\u00e0n C\u00e1c Nguy\u00ean T\u1ed1 H\u00f3a H\u1ecdc",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_199427.jpg",
 				"quantity": 4,
 				"salePrice": 10000,
-				"totalPrice": 40000
+				"totalPrice": 40000,
+				"purchasePrice": 8500
 			}
 		],
 		"subtotal": 1309000,
@@ -3548,7 +3739,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -3560,34 +3751,37 @@
 		"returnDate": "2022-11-29T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00001",
-		"customerName": "Nguyễn Văn Kiệt",
+		"customerName": "Nguy\u1ec5n V\u0103n Ki\u1ec7t",
 		"items": [
 			{
 				"productId": "prod00063",
 				"sku": "prod00063",
-				"name": "Bút Bi Claro Sigma Plus Gold 0.7 mm - Mực Xanh",
+				"name": "B\u00fat Bi Claro Sigma Plus Gold 0.7 mm - M\u1ef1c Xanh",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8907016014514.jpg",
 				"quantity": 1,
 				"salePrice": 9000,
-				"totalPrice": 9000
+				"totalPrice": 9000,
+				"purchasePrice": 7200
 			},
 			{
 				"productId": "prod00043",
 				"sku": "prod00043",
-				"name": "48 Nguyên Tắc Chủ Chốt Của Quyền Lực (Tái Bản 2020)",
+				"name": "48 Nguy\u00ean T\u1eafc Ch\u1ee7 Ch\u1ed1t C\u1ee7a Quy\u1ec1n L\u1ef1c (T\u00e1i B\u1ea3n 2020)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_32101.jpg",
 				"quantity": 3,
 				"salePrice": 200000,
-				"totalPrice": 600000
+				"totalPrice": 600000,
+				"purchasePrice": 140000
 			},
 			{
 				"productId": "prod00071",
 				"sku": "prod00071",
-				"name": "Chuốt Bút Chì Masterart Cỡ 5 (Mẫu Màu Giao Ngẫu Nhiên)",
+				"name": "Chu\u1ed1t B\u00fat Ch\u00ec Masterart C\u1ee1 5 (M\u1eabu M\u00e0u Giao Ng\u1eabu Nhi\u00ean)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_242253.jpg",
 				"quantity": 3,
 				"salePrice": 3500,
-				"totalPrice": 10500
+				"totalPrice": 10500,
+				"purchasePrice": 3150
 			}
 		],
 		"subtotal": 619500,
@@ -3614,7 +3808,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -3626,16 +3820,17 @@
 		"returnDate": "2022-11-29T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00017",
-		"customerName": "Trần Văn Nữ",
+		"customerName": "Tr\u1ea7n V\u0103n N\u1eef",
 		"items": [
 			{
 				"productId": "prod00023",
 				"sku": "prod00023",
-				"name": "Thượng Dương",
+				"name": "Th\u01b0\u1ee3ng D\u01b0\u01a1ng",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_216250.jpg",
 				"quantity": 5,
 				"salePrice": 108000,
-				"totalPrice": 540000
+				"totalPrice": 540000,
+				"purchasePrice": 74520
 			}
 		],
 		"subtotal": 540000,
@@ -3662,7 +3857,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -3674,16 +3869,17 @@
 		"returnDate": "2022-11-30T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00017",
-		"customerName": "Trần Văn Nữ",
+		"customerName": "Tr\u1ea7n V\u0103n N\u1eef",
 		"items": [
 			{
 				"productId": "prod00033",
 				"sku": "prod00033",
-				"name": "Hiệp Sĩ Xương Trên Đường Du Hành Đến Thế Giới Khác - Tập 3",
+				"name": "Hi\u1ec7p S\u0129 X\u01b0\u01a1ng Tr\u00ean \u0110\u01b0\u1eddng Du H\u00e0nh \u0110\u1ebfn Th\u1ebf Gi\u1edbi Kh\u00e1c - T\u1eadp 3",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/t/h/th_ng-tin-ph_t-h_nh-s_ch-hi_p-s_-x_ng-3600.jpg",
 				"quantity": 3,
 				"salePrice": 139000,
-				"totalPrice": 417000
+				"totalPrice": 417000,
+				"purchasePrice": 69500
 			}
 		],
 		"subtotal": 417000,
@@ -3710,7 +3906,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -3722,25 +3918,27 @@
 		"returnDate": "2022-12-08T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00023",
-		"customerName": "Nguyễn Văn Khiêm",
+		"customerName": "Nguy\u1ec5n V\u0103n Khi\u00eam",
 		"items": [
 			{
 				"productId": "prod00002",
 				"sku": "prod00002",
-				"name": "Những Truyện Hay Viết Cho Thiếu Nhi - Tô Hoài (Tái Bản 2019)",
+				"name": "Nh\u1eefng Truy\u1ec7n Hay Vi\u1ebft Cho Thi\u1ebfu Nhi - T\u00f4 Ho\u00e0i (T\u00e1i B\u1ea3n 2019)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_180888.jpg",
 				"quantity": 4,
 				"salePrice": 80000,
-				"totalPrice": 320000
+				"totalPrice": 320000,
+				"purchasePrice": 56000
 			},
 			{
 				"productId": "prod00044",
 				"sku": "prod00044",
-				"name": "Hành Tinh Của Một Kẻ Nghĩ Nhiều",
+				"name": "H\u00e0nh Tinh C\u1ee7a M\u1ed9t K\u1ebb Ngh\u0129 Nhi\u1ec1u",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/h/_/h_nh-tinh-c_a-m_t-k_-ngh_-nhi_u-tr_c-1-1.jpg",
 				"quantity": 4,
 				"salePrice": 86000,
-				"totalPrice": 344000
+				"totalPrice": 344000,
+				"purchasePrice": 60200
 			}
 		],
 		"subtotal": 664000,
@@ -3767,7 +3965,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -3779,70 +3977,77 @@
 		"returnDate": "2022-12-13T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00010",
-		"customerName": "Nguyễn Văn Lan",
+		"customerName": "Nguy\u1ec5n V\u0103n Lan",
 		"items": [
 			{
 				"productId": "prod00037",
 				"sku": "prod00037",
-				"name": "Arya Bàn Bên Thỉnh Thoảng Lại Trêu Ghẹo Tôi Bằng Tiếng Nga - Tập 2 - Bản Phổ Thông - Tặng Kèm Bookmark Bế Hình + Bìa Áo Bonus",
+				"name": "Arya B\u00e0n B\u00ean Th\u1ec9nh Tho\u1ea3ng L\u1ea1i Tr\u00eau Gh\u1eb9o T\u00f4i B\u1eb1ng Ti\u1ebfng Nga - T\u1eadp 2 - B\u1ea3n Ph\u1ed5 Th\u00f4ng - T\u1eb7ng K\u00e8m Bookmark B\u1ebf H\u00ecnh + B\u00eca \u00c1o Bonus",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/6/0/600arya-ban-ben-thinh-thoang-lai-treu-gheo-toi-bang-tieng-nga---tap-2---ban-pho-thong.jpg",
 				"quantity": 4,
 				"salePrice": 95000,
-				"totalPrice": 380000
+				"totalPrice": 380000,
+				"purchasePrice": 76000
 			},
 			{
 				"productId": "prod00015",
 				"sku": "prod00015",
-				"name": "Bảng Tuần Hoàn Các Nguyên Tố Hóa Học Theo Chương Trình Giáo Dục Phổ Thông Mới",
+				"name": "B\u1ea3ng Tu\u1ea7n Ho\u00e0n C\u00e1c Nguy\u00ean T\u1ed1 H\u00f3a H\u1ecdc Theo Ch\u01b0\u01a1ng Tr\u00ecnh Gi\u00e1o D\u1ee5c Ph\u1ed5 Th\u00f4ng M\u1edbi",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936036316346.jpg",
 				"quantity": 1,
 				"salePrice": 10000,
-				"totalPrice": 10000
+				"totalPrice": 10000,
+				"purchasePrice": 8500
 			},
 			{
 				"productId": "prod00031",
 				"sku": "prod00031",
-				"name": "Mình Ngồi Xuống Kể Tổn Thương Trong Lòng (Tái Bản)",
+				"name": "M\u00ecnh Ng\u1ed3i Xu\u1ed1ng K\u1ec3 T\u1ed5n Th\u01b0\u01a1ng Trong L\u00f2ng (T\u00e1i B\u1ea3n)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/g/t/gt_-m_nh-ng_i-xu_ng-k_-t_n-th_ng-trong-l_ngbia-1_2.jpg",
 				"quantity": 4,
 				"salePrice": 99000,
-				"totalPrice": 396000
+				"totalPrice": 396000,
+				"purchasePrice": 92070
 			},
 			{
 				"productId": "prod00017",
 				"sku": "prod00017",
-				"name": "Chinh Phục Luyện Thi Vào Lớp 10 Môn Ngữ Văn Theo Chủ Đề",
+				"name": "Chinh Ph\u1ee5c Luy\u1ec7n Thi V\u00e0o L\u1edbp 10 M\u00f4n Ng\u1eef V\u0103n Theo Ch\u1ee7 \u0110\u1ec1",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_39486.jpg",
 				"quantity": 4,
 				"salePrice": 159000,
-				"totalPrice": 636000
+				"totalPrice": 636000,
+				"purchasePrice": 127200
 			},
 			{
 				"productId": "prod00075",
 				"sku": "prod00075",
-				"name": "Mực Bút Lông Bảng 25ml - Thiên Long WBI-01 - Mực Xanh",
+				"name": "M\u1ef1c B\u00fat L\u00f4ng B\u1ea3ng 25ml - Thi\u00ean Long WBI-01 - M\u1ef1c Xanh",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001831419.jpg",
 				"quantity": 3,
 				"salePrice": 27000,
-				"totalPrice": 81000
+				"totalPrice": 81000,
+				"purchasePrice": 24300
 			},
 			{
 				"productId": "prod00023",
 				"sku": "prod00023",
-				"name": "Thượng Dương",
+				"name": "Th\u01b0\u1ee3ng D\u01b0\u01a1ng",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_216250.jpg",
 				"quantity": 2,
 				"salePrice": 108000,
-				"totalPrice": 216000
+				"totalPrice": 216000,
+				"purchasePrice": 74520
 			},
 			{
 				"productId": "prod00048",
 				"sku": "prod00048",
-				"name": "Định Luật Murphy - Mọi Bí Mật Tâm Lý Thao Túng Cuộc Đời Bạn",
+				"name": "\u0110\u1ecbnh Lu\u1eadt Murphy - M\u1ecdi B\u00ed M\u1eadt T\u00e2m L\u00fd Thao T\u00fang Cu\u1ed9c \u0110\u1eddi B\u1ea1n",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/p/h/ph_t-h_nh-_nh-lu_t-murphybia-1.jpg",
 				"quantity": 1,
 				"salePrice": 119000,
-				"totalPrice": 119000
+				"totalPrice": 119000,
+				"purchasePrice": 83300
 			}
 		],
 		"subtotal": 1838000,
@@ -3869,7 +4074,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -3881,61 +4086,67 @@
 		"returnDate": "2022-12-14T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00013",
-		"customerName": "Đặng Nguyễn Nam",
+		"customerName": "\u0110\u1eb7ng Nguy\u1ec5n Nam",
 		"items": [
 			{
 				"productId": "prod00063",
 				"sku": "prod00063",
-				"name": "Bút Bi Claro Sigma Plus Gold 0.7 mm - Mực Xanh",
+				"name": "B\u00fat Bi Claro Sigma Plus Gold 0.7 mm - M\u1ef1c Xanh",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8907016014514.jpg",
 				"quantity": 5,
 				"salePrice": 9000,
-				"totalPrice": 45000
+				"totalPrice": 45000,
+				"purchasePrice": 7200
 			},
 			{
 				"productId": "prod00038",
 				"sku": "prod00038",
-				"name": "Arya Bàn Bên Thỉnh Thoảng Lại Trêu Ghẹo Tôi Bằng Tiếng Nga - Tập 4 - Bản Phổ Thông - Tặng Kèm Bookmark Bế Hình + Bìa Áo Bonus",
+				"name": "Arya B\u00e0n B\u00ean Th\u1ec9nh Tho\u1ea3ng L\u1ea1i Tr\u00eau Gh\u1eb9o T\u00f4i B\u1eb1ng Ti\u1ebfng Nga - T\u1eadp 4 - B\u1ea3n Ph\u1ed5 Th\u00f4ng - T\u1eb7ng K\u00e8m Bookmark B\u1ebf H\u00ecnh + B\u00eca \u00c1o Bonus",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/z/4/z4749269235520_9e8aea22702a59ef1f204c51060a5c10.jpg",
 				"quantity": 1,
 				"salePrice": 95000,
-				"totalPrice": 95000
+				"totalPrice": 95000,
+				"purchasePrice": 71250
 			},
 			{
 				"productId": "prod00050",
 				"sku": "prod00050",
-				"name": "Cánh Cửa Mở Rộng - Phải Trái Đúng Sai",
+				"name": "C\u00e1nh C\u1eeda M\u1edf R\u1ed9ng - Ph\u1ea3i Tr\u00e1i \u0110\u00fang Sai",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/2/0/2023_05_25_15_07_28_1-390x510.jpg",
 				"quantity": 4,
 				"salePrice": 155000,
-				"totalPrice": 620000
+				"totalPrice": 620000,
+				"purchasePrice": 108500
 			},
 			{
 				"productId": "prod00052",
 				"sku": "prod00052",
-				"name": "Giải Thích Ngữ Pháp Tiếng Anh (Tái Bản 2022)",
+				"name": "Gi\u1ea3i Th\u00edch Ng\u1eef Ph\u00e1p Ti\u1ebfng Anh (T\u00e1i B\u1ea3n 2022)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/z/3/z3097453775918_7ea22457f168a4de92d0ba8178a2257b.jpg",
 				"quantity": 4,
 				"salePrice": 220000,
-				"totalPrice": 880000
+				"totalPrice": 880000,
+				"purchasePrice": 147400
 			},
 			{
 				"productId": "prod00018",
 				"sku": "prod00018",
-				"name": "Chiến Thuật Ôn Tập Ngữ Văn Lớp 9 - Luyện Thi Vào 10 Bằng Sơ Đồ Tư Duy",
+				"name": "Chi\u1ebfn Thu\u1eadt \u00d4n T\u1eadp Ng\u1eef V\u0103n L\u1edbp 9 - Luy\u1ec7n Thi V\u00e0o 10 B\u1eb1ng S\u01a1 \u0110\u1ed3 T\u01b0 Duy",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935246917411_1.jpg",
 				"quantity": 2,
 				"salePrice": 219000,
-				"totalPrice": 438000
+				"totalPrice": 438000,
+				"purchasePrice": 186150
 			},
 			{
 				"productId": "prod00044",
 				"sku": "prod00044",
-				"name": "Hành Tinh Của Một Kẻ Nghĩ Nhiều",
+				"name": "H\u00e0nh Tinh C\u1ee7a M\u1ed9t K\u1ebb Ngh\u0129 Nhi\u1ec1u",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/h/_/h_nh-tinh-c_a-m_t-k_-ngh_-nhi_u-tr_c-1-1.jpg",
 				"quantity": 2,
 				"salePrice": 86000,
-				"totalPrice": 172000
+				"totalPrice": 172000,
+				"purchasePrice": 60200
 			}
 		],
 		"subtotal": 2250000,
@@ -3962,7 +4173,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -3974,34 +4185,37 @@
 		"returnDate": "2022-12-18T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00005",
-		"customerName": "Lê Khiêm",
+		"customerName": "L\u00ea Khi\u00eam",
 		"items": [
 			{
 				"productId": "prod00014",
 				"sku": "prod00014",
-				"name": "Bảng Cửu Chương - Bảng Chia",
+				"name": "B\u1ea3ng C\u1eedu Ch\u01b0\u01a1ng - B\u1ea3ng Chia",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936036316483.jpg",
 				"quantity": 4,
 				"salePrice": 10000,
-				"totalPrice": 40000
+				"totalPrice": 40000,
+				"purchasePrice": 8500
 			},
 			{
 				"productId": "prod00017",
 				"sku": "prod00017",
-				"name": "Chinh Phục Luyện Thi Vào Lớp 10 Môn Ngữ Văn Theo Chủ Đề",
+				"name": "Chinh Ph\u1ee5c Luy\u1ec7n Thi V\u00e0o L\u1edbp 10 M\u00f4n Ng\u1eef V\u0103n Theo Ch\u1ee7 \u0110\u1ec1",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_39486.jpg",
 				"quantity": 3,
 				"salePrice": 159000,
-				"totalPrice": 477000
+				"totalPrice": 477000,
+				"purchasePrice": 127200
 			},
 			{
 				"productId": "prod00086",
 				"sku": "prod00086",
-				"name": "Đồ Chơi Giáo Dục STEM Lắp Ráp Robot Chạy Bằng Năng Lượng Mặt Trời - Green Enegy 9501",
+				"name": "\u0110\u1ed3 Ch\u01a1i Gi\u00e1o D\u1ee5c STEM L\u1eafp R\u00e1p Robot Ch\u1ea1y B\u1eb1ng N\u0103ng L\u01b0\u1ee3ng M\u1eb7t Tr\u1eddi - Green Enegy 9501",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936190511526.jpg",
 				"quantity": 1,
 				"salePrice": 229000,
-				"totalPrice": 229000
+				"totalPrice": 229000,
+				"purchasePrice": 194650
 			}
 		],
 		"subtotal": 746000,
@@ -4028,7 +4242,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -4040,43 +4254,47 @@
 		"returnDate": "2022-12-30T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00015",
-		"customerName": "Nguyễn Quân",
+		"customerName": "Nguy\u1ec5n Qu\u00e2n",
 		"items": [
 			{
 				"productId": "prod00012",
 				"sku": "prod00012",
-				"name": "Sách Giáo Khoa Bộ Lớp 1 - Cánh Diều - Sách Bài Tập (Bộ 11 Cuốn) (2023)",
+				"name": "S\u00e1ch Gi\u00e1o Khoa B\u1ed9 L\u1edbp 1 - C\u00e1nh Di\u1ec1u - S\u00e1ch B\u00e0i T\u1eadp (B\u1ed9 11 Cu\u1ed1n) (2023)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/3/3300000015880-1_1_1.jpg",
 				"quantity": 1,
 				"salePrice": 134000,
-				"totalPrice": 134000
+				"totalPrice": 134000,
+				"purchasePrice": 134000
 			},
 			{
 				"productId": "prod00012",
 				"sku": "prod00012",
-				"name": "Sách Giáo Khoa Bộ Lớp 1 - Cánh Diều - Sách Bài Tập (Bộ 11 Cuốn) (2023)",
+				"name": "S\u00e1ch Gi\u00e1o Khoa B\u1ed9 L\u1edbp 1 - C\u00e1nh Di\u1ec1u - S\u00e1ch B\u00e0i T\u1eadp (B\u1ed9 11 Cu\u1ed1n) (2023)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/3/3300000015880-1_1_1.jpg",
 				"quantity": 4,
 				"salePrice": 134000,
-				"totalPrice": 536000
+				"totalPrice": 536000,
+				"purchasePrice": 134000
 			},
 			{
 				"productId": "prod00005",
 				"sku": "prod00005",
-				"name": "Dế Mèn Phiêu Lưu Ký - Đậu Đũa Minh Họa",
+				"name": "D\u1ebf M\u00e8n Phi\u00eau L\u01b0u K\u00fd - \u0110\u1eadu \u0110\u0169a Minh H\u1ecda",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935244848502.jpg",
 				"quantity": 4,
 				"salePrice": 225000,
-				"totalPrice": 900000
+				"totalPrice": 900000,
+				"purchasePrice": 168750
 			},
 			{
 				"productId": "prod00067",
 				"sku": "prod00067",
-				"name": "Vỉ 3 Bút Chì Gỗ 2B Thiên Long GP-01 (Mẫu Màu Giao Ngẫu Nhiên)",
+				"name": "V\u1ec9 3 B\u00fat Ch\u00ec G\u1ed7 2B Thi\u00ean Long GP-01 (M\u1eabu M\u00e0u Giao Ng\u1eabu Nhi\u00ean)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001821090_1.jpg",
 				"quantity": 2,
 				"salePrice": 14000,
-				"totalPrice": 28000
+				"totalPrice": 28000,
+				"purchasePrice": 11200
 			}
 		],
 		"subtotal": 1598000,
@@ -4103,7 +4321,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -4115,34 +4333,37 @@
 		"returnDate": "2023-01-08T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00018",
-		"customerName": "Trần Văn Khiêm",
+		"customerName": "Tr\u1ea7n V\u0103n Khi\u00eam",
 		"items": [
 			{
 				"productId": "prod00022",
 				"sku": "prod00022",
-				"name": "Người Bà Tài Giỏi Vùng Saga",
+				"name": "Ng\u01b0\u1eddi B\u00e0 T\u00e0i Gi\u1ecfi V\u00f9ng Saga",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_231202.jpg",
 				"quantity": 3,
 				"salePrice": 128000,
-				"totalPrice": 384000
+				"totalPrice": 384000,
+				"purchasePrice": 85760
 			},
 			{
 				"productId": "prod00073",
 				"sku": "prod00073",
-				"name": "Băng Keo Trong 5F - Màu Trắng",
+				"name": "B\u0103ng Keo Trong 5F - M\u00e0u Tr\u1eafng",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/1/5/1507020104040-_1_-1.jpg",
 				"quantity": 5,
 				"salePrice": 16500,
-				"totalPrice": 82500
+				"totalPrice": 82500,
+				"purchasePrice": 14850
 			},
 			{
 				"productId": "prod00075",
 				"sku": "prod00075",
-				"name": "Mực Bút Lông Bảng 25ml - Thiên Long WBI-01 - Mực Xanh",
+				"name": "M\u1ef1c B\u00fat L\u00f4ng B\u1ea3ng 25ml - Thi\u00ean Long WBI-01 - M\u1ef1c Xanh",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001831419.jpg",
 				"quantity": 1,
 				"salePrice": 27000,
-				"totalPrice": 27000
+				"totalPrice": 27000,
+				"purchasePrice": 24300
 			}
 		],
 		"subtotal": 493500,
@@ -4169,7 +4390,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -4181,16 +4402,17 @@
 		"returnDate": "2023-01-29T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00005",
-		"customerName": "Lê Khiêm",
+		"customerName": "L\u00ea Khi\u00eam",
 		"items": [
 			{
 				"productId": "prod00075",
 				"sku": "prod00075",
-				"name": "Mực Bút Lông Bảng 25ml - Thiên Long WBI-01 - Mực Xanh",
+				"name": "M\u1ef1c B\u00fat L\u00f4ng B\u1ea3ng 25ml - Thi\u00ean Long WBI-01 - M\u1ef1c Xanh",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001831419.jpg",
 				"quantity": 5,
 				"salePrice": 27000,
-				"totalPrice": 135000
+				"totalPrice": 135000,
+				"purchasePrice": 24300
 			}
 		],
 		"subtotal": 135000,
@@ -4217,7 +4439,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -4229,16 +4451,17 @@
 		"returnDate": "2023-02-01T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00013",
-		"customerName": "Đặng Nguyễn Nam",
+		"customerName": "\u0110\u1eb7ng Nguy\u1ec5n Nam",
 		"items": [
 			{
 				"productId": "prod00060",
 				"sku": "prod00060",
-				"name": "Lịch Treo Tường One Piece 2024 - Tặng Kèm Poster Gắn Bên Trong",
+				"name": "L\u1ecbch Treo T\u01b0\u1eddng One Piece 2024 - T\u1eb7ng K\u00e8m Poster G\u1eafn B\u00ean Trong",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935352601556.jpg",
 				"quantity": 2,
 				"salePrice": 60000,
-				"totalPrice": 120000
+				"totalPrice": 120000,
+				"purchasePrice": 57000
 			}
 		],
 		"subtotal": 120000,
@@ -4265,7 +4488,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -4277,61 +4500,67 @@
 		"returnDate": "2023-03-12T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00029",
-		"customerName": "Lê Kiên",
+		"customerName": "L\u00ea Ki\u00ean",
 		"items": [
 			{
 				"productId": "prod00032",
 				"sku": "prod00032",
-				"name": "Hiệp Sĩ Xương Trên Đường Du Hành Đến Thế Giới Khác - Tập 1",
+				"name": "Hi\u1ec7p S\u0129 X\u01b0\u01a1ng Tr\u00ean \u0110\u01b0\u1eddng Du H\u00e0nh \u0110\u1ebfn Th\u1ebf Gi\u1edbi Kh\u00e1c - T\u1eadp 1",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936186544002.jpg",
 				"quantity": 2,
 				"salePrice": 126000,
-				"totalPrice": 252000
+				"totalPrice": 252000,
+				"purchasePrice": 63000
 			},
 			{
 				"productId": "prod00064",
 				"sku": "prod00064",
-				"name": "Máy Tính CASIO FX-880BTG - Màu Đen",
+				"name": "M\u00e1y T\u00ednh CASIO FX-880BTG - M\u00e0u \u0110en",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/4/5/4549526613692.jpg",
 				"quantity": 2,
 				"salePrice": 820000,
-				"totalPrice": 1640000
+				"totalPrice": 1640000,
+				"purchasePrice": 738000
 			},
 			{
 				"productId": "prod00027",
 				"sku": "prod00027",
-				"name": "Trôi - Nguyễn Ngọc Tư",
+				"name": "Tr\u00f4i - Nguy\u1ec5n Ng\u1ecdc T\u01b0",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8934974190554.jpg",
 				"quantity": 4,
 				"salePrice": 95000,
-				"totalPrice": 380000
+				"totalPrice": 380000,
+				"purchasePrice": 71250
 			},
 			{
 				"productId": "prod00046",
 				"sku": "prod00046",
-				"name": "Lý Thuyết Trò Chơi",
+				"name": "L\u00fd Thuy\u1ebft Tr\u00f2 Ch\u01a1i",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936066697088.jpg",
 				"quantity": 1,
 				"salePrice": 179000,
-				"totalPrice": 179000
+				"totalPrice": 179000,
+				"purchasePrice": 125300
 			},
 			{
 				"productId": "prod00001",
 				"sku": "prod00001",
-				"name": "Dế Mèn Phiêu Lưu Ký - Tái Bản 2020",
+				"name": "D\u1ebf M\u00e8n Phi\u00eau L\u01b0u K\u00fd - T\u00e1i B\u1ea3n 2020",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/d/e/de-men-50k_1.jpg",
 				"quantity": 4,
 				"salePrice": 50000,
-				"totalPrice": 200000
+				"totalPrice": 200000,
+				"purchasePrice": 42500
 			},
 			{
 				"productId": "prod00087",
 				"sku": "prod00087",
-				"name": "Đồ Chơi Mô Hình Siêu Xe - Hot Wheels C4982 - 171/250 - Rockin' Railer",
+				"name": "\u0110\u1ed3 Ch\u01a1i M\u00f4 H\u00ecnh Si\u00eau Xe - Hot Wheels C4982 - 171/250 - Rockin' Railer",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/2/0/2001011517622-mau2_4.jpg",
 				"quantity": 5,
 				"salePrice": 69000,
-				"totalPrice": 345000
+				"totalPrice": 345000,
+				"purchasePrice": 55200
 			}
 		],
 		"subtotal": 2996000,
@@ -4358,7 +4587,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -4370,43 +4599,47 @@
 		"returnDate": "2023-03-15T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00019",
-		"customerName": "Tô Quân",
+		"customerName": "T\u00f4 Qu\u00e2n",
 		"items": [
 			{
 				"productId": "prod00085",
 				"sku": "prod00085",
-				"name": "Đồ Chơi Mô Hình MINIFORCE - Robot Hộ Thần Mãnh Sư Kim Ngưu Leo Bull V - 503019",
+				"name": "\u0110\u1ed3 Ch\u01a1i M\u00f4 H\u00ecnh MINIFORCE - Robot H\u1ed9 Th\u1ea7n M\u00e3nh S\u01b0 Kim Ng\u01b0u Leo Bull V - 503019",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/8/8809758733428.jpg",
 				"quantity": 2,
 				"salePrice": 349000,
-				"totalPrice": 698000
+				"totalPrice": 698000,
+				"purchasePrice": 296650
 			},
 			{
 				"productId": "prod00072",
 				"sku": "prod00072",
-				"name": "Bút Lông Bảng Thiên Long WB-02 - Mực Xanh",
+				"name": "B\u00fat L\u00f4ng B\u1ea3ng Thi\u00ean Long WB-02 - M\u1ef1c Xanh",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_236630.jpg",
 				"quantity": 5,
 				"salePrice": 8000,
-				"totalPrice": 40000
+				"totalPrice": 40000,
+				"purchasePrice": 7200
 			},
 			{
 				"productId": "prod00024",
 				"sku": "prod00024",
-				"name": "Cảm Ơn Người Lớn (Bìa Mềm)",
+				"name": "C\u1ea3m \u01a0n Ng\u01b0\u1eddi L\u1edbn (B\u00eca M\u1ec1m)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/c/a/cam_on_nguoi_lon_bia_mem_1_2018_11_15_13_40_08.JPG",
 				"quantity": 2,
 				"salePrice": 110000,
-				"totalPrice": 220000
+				"totalPrice": 220000,
+				"purchasePrice": 93500
 			},
 			{
 				"productId": "prod00006",
 				"sku": "prod00006",
-				"name": "Tớ Là Mèo Pusheen (Tái Bản 2019)",
+				"name": "T\u1edb L\u00e0 M\u00e8o Pusheen (T\u00e1i B\u1ea3n 2019)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_180905.jpg",
 				"quantity": 4,
 				"salePrice": 80000,
-				"totalPrice": 320000
+				"totalPrice": 320000,
+				"purchasePrice": 80000
 			}
 		],
 		"subtotal": 1278000,
@@ -4433,7 +4666,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -4445,43 +4678,47 @@
 		"returnDate": "2023-03-27T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00017",
-		"customerName": "Trần Văn Nữ",
+		"customerName": "Tr\u1ea7n V\u0103n N\u1eef",
 		"items": [
 			{
 				"productId": "prod00059",
 				"sku": "prod00059",
-				"name": "Lịch Treo Tường Học Viện Siêu Anh Hùng 2024 - Tặng Kèm Poster Gắn Bên Trong",
+				"name": "L\u1ecbch Treo T\u01b0\u1eddng H\u1ecdc Vi\u1ec7n Si\u00eau Anh H\u00f9ng 2024 - T\u1eb7ng K\u00e8m Poster G\u1eafn B\u00ean Trong",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935352601549_1_1.jpg",
 				"quantity": 2,
 				"salePrice": 60000,
-				"totalPrice": 120000
+				"totalPrice": 120000,
+				"purchasePrice": 57000
 			},
 			{
 				"productId": "prod00046",
 				"sku": "prod00046",
-				"name": "Lý Thuyết Trò Chơi",
+				"name": "L\u00fd Thuy\u1ebft Tr\u00f2 Ch\u01a1i",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936066697088.jpg",
 				"quantity": 2,
 				"salePrice": 179000,
-				"totalPrice": 358000
+				"totalPrice": 358000,
+				"purchasePrice": 125300
 			},
 			{
 				"productId": "prod00098",
 				"sku": "prod00098",
-				"name": "Hộp Quà Cao Cấp Có Nơ - Nắp Rời - Size 15 x 12 x 8 cm - Linh Lan  N151208ORI-N1 - Mẫu 8",
+				"name": "H\u1ed9p Qu\u00e0 Cao C\u1ea5p C\u00f3 N\u01a1 - N\u1eafp R\u1eddi - Size 15 x 12 x 8 cm - Linh Lan  N151208ORI-N1 - M\u1eabu 8",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936078091522-mau5.jpg",
 				"quantity": 1,
 				"salePrice": 39000,
-				"totalPrice": 39000
+				"totalPrice": 39000,
+				"purchasePrice": 37050
 			},
 			{
 				"productId": "prod00030",
 				"sku": "prod00030",
-				"name": "Anh Không Bận, Chỉ Là Không Nhớ Em (Tái Bản 2023)",
+				"name": "Anh Kh\u00f4ng B\u1eadn, Ch\u1ec9 L\u00e0 Kh\u00f4ng Nh\u1edb Em (T\u00e1i B\u1ea3n 2023)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/9/7/9786043925593.jpg",
 				"quantity": 2,
 				"salePrice": 89000,
-				"totalPrice": 178000
+				"totalPrice": 178000,
+				"purchasePrice": 75650
 			}
 		],
 		"subtotal": 695000,
@@ -4508,7 +4745,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -4520,43 +4757,47 @@
 		"returnDate": "2023-04-13T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00003",
-		"customerName": "Đặng Nguyễn Nam",
+		"customerName": "\u0110\u1eb7ng Nguy\u1ec5n Nam",
 		"items": [
 			{
 				"productId": "prod00015",
 				"sku": "prod00015",
-				"name": "Bảng Tuần Hoàn Các Nguyên Tố Hóa Học Theo Chương Trình Giáo Dục Phổ Thông Mới",
+				"name": "B\u1ea3ng Tu\u1ea7n Ho\u00e0n C\u00e1c Nguy\u00ean T\u1ed1 H\u00f3a H\u1ecdc Theo Ch\u01b0\u01a1ng Tr\u00ecnh Gi\u00e1o D\u1ee5c Ph\u1ed5 Th\u00f4ng M\u1edbi",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936036316346.jpg",
 				"quantity": 3,
 				"salePrice": 10000,
-				"totalPrice": 30000
+				"totalPrice": 30000,
+				"purchasePrice": 8500
 			},
 			{
 				"productId": "prod00042",
 				"sku": "prod00042",
-				"name": "Thay Đổi Cuộc Sống Với Nhân Số Học",
+				"name": "Thay \u0110\u1ed5i Cu\u1ed9c S\u1ed1ng V\u1edbi Nh\u00e2n S\u1ed1 H\u1ecdc",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/t/d/tdcsvnsh.jpg",
 				"quantity": 3,
 				"salePrice": 248000,
-				"totalPrice": 744000
+				"totalPrice": 744000,
+				"purchasePrice": 173600
 			},
 			{
 				"productId": "prod00002",
 				"sku": "prod00002",
-				"name": "Những Truyện Hay Viết Cho Thiếu Nhi - Tô Hoài (Tái Bản 2019)",
+				"name": "Nh\u1eefng Truy\u1ec7n Hay Vi\u1ebft Cho Thi\u1ebfu Nhi - T\u00f4 Ho\u00e0i (T\u00e1i B\u1ea3n 2019)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_180888.jpg",
 				"quantity": 4,
 				"salePrice": 80000,
-				"totalPrice": 320000
+				"totalPrice": 320000,
+				"purchasePrice": 56000
 			},
 			{
 				"productId": "prod00023",
 				"sku": "prod00023",
-				"name": "Thượng Dương",
+				"name": "Th\u01b0\u1ee3ng D\u01b0\u01a1ng",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_216250.jpg",
 				"quantity": 5,
 				"salePrice": 108000,
-				"totalPrice": 540000
+				"totalPrice": 540000,
+				"purchasePrice": 74520
 			}
 		],
 		"subtotal": 1634000,
@@ -4583,7 +4824,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -4595,25 +4836,27 @@
 		"returnDate": "2023-04-17T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00004",
-		"customerName": "Lê Nguyên",
+		"customerName": "L\u00ea Nguy\u00ean",
 		"items": [
 			{
 				"productId": "prod00016",
 				"sku": "prod00016",
-				"name": "Tiếng Anh Lớp 10 - Sách Học Sinh (Global Success) (2022)",
+				"name": "Ti\u1ebfng Anh L\u1edbp 10 - S\u00e1ch H\u1ecdc Sinh (Global Success) (2022)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/9/7/9786040324283_1_1.jpg",
 				"quantity": 3,
 				"salePrice": 73000,
-				"totalPrice": 219000
+				"totalPrice": 219000,
+				"purchasePrice": 73000
 			},
 			{
 				"productId": "prod00023",
 				"sku": "prod00023",
-				"name": "Thượng Dương",
+				"name": "Th\u01b0\u1ee3ng D\u01b0\u01a1ng",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_216250.jpg",
 				"quantity": 4,
 				"salePrice": 108000,
-				"totalPrice": 432000
+				"totalPrice": 432000,
+				"purchasePrice": 74520
 			}
 		],
 		"subtotal": 651000,
@@ -4640,7 +4883,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -4652,16 +4895,17 @@
 		"returnDate": "2023-05-08T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00001",
-		"customerName": "Nguyễn Văn Kiệt",
+		"customerName": "Nguy\u1ec5n V\u0103n Ki\u1ec7t",
 		"items": [
 			{
 				"productId": "prod00039",
 				"sku": "prod00039",
-				"name": "Spy X Family Tiểu Thuyết: Bức Chân Dung Gia Đình - Tặng Kèm Standee PVC",
+				"name": "Spy X Family Ti\u1ec3u Thuy\u1ebft: B\u1ee9c Ch\u00e2n Dung Gia \u0110\u00ecnh - T\u1eb7ng K\u00e8m Standee PVC",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935244876727.jpg",
 				"quantity": 2,
 				"salePrice": 45000,
-				"totalPrice": 90000
+				"totalPrice": 90000,
+				"purchasePrice": 41850
 			}
 		],
 		"subtotal": 90000,
@@ -4688,7 +4932,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -4700,43 +4944,47 @@
 		"returnDate": "2023-05-17T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00008",
-		"customerName": "Tô Nam",
+		"customerName": "T\u00f4 Nam",
 		"items": [
 			{
 				"productId": "prod00077",
 				"sku": "prod00077",
-				"name": "Bộ Tranh Tương Tác Cô Tiên Xanh - Đi Đu Idol",
+				"name": "B\u1ed9 Tranh T\u01b0\u01a1ng T\u00e1c C\u00f4 Ti\u00ean Xanh - \u0110i \u0110u Idol",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/3/9/3900000146005_2.jpg",
 				"quantity": 2,
 				"salePrice": 36000,
-				"totalPrice": 72000
+				"totalPrice": 72000,
+				"purchasePrice": 28800
 			},
 			{
 				"productId": "prod00081",
 				"sku": "prod00081",
-				"name": "Đồ Chơi Cờ Trí Tuệ UNO W2085",
+				"name": "\u0110\u1ed3 Ch\u01a1i C\u1edd Tr\u00ed Tu\u1ec7 UNO W2085",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/7/7/77e3eeaa6424151057b58254bcba52ca.jpg",
 				"quantity": 3,
 				"salePrice": 169000,
-				"totalPrice": 507000
+				"totalPrice": 507000,
+				"purchasePrice": 118300
 			},
 			{
 				"productId": "prod00049",
 				"sku": "prod00049",
-				"name": "Kiếp Nào Ta Cũng Tìm Thấy Nhau (Tái Bản 2022)",
+				"name": "Ki\u1ebfp N\u00e0o Ta C\u0169ng T\u00ecm Th\u1ea5y Nhau (T\u00e1i B\u1ea3n 2022)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/6/7/67db9bf2590d75f978e68f9dcfe0db9a.jpg",
 				"quantity": 1,
 				"salePrice": 99000,
-				"totalPrice": 99000
+				"totalPrice": 99000,
+				"purchasePrice": 69300
 			},
 			{
 				"productId": "prod00017",
 				"sku": "prod00017",
-				"name": "Chinh Phục Luyện Thi Vào Lớp 10 Môn Ngữ Văn Theo Chủ Đề",
+				"name": "Chinh Ph\u1ee5c Luy\u1ec7n Thi V\u00e0o L\u1edbp 10 M\u00f4n Ng\u1eef V\u0103n Theo Ch\u1ee7 \u0110\u1ec1",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_39486.jpg",
 				"quantity": 3,
 				"salePrice": 159000,
-				"totalPrice": 477000
+				"totalPrice": 477000,
+				"purchasePrice": 127200
 			}
 		],
 		"subtotal": 1155000,
@@ -4763,7 +5011,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -4775,70 +5023,77 @@
 		"returnDate": "2023-05-31T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00012",
-		"customerName": "Hồ Nữ",
+		"customerName": "H\u1ed3 N\u1eef",
 		"items": [
 			{
 				"productId": "prod00020",
 				"sku": "prod00020",
-				"name": "Nhà Giả Kim (Tái Bản 2020)",
+				"name": "Nh\u00e0 Gi\u1ea3 Kim (T\u00e1i B\u1ea3n 2020)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_36793.jpg",
 				"quantity": 3,
 				"salePrice": 79000,
-				"totalPrice": 237000
+				"totalPrice": 237000,
+				"purchasePrice": 55300
 			},
 			{
 				"productId": "prod00058",
 				"sku": "prod00058",
-				"name": "Máy Tính Casio FX 580 VN X",
+				"name": "M\u00e1y T\u00ednh Casio FX 580 VN X",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_8906.jpg",
 				"quantity": 2,
 				"salePrice": 757000,
-				"totalPrice": 1514000
+				"totalPrice": 1514000,
+				"purchasePrice": 681300
 			},
 			{
 				"productId": "prod00004",
 				"sku": "prod00004",
-				"name": "Trong Cái Không Có Gì Không?",
+				"name": "Trong C\u00e1i Kh\u00f4ng C\u00f3 G\u00ec Kh\u00f4ng?",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_37410.jpg",
 				"quantity": 1,
 				"salePrice": 160000,
-				"totalPrice": 160000
+				"totalPrice": 160000,
+				"purchasePrice": 128000
 			},
 			{
 				"productId": "prod00075",
 				"sku": "prod00075",
-				"name": "Mực Bút Lông Bảng 25ml - Thiên Long WBI-01 - Mực Xanh",
+				"name": "M\u1ef1c B\u00fat L\u00f4ng B\u1ea3ng 25ml - Thi\u00ean Long WBI-01 - M\u1ef1c Xanh",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935001831419.jpg",
 				"quantity": 3,
 				"salePrice": 27000,
-				"totalPrice": 81000
+				"totalPrice": 81000,
+				"purchasePrice": 24300
 			},
 			{
 				"productId": "prod00060",
 				"sku": "prod00060",
-				"name": "Lịch Treo Tường One Piece 2024 - Tặng Kèm Poster Gắn Bên Trong",
+				"name": "L\u1ecbch Treo T\u01b0\u1eddng One Piece 2024 - T\u1eb7ng K\u00e8m Poster G\u1eafn B\u00ean Trong",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935352601556.jpg",
 				"quantity": 2,
 				"salePrice": 60000,
-				"totalPrice": 120000
+				"totalPrice": 120000,
+				"purchasePrice": 57000
 			},
 			{
 				"productId": "prod00017",
 				"sku": "prod00017",
-				"name": "Chinh Phục Luyện Thi Vào Lớp 10 Môn Ngữ Văn Theo Chủ Đề",
+				"name": "Chinh Ph\u1ee5c Luy\u1ec7n Thi V\u00e0o L\u1edbp 10 M\u00f4n Ng\u1eef V\u0103n Theo Ch\u1ee7 \u0110\u1ec1",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_39486.jpg",
 				"quantity": 1,
 				"salePrice": 159000,
-				"totalPrice": 159000
+				"totalPrice": 159000,
+				"purchasePrice": 127200
 			},
 			{
 				"productId": "prod00048",
 				"sku": "prod00048",
-				"name": "Định Luật Murphy - Mọi Bí Mật Tâm Lý Thao Túng Cuộc Đời Bạn",
+				"name": "\u0110\u1ecbnh Lu\u1eadt Murphy - M\u1ecdi B\u00ed M\u1eadt T\u00e2m L\u00fd Thao T\u00fang Cu\u1ed9c \u0110\u1eddi B\u1ea1n",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/p/h/ph_t-h_nh-_nh-lu_t-murphybia-1.jpg",
 				"quantity": 5,
 				"salePrice": 119000,
-				"totalPrice": 595000
+				"totalPrice": 595000,
+				"purchasePrice": 83300
 			}
 		],
 		"subtotal": 2866000,
@@ -4865,7 +5120,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -4877,16 +5132,17 @@
 		"returnDate": "2023-06-12T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00016",
-		"customerName": "Đặng Ngọc Ngọc",
+		"customerName": "\u0110\u1eb7ng Ng\u1ecdc Ng\u1ecdc",
 		"items": [
 			{
 				"productId": "prod00047",
 				"sku": "prod00047",
-				"name": "Thuật Thao Túng - Góc Tối Ẩn Sau Mỗi Câu Nói",
+				"name": "Thu\u1eadt Thao T\u00fang - G\u00f3c T\u1ed1i \u1ea8n Sau M\u1ed7i C\u00e2u N\u00f3i",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/u/n/untitledthaotungtamly.jpg",
 				"quantity": 3,
 				"salePrice": 139000,
-				"totalPrice": 417000
+				"totalPrice": 417000,
+				"purchasePrice": 97300
 			}
 		],
 		"subtotal": 417000,
@@ -4913,7 +5169,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -4925,70 +5181,77 @@
 		"returnDate": "2023-06-28T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00025",
-		"customerName": "Đặng Nguyễn Nam",
+		"customerName": "\u0110\u1eb7ng Nguy\u1ec5n Nam",
 		"items": [
 			{
 				"productId": "prod00074",
 				"sku": "prod00074",
-				"name": "Băng Keo 2 Mặt 5 Ly Hiệp Phát - Màu Trắng",
+				"name": "B\u0103ng Keo 2 M\u1eb7t 5 Ly Hi\u1ec7p Ph\u00e1t - M\u00e0u Tr\u1eafng",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_224778.jpg",
 				"quantity": 5,
 				"salePrice": 3000,
-				"totalPrice": 15000
+				"totalPrice": 15000,
+				"purchasePrice": 2400
 			},
 			{
 				"productId": "prod00086",
 				"sku": "prod00086",
-				"name": "Đồ Chơi Giáo Dục STEM Lắp Ráp Robot Chạy Bằng Năng Lượng Mặt Trời - Green Enegy 9501",
+				"name": "\u0110\u1ed3 Ch\u01a1i Gi\u00e1o D\u1ee5c STEM L\u1eafp R\u00e1p Robot Ch\u1ea1y B\u1eb1ng N\u0103ng L\u01b0\u1ee3ng M\u1eb7t Tr\u1eddi - Green Enegy 9501",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936190511526.jpg",
 				"quantity": 5,
 				"salePrice": 229000,
-				"totalPrice": 1145000
+				"totalPrice": 1145000,
+				"purchasePrice": 194650
 			},
 			{
 				"productId": "prod00071",
 				"sku": "prod00071",
-				"name": "Chuốt Bút Chì Masterart Cỡ 5 (Mẫu Màu Giao Ngẫu Nhiên)",
+				"name": "Chu\u1ed1t B\u00fat Ch\u00ec Masterart C\u1ee1 5 (M\u1eabu M\u00e0u Giao Ng\u1eabu Nhi\u00ean)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_242253.jpg",
 				"quantity": 5,
 				"salePrice": 3500,
-				"totalPrice": 17500
+				"totalPrice": 17500,
+				"purchasePrice": 3150
 			},
 			{
 				"productId": "prod00004",
 				"sku": "prod00004",
-				"name": "Trong Cái Không Có Gì Không?",
+				"name": "Trong C\u00e1i Kh\u00f4ng C\u00f3 G\u00ec Kh\u00f4ng?",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_37410.jpg",
 				"quantity": 4,
 				"salePrice": 160000,
-				"totalPrice": 640000
+				"totalPrice": 640000,
+				"purchasePrice": 128000
 			},
 			{
 				"productId": "prod00055",
 				"sku": "prod00055",
-				"name": "Tự Học 2000 Từ Vựng Tiếng Anh Theo Chủ Đề (Tái Bản)",
+				"name": "T\u1ef1 H\u1ecdc 2000 T\u1eeb V\u1ef1ng Ti\u1ebfng Anh Theo Ch\u1ee7 \u0110\u1ec1 (T\u00e1i B\u1ea3n)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/c/8/c8516f45954672182b57.jpg",
 				"quantity": 1,
 				"salePrice": 65000,
-				"totalPrice": 65000
+				"totalPrice": 65000,
+				"purchasePrice": 39000
 			},
 			{
 				"productId": "prod00024",
 				"sku": "prod00024",
-				"name": "Cảm Ơn Người Lớn (Bìa Mềm)",
+				"name": "C\u1ea3m \u01a0n Ng\u01b0\u1eddi L\u1edbn (B\u00eca M\u1ec1m)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/c/a/cam_on_nguoi_lon_bia_mem_1_2018_11_15_13_40_08.JPG",
 				"quantity": 3,
 				"salePrice": 110000,
-				"totalPrice": 330000
+				"totalPrice": 330000,
+				"purchasePrice": 93500
 			},
 			{
 				"productId": "prod00058",
 				"sku": "prod00058",
-				"name": "Máy Tính Casio FX 580 VN X",
+				"name": "M\u00e1y T\u00ednh Casio FX 580 VN X",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_8906.jpg",
 				"quantity": 1,
 				"salePrice": 757000,
-				"totalPrice": 757000
+				"totalPrice": 757000,
+				"purchasePrice": 681300
 			}
 		],
 		"subtotal": 2969500,
@@ -5015,7 +5278,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -5027,34 +5290,37 @@
 		"returnDate": "2023-08-29T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00023",
-		"customerName": "Nguyễn Văn Khiêm",
+		"customerName": "Nguy\u1ec5n V\u0103n Khi\u00eam",
 		"items": [
 			{
 				"productId": "prod00054",
 				"sku": "prod00054",
-				"name": "25 Chuyên Đề Ngữ Pháp Tiếng Anh Trọng Tâm - Tập 1",
+				"name": "25 Chuy\u00ean \u0110\u1ec1 Ng\u1eef Ph\u00e1p Ti\u1ebfng Anh Tr\u1ecdng T\u00e2m - T\u1eadp 1",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_188186.jpg",
 				"quantity": 4,
 				"salePrice": 110000,
-				"totalPrice": 440000
+				"totalPrice": 440000,
+				"purchasePrice": 73700
 			},
 			{
 				"productId": "prod00088",
 				"sku": "prod00088",
-				"name": "Đồ Chơi Siêu Xe Bão Tố Điều Khiển Từ Xa - Vecto VT632/GR - Màu Xanh Lá",
+				"name": "\u0110\u1ed3 Ch\u01a1i Si\u00eau Xe B\u00e3o T\u1ed1 \u0110i\u1ec1u Khi\u1ec3n T\u1eeb Xa - Vecto VT632/GR - M\u00e0u Xanh L\u00e1",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935337500614.jpg",
 				"quantity": 1,
 				"salePrice": 549000,
-				"totalPrice": 549000
+				"totalPrice": 549000,
+				"purchasePrice": 439200
 			},
 			{
 				"productId": "prod00078",
 				"sku": "prod00078",
-				"name": "Đồ Chơi Mô Hình MINIFORCE - Robot Hộ Thần Tam Long Hợp Thể Trioh V - 503020",
+				"name": "\u0110\u1ed3 Ch\u01a1i M\u00f4 H\u00ecnh MINIFORCE - Robot H\u1ed9 Th\u1ea7n Tam Long H\u1ee3p Th\u1ec3 Trioh V - 503020",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/8/8809758733435.jpg",
 				"quantity": 3,
 				"salePrice": 349000,
-				"totalPrice": 1047000
+				"totalPrice": 1047000,
+				"purchasePrice": 296650
 			}
 		],
 		"subtotal": 2036000,
@@ -5081,7 +5347,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -5093,34 +5359,37 @@
 		"returnDate": "2023-09-07T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00006",
-		"customerName": "Hồ Hoàng",
+		"customerName": "H\u1ed3 Ho\u00e0ng",
 		"items": [
 			{
 				"productId": "prod00097",
 				"sku": "prod00097",
-				"name": "Bộ 5 Xốp Eva Kim Tuyến Decal DYI Art & Craft - Star Kids K-901 (Sắc Độ Màu Giao Ngẫu Nhiên)",
+				"name": "B\u1ed9 5 X\u1ed1p Eva Kim Tuy\u1ebfn Decal DYI Art & Craft - Star Kids K-901 (S\u1eafc \u0110\u1ed9 M\u00e0u Giao Ng\u1eabu Nhi\u00ean)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935256603885.jpg",
 				"quantity": 2,
 				"salePrice": 69000,
-				"totalPrice": 138000
+				"totalPrice": 138000,
+				"purchasePrice": 65550
 			},
 			{
 				"productId": "prod00087",
 				"sku": "prod00087",
-				"name": "Đồ Chơi Mô Hình Siêu Xe - Hot Wheels C4982 - 171/250 - Rockin' Railer",
+				"name": "\u0110\u1ed3 Ch\u01a1i M\u00f4 H\u00ecnh Si\u00eau Xe - Hot Wheels C4982 - 171/250 - Rockin' Railer",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/2/0/2001011517622-mau2_4.jpg",
 				"quantity": 3,
 				"salePrice": 69000,
-				"totalPrice": 207000
+				"totalPrice": 207000,
+				"purchasePrice": 55200
 			},
 			{
 				"productId": "prod00072",
 				"sku": "prod00072",
-				"name": "Bút Lông Bảng Thiên Long WB-02 - Mực Xanh",
+				"name": "B\u00fat L\u00f4ng B\u1ea3ng Thi\u00ean Long WB-02 - M\u1ef1c Xanh",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_236630.jpg",
 				"quantity": 5,
 				"salePrice": 8000,
-				"totalPrice": 40000
+				"totalPrice": 40000,
+				"purchasePrice": 7200
 			}
 		],
 		"subtotal": 385000,
@@ -5147,7 +5416,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -5159,16 +5428,17 @@
 		"returnDate": "2023-11-13T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00011",
-		"customerName": "Đặng Thị Kiên",
+		"customerName": "\u0110\u1eb7ng Th\u1ecb Ki\u00ean",
 		"items": [
 			{
 				"productId": "prod00072",
 				"sku": "prod00072",
-				"name": "Bút Lông Bảng Thiên Long WB-02 - Mực Xanh",
+				"name": "B\u00fat L\u00f4ng B\u1ea3ng Thi\u00ean Long WB-02 - M\u1ef1c Xanh",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_236630.jpg",
 				"quantity": 1,
 				"salePrice": 8000,
-				"totalPrice": 8000
+				"totalPrice": 8000,
+				"purchasePrice": 7200
 			}
 		],
 		"subtotal": 8000,
@@ -5195,7 +5465,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -5207,34 +5477,37 @@
 		"returnDate": "2023-11-15T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00024",
-		"customerName": "Trần Văn Anh",
+		"customerName": "Tr\u1ea7n V\u0103n Anh",
 		"items": [
 			{
 				"productId": "prod00032",
 				"sku": "prod00032",
-				"name": "Hiệp Sĩ Xương Trên Đường Du Hành Đến Thế Giới Khác - Tập 1",
+				"name": "Hi\u1ec7p S\u0129 X\u01b0\u01a1ng Tr\u00ean \u0110\u01b0\u1eddng Du H\u00e0nh \u0110\u1ebfn Th\u1ebf Gi\u1edbi Kh\u00e1c - T\u1eadp 1",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8936186544002.jpg",
 				"quantity": 5,
 				"salePrice": 126000,
-				"totalPrice": 630000
+				"totalPrice": 630000,
+				"purchasePrice": 63000
 			},
 			{
 				"productId": "prod00060",
 				"sku": "prod00060",
-				"name": "Lịch Treo Tường One Piece 2024 - Tặng Kèm Poster Gắn Bên Trong",
+				"name": "L\u1ecbch Treo T\u01b0\u1eddng One Piece 2024 - T\u1eb7ng K\u00e8m Poster G\u1eafn B\u00ean Trong",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935352601556.jpg",
 				"quantity": 5,
 				"salePrice": 60000,
-				"totalPrice": 300000
+				"totalPrice": 300000,
+				"purchasePrice": 57000
 			},
 			{
 				"productId": "prod00043",
 				"sku": "prod00043",
-				"name": "48 Nguyên Tắc Chủ Chốt Của Quyền Lực (Tái Bản 2020)",
+				"name": "48 Nguy\u00ean T\u1eafc Ch\u1ee7 Ch\u1ed1t C\u1ee7a Quy\u1ec1n L\u1ef1c (T\u00e1i B\u1ea3n 2020)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_32101.jpg",
 				"quantity": 1,
 				"salePrice": 200000,
-				"totalPrice": 200000
+				"totalPrice": 200000,
+				"purchasePrice": 140000
 			}
 		],
 		"subtotal": 1130000,
@@ -5261,7 +5534,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -5273,16 +5546,17 @@
 		"returnDate": "2023-11-16T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00016",
-		"customerName": "Đặng Ngọc Ngọc",
+		"customerName": "\u0110\u1eb7ng Ng\u1ecdc Ng\u1ecdc",
 		"items": [
 			{
 				"productId": "prod00021",
 				"sku": "prod00021",
-				"name": "Mùa Hè Không Tên - Tặng Kèm Bookmark 2 Mặt + Poster Tranh + Chữ Ký Tác Giả Ngẫu Nhiên",
+				"name": "M\u00f9a H\u00e8 Kh\u00f4ng T\u00ean - T\u1eb7ng K\u00e8m Bookmark 2 M\u1eb7t + Poster Tranh + Ch\u1eef K\u00fd T\u00e1c Gi\u1ea3 Ng\u1eabu Nhi\u00ean",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/m/u/mua-he-khong-ten---bia-mem---qua-tang-kem-1.jpg",
 				"quantity": 3,
 				"salePrice": 130000,
-				"totalPrice": 390000
+				"totalPrice": 390000,
+				"purchasePrice": 91000
 			}
 		],
 		"subtotal": 390000,
@@ -5309,7 +5583,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -5321,52 +5595,57 @@
 		"returnDate": "2023-11-21T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00028",
-		"customerName": "Nguyễn Văn Anh",
+		"customerName": "Nguy\u1ec5n V\u0103n Anh",
 		"items": [
 			{
 				"productId": "prod00058",
 				"sku": "prod00058",
-				"name": "Máy Tính Casio FX 580 VN X",
+				"name": "M\u00e1y T\u00ednh Casio FX 580 VN X",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_8906.jpg",
 				"quantity": 1,
 				"salePrice": 757000,
-				"totalPrice": 757000
+				"totalPrice": 757000,
+				"purchasePrice": 681300
 			},
 			{
 				"productId": "prod00072",
 				"sku": "prod00072",
-				"name": "Bút Lông Bảng Thiên Long WB-02 - Mực Xanh",
+				"name": "B\u00fat L\u00f4ng B\u1ea3ng Thi\u00ean Long WB-02 - M\u1ef1c Xanh",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_236630.jpg",
 				"quantity": 2,
 				"salePrice": 8000,
-				"totalPrice": 16000
+				"totalPrice": 16000,
+				"purchasePrice": 7200
 			},
 			{
 				"productId": "prod00017",
 				"sku": "prod00017",
-				"name": "Chinh Phục Luyện Thi Vào Lớp 10 Môn Ngữ Văn Theo Chủ Đề",
+				"name": "Chinh Ph\u1ee5c Luy\u1ec7n Thi V\u00e0o L\u1edbp 10 M\u00f4n Ng\u1eef V\u0103n Theo Ch\u1ee7 \u0110\u1ec1",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_39486.jpg",
 				"quantity": 5,
 				"salePrice": 159000,
-				"totalPrice": 795000
+				"totalPrice": 795000,
+				"purchasePrice": 127200
 			},
 			{
 				"productId": "prod00043",
 				"sku": "prod00043",
-				"name": "48 Nguyên Tắc Chủ Chốt Của Quyền Lực (Tái Bản 2020)",
+				"name": "48 Nguy\u00ean T\u1eafc Ch\u1ee7 Ch\u1ed1t C\u1ee7a Quy\u1ec1n L\u1ef1c (T\u00e1i B\u1ea3n 2020)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_32101.jpg",
 				"quantity": 5,
 				"salePrice": 200000,
-				"totalPrice": 1000000
+				"totalPrice": 1000000,
+				"purchasePrice": 140000
 			},
 			{
 				"productId": "prod00062",
 				"sku": "prod00062",
-				"name": "Lịch Bàn Thị Trấn Mèo 2024",
+				"name": "L\u1ecbch B\u00e0n Th\u1ecb Tr\u1ea5n M\u00e8o 2024",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/8/9/8935352601228.jpg",
 				"quantity": 4,
 				"salePrice": 60000,
-				"totalPrice": 240000
+				"totalPrice": 240000,
+				"purchasePrice": 57000
 			}
 		],
 		"subtotal": 2808000,
@@ -5393,7 +5672,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	},
 	{
@@ -5405,25 +5684,27 @@
 		"returnDate": "2023-12-23T00:00:00Z",
 		"customerType": "Retail",
 		"customerId": "cust00002",
-		"customerName": "Đặng Nguyễn Quân",
+		"customerName": "\u0110\u1eb7ng Nguy\u1ec5n Qu\u00e2n",
 		"items": [
 			{
 				"productId": "prod00021",
 				"sku": "prod00021",
-				"name": "Mùa Hè Không Tên - Tặng Kèm Bookmark 2 Mặt + Poster Tranh + Chữ Ký Tác Giả Ngẫu Nhiên",
+				"name": "M\u00f9a H\u00e8 Kh\u00f4ng T\u00ean - T\u1eb7ng K\u00e8m Bookmark 2 M\u1eb7t + Poster Tranh + Ch\u1eef K\u00fd T\u00e1c Gi\u1ea3 Ng\u1eabu Nhi\u00ean",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/m/u/mua-he-khong-ten---bia-mem---qua-tang-kem-1.jpg",
 				"quantity": 2,
 				"salePrice": 130000,
-				"totalPrice": 260000
+				"totalPrice": 260000,
+				"purchasePrice": 91000
 			},
 			{
 				"productId": "prod00049",
 				"sku": "prod00049",
-				"name": "Kiếp Nào Ta Cũng Tìm Thấy Nhau (Tái Bản 2022)",
+				"name": "Ki\u1ebfp N\u00e0o Ta C\u0169ng T\u00ecm Th\u1ea5y Nhau (T\u00e1i B\u1ea3n 2022)",
 				"featureImageUrl": "https://cdn0.fahasa.com/media/catalog/product/6/7/67db9bf2590d75f978e68f9dcfe0db9a.jpg",
 				"quantity": 5,
 				"salePrice": 99000,
-				"totalPrice": 495000
+				"totalPrice": 495000,
+				"purchasePrice": 69300
 			}
 		],
 		"subtotal": 755000,
@@ -5450,7 +5731,7 @@
 		"status": "paid",
 		"note": "",
 		"staffId": "staf00000",
-		"staffName": "Phạm Tuấn Kiệt",
+		"staffName": "Ph\u1ea1m Tu\u1ea5n Ki\u1ec7t",
 		"ttl": -1
 	}
 ]

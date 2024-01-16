@@ -8,6 +8,7 @@ using BookstoreWebAPI.Repository.Interfaces;
 using BookstoreWebAPI.Utils;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Caching.Memory;
+using BookstoreWebAPI.Services;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -18,7 +19,10 @@ namespace BookstoreWebAPI.Repository
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
         private readonly IActivityLogRepository _activityLogRepository;
+        private readonly IAdjustmentItemRepository _adjustmentItemRepository;
+        private readonly IStaffRepository _staffRepository;
         private Container _adjustmentTicketContainer;
+        private readonly UserContextService _userContextService;
         public int TotalCount { get; private set; }
 
 
@@ -27,7 +31,11 @@ namespace BookstoreWebAPI.Repository
             ILogger<AdjustmentTicketRepository> logger,
             IMapper mapper,
             IMemoryCache memoryCache,
-            IActivityLogRepository activityLogRepository)
+            IActivityLogRepository activityLogRepository,
+            IAdjustmentItemRepository adjustmentItemRepository,
+            UserContextService userContextService
+,
+            IStaffRepository staffRepository)
         {
             _logger = logger;
             _mapper = mapper;
@@ -38,6 +46,9 @@ namespace BookstoreWebAPI.Repository
 
             _adjustmentTicketContainer = cosmosClient.GetContainer(databaseName, containerName);
             _activityLogRepository = activityLogRepository;
+            _adjustmentItemRepository = adjustmentItemRepository;
+            _userContextService = userContextService;
+            _staffRepository = staffRepository;
         }
 
         public async Task<IEnumerable<AdjustmentTicketDTO>> GetAdjustmentTicketDTOsAsync(QueryParameters queryParams, AdjustmentTicketFilterModel filter)
@@ -104,20 +115,45 @@ namespace BookstoreWebAPI.Repository
 
         public async Task UpdateAdjustmentTicketDTOAsync(AdjustmentTicketDTO adjustmentTicketDTO)
         {
-            var adjustmentTicketToUpdate = _mapper.Map<AdjustmentTicketDocument>(adjustmentTicketDTO);
+            var ticketToUpdate = _mapper.Map<AdjustmentTicketDocument>(adjustmentTicketDTO);
 
-            adjustmentTicketToUpdate.ModifiedAt = DateTime.UtcNow;
+            ticketToUpdate.ModifiedAt = DateTime.UtcNow;
+
+            if (ticketToUpdate.Status == "adjusted")
+            {
+                // populate adjusted staff 
+                ticketToUpdate.AdjustedStaffId = _userContextService.Current.StaffId;
+                ticketToUpdate.AdjustedStaffName = (await _staffRepository.GetStaffDTOByIdAsync(ticketToUpdate.AdjustedStaffId)).Name;
+                ticketToUpdate.AdjustedAt = DateTime.UtcNow;
+
+                // populate adjustmentBalance
+                var adjustmentItems = (await _adjustmentItemRepository.GetAdjustmentItemsByTicketIdAsync(ticketToUpdate.Id))!;
+
+                var adjustedQuantity = adjustmentItems.Sum(item => item?.AdjustedQuantity);
+
+                if (adjustedQuantity != null)
+                    ticketToUpdate.AdjustmentBalance.AdjustedQuantity = adjustedQuantity.Value;
+                else
+                    ticketToUpdate.AdjustmentBalance.AdjustedQuantity = 0;
+
+                var afterQuantity = adjustmentItems.Sum(item => item?.Quantity);
+
+                if (afterQuantity != null)
+                    ticketToUpdate.AdjustmentBalance.AfterQuantity = afterQuantity.Value;
+                else
+                    ticketToUpdate.AdjustmentBalance.AfterQuantity = 0;
+            }
 
             await _adjustmentTicketContainer.UpsertItemAsync(
-                item: adjustmentTicketToUpdate,
-                partitionKey: new PartitionKey(adjustmentTicketToUpdate.AdjustmentTicketId)
+                item: ticketToUpdate,
+                partitionKey: new PartitionKey(ticketToUpdate.AdjustmentTicketId)
             );
 
             await _activityLogRepository.LogActivity(
                 Enums.ActivityType.update,
-                adjustmentTicketToUpdate.StaffId,
+                ticketToUpdate.StaffId,
                 "Đơn kiểm hàng",
-                adjustmentTicketToUpdate.AdjustmentTicketId
+                ticketToUpdate.AdjustmentTicketId
             );
 
         }
@@ -149,11 +185,12 @@ namespace BookstoreWebAPI.Repository
         {
             adjustmentTicketDoc.Id = await GetNewAdjustmentTicketIdAsync();
             adjustmentTicketDoc.AdjustmentTicketId = adjustmentTicketDoc.Id;
-
+            adjustmentTicketDoc.StaffId = _userContextService.Current.StaffId;
+            adjustmentTicketDoc.StaffName = (await _staffRepository.GetStaffDTOByIdAsync(adjustmentTicketDoc.StaffId)).Name;
 
             adjustmentTicketDoc.Status ??= "unadjusted";
             adjustmentTicketDoc.Note ??= "";
-            adjustmentTicketDoc.Tags ??= new();
+            adjustmentTicketDoc.Tags ??= [];
             //adjustmentTicketDoc.IsRemovable = true;
             //adjustmentTicketDoc.IsDeleted = false;
         }

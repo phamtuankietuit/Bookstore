@@ -311,7 +311,7 @@ namespace BookstoreWebAPI.Repository
             productDoc.OptionalDetails ??= [];
 
             inventoryDoc.Id = await GetNewInventoryIdAsync();
-            inventoryDoc.ProductId ??= productId;
+            inventoryDoc.ProductId = productId;
             inventoryDoc.Sku = productId;
             inventoryDoc.Barcode = productId;
             inventoryDoc.ProductName = productDoc.Name;

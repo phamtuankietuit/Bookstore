@@ -269,8 +269,8 @@ namespace BookstoreWebAPI.Repository
 
         private async Task<ItemResponse<ReturnOrderDocument>> AddReturnOrderDocumentAsync(ReturnOrderDocument item)
         {
-            item.CreatedAt ??= DateTime.UtcNow;
-            item.ModifiedAt ??= item.CreatedAt;
+            item.CreatedAt = DateTime.UtcNow;
+            item.ModifiedAt = item.CreatedAt;
 
             return await _returnOrderContainer.UpsertItemAsync(
                 item: item,

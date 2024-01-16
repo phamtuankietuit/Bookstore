@@ -18,7 +18,7 @@ namespace BookstoreWebAPI.Models.DTOs
         public int? AdjustedQuantity { get; set; } // server compute
 
         [JsonProperty("quantity")]
-        public int quantity { get; set; }
+        public int Quantity { get; set; }
 
         [JsonProperty("reason")]
         public string Reason { get; set; }

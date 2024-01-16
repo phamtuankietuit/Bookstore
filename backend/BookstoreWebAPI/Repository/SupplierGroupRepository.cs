@@ -126,6 +126,11 @@ namespace BookstoreWebAPI.Repository
         }
         public async Task UpdateSupplierGroupDTOAsync(SupplierGroupDTO item)
         {
+            if (await NameExistsInContainer(item.Name))
+            {
+                throw new DuplicateDocumentException($"The supplierGroup {item.Name} has already been created. Please choose a different name.");
+            }
+
             var supplierGroupToUpdate = _mapper.Map<SupplierGroupDocument>(item);
             supplierGroupToUpdate.ModifiedAt = DateTime.UtcNow;
 

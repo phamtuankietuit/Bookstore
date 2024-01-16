@@ -2,6 +2,7 @@
 using BookstoreWebAPI.Models.BindingModels.FilterModels;
 using BookstoreWebAPI.Models.DTOs;
 using BookstoreWebAPI.Repository.Interfaces;
+using BookstoreWebAPI.Services;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Org.BouncyCastle.Asn1.IsisMtt.X509;
@@ -15,7 +16,8 @@ namespace BookstoreWebAPI.Controllers
     public class AdjustmentTicketsController(
         ILogger<AdjustmentTicketsController> logger,
         IAdjustmentItemRepository adjustmentItemRepository,
-        IAdjustmentTicketRepository adjustmentTicketRepository
+        IAdjustmentTicketRepository adjustmentTicketRepository,
+        UserContextService userContextService
     ) : ControllerBase
     {
         [HttpGet]
@@ -62,6 +64,10 @@ namespace BookstoreWebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<AdjustmentTicketWithItemsDTO>> AddAdjustmentTicketWithItemsDTOAsync([FromBody]AdjustmentTicketWithItemsDTO itemsDTO)
         {
+            var staffId = Request.Headers["staffId"].ToString();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
+            userContextService.Current.StaffId = staffId;
+
             try
             {
                 var ticket = itemsDTO.AdjustmentTicketDTO;
@@ -73,7 +79,7 @@ namespace BookstoreWebAPI.Controllers
 
                 foreach (var item in items)
                 {
-                    var createdItem = await adjustmentItemRepository.AddAdjustmentItemDTOAsync(item);
+                    var createdItem = await adjustmentItemRepository.AddAdjustmentItemDTOAsync(item, createdTicket.AdjustmentTicketId);
                     createdItems.Add(createdItem);
                 }
 
@@ -98,6 +104,10 @@ namespace BookstoreWebAPI.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateAdjustmentTicketWithItemsDTOAsync(string id, [FromBody]AdjustmentTicketWithItemsDTO itemDTO)
         {
+            var staffId = Request.Headers["staffId"].ToString();
+            if (string.IsNullOrEmpty(staffId)) return Unauthorized();
+            userContextService.Current.StaffId = staffId;
+
             if (id != itemDTO.AdjustmentTicketDTO.AdjustmentTicketId)
             {
                 return BadRequest("id didn't match");

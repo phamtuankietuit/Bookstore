@@ -22,6 +22,9 @@ namespace BookstoreWebAPI.Models.Shared
         [JsonProperty("salePrice")]
         public int SalePrice { get; set; }
 
+        [JsonProperty("purchasePrice")]
+        public int PurchasePrice { get; set; }
+
         [JsonProperty("totalPrice")]
         public int TotalPrice { get; set; }
     }

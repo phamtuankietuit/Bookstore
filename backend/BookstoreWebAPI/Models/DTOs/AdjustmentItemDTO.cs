@@ -9,7 +9,7 @@ namespace BookstoreWebAPI.Models.DTOs
         public string? AdjustmentItemId { get; set; }
 
         [JsonProperty("adjustmentTicketId")]
-        public string AdjustmentTicketId { get; set; }
+        public string? AdjustmentTicketId { get; set; }
 
         [JsonProperty("staffId")]
         public string StaffId { get; set; }
@@ -18,7 +18,7 @@ namespace BookstoreWebAPI.Models.DTOs
         public int? AdjustedQuantity { get; set; } // server compute
 
         [JsonProperty("quantity")]
-        public int quantity { get; set; }
+        public int Quantity { get; set; }
 
         [JsonProperty("reason")]
         public string Reason { get; set; }

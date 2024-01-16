@@ -108,7 +108,7 @@ namespace BookstoreWebAPI.Repository
             if (salesOrderToReturn == null)
                 return null;
 
-            if (salesOrderToReturn.ReturnDate > DateTime.UtcNow || await HasReturnedOrder(salesOrderId))
+            if (salesOrderToReturn.ReturnDate < DateTime.UtcNow || await HasReturnedOrder(salesOrderId))
                 throw new OrderReturnNotAllowedException();
 
             string staffId = _userContextService.Current.StaffId;
@@ -269,8 +269,8 @@ namespace BookstoreWebAPI.Repository
 
         private async Task<ItemResponse<ReturnOrderDocument>> AddReturnOrderDocumentAsync(ReturnOrderDocument item)
         {
-            item.CreatedAt ??= DateTime.UtcNow;
-            item.ModifiedAt ??= item.CreatedAt;
+            item.CreatedAt = DateTime.UtcNow;
+            item.ModifiedAt = item.CreatedAt;
 
             return await _returnOrderContainer.UpsertItemAsync(
                 item: item,

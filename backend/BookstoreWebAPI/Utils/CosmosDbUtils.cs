@@ -116,10 +116,11 @@ namespace BookstoreWebAPI.Utils
             return queryDef;
         }
 
-        public static QueryDefinition BuildQuery(QueryParameters queryParams, SupplierFilterModel filter, string defaultSelect = "SELECT *")
+        public static QueryDefinition BuildQuery(QueryParameters queryParams, SupplierFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true)
         {
             var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id)");
 
+            AppendDeleteFilter(query, isRemovableDocument);
             AppendSupplierFilter(query, filter);
             AppendQueryParameters(query, queryParams);
             QueryDefinition queryDef = BuildQueryDef(query);

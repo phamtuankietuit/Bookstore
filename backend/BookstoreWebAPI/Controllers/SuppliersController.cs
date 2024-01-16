@@ -120,7 +120,7 @@ namespace BookstoreWebAPI.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete()]
         public async Task<ActionResult> DeleteSupplierAsync([FromQuery]string[] ids)
         {
             var staffId = Request.Headers["staffId"].ToString();

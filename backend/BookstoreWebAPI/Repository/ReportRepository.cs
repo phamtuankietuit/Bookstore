@@ -21,7 +21,7 @@ namespace BookstoreWebAPI.Repository
 
         public async Task<dynamic> GetTodayOrderReport()
         {
-            var today = DateTime.Now;
+            var today = DateTime.Today;
             var yesterday = today.AddDays(-1);
 
             var todayOrders = await GetOrders(today, today);
@@ -30,8 +30,8 @@ namespace BookstoreWebAPI.Repository
             var todayRevenue = todayOrders.Sum(order => order.TotalAmount);
             var yesterdayRevenue = yesterdayOrders.Sum(order => order.TotalAmount);
 
-            var todayInvest = await GetInvest(today, today);
-            var yesterdayInvest = await GetInvest(yesterday, yesterday);
+            var todayInvest = await GetInvest(todayOrders);
+            var yesterdayInvest = await GetInvest(yesterdayOrders);
 
             var todayProfit = todayRevenue - todayInvest;
             var yesterdayProfit = yesterdayRevenue - yesterdayInvest;
@@ -68,7 +68,7 @@ namespace BookstoreWebAPI.Repository
             {
                 var orders = await GetOrders(date.Item1, date.Item2);
                 var revenue = orders.Sum(order => order.TotalAmount);
-                var invest = await GetInvest(date.Item1, date.Item2);
+                var invest = await GetInvest(orders);
                 var profit = revenue - invest;
 
                 dates.Add(date.Item1.ToString(groupBy == "year" ? "yyyy" : groupBy == "month" ? "MM/yyyy": "dd/MM/yyyy"));
@@ -134,10 +134,10 @@ namespace BookstoreWebAPI.Repository
             var topProducts = orders
                 // Flatten the items
                 .SelectMany(order => order.Items)
-                // Group by product id
+                // Group by product name
                 .GroupBy(item => item.ProductId)
-                // Select product id and total quantity
-                .Select(group => new { ProductId = group.Key, Quantity = group.Sum(item => item.Quantity) })
+                // Select product name and total quantity
+                .Select(group => new { ProductName = group.Select(item => item.Name).First(), Quantity = group.Sum(item => item.Quantity) })
                 // Order by quantity descending
                 .OrderByDescending(product => product.Quantity)
                 // Take top 10
@@ -145,8 +145,10 @@ namespace BookstoreWebAPI.Repository
                 // To list
                 .ToList();
 
+            var productNames = topProducts.Select(p => p.ProductName).ToList();
+            var quantities = topProducts.Select(p => p.Quantity).ToList();
 
-            return topProducts;
+            return new { productNames, quantities };
         }
 
         private List<Tuple<DateTime, DateTime>> GenerateDateRange(DateTime startDate, DateTime endDate, string groupBy)
@@ -155,22 +157,26 @@ namespace BookstoreWebAPI.Repository
 
             switch (groupBy.ToLower())
             {
-                case "date":
+                case "day":
                     for (var date = startDate; date <= endDate; date = date.AddDays(1))
                     {
                         dateRange.Add(Tuple.Create(date, date));
                     }
                     break;
                 case "month":
-                    for (var date = startDate; date <= endDate; date = date.AddMonths(1))
+                    for (var date = new DateTime(startDate.Year, startDate.Month, 1); date <= endDate; date = date.AddMonths(1))
                     {
-                        dateRange.Add(Tuple.Create(new DateTime(date.Year, date.Month, 1), new DateTime(date.Year, date.Month, DateTime.DaysInMonth(date.Year, date.Month))));
+                        var endOfMonth = new DateTime(date.Year, date.Month, DateTime.DaysInMonth(date.Year, date.Month));
+                        if (endOfMonth > endDate) endOfMonth = endDate;
+                        dateRange.Add(Tuple.Create(date, endOfMonth));
                     }
                     break;
                 case "year":
-                    for (var date = startDate; date <= endDate; date = date.AddYears(1))
+                    for (var date = new DateTime(startDate.Year, 1, 1); date <= endDate; date = date.AddYears(1))
                     {
-                        dateRange.Add(Tuple.Create(new DateTime(date.Year, 1, 1), new DateTime(date.Year, 12, 31)));
+                        var endOfYear = new DateTime(date.Year, 12, 31);
+                        if (endOfYear > endDate) endOfYear = endDate;
+                        dateRange.Add(Tuple.Create(date, endOfYear));
                     }
                     break;
             }
@@ -183,7 +189,7 @@ namespace BookstoreWebAPI.Repository
             QueryParameters queryParameters = new QueryParameters()
             {
                 PageNumber = 1,
-                PageSize = 1
+                PageSize = -1
             };
 
             SalesOrderFilterModel filter = new()
@@ -195,29 +201,11 @@ namespace BookstoreWebAPI.Repository
             return (await salesOrderRepository.GetSalesOrderDTOsAsync(queryParameters, filter)).ToList();
         }
 
-        private async Task<double> GetInvest(DateTime startDate, DateTime endDate)
+        private async Task<double> GetInvest(IEnumerable<SalesOrderDTO> salesOrderDTOs)
         {
-            QueryParameters queryParameters = new QueryParameters()
-            {
-                PageNumber = 1,
-                PageSize = 1
-            };
+            var todayPurchase = salesOrderDTOs.Sum(doc => doc.Items.Sum(item => item.PurchasePrice));            
 
-            ReturnOrderFilterModel filterReturn = new()
-            {
-                StartDate = startDate,
-                EndDate = endDate,
-            };
-            PurchaseOrderFilterModel filterPurchase = new()
-            {
-                StartDate = startDate,
-                EndDate = endDate,
-            };
-
-            var todayReturn = await returnOrderRepository.GetReturnOrderDTOsAsync(queryParameters, filterReturn);
-            var todayPurchase = await purchaseOrderRepository.GetPurchaseOrderDTOsAsync(queryParameters, filterPurchase);
-
-            return todayReturn.Sum(order => order.TotalAmount) + todayPurchase.Sum(order => order.TotalAmount);
+            return todayPurchase;
         }
 
         private double CalculatePercent(double todayValue, double yesterdayValue)

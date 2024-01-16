@@ -51,7 +51,7 @@ namespace CosmosChangeFeedFunction.Functions
                             _logger.LogInformation($"[CFReturnOrder] Updating RO's item stock, product id: {item.ProductId}");
 
                             await inventoryRepository.UpdateStockFromRO(item.ProductId, item.ReturnQuantity);
-                        }
+                        }   
 
                         var updatedCustomer = await customerRepository.UpdateReturnOrderInformation(updatedReturnOrder);
 
@@ -59,8 +59,6 @@ namespace CosmosChangeFeedFunction.Functions
                         {
                             _customerSearchClientService.InsertToBatch(customerBatch, updatedCustomer, BatchAction.Merge);
                         }
-
-                        //_returnSearchClientService.InsertToBatch(returnOderBatch, updatedReturnOrder, BatchAction.Upload);
                     }
                     else
                     {

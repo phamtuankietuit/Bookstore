@@ -241,12 +241,12 @@ namespace BookstoreWebAPI.Repository
         private async Task DeleteSupplier(SupplierDocument supplierDoc, string id)
         {
             supplierDoc.IsDeleted = true;
-            List<PatchOperation> patchOperations = new()
-            {
+            List<PatchOperation> patchOperations =
+            [
                 PatchOperation.Replace("/isDeleted", true)
-            };
+            ];
 
-            await _supplierGroupContainer.PatchItemAsync<SupplierDocument>(id, new PartitionKey(supplierDoc.SupplierId), patchOperations);
+            await _supplierContainer.PatchItemAsync<SupplierDocument>(id, new PartitionKey(supplierDoc.SupplierId), patchOperations);
 
             await _activityLogRepository.LogActivity(
                 Enums.ActivityType.delete,

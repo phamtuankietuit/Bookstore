@@ -20,10 +20,10 @@ export const getAllProducts = async (params) => {
         return Promise.reject(error);
     }
 }
+
 export const getAllProductsTwo = async (pageNumber, pageSize) => {
     try {
-        const res = await request.getMethod(`Products?pageSize=${pageSize}&pageNumber=${pageNumber}&sortBy=categoryId&orderBy=asc`);
-
+        const res = await request.getMethod(`Products?pageSize=${pageSize}&pageNumber=${pageNumber}&sortBy=categoryId&orderBy=asc&isActive=true`);
         return res;
     } catch (error) {
         return Promise.reject(error);

@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 const cx = classNames.bind(styles);
 const convertISOtoDDMMYYYY = (isoDateString) => {
     let date = new Date(isoDateString);
-    return format(date, 'MM/dd/yyyy - HH:mm');
+    return format(date, 'dd/MM/yyyy - HH:mm');
 }
 export const ImportItem = [
     {

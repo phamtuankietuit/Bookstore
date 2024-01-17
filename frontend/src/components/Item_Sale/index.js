@@ -47,7 +47,7 @@ function Item_Sale({ product, index, funtion, update }) {
             </div>
             <div className={`${cx('properties-3')}`}>
 
-                <input className={cx('textfield')} type="number" min={0} max={product.stock} defaultValue={product.quantity} onChange={(e) => {
+                <input className={cx('textfield')} type="number" min={1} max={product.stock} defaultValue={product.quantity} onChange={(e) => {
                     if (e.target.value > product.stock) e.target.value = product.stock;
                     else if (e.target.value < 0 || e.target.value === '') e.target.value = 0;
 

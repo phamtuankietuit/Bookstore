@@ -1,9 +1,9 @@
-.frame{
-    margin: 25px auto ;
+.frame {
+    margin: 25px auto;
     padding: 15px 30px;
-    text-wrap:wrap;
+    text-wrap: wrap;
     background-color: white;
-    width: 80%;
+    width: 90%;
     min-height: 250px;
     border-radius: 10px;
 }
@@ -15,9 +15,8 @@
     background: var(--background) url('../../assets/images/bg_img.svg')
         no-repeat top left;
 
-    p{
+    p {
         width: fit-content;
-        height: fit-content;
     }
     user-select: none;
 }
@@ -26,33 +25,25 @@
     padding: 20px;
 }
 
-.title{
+.title {
     font-size: 14px;
     font-weight: 500;
+    margin-bottom: 15px;
 }
 
-.my-btn{
-    min-width: 130px;
-    min-height: 50px;
-
-    
-}
-
-.columns-1{
+.columns-item-1 {
     text-align: center;
     min-width: 120px;
 }
 
-.columns-2{
+.columns-item-2 {
     min-width: 400px;
-
 }
-.columns-3{
+.columns-item-3 {
     min-width: 220px;
-    text-align: center;
 }
 
-.row{
+.columns {
     margin-top: 10px;
     background-color: #c4c2c23e;
     padding: 10px;
@@ -61,75 +52,49 @@
     font-weight: 600;
     width: fit-content;
     display: flex;
-    width: 1440px;
+    min-width: 1440px;
 }
 
-.img{
-    height: 40px;
-    width: 40px;
-}
-
-.item{
-    height: 80px;
-    width: 100%;
-    width: fit-content;
-    display: flex;
-    align-items: center;
-    font-size: 11px;
-    font-size: 13px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.066);
-    &:hover {
-        background-color: #f3f4f5;
-    }
-    &:hover {
-        background-color: #f3f4f5;
-    }
-}
-.list-import{
-    height: 500px;
-    width: 100%;
-    padding: 5px;
- 
-
-}
-
-.content-check{
+.import-content {
     overflow: scroll;
     margin-top: 30px;
 }
 
-.form-select{
-    width: 90px;
-    height:40px;
+.no-product {
+    height: 200px;
+    text-align: center;
+    color: rgb(163, 168, 175);
+    padding-top: 30px;
 }
 
-.status-2{
-    box-sizing: border-box;
-    position: relative;
-    display: inline-flex;
-    white-space: nowrap;
-    -webkit-box-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    align-items: center;
-    vertical-align: middle;
-    padding: 0.285714rem;
-    border-radius: 1.14286rem;
-    height: 1.71429rem;
-    border: 1px solid rgb(255, 223, 155);
-    background-color: rgb(255, 247, 231);
-    margin-left: 12px;
-    color: rgb(228, 156, 6);
-    padding: 5px;
+.icon {
+    width: 50px;
+    height: 50px;
+    margin: 5px;
 }
-.enterfile{
-    &:hover{
+
+.list-import {
+    max-height: 400px;
+    width: 100%;
+    padding: 5px 0px;
+    z-index: 1;
+    padding: 5px 0px;
+}
+
+.my-btn {
+    min-width: 130px;
+    min-height: 45px;
+    font-size: 13px;
+}
+
+.enterfile {
+    &:hover {
         cursor: pointer;
         color: #0d6efd;
     }
 }
 
-.my-form{
+.my-form {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -139,10 +104,4 @@
     width: 90%;
     cursor: pointer;
     border-radius: 5px;
-}
-
-.icon{
-    width: 50px;
-    height: 50px;
-    margin: 5px;
 }

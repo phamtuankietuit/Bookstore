@@ -23,7 +23,7 @@ export const getAllPromotions = async (params) => {
 
 export const getPromotionsForSale = async (price) => {
     try {
-        const res = await request.getMethod(`Promotions?pageSize=${-1}&pageNumber=${1}&salesOrderPrice=${price}&statuses=running`);
+        const res = await request.getMethod(`Promotions?pageSize=${-1}&pageNumber=${1}&salesOrderPrice=${price}&statuses=running&isOutdated=false`);
 
         return res;
     } catch (error) {

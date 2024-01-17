@@ -315,7 +315,7 @@ function ListReturn() {
                             <MultiSelectComp
                                 className={cx('m-b')}
                                 options={optionsStaff}
-                                placeholder={'Nhà cung cấp'}
+                                placeholder={'Nhân viên tạo'}
                                 selected={selectedStaff}
                                 setSelected={setSelectedStaff}
                                 hasSelectAll={true}

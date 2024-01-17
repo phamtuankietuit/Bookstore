@@ -139,7 +139,7 @@ function ListOrder() {
             .catch((error) => {
                 if (error.response) {
                     console.log(error.response.data);
-                    console.log(error.response.status);
+                    console.log(error?.response?.status);
                     console.log(error.response.headers);
                 } else if (error.request) {
                     console.log(error.request);
@@ -200,7 +200,7 @@ function ListOrder() {
 
         const response = await saleServices.getAllSalesOrders(obj)
             .catch((error) => {
-                if (error.response.status === 404) {
+                if (error?.response?.status === 404) {
                     setRows([]);
                     setTotalRows(0);
                 } else {

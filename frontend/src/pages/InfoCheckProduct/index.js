@@ -1,68 +1,152 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useState, useContext } from 'react';
+import { useParams, NavLink } from 'react-router-dom';
 import classNames from 'classnames/bind';
-import styles from './InfoCheckProduct.module.scss';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import { NavLink } from 'react-router-dom';
-import { useEffect, useState, useContext } from 'react';
-import { data } from './data';
 import Spinner from 'react-bootstrap/Spinner';
-import Pagination from 'react-bootstrap/Pagination';
-import Form from 'react-bootstrap/Form';
-import { FaDownload } from "react-icons/fa6";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Modal from 'react-bootstrap/Modal';
-import { ToastContext } from '~/components/ToastContext';
+
+import styles from './InfoCheckProduct.module.scss';
 import ModalLoading from '~/components/ModalLoading';
+
+import { ToastContext } from '~/components/ToastContext';
+
+import * as checkServices from '~/apiServices/checkServices';
+import { getLocalStorage } from '~/store/getLocalStorage';
+
 const cx = classNames.bind(styles);
+
 function InfoCheckProduct() {
+    const checkProductId = useParams();
     const toastContext = useContext(ToastContext);
     const [loading, setLoading] = useState(false);
-    const checkproductid = useParams()
-    const [obj, setObj] = useState(null)
-    const [list, setList] = useState([])
+
+    const [updatePage, setUpdatePage] = useState(new Date());
+
+    const [entireObject, setEntireObject] = useState(null);
+
+    const [obj, setObj] = useState(null);
+    const [list, setList] = useState([]);
+
     useEffect(() => {
-        setObj(data)
-        setList(data.list)
-    });
+        const fetch = async () => {
+            const response = await checkServices.getCheck(checkProductId.id)
+                .catch((error) => {
+                    console.log(error);
+                });
 
+            if (response) {
+                console.log(response);
+                setEntireObject(response);
+                setObj(response.adjustmentTicketDTO);
+                setList(response.adjustmentItemDTOs);
+            }
+        }
 
+        fetch();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [updatePage]);
 
-    const [show, setShow] = useState(false);
-    const handleClose = () => {
-        setShow(false)
-
-    };
-    const handleShow = () => setShow(true);
-
-    const submit = () => {
-        handleClose()
-    }
-
-    const submitform = () => {
-
+    const handleBalanced = async () => {
         setLoading(true);
-        setTimeout(() => {
-            const newobj = obj
-            newobj.status = 1
-            setObj(newobj)
-            setLoading(false);
-            toastContext.notify('success', 'Đã cân bằng kho');
-        }, 2000);
 
+        let isSuccess = true;
 
+        const newObj = {
+            ...entireObject,
+            adjustmentTicketDTO: {
+                ...obj,
+                status: 'adjusted',
+                adjustedStaffId: getLocalStorage().user.staffId,
+                adjustedStaffName: getLocalStorage().user.name,
+                adjustmentBalance: {
+                    adjustedQuantity: 0,
+                    afterQuantity: 0,
+                },
+            }
+        };
 
+        console.log('NEW OBJECT', newObj);
+
+        // const response = await checkServices.updateCheck(obj.adjustmentTicketId, newObj)
+        //     .catch((error) => {
+        //         isSuccess = false;
+        //         toastContext.notify('error', 'Có lỗi xảy ra');
+
+        //         if (error.response) {
+        //             // The request was made and the server responded with a status code
+        //             // that falls out of the range of 2xx
+        //             console.log(error.response.data);
+        //             console.log(error.response.status);
+        //             console.log(error.response.headers);
+        //         } else if (error.request) {
+        //             // The request was made but no response was received
+        //             // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+        //             // http.ClientRequest in node.js
+        //             console.log(error.request);
+        //         } else {
+        //             // Something happened in setting up the request that triggered an Error
+        //             console.log('Error', error.message);
+        //         }
+        //         console.log(error.config);
+        //     });
+
+        // if (isSuccess) {
+        //     toastContext.notify('success', 'Cân bằng kho thành công');
+        //     setUpdatePage(new Date());
+        // }
+
+        // setLoading(false);
     }
 
-    const deleteform = () => {
+    const handleDelete = async () => {
         setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-            toastContext.notify('success', 'Đã xóa phiếu');
-        }, 2000);
+
+        let isSuccess = true;
+
+        const newObj = {
+            ...entireObject,
+            adjustmentTicketDTO: {
+                ...obj,
+                status: 'cancelled',
+            }
+        };
+
+        console.log('NEW OBJECT', newObj);
+
+        const response = await checkServices.updateCheck(obj.adjustmentTicketId, newObj)
+            .catch((error) => {
+                isSuccess = false;
+                toastContext.notify('error', 'Có lỗi xảy ra');
+
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+
+        if (isSuccess) {
+            toastContext.notify('success', 'Xóa đơn kiểm hàng thành công');
+            setUpdatePage(new Date());
+        }
+
+        setLoading(false);
     }
+
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -75,52 +159,43 @@ function InfoCheckProduct() {
                         ) : (
                             <div>
                                 <div className='d-flex mb-2'>
-                                    <p className='fs-5 me-4'>{obj.sku}</p>
-                                    {
-                                        obj.status === 1 ? (
-                                            <div className={cx('status-1')}>Đã cân bằng </div>
-                                        ) : (
-                                            <div className={cx('status-2')}>Đang kiểm hàng </div>
-                                        )
-                                    }
+                                    <p className='fs-5 me-4'>{obj.adjustmentTicketId}</p>
+                                    {obj.status === 'unadjusted' &&
+                                        <div className={cx('status-2')}>Đang kiểm kho </div>}
+                                    {obj.status === 'adjusted' &&
+                                        <div className={cx('status-1')}>Đã cân bằng </div>}
+                                    {obj.status === 'cancelled' &&
+                                        <div className={cx('status-2')}>Đã xóa </div>}
 
-                                </div>
-                                <div className='my-4'>
-                                    <Button variant="secondary" onClick={() => handleShow()}>
-                                        <FaDownload className='me-2' />
-                                        Xuất file
-                                    </Button>
                                 </div>
                                 <p className={`mt-4 mb-1 ${cx('title')}`}>Tất cả</p>
                                 <div className={cx('content-check')}>
                                     <div className={cx('row')}>
                                         <div className={cx('columns-1')}>STT</div>
-                                        <div className={cx('columns-1')}>Ảnh</div>
                                         <div className={cx('columns-2')}>Tên sản phẩm</div>
                                         <div className={cx('columns-3')}>Tồn thực tế</div>
+                                        <div className={cx('columns-3')}>Tồn hệ thống</div>
+                                        <div className={cx('columns-3')}>Lệch</div>
                                         <div className={cx('columns-3')}>Lý do</div>
-                                        <div className={cx('columns-3')}>Ghi chú</div>
 
                                     </div>
                                     <div className={cx('list-import')}>
                                         {
                                             list.map((item, index) => (
-                                                <div className={`${cx('item')}`} key={item.id}>
+                                                <div className={`${cx('item')}`} key={item.productId}>
                                                     <div className={cx('columns-1')}>{index + 1}</div>
-                                                    <div className={cx('columns-1')}><img src={item.img} className={cx('img')} /></div>
                                                     <div className={cx('columns-2')}>
-                                                        <div className='fs-6'>{item.name}</div>
-                                                        <div>{item.sku}</div>
+                                                        <div className='fs-6'>{item.productName}</div>
+                                                        <div>{item.productId}</div>
                                                     </div>
-                                                    <div className={cx('columns-3')}>{item.actualexistence}</div>
-                                                    <div className={cx('columns-3')}><div>{item.reason}</div></div>
-                                                    <div className={cx('columns-3')}>{item.note}</div>
+                                                    <div className={cx('columns-3')}>{item.quantity}</div>
+                                                    <div className={cx('columns-3')}>{item.quantity - item.adjustedQuantity}</div>
+                                                    <div className={cx('columns-3')}>{item.adjustedQuantity}</div>
+                                                    <div className={cx('columns-3')}>{item.reason}</div>
                                                 </div>
                                             ))
                                         }
                                     </div>
-
-
                                 </div>
 
                                 {
@@ -129,43 +204,26 @@ function InfoCheckProduct() {
                                     </div>) : (
                                         <Row>
                                             <Col className='mt-4 text-end me-4'>
-                                                <Button className={`m-1 ${cx('my-btn')}`} variant="outline-danger" onClick={() => deleteform()}>Xóa</Button>
-                                                <Button className={`m-1 ${cx('my-btn')}`} variant="outline-primary">
-                                                    <NavLink to={"/checks/update/" + checkproductid.id} className={`text-decoration-none ${cx('nav-link')}`} >
-                                                        Sửa
-                                                    </NavLink>
-                                                </Button>
-                                                <Button className={`m-1 ${cx('my-btn')}`} variant="primary" onClick={() => submitform()}>Cân bằng kho</Button>
-
+                                                {obj.status === 'unadjusted' &&
+                                                    <Button className={`m-1 ${cx('my-btn')}`} variant="outline-danger" onClick={() => handleDelete()}>Xóa</Button>
+                                                }
+                                                {obj.status === 'unadjusted' &&
+                                                    <Button className={`m-1 ${cx('my-btn')}`} variant="outline-primary">
+                                                        <NavLink to={"/checks/update/" + checkProductId.id} className={`text-decoration-none ${cx('nav-link')}`} >
+                                                            Sửa
+                                                        </NavLink>
+                                                    </Button>}
+                                                {obj.status === 'unadjusted' &&
+                                                    <Button className={`m-1 ${cx('my-btn')}`} variant="primary" onClick={() => handleBalanced()}>Cân bằng kho</Button>
+                                                }
                                             </Col>
                                         </Row>
                                     )
                                 }
-
                             </div>
                         )
                     }
-
                 </div>
-                <Modal size="lg" show={show} onHide={handleClose} animation={false}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Nhập file danh sách sản phẩm kiểm</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <p >Hệ thống đang xử lý yêu cầu xuất file của bạn !</p>
-                        <p>Bạn có thể tải file dữ liệu tại:</p>
-                        <div className='ms-2 mb-3'>
-                            <li>Cập nhật email để nhận file về email trong lần xuất dữ liệu sau</li>
-                            <li>Danh sách các file đã được xuất tại phần Thông tin cá nhân -{'>'} Xuất nhập file</li>
-                        </div>
-                        Lưu ý: Sapo giới hạn tối đa 20,000 dòng dữ liệu cho mỗi lần xuất file
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="primary" className={`m-1 ${cx('my-btn')}`} onClick={() => submit()}>
-                            Xác nhận
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
                 <ModalLoading open={loading} title={'Đang tải'} />
             </div>
         </div >

@@ -1,22 +1,23 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
+import { useParams, NavLink, useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
-import styles from './InfoImportProduct.module.scss';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import { NavLink } from 'react-router-dom';
-import Properties from '~/components/Properties';
-import ListImportProduct from '~/components/ListImportProduct';
-import { useNavigate } from 'react-router-dom';
-import { useState, useEffect, useContext } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import Modal from 'react-bootstrap/Modal';
+
+import styles from './InfoImportProduct.module.scss';
+import Properties from '~/components/Properties';
+import ListImportProduct from '~/components/ListImportProduct';
 import * as PurchaseOrdersServices from '~/apiServices/purchaseOrderServices';
 import ModalLoading from '~/components/ModalLoading';
 import { ToastContext } from '~/components/ToastContext';
+
 const cx = classNames.bind(styles);
+
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
 function InfoImportProduct() {
     const toastContext = useContext(ToastContext);
     const importid = useParams();
@@ -43,16 +44,12 @@ function InfoImportProduct() {
                     console.log(err);
                 });
             if (result) {
-                setTimeout(() => {
-                    setLoading(false);
-                    toastContext.notify('error', 'Lưu không thành công');
-                }, 2000);
+                setLoading(false);
+                toastContext.notify('error', 'Lưu không thành công');
             }
             else {
-                setTimeout(() => {
-                    setLoading(false);
-                    toastContext.notify('success', 'Đã lưu đơn');
-                }, 2000);
+                setLoading(false);
+                toastContext.notify('success', 'Đã lưu đơn');
             }
         }
 
@@ -125,46 +122,6 @@ function InfoImportProduct() {
                                 </Col>
                             </Row>
                         </div>
-                    </div>
-                    <div className={cx('frame')}>
-                        <div className="d-flex align-items-center mb-3">
-                            <p className={`w-50 ${cx('title')}`}>
-                                Đơn nhập hàng thanh toán một phần
-                            </p>
-                            <div className="text-end w-50">
-                                <Button
-                                    className={`m-1 ${cx('my-btn')}`}
-                                    variant="primary"
-                                    onClick={handleShowpaid}
-                                >
-                                    Thanh toán
-                                </Button>
-                            </div>
-                        </div>
-
-                        <hr />
-                        <Row className={`w-100 ${cx('bg')} p-3`}>
-                            <Col lg={4} className="d-flex mb-1">
-                                Tiền cần trả nhà cung cấp :{' '}
-                                <span className="fw-bold ms-1">
-                                    {' '}
-                                    {addCommas(obj.totalAmount ? obj.totalAmount : 0)}
-                                </span>
-                            </Col>
-                            <Col lg={4} className="mb-1">
-                                Đã trả :{' '}
-                                <span className="fw-bold ms-1">
-                                    {' '}
-                                    {addCommas(obj.paymentDetails.paidAmount ? obj.paymentDetails.paidAmount : 0)}
-                                </span>
-                            </Col>
-                            <Col lg={4} className="mb-1">
-                                Còn phải trả :{' '}
-                                <span className="text-danger">
-                                    {addCommas(obj.paymentDetails.remainAmount ? obj.paymentDetails.remainAmount : 0)}
-                                </span>
-                            </Col>
-                        </Row>
                     </div>
                     <div className={cx('frame')}>
                         <p className={` mb-5 ${cx('title')}`}>

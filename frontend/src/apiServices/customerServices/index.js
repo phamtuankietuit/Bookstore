@@ -32,7 +32,7 @@ export const CreateCustomer = async (obj) => {
 
 export const getAllCustomerTwo = async (pageNumber, pageSize) => {
     try {
-        const res = await request.getMethod(`Customers?pageSize=${pageSize}&pageNumber=${pageNumber}`);
+        const res = await request.getMethod(`Customers?pageSize=${pageSize}&pageNumber=${pageNumber}&isActive=true`);
 
         return res;
     } catch (error) {

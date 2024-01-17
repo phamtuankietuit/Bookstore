@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { GrPrint } from 'react-icons/gr';
@@ -6,9 +6,11 @@ import { IoPerson } from 'react-icons/io5';
 import { FaCalendarAlt } from 'react-icons/fa';
 import Spinner from 'react-bootstrap/Spinner';
 import { format } from 'date-fns';
+import ReactToPrint, { useReactToPrint } from 'react-to-print';
 
 import styles from './BillInfo.module.scss';
 import ListBillProduct from '~/components/ListBillProduct';
+import HtmlOrder from '~/pages/HtmlOrder';
 
 import * as saleServices from '~/apiServices/saleServices';
 import * as customerServices from '~/apiServices/customerServices';
@@ -18,7 +20,7 @@ import { ToastContext } from '~/components/ToastContext';
 const cx = classNames.bind(styles);
 
 const addCommas = (num) => {
-    if (num !== null) {
+    if (num !== undefined) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 };
@@ -28,6 +30,7 @@ function BillInfo() {
     const salesOrderId = useParams();
     const [order, setOrder] = useState(null);
     const [customer, setCustomer] = useState(null);
+    const printRef = useRef();
 
     useEffect(() => {
         const fetchApi = async () => {
@@ -38,7 +41,7 @@ function BillInfo() {
                 });
 
             if (responseOrder) {
-                console.log(responseOrder);
+                // console.log(responseOrder);
                 setOrder(responseOrder);
 
                 const responseCustomer = await customerServices.getCustomer(responseOrder.customerId)
@@ -61,7 +64,7 @@ function BillInfo() {
     return (
         <div className={cx('container')}>
 
-            {(order === null && customer === null) ? (
+            {(order === null || customer === null) ? (
                 <Spinner animation="border" role="status">
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
@@ -75,10 +78,17 @@ function BillInfo() {
                             </div>
                         </div>
                         <div className={cx('Print-and-Copy')}>
-                            <div className={cx('Print-btn')}>
-                                <GrPrint className={cx('Print-icon')}></GrPrint>
-                                <p>In đơn hàng</p>
-                            </div>
+
+                            <ReactToPrint
+                                trigger={() =>
+                                (<div className={cx('Print-btn')}>
+                                    <GrPrint className={cx('Print-icon')}></GrPrint>
+                                    <p>In đơn hàng</p>
+                                </div>)
+                                }
+                                content={() => printRef.current}
+                            />
+
                             <div className={cx('Staff-info')}>
                                 <IoPerson className={cx('staff-icon')}></IoPerson>
                                 <p>Bán bởi: </p>
@@ -159,9 +169,10 @@ function BillInfo() {
                                     <p>{0}</p>
                                     <p>{
                                         addCommas(
-                                            order?.discountItems
+                                            (order?.discountItems
                                                 ?.find((element) => element.source === 'manual')
-                                                ?.amount
+                                                ||
+                                                { amount: 0 }).amount
                                         )
                                     }</p>
                                     <p>{
@@ -189,7 +200,9 @@ function BillInfo() {
                     </Link>
                 </div>
             </div>)}
-
+            <div className={cx('d-n')}>
+                <HtmlOrder ref={printRef} object={order} customer={customer} />
+            </div>
         </div>
     );
 }

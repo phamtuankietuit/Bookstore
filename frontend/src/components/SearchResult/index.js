@@ -14,7 +14,7 @@ import * as ProductServices from '~/apiServices/productServices';
 import * as SuppliersServices from '~/apiServices/supplierServices';
 import * as CustomerServices from '~/apiServices/customerServices'
 const cx = classNames.bind(styles);
-function SearchResult({ setValue, stypeid, supplierID }) {
+function SearchResult({ setValue, stypeid, supplierID, updateSearchResult }) {
 
     const [placeholder, setPlaceholder] = useState('');
 
@@ -152,7 +152,8 @@ function SearchResult({ setValue, stypeid, supplierID }) {
 
         if (supplierID === '') setOpen(false)
 
-    }, [open, supplierID]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [open, supplierID, updateSearchResult]);
 
 
     return (

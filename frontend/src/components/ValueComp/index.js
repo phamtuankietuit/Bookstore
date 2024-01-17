@@ -2,7 +2,11 @@ import classNames from "classnames/bind";
 import styles from './ValueComp.module.scss';
 
 const cx = classNames.bind(styles);
-const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const addCommas = (num) => {
+    if (num !== undefined) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+}
 
 function ValueComp({ title, value, percentComponent, className }) {
     const classes = cx('today', {

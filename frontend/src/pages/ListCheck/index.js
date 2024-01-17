@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,40 +9,101 @@ import Button from '~/components/Button';
 import List from '~/components/List';
 import Filter from '~/components/Filter';
 import { CheckItem } from '~/components/Item';
-import { data4 } from '~/components/Table/sample';
 import MultiSelectComp from '~/components/MultiSelectComp';
 import DateRange from '~/components/DateRange';
+import { ConvertISO } from '~/components/ConvertISO';
+
+import { ToastContext } from '~/components/ToastContext';
+
+import * as checkServices from '~/apiServices/checkServices';
+import * as staffServices from '~/apiServices/staffServices';
 
 const cx = classNames.bind(styles);
 
 const optionsTT = [
-    { label: 'Đã cân bằng', value: '0' },
-    { label: 'Đang kiểm kho', value: '1' },
-    { label: 'Đã xóa', value: '2' },
-];
-
-const optionsNVT = [
-    { label: 'Lê Võ Duy Khiêm', value: '0' },
-    { label: 'Phạm Tuấn Kiệt', value: '1' },
-    { label: 'Ngô Trung Quân', value: '2' },
-    { label: 'Nguyễn Trung Kiên', value: '3' },
-];
-
-const optionsNVCB = [
-    { label: 'Lê Võ Duy Khiêm', value: '0' },
-    { label: 'Phạm Tuấn Kiệt', value: '1' },
-    { label: 'Ngô Trung Quân', value: '2' },
-    { label: 'Nguyễn Trung Kiên', value: '3' },
+    { label: 'Đã cân bằng', value: 'adjusted' },
+    { label: 'Đang kiểm kho', value: 'unadjusted' },
+    { label: 'Đã xóa', value: 'cancelled' },
 ];
 
 function ListCheck() {
     const navigate = useNavigate();
+    const toastContext = useContext(ToastContext);
+
+    // API PROPS
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pageSize, setPageSize] = useState(12);
+    const [totalRows, setTotalRows] = useState(0);
+    const [sortBy, setSortBy] = useState('');
+    const [orderBy, setOrderBy] = useState('');
+
+    // CREATE OBJECT QUERY
+    const createObjectQuery = async (
+        pageNumber,
+        pageSize,
+        sortBy,
+        orderBy,
+        query,
+    ) => {
+        return {
+            pageNumber,
+            pageSize,
+            ...(sortBy && { sortBy }),
+            ...(orderBy && { orderBy }),
+            ...(query && { query }),
+        };
+    }
+
+    const returnArray = (arr) => {
+        return arr.map((obj) => obj.value);
+    }
+
 
     // SEARCH
     const [search, setSearch] = useState('');
     const handleSearch = (e) => {
         setSearch(e.target.value);
     };
+
+    const handleKeyDown = async (e) => {
+        if (e.key === 'Enter') {
+            setPageNumber(1);
+            setSortBy('');
+            setOrderBy('');
+
+            getList(
+                await createObjectQuery(
+                    1,
+                    pageSize,
+                    '',
+                    '',
+                    dateCreated && ConvertISO(dateCreated).startDate,
+                    dateCreated && ConvertISO(dateCreated).endDate,
+                    dateBalanced && ConvertISO(dateBalanced).startDate,
+                    dateBalanced && ConvertISO(dateBalanced).endDate,
+                    selectedTT.length > 0 && returnArray(selectedTT),
+                    selectedCreatedStaff.length > 0 && returnArray(selectedCreatedStaff),
+                    selectedBalancedStaff.length > 0 && returnArray(selectedBalancedStaff),
+                    search,
+                )
+            );
+        }
+    }
+
+    // FILTER OPTIONS
+    const [optionsStaff, setOptionsStaff] = useState([]);
+
+    // FILTER SELECTED
+    const [selectedTT, setSelectedTT] = useState([]);
+    const [selectedCreatedStaff, setSelectedCreatedStaff] = useState([]);
+    const [selectedBalancedStaff, setSelectedBalancedStaff] = useState([]);
+
+    // DATE CREATED
+    const [dateCreated, setDateCreated] = useState('');
+
+    // DATE BALANCED
+    const [dateBalanced, setDateBalanced] = useState('');
+
 
     // FILTER
     const [openFilter, setOpenFilter] = useState(false);
@@ -51,41 +112,191 @@ function ListCheck() {
 
     const handleClearFilter = () => {
         setSelectedTT([]);
-        setSelectedNVT([]);
-        setSelectedNVCB([]);
+        setSelectedCreatedStaff([]);
+        setSelectedBalancedStaff([]);
         setDateCreated('');
         setDateBalanced('');
     };
 
-    const handleFilter = () => {
+    const handleFilter = async () => {
+        setPageNumber(1);
+
+        getList(
+            await createObjectQuery(
+                1,
+                pageSize,
+                sortBy,
+                orderBy,
+                dateCreated && ConvertISO(dateCreated).startDate,
+                dateCreated && ConvertISO(dateCreated).endDate,
+                dateBalanced && ConvertISO(dateBalanced).startDate,
+                dateBalanced && ConvertISO(dateBalanced).endDate,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedCreatedStaff.length > 0 && returnArray(selectedCreatedStaff),
+                selectedBalancedStaff.length > 0 && returnArray(selectedBalancedStaff),
+                search,
+            )
+        );
+
         handleCloseFilter();
     };
 
-    const [selectedTT, setSelectedTT] = useState([]);
-    const [selectedNVT, setSelectedNVT] = useState([]);
-    const [selectedNVCB, setSelectedNVCB] = useState([]);
+    // GET DATA STAFF
+    const getStaff = async () => {
+        const response = await staffServices.getAllStaffs({ pageNumber: 1, pageSize: -1 })
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
 
-    // DATE CREATED
-    const [dateCreated, setDateCreated] = useState('');
+        if (response) {
+            const data = await response.data.map((staff) => ({ label: staff.name, value: staff.staffId }));
+            setOptionsStaff(data);
+        }
+    };
 
-    // DATE BALANCED
-    const [dateBalanced, setDateBalanced] = useState('');
+    // GET DATA FOR FILTER
+    useEffect(() => {
+        getStaff();
+        // eslint-disable-next-line no-use-before-define
+    }, [openFilter]);
 
     // ON ROW CLICKED
     const onRowClicked = useCallback((row) => {
-        navigate('/checks/detail/' + row.id);
+        navigate('/checks/detail/' + row.adjustmentTicketId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // TABLE
     const [pending, setPending] = useState(true);
     const [rows, setRows] = useState([]);
 
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setRows(data4);
+    const getList = async (obj) => {
+        setPending(true);
+
+        const response = await checkServices.getChecks(obj)
+            .catch((error) => {
+                setPending(false);
+
+                if (error.response.status === 404) {
+                    setRows([]);
+                    setTotalRows(0);
+                } else {
+                    toastContext.notify('error', 'Có lỗi xảy ra');
+                }
+            });
+
+        if (response) {
+            console.log(response.data);
             setPending(false);
-        }, 500);
-        return () => clearTimeout(timeout);
+            setRows(response.data);
+            setTotalRows(response.metadata.count);
+        }
+    }
+
+    // PAGINATION
+    const handlePerRowsChange = async (newPerPage, pageNumber) => {
+        setPageSize(newPerPage);
+        setPageNumber(pageNumber);
+
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                newPerPage,
+                sortBy,
+                orderBy,
+                dateCreated && ConvertISO(dateCreated).startDate,
+                dateCreated && ConvertISO(dateCreated).endDate,
+                dateBalanced && ConvertISO(dateBalanced).startDate,
+                dateBalanced && ConvertISO(dateBalanced).endDate,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedCreatedStaff.length > 0 && returnArray(selectedCreatedStaff),
+                selectedBalancedStaff.length > 0 && returnArray(selectedBalancedStaff),
+                search,
+            )
+        );
+
+    }
+
+    const handlePageChange = async (pageNumber) => {
+        setPageNumber(pageNumber);
+
+        getList(
+            await createObjectQuery(
+                pageNumber,
+                pageSize,
+                sortBy,
+                orderBy,
+                dateCreated && ConvertISO(dateCreated).startDate,
+                dateCreated && ConvertISO(dateCreated).endDate,
+                dateBalanced && ConvertISO(dateBalanced).startDate,
+                dateBalanced && ConvertISO(dateBalanced).endDate,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedCreatedStaff.length > 0 && returnArray(selectedCreatedStaff),
+                selectedBalancedStaff.length > 0 && returnArray(selectedBalancedStaff),
+                search,
+            )
+        );
+    }
+
+    // SORT
+    const handleSort = async (column, sortDirection) => {
+        if (column.text === undefined || sortDirection === undefined) {
+            return;
+        }
+
+        setSortBy(column.text);
+        setOrderBy(sortDirection);
+        setPageNumber(1);
+
+        getList(
+            await createObjectQuery(
+                1,
+                pageSize,
+                column.text,
+                sortDirection,
+                dateCreated && ConvertISO(dateCreated).startDate,
+                dateCreated && ConvertISO(dateCreated).endDate,
+                dateBalanced && ConvertISO(dateBalanced).startDate,
+                dateBalanced && ConvertISO(dateBalanced).endDate,
+                selectedTT.length > 0 && returnArray(selectedTT),
+                selectedCreatedStaff.length > 0 && returnArray(selectedCreatedStaff),
+                selectedBalancedStaff.length > 0 && returnArray(selectedBalancedStaff),
+                search,
+            )
+        );
+    };
+
+    useEffect(() => {
+        const fetch = async () => {
+            getList(
+                await createObjectQuery(
+                    pageNumber,
+                    pageSize,
+                    sortBy,
+                    orderBy,
+                    dateCreated && ConvertISO(dateCreated).startDate,
+                    dateCreated && ConvertISO(dateCreated).endDate,
+                    dateBalanced && ConvertISO(dateBalanced).startDate,
+                    dateBalanced && ConvertISO(dateBalanced).endDate,
+                    selectedTT.length > 0 && returnArray(selectedTT),
+                    selectedCreatedStaff.length > 0 && returnArray(selectedCreatedStaff),
+                    selectedBalancedStaff.length > 0 && returnArray(selectedBalancedStaff),
+                    search,
+                )
+            );
+        }
+
+        fetch();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -109,6 +320,7 @@ function ListCheck() {
                     placeholderSearch={'Tìm kiếm theo mã đơn kiểm hàng'}
                     search={search}
                     handleSearch={handleSearch}
+                    handleKeyDown={handleKeyDown}
                     filterComponent={
                         <Filter
                             open={openFilter}
@@ -141,18 +353,18 @@ function ListCheck() {
                             />
                             <MultiSelectComp
                                 className={cx('m-b')}
-                                options={optionsNVT}
+                                options={optionsStaff}
                                 placeholder={'Nhân viên tạo'}
-                                selected={selectedNVT}
-                                setSelected={setSelectedNVT}
+                                selected={selectedCreatedStaff}
+                                setSelected={setSelectedCreatedStaff}
                                 hasSelectAll={true}
                             />
                             <MultiSelectComp
                                 className={cx('m-b')}
-                                options={optionsNVCB}
+                                options={optionsStaff}
                                 placeholder={'Nhân viên cân bằng'}
-                                selected={selectedNVCB}
-                                setSelected={setSelectedNVCB}
+                                selected={selectedBalancedStaff}
+                                setSelected={setSelectedBalancedStaff}
                                 hasSelectAll={true}
                             />
                         </Filter>
@@ -163,6 +375,12 @@ function ListCheck() {
                     data={rows}
                     pending={pending}
                     pagination
+                    // PAGINATION
+                    totalRows={totalRows}
+                    handlePerRowsChange={handlePerRowsChange}
+                    handlePageChange={handlePageChange}
+                    // SORT
+                    handleSort={handleSort}
                 />
             </div>
         </div>

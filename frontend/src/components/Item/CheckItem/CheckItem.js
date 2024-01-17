@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import { format } from 'date-fns';
 import styles from './CheckItem.module.scss';
 
 const cx = classNames.bind(styles);
@@ -10,7 +11,7 @@ export const CheckItem = [
         center: true,
         cell: (row) => (
             <div className={cx('font', 'id')} data-tag="allowRowEvents">
-                {row.id}
+                {row.adjustmentTicketId}
             </div>
         ),
     },
@@ -22,38 +23,43 @@ export const CheckItem = [
             <div
                 className={cx({
                     'product-state-container': true,
-                    'state-1': row.status === 1 ? true : false,
-                    'state-2': row.status === 2 ? true : false,
+                    'state-1': row.status === 'unadjusted',
+                    'state-2': row.status === 'cancelled',
                 })}
                 data-tag="allowRowEvents"
             >
                 <div className={cx('product-state')} data-tag="allowRowEvents">
-                    {row.status === 0
+                    {row.status === 'adjusted'
                         ? 'Đã cân bằng'
-                        : row.status === 1
-                        ? 'Đang kiểm kho'
-                        : 'Đã xóa'}
+                        : row.status === 'unadjusted'
+                            ? 'Đang kiểm kho'
+                            : 'Đã xóa'}
                 </div>
             </div>
         ),
     },
     {
         name: 'Ngày tạo',
+        sortable: true,
+        text: 'createdAt',
         minWidth: '180px',
         center: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.dateCreated}
+                {format(new Date(row.createdAt), 'dd/MM/yyyy - HH:mm')}
             </div>
         ),
     },
     {
         name: 'Ngày cân bằng',
+        sortable: true,
+        text: 'adjustmentBalance.createdAt',
         minWidth: '180px',
         center: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.dateBalanced}
+                {row?.adjustmentBalance?.createdAt
+                    && format(new Date(row?.adjustmentBalance?.createdAt), 'dd/MM/yyyy - HH:mm')}
             </div>
         ),
     },
@@ -63,7 +69,7 @@ export const CheckItem = [
         center: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.staffCreated}
+                {row.staffName}
             </div>
         ),
     },
@@ -73,7 +79,7 @@ export const CheckItem = [
         center: true,
         cell: (row) => (
             <div className={cx('font')} data-tag="allowRowEvents">
-                {row.staffBalanced}
+                {row.adjustedStaffName}
             </div>
         ),
     },

@@ -143,6 +143,7 @@ function AddReturnProduct() {
                 totalItem: numberItem,
                 totalQuantity: numberQuantity,
                 totalAmount: total,
+                note: note,
             };
 
             setLoading(true);
@@ -156,7 +157,7 @@ function AddReturnProduct() {
             if (response) {
                 console.log(response);
                 toastContext.notify('success', 'Tạo đơn trả hàng thành công');
-                navigate('/return');
+                navigate('/return/detail/' + response.returnOrderId);
             }
 
             setLoading(false);

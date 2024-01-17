@@ -43,10 +43,12 @@ import ImportReport from '~/pages/ImportReport';
 import ActivityHistory from '~/pages/ActivityHistory';
 import Overview from '~/pages/Overview';
 import Sell from '~/pages/Sell';
+import HtmlOrder from '~/pages/HtmlOrder';
 
 const publicRoutes = [
     // ACCOUNT
     { path: '/', component: Login, layout: null },
+    { path: '/html', component: HtmlOrder, layout: null },
 ];
 
 const roles = ['warehouse', 'sales'];

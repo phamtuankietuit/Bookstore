@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import { FaBoxOpen } from "react-icons/fa6";
 import Item_Sale from '~/components/Item_Sale';
 import Form from 'react-bootstrap/Form';
@@ -19,46 +19,56 @@ import { useNavigate } from 'react-router-dom';
 import Input from '~/components/Input';
 import Barcode from '~/pages/Barcode';
 import { Switch } from '@mui/material';
+import ReactToPrint, { useReactToPrint } from 'react-to-print';
+import HtmlOrder from '~/pages/HtmlOrder';
 
 import * as productServices from '~/apiServices/productServices';
 import * as PromotionServices from '~/apiServices/promotionServices';
-import * as SaleServices from '~/apiServices/saleServices';
+import * as saleServices from '~/apiServices/saleServices';
 
 import { getLocalStorage } from '~/store/getLocalStorage';
 
 const cx = classNames.bind(styles);
 const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
+const removeNonNumeric = (num) => num.toString().replace(/[^0-9]/g, '');
 
 function Sale() {
+    const printRef = useRef();
     const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
     const [loading, setLoading] = useState(false);
-    const [open, setOpen] = useState(false)
-    const [isRateDiscount, setType] = useState(true)
-    const [newset, setNewset] = useState(true)
+    const [open, setOpen] = useState(false);
+    const [isRateDiscount, setType] = useState(true);
+    const [newset, setNewset] = useState(true);
 
     // update
     const [updatePage, setUpdatePage] = useState(new Date());
 
     //create obj
-    const [arr, setArr] = useState([])
-    const [nums, setNums] = useState(0)
-    const [total, setTotal] = useState(0)
-    const [discount, setDiscount] = useState(0)
-    const [paid, setPaid] = useState(0)
-    const [customer, setCustomer] = useState(null)
-    const [note, setNote] = useState('')
-    const [coupon, setCoupon] = useState(null)
-    const [totalAmount, setTotalAmout] = useState(0)
+    const [arr, setArr] = useState([]);
+    const [nums, setNums] = useState(0);
+    const [total, setTotal] = useState(0);
+    const [discount, setDiscount] = useState(0);
+    const [paid, setPaid] = useState(0);
+    const [customer, setCustomer] = useState({
+        customerId: 'cust00000',
+        name: 'Khách lẻ',
+        phoneNumber: '',
+        address: '',
+    });
+    const [note, setNote] = useState('');
+    const [coupon, setCoupon] = useState(null);
+    const [totalAmount, setTotalAmout] = useState(0);
+    const [updateSearchResult, setUpdateSearchResult] = useState(new Date());
 
     //choose promo
-    const [option, setOption] = useState([])
-    const [call, setCall] = useState(false)
-    const [items, setItems] = useState([])
-    const [promo, setPromo] = useState('')
+    const [option, setOption] = useState([]);
+    const [call, setCall] = useState(false);
+    const [items, setItems] = useState([]);
+    const [promo, setPromo] = useState('');
 
-
+    // OBJECT PRINT
+    const [object, setObject] = useState();
 
     const addarr = (value) => {
 
@@ -79,6 +89,7 @@ function Sale() {
                 stock: value.currentStock,
                 quantity: 1,
                 totalPrice: value.salePrice,
+                purchasePrice: value.purchasePrice,
             }
             setArr(arr => [...arr, obj]);
         }
@@ -98,8 +109,8 @@ function Sale() {
     }, [newset])
     const updateAmount = () => {
         const discountAmount = (isRateDiscount === true ? (total * (discount + (coupon === null ? 0 : coupon.discountRate)) / 100) : (total * (coupon === null ? 0 : coupon.discountRate / 100) + discount))
-        setTotalAmout(total - discountAmount)
-
+        setTotalAmout(total - discountAmount);
+        setPaid(total - discountAmount);
     }
 
     const update = () => {
@@ -123,8 +134,7 @@ function Sale() {
     }
 
     const addCustomer = (value) => {
-        setCustomer(value)
-
+        setCustomer(value);
     }
 
 
@@ -152,98 +162,125 @@ function Sale() {
     }
 
     const submit = () => {
-        if (customer === null) {
+        if (arr.length === 0 || nums === 0) {
             setLoading(true);
             setLoading(false);
-            toastContext.notify('error', 'Chưa chọn khách hàng');
-        }
-        else
-            if (arr.length === 0 || nums === 0) {
-                setLoading(true);
-                setLoading(false);
-                toastContext.notify('error', 'Chưa chọn sản phẩm');
-            } else if (Number(paid) < Number(totalAmount)) {
-                toastContext.notify('error', 'Tiền khách đưa chưa đủ');
-            } else {
-                const discountItems = [];
+            toastContext.notify('error', 'Chưa chọn sản phẩm');
+        } else if (Number(paid) < Number(totalAmount)) {
+            toastContext.notify('error', 'Tiền khách đưa chưa đủ');
+        } else {
+            const discountItems = [];
 
-                if (coupon !== null) {
-                    discountItems.push({
-                        rate: coupon.discountRate,
-                        value: 0,
-                        amount: parseInt(coupon.discountRate * total / 100),
-                        source: 'promotion',
-                        promotionId: coupon.promotionId,
-                    });
-                }
-
-
-                if (discount !== 0) {
-                    let rate = isRateDiscount ? discount : 0;
-                    let value = isRateDiscount ? 0 : discount;
-                    let amount = isRateDiscount ? parseInt(rate * total / 100) : parseInt(total - value);
-
-                    discountItems.push({
-                        rate: rate,
-                        value: value,
-                        amount: amount,
-                        source: 'manual',
-                        promotionId: null,
-                    });
-                }
-
-
-                setLoading(true);
-                const discountAmount = isRateDiscount === true ? (total * (discount + (coupon === null ? 0 : coupon.discountRate)) / 100) : (total * (coupon === null ? 0 : coupon.discountRate) / 100 + discount);
-                const totalAmount = total - discountAmount;
-
-
-                const obj = {
-                    customerId: customer.customerId,
-                    customerName: customer.name,
-                    items: arr,
-                    subtotal: total,
-                    discountItems: discountItems,
-                    discountRate: isRateDiscount === true ? (discount + (coupon === null ? 0 : coupon.discountRate)) : (coupon === null ? 0 : coupon.discountRate),
-                    discountValue: isRateDiscount === true ? 0 : discount,
-                    discountAmount: discountAmount,
-                    totalAmount: totalAmount,
-                    tax: 0,
-                    paymentDetails: {
-                        remainAmount: totalAmount - paid,
-                        paidAmount: parseInt(paid),
-                        paymentMethod: "cash",
-                        status: 'paid',
-                    },
-                    status: 'paid',
-                    note: note,
-                    staffId: getLocalStorage().user.staffId,
-                    staffName: getLocalStorage().user.name,
-                };
-
-                console.log(obj);
-
-                const fetchApi = async () => {
-                    const result = await SaleServices.CreateSalesOrders(obj)
-                        .catch((err) => {
-                            setLoading(false);
-                            toastContext.notify('error', 'Có lỗi xảy ra');
-                            console.log(err);
-                        });
-
-
-                    console.log(result);
-                    if (result) {
-
-
-                        setLoading(false);
-                        toastContext.notify('success', 'Thêm hóa đơn thành công');
-                    }
-                }
-
-                fetchApi();
+            if (coupon !== null) {
+                discountItems.push({
+                    rate: coupon.discountRate,
+                    value: 0,
+                    amount: parseInt(coupon.discountRate * total / 100),
+                    source: 'promotion',
+                    promotionId: coupon.promotionId,
+                });
             }
 
+
+            if (discount !== 0) {
+                let rate = isRateDiscount ? discount : 0;
+                let value = isRateDiscount ? 0 : discount;
+                let amount = isRateDiscount ? parseInt(rate * total / 100) : parseInt(total - value);
+
+                discountItems.push({
+                    rate: rate,
+                    value: value,
+                    amount: amount,
+                    source: 'manual',
+                    promotionId: null,
+                });
+            }
+
+
+            setLoading(true);
+            const discountAmount = isRateDiscount === true ? (total * (discount + (coupon === null ? 0 : coupon.discountRate)) / 100) : (total * (coupon === null ? 0 : coupon.discountRate) / 100 + discount);
+            const totalAmount = total - discountAmount;
+
+
+            const obj = {
+                customerId: customer ? customer.customerId : 'cust00000',
+                customerName: customer ? customer.name : 'Khách lẻ',
+                items: arr,
+                subtotal: total,
+                discountItems: discountItems,
+                discountRate: isRateDiscount === true ? (discount + (coupon === null ? 0 : coupon.discountRate)) : (coupon === null ? 0 : coupon.discountRate),
+                discountValue: isRateDiscount === true ? 0 : discount,
+                discountAmount: discountAmount,
+                totalAmount: totalAmount,
+                tax: 0,
+                paymentDetails: {
+                    remainAmount: totalAmount - paid,
+                    paidAmount: parseInt(paid),
+                    paymentMethod: "cash",
+                    status: 'paid',
+                },
+                status: 'paid',
+                note: note,
+                staffId: getLocalStorage().user.staffId,
+                staffName: getLocalStorage().user.name,
+            };
+
+            console.log(obj);
+
+            const fetchApi = async () => {
+                const result = await saleServices.CreateSalesOrders(obj)
+                    .catch((err) => {
+                        setLoading(false);
+                        toastContext.notify('error', 'Có lỗi xảy ra');
+                        console.log(err);
+                    });
+
+
+                if (result) {
+                    console.log(result);
+                    toastContext.notify('success', 'Thêm hóa đơn thành công');
+                    setObject(result);
+                }
+            }
+
+            fetchApi();
+        }
+    }
+
+    useEffect(() => {
+        if (object !== null && object !== undefined) {
+            setLoading(false);
+            handlePrint();
+            clearPage();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [object]);
+
+
+    const handlePrint = useReactToPrint({
+        content: () => printRef.current,
+    });
+
+    const clearPage = () => {
+        setArr([]);
+        setNums(0);
+        setTotal(0);
+        setDiscount(0);
+        setPaid(0);
+        setCustomer({
+            customerId: 'cust00000',
+            name: 'Khách lẻ',
+            phoneNumber: '',
+            address: '',
+        });
+        setNote('');
+        setCoupon(null);
+        setTotalAmout(0);
+        setOption([]);
+        setCall(false);
+        setItems([]);
+        setPromo('');
+        setUpdateSearchResult(new Date());
     }
 
 
@@ -334,7 +371,7 @@ function Sale() {
             <div className={`${cx('header')} d-flex align-items-center`}>
                 <p className={` ${cx('title')} d-flex `}>Tạo đơn mới</p>
                 <div className={` ${cx('search-bar')} me-auto`}>
-                    <SearchResult stypeid={2} setValue={addarr} />
+                    <SearchResult stypeid={2} setValue={addarr} updateSearchResult={updateSearchResult} />
                 </div>
                 <div className={`text-end me-4`}>
                     <span>Hiển thị Scanner</span>
@@ -469,15 +506,12 @@ function Sale() {
                                     Tiền khách đưa
                                 </Col>
                                 <Col xs md lg={6} className='text-end'>
-                                    <input className={`${cx('textfield')} pe-2 `} type="number" inputMode='numeric'
+                                    <input className={`${cx('textfield')} pe-2 `}
+                                        value={paid}
                                         onChange={(e) => {
-
-
-
-                                            if (e.target.value < 0 || e.target.value === '') e.target.value = 0
-
-
-                                            setPaid(parseInt(e.target.value))
+                                            setPaid(
+                                                removeNonNumeric(e.target.value)
+                                            )
                                         }} />
                                 </Col>
 
@@ -558,6 +592,9 @@ function Sale() {
                 </Modal.Footer>
             </Modal>
             <ModalLoading open={loading} title={'Đang tải'} />
+            <div className={cx('d-n')}>
+                <HtmlOrder ref={printRef} object={object} customer={customer} />
+            </div>
         </div>
     );
 }

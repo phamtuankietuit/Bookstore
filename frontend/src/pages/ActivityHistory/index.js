@@ -9,7 +9,7 @@ import MultiSelectComp from '~/components/MultiSelectComp';
 import DateRange from '~/components/DateRange';
 import { ConvertISO } from '~/components/ConvertISO';
 
-import * as ActivityServices from '~/apiServices/ActivityServices';
+import * as activityServices from '~/apiServices/activityServices';
 import * as staffServices from '~/apiServices/staffServices';
 
 import { ToastContext } from '~/components/ToastContext';
@@ -167,7 +167,7 @@ function ActivityHistory() {
     const getList = async (obj) => {
         setPending(true);
 
-        const response = await ActivityServices.getAllActivity(obj)
+        const response = await activityServices.getAllActivity(obj)
             .catch((error) => {
                 setPending(false);
 

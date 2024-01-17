@@ -17,7 +17,11 @@ import * as customerServices from '~/apiServices/customerServices';
 
 const cx = classNames.bind(styles);
 
-const addCommas = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const addCommas = (num) => {
+    if (num !== null && num !== undefined) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    }
+};
 
 function EditBillInfo() {
     const toastContext = useContext(ToastContext);

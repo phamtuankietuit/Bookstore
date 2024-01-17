@@ -46,10 +46,10 @@ function SideBar({ className, title }) {
                     title: 'Nhập hàng',
                     to: '/imports',
                 },
-                {
-                    title: 'Kiểm hàng',
-                    to: '/checks',
-                },
+                // {
+                //     title: 'Kiểm hàng',
+                //     to: '/checks',
+                // },
                 {
                     title: 'Nhà cung cấp',
                     to: '/suppliers',

@@ -10,24 +10,26 @@ import Wrapper from '~/components/Wrapper';
 import Percent from '~/components/Percent';
 import ValueComp from '~/components/ValueComp';
 import Button from '~/components/Button';
+import ModalLoading from '~/components/ModalLoading';
 
 import { ToastContext } from '~/components/ToastContext';
 
-import * as activityServices from '~/apiServices/ActivityServices'
+import * as activityServices from '~/apiServices/activityServices';
+import * as reportServices from '~/apiServices/reportServices';
 
 const cx = classNames.bind(styles);
 
 function Overview() {
     const navigate = useNavigate();
     const toastContext = useContext(ToastContext);
-
+    const [loading, setLoading] = useState(true);
     const [activities, setActivities] = useState([]);
+    const [today, setToday] = useState({});
 
     useEffect(() => {
         const fetch = async () => {
-
             const response = await activityServices
-                .getAllActivity({ pageNumber: 1, pageSize: 20, sortBy: 'createdAt', orderBy: 'desc' })
+                .getAllActivity({ pageNumber: 1, pageSize: 20, })
                 .catch((error) => {
                     if (error?.response?.status === 404) {
                         setActivities([]);
@@ -39,9 +41,32 @@ function Overview() {
             if (response) {
                 setActivities(response.data);
             }
+
+            setLoading(false);
         }
 
         fetch();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        const fetch = async () => {
+            const responseToday = await reportServices.getToday()
+                .catch((error) => {
+                    console.log(error);
+                    toastContext.notify('error', 'Có lỗi xảy ra');
+                });
+
+            if (responseToday) {
+                console.log(responseToday);
+                setToday(responseToday);
+            }
+
+            setLoading(false);
+        }
+
+        fetch();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -56,20 +81,35 @@ function Overview() {
                             <ValueComp
                                 className={cx('bg0')}
                                 title={'Số lượng đơn hàng'}
-                                value={325}
-                                percentComponent={<Percent percent={'26,25'} up />}
+                                value={today.count}
+                                percentComponent={
+                                    <Percent
+                                        percent={Math.abs(today.countPercent)}
+                                        up={today.countPercent >= 0}
+                                    />
+                                }
                             />
                             <ValueComp
                                 className={cx('m-l', 'bg1')}
                                 title={'Doanh thu'}
-                                value={5225000}
-                                percentComponent={<Percent percent={'10,25'} up />}
+                                value={today.revenue}
+                                percentComponent={
+                                    <Percent
+                                        percent={Math.abs(today.revenuePercent)}
+                                        up={today.revenuePercent >= 0}
+                                    />
+                                }
                             />
                             <ValueComp
                                 className={cx('m-l', 'bg2')}
                                 title={'Lợi nhuận'}
-                                value={1327000}
-                                percentComponent={<Percent percent={'50,36'} up />}
+                                value={today.profit}
+                                percentComponent={
+                                    <Percent
+                                        percent={Math.abs(today.profitPercent)}
+                                        up={today.profitPercent >= 0}
+                                    />
+                                }
                             />
                         </div>
                     </Wrapper>
@@ -103,6 +143,7 @@ function Overview() {
                     </Wrapper>
                 </div>
             </div>
+            <ModalLoading open={loading} title={'Đang tải...'} />
         </div>
     );
 }

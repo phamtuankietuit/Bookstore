@@ -49,11 +49,29 @@ namespace BookstoreWebAPI.Repository
 
         public async Task<IEnumerable<PurchaseOrderDTO>> GetPurchaseOrderDTOsAsync(QueryParameters queryParams, PurchaseOrderFilterModel filter)
         {
-            filter.Query ??= "*";
-            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
-            var searchResult = await _searchService.SearchAsync<PurchaseOrderDocument>(filter.Query, options);
-            TotalCount = searchResult.TotalCount;
-            var purchaseOrderDocs = searchResult.Results;
+            IEnumerable<PurchaseOrderDocument?> purchaseOrderDocs = [];
+
+            if (filter.Query == null)
+            {
+                var queryDef = CosmosDbUtils.BuildQuery(queryParams, filter, isRemovableDocument: false);
+                purchaseOrderDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<PurchaseOrderDocument>(_purchaseOrderContainer, queryDef);
+                TotalCount = purchaseOrderDocs == null ? 0 : purchaseOrderDocs.Count();
+
+                if (queryParams.PageSize != -1)
+                {
+                    queryParams.PageSize = -1;
+                    var queryDefGetAll = CosmosDbUtils.BuildQuery(queryParams, filter, isRemovableDocument: false);
+                    var allPurchaseOrderDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<PurchaseOrderDocument>(_purchaseOrderContainer, queryDefGetAll);
+                    TotalCount = allPurchaseOrderDocs == null ? 0 : allPurchaseOrderDocs.Count();
+                }
+            }
+            else
+            {
+                var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+                var searchResult = await _searchService.SearchAsync<PurchaseOrderDocument>(filter.Query, options);
+                TotalCount = searchResult.TotalCount;
+                purchaseOrderDocs = searchResult.Results;
+            }
             var purchaseOrderDTOs = purchaseOrderDocs.Select(purchaseOrderDoc =>
             {
                 return _mapper.Map<PurchaseOrderDTO>(purchaseOrderDoc);

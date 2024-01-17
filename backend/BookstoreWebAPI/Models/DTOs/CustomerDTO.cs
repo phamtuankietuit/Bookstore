@@ -13,7 +13,7 @@ namespace BookstoreWebAPI.Models.DTOs
         public string Name { get; set; }
 
         [JsonProperty("sex")]
-        public string Sex { get; set; }
+        public string? Sex { get; set; }
 
         [JsonProperty("email")]
         public string? Email { get; set; }
@@ -28,7 +28,7 @@ namespace BookstoreWebAPI.Models.DTOs
         public string? Address { get; set; }
 
         [JsonProperty("type")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         [JsonProperty("note")]
         public string? Note { get; set; }
@@ -37,7 +37,7 @@ namespace BookstoreWebAPI.Models.DTOs
         public bool? IsActive { get; set; }
 
         [JsonProperty("tags")]
-        public List<object>? Tags { get; set; }
+        public List<string>? Tags { get; set; }
         
         [JsonProperty("createdAt")]
         public DateTime? CreatedAt { get; set; }

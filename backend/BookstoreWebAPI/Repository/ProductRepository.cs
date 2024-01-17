@@ -12,6 +12,7 @@ using BookstoreWebAPI.Services;
 using Azure.Search.Documents.Models;
 using Newtonsoft.Json;
 using BookstoreWebAPI.Models.Shared;
+using System.Net;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -135,8 +136,8 @@ namespace BookstoreWebAPI.Repository
             var createdInventory = await AddInventoryDocumentAsync(inventoryDoc);
             var createdProduct = await AddProductDocumentAsync(productDoc);
 
-            if (createdInventory.StatusCode == System.Net.HttpStatusCode.Created && 
-                createdProduct.StatusCode == System.Net.HttpStatusCode.Created)
+            if (createdInventory.StatusCode == HttpStatusCode.Created && 
+                createdProduct.StatusCode == HttpStatusCode.Created)
             {
                 _memoryCache.Set(cacheInventoryNewIdName, IdUtils.IncreaseId(inventoryDoc.Id));
                 _memoryCache.Set(cacheProductNewIdName, IdUtils.IncreaseId(productDoc.Id));
@@ -173,11 +174,19 @@ namespace BookstoreWebAPI.Repository
             // check if this is price update, add it to price history
             if (productToUpdate.SalePrice != productDocInDb.SalePrice)
             {
-                productToUpdate.SalePriceHistory.Add(new PriceHistory()
+                productToUpdate.SalePriceHistory = productDocInDb.SalePriceHistory;
+
+                if (productToUpdate.SalePriceHistory == null)
                 {
-                    Date = DateTime.UtcNow,
-                    Value = productDocInDb.SalePrice
-                });
+                    productToUpdate.SalePriceHistory = [];
+                }
+
+                productToUpdate.SalePriceHistory.Add(new PriceHistory()
+                    {
+                        Date = DateTime.UtcNow,
+                        Value = productToUpdate.SalePrice
+                    }
+                );
             }
 
 
@@ -260,6 +269,8 @@ namespace BookstoreWebAPI.Repository
 
         private async Task DeleteProductAndInventoryDocument(ProductDocument productDoc, InventoryDocument inventoryDoc)
         {
+            productDoc.IsDeleted = true;
+            inventoryDoc.IsDeleted = true;
             List<PatchOperation> operations =
             [
                 PatchOperation.Replace("/isDeleted", true)
@@ -287,20 +298,20 @@ namespace BookstoreWebAPI.Repository
             productDoc.CategoryId ??= _defaultCategoryDoc.Id;
             productDoc.CategoryName ??= _defaultCategoryDoc.Name;
             productDoc.CategoryText ??= _defaultCategoryDoc.Text;
-            productDoc.SalePriceHistory ??= new List<PriceHistory>() 
-            { 
+            productDoc.SalePriceHistory ??=
+            [
                 new PriceHistory()
                 {
                     Date = DateTime.UtcNow,
                     Value = productDoc.SalePrice
                 } 
-            };
+            ];
             productDoc.Description ??= "";
             productDoc.Sku ??= productId;
             productDoc.OptionalDetails ??= [];
 
             inventoryDoc.Id = await GetNewInventoryIdAsync();
-            inventoryDoc.ProductId ??= productId;
+            inventoryDoc.ProductId = productId;
             inventoryDoc.Sku = productId;
             inventoryDoc.Barcode = productId;
             inventoryDoc.ProductName = productDoc.Name;
@@ -360,14 +371,14 @@ namespace BookstoreWebAPI.Repository
 
         private async Task<IEnumerable<InventoryDocument>> GetInventoryDocumentsAsync(QueryParameters queryParams, ProductFilterModel filter)
         {
-            var queryDef = CosmosDbUtils.BuildQuery<InventoryDocument>(queryParams, filter);
+            var queryDef = CosmosDbUtils.BuildQuery(queryParams, filter);
 
             var results = await CosmosDbUtils.GetDocumentsByQueryDefinition<InventoryDocument>(_inventoryContainer, queryDef);
 
             return results;
         }
 
-        private async Task<IEnumerable<ProductDocument>> GetProductDocumentsAsync(QueryParameters queryParams, ProductFilterModel filter)
+        private async Task<IEnumerable<ProductDocument?>> GetProductDocumentsAsync(QueryParameters queryParams, ProductFilterModel filter)
         {
             try
             {
@@ -380,11 +391,31 @@ namespace BookstoreWebAPI.Repository
             }
 
 
-            filter.Query ??= "*";
-            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
-            var searchResult = await _searchService.SearchAsync<ProductDocument>(filter.Query, options);
-            TotalCount = searchResult.TotalCount;
-            return searchResult.Results;
+            IEnumerable<ProductDocument?> productDocs = [];
+
+            if (filter.Query == null)
+            {
+                var queryDef = CosmosDbUtils.BuildQuery(queryParams, filter);
+                productDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<ProductDocument>(_productContainer, queryDef);
+                TotalCount = productDocs == null ? 0 : productDocs.Count();
+
+                if (queryParams.PageSize != -1)
+                {
+                    queryParams.PageSize = -1;
+                    var queryDefGetAll = CosmosDbUtils.BuildQuery(queryParams, filter);
+                    var allProductDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<ProductDocument>(_productContainer, queryDefGetAll);
+                    TotalCount = allProductDocs == null ? 0 : allProductDocs.Count();
+                }
+            }
+            else
+            {
+                var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+                var searchResult = await _searchService.SearchAsync<ProductDocument>(filter.Query, options);
+                TotalCount = searchResult.TotalCount;
+                productDocs = searchResult.Results;
+            }
+
+            return productDocs;
         }
 
         private async Task<CategoryDocument> GetDefaultCategoryDocument()

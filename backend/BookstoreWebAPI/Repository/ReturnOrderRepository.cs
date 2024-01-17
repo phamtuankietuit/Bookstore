@@ -37,8 +37,7 @@ namespace BookstoreWebAPI.Repository
             IMemoryCache memoryCache,
             ILogger<ReturnOrderRepository> logger,
             IActivityLogRepository activityLogRepository,
-            AzureSearchServiceFactory searchServiceFactory
-,
+            AzureSearchServiceFactory searchServiceFactory,
             ISalesOrderRepository salesOrderRepository,
             UserContextService userContextService,
             IStaffRepository staffRepository)
@@ -60,11 +59,30 @@ namespace BookstoreWebAPI.Repository
 
         public async Task<IEnumerable<ReturnOrderDTO>> GetReturnOrderDTOsAsync(QueryParameters queryParams, ReturnOrderFilterModel filter)
         {
-            filter.Query ??= "*";
-            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
-            var searchResult = await _searchService.SearchAsync<ReturnOrderDocument>(filter.Query, options);
-            TotalCount = searchResult.TotalCount;
-            var returnOrderDocs = searchResult.Results;
+            IEnumerable<ReturnOrderDocument?> returnOrderDocs = [];
+
+            if (filter.Query == null)
+            {
+                var queryDef = CosmosDbUtils.BuildQuery(queryParams, filter, isRemovableDocument: false);
+                returnOrderDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<ReturnOrderDocument>(_returnOrderContainer, queryDef);
+                TotalCount = returnOrderDocs == null ? 0 : returnOrderDocs.Count();
+
+                if (queryParams.PageSize != -1)
+                {
+                    queryParams.PageSize = -1;
+                    var queryDefGetAll = CosmosDbUtils.BuildQuery(queryParams, filter, isRemovableDocument: false);
+                    var allReturnOrderDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<ReturnOrderDocument>(_returnOrderContainer, queryDefGetAll);
+                    TotalCount = allReturnOrderDocs == null ? 0 : allReturnOrderDocs.Count();
+                }
+            }
+            else
+            {
+                var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+                var searchResult = await _searchService.SearchAsync<ReturnOrderDocument>(filter.Query, options);
+                TotalCount = searchResult.TotalCount;
+                returnOrderDocs = searchResult.Results;
+            }
+
             var returnOrderDTOs = returnOrderDocs.Select(returnOrderDoc =>
             {
                 return _mapper.Map<ReturnOrderDTO>(returnOrderDoc);
@@ -90,7 +108,7 @@ namespace BookstoreWebAPI.Repository
             if (salesOrderToReturn == null)
                 return null;
 
-            if (salesOrderToReturn.ReturnDate > DateTime.UtcNow)
+            if (salesOrderToReturn.ReturnDate < DateTime.UtcNow || await HasReturnedOrder(salesOrderId))
                 throw new OrderReturnNotAllowedException();
 
             string staffId = _userContextService.Current.StaffId;
@@ -235,12 +253,24 @@ namespace BookstoreWebAPI.Repository
             return returnOrder;
         }
 
+        private async Task<bool> HasReturnedOrder(string salesOrderId)
+        {
+            var queryDef = new QueryDefinition(
+                "SELECT * " +
+                "FROM c " +
+                "WHERE STRINGEQUALS(c.salesOrderId,@salesOrderId)"
+            ).WithParameter("@salesOrderId", salesOrderId);
 
+
+            var result = await CosmosDbUtils.GetDocumentByQueryDefinition<ReturnOrderDocument>(_returnOrderContainer, queryDef);
+
+            return result != null;
+        }
 
         private async Task<ItemResponse<ReturnOrderDocument>> AddReturnOrderDocumentAsync(ReturnOrderDocument item)
         {
-            item.CreatedAt ??= DateTime.UtcNow;
-            item.ModifiedAt ??= item.CreatedAt;
+            item.CreatedAt = DateTime.UtcNow;
+            item.ModifiedAt = item.CreatedAt;
 
             return await _returnOrderContainer.UpsertItemAsync(
                 item: item,

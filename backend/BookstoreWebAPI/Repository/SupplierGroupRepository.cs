@@ -52,11 +52,29 @@ namespace BookstoreWebAPI.Repository
             QueryParameters queryParams,
             SupplierGroupFilterModel filter)
         {
-            filter.Query ??= "*";
-            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
-            var searchResult = await _searchService.SearchAsync<SupplierGroupDocument>(filter.Query, options);
-            TotalCount = searchResult.TotalCount;
-            var supplierGroupDocs = searchResult.Results;
+            IEnumerable<SupplierGroupDocument> supplierGroupDocs = [];
+
+            if (filter.Query == null)
+            {
+                var queryDef = CosmosDbUtils.BuildQuery(queryParams, filter);
+                supplierGroupDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<SupplierGroupDocument>(_supplierGroupContainer, queryDef);
+                TotalCount = supplierGroupDocs == null ? 0 : supplierGroupDocs.Count();
+
+                if (queryParams.PageSize != -1)
+                {
+                    queryParams.PageSize = -1;
+                    var queryDefGetAll = CosmosDbUtils.BuildQuery(queryParams, filter);
+                    var allSupplierGroupDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<SupplierGroupDocument>(_supplierGroupContainer, queryDefGetAll);
+                    TotalCount = allSupplierGroupDocs == null ? 0 : allSupplierGroupDocs.Count();
+                }
+            }
+            else
+            {
+                var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+                var searchResult = await _searchService.SearchAsync<SupplierGroupDocument>(filter.Query, options);
+                TotalCount = searchResult.TotalCount;
+                supplierGroupDocs = searchResult.Results;
+            }
 
             var supplierGroupDTOs = supplierGroupDocs.Select(supplierGroupDoc =>
             {
@@ -108,6 +126,11 @@ namespace BookstoreWebAPI.Repository
         }
         public async Task UpdateSupplierGroupDTOAsync(SupplierGroupDTO item)
         {
+            if (await NameExistsInContainer(item.Name))
+            {
+                throw new DuplicateDocumentException($"The supplierGroup {item.Name} has already been created. Please choose a different name.");
+            }
+
             var supplierGroupToUpdate = _mapper.Map<SupplierGroupDocument>(item);
             supplierGroupToUpdate.ModifiedAt = DateTime.UtcNow;
 
@@ -172,7 +195,7 @@ namespace BookstoreWebAPI.Repository
                 }
 
                 // Delete the supplier
-                await DeleteSupplierGroup(supplierGroupDoc, id);
+                await DeleteSupplierGroup(supplierGroupDoc);
                 CosmosDbUtils.AddResponse(
                     batchDeletionResult: result,
                     responseOrder: currOrder,
@@ -205,14 +228,15 @@ namespace BookstoreWebAPI.Repository
             return supplierGroup;
         }
 
-        private async Task DeleteSupplierGroup(SupplierGroupDocument supplierGroupDoc, string id)
+        private async Task DeleteSupplierGroup(SupplierGroupDocument supplierGroupDoc)
         {
+            supplierGroupDoc.IsDeleted = true;
             List<PatchOperation> patchOperations = new()
             {
                 PatchOperation.Replace("/isDeleted", true)
             };
 
-            await _supplierGroupContainer.PatchItemAsync<SupplierGroupDocument>(id, new PartitionKey(supplierGroupDoc.SupplierGroupId), patchOperations);
+            await _supplierGroupContainer.PatchItemAsync<SupplierGroupDocument>(supplierGroupDoc.Id, new PartitionKey(supplierGroupDoc.SupplierGroupId), patchOperations);
 
             await _activityLogRepository.LogActivity(
                 Enums.ActivityType.delete,

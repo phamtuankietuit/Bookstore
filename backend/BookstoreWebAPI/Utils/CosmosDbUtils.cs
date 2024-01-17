@@ -41,7 +41,20 @@ namespace BookstoreWebAPI.Utils
             return queryDef;
         }
 
-        public static QueryDefinition BuildQuery<T>(QueryParameters queryParams, AdjustmentTicketFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true) where T : class
+        public static QueryDefinition BuildQuery(QueryParameters queryParams, AdjustmentTicketFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true)
+        {
+            var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id) ");
+
+            AppendDeleteFilter(query, isRemovableDocument);
+            AppendAdjustmentTicketFilter(query, filter);
+            AppendQueryParameters(query, queryParams);
+
+            QueryDefinition queryDef = BuildQueryDef(query);
+
+            return queryDef;
+        }
+
+        public static QueryDefinition BuildQuery(QueryParameters queryParams, CategoryFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true)
         {
             var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id) ");
 
@@ -53,7 +66,19 @@ namespace BookstoreWebAPI.Utils
             return queryDef;
         }
 
-        public static QueryDefinition BuildQuery<T>(QueryParameters queryParams, ProductFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true) where T : class
+        public static QueryDefinition BuildQuery(QueryParameters queryParams, SupplierGroupFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true)
+        {
+            var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id) ");
+
+            AppendDeleteFilter(query, isRemovableDocument);
+            AppendQueryParameters(query, queryParams);
+
+            QueryDefinition queryDef = BuildQueryDef(query);
+
+            return queryDef;
+        }
+
+        public static QueryDefinition BuildQuery(QueryParameters queryParams, ProductFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true)
         {
             var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id) ");
 
@@ -66,7 +91,7 @@ namespace BookstoreWebAPI.Utils
             return queryDef;
         }
 
-        public static QueryDefinition BuildQuery<T>(QueryParameters queryParams, PurchaseOrderFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true) where T : class
+        public static QueryDefinition BuildQuery(QueryParameters queryParams, PurchaseOrderFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true)
         {
             var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id) ");
 
@@ -79,7 +104,7 @@ namespace BookstoreWebAPI.Utils
             return queryDef;
         }
 
-        public static QueryDefinition BuildQuery<T>(QueryParameters queryParams, ActivityLogFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true) where T : class
+        public static QueryDefinition BuildQuery(QueryParameters queryParams, ActivityLogFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true)
         {
             var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id) ");
 
@@ -91,10 +116,11 @@ namespace BookstoreWebAPI.Utils
             return queryDef;
         }
 
-        public static QueryDefinition BuildQuery<T>(QueryParameters queryParams, SupplierFilterModel filter, string defaultSelect = "SELECT *") where T : class
+        public static QueryDefinition BuildQuery(QueryParameters queryParams, SupplierFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true)
         {
             var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id)");
 
+            AppendDeleteFilter(query, isRemovableDocument);
             AppendSupplierFilter(query, filter);
             AppendQueryParameters(query, queryParams);
             QueryDefinition queryDef = BuildQueryDef(query);
@@ -104,7 +130,7 @@ namespace BookstoreWebAPI.Utils
 
         }
 
-        public static QueryDefinition BuildQuery<T>(QueryParameters queryParams, CustomerFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true) where T : class
+        public static QueryDefinition BuildQuery(QueryParameters queryParams, CustomerFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true)
         {
             var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id)");
 
@@ -119,7 +145,7 @@ namespace BookstoreWebAPI.Utils
 
 
 
-        public static QueryDefinition BuildQuery<T>(QueryParameters queryParams, PromotionFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true) where T : class
+        public static QueryDefinition BuildQuery(QueryParameters queryParams, PromotionFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true)
         {
             var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id)");
 
@@ -132,7 +158,7 @@ namespace BookstoreWebAPI.Utils
             return queryDef;
         }
 
-        public static QueryDefinition BuildQuery<T>(QueryParameters queryParams, SalesOrderFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true) where T : class
+        public static QueryDefinition BuildQuery(QueryParameters queryParams, SalesOrderFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true)
         {
             var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id)");
             AppendSalesOrderFilter(query, filter);
@@ -140,8 +166,17 @@ namespace BookstoreWebAPI.Utils
             QueryDefinition queryDef = BuildQueryDef(query);
             return queryDef;
         }
+
+        public static QueryDefinition BuildQuery(QueryParameters queryParams, ReturnOrderFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true)
+        {
+            var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id)");
+            AppendReturnOrderFilter(query, filter);
+            AppendQueryParameters(query, queryParams);
+            QueryDefinition queryDef = BuildQueryDef(query);
+            return queryDef;
+        }
         
-        public static QueryDefinition BuildQuery<T>(QueryParameters queryParams, StaffFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true) where T : class
+        public static QueryDefinition BuildQuery(QueryParameters queryParams, StaffFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true)
         {
             var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id)");
 
@@ -203,7 +238,7 @@ namespace BookstoreWebAPI.Utils
             return default;
         }
 
-        public static async Task<T?> GetScalarValueByQueryDefinition<T>(Container container, QueryDefinition queryDefinition)
+        public static async Task<T?> GetScalarValueByQueryDefinition<T>(Container container, QueryDefinition queryDefinition) where T : class
         {
             using var feed = container.GetItemQueryIterator<T>(
                 queryDefinition: queryDefinition
@@ -222,7 +257,7 @@ namespace BookstoreWebAPI.Utils
             return default;
         }
 
-        public static async Task<IEnumerable<T>?> GetScalarValuesByQueryDefinition<T>(Container container, QueryDefinition queryDefinition)
+        public static async Task<IEnumerable<T>?> GetScalarValuesByQueryDefinition<T>(Container container, QueryDefinition queryDefinition) where T : class
         {
             var results = new List<T>();
 
@@ -378,6 +413,23 @@ namespace BookstoreWebAPI.Utils
                 query.Append($" and c.staffId IN ({customerIds})");
             }
         }
+
+        private static void AppendReturnOrderFilter(StringBuilder query, ReturnOrderFilterModel filter)
+        {
+            if (!VariableHelpers.IsNull(filter.SalesOrderIds))
+            {
+                var salesOrderIds = string.Join(", ", filter.SalesOrderIds!.Select(id => $"\"{id}\""));
+                query.Append($" and c.salesOrderId IN ({salesOrderIds})");
+            }
+
+            AppendCreationDateRangeFilter(query, filter.StartDate, filter.EndDate);
+
+            if (!VariableHelpers.IsNull(filter.StaffIds))
+            {
+                var customerIds = string.Join(", ", filter.StaffIds!.Select(id => $"\"{id}\""));
+                query.Append($" and c.staffId IN ({customerIds})");
+            }
+        }
         private static void AppendCustomerFilter(StringBuilder query, CustomerFilterModel filter)
         {
             AppendIsActiveFilter(query, filter.IsActive);
@@ -409,6 +461,16 @@ namespace BookstoreWebAPI.Utils
             }
 
             AppendIsActiveFilter(query, filter.IsActive);
+        }
+        
+
+        private static void AppendAdjustmentTicketFilter(StringBuilder query, AdjustmentTicketFilterModel filter)
+        {
+            if (!VariableHelpers.IsNull(filter.Statuses))
+            {
+                var statuses = string.Join(", ", filter.Statuses!.Select(id => $"\"{id}\""));
+                query.Append($" and c.status IN ({statuses})");
+            }
         }
 
 

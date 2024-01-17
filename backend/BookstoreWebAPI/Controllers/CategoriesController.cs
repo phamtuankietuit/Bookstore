@@ -72,8 +72,6 @@ namespace BookstoreWebAPI.Controllers
 
             try
             {
-
-
                 var createdCategoryDTO = await categoryRepository.AddCategoryDTOAsync(categoryDTO);
 
                 return CreatedAtAction(
@@ -115,6 +113,10 @@ namespace BookstoreWebAPI.Controllers
                 await categoryRepository.UpdateCategoryDTOAsync(categoryDTO);
 
                 return NoContent();
+            }
+            catch (DuplicateDocumentException ex)
+            {
+                return Conflict(ex.Message);
             }
             catch (Exception ex)
             {

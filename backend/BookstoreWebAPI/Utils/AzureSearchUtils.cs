@@ -133,7 +133,14 @@ namespace BookstoreWebAPI.Utils
                 options.Skip = (queryParameters.PageNumber - 1) * queryParameters.PageSize;
             }
 
-            options.OrderBy.Add($"{queryParameters.SortBy} {queryParameters.OrderBy}");
+            if (queryParameters.SortBy != "score")
+            {
+                queryParameters.SortBy = queryParameters.SortBy.Replace('.', '/');
+                options.OrderBy.Add($"{queryParameters.SortBy} {queryParameters.OrderBy}");
+            }
+            else {
+
+            }
 
             return options;
         }
@@ -355,7 +362,15 @@ namespace BookstoreWebAPI.Utils
                 query.Append($" and search.in(supplierId, '{supplierIds}')");
             }
 
-            AppendCreationDateRangeFilter(query, filter.StartDate, filter.EndDate);
+            if (!VariableHelpers.IsNull(filter.StartDate) && !VariableHelpers.IsNull(filter.EndDate))
+            {
+                var startDateTemp = filter.StartDate!.Value.Date;
+                var endDateTemp = filter.EndDate!.Value.Date.AddDays(1); // Add one day to include the end date
+                var isoStartDate = startDateTemp.ToString("yyyy-MM-ddT00:00:00Z");
+                var isoEndDate = endDateTemp.ToString("yyyy-MM-ddT00:00:00Z");
+
+                query.Append($" and createAt ge {isoStartDate} and createAt lt {isoEndDate}");
+            }
 
             if (!VariableHelpers.IsNull(filter.IsPaidOrder))
             {
@@ -391,6 +406,12 @@ namespace BookstoreWebAPI.Utils
         {
             AppendCreationDateRangeFilter(query, filter.StartDate, filter.EndDate);
             AppendStaffIdFilter(query, filter.StaffIds);
+
+            if (!VariableHelpers.IsNull(filter.SalesOrderIds))
+            {
+                var salesOrderIds = string.Join(", ", filter.SalesOrderIds!.Select(id => $"{id}"));
+                query.Append($" and search.in(salesOrderId, '{salesOrderIds}')");
+            }
         }
 
         private static void AppendFilter(StringBuilder query, ActivityLogFilterModel filter)

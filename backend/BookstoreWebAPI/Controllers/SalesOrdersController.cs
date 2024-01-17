@@ -63,6 +63,13 @@ namespace BookstoreWebAPI.Controllers
             return Ok(salesOrder);
         }
 
+        //[HttpGet("today")]
+        //public async Task<ActionResult> GetNumberOfOrdersToday()
+        //{
+
+        //}
+
+
         [HttpPost]
         public async Task<ActionResult> CreateSalesOrderAsync([FromBody] SalesOrderDTO salesOrderDTO)
         {

@@ -8,6 +8,7 @@ using BookstoreWebAPI.Repository.Interfaces;
 using BookstoreWebAPI.Utils;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Caching.Memory;
+using BookstoreWebAPI.Services;
 
 namespace BookstoreWebAPI.Repository
 {
@@ -18,7 +19,11 @@ namespace BookstoreWebAPI.Repository
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
         private readonly IActivityLogRepository _activityLogRepository;
+        private readonly IAdjustmentItemRepository _adjustmentItemRepository;
+        private readonly IStaffRepository _staffRepository;
         private Container _adjustmentTicketContainer;
+        private readonly UserContextService _userContextService;
+        public int TotalCount { get; private set; }
 
 
         public AdjustmentTicketRepository(
@@ -26,7 +31,11 @@ namespace BookstoreWebAPI.Repository
             ILogger<AdjustmentTicketRepository> logger,
             IMapper mapper,
             IMemoryCache memoryCache,
-            IActivityLogRepository activityLogRepository)
+            IActivityLogRepository activityLogRepository,
+            IAdjustmentItemRepository adjustmentItemRepository,
+            UserContextService userContextService
+,
+            IStaffRepository staffRepository)
         {
             _logger = logger;
             _mapper = mapper;
@@ -37,18 +46,30 @@ namespace BookstoreWebAPI.Repository
 
             _adjustmentTicketContainer = cosmosClient.GetContainer(databaseName, containerName);
             _activityLogRepository = activityLogRepository;
+            _adjustmentItemRepository = adjustmentItemRepository;
+            _userContextService = userContextService;
+            _staffRepository = staffRepository;
         }
 
         public async Task<IEnumerable<AdjustmentTicketDTO>> GetAdjustmentTicketDTOsAsync(QueryParameters queryParams, AdjustmentTicketFilterModel filter)
         {
-            var queryDef = CosmosDbUtils.BuildQuery<AdjustmentTicketDocument>(queryParams, filter, isRemovableDocument: false);
-
+            var queryDef = CosmosDbUtils.BuildQuery(queryParams, filter, isRemovableDocument: false);
             var adjustmentTicketDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<AdjustmentTicketDocument>(_adjustmentTicketContainer, queryDef);
+            
+            TotalCount = adjustmentTicketDocs == null ? 0 : adjustmentTicketDocs.Count();
+
+            if (queryParams.PageSize != -1)
+            {
+                queryParams.PageSize = -1;
+                var queryDefGetAll = CosmosDbUtils.BuildQuery(queryParams, filter, isRemovableDocument: false);
+                var allAdjustmentTicketDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<AdjustmentTicketDocument>(_adjustmentTicketContainer, queryDefGetAll);
+                TotalCount = allAdjustmentTicketDocs == null ? 0 : allAdjustmentTicketDocs.Count();
+            }
+
             var adjustmentTicketDTOs = adjustmentTicketDocs.Select(adjustmentTicketDoc =>
             {
                 return _mapper.Map<AdjustmentTicketDTO>(adjustmentTicketDoc);
             }).ToList();
-
             return adjustmentTicketDTOs;
         }
 
@@ -78,7 +99,7 @@ namespace BookstoreWebAPI.Repository
                 await _activityLogRepository.LogActivity(
                     Enums.ActivityType.create,
                     adjustmentTicketDoc.StaffId,
-                    "Đơn nhập hàng",
+                    "Đơn kiểm hàng",
                     adjustmentTicketDoc.AdjustmentTicketId
                 );
 
@@ -92,22 +113,47 @@ namespace BookstoreWebAPI.Repository
 
 
 
-        public async Task UpdateAdjustmentTicketAsync(AdjustmentTicketDTO adjustmentTicketDTO)
+        public async Task UpdateAdjustmentTicketDTOAsync(AdjustmentTicketDTO adjustmentTicketDTO)
         {
-            var adjustmentTicketToUpdate = _mapper.Map<AdjustmentTicketDocument>(adjustmentTicketDTO);
+            var ticketToUpdate = _mapper.Map<AdjustmentTicketDocument>(adjustmentTicketDTO);
 
-            adjustmentTicketToUpdate.ModifiedAt = DateTime.UtcNow;
+            ticketToUpdate.ModifiedAt = DateTime.UtcNow;
+
+            if (ticketToUpdate.Status == "adjusted")
+            {
+                // populate adjusted staff 
+                ticketToUpdate.AdjustedStaffId = _userContextService.Current.StaffId;
+                ticketToUpdate.AdjustedStaffName = (await _staffRepository.GetStaffDTOByIdAsync(ticketToUpdate.AdjustedStaffId)).Name;
+                ticketToUpdate.AdjustedAt = DateTime.UtcNow;
+
+                // populate adjustmentBalance
+                var adjustmentItems = (await _adjustmentItemRepository.GetAdjustmentItemsByTicketIdAsync(ticketToUpdate.Id))!;
+
+                var adjustedQuantity = adjustmentItems.Sum(item => item?.AdjustedQuantity);
+
+                if (adjustedQuantity != null)
+                    ticketToUpdate.AdjustmentBalance.AdjustedQuantity = adjustedQuantity.Value;
+                else
+                    ticketToUpdate.AdjustmentBalance.AdjustedQuantity = 0;
+
+                var afterQuantity = adjustmentItems.Sum(item => item?.Quantity);
+
+                if (afterQuantity != null)
+                    ticketToUpdate.AdjustmentBalance.AfterQuantity = afterQuantity.Value;
+                else
+                    ticketToUpdate.AdjustmentBalance.AfterQuantity = 0;
+            }
 
             await _adjustmentTicketContainer.UpsertItemAsync(
-                item: adjustmentTicketToUpdate,
-                partitionKey: new PartitionKey(adjustmentTicketToUpdate.AdjustmentTicketId)
+                item: ticketToUpdate,
+                partitionKey: new PartitionKey(ticketToUpdate.AdjustmentTicketId)
             );
 
             await _activityLogRepository.LogActivity(
                 Enums.ActivityType.update,
-                adjustmentTicketToUpdate.StaffId,
-                "Đơn nhập hàng",
-                adjustmentTicketToUpdate.AdjustmentTicketId
+                ticketToUpdate.StaffId,
+                "Đơn kiểm hàng",
+                ticketToUpdate.AdjustmentTicketId
             );
 
         }
@@ -123,9 +169,9 @@ namespace BookstoreWebAPI.Repository
             // Query the database to get the latest product ID
             QueryDefinition queryDef = new QueryDefinition(
                 query:
-                "SELECT TOP 1 po.id " +
-                "FROM po " +
-                "ORDER BY po.id DESC"
+                "SELECT TOP 1 c.id " +
+                "FROM c " +
+                "ORDER BY c.id DESC"
             );
 
             string currLastestId = (await CosmosDbUtils.GetDocumentByQueryDefinition<ResponseToGetId>(_adjustmentTicketContainer, queryDef))!.Id;
@@ -139,11 +185,12 @@ namespace BookstoreWebAPI.Repository
         {
             adjustmentTicketDoc.Id = await GetNewAdjustmentTicketIdAsync();
             adjustmentTicketDoc.AdjustmentTicketId = adjustmentTicketDoc.Id;
+            adjustmentTicketDoc.StaffId = _userContextService.Current.StaffId;
+            adjustmentTicketDoc.StaffName = (await _staffRepository.GetStaffDTOByIdAsync(adjustmentTicketDoc.StaffId)).Name;
 
-
-            adjustmentTicketDoc.Status ??= "Completed";
+            adjustmentTicketDoc.Status ??= "unadjusted";
             adjustmentTicketDoc.Note ??= "";
-            adjustmentTicketDoc.Tags ??= new();
+            adjustmentTicketDoc.Tags ??= [];
             //adjustmentTicketDoc.IsRemovable = true;
             //adjustmentTicketDoc.IsDeleted = false;
         }
@@ -153,8 +200,8 @@ namespace BookstoreWebAPI.Repository
             var queryDef = new QueryDefinition(
                 query:
                     "SELECT * " +
-                    "FROM po " +
-                    "WHERE po.id = @id"
+                    "FROM c " +
+                    "WHERE c.id = @id"
             ).WithParameter("@id", id);
 
             var adjustmentTicket = await CosmosDbUtils.GetDocumentByQueryDefinition<AdjustmentTicketDocument>(_adjustmentTicketContainer, queryDef);
@@ -167,7 +214,6 @@ namespace BookstoreWebAPI.Repository
             try
             {
                 item.CreatedAt = DateTime.UtcNow;
-                item.AdjustmentTicketId = item.CreatedAt.Value.ToString("yyyy-MM");
                 item.ModifiedAt = item.CreatedAt;
 
                 var response = await _adjustmentTicketContainer.UpsertItemAsync(
@@ -180,7 +226,7 @@ namespace BookstoreWebAPI.Repository
             catch (CosmosException)
             {
                 // unhandled
-                throw new Exception("An exception thrown when creating the purchase order document");
+                throw new Exception("An exception thrown when creating the AdjustmentTicket document");
             }
         }
     }

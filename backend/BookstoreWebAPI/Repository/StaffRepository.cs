@@ -52,11 +52,29 @@ namespace BookstoreWebAPI.Repository
 
         public async Task<IEnumerable<StaffDTO>> GetStaffDTOsAsync(QueryParameters queryParams, StaffFilterModel filter)
         {
-            filter.Query ??= "*";
-            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
-            var searchResult = await _searchService.SearchAsync<StaffDocument>(filter.Query, options);
-            TotalCount = searchResult.TotalCount;
-            var staffDocs = searchResult.Results;
+            IEnumerable<StaffDocument> staffDocs = [];
+
+            if (filter.Query == null)
+            {
+                var queryDef = CosmosDbUtils.BuildQuery(queryParams, filter);
+                staffDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<StaffDocument>(_staffContainer, queryDef);
+                TotalCount = staffDocs == null ? 0 : staffDocs.Count();
+
+                if (queryParams.PageSize != -1)
+                {
+                    queryParams.PageSize = -1;
+                    var queryDefGetAll = CosmosDbUtils.BuildQuery(queryParams, filter);
+                    var allStaffDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<StaffDocument>(_staffContainer, queryDefGetAll);
+                    TotalCount = allStaffDocs == null ? 0 : allStaffDocs.Count();
+                }
+            }
+            else
+            {
+                var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+                var searchResult = await _searchService.SearchAsync<StaffDocument>(filter.Query, options);
+                TotalCount = searchResult.TotalCount;
+                staffDocs = searchResult.Results;
+            }
 
             var staffDTOs = staffDocs.Select(staffDoc =>
             {
@@ -80,7 +98,7 @@ namespace BookstoreWebAPI.Repository
             var queryDef = new QueryDefinition(
                 " SELECT * " +
                 " FROM c " +
-                " WHERE STRINGEQUALS(c.contact.email, @email, true)"
+                " WHERE STRINGEQUALS(c.contact.email, @email, true) AND c.isDeleted = false"
             ).WithParameter("@email", data.Email);
 
             var staffDoc = await CosmosDbUtils.GetDocumentByQueryDefinition<StaffDocument>(_staffContainer, queryDef)
@@ -270,6 +288,7 @@ namespace BookstoreWebAPI.Repository
 
         private async Task DeleteStaff(StaffDocument staffDoc)
         {
+            staffDoc.IsDeleted = true;
             List<PatchOperation> patchOperations =
             [
                 PatchOperation.Replace("/isDeleted", true)

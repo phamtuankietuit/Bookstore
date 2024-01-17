@@ -59,7 +59,7 @@ namespace BookstoreWebAPI.Models.Documents
         public string? Note { get; set; }
 
         [JsonProperty("tags")]
-        public List<object>? Tags { get; set; }
+        public List<string>? Tags { get; set; }
         
         [JsonProperty("ttl")]
         public int TTL { get; set; }

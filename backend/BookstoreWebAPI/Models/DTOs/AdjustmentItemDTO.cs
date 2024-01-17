@@ -18,7 +18,7 @@ namespace BookstoreWebAPI.Models.DTOs
         public int? AdjustedQuantity { get; set; } // server compute
 
         [JsonProperty("quantity")]
-        public int quantity { get; set; }
+        public int Quantity { get; set; }
 
         [JsonProperty("reason")]
         public string Reason { get; set; }
@@ -33,7 +33,7 @@ namespace BookstoreWebAPI.Models.DTOs
         public string? Note { get; set; }
 
         [JsonProperty("tags")]
-        public List<object>? Tags { get; set; }
+        public List<string>? Tags { get; set; }
         
         [JsonProperty("createdAt")]
         public DateTime? CreatedAt { get; set; }

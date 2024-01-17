@@ -56,12 +56,30 @@ namespace BookstoreWebAPI.Repository
 
         public async Task<IEnumerable<CategoryDTO>> GetCategoryDTOsAsync(QueryParameters queryParams, CategoryFilterModel filter)
         {
-            filter.Query ??= "*";
-            var options = AzureSearchUtils.BuildOptions(queryParams, filter);
-            var searchResult = await _searchService.SearchAsync<CategoryDocument>(filter.Query, options);
-            TotalCount = searchResult.TotalCount;
-            var categoryDocs = searchResult.Results;
-            //var categoryDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CategoryDocument>(_categoryContainer, queryDef);
+            IEnumerable<CategoryDocument?> categoryDocs = [];
+
+            if (filter.Query == null)
+            {
+                var queryDef = CosmosDbUtils.BuildQuery(queryParams, filter);
+                categoryDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CategoryDocument>(_categoryContainer, queryDef);
+                TotalCount = categoryDocs == null ? 0 : categoryDocs.Count();
+
+                if (queryParams.PageSize != -1)
+                {
+                    queryParams.PageSize = -1;
+                    var queryDefGetAll = CosmosDbUtils.BuildQuery(queryParams, filter);
+                    var allCategoryDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CategoryDocument>(_categoryContainer, queryDefGetAll);
+                    TotalCount = allCategoryDocs == null ? 0 : allCategoryDocs.Count();
+                }
+            }
+            else
+            {
+                var options = AzureSearchUtils.BuildOptions(queryParams, filter);
+                var searchResult = await _searchService.SearchAsync<CategoryDocument>(filter.Query, options);
+                TotalCount = searchResult.TotalCount;
+                categoryDocs = searchResult.Results;
+            }
+
             var categoryDTOs = categoryDocs.Select(categoryDoc =>
             {
                 return _mapper.Map<CategoryDTO>(categoryDoc);
@@ -115,6 +133,11 @@ namespace BookstoreWebAPI.Repository
 
         public async Task UpdateCategoryDTOAsync(CategoryDTO item)
         {
+            if (await NameExistsInContainer(StringUtils.RemoveAccentsAndHyphenize(item.Text)))
+            {
+                throw new DuplicateDocumentException($"The category {item.Text} has already been created. Please choose a different name.");
+            }
+
             var categoryToUpdate = _mapper.Map<CategoryDocument>(item);
             categoryToUpdate.Name = StringUtils.RemoveAccentsAndHyphenize(item.Text);
             categoryToUpdate.ModifiedAt = DateTime.UtcNow;
@@ -209,7 +232,7 @@ namespace BookstoreWebAPI.Repository
             var queryDef = new QueryDefinition(
                 "SELECT * " +
                 "FROM c " +
-                "WHERE c.isDeleted = false AND STRINGEQUALS(@categoryName,c.text,true)"
+                "WHERE c.isDeleted = false AND STRINGEQUALS(@categoryName,c.name,true)"
             ).WithParameter("@categoryName", categoryName);
 
             var result = await CosmosDbUtils.GetDocumentByQueryDefinition<CategoryDocument>(_categoryContainer, queryDef);
@@ -251,6 +274,7 @@ namespace BookstoreWebAPI.Repository
 
         private async Task DeleteCategory(CategoryDocument categoryDoc)
         {
+            categoryDoc.IsDeleted = true;
             List<PatchOperation> patchOperations = new()
             {
                 PatchOperation.Replace("/isDeleted", true)

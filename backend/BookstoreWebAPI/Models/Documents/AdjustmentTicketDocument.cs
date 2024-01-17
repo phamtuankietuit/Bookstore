@@ -43,7 +43,7 @@ namespace BookstoreWebAPI.Models.Documents
         public AdjustmentBalance AdjustmentBalance { get; set; }
 
         [JsonProperty("tags")]
-        public List<object> Tags { get; set; }
+        public List<string> Tags { get; set; }
 
         [JsonProperty("note")]
         public string Note { get; set; }
